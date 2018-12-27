@@ -47,6 +47,7 @@ class Admin {
 		require_once dirname( __FILE__ ) . '/class-metabox.php';
 		require_once dirname( __FILE__ ) . '/class-settings-api.php';
 		require_once dirname( __FILE__ ) . '/class-settings.php';
+		require_once dirname( __FILE__ ) . '/class-serial-numbers-page.php';
 	}
 
 	private function init_hooks() {
@@ -65,6 +66,7 @@ class Admin {
 		new Admin_Menu();
 		new MetaBox();
 		new Settings();
+		new Serial_Numbers_Page();
 	}
 
 	/**
