@@ -15,7 +15,7 @@ class PostTypes {
      * Register custom post types
      */
     public function register_post_types() {
-        register_post_type( 'custom_post', array(
+        register_post_type( 'serial_number', array(
             'labels'              => $this->get_posts_labels( 'Custom Post', __( 'Custom Post', 'wc-serial-numbers' ), __( 'Custom Posts', 'wc-serial-numbers' ) ),
             'hierarchical'        => false,
             'supports'            => array( 'title' ),
