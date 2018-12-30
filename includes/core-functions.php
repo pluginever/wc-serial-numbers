@@ -34,3 +34,27 @@ function wsn_register_posttypes(){
 		'map_meta_cap' => true,
 	) );
 }
+
+/*
+ * Redirect the user with custom message
+ * */
+
+function wsn_redirect_with_message( $url, $code, $type = 'success', $args = array() ) {
+	$redirect_url = add_query_arg( wp_parse_args( $args, array(
+		'feedback' => $type,
+		'code'     => $code,
+	) ), $url );
+	wp_redirect( $redirect_url );
+	exit();
+}
+
+function wsn_get_feedback_message($code){
+	switch ($code){
+		case 'empty_product':
+			return __('The product is empty. Please select a product and try again', 'wc-serial-numbers');
+			break;
+		case 'empty_usage_limit':
+			return __('The Usage Limit is empty. Please select a Limit and try again', 'wc-serial-numbers');
+			break;
+	}
+}

@@ -7,8 +7,8 @@ class PostTypes {
      * PostTypes constructor.
      */
     public function __construct() {
-        add_action( 'init', array( $this, 'register_post_types' ) );
-        add_action( 'init', array( $this, 'register_taxonomies' ) );
+        //add_action( 'init', array( $this, 'register_post_types' ) );
+        //add_action( 'init', array( $this, 'register_taxonomies' ) );
     }
 
     /**
