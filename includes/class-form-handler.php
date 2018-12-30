@@ -9,9 +9,10 @@ class FormHandler {
 
 	function handle_generate_serial_numbers_form( $post ) {
 
-		if ( ! isset( $_POST['wsn_generate_serial_numbers'] ) || ! wp_verify_nonce( $_POST['wsn_generate_serial_numbers_nonce'], 'wsn_generate_serial_numbers' ) ) {
+		if (! wp_verify_nonce( $_POST['wsn_generate_serial_numbers_nonce'], 'wsn_generate_serial_numbers' ) ) {
 			return;
 		}
+
 
 		$product      = $_POST['product'];
 		$usage_limit  = $_POST['usage_limit'];
@@ -27,7 +28,9 @@ class FormHandler {
 			wsn_redirect_with_message($url, 'empty_usage_limit');
 		}
 
-
+		wp_insert_post([
+			'post_title' => '',
+		]);
 
 	}
 
