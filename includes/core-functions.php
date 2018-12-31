@@ -76,7 +76,7 @@ function wsn_serial_number_tab( $product_data_tabs ) {
 }
 
 function wsn_serial_number_tab_panel() {
-	echo '<div id="serial_numbers_data" class="panel woocommerce_options_panel hidden"></div>';
+	include WPWSN_TEMPLATES_DIR.'/product-serial-number-tab.php';
 }
 
 

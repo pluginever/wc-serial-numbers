@@ -2,6 +2,7 @@
 
 namespace Pluginever\WCSerialNumbers\Admin;
 
+use Pluginever\WCSerialNumbers\Ajax;
 use Pluginever\WCSerialNumbers\FormHandler;
 
 class Admin {
@@ -50,6 +51,7 @@ class Admin {
 		require_once dirname( __FILE__ ) . '/class-settings-api.php';
 		require_once dirname( __FILE__ ) . '/class-settings.php';
 		require_once WPWSN_INCLUDES . '/class-form-handler.php';
+		require_once WPWSN_INCLUDES . '/class-ajax.php';
 	}
 
 	private function init_hooks() {
@@ -69,6 +71,7 @@ class Admin {
 		new Admin_Menu();
 		new MetaBox();
 		new Settings();
+		new Ajax();
 	}
 
 	/**
@@ -87,8 +90,8 @@ class Admin {
 		wp_enqueue_style( 'wc-serial-numbers', WPWSN_ASSETS_URL . "/css/admin.css", [], WPWSN_VERSION );
 
 		//scripts
-		wp_enqueue_script( 'wc-serial-numbers', WPWSN_ASSETS_URL . "/js/admin/admin{$suffix}.js", [ 'jquery' ], WPWSN_VERSION, true );
-		wp_enqueue_script( 'wc-serial-numbers', 'wpwsn', [
+		wp_enqueue_script( 'wc-serial-numbers', WPWSN_ASSETS_URL . "/js/admin{$suffix}.js", [ 'jquery', 'wp-util' ], WPWSN_VERSION, true );
+		wp_localize_script( 'wc-serial-numbers', 'wpwsn', [
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'nonce'   => 'wc-serial-numbers'
 		] );
