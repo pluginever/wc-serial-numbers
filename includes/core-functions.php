@@ -5,8 +5,8 @@
  * Get Plugin directory templates part
  * */
 
-function wsn_get_template_part($template_name){
-	return include WPWSN_TEMPLATES_DIR.'/'.$template_name.'.php';
+function wsn_get_template_part( $template_name ) {
+	return include WPWSN_TEMPLATES_DIR . '/' . $template_name . '.php';
 }
 
 
@@ -16,7 +16,7 @@ function wsn_get_template_part($template_name){
 
 add_action( 'init', 'wsn_register_posttypes' );
 
-function wsn_register_posttypes(){
+function wsn_register_posttypes() {
 	register_post_type( 'serial_number', array(
 		'labels'              => 'Serial Numbers',
 		'hierarchical'        => false,
@@ -28,10 +28,10 @@ function wsn_register_posttypes(){
 		'can_export'          => false,
 		'rewrite'             => false,
 		'capability_type'     => 'post',
-		'capabilities' => array(
+		'capabilities'        => array(
 			'create_posts' => 'do_not_allow', // false < WP 4.5, credit @Ewout
 		),
-		'map_meta_cap' => true,
+		'map_meta_cap'        => true,
 	) );
 }
 
@@ -48,13 +48,16 @@ function wsn_redirect_with_message( $url, $code, $type = 'success', $args = arra
 	exit();
 }
 
-function wsn_get_feedback_message($code){
-	switch ($code){
+function wsn_get_feedback_message( $code ) {
+	switch ( $code ) {
+		case 'empty_serial_number':
+			return __( 'The Serial Number is empty. Please enter a serial number and try again', 'wc-serial-numbers' );
+			break;
 		case 'empty_product':
-			return __('The product is empty. Please select a product and try again', 'wc-serial-numbers');
+			return __( 'The product is empty. Please select a product and try again', 'wc-serial-numbers' );
 			break;
 		case 'empty_usage_limit':
-			return __('The Usage Limit is empty. Please select a Limit and try again', 'wc-serial-numbers');
+			return __( 'The Usage Limit is empty. Please select a Limit and try again', 'wc-serial-numbers' );
 			break;
 	}
 }
