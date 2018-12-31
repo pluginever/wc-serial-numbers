@@ -7,6 +7,12 @@
 		<table class="form-table">
 			<tbody>
 			<tr>
+				<th scope="row"><label for="serial_number"><?php _e( 'Serial Number', 'wc-serial-numbers' ) ?></label></th>
+				<td>
+					<input name="serial_number" type="text" id="serial_number" value="" placeholder="51C8-P9NZ-UM37-YKZH" class="regular-text">
+				</td>
+			</tr>
+			<tr>
 				<th scope="row"><label for="product"><?php _e( 'Product', 'wc-serial-numbers' ) ?></label></th>
 				<td>
 					<!--				<input name="product" type="text" id="product" value="" class="regular-text">-->
