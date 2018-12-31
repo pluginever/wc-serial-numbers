@@ -1,5 +1,6 @@
 <div class="wrap wsn-container">
 	<h1 class="wp-heading-inline"><?php _e( 'Generate New Serial Number', 'wc-serial-numbers' ) ?></h1>
+	<?php include WPWSN_TEMPLATES_DIR.'/messages.php'; ?>
 	<form action="<?php echo admin_url( 'admin-post.php' ) ?>" method="post">
 		<?php wp_nonce_field('wsn_generate_serial_numbers', 'wsn_generate_serial_numbers_nonce') ?>
 		<input type="hidden" name="action" value="wsn_generate_serial_numbers">

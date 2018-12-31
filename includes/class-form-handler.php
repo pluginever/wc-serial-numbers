@@ -21,11 +21,11 @@ class FormHandler {
 		$url = untrailingslashit(site_url('/')).$_REQUEST['_wp_http_referer'];
 
 		if(empty($product)){
-			wsn_redirect_with_message($url, 'empty_product');
+			wsn_redirect_with_message($url, 'empty_product', 'error');
 		}
 
 		if(empty($usage_limit)){
-			wsn_redirect_with_message($url, 'empty_usage_limit');
+			wsn_redirect_with_message($url, 'empty_usage_limit', 'error');
 		}
 
 		wp_insert_post([
