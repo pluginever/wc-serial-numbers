@@ -8,6 +8,10 @@ class FormHandler {
 		add_action( 'admin_post_wsn_edit_serial_number', [ $this, 'handle_edit_serial_number_form' ] );
 	}
 
+	/**
+	 * Handle add new serial number form
+	 */
+
 	function handle_add_serial_number_form() {
 
 		if ( ! wp_verify_nonce( $_POST['wsn_generate_serial_numbers_nonce'], 'wsn_generate_serial_numbers' ) ) {
@@ -48,12 +52,28 @@ class FormHandler {
 
 	}
 
-	function handle_edit_serial_number_form(){
-		echo '<pre>';
-		    print_r($_REQUEST);
-		echo '</pre>';
-		die();
-	}
+	/**
+	 * Handle Serial number edit form
+	 */
 
+	function handle_edit_serial_number_form() {
+
+		$serial_number_id = sanitize_text_field( $_REQUEST['serial_number_id'] );
+		$serial_number    = sanitize_text_field( $_REQUEST['serial_number'] );
+		$product          = esc_attr( $_REQUEST['product'] );
+		$usage_limit      = esc_attr( $_REQUEST['usage_limit'] );
+		$expires_on       = esc_attr( $_REQUEST['expires_on'] );
+
+		$post_id = wp_update_post( [
+			'ID'         => $serial_number_id,
+			'post_title' => $serial_number,
+		] );
+
+		update_post_meta( $post_id, 'product', $product );
+		update_post_meta( $post_id, 'usage_limit', $usage_limit );
+		update_post_meta( $post_id, 'expires_on', $expires_on );
+
+		wp_redirect( admin_url( 'admin.php?page=serial-numbers' ) );
+	}
 
 }

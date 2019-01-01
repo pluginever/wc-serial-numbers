@@ -7,25 +7,28 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 	$product          = get_post_meta( $serial_number_id, 'product', true );
 	//$order        = get_post_meta( $serial_number, 'order', true );
 	//$purchased_on = get_post_meta( $serial_number, 'purchased_on', true );
-	$title = 'Edit';
-	$submit = 'Save changes';
-	$action = 'wsn_edit_serial_number';
+	$title                  = 'Edit';
+	$submit                 = 'Save changes';
+	$action                 = 'wsn_edit_serial_number';
+	$input_serial_number_id = '<input type="hidden" name="serial_number_id" value="' . $serial_number_id . '">';
 } else {
-	$serial_number = '';
-	$usage_limit = '';
-	$expires_on = '';
-	$product = '';
-	$title = 'Add New';
-	$submit = 'Add Serial Number';
-	$action = 'wsn_add_serial_number';
+	$serial_number          = '';
+	$usage_limit            = '';
+	$expires_on             = '';
+	$product                = '';
+	$title                  = 'Add New';
+	$submit                 = 'Add Serial Number';
+	$action                 = 'wsn_add_serial_number';
+	$input_serial_number_id = '';
 }
 ?>
 <div class="wrap wsn-container">
-	<h1 class="wp-heading-inline"><?php _e( $title.' Serial Number', 'wc-serial-numbers' ) ?></h1>
+	<h1 class="wp-heading-inline"><?php _e( $title . ' Serial Number', 'wc-serial-numbers' ) ?></h1>
 	<?php include WPWSN_TEMPLATES_DIR . '/messages.php'; ?>
 	<form action="<?php echo admin_url( 'admin-post.php' ) ?>" method="post">
 		<?php wp_nonce_field( 'wsn_generate_serial_numbers', 'wsn_generate_serial_numbers_nonce' ) ?>
 		<input type="hidden" name="action" value="<?php echo $action ?>">
+		<?php echo $input_serial_number_id ?>
 		<table class="form-table">
 			<tbody>
 			<tr>
@@ -45,8 +48,8 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 						$posts = get_posts( [ 'post_type' => 'product', 'posts_per_page' => - 1 ] );
 						foreach ( $posts as $post ) {
 							setup_postdata( $post );
-							$selected = $post->ID == $product ? 'selected' : '' ;
-							echo '<option value="' . $post->ID .  '" '.$selected.'>' . $post->ID . ' - ' . get_the_title( $post->ID ) . '</option>';
+							$selected = $post->ID == $product ? 'selected' : '';
+							echo '<option value="' . $post->ID . '" ' . $selected . '>' . $post->ID . ' - ' . get_the_title( $post->ID ) . '</option>';
 						}
 						?>
 					</select>
@@ -62,7 +65,8 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 				<th scope="row"><label for="expires_on"><?php _e( 'Expires On', 'wc-serial-numbers' ) ?></label>
 				</th>
 				<td>
-					<input type="date" name="expires_on" id="expires_on" class="regular-text" value="<?php echo $expires_on ?>">
+					<input type="date" name="expires_on" id="expires_on" class="regular-text"
+						value="<?php echo $expires_on ?>">
 				</td>
 			</tr>
 			</tbody>

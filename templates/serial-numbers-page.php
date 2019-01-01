@@ -16,4 +16,7 @@ $serial_list->prepare_items();
 </div>
 <?php }elseif ($_REQUEST['action'] == 'edit'){
 	include WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+}elseif ($_REQUEST['action'] == 'delete'){
+	wp_delete_post($_REQUEST['serial_number']);
+	wp_redirect( admin_url( 'admin.php?page=serial-numbers' ) );
 } ?>
