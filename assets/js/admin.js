@@ -15,6 +15,7 @@ window.Project = (function (window, document, $, undefined) {
 	var app = {
 		init: function () {
 			$('#add-serial-number').on('click', app.add_serial_number);
+			$('#enable_serial_number').on('click', app.enable_serial_number);
 		},
 
 		add_serial_number: function (e) {
@@ -28,14 +29,39 @@ window.Project = (function (window, document, $, undefined) {
 				},
 				success: function (response) {
 					console.log(response);
-					$('#tab-table-serial-numbers').html(response.posts);
-					alert('Yeahoo!, We are success!');
+					if (response.posts) {
+						$('#tab-table-serial-numbers tbody').html(response.posts);
+					} else if (response.empty_serial === true) {
+						$('.wsn-form-heading').after('<h4>Please enter a valid serial number</h4>');
+						$('.wsn-serial-number-form-group').addClass('form-invalid');
+					}
 				},
 				error: function (error) {
 					console.log(error);
-					alert('Ohshit... We are in error');
 				}
 			});
+		},
+
+		enable_serial_number: function () {
+			var enable_serial_number = '';
+			if ($(this).is(':checked')) {
+				enable_serial_number = true
+			} else {
+				enable_serial_number = false
+			}
+			wp.ajax.send('enable_serial_number', {
+				data: {
+					product: $('#product').val(),
+					enable_serial_number: enable_serial_number,
+				},
+				success: function (response) {
+					console.log(response)
+				}
+			});
+
+			$('.wsn_nottification').html('<div class="notice notice-success is-dismissible"> \n' +
+				'\t<p><strong>Settings saved.</strong></p>\n' +
+				'</div>');
 		}
 	};
 

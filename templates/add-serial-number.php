@@ -20,10 +20,10 @@
 					<select name="product" id="product">
 						<option value=""><?php _e( 'Choose a product', 'wc-serial-numbers' ) ?></option>
 						<?php
-						$posts = get_posts( [ 'post_type' => 'product' ] );
+						$posts = get_posts( [ 'post_type' => 'product', 'posts_per_page' => -1 ] );
 						foreach ( $posts as $post ) {
 							setup_postdata( $post );
-							echo "<option value='" . $post->ID . "'>" . get_the_title( $post->ID ) . "</option>";
+							echo "<option value='" . $post->ID . "'>" . $post->ID.' - '. get_the_title( $post->ID ) . "</option>";
 						}
 						?>
 					</select>
