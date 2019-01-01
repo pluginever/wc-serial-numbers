@@ -1,3 +1,4 @@
+<?php if(!isset($_REQUEST['action']) && $_REQUEST['action'] != 'edit'){ ?>
 <?php include WPWSN_INCLUDES . '/admin/class-serial-list-table.php' ?>
 
 <?php
@@ -13,4 +14,6 @@ $serial_list->prepare_items();
 	$serial_list->display();
 	?>
 </div>
-
+<?php }elseif ($_REQUEST['action'] == 'edit'){
+	include WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+} ?>

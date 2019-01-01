@@ -43,6 +43,7 @@
 			</tbody>
 		</table>
 		<h4 class="wsn-form-heading">Add new serial number for this product</h4>
+		<div class="wsn-add-serial-number-notification"></div>
 		<table class="form-table wsn-tab-add-serial-number">
 			<input type="hidden" name="product" id="product" value="<?php echo get_the_ID() ?>">
 			<tbody>

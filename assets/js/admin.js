@@ -32,8 +32,8 @@ window.Project = (function (window, document, $, undefined) {
 					if (response.posts) {
 						$('#tab-table-serial-numbers tbody').html(response.posts);
 					} else if (response.empty_serial === true) {
-						$('.wsn-form-heading').after('<h4>Please enter a valid serial number</h4>');
-						$('.wsn-serial-number-form-group').addClass('form-invalid');
+						$('.wsn-add-serial-number-notification').html('<p class="error-message">Please enter a valid serial number</p>');
+						//$('.wsn-serial-number-form-group').addClass('form-invalid');
 					}
 				},
 				error: function (error) {
@@ -44,10 +44,14 @@ window.Project = (function (window, document, $, undefined) {
 
 		enable_serial_number: function () {
 			var enable_serial_number = '';
+			var msg = '';
 			if ($(this).is(':checked')) {
-				enable_serial_number = true
+				enable_serial_number = true;
+				msg = 'Serial Number Activated.';
 			} else {
-				enable_serial_number = false
+				enable_serial_number = false;
+				msg = 'Serial Number Dectivated.';
+
 			}
 			wp.ajax.send('enable_serial_number', {
 				data: {
@@ -60,7 +64,7 @@ window.Project = (function (window, document, $, undefined) {
 			});
 
 			$('.wsn_nottification').html('<div class="notice notice-success is-dismissible"> \n' +
-				'\t<p><strong>Settings saved.</strong></p>\n' +
+				'\t<p><strong>'+msg+'</strong></p>\n' +
 				'</div>');
 		}
 	};

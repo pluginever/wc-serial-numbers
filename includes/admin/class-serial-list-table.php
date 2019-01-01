@@ -37,7 +37,7 @@ class Serial_List_Table extends \WP_List_Table {
 		$sortable = $this->get_sortable_columns();
 		$data     = $this->table_data();
 		usort( $data, array( &$this, 'sort_data' ) );
-		$perPage     = 4;
+		$perPage     = 15;
 		$currentPage = $this->get_pagenum();
 		$totalItems  = count( $data );
 		$this->set_pagination_args( array(
@@ -74,7 +74,9 @@ class Serial_List_Table extends \WP_List_Table {
 	 * @return Array
 	 */
 	public function get_hidden_columns() {
-		return array();
+		return array(
+
+		);
 	}
 
 	/**
@@ -94,7 +96,7 @@ class Serial_List_Table extends \WP_List_Table {
 	private function table_data() {
 		$data = array();
 
-		$posts = get_posts( [ 'post_type' => 'serial_number' ] );
+		$posts = get_posts( [ 'post_type' => 'serial_number', 'posts_per_page' => -1 ] );
 
 		foreach ( $posts as $post ) {
 			setup_postdata( $post );
@@ -104,6 +106,7 @@ class Serial_List_Table extends \WP_List_Table {
 			$order        = get_post_meta( $post->ID, 'order', true );
 			$purchased_on = get_post_meta( $post->ID, 'purchased_on', true );
 			$data[]       = [
+				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title( $post->ID ),
 				'usage_limit'    => empty( $usage_limit ) ? '∞' : $usage_limit,
 				'expires_on'     => empty( $expires_on ) ? '∞' : $expires_on,
@@ -127,6 +130,7 @@ class Serial_List_Table extends \WP_List_Table {
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
+			case 'ID':
 			case 'serial_numbers':
 			case 'usage_limit':
 			case 'expires_on':
@@ -163,6 +167,15 @@ class Serial_List_Table extends \WP_List_Table {
 		return sprintf(
 			'<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['serial_numbers']
 		);
+	}
+
+	function column_serial_numbers( $item ) {
+		$actions = array(
+			'edit'   => sprintf( '<a href="?page=%s&action=%s&serial_number=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['ID'] ),
+			'delete' => sprintf( '<a href="?page=%s&action=%s&serial_number=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['ID'] ),
+		);
+
+		return sprintf( '%1$s %2$s', $item['serial_numbers'], $this->row_actions( $actions ) );
 	}
 
 	/**
