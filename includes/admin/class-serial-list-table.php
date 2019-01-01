@@ -47,6 +47,8 @@ class Serial_List_Table extends \WP_List_Table {
 		$data                  = array_slice( $data, ( ( $currentPage - 1 ) * $perPage ), $perPage );
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items           = $data;
+		/** Process bulk action */
+		$this->process_bulk_action();
 	}
 
 	/**
@@ -165,7 +167,7 @@ class Serial_List_Table extends \WP_List_Table {
 	 */
 	function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['serial_numbers']
+			'<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
 		);
 	}
 
@@ -204,5 +206,6 @@ class Serial_List_Table extends \WP_List_Table {
 
 		return - $result;
 	}
+
 
 }

@@ -2,6 +2,8 @@
 
 namespace Pluginever\WCSerialNumbers;
 
+use Pluginever\WCSerialNumbers\Admin\WSN_Process_Order;
+
 class Frontend {
 	/**
 	 * The single instance of the class.
@@ -48,6 +50,7 @@ class Frontend {
 	private function includes() {
 		require_once dirname( __FILE__ ) . '/template-functions.php';
 		require_once dirname( __FILE__ ) . '/class-shortcode.php';
+		require_once dirname( __FILE__ ) . '/class-order-process.php';
 	}
 
 	/**
@@ -67,6 +70,7 @@ class Frontend {
 	 */
 	protected function instance() {
 		new ShortCode();
+		new WSN_Process_Order();
 	}
 
 	/**
