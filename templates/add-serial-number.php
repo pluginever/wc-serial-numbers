@@ -1,5 +1,5 @@
 <div class="wrap wsn-container">
-	<h1 class="wp-heading-inline"><?php _e( 'Generate New Serial Number', 'wc-serial-numbers' ) ?></h1>
+	<h1 class="wp-heading-inline"><?php _e( 'Add New Serial Number', 'wc-serial-numbers' ) ?></h1>
 	<?php include WPWSN_TEMPLATES_DIR . '/messages.php'; ?>
 	<form action="<?php echo admin_url( 'admin-post.php' ) ?>" method="post">
 		<?php wp_nonce_field( 'wsn_generate_serial_numbers', 'wsn_generate_serial_numbers_nonce' ) ?>
@@ -46,7 +46,7 @@
 		</table>
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary"
-		                         value="<?php _e( 'Generate', 'wc-serial-numbers' ) ?>">
+		                         value="<?php _e( 'Add Serial Number', 'wc-serial-numbers' ) ?>">
 		</p>
 	</form>
 </div>
