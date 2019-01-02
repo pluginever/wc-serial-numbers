@@ -65,7 +65,14 @@ function wsn_get_feedback_message( $code ) {
 add_filter( 'woocommerce_product_data_tabs', 'wsn_serial_number_tab' );
 add_action( 'woocommerce_product_data_panels', 'wsn_serial_number_tab_panel' );
 
+/**
+ * Serial number tab
+ * @param $product_data_tabs
+ *
+ * @return mixed
+ */
 function wsn_serial_number_tab( $product_data_tabs ) {
+
 	$product_data_tabs['serial_numbers'] = array(
 		'label'  => __( 'Serial Numbers', 'serial-numbers' ),
 		'target' => 'serial_numbers_data',
@@ -75,6 +82,9 @@ function wsn_serial_number_tab( $product_data_tabs ) {
 	return $product_data_tabs;
 }
 
+/**
+ * Serial number tab panel
+ */
 function wsn_serial_number_tab_panel() {
 	include WPWSN_TEMPLATES_DIR . '/product-serial-number-tab.php';
 }
@@ -87,6 +97,7 @@ function wsn_serial_number_tab_panel() {
  * @return array
  */
 function wsn_get_serial_numbers( $args ) {
+
 	$args = wp_parse_args( $args, [
 		'post_type'      => 'serial_number',
 		'posts_per_page' => - 1,
@@ -106,6 +117,7 @@ function wsn_get_serial_numbers( $args ) {
  */
 
 function wsn_remain_usage( $serial_number_id ) {
+
 	$usage_limit  = get_post_meta( $serial_number_id, 'usage_limit', true );
 	$remain_usage = get_post_meta( $serial_number_id, 'remain_usage', true );
 

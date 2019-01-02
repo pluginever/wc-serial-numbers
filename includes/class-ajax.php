@@ -9,12 +9,14 @@ class Ajax {
 	}
 
 	function wsn_add_serial_number() {
+
 		$serial_number = $_REQUEST['serial_number'];
 		$product       = $_REQUEST['product'];
 		$usage_limit   = $_REQUEST['usage_limit'];
 		$expires_on    = $_REQUEST['expires_on'];
 
 		if ( ! empty( $serial_number ) ) {
+
 			$post_id = wp_insert_post( [
 				'post_title'  => $serial_number,
 				'post_type'   => 'serial_number',
@@ -45,14 +47,17 @@ class Ajax {
 			</tr>';
 			}
 			$html     = ob_get_clean();
+
 			$response = array( 'posts' => $html );
 		} else {
 			$response = array( 'empty_serial' => true );
 		}
+
 		wp_send_json_success( $response );
 	}
 
 	function wsn_enable_serial_number() {
+
 		$product              = $_REQUEST['product'];
 		$enable_serial_number = $_REQUEST['enable_serial_number'];
 

@@ -11,14 +11,19 @@ class WSN_Process_Order {
 	}
 
 	function wsn_order_process( $order ) {
+
 		$items              = $order->get_items();
 		$serial_numbers_ids = [];
+
 		foreach ( $items as $item_id => $item_data ) {
+
 			$product              = $item_data->get_product();
 			$product_id           = $product->get_id();
 			$quantity             = $item_data->get_quantity();
 			$enable_serial_number = get_post_meta( $product_id, 'enable_serial_number', true );
+
 			if ( $enable_serial_number ) {
+
 				$serial_numbers = wsn_get_serial_numbers( [
 					'meta_key'   => 'product',
 					'meta_value' => $product_id,
@@ -26,7 +31,6 @@ class WSN_Process_Order {
 
 				$serial_number = $serial_numbers[ array_rand( $serial_numbers ) ]; //serial_number_to_be_used
 				$remain_usage  = wsn_remain_usage( $serial_number->ID );
-				$usage_limit   = get_post_meta( $serial_number->ID, 'usage_limit', true );
 				$expires_on    = get_post_meta( $serial_number->ID, 'expires_on', true );
 
 				update_post_meta( $serial_number->ID, 'order', $order->get_id() );
@@ -36,14 +40,23 @@ class WSN_Process_Order {
 				$serial_numbers_ids[$product_id] = $serial_number->ID;
 
 			}
+
 		}
+
 		//Update Order meta data
 		$order->update_meta_data( 'serial_numbers', $serial_numbers_ids );
 	}
 
+	/**
+	 * Show th Serial number details in the order details page
+	 * @param $order
+	 */
+
 	function wsn_order_serial_number_details( $order ) {
+
 		if($order->get_meta('serial_numbers')) {
 			include WPWSN_TEMPLATES_DIR . '/order-details-serial-number.php';
 		}
+
 	}
 }
