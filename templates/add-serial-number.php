@@ -25,13 +25,10 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 <div class="wrap wsn-container">
 
 	<h1 class="wp-heading-inline"><?php _e( $title . ' Serial Number', 'wc-serial-numbers' ) ?></h1>
+	<span class="wsn-button page-title-action"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></span>
+	<span class="wsn-button page-title-action button-primary-disabled"><?php _e( 'Generate serial key Automatically', 'wc-serial-numbers' ) ?></span>
 
 	<div class="wsn-body">
-
-		<div class="wsn-button-container">
-			<span class="wsn-button button button-primary"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></span>
-			<span class="wsn-button button button-primary"><?php _e( 'Generate serial key Automatically', 'wc-serial-numbers' ) ?></span>
-		</div>
 
 		<?php include WPWSN_TEMPLATES_DIR . '/messages.php'; ?>
 
@@ -47,9 +44,10 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 				<tbody>
 				<tr>
 					<th scope="row">
-						<label for="serial_number"><?php _e( 'Serial Number', 'wc-serial-numbers' ) ?></label> </th>
+						<label for="serial_number"><?php _e( 'Serial Number', 'wc-serial-numbers' ) ?></label></th>
 					<td>
-						<input name="serial_number" type="text" id="serial_number" value="<?php echo $serial_number ?>" placeholder="51C8-P9NZ-UM37-YKZH" class="regular-text">
+						<input name="serial_number" type="text" id="serial_number" value="<?php echo $serial_number ?>"
+						       placeholder="51C8-P9NZ-UM37-YKZH" class="regular-text">
 					</td>
 				</tr>
 
@@ -71,16 +69,19 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 				</tr>
 
 				<tr>
-					<th scope="row"><label for="usage_limit"><?php _e( 'Usage Limit', 'wc-serial-numbers' ) ?></label></th>
+					<th scope="row"><label for="usage_limit"><?php _e( 'Usage Limit', 'wc-serial-numbers' ) ?></label>
+					</th>
 					<td>
 						<input type="number" min="1" value="<?php echo $usage_limit ?>" name="usage_limit">
 					</td>
 				</tr>
 
 				<tr>
-					<th scope="row"><label for="expires_on"><?php _e( 'Expires On', 'wc-serial-numbers' ) ?></label></th>
+					<th scope="row"><label for="expires_on"><?php _e( 'Expires On', 'wc-serial-numbers' ) ?></label>
+					</th>
 					<td>
-						<input type="date" name="expires_on" id="expires_on" class="regular-text" value="<?php echo $expires_on ?>">
+						<input type="date" name="expires_on" id="expires_on" class="regular-text"
+						       value="<?php echo $expires_on ?>">
 					</td>
 				</tr>
 
@@ -88,7 +89,8 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 
 			</table>
 			<p class="submit">
-				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( $submit, 'wc-serial-numbers' ) ?>">
+				<input type="submit" name="submit" id="submit" class="button button-primary"
+				       value="<?php _e( $submit, 'wc-serial-numbers' ) ?>">
 			</p>
 		</form>
 	</div>

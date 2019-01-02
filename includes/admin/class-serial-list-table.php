@@ -154,6 +154,7 @@ class Serial_List_Table extends \WP_List_Table {
 			case 'order':
 			case 'purchased_on':
 			case 'expires_on':
+			case 'validity':
 				return $item[ $column_name ];
 			default:
 				return print_r( $item, true );
