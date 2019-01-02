@@ -1,0 +1,155 @@
+.ehrm-toolbar {
+  height: auto;
+  min-height: 54px;
+  display: block;
+  right: 0;
+  position: relative;
+  box-sizing: border-box;
+  margin: 12px 0 25px;
+  padding: 10px;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  color: #555;
+  font-size: 13px;
+
+  &:before, &:after {
+    clear: both;
+  }
+
+  &-left {
+    max-width: 66%;
+    float: left;
+    height: 100%;
+  }
+
+  &-right {
+    float: right;
+    margin: 10px 0;
+    max-width: 33%;
+    height: 100%;
+  }
+
+  &-view-switch {
+    margin: 0 12px 0 2px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 12px 0;
+    a {
+      float: left;
+      width: 28px;
+      height: 28px;
+      text-align: center;
+      line-height: 24px;
+      text-decoration: none;
+      &::before {
+        color: #b4b9be;
+        display: inline-block;
+        font: normal 20px/1 dashicons;
+        speak: none;
+        vertical-align: middle;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      &:hover {
+        &:before {
+          color: #727272;
+        }
+      }
+
+      &.current {
+        &:before {
+          color: #0073aa;
+        }
+      }
+
+      &.view-list:before {
+        content: "\f163";
+      }
+
+      &.view-excerpt:before {
+        content: "\f164";
+      }
+
+      &.view-grid:before {
+        content: "\f509";
+      }
+    }
+
+  }
+
+  select,button {
+    margin: 0 10px 0 0;
+    font-size: 14px;
+    height: 32px;
+  }
+  input[type="text"], input[type="search"] {
+    margin: 0;
+    padding: 3px 5px;
+    width: 280px;
+    max-width: 100%;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.5;
+    height: 32px;
+  }
+
+  &-form{
+    display: inline;
+    margin: 10px 0;
+
+    select,input{
+      display: inline;
+      width: auto;
+      min-height: 28px;
+      vertical-align: top;
+    }
+    label{
+      line-height: 28px;
+      font-size: 13px;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    select{
+      min-width: 150px;
+    }
+    .search-field{
+      min-width: 200px;
+    }
+  }
+
+  &-links {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      display: inline-block;
+      margin: 0;
+      > a {
+        display: inline-block;
+        margin: 0 10px;
+        padding: 15px 0;
+        border-bottom: 4px solid #fff;
+        color: #666;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.4s;
+        &.current {
+          box-shadow: none;
+          border-bottom: 4px solid #0085ba;
+          color: #0085ba;
+        }
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+

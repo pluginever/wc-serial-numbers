@@ -1,25 +1,10 @@
-/**
- * Deprecated
- * Fallback for bourbon equivalent
- */
-@mixin clearfix() {
-	*zoom: 1;
-
-	&::before,
-	&::after {
-		content: ' ';
-		display: table;
-	}
-
-	&::after {
-		clear: both;
-	}
-}
-
-/**
- * Deprecated
- * Vendor prefix no longer required.
- */
-@mixin border_radius($radius: 4px) {
-	border-radius: $radius;
+@mixin ehrm-card {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  color: #555;
+  font-size: 13px;
+  padding: 10px;
+  line-height: 1;
+  vertical-align: middle;
 }

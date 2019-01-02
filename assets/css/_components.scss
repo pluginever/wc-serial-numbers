@@ -1,0 +1,72 @@
+.ehrm-people-avatar {
+	height: 34px;
+	width: 34px;
+	margin-right: 10px;
+	border-radius: 100%;
+	border: 1px solid #ddd;
+	padding: 2px;
+}
+
+.ehrm-spinner {
+	background-image: url(../images/spinner.gif);
+	display: block;
+	height: 30px;
+	width: 30px;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+}
+
+.ehrm-ajax-table {
+	.ehrm-spinner {
+		margin: 0 auto;
+		padding: 50px 0;
+	}
+
+	//.search-box {
+	//	float: left;
+	//}
+	//.tablenav {
+	//	clear: none;
+	//}
+}
+
+
+//panel
+.ever-panel {
+	background-color: #fff;
+	border-radius: 4px 4px 0 0;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+
+	&-header {
+		align-items: center;
+		background: #fff;
+		border-bottom: 1px solid #e0e6e8;
+		display: flex;
+		flex: 0 0 auto;
+		height: 50px;
+		justify-content: space-between;
+		padding: 20px;
+		position: relative;
+		z-index: 100;
+		&-left, &-right {
+			* {
+				display: inline-block;
+			}
+		}
+	}
+	&-title {
+		padding: 0;
+		margin: 0 10px 0 0;
+		line-height: 28px;
+		font-size: 16px;
+	}
+
+	.ever-panel-body{
+		padding: 20px;
+	}
+}
+
+
+
+
+

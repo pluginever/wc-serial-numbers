@@ -1,0 +1,41 @@
+.ehrm-line-items {
+	width: 100%;
+	padding: 0;
+	border-spacing: 0;
+	border-collapse: collapse;
+	margin: 12px 0 25px;
+	text-align: center;
+	td, th {
+		text-align: left;
+		padding: 5px;
+		line-height: 1.7;
+		box-sizing: border-box;
+		font-size: 14px;
+	}
+	.col-item {
+		width: 60%;
+	}
+	.col-qty {
+		width: 10%;
+	}
+	.line-action {
+		width: 5%;
+	}
+
+	.unit-price {
+		width: 10%;
+	}
+	.line-total {
+		width: 15%;
+	}
+	tfoot {
+		background: #fff;
+	}
+
+	.ehrm-ac-line-item:first-child {
+		.item-line-remove {
+			display: none;
+		}
+	}
+
+}
