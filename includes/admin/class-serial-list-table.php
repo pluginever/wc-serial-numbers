@@ -76,9 +76,7 @@ class Serial_List_Table extends \WP_List_Table {
 	 * @return Array
 	 */
 	public function get_hidden_columns() {
-		return array(
-
-		);
+		return array();
 	}
 
 	/**
@@ -98,11 +96,13 @@ class Serial_List_Table extends \WP_List_Table {
 	private function table_data() {
 		$data = array();
 
-		$posts = get_posts( [ 'post_type' => 'serial_number', 'posts_per_page' => -1 ] );
+		$posts = wsn_get_serial_numbers([]);
 
 		foreach ( $posts as $post ) {
 			setup_postdata( $post );
 			$usage_limit  = get_post_meta( $post->ID, 'usage_limit', true );
+			$remain_usage = get_post_meta( $post->ID, 'remain_usage', true );
+			$remain_usage = $usage_limit - $remain_usage;
 			$expires_on   = get_post_meta( $post->ID, 'expires_on', true );
 			$product      = get_post_meta( $post->ID, 'product', true );
 			$order        = get_post_meta( $post->ID, 'order', true );
@@ -110,7 +110,7 @@ class Serial_List_Table extends \WP_List_Table {
 			$data[]       = [
 				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title( $post->ID ),
-				'usage_limit'    => empty( $usage_limit ) ? '∞' : $usage_limit,
+				'usage_limit'    => empty( $usage_limit ) ? '∞' : $usage_limit . '/' . $usage_limit,
 				'expires_on'     => empty( $expires_on ) ? '∞' : $expires_on,
 				'product'        => '<a href="' . get_the_permalink( $product ) . '">' . get_the_title( $product ) . '</a>',
 				'order'          => empty( $order ) ? '-' : $order,

@@ -44,8 +44,9 @@ class FormHandler {
 		] );
 
 		update_post_meta( $post_id, 'product', $product );
-		update_post_meta( $post_id, 'usage_limit', $usage_limit );
 		update_post_meta( $post_id, 'expires_on', $expires_on );
+		update_post_meta( $post_id, 'usage_limit', $usage_limit );
+		update_post_meta( $post_id, 'remain_usage', $usage_limit );
 		update_post_meta( $product, 'enable_serial_number', true );
 
 		wp_redirect( admin_url( 'admin.php?page=serial-numbers' ) );

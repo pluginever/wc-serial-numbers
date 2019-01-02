@@ -76,9 +76,27 @@ function wsn_serial_number_tab( $product_data_tabs ) {
 }
 
 function wsn_serial_number_tab_panel() {
-	include WPWSN_TEMPLATES_DIR.'/product-serial-number-tab.php';
+	include WPWSN_TEMPLATES_DIR . '/product-serial-number-tab.php';
 }
 
+/**
+ * Get serial number posts
+ *
+ * @param $args
+ *
+ * @return array
+ */
+function wsn_get_serial_numbers( $args ) {
+	$args = wp_parse_args( $args, [
+		'post_type'      => 'serial_number',
+		'posts_per_page' => - 1,
+		'meta_key'       => '',
+		'meta_value'     => '',
+		'order_by'       => 'date',
+		'order'          => 'DESC',
+	] );
 
+	return get_posts( $args );
+}
 
 
