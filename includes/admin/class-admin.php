@@ -3,6 +3,7 @@
 namespace Pluginever\WCSerialNumbers\Admin;
 
 use Pluginever\WCSerialNumbers\Ajax;
+use Pluginever\WCSerialNumbers\Elements;
 use Pluginever\WCSerialNumbers\FormHandler;
 
 class Admin {

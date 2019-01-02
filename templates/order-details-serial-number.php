@@ -21,6 +21,7 @@
 		$product_name     = $product->get_name();
 		$serial_number_id = $order->get_meta( 'serial_numbers' )[ $product_id ];
 		$serial_number    = get_the_title( $serial_number_id );
+
 		?>
 
 		<tr>

@@ -6,6 +6,7 @@ class FormHandler {
 	function __construct() {
 		add_action( 'admin_post_wsn_add_serial_number', [ $this, 'handle_add_serial_number_form' ] );
 		add_action( 'admin_post_wsn_edit_serial_number', [ $this, 'handle_edit_serial_number_form' ] );
+		add_action( 'init', [ $this, 'handle_serial_numbers_table' ] );
 	}
 
 	/**
@@ -75,6 +76,36 @@ class FormHandler {
 		update_post_meta( $post_id, 'expires_on', $expires_on );
 
 		wp_redirect( admin_url( 'admin.php?page=serial-numbers' ) );
+	}
+
+	/**
+	 * Handle serial number table actions
+	 * @return bool|void
+	 */
+
+	function handle_serial_numbers_table(){
+
+		if(!isset($_REQUEST['wsn-serial-numbers-table-action'])){
+			return;
+		}
+
+		if(!isset($_REQUEST['action'])){
+			return;
+		}
+
+		if(!wp_verify_nonce($_REQUEST['wsn-serial-numbers-table-nonce'], 'wsn-serial-numbers-table')){
+			wp_die('No Cheating!');
+		}
+
+		$bulk_deletes = $_REQUEST['bulk-delete'];
+
+		if(isset($bulk_deletes)){
+			foreach ($bulk_deletes as $bulk_delete){
+				wp_delete_post($bulk_delete);
+			}
+		}
+
+		return wp_redirect( admin_url( 'admin.php?page=serial-numbers' ) );;
 	}
 
 }

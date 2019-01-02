@@ -1,11 +1,12 @@
 <?php
 
-namespace Pluginever\WCSerialNumbers\Admin;
+namespace Pluginever\WCSerialNumbers;
 
 
-class WSN_Process_Order {
+class Order_Process {
 
 	function __construct() {
+		add_action('woocommerce_check_cart_items', [$this, 'wsn_validate_cart_content']);
 		add_action( 'woocommerce_checkout_create_order', [ $this, 'wsn_order_process' ] );
 		add_action( 'woocommerce_order_details_after_order_table', [ $this, 'wsn_order_serial_number_details' ] );
 	}

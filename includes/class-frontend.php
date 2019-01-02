@@ -2,7 +2,7 @@
 
 namespace Pluginever\WCSerialNumbers;
 
-use Pluginever\WCSerialNumbers\Admin\WSN_Process_Order;
+
 
 class Frontend {
 	/**
@@ -70,7 +70,7 @@ class Frontend {
 	 */
 	protected function instance() {
 		new ShortCode();
-		new WSN_Process_Order();
+		new Order_Process();
 	}
 
 	/**

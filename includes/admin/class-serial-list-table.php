@@ -99,13 +99,16 @@ class Serial_List_Table extends \WP_List_Table {
 		$posts = wsn_get_serial_numbers( [] );
 
 		foreach ( $posts as $post ) {
+
 			setup_postdata( $post );
+
 			$usage_limit  = get_post_meta( $post->ID, 'usage_limit', true );
 			$remain_usage = wsn_remain_usage( $post->ID );
 			$expires_on   = get_post_meta( $post->ID, 'expires_on', true );
 			$product      = get_post_meta( $post->ID, 'product', true );
 			$order        = get_post_meta( $post->ID, 'order', true );
 			$purchased_on = get_post_meta( $post->ID, 'purchased_on', true );
+
 			$data[]       = [
 				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title( $post->ID ),
@@ -113,8 +116,9 @@ class Serial_List_Table extends \WP_List_Table {
 				'expires_on'     => empty( $expires_on ) ? '∞' : $expires_on,
 				'product'        => '<a href="' . get_the_permalink( $product ) . '">' . get_the_title( $product ) . '</a>',
 				'order'          => empty( $order ) ? '-' : $order,
-				'purchased_on'   => empty( $purchased_on ) ? '-' : date('m-d-Y H:i a', strtotime($purchased_on)),
+				'purchased_on'   => empty( $purchased_on ) ? '-' : date( 'm-d-Y H:i a', strtotime( $purchased_on ) ),
 			];
+
 		}
 
 		return $data;
@@ -130,6 +134,7 @@ class Serial_List_Table extends \WP_List_Table {
 	 * @return Mixed
 	 */
 	public function column_default( $item, $column_name ) {
+
 		switch ( $column_name ) {
 			case 'ID':
 			case 'serial_numbers':
@@ -150,6 +155,7 @@ class Serial_List_Table extends \WP_List_Table {
 	 * @return array
 	 */
 	public function get_bulk_actions() {
+
 		$actions = [
 			'bulk-delete' => 'Delete'
 		];
