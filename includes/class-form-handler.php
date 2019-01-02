@@ -105,7 +105,8 @@ class FormHandler {
 			}
 		}
 
-		return wp_redirect( admin_url( 'admin.php?page=serial-numbers' ) );;
+		return wp_redirect( admin_url( 'admin.php?page=serial-numbers' ) );
+
 	}
 
 }

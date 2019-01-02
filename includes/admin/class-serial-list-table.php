@@ -47,8 +47,7 @@ class Serial_List_Table extends \WP_List_Table {
 		$data                  = array_slice( $data, ( ( $currentPage - 1 ) * $perPage ), $perPage );
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items           = $data;
-		/** Process bulk action */
-		//$this->process_bulk_action();
+
 	}
 
 	/**
@@ -61,10 +60,12 @@ class Serial_List_Table extends \WP_List_Table {
 			'cb'             => '<input type="checkbox" />',
 			'serial_numbers' => __( 'Serial Numbers', 'wc-serial-numbers' ),
 			'usage_limit'    => __( 'Usage/ Limit', 'wc-serial-numbers' ),
-			'expires_on'     => __( 'Expires On', 'wc-serial-numbers' ),
 			'product'        => __( 'Product', 'wc-serial-numbers' ),
+			'purchaser'      => __( 'Purchaser', 'wc-serial-numbers' ),
 			'order'          => __( 'Order', 'wc-serial-numbers' ),
 			'purchased_on'   => __( 'Purchased On', 'wc-serial-numbers' ),
+			'expires_on'     => __( 'Expires On', 'wc-serial-numbers' ),
+			'validity'       => __( 'Validity', 'wc-serial-numbers' ),
 		);
 
 		return $columns;
@@ -82,10 +83,15 @@ class Serial_List_Table extends \WP_List_Table {
 	/**
 	 * Define the sortable columns
 	 *
-	 * @return Array
+
 	 */
 	public function get_sortable_columns() {
-		return array( 'serial_numbers' => array( 'serial_numbers', false ) );
+		return [
+			'serial_numbers' => array( 'serial_numbers', false ),
+			'purchaser'      => array( 'purchaser', false ),
+			'order'          => array( 'order', false ),
+			'purchased_on'   => array( 'purchased_on', false ),
+		];
 	}
 
 	/**
@@ -106,17 +112,21 @@ class Serial_List_Table extends \WP_List_Table {
 			$remain_usage = wsn_remain_usage( $post->ID );
 			$expires_on   = get_post_meta( $post->ID, 'expires_on', true );
 			$product      = get_post_meta( $post->ID, 'product', true );
+			$purchaser    = get_post_meta( $post->ID, 'purchaser', true );
 			$order        = get_post_meta( $post->ID, 'order', true );
 			$purchased_on = get_post_meta( $post->ID, 'purchased_on', true );
+			$validity     = get_post_meta( $post->ID, 'validity', true );
 
-			$data[]       = [
+			$data[] = [
 				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title( $post->ID ),
 				'usage_limit'    => empty( $usage_limit ) ? '∞' : $remain_usage . '/' . $usage_limit,
-				'expires_on'     => empty( $expires_on ) ? '∞' : $expires_on,
 				'product'        => '<a href="' . get_the_permalink( $product ) . '">' . get_the_title( $product ) . '</a>',
+				'purchaser'      => empty( $purchaser ) ? '-' : $purchaser,
 				'order'          => empty( $order ) ? '-' : $order,
 				'purchased_on'   => empty( $purchased_on ) ? '-' : date( 'm-d-Y H:i a', strtotime( $purchased_on ) ),
+				'expires_on'     => empty( $expires_on ) ? '∞' : $expires_on,
+				'validity'       => empty( $validity ) ? '∞' : $validity,
 			];
 
 		}
@@ -139,10 +149,11 @@ class Serial_List_Table extends \WP_List_Table {
 			case 'ID':
 			case 'serial_numbers':
 			case 'usage_limit':
-			case 'expires_on':
 			case 'product':
+			case 'purchaser':
 			case 'order':
 			case 'purchased_on':
+			case 'expires_on':
 				return $item[ $column_name ];
 			default:
 				return print_r( $item, true );
