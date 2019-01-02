@@ -25,15 +25,15 @@ class WSN_Process_Order {
 				] );
 
 				$serial_number = $serial_numbers[ array_rand( $serial_numbers ) ]; //serial_number_to_be_used
-				$usage_limit   = get_post_meta( $serial_number->ID, 'usage_limit', true );
 				$remain_usage  = wsn_remain_usage( $serial_number->ID );
+				$usage_limit   = get_post_meta( $serial_number->ID, 'usage_limit', true );
 				$expires_on    = get_post_meta( $serial_number->ID, 'expires_on', true );
 
 				update_post_meta( $serial_number->ID, 'order', $order->get_id() );
 				update_post_meta( $serial_number->ID, 'remain_usage', ( $remain_usage + $quantity ) );
 				update_post_meta( $serial_number->ID, 'purchased_on', $order->get_date_created() );
 
-				$serial_numbers_ids[] = $serial_number->ID;
+				$serial_numbers_ids[$product_id] = $serial_number->ID;
 
 			}
 		}
@@ -41,8 +41,9 @@ class WSN_Process_Order {
 		$order->update_meta_data( 'serial_numbers', $serial_numbers_ids );
 	}
 
-
 	function wsn_order_serial_number_details( $order ) {
-
+		if($order->get_meta('serial_numbers')) {
+			include WPWSN_TEMPLATES_DIR . '/order-details-serial-number.php';
+		}
 	}
 }
