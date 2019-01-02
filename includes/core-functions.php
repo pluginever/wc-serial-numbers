@@ -99,4 +99,17 @@ function wsn_get_serial_numbers( $args ) {
 	return get_posts( $args );
 }
 
+/**
+ * Get the remain usage for serial number
+ *
+ * @param $serial_number_id
+ */
+
+function wsn_remain_usage( $serial_number_id ) {
+	$usage_limit  = get_post_meta( $serial_number_id, 'usage_limit', true );
+	$remain_usage = get_post_meta( $serial_number_id, 'remain_usage', true );
+
+	return $remain_usage = $usage_limit - $remain_usage;
+}
+
 

@@ -48,7 +48,7 @@ class Serial_List_Table extends \WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items           = $data;
 		/** Process bulk action */
-		$this->process_bulk_action();
+		//$this->process_bulk_action();
 	}
 
 	/**
@@ -96,13 +96,12 @@ class Serial_List_Table extends \WP_List_Table {
 	private function table_data() {
 		$data = array();
 
-		$posts = wsn_get_serial_numbers([]);
+		$posts = wsn_get_serial_numbers( [] );
 
 		foreach ( $posts as $post ) {
 			setup_postdata( $post );
 			$usage_limit  = get_post_meta( $post->ID, 'usage_limit', true );
-			$remain_usage = get_post_meta( $post->ID, 'remain_usage', true );
-			$remain_usage = $usage_limit - $remain_usage;
+			$remain_usage = wsn_remain_usage( $post->ID );
 			$expires_on   = get_post_meta( $post->ID, 'expires_on', true );
 			$product      = get_post_meta( $post->ID, 'product', true );
 			$order        = get_post_meta( $post->ID, 'order', true );
@@ -110,11 +109,11 @@ class Serial_List_Table extends \WP_List_Table {
 			$data[]       = [
 				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title( $post->ID ),
-				'usage_limit'    => empty( $usage_limit ) ? '∞' : $usage_limit . '/' . $usage_limit,
+				'usage_limit'    => empty( $usage_limit ) ? '∞' : $remain_usage . '/' . $usage_limit,
 				'expires_on'     => empty( $expires_on ) ? '∞' : $expires_on,
 				'product'        => '<a href="' . get_the_permalink( $product ) . '">' . get_the_title( $product ) . '</a>',
 				'order'          => empty( $order ) ? '-' : $order,
-				'purchased_on'   => empty( $purchased_on ) ? '-' : $order,
+				'purchased_on'   => empty( $purchased_on ) ? '-' : date('m-d-Y H:i a', strtotime($purchased_on)),
 			];
 		}
 
