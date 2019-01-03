@@ -59,8 +59,9 @@ class Serial_List_Table extends \WP_List_Table {
 		$columns = array(
 			'cb'             => '<input type="checkbox" />',
 			'serial_numbers' => __( 'Serial Numbers', 'wc-serial-numbers' ),
-			'usage_limit'    => __( 'Usage/ Limit', 'wc-serial-numbers' ),
 			'product'        => __( 'Product', 'wc-serial-numbers' ),
+			'deliver_times'  => __( 'Deliver Times', 'wc-serial-numbers' ),
+			'max_instance'   => __( 'Max. Instance', 'wc-serial-numbers' ),
 			'purchaser'      => __( 'Purchaser', 'wc-serial-numbers' ),
 			'order'          => __( 'Order', 'wc-serial-numbers' ),
 			'purchased_on'   => __( 'Purchased On', 'wc-serial-numbers' ),
@@ -108,20 +109,22 @@ class Serial_List_Table extends \WP_List_Table {
 
 			setup_postdata( $post );
 
-			$usage_limit  = get_post_meta( $post->ID, 'usage_limit', true );
-			$remain_usage = wsn_remain_usage( $post->ID );
-			$expires_on   = get_post_meta( $post->ID, 'expires_on', true );
-			$product      = get_post_meta( $post->ID, 'product', true );
-			$purchaser    = get_post_meta( $post->ID, 'purchaser', true );
-			$order        = get_post_meta( $post->ID, 'order', true );
-			$purchased_on = get_post_meta( $post->ID, 'purchased_on', true );
-			$validity     = get_post_meta( $post->ID, 'validity', true );
+			$deliver_times        = get_post_meta( $post->ID, 'deliver_times', true );
+			$remain_deliver_times = wsn_remain_usage( $post->ID );
+			$max_instance         = get_post_meta( $post->ID, 'max_instance', true );
+			$expires_on           = get_post_meta( $post->ID, 'expires_on', true );
+			$product              = get_post_meta( $post->ID, 'product', true );
+			$purchaser            = get_post_meta( $post->ID, 'purchaser', true );
+			$order                = get_post_meta( $post->ID, 'order', true );
+			$purchased_on         = get_post_meta( $post->ID, 'purchased_on', true );
+			$validity             = get_post_meta( $post->ID, 'validity', true );
 
 			$data[] = [
 				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title( $post->ID ),
-				'usage_limit'    => empty( $usage_limit ) ? '∞' : $remain_usage . '/' . $usage_limit,
 				'product'        => '<a href="' . get_the_permalink( $product ) . '">' . get_the_title( $product ) . '</a>',
+				'deliver_times'  => empty( $deliver_times ) ? '∞' : $remain_deliver_times . '/' . $deliver_times,
+				'max_instance'   => empty( $max_instance ) ? '∞' : $max_instance,
 				'purchaser'      => empty( $purchaser ) ? '-' : $purchaser,
 				'order'          => empty( $order ) ? '-' : $order,
 				'purchased_on'   => empty( $purchased_on ) ? '-' : date( 'm-d-Y H:i a', strtotime( $purchased_on ) ),
@@ -148,8 +151,9 @@ class Serial_List_Table extends \WP_List_Table {
 		switch ( $column_name ) {
 			case 'ID':
 			case 'serial_numbers':
-			case 'usage_limit':
 			case 'product':
+			case 'deliver_times':
+			case 'max_instance':
 			case 'purchaser':
 			case 'order':
 			case 'purchased_on':

@@ -56,9 +56,6 @@ function wsn_get_feedback_message( $code ) {
 		case 'empty_product':
 			return __( 'The product is empty. Please select a product and try again', 'wc-serial-numbers' );
 			break;
-		case 'empty_usage_limit':
-			return __( 'The Usage Limit is empty. Please select a Limit and try again', 'wc-serial-numbers' );
-			break;
 	}
 }
 
@@ -118,10 +115,10 @@ function wsn_get_serial_numbers( $args ) {
 
 function wsn_remain_usage( $serial_number_id ) {
 
-	$usage_limit  = get_post_meta( $serial_number_id, 'usage_limit', true );
-	$remain_usage = get_post_meta( $serial_number_id, 'remain_usage', true );
+	$deliver_times  = get_post_meta( $serial_number_id, 'deliver_times', true );
+	$remain_deliver_times = get_post_meta( $serial_number_id, 'remain_deliver_times', true );
 
-	return $remain_usage = $usage_limit - $remain_usage;
+	return $remain_deliver_times = $deliver_times - $remain_deliver_times;
 }
 
 

@@ -87,7 +87,6 @@ class Admin {
 	public function enqueue_scripts( $hook ) {
 		$suffix = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
 		//styles
-		wp_enqueue_style( 'jquery-ui', WPWSN_ASSETS_URL . "/css/jquery-ui.css", [], WPWSN_VERSION );
 		wp_enqueue_style( 'wp-ever-css', WPWSN_ASSETS_URL . "/css/wp-ever{$suffix}.css", [], WPWSN_VERSION );
 		wp_enqueue_style( 'wc-serial-numbers', WPWSN_ASSETS_URL . "/css/admin.css", [], WPWSN_VERSION );
 

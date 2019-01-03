@@ -73,8 +73,8 @@
 .ever-form-group {
 	margin-bottom: 15px;
 }
-textarea.ever-field{
-	height: auto !important;
+textarea.ever-field, textarea.ever-field-inline{
+	min-height: 100px !important;
 }
 
 input[type="radio"],

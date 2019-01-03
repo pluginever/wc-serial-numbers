@@ -69,14 +69,14 @@
 //tool tip
 
 .ever-helper {
-	position: relative;
+	position: absolute;
 	display: inline-block;
 	background: $primary;
 	border-radius: 10px;
 	padding: 0 6px;
 	cursor: help;
 	color: #fff;
-	margin: -5px 0 0 5px;
+	margin: 5px;
 	.text {
 		visibility: hidden;
 		width: 250px;

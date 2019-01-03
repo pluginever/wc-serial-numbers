@@ -174,6 +174,8 @@ final class WCSerialNumbers {
         define( 'WPWSN_URL', plugins_url( '', WPWSN_FILE ) );
         define( 'WPWSN_ASSETS_URL', WPWSN_URL . '/assets' );
         define( 'WPWSN_TEMPLATES_DIR', WPWSN_PATH . '/templates' );
+
+        define( 'WPWSN_SERIAL_INDEX_PAGE', admin_url( 'admin.php?page=serial-numbers' ) );
     }
 
 
