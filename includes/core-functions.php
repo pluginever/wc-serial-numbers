@@ -74,7 +74,7 @@ function wsn_serial_number_tab( $product_data_tabs ) {
 	$product_data_tabs['serial_numbers'] = array(
 		'label'  => __( 'Serial Numbers', 'serial-numbers' ),
 		'target' => 'serial_numbers_data',
-		'class'  => 'hide_if_external hide_if_grouped',
+		'class'  => 'ever-serial_numbers_tab hide_if_external hide_if_grouped',
 	);
 
 	return $product_data_tabs;

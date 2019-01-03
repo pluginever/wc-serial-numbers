@@ -15,9 +15,10 @@ window.Project = (function (window, document, $, undefined) {
 	var app = {
 		init: function () {
 			$('#add-serial-number').on('click', app.add_serial_number);
-			$('#enable_serial_number').on('click', app.enable_serial_number);
+			$(document).on('click','#enable_serial_number', app.enable_serial_number);
 			$('.ever-select').select2();
 			$('.ever-date').datepicker();
+			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
 		},
 
 		add_serial_number: function (e) {
@@ -68,6 +69,23 @@ window.Project = (function (window, document, $, undefined) {
 			$('.wsn_nottification').html('<div class="notice notice-success is-dismissible"> \n' +
 				'\t<p><strong>'+msg+'</strong></p>\n' +
 				'</div>');
+		},
+
+		load_tab_data: function () {
+			wp.ajax.send('load_tab_data', {
+				data: {
+					post_id: $('#post_ID').val(),
+				},
+				success: function (response) {
+					console.log(response);
+					if (response.html) {
+						$('.ever-content-placeholder').html(response.html);
+					}
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
 		}
 	};
 

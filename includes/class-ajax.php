@@ -6,6 +6,7 @@ class Ajax {
 	function __construct() {
 		add_action( 'wp_ajax_add_serial_number', [ $this, 'wsn_add_serial_number' ] );
 		add_action( 'wp_ajax_enable_serial_number', [ $this, 'wsn_enable_serial_number' ] );
+		add_action( 'wp_ajax_load_tab_data', [ $this, 'wsn_load_tab_data' ] );
 	}
 
 	function wsn_add_serial_number() {
@@ -68,5 +69,21 @@ class Ajax {
 				'enable_serial_number' => $enable_serial_number
 			]
 		);
+	}
+
+	function wsn_load_tab_data(){
+		$post_id = $_REQUEST['post_id'];
+
+		$is_serial_number_enabled = get_post_meta($post_id, 'enable_serial_number', true);
+
+		if($is_serial_number_enabled){
+			ob_start();
+			include WPWSN_TEMPLATES_DIR.'/product-tab-enable-serial-number.php';
+			$html = ob_get_clean();
+		}
+
+		wp_send_json_success([
+			'html' => $html,
+		]);
 	}
 }
