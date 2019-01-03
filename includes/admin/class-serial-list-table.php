@@ -13,17 +13,22 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  */
 class Serial_List_Table extends \WP_List_Table {
 
-	public $query;
+	protected $is_single = false;
 
 	/** Class constructor */
-	public function __construct($query = []) {
-		$this->query = $query;
+	public function __construct() {
+
 		parent::__construct( [
 			'singular' => __( 'Serial Number', 'wc-serial-number' ), //singular name of the listed records
 			'plural'   => __( 'Serial Numbers', 'wc-serial-number' ), //plural name of the listed records
 			'ajax'     => false //should this table support ajax?
 
 		] );
+
+		if ( get_post_type() == 'product' ) {
+			global $post;
+			$this->is_single = $post->ID;
+		}
 
 	}
 
@@ -58,18 +63,30 @@ class Serial_List_Table extends \WP_List_Table {
 	 * @return Array
 	 */
 	public function get_columns() {
-		$columns = array(
-			'cb'             => '<input type="checkbox" />',
-			'serial_numbers' => __( 'Serial Numbers', 'wc-serial-numbers' ),
-			'product'        => __( 'Product', 'wc-serial-numbers' ),
-			'deliver_times'  => __( 'Deliver Times', 'wc-serial-numbers' ),
-			'max_instance'   => __( 'Max. Instance', 'wc-serial-numbers' ),
-			'purchaser'      => __( 'Purchaser', 'wc-serial-numbers' ),
-			'order'          => __( 'Order', 'wc-serial-numbers' ),
-			'purchased_on'   => __( 'Purchased On', 'wc-serial-numbers' ),
-			'expires_on'     => __( 'Expires On', 'wc-serial-numbers' ),
-			'validity'       => __( 'Validity', 'wc-serial-numbers' ),
-		);
+
+		if ( $this->is_single ) {
+			$columns = array(
+				'serial_numbers' => __( 'Serial Numbers', 'wc-serial-numbers' ),
+				'product'        => __( 'Product', 'wc-serial-numbers' ),
+				'deliver_times'  => __( 'Deliver Times', 'wc-serial-numbers' ),
+				'max_instance'   => __( 'Max. Instance', 'wc-serial-numbers' ),
+				'expires_on'     => __( 'Expires On', 'wc-serial-numbers' ),
+				'validity'       => __( 'Validity', 'wc-serial-numbers' ),
+			);
+		} else {
+			$columns = array(
+				'cb'             => '<input type="checkbox" />',
+				'serial_numbers' => __( 'Serial Numbers', 'wc-serial-numbers' ),
+				'product'        => __( 'Product', 'wc-serial-numbers' ),
+				'deliver_times'  => __( 'Deliver Times', 'wc-serial-numbers' ),
+				'max_instance'   => __( 'Max. Instance', 'wc-serial-numbers' ),
+				'purchaser'      => __( 'Purchaser', 'wc-serial-numbers' ),
+				'order'          => __( 'Order', 'wc-serial-numbers' ),
+				'purchased_on'   => __( 'Purchased On', 'wc-serial-numbers' ),
+				'expires_on'     => __( 'Expires On', 'wc-serial-numbers' ),
+				'validity'       => __( 'Validity', 'wc-serial-numbers' ),
+			);
+		}
 
 		return $columns;
 	}
@@ -105,21 +122,23 @@ class Serial_List_Table extends \WP_List_Table {
 	private function table_data() {
 		$data = array();
 
-		$posts = wsn_get_serial_numbers( $this->query );
+		$query = !$this->is_single ? [] : [ 'meta_key' => 'product', 'meta_value' => $this->is_single ];
+
+		$posts = wsn_get_serial_numbers( $query );
 
 		foreach ( $posts as $post ) {
 
 			setup_postdata( $post );
 
-			$deliver_times        = get_post_meta( $post->ID, 'deliver_times', true );
-			$used_deliver_times   = wsn_used_deliver_times( $post->ID );
-			$max_instance         = get_post_meta( $post->ID, 'max_instance', true );
-			$expires_on           = get_post_meta( $post->ID, 'expires_on', true );
-			$product              = get_post_meta( $post->ID, 'product', true );
-			$purchaser            = get_post_meta( $post->ID, 'purchaser', true );
-			$order                = get_post_meta( $post->ID, 'order', true );
-			$purchased_on         = get_post_meta( $post->ID, 'purchased_on', true );
-			$validity             = get_post_meta( $post->ID, 'validity', true );
+			$deliver_times      = get_post_meta( $post->ID, 'deliver_times', true );
+			$used_deliver_times = wsn_used_deliver_times( $post->ID );
+			$max_instance       = get_post_meta( $post->ID, 'max_instance', true );
+			$expires_on         = get_post_meta( $post->ID, 'expires_on', true );
+			$product            = get_post_meta( $post->ID, 'product', true );
+			$purchaser          = get_post_meta( $post->ID, 'purchaser', true );
+			$order              = get_post_meta( $post->ID, 'order', true );
+			$purchased_on       = get_post_meta( $post->ID, 'purchased_on', true );
+			$validity           = get_post_meta( $post->ID, 'validity', true );
 
 			$data[] = [
 				'ID'             => $post->ID,
@@ -172,13 +191,15 @@ class Serial_List_Table extends \WP_List_Table {
 	 *
 	 * @return array
 	 */
+
 	public function get_bulk_actions() {
+		if ( !$this->is_single ) {
+			$actions = [
+				'bulk-delete' => 'Delete'
+			];
 
-		$actions = [
-			'bulk-delete' => 'Delete'
-		];
-
-		return $actions;
+			return $actions;
+		}
 	}
 
 	/**
