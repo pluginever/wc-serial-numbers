@@ -66,6 +66,20 @@
 	}
 }
 
+.woocommerce_options_panel{
+	.ever-panel{
+		label{
+			margin: 0 !important;
+		}
+
+		.submit{
+			float: none !important;
+			margin: auto !important;
+			padding: 20px 0 !important;
+		}
+	}
+}
+
 //tool tip
 
 .ever-helper {

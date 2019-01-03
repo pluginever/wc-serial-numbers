@@ -64,6 +64,7 @@ add_action( 'woocommerce_product_data_panels', 'wsn_serial_number_tab_panel' );
 
 /**
  * Serial number tab
+ *
  * @param $product_data_tabs
  *
  * @return mixed
@@ -113,12 +114,12 @@ function wsn_get_serial_numbers( $args ) {
  * @param $serial_number_id
  */
 
-function wsn_remain_usage( $serial_number_id ) {
+function wsn_used_deliver_times( $serial_number_id ) {
 
-	$deliver_times  = get_post_meta( $serial_number_id, 'deliver_times', true );
+	$deliver_times        = get_post_meta( $serial_number_id, 'deliver_times', true );
 	$remain_deliver_times = get_post_meta( $serial_number_id, 'remain_deliver_times', true );
 
-	return $remain_deliver_times = $deliver_times - $remain_deliver_times;
+	return $remain_deliver_times = ( $deliver_times - $remain_deliver_times );
 }
 
 

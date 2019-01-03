@@ -15,11 +15,6 @@ class FormHandler {
 
 	function handle_add_edit_serial_number_form() {
 
-		echo '<pre>';
-		    print_r($_REQUEST);
-		echo '</pre>';
-		//die();
-
 		if ( ! wp_verify_nonce( $_REQUEST['wsn_add_edit_serial_numbers_nonce'], 'wsn_add_edit_serial_numbers' ) ) {
 			return;
 		}

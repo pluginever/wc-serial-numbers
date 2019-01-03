@@ -1,8 +1,8 @@
 <?php
 
-$request_action = empty( $_REQUEST['action'] ) ? '' : $_REQUEST['action'];
+$row_action = empty( $_REQUEST['row_action'] ) ? '' : $_REQUEST['action'];
 
-if ( $request_action == 'edit' ) {
+if ( $row_action == 'edit' ) {
 	$serial_number_id = $_REQUEST['serial_number'];
 	$serial_number    = get_the_title( $serial_number_id );
 	$deliver_times    = get_post_meta( $serial_number_id, 'deliver_times', true );
@@ -28,6 +28,7 @@ if ( $request_action == 'edit' ) {
 	$action_type            = 'wsn_add_serial_number';
 	$input_serial_number_id = '';
 }
+
 ?>
 <div class="wrap wsn-container">
 
@@ -152,3 +153,5 @@ if ( $request_action == 'edit' ) {
 
 	</div>
 </div>
+
+

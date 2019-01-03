@@ -13,9 +13,11 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  */
 class Serial_List_Table extends \WP_List_Table {
 
-	/** Class constructor */
-	public function __construct() {
+	public $query;
 
+	/** Class constructor */
+	public function __construct($query = []) {
+		$this->query = $query;
 		parent::__construct( [
 			'singular' => __( 'Serial Number', 'wc-serial-number' ), //singular name of the listed records
 			'plural'   => __( 'Serial Numbers', 'wc-serial-number' ), //plural name of the listed records
@@ -103,14 +105,14 @@ class Serial_List_Table extends \WP_List_Table {
 	private function table_data() {
 		$data = array();
 
-		$posts = wsn_get_serial_numbers( [] );
+		$posts = wsn_get_serial_numbers( $this->query );
 
 		foreach ( $posts as $post ) {
 
 			setup_postdata( $post );
 
 			$deliver_times        = get_post_meta( $post->ID, 'deliver_times', true );
-			$remain_deliver_times = wsn_remain_usage( $post->ID );
+			$used_deliver_times   = wsn_used_deliver_times( $post->ID );
 			$max_instance         = get_post_meta( $post->ID, 'max_instance', true );
 			$expires_on           = get_post_meta( $post->ID, 'expires_on', true );
 			$product              = get_post_meta( $post->ID, 'product', true );
@@ -123,7 +125,7 @@ class Serial_List_Table extends \WP_List_Table {
 				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title( $post->ID ),
 				'product'        => '<a href="' . get_the_permalink( $product ) . '">' . get_the_title( $product ) . '</a>',
-				'deliver_times'  => empty( $deliver_times ) ? '∞' : $remain_deliver_times . '/' . $deliver_times,
+				'deliver_times'  => empty( $deliver_times ) ? '∞' : $used_deliver_times . '/' . $deliver_times,
 				'max_instance'   => empty( $max_instance ) ? '∞' : $max_instance,
 				'purchaser'      => empty( $purchaser ) ? '-' : $purchaser,
 				'order'          => empty( $order ) ? '-' : $order,
@@ -194,8 +196,8 @@ class Serial_List_Table extends \WP_List_Table {
 
 	function column_serial_numbers( $item ) {
 		$actions = array(
-			'edit'   => sprintf( '<a href="?page=%s&action=%s&serial_number=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['ID'] ),
-			'delete' => sprintf( '<a href="?page=%s&action=%s&serial_number=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['ID'] ),
+			'edit'   => sprintf( '<a href="?page=%s&row_action=%s&serial_number=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['ID'] ),
+			'delete' => sprintf( '<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['ID'] ),
 		);
 
 		return sprintf( '%1$s %2$s', $item['serial_numbers'], $this->row_actions( $actions ) );
