@@ -16,6 +16,8 @@ window.Project = (function (window, document, $, undefined) {
 		init: function () {
 			$('#add-serial-number').on('click', app.add_serial_number);
 			$('#enable_serial_number').on('click', app.enable_serial_number);
+			$('.ever-select').select2();
+			$('.ever-date').datepicker();
 		},
 
 		add_serial_number: function (e) {

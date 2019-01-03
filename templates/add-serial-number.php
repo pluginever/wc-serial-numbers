@@ -27,8 +27,11 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 	<h1 class="wp-heading-inline"><?php _e( $title . ' Serial Number', 'wc-serial-numbers' ) ?></h1>
 	<span class="wsn-button page-title-action"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></span>
 	<span class="wsn-button page-title-action button-primary-disabled"><?php _e( 'Generate serial key Automatically', 'wc-serial-numbers' ) ?></span>
+	<div class="ever-helper"> ?
+		<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+	</div>
 
-	<div class="wsn-body">
+	<div class="ever-panel">
 
 		<?php include WPWSN_TEMPLATES_DIR . '/messages.php'; ?>
 
@@ -46,15 +49,17 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 					<th scope="row">
 						<label for="serial_number"><?php _e( 'Serial Number', 'wc-serial-numbers' ) ?></label></th>
 					<td>
-						<input name="serial_number" type="text" id="serial_number" value="<?php echo $serial_number ?>"
-						       placeholder="51C8-P9NZ-UM37-YKZH" class="regular-text">
+						<input name="serial_number" type="text" id="serial_number" value="<?php echo $serial_number ?>" placeholder="51C8-P9NZ-UM37-YKZH" class="regular-text ever-field-inline">
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
 					</td>
 				</tr>
 
 				<tr>
-					<th scope="row"><label for="product"><?php _e( 'Product', 'wc-serial-numbers' ) ?></label></th>
+					<th scope="row"><label for="product"><?php _e( 'Choose Product', 'wc-serial-numbers' ) ?></label></th>
 					<td>
-						<select name="product" id="product">
+						<select name="product" id="product" class="ever-select  ever-field-inline">
 							<option value=""><?php _e( 'Choose a product', 'wc-serial-numbers' ) ?></option>
 							<?php
 							$posts = get_posts( [ 'post_type' => 'product', 'posts_per_page' => - 1 ] );
@@ -72,7 +77,10 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 					<th scope="row"><label for="usage_limit"><?php _e( 'Usage Limit', 'wc-serial-numbers' ) ?></label>
 					</th>
 					<td>
-						<input type="number" min="1" value="<?php echo $usage_limit ?>" name="usage_limit">
+						<input type="number" min="1" value="<?php echo $usage_limit ?>" name="usage_limit" class=" ever-field-inline">
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
 					</td>
 				</tr>
 
@@ -80,8 +88,10 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 					<th scope="row"><label for="expires_on"><?php _e( 'Expires On', 'wc-serial-numbers' ) ?></label>
 					</th>
 					<td>
-						<input type="date" name="expires_on" id="expires_on" class="regular-text"
-						       value="<?php echo $expires_on ?>">
+						<input type="text" name="expires_on" id="expires_on" class="ever-date regular-text  ever-field-inline" value="<?php echo $expires_on ?>" >
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
 					</td>
 				</tr>
 
@@ -94,8 +104,4 @@ if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
 			</p>
 		</form>
 	</div>
-</div>
-
-<div class="ever-helper"> ?
-	<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 </div>

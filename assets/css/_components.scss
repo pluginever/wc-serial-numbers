@@ -36,7 +36,7 @@
 	background-color: #fff;
 	border-radius: 4px 4px 0 0;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-
+	padding: 0 20px;
 	&-header {
 		align-items: center;
 		background: #fff;
@@ -72,10 +72,11 @@
 	position: relative;
 	display: inline-block;
 	background: $primary;
-	border-radius: 50%;
-	padding: 3px 10px;
+	border-radius: 10px;
+	padding: 0 6px;
 	cursor: help;
 	color: #fff;
+	margin: -5px 0 0 5px;
 	.text {
 		visibility: hidden;
 		width: 250px;
