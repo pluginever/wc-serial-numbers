@@ -6,7 +6,7 @@ namespace Pluginever\WCSerialNumbers;
 class Order_Process {
 
 	function __construct() {
-		//add_action( 'woocommerce_check_cart_items', [ $this, 'wsn_validate_cart_content' ] );
+		add_action( 'woocommerce_check_cart_items', [ $this, 'wsn_validate_cart_content' ] );
 		//add_action( 'woocommerce_checkout_create_order', [ $this, 'wsn_order_process' ] );
 		add_action( 'woocommerce_new_order', [ $this, 'wsn_order_process' ] );
 		add_action( 'woocommerce_order_details_after_order_table', [ $this, 'wsn_order_serial_number_details' ] );
@@ -65,5 +65,27 @@ class Order_Process {
 			include WPWSN_TEMPLATES_DIR . '/order-details-serial-number.php';
 		}
 
+	}
+
+	function wsn_validate_cart_content() {
+		$car_products = WC()->cart->get_cart_contents();
+
+		foreach ( $car_products as $id => $cart_product ) {
+			$product    = $cart_product['data'];
+			$product_id = $cart_product['product_id'];
+			$quantity   = $cart_product['quantity'];
+
+			$is_enabled = get_post_meta( $product_id, 'enable_serial_number', true ); //Check if the serial number enabled for this product.
+
+			if ( $is_enabled == 'enable' ) {
+				$serial_numbers = wsn_get_serial_numbers( [ 'meta_key' => 'product', 'meta_value' => $product_id ] );
+				$count_numbers  = count( $serial_numbers );
+
+
+				if ( $count_numbers < $quantity ) {
+					wc_add_notice( __( 'Sorry, There is not enough <strong>Serial Number</strong> available for', 'wc-serial-numbers' ) . ' <strong>' . $product->get_title() . '</strong>, <br>' . __( 'Please remove this item or lower the quantity, For now we have', 'wc-serial-numbers' ) . ' ' . $count_numbers . ' ' . __( 'Serial Number(s)', 'wc-serial-numbers' ) . ' ' . __( 'for this product.', 'wc-serial-numbers' ) . '' . '<br>', 'error' );
+				}
+			}
+		}
 	}
 }
