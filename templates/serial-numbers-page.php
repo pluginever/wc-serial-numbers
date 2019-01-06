@@ -18,6 +18,7 @@ if ( ! $row_action ) {
 		<?php if ( ! $is_product_tab ) { ?>
 			<h1 class="wp-heading-inline"><?php _e( 'Serial Numbers', 'wc-serial-numbers' ) ?></h1>
 			<a href="<?php echo admin_url( 'admin.php?page=add-serial-number' ) ?>" class="page-title-action"><?php _e( 'Add new serial number', 'wc-serial-numbers' ) ?></a>
+			<a href="<?php echo admin_url( 'admin.php?page=wc_serial_numbers-settings' ) ?>" class="page-title-action"><?php _e( 'Settings', 'wc-serial-numbers' ) ?></a>
 		<?php } ?>
 		<div class="wsn-body">
 			<?php
