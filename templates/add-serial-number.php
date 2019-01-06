@@ -34,7 +34,7 @@ if ( $row_action == 'edit' ) {
 
 	<div class="ever-form-group">
 		<h1 class="wp-heading-inline"><?php _e( $title . ' Serial Number', 'wc-serial-numbers' ) ?></h1>
-		<button class="wsn-button page-title-action"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></button>
+		<button class="wsn-button add-serial-title page-title-action"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></button>
 		<button class="wsn-button page-title-action ever-disabled" disabled><?php _e( 'Generate serial key Automatically', 'wc-serial-numbers' ) ?></button>
 		<div class="ever-helper"> ?
 			<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>

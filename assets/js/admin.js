@@ -16,6 +16,7 @@ window.Project = (function (window, document, $, undefined) {
 		init: function () {
 			$('#add-serial-number').on('click', app.add_serial_number);
 			$(document).on('click','#enable_serial_number', app.enable_serial_number);
+			$(document).on('click','.woocommerce_options_panel .add-serial-title', app.tab_add_serial_number_toggle);
 			$('.ever-select').select2();
 			$('.ever-date').datepicker();
 			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
@@ -65,16 +66,12 @@ window.Project = (function (window, document, $, undefined) {
 
 			wp.ajax.send('enable_serial_number', {
 				data: {
-					//product: $('#product').val(),
 					enable_serial_number: enable_serial_number,
 					post_id: $('#post_ID').val(),
 				},
 				success: function (response) {
-					//console.log(response);
 					if (response.html) {
 						$('.ever-content-placeholder').html(response.html);
-					}else{
-						$('.ever-content-placeholder').html('a');
 					}
 				}
 			});
@@ -97,6 +94,12 @@ window.Project = (function (window, document, $, undefined) {
 					console.log(error);
 				}
 			});
+		},
+
+		tab_add_serial_number_toggle: function(e){
+			e.preventDefault();
+			$('.ever-panel').toggle();
+			$('.ever-select').select2();
 		}
 	};
 
