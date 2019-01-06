@@ -47,6 +47,8 @@ window.Project = (function (window, document, $, undefined) {
 		},
 
 		enable_serial_number: function () {
+			$('.ever-content-placeholder').html('');
+			$('.wsn-serial-number-tab').addClass('ever-spinner');
 			var enable_serial_number = '';
 			var msg = '';
 			if ($(this).is(':checked')) {
@@ -58,7 +60,6 @@ window.Project = (function (window, document, $, undefined) {
 
 			}
 
-			console.log(enable_serial_number);
 
 			$('.wsn_nottification').html('<div class="notice notice-success is-dismissible"> \n' +
 				'\t<p><strong>'+msg+'</strong></p>\n' +
@@ -70,6 +71,7 @@ window.Project = (function (window, document, $, undefined) {
 					post_id: $('#post_ID').val(),
 				},
 				success: function (response) {
+					$('.wsn-serial-number-tab').removeClass('ever-spinner');
 					if (response.html) {
 						$('.ever-content-placeholder').html(response.html);
 					}
@@ -80,11 +82,13 @@ window.Project = (function (window, document, $, undefined) {
 		},
 
 		load_tab_data: function () {
+			$('.wsn-serial-number-tab').addClass('ever-spinner');
 			wp.ajax.send('load_tab_data', {
 				data: {
 					post_id: $('#post_ID').val(),
 				},
 				success: function (response) {
+					$('.wsn-serial-number-tab').removeClass('ever-spinner');
 					console.log(response);
 					if (response.html) {
 						$('.ever-content-placeholder').html(response.html);
@@ -100,6 +104,7 @@ window.Project = (function (window, document, $, undefined) {
 			e.preventDefault();
 			$('.ever-panel').toggle();
 			$('.ever-select').select2();
+			$('.ever-date').datepicker();
 		}
 	};
 
