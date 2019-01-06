@@ -49,26 +49,37 @@ window.Project = (function (window, document, $, undefined) {
 			var enable_serial_number = '';
 			var msg = '';
 			if ($(this).is(':checked')) {
-				enable_serial_number = true;
+				enable_serial_number = 'enable';
 				msg = 'Serial Number Activated.';
 			} else {
-				enable_serial_number = false;
+				enable_serial_number = 'disable';
 				msg = 'Serial Number Dectivated.';
 
 			}
-			wp.ajax.send('enable_serial_number', {
-				data: {
-					product: $('#product').val(),
-					enable_serial_number: enable_serial_number,
-				},
-				success: function (response) {
-					console.log(response)
-				}
-			});
+
+			console.log(enable_serial_number);
 
 			$('.wsn_nottification').html('<div class="notice notice-success is-dismissible"> \n' +
 				'\t<p><strong>'+msg+'</strong></p>\n' +
 				'</div>');
+
+			wp.ajax.send('enable_serial_number', {
+				data: {
+					//product: $('#product').val(),
+					enable_serial_number: enable_serial_number,
+					post_id: $('#post_ID').val(),
+				},
+				success: function (response) {
+					//console.log(response);
+					if (response.html) {
+						$('.ever-content-placeholder').html(response.html);
+					}else{
+						$('.ever-content-placeholder').html('a');
+					}
+				}
+			});
+
+
 		},
 
 		load_tab_data: function () {

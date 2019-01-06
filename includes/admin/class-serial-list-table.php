@@ -16,7 +16,7 @@ class Serial_List_Table extends \WP_List_Table {
 	protected $is_single = false;
 
 	/** Class constructor */
-	public function __construct() {
+	public function __construct($post_id = '') {
 
 		parent::__construct( [
 			'singular' => __( 'Serial Number', 'wc-serial-number' ), //singular name of the listed records
@@ -25,10 +25,10 @@ class Serial_List_Table extends \WP_List_Table {
 
 		] );
 
-		if ( get_post_type() == 'product' ) {
-			global $post;
-			$this->is_single = $post->ID;
-		}
+		//if ( get_query_var('is_product_tab') ) {
+			//global $post;
+			$this->is_single = $post_id;
+		//}
 
 	}
 

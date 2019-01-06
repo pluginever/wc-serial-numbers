@@ -47,7 +47,7 @@ class Ajax {
 				<td>' . $expires_on . '</td>
 			</tr>';
 			}
-			$html     = ob_get_clean();
+			$html = ob_get_clean();
 
 			$response = array( 'posts' => $html );
 		} else {
@@ -59,31 +59,73 @@ class Ajax {
 
 	function wsn_enable_serial_number() {
 
-		$product              = $_REQUEST['product'];
-		$enable_serial_number = $_REQUEST['enable_serial_number'];
+		$post_id = $_REQUEST['post_id'];
 
-		update_post_meta( $product, 'enable_serial_number', $enable_serial_number );
+		$is_serial_number_enabled = $_REQUEST['enable_serial_number'];
+
+		error_log($is_serial_number_enabled);
+		//die();
+
+		update_post_meta( $post_id, 'enable_serial_number', $is_serial_number_enabled  );
+
+		if($is_serial_number_enabled == 'enable'){
+
+			set_query_var( 'is_product_tab', $post_id );
+
+			ob_start();
+
+			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
+
+			echo '<h3 style="margin-bottom: -30px;">Available license number for this product:</h3>';
+
+			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
+
+			require WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+
+			$html = ob_get_clean();
+		}else{
+			ob_start();
+			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
+			$html = ob_get_clean();
+		}
 
 		wp_send_json_success(
 			[
-				'enable_serial_number' => $enable_serial_number
+				'html' => $html
 			]
 		);
 	}
 
-	function wsn_load_tab_data(){
+	function wsn_load_tab_data() {
+
 		$post_id = $_REQUEST['post_id'];
 
-		$is_serial_number_enabled = get_post_meta($post_id, 'enable_serial_number', true);
+		set_query_var( 'is_product_tab', $post_id );
 
-		if($is_serial_number_enabled){
+		$is_serial_number_enabled = get_post_meta( $post_id, 'enable_serial_number', true );
+
+		//error_log(print_r($is_serial_number_enabled));
+		//die();
+
+		if ( $is_serial_number_enabled == 'enable') {
 			ob_start();
-			include WPWSN_TEMPLATES_DIR.'/product-tab-enable-serial-number.php';
+			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
+
+			echo '<h3 style="margin-bottom: -30px;">Available license number for this product:</h3>';
+
+			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
+
+			require WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+
+			$html = ob_get_clean();
+		} else {
+			ob_start();
+			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 			$html = ob_get_clean();
 		}
 
-		wp_send_json_success([
+		wp_send_json_success( [
 			'html' => $html,
-		]);
+		] );
 	}
 }
