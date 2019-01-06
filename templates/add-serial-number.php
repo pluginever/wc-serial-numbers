@@ -1,6 +1,6 @@
 <?php
 
-$row_action = empty( $_REQUEST['row_action'] ) ? '' : $_REQUEST['action'];
+$row_action = empty( $_REQUEST['row_action'] ) ? '' : $_REQUEST['row_action'];
 
 if ( $row_action == 'edit' ) {
 	$serial_number_id = $_REQUEST['serial_number'];
@@ -59,6 +59,7 @@ if ( $row_action == 'edit' ) {
 			<table class="form-table">
 				<tbody>
 
+				<?php if(!isset($is_serial_number_enabled)){ ?>
 				<tr>
 					<th scope="row"><label for="product"><?php _e( 'Choose Product', 'wc-serial-numbers' ) ?></label></th>
 					<td>
@@ -75,6 +76,7 @@ if ( $row_action == 'edit' ) {
 						</select>
 					</td>
 				</tr>
+				<?php } ?>
 
 				<tr>
 					<th scope="row">
@@ -114,7 +116,7 @@ if ( $row_action == 'edit' ) {
 					<th scope="row"><label for="max_instance"><?php _e( 'Maximum Instance', 'wc-serial-numbers' ) ?></label>
 					</th>
 					<td class="ever-form-group">
-						<input type="number" min="0" value="<?php echo $max_instance ?>" name="max_instance" class="ever-field-inline">
+						<input type="number" min="0" value="<?php echo $max_instance ?>" name="max_instance" id="max_instance" class="ever-field-inline">
 						<div class="ever-helper"> ?
 							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 						</div>
@@ -147,7 +149,7 @@ if ( $row_action == 'edit' ) {
 
 			</table>
 			<p class="submit">
-				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( $submit, 'wc-serial-numbers' ) ?>">
+				<input type="submit" name="submit" id="submit" class="button button-primary add-serial-number-manually" value="<?php _e( $submit, 'wc-serial-numbers' ) ?>">
 			</p>
 		</form>
 

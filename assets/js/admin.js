@@ -14,35 +14,39 @@ window.Project = (function (window, document, $, undefined) {
 	'use strict';
 	var app = {
 		init: function () {
-			$('#add-serial-number').on('click', app.add_serial_number);
-			$(document).on('click','#enable_serial_number', app.enable_serial_number);
-			$(document).on('click','.woocommerce_options_panel .add-serial-title', app.tab_add_serial_number_toggle);
+			$(document).on('click', '#enable_serial_number', app.enable_serial_number);
+			$(document).on('click', '.woocommerce_options_panel .add-serial-number-manually', app.add_tab_serial_number);
+			$(document).on('click', '.woocommerce_options_panel .add-serial-title', app.tab_add_serial_number_toggle);
 			$('.ever-select').select2();
 			$('.ever-date').datepicker();
 			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
 		},
 
-		add_serial_number: function (e) {
+		add_tab_serial_number: function (e) {
 			e.preventDefault();
+
 			wp.ajax.send('add_serial_number', {
 				data: {
-					serial_number: $('#serial_number').val(),
-					product: $('#product').val(),
-					usage_limit: $('#usage_limit').val(),
-					expires_on: $('#expires_on').val()
+					product: $('#post_ID').val(),
+					serial_number: $('.ever-panel #serial_number').val(),
+					deliver_times: $('.ever-panel #deliver_times').val(),
+					max_instance: $('.ever-panel #max_instance').val(),
+					expires_on: $('.ever-panel #expires_on').val(),
+					validity: $('.ever-panel #validity').val(),
 				},
+
 				success: function (response) {
-					console.log(response);
-					if (response.posts) {
-						$('#tab-table-serial-numbers tbody').html(response.posts);
+					if (response.html) {
+						$('.ever-content-placeholder').html(response.html);
 					} else if (response.empty_serial === true) {
-						$('.wsn-add-serial-number-notification').html('<p class="error-message">Please enter a valid serial number</p>');
-						//$('.wsn-serial-number-form-group').addClass('form-invalid');
+						$('.wsn-message').html('<div class="notice notice-error is-dismissible"><p><strong>Please enter a valid serial number</strong></p>' +
+							'<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>');
 					}
 				},
 				error: function (error) {
 					console.log(error);
 				}
+
 			});
 		},
 
@@ -61,9 +65,7 @@ window.Project = (function (window, document, $, undefined) {
 			}
 
 
-			$('.wsn_nottification').html('<div class="notice notice-success is-dismissible"> \n' +
-				'\t<p><strong>'+msg+'</strong></p>\n' +
-				'</div>');
+			$('.wsn_nottification').html('<div class="notice notice-success is-dismissible"><p><strong>' + msg + '</strong></p></div>');
 
 			wp.ajax.send('enable_serial_number', {
 				data: {
@@ -100,7 +102,7 @@ window.Project = (function (window, document, $, undefined) {
 			});
 		},
 
-		tab_add_serial_number_toggle: function(e){
+		tab_add_serial_number_toggle: function (e) {
 			e.preventDefault();
 			$('.ever-panel').toggle();
 			$('.ever-select').select2();

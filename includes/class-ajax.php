@@ -11,10 +11,12 @@ class Ajax {
 
 	function wsn_add_serial_number() {
 
-		$serial_number = $_REQUEST['serial_number'];
 		$product       = $_REQUEST['product'];
-		$usage_limit   = $_REQUEST['usage_limit'];
+		$serial_number = $_REQUEST['serial_number'];
+		$deliver_times = $_REQUEST['deliver_times'];
+		$max_instance  = $_REQUEST['max_instance'];
 		$expires_on    = $_REQUEST['expires_on'];
+		$validity    = $_REQUEST['validity'];
 
 		if ( ! empty( $serial_number ) ) {
 
@@ -25,31 +27,29 @@ class Ajax {
 			] );
 
 			update_post_meta( $post_id, 'product', $product );
-			update_post_meta( $post_id, 'usage_limit', $usage_limit );
+			update_post_meta( $post_id, 'deliver_times', $deliver_times );
+			update_post_meta( $post_id, 'max_instance', $max_instance );
 			update_post_meta( $post_id, 'expires_on', $expires_on );
+			update_post_meta( $post_id, 'validity', $validity );
 
-			$posts = get_posts( [
-				'post_type'      => 'serial_number',
-				'meta_key'       => 'product',
-				'meta_value'     => $product,
-				'posts_per_page' => - 1
-			] );
+			$is_serial_number_enabled = 'enable';
+
+			set_query_var( 'is_product_tab', $product );
 
 			ob_start();
-			foreach ( $posts as $post ) {
-				setup_postdata( $post );
-				$usage_limit = get_post_meta( $post->ID, 'usage_limit', true );
-				$expires_on  = get_post_meta( $post->ID, 'expires_on', true );
-				echo '
-			<tr>
-				<td>' . get_the_title( $post->ID ) . '</td>
-				<td>' . $usage_limit . '</td>
-				<td>' . $expires_on . '</td>
-			</tr>';
-			}
+
+			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
+
+			echo '<h3 style="margin-bottom: -30px;">Available license number for this product:</h3>';
+
+			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
+
+			require WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+
 			$html = ob_get_clean();
 
-			$response = array( 'posts' => $html );
+			$response = array( 'html' => $html );
+
 		} else {
 			$response = array( 'empty_serial' => true );
 		}
@@ -63,12 +63,10 @@ class Ajax {
 
 		$is_serial_number_enabled = $_REQUEST['enable_serial_number'];
 
-		error_log($is_serial_number_enabled);
-		//die();
 
-		update_post_meta( $post_id, 'enable_serial_number', $is_serial_number_enabled  );
+		update_post_meta( $post_id, 'enable_serial_number', $is_serial_number_enabled );
 
-		if($is_serial_number_enabled == 'enable'){
+		if ( $is_serial_number_enabled == 'enable' ) {
 
 			set_query_var( 'is_product_tab', $post_id );
 
@@ -83,7 +81,7 @@ class Ajax {
 			require WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
 
 			$html = ob_get_clean();
-		}else{
+		} else {
 			ob_start();
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 			$html = ob_get_clean();
@@ -107,7 +105,7 @@ class Ajax {
 		//error_log(print_r($is_serial_number_enabled));
 		//die();
 
-		if ( $is_serial_number_enabled == 'enable') {
+		if ( $is_serial_number_enabled == 'enable' ) {
 			ob_start();
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
