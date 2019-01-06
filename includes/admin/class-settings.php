@@ -24,6 +24,10 @@ class Settings {
 				'id'    => 'wsn_general_settings',
 				'title' => __( 'General Settings', 'wc-serial-numbers' )
 			),
+			array(
+				'id'    => 'wsn_serial_generator_settings',
+				'title' => __( 'Serial Numbers Generator', 'wc-serial-numbers' )
+			),
 		);
 
 		return apply_filters( 'wc_serial_numbers_settings_sections', $sections );
@@ -55,7 +59,71 @@ class Settings {
 					'type'    => 'checkbox',
 					'checked' => '',
 				),
-			)
+				array(
+					'name'    => 'wsn_admin_bar_notification',
+					'label'   => __( 'Admin bar notification', 'wc-serial-numbers' ),
+					'desc'    => __( 'Show addmin bar notification, if there is not enough serial number for any products', 'wc-serial-numbers' ),
+					'default' => 10,
+					'class'   => 'ever-field-inline',
+					'type'    => 'checkbox',
+					'checked' => '',
+				),
+			),
+			'wsn_serial_generator_settings' => array(
+				array(
+					'name'    => 'wsn_generator_prefix',
+					'label'   => __( 'Prefix', 'wc-serial-numbers' ),
+					'placeholder'    => __( 'sl-', 'wc-serial-numbers' ),
+					'desc'    => __( 'Prefix to added before the serial number. <strong>ex: <em>sl-xxxx-xxxx-xxxx-xxxx</em></strong>', 'wc-serial-numbers' ),
+					'class'   => 'ever-field-inline',
+					'default' => '',
+					'type'    => 'text',
+				),
+				array(
+					'name'    => 'wsn_generator_chunks_number',
+					'label'   => __( 'Chunks Number', 'wc-serial-numbers' ),
+					'placeholder'    => __( '4', 'wc-serial-numbers' ),
+					'desc'    => __( 'The number of chunks for the serial number. <strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>', 'wc-serial-numbers' ),
+					'class'   => 'ever-field-inline',
+					'default' => 4,
+					'type'    => 'number',
+				),
+				array(
+					'name'    => 'wsn_generator_chunks_length',
+					'label'   => __( 'Chunks Length', 'wc-serial-numbers' ),
+					'placeholder'    => __( '4', 'wc-serial-numbers' ),
+					'desc'    => __( 'The number of chunks length for the serial number. <strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>', 'wc-serial-numbers' ),
+					'class'   => 'ever-field-inline',
+					'default' => 4,
+					'type'    => 'number',
+				),
+				array(
+					'name'    => 'wsn_generator_suffix',
+					'label'   => __( 'Suffix', 'wc-serial-numbers' ),
+					'placeholder'    => __( 'suffix-', 'wc-serial-numbers' ),
+					'desc'    => __( 'Suffix to added after the serial number. <strong>ex: <em>suffix-xxxx-xxxx-xxxx-xxxx</em></strong>', 'wc-serial-numbers' ),
+					'class'   => 'ever-field-inline',
+					'default' => '',
+					'type'    => 'text',
+				),
+
+				array(
+					'name'    => 'wsn_generator_instance',
+					'label'   => __( 'Instance Number', 'wc-serial-numbers' ),
+					'desc'    => __( 'Maximum instance for the serial number.', 'wc-serial-numbers' ),
+					'class'   => 'ever-field-inline',
+					'default' => 1,
+					'type'    => 'number',
+				),
+				array(
+					'name'    => 'wsn_generator_validity',
+					'label'   => __( 'Validity', 'wc-serial-numbers' ),
+					'desc'    => __( 'Validity days for the serial number. Keep it 0, if the serial number doesn\'t expire', 'wc-serial-numbers' ),
+					'class'   => 'ever-field-inline',
+					'default' => 0,
+					'type'    => 'number',
+				),
+			),
 		);
 
 		return apply_filters( 'wc_serial_numbers_settings_fields', $settings_fields );
