@@ -25,10 +25,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 		] );
 
-		//if ( get_query_var('is_product_tab') ) {
-			//global $post;
-			$this->is_single = $post_id;
-		//}
+		$this->is_single = $post_id;
 
 	}
 

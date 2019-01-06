@@ -3,10 +3,10 @@
 <table class="shop_table order_details" style="width: 100%;">
 
 	<thead>
-		<tr>
-			<th style="text-align:left;width: 20%;"><strong>Product</strong></th>
-			<th style="text-align:left;width: 80%;"><strong>Serial Number</strong></th>
-		</tr>
+	<tr>
+		<th style="text-align:left;width: 20%;"><strong>Product</strong></th>
+		<th style="text-align:left;width: 80%;"><strong>Serial Number</strong></th>
+	</tr>
 	</thead>
 
 	<tbody>
@@ -19,7 +19,7 @@
 		$product          = $item_data->get_product();
 		$product_id       = $product->get_id();
 		$product_name     = $product->get_name();
-		$serial_number_id = $order->get_meta( 'serial_numbers' )[ $product_id ];
+		$serial_number_id = get_post_meta( $order->get_id(), 'serial_numbers', true )[ $product_id ];
 		$serial_number    = get_the_title( $serial_number_id );
 
 		?>

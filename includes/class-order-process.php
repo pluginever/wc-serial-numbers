@@ -5,19 +5,33 @@ namespace Pluginever\WCSerialNumbers;
 
 class Order_Process {
 
+
 	function __construct() {
-		add_action( 'woocommerce_check_cart_items', [ $this, 'wsn_validate_cart_content' ] );
-		//add_action( 'woocommerce_checkout_create_order', [ $this, 'wsn_order_process' ] );
-		add_action( 'woocommerce_new_order', [ $this, 'wsn_order_process' ] );
-		add_action( 'woocommerce_order_details_after_order_table', [ $this, 'wsn_order_serial_number_details' ] );
+
+		// Check if Customer can checkout even there is no serial number
+		$is_allowed = wsn_get_settings('wsn_allow_checkout', '', 'wsn_general_settings');
+
+		if($is_allowed != 'on') {
+			add_action( 'woocommerce_check_cart_items', [ $this, 'validate_cart_content' ] );
+		}
+
+		add_action( 'woocommerce_checkout_order_processed', [ $this, 'order_process' ]);
+
+		add_action( 'woocommerce_order_details_after_order_table', [ $this, 'order_serial_number_details' ] );
 	}
 
-	function wsn_order_process( $order_id ) {
 
-		$order = new \WC_Order( $order_id );
+	/**
+	 * Reserve or generate a serial number for the product during place order process.
+	 * @param $order
+	 * @param $data
+	 */
+
+	function order_process( $order_id ) {
+
+		$order = wc_get_order($order_id);
+
 		$items = $order->get_items();
-
-		error_log( print_r( $order, true ) );
 
 		$serial_numbers_ids = [];
 
@@ -26,9 +40,10 @@ class Order_Process {
 			$product              = $item_data->get_product();
 			$product_id           = $product->get_id();
 			$quantity             = $item_data->get_quantity();
+
 			$enable_serial_number = get_post_meta( $product_id, 'enable_serial_number', true );
 
-			if ( $enable_serial_number ) {
+			if ( $enable_serial_number == 'enable' ) {
 
 				$serial_numbers = wsn_get_serial_numbers( [
 					'meta_key'   => 'product',
@@ -43,6 +58,9 @@ class Order_Process {
 				update_post_meta( $serial_number->ID, 'remain_deliver_times', ( $remain_deliver_times - $quantity ) );
 				update_post_meta( $serial_number->ID, 'purchased_on', $order->get_date_created() );
 
+
+				update_post_meta( $serial_number->ID, 'purchaser', $order->getCustomerName() );
+
 				$serial_numbers_ids[ $product_id ] = $serial_number->ID;
 
 			}
@@ -50,7 +68,7 @@ class Order_Process {
 		}
 
 		//Update Order meta data
-		$order->update_meta_data( 'serial_numbers', $serial_numbers_ids );
+		update_post_meta( $order_id, 'serial_numbers', $serial_numbers_ids );
 	}
 
 	/**
@@ -59,15 +77,24 @@ class Order_Process {
 	 * @param $order
 	 */
 
-	function wsn_order_serial_number_details( $order ) {
+	function order_serial_number_details( $order ) {
 
-		if ( $order->get_meta( 'serial_numbers' ) ) {
+
+
+		$serial_numbers = get_post_meta($order->get_id(), 'serial_numbers', true);
+
+		echo '<pre>';
+		    print_r($order->get_id());
+		echo '</pre>';
+
+		//if ( $order->get_meta( 'serial_numbers' ) ) {
 			include WPWSN_TEMPLATES_DIR . '/order-details-serial-number.php';
-		}
+		//}
 
 	}
 
-	function wsn_validate_cart_content() {
+	function validate_cart_content() {
+
 		$car_products = WC()->cart->get_cart_contents();
 
 		foreach ( $car_products as $id => $cart_product ) {

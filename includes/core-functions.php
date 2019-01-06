@@ -123,3 +123,20 @@ function wsn_used_deliver_times( $serial_number_id ) {
 }
 
 
+
+/**
+ * Return saved setting options
+ *
+ * @param $key
+ * @param string $default
+ * @param string $section
+ *
+ * @return string
+ */
+function wsn_get_settings( $key, $default = '', $section = '' ) {
+	$option = get_option( $section, [] );
+
+	return ! empty( $option[ $key ] ) ? $option[ $key ] : $default;
+}
+
+
