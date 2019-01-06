@@ -51,7 +51,7 @@ window.Project = (function (window, document, $, undefined) {
 		},
 
 		enable_serial_number: function () {
-			$('.ever-content-placeholder').html('');
+
 			$('.wsn-serial-number-tab').addClass('ever-spinner');
 			var enable_serial_number = '';
 			var msg = '';
@@ -65,7 +65,8 @@ window.Project = (function (window, document, $, undefined) {
 			}
 
 
-			$('.wsn_nottification').html('<div class="notice notice-success is-dismissible"><p><strong>' + msg + '</strong></p></div>');
+			$('.ever-content-placeholder').html('<div class="notice notice-success is-dismissible"><p><strong>' + msg + '</strong></p></div>');
+			//$('.ever-content-placeholder').html('');
 
 			wp.ajax.send('enable_serial_number', {
 				data: {
