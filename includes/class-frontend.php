@@ -51,6 +51,7 @@ class Frontend {
 		require_once dirname( __FILE__ ) . '/template-functions.php';
 		require_once dirname( __FILE__ ) . '/class-shortcode.php';
 		require_once dirname( __FILE__ ) . '/class-order-process.php';
+		require_once dirname( __FILE__ ) . '/class-email.php';
 	}
 
 	/**
@@ -71,6 +72,7 @@ class Frontend {
 	protected function instance() {
 		new ShortCode();
 		new Order_Process();
+		new Email();
 	}
 
 	/**

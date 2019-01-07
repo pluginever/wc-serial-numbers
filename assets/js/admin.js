@@ -17,7 +17,7 @@ window.Project = (function (window, document, $, undefined) {
 			$(document).on('click', '#enable_serial_number', app.enable_serial_number);
 			$(document).on('click', '.woocommerce_options_panel .add-serial-number-manually', app.add_tab_serial_number);
 			$(document).on('click', '.woocommerce_options_panel .add-serial-title', app.tab_add_serial_number_toggle);
-			$('.ever-select').select2();
+			//$('.ever-select').select2();
 			$('.ever-date').datepicker();
 			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
 		},
