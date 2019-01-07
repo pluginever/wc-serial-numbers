@@ -223,6 +223,24 @@ if ( ! class_exists( 'Ever_Settings_API' ) ):
         }
 
         /**
+         * Displays a number field for a settings field
+         *
+         * @param array $args settings field args
+         */
+        function callback_heading( $args ) {
+            $value       = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+            $size        = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
+            $type        = isset( $args['type'] ) ? $args['type'] : 'heading';
+            $placeholder = empty( $args['placeholder'] ) ? '' : ' placeholder="' . $args['placeholder'] . '"';
+            $min         = ( $args['min'] == '' ) ? '' : ' min="' . $args['min'] . '"';
+            $max         = ( $args['max'] == '' ) ? '' : ' max="' . $args['max'] . '"';
+            $step        = ( $args['step'] == '' ) ? '' : ' step="' . $args['step'] . '"';
+            $html        = sprintf( '<h2 class="ever-settings-heading">%1$s</h2>', $value);
+            $html        .= $this->get_field_description( $args );
+            echo $html;
+        }
+
+        /**
          * Displays a checkbox for a settings field
          *
          * @param array $args settings field args
@@ -693,6 +711,11 @@ if ( ! class_exists( 'Ever_Settings_API' ) ):
                     border-bottom: 1px solid #cccccc;
 
                 }
+
+				.ever-settings-heading{
+					position: relative;
+					left: -17%;
+				}
 
             </style>
             <?php
