@@ -20,6 +20,7 @@ class Order_Process
 		add_action('woocommerce_checkout_order_processed', [$this, 'order_process']);
 
 		add_action('woocommerce_order_details_after_order_table', [$this, 'order_serial_number_details']);
+
 	}
 
 

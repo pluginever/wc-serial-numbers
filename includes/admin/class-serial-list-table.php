@@ -4,28 +4,34 @@ namespace Pluginever\WCSerialNumbers\Admin;
 
 
 // WP_List_Table is not loaded automatically so we need to load it in our application
-if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+if (!class_exists('WP_List_Table')) {
+	require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }
 
 /**
  * Create a new table class that will extend the WP_List_Table
  */
-class Serial_List_Table extends \WP_List_Table {
+class Serial_List_Table extends \WP_List_Table
+{
 
 	protected $is_single = false;
+	protected $search_query = false;
 
 	/** Class constructor */
-	public function __construct($post_id = '') {
+	public function __construct($post_id = '')
+	{
 
-		parent::__construct( [
-			'singular' => __( 'Serial Number', 'wc-serial-number' ), //singular name of the listed records
-			'plural'   => __( 'Serial Numbers', 'wc-serial-number' ), //plural name of the listed records
+		parent::__construct([
+			'singular' => __('Serial Number', 'wc-serial-number'), //singular name of the listed records
+			'plural'   => __('Serial Numbers', 'wc-serial-number'), //plural name of the listed records
 			'ajax'     => false //should this table support ajax?
 
-		] );
+		]);
 
 		$this->is_single = $post_id;
+
+		//Search based on serial number
+		empty($_GET['s']) ? false : $this->search_query = $_GET['s'];
 
 	}
 
@@ -35,21 +41,22 @@ class Serial_List_Table extends \WP_List_Table {
 	 * @return Void
 	 */
 
-	public function prepare_items() {
+	public function prepare_items()
+	{
 		$columns  = $this->get_columns();
 		$hidden   = $this->get_hidden_columns();
 		$sortable = $this->get_sortable_columns();
 		$data     = $this->table_data();
-		usort( $data, array( &$this, 'sort_data' ) );
+		usort($data, array(&$this, 'sort_data'));
 		$perPage     = 15;
 		$currentPage = $this->get_pagenum();
-		$totalItems  = count( $data );
-		$this->set_pagination_args( array(
+		$totalItems  = count($data);
+		$this->set_pagination_args(array(
 			'total_items' => $totalItems,
 			'per_page'    => $perPage
-		) );
-		$data                  = array_slice( $data, ( ( $currentPage - 1 ) * $perPage ), $perPage );
-		$this->_column_headers = array( $columns, $hidden, $sortable );
+		));
+		$data                  = array_slice($data, (($currentPage - 1) * $perPage), $perPage);
+		$this->_column_headers = array($columns, $hidden, $sortable);
 		$this->items           = $data;
 
 	}
@@ -59,29 +66,30 @@ class Serial_List_Table extends \WP_List_Table {
 	 *
 	 * @return Array
 	 */
-	public function get_columns() {
+	public function get_columns()
+	{
 
-		if ( $this->is_single ) {
+		if ($this->is_single) {
 			$columns = array(
-				'serial_numbers' => __( 'Serial Numbers', 'wc-serial-numbers' ),
-				'product'        => __( 'Product', 'wc-serial-numbers' ),
-				'deliver_times'  => __( 'Deliver Times', 'wc-serial-numbers' ),
-				'max_instance'   => __( 'Max. Instance', 'wc-serial-numbers' ),
-				'expires_on'     => __( 'Expires On', 'wc-serial-numbers' ),
-				'validity'       => __( 'Validity', 'wc-serial-numbers' ),
+				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
+				'product'        => __('Product', 'wc-serial-numbers'),
+				'deliver_times'  => __('Deliver Times', 'wc-serial-numbers'),
+				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
+				'expires_on'     => __('Expires On', 'wc-serial-numbers'),
+				'validity'       => __('Validity', 'wc-serial-numbers'),
 			);
 		} else {
 			$columns = array(
 				'cb'             => '<input type="checkbox" />',
-				'serial_numbers' => __( 'Serial Numbers', 'wc-serial-numbers' ),
-				'product'        => __( 'Product', 'wc-serial-numbers' ),
-				'deliver_times'  => __( 'Deliver Times', 'wc-serial-numbers' ),
-				'max_instance'   => __( 'Max. Instance', 'wc-serial-numbers' ),
-				'purchaser'      => __( 'Purchaser', 'wc-serial-numbers' ),
-				'order'          => __( 'Order', 'wc-serial-numbers' ),
-				'purchased_on'   => __( 'Purchased On', 'wc-serial-numbers' ),
-				'expires_on'     => __( 'Expires On', 'wc-serial-numbers' ),
-				'validity'       => __( 'Validity', 'wc-serial-numbers' ),
+				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
+				'product'        => __('Product', 'wc-serial-numbers'),
+				'deliver_times'  => __('Deliver Times', 'wc-serial-numbers'),
+				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
+				'purchaser'      => __('Purchaser', 'wc-serial-numbers'),
+				'order'          => __('Order', 'wc-serial-numbers'),
+				'purchased_on'   => __('Purchased On', 'wc-serial-numbers'),
+				'expires_on'     => __('Expires On', 'wc-serial-numbers'),
+				'validity'       => __('Validity', 'wc-serial-numbers'),
 			);
 		}
 
@@ -93,7 +101,8 @@ class Serial_List_Table extends \WP_List_Table {
 	 *
 	 * @return Array
 	 */
-	public function get_hidden_columns() {
+	public function get_hidden_columns()
+	{
 		return array();
 	}
 
@@ -102,12 +111,13 @@ class Serial_List_Table extends \WP_List_Table {
 	 *
 
 	 */
-	public function get_sortable_columns() {
+	public function get_sortable_columns()
+	{
 		return [
-			'serial_numbers' => array( 'serial_numbers', false ),
-			'purchaser'      => array( 'purchaser', false ),
-			'order'          => array( 'order', false ),
-			'purchased_on'   => array( 'purchased_on', false ),
+			'serial_numbers' => array('serial_numbers', false),
+			'purchaser'      => array('purchaser', false),
+			'order'          => array('order', false),
+			'purchased_on'   => array('purchased_on', false),
 		];
 	}
 
@@ -116,38 +126,39 @@ class Serial_List_Table extends \WP_List_Table {
 	 *
 	 * @return Array
 	 */
-	private function table_data() {
+	private function table_data()
+	{
 		$data = array();
 
-		$query = !$this->is_single ? [] : [ 'meta_key' => 'product', 'meta_value' => $this->is_single ];
+		$query = !$this->is_single ? ['s' => $this->search_query] : ['meta_key' => 'product', 'meta_value' => $this->is_single];
 
-		$posts = wsn_get_serial_numbers( $query );
+		$posts = wsn_get_serial_numbers($query);
 
-		foreach ( $posts as $post ) {
+		foreach ($posts as $post) {
 
-			setup_postdata( $post );
+			setup_postdata($post);
 
-			$deliver_times      = get_post_meta( $post->ID, 'deliver_times', true );
-			$used_deliver_times = wsn_used_deliver_times( $post->ID );
-			$max_instance       = get_post_meta( $post->ID, 'max_instance', true );
-			$expires_on         = get_post_meta( $post->ID, 'expires_on', true );
-			$product            = get_post_meta( $post->ID, 'product', true );
-			$purchaser          = get_post_meta( $post->ID, 'purchaser', true );
-			$order              = get_post_meta( $post->ID, 'order', true );
-			$purchased_on       = get_post_meta( $post->ID, 'purchased_on', true );
-			$validity           = get_post_meta( $post->ID, 'validity', true );
+			$deliver_times      = get_post_meta($post->ID, 'deliver_times', true);
+			$used_deliver_times = wsn_used_deliver_times($post->ID);
+			$max_instance       = get_post_meta($post->ID, 'max_instance', true);
+			$expires_on         = get_post_meta($post->ID, 'expires_on', true);
+			$product            = get_post_meta($post->ID, 'product', true);
+			$purchaser          = get_post_meta($post->ID, 'purchaser', true);
+			$order              = get_post_meta($post->ID, 'order', true);
+			$purchased_on       = get_post_meta($post->ID, 'purchased_on', true);
+			$validity           = get_post_meta($post->ID, 'validity', true);
 
 			$data[] = [
 				'ID'             => $post->ID,
-				'serial_numbers' => get_the_title( $post->ID ),
-				'product'        => '<a href="' . get_the_permalink( $product ) . '">' . get_the_title( $product ) . '</a>',
-				'deliver_times'  => empty( $deliver_times ) ? '∞' : $used_deliver_times . '/' . $deliver_times,
-				'max_instance'   => empty( $max_instance ) ? '∞' : $max_instance,
-				'purchaser'      => empty( $purchaser ) ? '-' : $purchaser,
-				'order'          => empty( $order ) ? '-' : '<a href="'.get_edit_post_link($order).'">#'.$order.'</a>',
-				'purchased_on'   => empty( $purchased_on ) ? '-' : date( 'm-d-Y H:i a', strtotime( $purchased_on ) ),
-				'expires_on'     => empty( $expires_on ) ? '∞' : $expires_on,
-				'validity'       => empty( $validity ) ? '∞' : $validity,
+				'serial_numbers' => get_the_title($post->ID),
+				'product'        => '<a href="' . get_the_permalink($product) . '">' . get_the_title($product) . '</a>',
+				'deliver_times'  => empty($deliver_times) ? '∞' : $used_deliver_times . '/' . $deliver_times,
+				'max_instance'   => empty($max_instance) ? '∞' : $max_instance,
+				'purchaser'      => empty($purchaser) ? '-' : $purchaser,
+				'order'          => empty($order) ? '-' : '<a href="' . get_edit_post_link($order) . '">#' . $order . '</a>',
+				'purchased_on'   => empty($purchased_on) ? '-' : date('m-d-Y H:i a', strtotime($purchased_on)),
+				'expires_on'     => empty($expires_on) ? '∞' : $expires_on,
+				'validity'       => empty($validity) ? '∞' : $validity,
 			];
 
 		}
@@ -164,9 +175,10 @@ class Serial_List_Table extends \WP_List_Table {
 	 *
 	 * @return Mixed
 	 */
-	public function column_default( $item, $column_name ) {
+	public function column_default($item, $column_name)
+	{
 
-		switch ( $column_name ) {
+		switch ($column_name) {
 			case 'ID':
 			case 'serial_numbers':
 			case 'product':
@@ -177,9 +189,9 @@ class Serial_List_Table extends \WP_List_Table {
 			case 'purchased_on':
 			case 'expires_on':
 			case 'validity':
-				return $item[ $column_name ];
+				return $item[$column_name];
 			default:
-				return print_r( $item, true );
+				return print_r($item, true);
 		}
 	}
 
@@ -189,8 +201,9 @@ class Serial_List_Table extends \WP_List_Table {
 	 * @return array
 	 */
 
-	public function get_bulk_actions() {
-		if ( !$this->is_single ) {
+	public function get_bulk_actions()
+	{
+		if (!$this->is_single) {
 			$actions = [
 				'bulk-delete' => 'Delete'
 			];
@@ -206,19 +219,21 @@ class Serial_List_Table extends \WP_List_Table {
 	 *
 	 * @return string
 	 */
-	function column_cb( $item ) {
+	function column_cb($item)
+	{
 		return sprintf(
 			'<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
 		);
 	}
 
-	function column_serial_numbers( $item ) {
+	function column_serial_numbers($item)
+	{
 		$actions = array(
-			'edit'   => sprintf( '<a href="?page=%s&row_action=%s&serial_number=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['ID'] ),
-			'delete' => sprintf( '<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['ID'] ),
+			'edit'   => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['ID']),
+			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['ID']),
 		);
 
-		return sprintf( '%1$s %2$s', $item['serial_numbers'], $this->row_actions( $actions ) );
+		return sprintf('%1$s %2$s', $item['serial_numbers'], $this->row_actions($actions));
 	}
 
 	/**
@@ -226,26 +241,27 @@ class Serial_List_Table extends \WP_List_Table {
 	 *
 	 * @return Mixed
 	 */
-	private function sort_data( $a, $b ) {
+	private function sort_data($a, $b)
+	{
 		// Set defaults
 		$orderby = 'serial_numbers';
 		$order   = 'asc';
 
 		// If orderby is set, use this as the sort column
-		if ( ! empty( $_GET['orderby'] ) ) {
+		if (!empty($_GET['orderby'])) {
 			$orderby = $_GET['orderby'];
 		}
 		// If order is set use this as the order
-		if ( ! empty( $_GET['order'] ) ) {
+		if (!empty($_GET['order'])) {
 			$order = $_GET['order'];
 		}
 
-		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
-		if ( $order === 'asc' ) {
+		$result = strcmp($a[$orderby], $b[$orderby]);
+		if ($order === 'asc') {
 			return $result;
 		}
 
-		return - $result;
+		return -$result;
 	}
 
 
