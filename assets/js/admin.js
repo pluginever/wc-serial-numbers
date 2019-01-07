@@ -21,8 +21,8 @@ window.Project = (function (window, document, $, undefined) {
 			$('.ever-date').datepicker();
 			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
 
-			$('#image_license_upload').on('click', app.upload_license_upload);
-			$('#image_license_remove').on('click', app.remove_license_upload);
+			$(document).on('click','#image_license_upload', app.upload_license_upload);
+			$(document).on('click','#image_license_remove', app.remove_license_upload);
 		},
 
 		add_tab_serial_number: function (e) {
@@ -32,6 +32,7 @@ window.Project = (function (window, document, $, undefined) {
 				data: {
 					product: $('#post_ID').val(),
 					serial_number: $('.ever-panel #serial_number').val(),
+					image_license: $('.ever-panel #image_license').val(),
 					deliver_times: $('.ever-panel #deliver_times').val(),
 					max_instance: $('.ever-panel #max_instance').val(),
 					expires_on: $('.ever-panel #expires_on').val(),
@@ -41,9 +42,8 @@ window.Project = (function (window, document, $, undefined) {
 				success: function (response) {
 					if (response.html) {
 						$('.ever-content-placeholder').html(response.html);
-					} else if (response.empty_serial === true) {
-						$('.wsn-message').html('<div class="notice notice-error is-dismissible"><p><strong>Please enter a valid serial number</strong></p>' +
-							'<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>');
+					} else if (response.empty_serial) {
+						$('.wsn-message').html(response.empty_serial);
 					}
 				},
 				error: function (error) {

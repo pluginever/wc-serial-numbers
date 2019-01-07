@@ -143,6 +143,7 @@ class Serial_List_Table extends \WP_List_Table
 			$max_instance       = get_post_meta($post->ID, 'max_instance', true);
 			$expires_on         = get_post_meta($post->ID, 'expires_on', true);
 			$product            = get_post_meta($post->ID, 'product', true);
+			$image_license      = get_post_meta($post->ID, 'image_license', true);
 			$purchaser          = get_post_meta($post->ID, 'purchaser', true);
 			$order              = get_post_meta($post->ID, 'order', true);
 			$purchased_on       = get_post_meta($post->ID, 'purchased_on', true);
@@ -150,7 +151,7 @@ class Serial_List_Table extends \WP_List_Table
 
 			$data[] = [
 				'ID'             => $post->ID,
-				'serial_numbers' => get_the_title($post->ID),
+				'serial_numbers' => get_the_title($post->ID) . '<br><img src="'.$image_license.'" class="ever-thumbnail-small">',
 				'product'        => '<a href="' . get_the_permalink($product) . '">' . get_the_title($product) . '</a>',
 				'deliver_times'  => empty($deliver_times) ? '∞' : $used_deliver_times . '/' . $deliver_times,
 				'max_instance'   => empty($max_instance) ? '∞' : $max_instance,

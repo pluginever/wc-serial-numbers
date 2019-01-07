@@ -34,7 +34,7 @@ class FormHandler
 
 		$url = untrailingslashit($_SERVER['HTTP_ORIGIN']) . $_REQUEST['_wp_http_referer'];
 
-		if (empty($serial_number)) {
+		if (empty($serial_number) and empty($image_license)) {
 			wsn_redirect_with_message($url, 'empty_serial_number', 'error');
 		}
 		if (empty($product)) {
@@ -44,7 +44,7 @@ class FormHandler
 
 			$post_id = wp_insert_post([
 				'post_title'  => $serial_number,
-				'post_type'   => 'serial_number',
+				'post_type'   => 'wsn_serial_number',
 				'post_status' => 'publish',
 			]);
 

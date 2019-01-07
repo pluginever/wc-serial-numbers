@@ -17,7 +17,7 @@ function wsn_get_template_part( $template_name ) {
 add_action( 'init', 'wsn_register_posttypes' );
 
 function wsn_register_posttypes() {
-	register_post_type( 'serial_number', array(
+	register_post_type( 'wsn_serial_number', array(
 		'labels'              => 'Serial Numbers',
 		'hierarchical'        => false,
 		'supports'            => array( 'title' ),
@@ -97,7 +97,7 @@ function wsn_serial_number_tab_panel() {
 function wsn_get_serial_numbers( $args ) {
 
 	$args = wp_parse_args( $args, [
-		'post_type'      => 'serial_number',
+		'post_type'      => 'wsn_serial_number',
 		'posts_per_page' => - 1,
 		'meta_key'       => '',
 		'meta_value'     => '',

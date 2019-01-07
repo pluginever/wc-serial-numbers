@@ -113,7 +113,7 @@ if ($row_action == 'edit') {
 						</div>
 
 						<img class="image_license_prev ever-thumbnail" src="<?php echo $image_license ?>">
-						<input type="hidden" name="image_license" value="<?php echo $image_license ?>">
+						<input type="hidden" id="image_license" name="image_license" value="<?php echo $image_license ?>">
 
 						<button type="button" id="image_license_remove" class="button button-link-delete <?php echo $image_license ? '' : 'hidden'; ?>"><?php _e('Remove', 'wsn-serial-numbers') ?></button>
 					</td>
@@ -142,16 +142,16 @@ if ($row_action == 'edit') {
 					</td>
 				</tr>
 
-				<tr>
-					<th scope="row"><label for="expires_on"><?php _e('Expires On', 'wc-serial-numbers') ?></label>
-					</th>
-					<td>
-						<input type="text" name="expires_on" id="expires_on" class="ever-date regular-text  ever-field-inline" value="<?php echo $expires_on ?>">
-						<div class="ever-helper"> ?
-							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
-						</div>
-					</td>
-				</tr>
+<!--Expires On				<tr>-->
+<!--					<th scope="row"><label for="expires_on">--><?php //_e('Expires On', 'wc-serial-numbers') ?><!--</label>-->
+<!--					</th>-->
+<!--					<td>-->
+<!--						<input type="text" name="expires_on" id="expires_on" class="ever-date regular-text  ever-field-inline" value="--><?php //echo $expires_on ?><!--">-->
+<!--						<div class="ever-helper"> ?-->
+<!--							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>-->
+<!--						</div>-->
+<!--					</td>-->
+<!--				</tr>-->
 
 				<tr>
 					<th scope="row"><label for="validity"><?php _e('Validity (days)', 'wc-serial-numbers') ?></label>
