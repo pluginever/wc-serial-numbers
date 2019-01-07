@@ -49,7 +49,7 @@ if (!$row_action) {
 
 <?php } elseif ($row_action == 'edit') {
 
-	include WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+	include WPWSN_TEMPLATES_DIR . '/add-serial-number-page.php';
 
 } elseif ($row_action == 'delete') {
 

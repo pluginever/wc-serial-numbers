@@ -63,7 +63,7 @@ class Ajax
 
 			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
 
-			require WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+			require WPWSN_TEMPLATES_DIR . '/add-serial-number-page.php';
 
 			$html = ob_get_clean();
 
@@ -103,7 +103,7 @@ class Ajax
 
 			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
 
-			require WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+			require WPWSN_TEMPLATES_DIR . '/add-serial-number-page.php';
 
 			$html = ob_get_clean();
 		} else {
@@ -147,7 +147,7 @@ class Ajax
 
 			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
 
-			require WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+			require WPWSN_TEMPLATES_DIR . '/add-serial-number-page.php';
 
 			$html = ob_get_clean();
 		} else {
