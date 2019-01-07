@@ -139,9 +139,55 @@ function wsn_get_settings( $key, $default = '', $section = '' ) {
 	return ! empty( $option[ $key ] ) ? $option[ $key ] : $default;
 }
 
+/**
+ * get order customer details
+ *
+ * @since 1.0.0
+ *
+ * @param $key
+ * @param $order
+ *
+ * @return mixed
+ */
 
 function wsn_get_customer_detail($key, $order){
 	return $order->data['billing'][$key];
 }
+
+
+/**
+ * Check is Pro active
+ *
+ * @since 1.0.0
+ *
+ * @return boolean
+ */
+function wsn_is_wsnp(){
+	return apply_filters('is_wsnp', false);
+}
+
+/**
+ * add disabled attribute if if Pro is not active
+ *
+ * @since 1.0.0
+ *
+ * @return string
+ */
+
+function wsn_disabled(){
+	return wsn_is_wsnp() ? '' : 'disabled';
+}
+
+/**
+ * add ever-disabled class if if wsn is not wsnp
+ *
+ * @since 1.0.0
+ *
+ * @return string
+ */
+function wsn_class_disabled(){
+	return wsn_is_wsnp() ? '' : 'ever-disabled';
+}
+
 
 

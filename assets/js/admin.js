@@ -17,9 +17,12 @@ window.Project = (function (window, document, $, undefined) {
 			$(document).on('click', '#enable_serial_number', app.enable_serial_number);
 			$(document).on('click', '.woocommerce_options_panel .add-serial-number-manually', app.add_tab_serial_number);
 			$(document).on('click', '.woocommerce_options_panel .add-serial-title', app.tab_add_serial_number_toggle);
-			//$('.ever-select').select2();
+			$('.ever-select').select2();
 			$('.ever-date').datepicker();
 			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
+
+			$('#image_license_upload').on('click', app.upload_license_upload);
+			$('#image_license_remove').on('click', app.remove_license_upload);
 		},
 
 		add_tab_serial_number: function (e) {
@@ -108,8 +111,36 @@ window.Project = (function (window, document, $, undefined) {
 			$('.ever-panel').toggle();
 			$('.ever-select').select2();
 			$('.ever-date').datepicker();
+		},
+
+		upload_license_upload: function (e) {
+			e.preventDefault();
+			var image = wp.media({
+				title: 'Upload Image',
+				// mutiple: true if you want to upload multiple files at once
+				multiple: false
+			}).open()
+				.on('select', function (e) {
+					// This will return the selected image from the Media Uploader, the result is an object
+					var uploaded_image = image.state().get('selection').first();
+					// We convert uploaded_image to a JSON object to make accessing it easier
+					// Output to the console uploaded_image
+					//console.log(uploaded_image);
+					var image_url = uploaded_image.toJSON().url;
+					// Let's assign the url value to the input field
+					$('.image_license_prev').attr('src', image_url);
+					$('input[name="image_license"]').val(image_url);
+					$('#image_license_remove').removeClass('hidden');
+				});
+		},
+
+		remove_license_upload: function (e) {
+			e.preventDefault();
+			$('.image_license_prev').attr('src', '');
+			$('input[name="image_license"]').val('');
+			$(this).addClass('hidden');
 		}
-	};
+	}
 
 	$(document).ready(app.init);
 
