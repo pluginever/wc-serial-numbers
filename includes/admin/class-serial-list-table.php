@@ -144,7 +144,7 @@ class Serial_List_Table extends \WP_List_Table {
 				'deliver_times'  => empty( $deliver_times ) ? '∞' : $used_deliver_times . '/' . $deliver_times,
 				'max_instance'   => empty( $max_instance ) ? '∞' : $max_instance,
 				'purchaser'      => empty( $purchaser ) ? '-' : $purchaser,
-				'order'          => empty( $order ) ? '-' : $order,
+				'order'          => empty( $order ) ? '-' : '<a href="'.get_edit_post_link($order).'">#'.$order.'</a>',
 				'purchased_on'   => empty( $purchased_on ) ? '-' : date( 'm-d-Y H:i a', strtotime( $purchased_on ) ),
 				'expires_on'     => empty( $expires_on ) ? '∞' : $expires_on,
 				'validity'       => empty( $validity ) ? '∞' : $validity,

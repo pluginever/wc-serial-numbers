@@ -141,7 +141,7 @@ function wsn_get_settings( $key, $default = '', $section = '' ) {
 
 
 function wsn_get_customer_detail($key, $order){
-	return empty($order->data['billing'][$key]) ? '' : $order->data['billing'][$key];
+	return $order->data['billing'][$key];
 }
 
 

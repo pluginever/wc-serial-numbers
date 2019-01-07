@@ -61,7 +61,6 @@ class Order_Process
 				update_post_meta($serial_number->ID, 'remain_deliver_times', ($remain_deliver_times - $quantity));
 				update_post_meta($serial_number->ID, 'purchased_on', $order->get_date_created());
 
-
 				$customer_name  = wsn_get_customer_detail('first_name', $order) . ' ' . wsn_get_customer_detail('last_name', $order);
 				$customer_email = wsn_get_customer_detail('email', $order);
 				update_post_meta($serial_number->ID, 'purchaser', $customer_name.'<br>'.$customer_email);
