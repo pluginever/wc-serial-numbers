@@ -2,15 +2,24 @@
 
 namespace Pluginever\WCSerialNumbers;
 
-use http\Env\Response;
 
 class Ajax
+
+
 {
+	/**
+	 * Ajax constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+
 	function __construct()
 	{
-		add_action('wp_ajax_add_serial_number', [$this, 'wsn_add_serial_number']);
-		add_action('wp_ajax_enable_serial_number', [$this, 'wsn_enable_serial_number']);
-		add_action('wp_ajax_load_tab_data', [$this, 'wsn_load_tab_data']);
+		add_action('wp_ajax_add_serial_number', [$this, 'add_serial_number']);
+		add_action('wp_ajax_enable_serial_number', [$this, 'enable_serial_number']);
+		add_action('wp_ajax_load_tab_data', [$this, 'load_tab_data']);
 	}
 
 	/**
@@ -21,7 +30,7 @@ class Ajax
 	 * @return string
 	 */
 
-	function wsn_add_serial_number()
+	function add_serial_number()
 	{
 
 		$product       = $_REQUEST['product'];
@@ -81,7 +90,7 @@ class Ajax
 	 *
 	 * @return string
 	 */
-	function wsn_enable_serial_number()
+	function enable_serial_number()
 	{
 
 		$post_id = $_REQUEST['post_id'];
@@ -127,7 +136,7 @@ class Ajax
 	 *
 	 * @return string
 	 */
-	function wsn_load_tab_data()
+	function load_tab_data()
 	{
 
 		$post_id = $_REQUEST['post_id'];

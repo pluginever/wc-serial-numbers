@@ -17,12 +17,17 @@ window.Project = (function (window, document, $, undefined) {
 			$(document).on('click', '#enable_serial_number', app.enable_serial_number);
 			$(document).on('click', '.woocommerce_options_panel .add-serial-number-manually', app.add_tab_serial_number);
 			$(document).on('click', '.woocommerce_options_panel .add-serial-title', app.tab_add_serial_number_toggle);
+
+			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
+			$(document).on('click', '#image_license_upload', app.upload_license_upload);
+			$(document).on('click', '#image_license_remove', app.remove_license_upload);
+
+			$(document).on('change', '#product', app.load_variations);
+
 			$('.ever-select').select2();
 			$('.ever-date').datepicker();
-			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
 
-			$(document).on('click','#image_license_upload', app.upload_license_upload);
-			$(document).on('click','#image_license_remove', app.remove_license_upload);
+
 		},
 
 		add_tab_serial_number: function (e) {
@@ -139,7 +144,30 @@ window.Project = (function (window, document, $, undefined) {
 			$('.image_license_prev').attr('src', '');
 			$('input[name="image_license"]').val('');
 			$(this).addClass('hidden');
+		},
+
+		load_variations: function (e) {
+
+			$('.ever-spinner-product').css('visibility', 'visible');
+
+			wp.ajax.send('load_variations', {
+				data: {
+					post_id: $(this).val(),
+				},
+				success: function (response) {
+					console.log(response);
+					$('#variation').html(response.html);
+					$('.ever-spinner-product').css('visibility', 'hidden');
+
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+
 		}
+
+
 	}
 
 	$(document).ready(app.init);

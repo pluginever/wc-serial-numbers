@@ -14,6 +14,12 @@
 	width: 30px;
 	background-repeat: no-repeat;
 	background-position: 45% 100%;
+	&-product{
+		@extend .ever-spinner;
+		display: inline-block;
+		visibility: hidden;
+		background-position: 50% 50%;
+	}
 }
 
 .ehrm-ajax-table {
