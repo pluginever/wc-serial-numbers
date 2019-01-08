@@ -44,7 +44,6 @@ class Generate_Serial_Table extends \WP_List_Table
 	public function prepare_items()
 	{
 		$columns  = $this->get_columns();
-		$hidden   = $this->get_hidden_columns();
 		$sortable = $this->get_sortable_columns();
 		$data     = $this->table_data();
 		usort($data, array(&$this, 'sort_data'));
@@ -56,7 +55,7 @@ class Generate_Serial_Table extends \WP_List_Table
 			'per_page'    => $perPage
 		));
 		$data                  = array_slice($data, (($currentPage - 1) * $perPage), $perPage);
-		$this->_column_headers = array($columns, $hidden, $sortable);
+		$this->_column_headers = array($columns, $sortable);
 		$this->items           = $data;
 
 	}
@@ -64,14 +63,12 @@ class Generate_Serial_Table extends \WP_List_Table
 	/**
 	 * Override the parent columns method. Defines the columns to use in your listing table
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public function get_columns()
 	{
-
-		if ($this->is_single) {
-			$columns = array();
-		} else {
+		$columns = array();
+		if (!$this->is_single) {
 			$columns = array(
 				'cb'            => '<input type="checkbox" />',
 				'product'       => __('Product', 'wc-serial-numbers'),
@@ -89,15 +86,6 @@ class Generate_Serial_Table extends \WP_List_Table
 		return $columns;
 	}
 
-	/**
-	 * Define which columns are hidden
-	 *
-	 * @return Array
-	 */
-	public function get_hidden_columns()
-	{
-		return array();
-	}
 
 	/**
 	 * Define the sortable columns
@@ -118,7 +106,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	/**
 	 * Get the table data
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	private function table_data()
 	{
@@ -140,7 +128,11 @@ class Generate_Serial_Table extends \WP_List_Table
 			$suffix        = get_post_meta($post->ID, 'suffix', true);
 			$instance      = get_post_meta($post->ID, 'max_instance', true);
 			$validity      = get_post_meta($post->ID, 'validity', true);
-			$generate      = get_post_meta($post->ID, 'generate', true);
+			$generate_num  = wsn_get_settings('wsn_generate_number', '', 'wsn_serial_generator_settings');
+
+			$generate_html = '<input type="number" class="generate_number ever-thumbnail-small" name="generate_number" id="generate_number" value="'.$generate_num.'">
+			<button class="button button-primary wsn_generate_btn"> '.__('Generate','wc-serial-numbers').'</button>
+			';
 
 			$data[] = [
 				'ID'            => $post->ID,
@@ -152,7 +144,7 @@ class Generate_Serial_Table extends \WP_List_Table
 				'suffix'        => empty($suffix) ? '' : $suffix,
 				'instance'      => empty($instance) ? '∞' : $instance,
 				'validity'      => empty($validity) ? '∞' : $validity,
-				'generate'      => empty($validity) ? '' : $validity,
+				'generate'      => $generate_html,
 			];
 
 		}
@@ -164,7 +156,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	/**
 	 * Define what data to show on each column of the table
 	 *
-	 * @param  Array $item Data
+	 * @param  array $item Data
 	 * @param  String $column_name - Current column name
 	 *
 	 * @return Mixed
@@ -223,8 +215,8 @@ class Generate_Serial_Table extends \WP_List_Table
 	function column_product($item)
 	{
 		$actions = array(
-			'edit'   => '<a href="' . add_query_arg(['type' => 'automate', 'row_action' => 'edit', 'generator_rule' => $item['ID']], WPWSN_ADD_GENERATE_RULE) . '">'.__('Edit', 'wc-serial-number').'</a>',
-			'delete' => '<a href="' . add_query_arg(['row_action' => 'delete', 'generator_rule' => $item['ID']], WPWSN_GENERATE_SERIAL_PAGE) . '">'.__('Delete', 'wc-serial-number').'</a>',
+			'edit'   => '<a href="' . add_query_arg(['type' => 'automate', 'row_action' => 'edit', 'generator_rule' => $item['ID']], WPWSN_ADD_GENERATE_RULE) . '">' . __('Edit', 'wc-serial-number') . '</a>',
+			'delete' => '<a href="' . add_query_arg(['row_action' => 'delete', 'generator_rule' => $item['ID']], WPWSN_GENERATE_SERIAL_PAGE) . '">' . __('Delete', 'wc-serial-number') . '</a>',
 		);
 
 		return sprintf('%1$s %2$s', $item['product'], $this->row_actions($actions));
@@ -243,11 +235,11 @@ class Generate_Serial_Table extends \WP_List_Table
 
 		// If orderby is set, use this as the sort column
 		if (!empty($_GET['orderby'])) {
-			$orderby = $_GET['orderby'];
+			$orderby = esc_attr($_GET['orderby']);
 		}
 		// If order is set use this as the order
 		if (!empty($_GET['order'])) {
-			$order = $_GET['order'];
+			$order = esc_attr($_GET['order']);
 		}
 
 		$result = strcmp($a[$orderby], $b[$orderby]);

@@ -15,8 +15,17 @@ class Ajax {
 	function __construct()
 	{
 		add_action('wp_ajax_load_variations', [$this, 'load_variations']);
+		add_action('wp_ajax_wsn_generate_numbers', [$this, 'generate_numbers']);
 
 	}
+
+	/**
+	 * Load available variations for a product and append it to product variation
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 
 	function load_variations(){
 
@@ -47,6 +56,10 @@ class Ajax {
 			'html' => $html
 		]);
 
+	}
+
+	function generate_numbers(){
+		
 	}
 
 }
