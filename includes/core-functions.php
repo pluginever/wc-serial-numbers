@@ -10,6 +10,6 @@ add_filter('is_wsnp', function ($status){
 });
 
 
-//add_filter('generate_serial_number', function (){
-	//return 'Hello World!';
-//});
+add_filter('generate_serial_number', function (){
+	include WPWSNP_TEMPLATES_DIR.'/generate-serial-number.php';
+});
