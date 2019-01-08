@@ -2,6 +2,9 @@
 
 namespace Pluginever\WCSerialNumberPro\Admin;
 
+use Pluginever\WCSerialNumberPro\FormHandler;
+use Pluginever\WCSerialNumberPro\Ajax;
+
 class Admin
 {
 	/**
@@ -49,9 +52,10 @@ class Admin
 	{
 		require_once dirname(__FILE__) . '/class-admin-menu.php';
 		require_once dirname(__FILE__) . '/class-metabox.php';
-		require_once dirname(__FILE__) . '/class-settings-api.php';
-		require_once dirname(__FILE__) . '/class-settings.php';
+		//require_once dirname(__FILE__) . '/class-settings-api.php';
+		//require_once dirname(__FILE__) . '/class-settings.php';
 		require_once WPWSNP_INCLUDES . '/class-ajax.php';
+		require_once WPWSNP_INCLUDES . '/class-form-handler.php';
 	}
 
 	private function init_hooks()
@@ -71,8 +75,9 @@ class Admin
 	{
 		new Admin_Menu();
 		new MetaBox();
-		new Settings();
-		new \Pluginever\WCSerialNumberPro\Ajax();
+		//new Settings();
+		new FormHandler();
+		new Ajax();
 	}
 
 	/**

@@ -27,7 +27,6 @@ if (!$row_action) {
 		<div class="wsn-body">
 			<?php
 			if (!$is_product_tab) {
-				//$rule_list->search_box('Search', 'search_id');
 				echo '<form action="" method="GET">';
 				echo $rule_list->search_box(__('Search'), 'wsn_generate_serial');
 				echo '<input type="hidden" name="page" value="' . esc_attr($_REQUEST['page']) . '"/></form>'; // form end
@@ -48,7 +47,7 @@ if (!$row_action) {
 
 <?php } elseif ($row_action == 'edit') {
 
-	include WPWSN_TEMPLATES_DIR . '/add-serial-number-page.php';
+	include WPWSNP_TEMPLATES_DIR . '/add-generator-rule.php';
 
 } elseif ($row_action == 'delete') {
 

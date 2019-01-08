@@ -4,30 +4,35 @@ $row_action = empty($_REQUEST['row_action']) ? '' : $_REQUEST['row_action'];
 
 
 if ($row_action == 'edit') {
-	$serial_number_id       = $_REQUEST['serial_number'];
-	$serial_number          = get_the_title($serial_number_id);
-	$deliver_times          = get_post_meta($serial_number_id, 'deliver_times', true);
-	$max_instance           = get_post_meta($serial_number_id, 'max_instance', true);
-	$expires_on             = get_post_meta($serial_number_id, 'expires_on', true);
-	$validity               = get_post_meta($serial_number_id, 'validity', true);
-	$product                = get_post_meta($serial_number_id, 'product', true);
-	$image_license          = get_post_meta($serial_number_id, 'image_license', true);
-	$title                  = __('Edit Generator Rule', 'wc-serial-numbers');
-	$submit                 = __('Save changes', 'wc-serial-numbers');
-	$action_type            = 'wsn_edit_generator_rule';
-	$input_serial_number_id = '<input type="hidden" name="serial_number_id" value="' . $serial_number_id . '">';
+	$generator_rule_id = $_REQUEST['generator_rule'];
+	$product           = get_post_meta($generator_rule_id, 'product', true);
+	$variation         = get_post_meta($generator_rule_id, 'variation', true);
+	$prefix            = get_post_meta($generator_rule_id, 'prefix', true);
+	$chunks_number     = get_post_meta($generator_rule_id, 'chunks_number', true);
+	$chunk_length      = get_post_meta($generator_rule_id, 'chunk_length', true);
+	$suffix            = get_post_meta($generator_rule_id, 'suffix', true);
+	$instance          = get_post_meta($generator_rule_id, 'max_instance', true);
+	$validity = get_post_meta($generator_rule_id, 'validity', true);
+	$validity_type     = get_post_meta($generator_rule_id, 'validity_type', true);
+	$title             = __('Edit Generator Rule', 'wc-serial-numbers');
+	$submit            = __('Save changes', 'wc-serial-numbers');
+	$action_type       = 'wsn_edit_generator_rule';
+	$generator_rule_input = '<input type="hidden" name="generator_rule_id" value="' . $generator_rule_id . '">';
 } else {
-	$serial_number          = '';
-	$deliver_times          = '1';
-	$max_instance           = '0';
-	$expires_on             = '';
-	$validity               = '';
-	$product                = '';
-	$image_license          = '';
-	$title                  = __('Add New Generator Rule', 'wc-serial-numbers');
-	$submit                 = __('Add Generator Rule', 'wc-serial-numbers');
-	$action_type            = 'wsn_add_generator_rule';
-	$input_serial_number_id = '';
+	$generator_rule_id = '';
+	$product           = '';
+	$variation         = '';
+	$prefix            = '';
+	$chunks_number     = '';
+	$chunk_length      = '';
+	$suffix            = '';
+	$instance          = '1';
+	$validity          = '';
+	$validity_type     = 'days';
+	$title             = __('Add New Generator Rule', 'wc-serial-numbers');
+	$submit            = __('Add Generator Rule', 'wc-serial-numbers');
+	$action_type       = 'wsn_add_generator_rule';
+	$generator_rule_input = '';
 }
 
 
@@ -65,7 +70,7 @@ if ($row_action == 'edit') {
 			<input type="hidden" name="action" value="wsn_add_edit_generator_rule">
 			<input type="hidden" name="action_type" value="<?php echo $action_type ?>">
 
-			<?php echo $input_serial_number_id ?>
+			<?php echo $generator_rule_input ?>
 
 			<table class="form-table">
 				<tbody>
@@ -99,9 +104,30 @@ if ($row_action == 'edit') {
 						<label for="variation"><?php _e('Product Variation', 'wc-serial-numbers') ?></label>
 					</th>
 					<td>
+
 						<select name="variation" id="variation" class="ever-select  ever-field-inline">
 							<option value=""><?php _e('Main Product', 'wc-serial-numbers') ?></option>
+
+							<?php
+							if (!empty($variation)) {
+								$product_obj = wc_get_product($product);
+
+								$variations = $product_obj->get_children();
+
+								if (!empty($variations)) {
+
+									foreach ($variations as $all_variation) {
+
+										$variation_selected = ($all_variation == $variation) ? 'selected' : 'selected';
+
+										echo '<option value="' . $all_variation . '" ' . $variation_selected . '>' . get_the_title($variation) . '</option>';
+									}
+								}
+							}
+							?>
+
 						</select>
+
 					</td>
 				</tr>
 
@@ -109,7 +135,7 @@ if ($row_action == 'edit') {
 					<th scope="row">
 						<label for="prefix"><?php _e('Prefix', 'wc-serial-numbers') ?></label></th>
 					<td class="ever-form-group">
-						<input type="text" class="ever-field-inline" name="prefix" id="prefix" value="">
+						<input type="text" class="ever-field-inline" name="prefix" id="prefix" value="<?php echo $prefix ?>">
 						<div class="ever-helper"> ?
 							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 						</div>
@@ -120,7 +146,7 @@ if ($row_action == 'edit') {
 					<th scope="row">
 						<label for="chunks_number"><?php _e('Chunks Number', 'wc-serial-numbers') ?></label></th>
 					<td class="ever-form-group">
-						<input type="number" class="ever-field-inline" name="chunks_number" id="chunks_number" value="">
+						<input type="number" class="ever-field-inline" name="chunks_number" id="chunks_number" value="<?php echo $chunks_number ?>">
 						<div class="ever-helper"> ?
 							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 						</div>
@@ -131,7 +157,7 @@ if ($row_action == 'edit') {
 					<th scope="row">
 						<label for="chunk_length"><?php _e('Chunk Length', 'wc-serial-numbers') ?></label></th>
 					<td class="ever-form-group">
-						<input type="number" class="ever-field-inline" name="chunk_length" id="chunk_length" value="">
+						<input type="number" class="ever-field-inline" name="chunk_length" id="chunk_length" value="<?php echo $chunk_length ?>">
 						<div class="ever-helper"> ?
 							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 						</div>
@@ -142,7 +168,7 @@ if ($row_action == 'edit') {
 					<th scope="row">
 						<label for="suffix"><?php _e('Suffix', 'wc-serial-numbers') ?></label></th>
 					<td class="ever-form-group">
-						<input type="text" class="ever-field-inline" name="suffix" id="suffix" value="">
+						<input type="text" class="ever-field-inline" name="suffix" id="suffix" value="<?php echo $suffix ?>">
 						<div class="ever-helper"> ?
 							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 						</div>
@@ -154,7 +180,7 @@ if ($row_action == 'edit') {
 						<label for="max_instance"><?php _e('Maximum Instance', 'wc-serial-numbers') ?></label>
 					</th>
 					<td class="ever-form-group">
-						<input type="number" min="0" value="<?php echo $max_instance ?>" name="max_instance" id="max_instance" class="ever-field-inline">
+						<input type="number" min="0" value="<?php echo $instance ?>" name="max_instance" id="max_instance" class="ever-field-inline">
 						<div class="ever-helper"> ?
 							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 						</div>
@@ -167,14 +193,13 @@ if ($row_action == 'edit') {
 					</th>
 					<td>
 
-						<input type="radio" class="validity_type" name="validity_type" value="days" checked> <?php _e('Days', 'wc-serial-numbers') ?>
+						<input type="radio" class="validity_type" name="validity_type" value="days" <?php echo $validity_type == 'days' ? 'checked' : '' ?>> <?php _e('Days', 'wc-serial-numbers') ?>
 						&ensp;
-						<input type="radio" class="validity_type" name="validity_type" value="date"> <?php _e('Date', 'wc-serial-numbers') ?>
+						<input type="radio" class="validity_type" name="validity_type" value="date" <?php echo $validity_type == 'date' ? 'checked' : '' ?>> <?php _e('Date', 'wc-serial-numbers') ?>
 
-						<br>
-						<br>
+						<br> <br>
 
-						<input type="number" min="0" name="validity" id="validity" class="regular-text  ever-field-inline" value="<?php echo $validity ?>">
+						<input type="<?php echo $validity_type == 'days' ? 'number' : 'text' ?>" min="0" name="validity" id="validity" class="regular-text  ever-field-inline" value="<?php echo $validity ?>">
 						<div class="ever-helper"> ?
 							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 						</div>

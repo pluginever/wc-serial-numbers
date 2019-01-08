@@ -74,7 +74,7 @@ class Generate_Serial_Table extends \WP_List_Table
 		} else {
 			$columns = array(
 				'cb'            => '<input type="checkbox" />',
-				'product'       => __('', 'wc-serial-numbers'),
+				'product'       => __('Product', 'wc-serial-numbers'),
 				'variation'     => __('Variation', 'wc-serial-numbers'),
 				'prefix'        => __('Prefix. ', 'wc-serial-numbers'),
 				'chunks_number' => __('Chunks', 'wc-serial-numbers'),
@@ -107,10 +107,11 @@ class Generate_Serial_Table extends \WP_List_Table
 	public function get_sortable_columns()
 	{
 		return [
-			'serial_numbers' => array('serial_numbers', false),
-			'purchaser'      => array('purchaser', false),
-			'order'          => array('order', false),
-			'purchased_on'   => array('purchased_on', false),
+			'product'       => array('product', false),
+			'variation'     => array('variation', false),
+			'chunks_number' => array('chunks_number', false),
+			'chunks_length' => array('chunks_length', false),
+			'validity'      => array('validity', false),
 		];
 	}
 
@@ -135,22 +136,22 @@ class Generate_Serial_Table extends \WP_List_Table
 			$variation     = get_post_meta($post->ID, 'variation', true);
 			$prefix        = get_post_meta($post->ID, 'prefix', true);
 			$chunks_number = get_post_meta($post->ID, 'chunks_number', true);
-			$chunks_length = get_post_meta($post->ID, 'chunks_length', true);
+			$chunk_length  = get_post_meta($post->ID, 'chunk_length', true);
 			$suffix        = get_post_meta($post->ID, 'suffix', true);
-			$instance      = get_post_meta($post->ID, 'instance', true);
+			$instance      = get_post_meta($post->ID, 'max_instance', true);
 			$validity      = get_post_meta($post->ID, 'validity', true);
 			$generate      = get_post_meta($post->ID, 'generate', true);
 
 			$data[] = [
 				'ID'            => $post->ID,
-				'product'       => '<a href="' . get_the_permalink($product) . '">' . get_the_title($product) . '</a>',
-				'variation'     => empty($variation) ? '' : $variation ,
-				'prefix'        => empty($prefix) ? '' : $prefix ,
+				'product'       => '<a href="' . get_edit_post_link($product) . '">' . get_the_title($product) . '</a>',
+				'variation'     => empty($variation) ? __('Main Product', 'wc-serial-number') : get_the_title($variation),
+				'prefix'        => empty($prefix) ? '' : $prefix,
 				'chunks_number' => empty($chunks_number) ? '' : $chunks_number,
-				'chunks_length' => empty($chunks_length) ? '' : $chunks_length,
+				'chunks_length' => empty($chunk_length) ? '' : $chunk_length,
 				'suffix'        => empty($suffix) ? '' : $suffix,
 				'instance'      => empty($instance) ? '∞' : $instance,
-				'validity'      => empty($instance) ? '∞' : $instance,
+				'validity'      => empty($validity) ? '∞' : $validity,
 				'generate'      => empty($validity) ? '' : $validity,
 			];
 
@@ -219,14 +220,14 @@ class Generate_Serial_Table extends \WP_List_Table
 		);
 	}
 
-	function column_serial_numbers($item)
+	function column_product($item)
 	{
 		$actions = array(
-			'edit'   => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['ID']),
-			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['ID']),
+			'edit'   => '<a href="' . add_query_arg(['type' => 'automate', 'row_action' => 'edit', 'generator_rule' => $item['ID']], WPWSN_ADD_GENERATE_RULE) . '">'.__('Edit', 'wc-serial-number').'</a>',
+			'delete' => '<a href="' . add_query_arg(['type' => 'automate', 'row_action' => 'delete', 'generator_rule' => $item['ID']], WPWSN_ADD_GENERATE_RULE) . '">'.__('Delete', 'wc-serial-number').'</a>',
 		);
 
-		return sprintf('%1$s %2$s', $item['serial_numbers'], $this->row_actions($actions));
+		return sprintf('%1$s %2$s', $item['product'], $this->row_actions($actions));
 	}
 
 	/**
