@@ -13,6 +13,10 @@ class FormHandler
 
 	/**
 	 * Handle add new serial number form
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 
 	function handle_add_edit_serial_number_form()

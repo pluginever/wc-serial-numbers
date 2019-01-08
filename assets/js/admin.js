@@ -28,7 +28,6 @@ window.Project = (function (window, document, $, undefined) {
 			$('.ever-select').select2();
 			$('.ever-date').datepicker();
 
-
 		},
 
 		add_tab_serial_number: function (e) {
@@ -181,7 +180,11 @@ window.Project = (function (window, document, $, undefined) {
 			}else if(value === 'date'){
 
 				validity.attr('type', 'text');
-				validity.datepicker();
+				validity.datepicker({
+					dateFormat : 'dd-mm-yy',
+				});
+
+
 
 			}
 
