@@ -23,6 +23,7 @@ window.Project = (function (window, document, $, undefined) {
 			$(document).on('click', '#image_license_remove', app.remove_license_upload);
 
 			$(document).on('change', '#product', app.load_variations);
+			$(document).on('change', '.validity_type', app.change_validity_type);
 
 			$('.ever-select').select2();
 			$('.ever-date').datepicker();
@@ -164,6 +165,27 @@ window.Project = (function (window, document, $, undefined) {
 					console.log(error);
 				}
 			});
+
+		},
+
+		change_validity_type: function () {
+
+			var value = $(this).val();
+			var validity = $('#validity');
+
+			if(value === 'days'){
+
+				validity.attr('type', 'number');
+				validity.datepicker('destroy');
+
+			}else if(value === 'date'){
+
+				validity.attr('type', 'text');
+				validity.datepicker();
+
+			}
+
+
 
 		}
 
