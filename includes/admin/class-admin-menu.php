@@ -30,7 +30,7 @@ class Admin_Menu{
 	 */
 
 	function add_generator_rule(){
-		wsn_get_template_part('add-serial-number-rule.php', true);
+		wsn_get_template_part('add-generator-rule', true);
 	}
 
 

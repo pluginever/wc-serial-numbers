@@ -2,7 +2,8 @@
 
 namespace Pluginever\WCSerialNumberPro\Admin;
 
-class Admin {
+class Admin
+{
 	/**
 	 * The single instance of the class.
 	 *
@@ -18,8 +19,9 @@ class Admin {
 	 * @static
 	 * @return Admin - Main instance.
 	 */
-	public static function init() {
-		if ( is_null( self::$init ) ) {
+	public static function init()
+	{
+		if (is_null(self::$init)) {
 			self::$init = new self();
 			self::$init->setup();
 		}
@@ -33,7 +35,8 @@ class Admin {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function setup() {
+	public function setup()
+	{
 		$this->includes();
 		$this->init_hooks();
 		$this->instance();
@@ -42,17 +45,20 @@ class Admin {
 	/**
 	 * Includes all files related to admin
 	 */
-	public function includes() {
-		require_once dirname( __FILE__ ) . '/class-admin-menu.php';
-		require_once dirname( __FILE__ ) . '/class-metabox.php';
-		require_once dirname( __FILE__ ) . '/class-settings-api.php';
-		require_once dirname( __FILE__ ) . '/class-settings.php';
+	public function includes()
+	{
+		require_once dirname(__FILE__) . '/class-admin-menu.php';
+		require_once dirname(__FILE__) . '/class-metabox.php';
+		require_once dirname(__FILE__) . '/class-settings-api.php';
+		require_once dirname(__FILE__) . '/class-settings.php';
+		require_once WPWSNP_INCLUDES . '/class-ajax.php';
 	}
 
-	private function init_hooks() {
-		add_action( 'admin_init', array( $this, 'buffer' ), 1 );
-		add_action( 'init', array( $this, 'includes' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+	private function init_hooks()
+	{
+		add_action('admin_init', array($this, 'buffer'), 1);
+		add_action('init', array($this, 'includes'));
+		add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
 	}
 
 
@@ -61,10 +67,12 @@ class Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function instance() {
+	protected function instance()
+	{
 		new Admin_Menu();
 		new MetaBox();
 		new Settings();
+		new \Pluginever\WCSerialNumberPro\Ajax();
 	}
 
 	/**
@@ -72,19 +80,21 @@ class Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function buffer() {
+	public function buffer()
+	{
 		ob_start();
 	}
 
 
-	public function enqueue_scripts( $hook ) {
-		$suffix = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
+	public function enqueue_scripts($hook)
+	{
+		$suffix = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
 		//styles
-		wp_enqueue_style('wc-serial-number-pro', WPWSNP_ASSETS_URL."/css/admin.css", [], WPWSNP_VERSION);
-		
+		wp_enqueue_style('wc-serial-number-pro', WPWSNP_ASSETS_URL . "/css/admin.css", [], WPWSNP_VERSION);
+
 		//scripts
-		wp_enqueue_script('wc-serial-number-pro', WPWSNP_ASSETS_URL."/js/admin/admin{$suffix}.js", ['jquery'], WPWSNP_VERSION, true);
-		wp_enqueue_script('wc-serial-number-pro', 'wpwsnp', ['ajaxurl' => admin_url( 'admin-ajax.php' ), 'nonce' => 'wc-serial-number-pro']);
+		wp_enqueue_script('wc-serial-number-pro', WPWSNP_ASSETS_URL . "/js/admin/admin{$suffix}.js", ['jquery'], WPWSNP_VERSION, true);
+		wp_enqueue_script('wc-serial-number-pro', 'wpwsnp', ['ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => 'wc-serial-number-pro']);
 	}
 
 

@@ -19,7 +19,7 @@ if (!$row_action) {
 
 			<h1 class="wp-heading-inline"><?php _e('Generator Rules', 'wc-serial-numbers') ?></h1>
 
-			<a href="<?php echo WPWSN_ADD_GENERATE_RULE ?>" class="page-title-action"><?php _e('Add new generator rules', 'wc-serial-numbers') ?></a>
+			<a href="<?php echo WPWSN_ADD_GENERATE_RULE ?>" class="page-title-action"><?php _e('Add new generator rule', 'wc-serial-numbers') ?></a>
 
 
 		<?php } ?>
