@@ -24,6 +24,7 @@ window.Project = (function (window, document, $, undefined) {
 
 			$(document).on('change', '#product', app.load_variations);
 			$(document).on('change', '.validity_type', app.change_validity_type);
+			$(document).on('click', '.wsn_generate_btn', app.generate_numbers);
 
 			$('.ever-select').select2();
 			$('.ever-date').datepicker();
@@ -147,6 +148,7 @@ window.Project = (function (window, document, $, undefined) {
 		},
 
 		load_variations: function (e) {
+			e.preventDefault();
 
 			$('.ever-spinner-product').css('visibility', 'visible');
 
@@ -184,11 +186,32 @@ window.Project = (function (window, document, $, undefined) {
 					dateFormat : 'dd-mm-yy',
 				});
 
-
-
 			}
 
 
+
+		},
+
+		generate_numbers: function (e) {
+			e.preventDefault();
+
+			var $limit = $(this).prev().val();
+			var $rule_id = $(this).data('rule_id');
+
+			wp.ajax.send('wsn_generate_numbers', {
+				data: {
+					limit: $limit,
+					rule_id: $rule_id,
+				},
+
+				success: function (response) {
+
+				},
+				error: function (error) {
+					console.log(error);
+				}
+
+			});
 
 		}
 

@@ -94,6 +94,7 @@ class Settings
 					'default'     => '',
 					'type'        => 'text',
 				),
+
 				array(
 					'name'        => 'wsn_generator_chunks_number',
 					'label'       => __('Chunks Number', 'wc-serial-numbers'),
@@ -103,6 +104,7 @@ class Settings
 					'default'     => 4,
 					'type'        => 'number',
 				),
+
 				array(
 					'name'        => 'wsn_generator_chunks_length',
 					'label'       => __('Chunks Length', 'wc-serial-numbers'),
@@ -112,6 +114,7 @@ class Settings
 					'default'     => 4,
 					'type'        => 'number',
 				),
+
 				array(
 					'name'        => 'wsn_generator_suffix',
 					'label'       => __('Suffix', 'wc-serial-numbers'),
@@ -130,12 +133,23 @@ class Settings
 					'default' => 1,
 					'type'    => 'number',
 				),
+
 				array(
 					'name'    => 'wsn_generator_validity',
 					'label'   => __('Validity', 'wc-serial-numbers'),
 					'desc'    => __('Validity days for the serial number. Keep it 0, if the serial number doesn\'t expire', 'wc-serial-numbers'),
 					'class'   => 'ever-field-inline',
 					'default' => 0,
+					'type'    => 'number',
+				),
+
+
+				array(
+					'name'    => 'wsn_generate_number',
+					'label'   => __('Generate Number', 'wc-serial-numbers'),
+					'desc'    => __('The default generate number for generating serial number automatically.', 'wc-serial-numbers'),
+					'class'   => 'ever-field-inline',
+					'default' => 100,
 					'type'    => 'number',
 				),
 			),
@@ -183,6 +197,7 @@ class Settings
 					'default'     => '',
 					'type'        => 'text',
 				),
+
 
 			),
 			'wsn_delivery_settings'         => array(
