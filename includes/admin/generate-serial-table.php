@@ -224,7 +224,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	{
 		$actions = array(
 			'edit'   => '<a href="' . add_query_arg(['type' => 'automate', 'row_action' => 'edit', 'generator_rule' => $item['ID']], WPWSN_ADD_GENERATE_RULE) . '">'.__('Edit', 'wc-serial-number').'</a>',
-			'delete' => '<a href="' . add_query_arg(['type' => 'automate', 'row_action' => 'delete', 'generator_rule' => $item['ID']], WPWSN_ADD_GENERATE_RULE) . '">'.__('Delete', 'wc-serial-number').'</a>',
+			'delete' => '<a href="' . add_query_arg(['row_action' => 'delete', 'generator_rule' => $item['ID']], WPWSN_GENERATE_SERIAL_PAGE) . '">'.__('Delete', 'wc-serial-number').'</a>',
 		);
 
 		return sprintf('%1$s %2$s', $item['product'], $this->row_actions($actions));

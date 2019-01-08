@@ -51,9 +51,9 @@ if (!$row_action) {
 
 } elseif ($row_action == 'delete') {
 
-	wp_delete_post($_REQUEST['serial_number']);
+	wp_delete_post($_REQUEST['generator_rule']);
 
-	wp_redirect(admin_url('admin.php?page=serial-numbers'));
+	wp_redirect(WPWSN_GENERATE_SERIAL_PAGE);
 
 } ?>
 
