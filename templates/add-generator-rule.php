@@ -25,7 +25,7 @@ if ($row_action == 'edit') {
 	$product                = '';
 	$image_license          = '';
 	$title                  = __('Add New Generator Rule', 'wc-serial-numbers');
-	$submit                 = __('Add Rule', 'wc-serial-numbers');
+	$submit                 = __('Add Generator Rule', 'wc-serial-numbers');
 	$action_type            = 'wsn_add_generator_rule';
 	$input_serial_number_id = '';
 }
@@ -107,16 +107,89 @@ if ($row_action == 'edit') {
 
 				<tr>
 					<th scope="row">
-						<label for="serial_number"><?php _e('Serial Number', 'wc-serial-numbers') ?></label></th>
+						<label for="prefix"><?php _e('Prefix', 'wc-serial-numbers') ?></label></th>
 					<td class="ever-form-group">
-						<textarea name="serial_number" type="text" id="serial_number" class="regular-text ever-field-inline"><?php echo $serial_number ?></textarea>
+						<input type="text" class="ever-field-inline" name="prefix" id="prefix" value="">
 						<div class="ever-helper"> ?
 							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 						</div>
 					</td>
 				</tr>
+
+				<tr>
+					<th scope="row">
+						<label for="chunks_number"><?php _e('Chunks Number', 'wc-serial-numbers') ?></label></th>
+					<td class="ever-form-group">
+						<input type="number" class="ever-field-inline" name="chunks_number" id="chunks_number" value="">
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row">
+						<label for="chunk_length"><?php _e('Chunk Length', 'wc-serial-numbers') ?></label></th>
+					<td class="ever-form-group">
+						<input type="number" class="ever-field-inline" name="chunk_length" id="chunk_length" value="">
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row">
+						<label for="suffix"><?php _e('Suffix', 'wc-serial-numbers') ?></label></th>
+					<td class="ever-form-group">
+						<input type="text" class="ever-field-inline" name="suffix" id="suffix" value="">
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row">
+						<label for="max_instance"><?php _e('Maximum Instance', 'wc-serial-numbers') ?></label>
+					</th>
+					<td class="ever-form-group">
+						<input type="number" min="0" value="<?php echo $max_instance ?>" name="max_instance" id="max_instance" class="ever-field-inline">
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row">
+						<label for="validity"><?php _e('Validity', 'wc-serial-numbers') ?></label>
+					</th>
+					<td>
+
+						<input type="radio" class="validity_type" name="validity_type" value="days" checked> <?php _e('Days', 'wc-serial-numbers') ?>
+						&ensp;
+						<input type="radio" class="validity_type" name="validity_type" value="date"> <?php _e('Date', 'wc-serial-numbers') ?>
+
+						<br>
+						<br>
+
+						<input type="number" min="0" name="validity" id="validity" class="regular-text  ever-field-inline" value="<?php echo $validity ?>">
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
+					</td>
+				</tr>
+
 				</tbody>
+
 			</table>
+
+			<p class="submit">
+				<input type="submit" name="submit" id="submit" class="button button-primary add-serial-number-manually" value="<?php echo $submit ?>">
+			</p>
+
 		</form>
+
 	</div>
 </div>
