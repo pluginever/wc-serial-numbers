@@ -133,8 +133,9 @@ final class WCSerialNumbers
 		define('WPWSN_TEMPLATES_DIR', WPWSN_PATH . '/templates');
 
 		define('WPWSN_SERIAL_INDEX_PAGE', admin_url('admin.php?page=serial-numbers'));
-		define('WPWSN_ADD_SERIAL_PAGE', admin_url('admin.php?page=add-serial-number'));
-		define('WPWSN_GENERATE_SERIAL_PAGE', admin_url('admin.php?page=generate-serial-number'));
+		define('WPWSN_ADD_SERIAL_PAGE', admin_url('admin.php?page=add-serial-number&type=manual'));
+		define('WPWSN_GENERATE_SERIAL_PAGE', admin_url('admin.php??page=add-serial-number&type=automate'));
+		define('WPWSN_SETTINGS_PAGE', admin_url('admin.php?page=wc_serial_numbers-settings'));
 	}
 
 	/**
