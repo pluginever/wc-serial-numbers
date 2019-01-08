@@ -205,7 +205,7 @@ final class WCSerialNumberPro {
         //core includes
 		include_once WPWSNP_INCLUDES . '/core-functions.php';
 		include_once WPWSNP_INCLUDES . '/class-install.php';
-		include_once WPWSNP_INCLUDES . '/class-post-types.php';
+
 
 		//admin includes
 		if ( $this->is_request( 'admin' ) ) {
@@ -255,7 +255,7 @@ final class WCSerialNumberPro {
     }
 
     public function plugin_init() {
-        new \Pluginever\WCSerialNumberPro\PostTypes();
+
     }
 
     /**
