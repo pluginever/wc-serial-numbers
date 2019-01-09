@@ -140,11 +140,15 @@ class Serial_List_Table extends \WP_List_Table {
 			$order              = get_post_meta($post->ID, 'order', true);
 
 			//Order Details
-			$order_obj      = wc_get_order($order);
+			$order_obj = wc_get_order($order);
+
 			$customer_name  = wsn_get_customer_detail('first_name', $order_obj) . ' ' . wsn_get_customer_detail('last_name', $order_obj);
 			$customer_email = wsn_get_customer_detail('email', $order_obj);
-			$purchaser    = $customer_name.'<br>'.$customer_email;
-			//$purchased_on = $order_obj->get_date_created();
+			$purchaser      = $customer_name . '<br>' . $customer_email;
+
+			if(is_object($order_obj)) {
+				$purchased_on = $order_obj->get_data()['date_created'];
+			}
 
 			$validity = get_post_meta($post->ID, 'validity', true);
 

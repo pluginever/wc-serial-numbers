@@ -82,6 +82,7 @@ class FormHandler {
 
 	/**
 	 * Handle serial number table actions
+	 *
 	 * @return string|boolean
 	 */
 

@@ -168,7 +168,12 @@ function wsn_get_settings($key, $default = '', $section = '') {
  */
 
 function wsn_get_customer_detail($key, $order) {
-	return $order->data['billing'][$key];
+
+	if (!is_object($order)) {
+		return false;
+	}
+
+	return $order->get_data()['billing'][$key];
 }
 
 
