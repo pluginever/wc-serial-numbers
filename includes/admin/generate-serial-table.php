@@ -131,7 +131,7 @@ class Generate_Serial_Table extends \WP_List_Table
 			$generate_num  = wsn_get_settings('wsn_generate_number', '', 'wsn_serial_generator_settings');
 
 			$generate_html = '<input type="number" class="generate_number ever-thumbnail-small" name="generate_number" id="generate_number" value="'.$generate_num.'">
-			<button class="button button-primary wsn_generate_btn"> '.__('Generate','wc-serial-numbers').'</button>
+			<button class="button button-primary wsn_generate_btn" data-rule_id="'.$post->ID.'"> '.__('Generate','wc-serial-numbers').'</button>
 			';
 
 			$data[] = [

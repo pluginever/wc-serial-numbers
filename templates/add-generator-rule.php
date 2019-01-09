@@ -4,34 +4,34 @@ $row_action = empty($_REQUEST['row_action']) ? '' : $_REQUEST['row_action'];
 
 
 if ($row_action == 'edit') {
-	$generator_rule_id = $_REQUEST['generator_rule'];
-	$product           = get_post_meta($generator_rule_id, 'product', true);
-	$variation         = get_post_meta($generator_rule_id, 'variation', true);
-	$prefix            = get_post_meta($generator_rule_id, 'prefix', true);
-	$chunks_number     = get_post_meta($generator_rule_id, 'chunks_number', true);
-	$chunk_length      = get_post_meta($generator_rule_id, 'chunk_length', true);
-	$suffix            = get_post_meta($generator_rule_id, 'suffix', true);
-	$instance          = get_post_meta($generator_rule_id, 'max_instance', true);
-	$validity = get_post_meta($generator_rule_id, 'validity', true);
-	$validity_type     = get_post_meta($generator_rule_id, 'validity_type', true);
-	$title             = __('Edit Generator Rule', 'wc-serial-numbers');
-	$submit            = __('Save changes', 'wc-serial-numbers');
-	$action_type       = 'wsn_edit_generator_rule';
+	$generator_rule_id    = $_REQUEST['generator_rule'];
+	$product              = get_post_meta($generator_rule_id, 'product', true);
+	$variation            = get_post_meta($generator_rule_id, 'variation', true);
+	$prefix               = get_post_meta($generator_rule_id, 'prefix', true);
+	$chunks_number        = get_post_meta($generator_rule_id, 'chunks_number', true);
+	$chunk_length         = get_post_meta($generator_rule_id, 'chunk_length', true);
+	$suffix               = get_post_meta($generator_rule_id, 'suffix', true);
+	$instance             = get_post_meta($generator_rule_id, 'max_instance', true);
+	$validity             = get_post_meta($generator_rule_id, 'validity', true);
+	$validity_type        = get_post_meta($generator_rule_id, 'validity_type', true);
+	$title                = __('Edit Generator Rule', 'wc-serial-numbers');
+	$submit               = __('Save changes', 'wc-serial-numbers');
+	$action_type          = 'wsn_edit_generator_rule';
 	$generator_rule_input = '<input type="hidden" name="generator_rule_id" value="' . $generator_rule_id . '">';
 } else {
-	$generator_rule_id = '';
-	$product           = '';
-	$variation         = '';
-	$prefix            = '';
-	$chunks_number     = '';
-	$chunk_length      = '';
-	$suffix            = '';
-	$instance          = '1';
-	$validity          = '';
-	$validity_type     = 'days';
-	$title             = __('Add New Generator Rule', 'wc-serial-numbers');
-	$submit            = __('Add Generator Rule', 'wc-serial-numbers');
-	$action_type       = 'wsn_add_generator_rule';
+	$generator_rule_id    = '';
+	$product              = '';
+	$variation            = '';
+	$prefix               = '';
+	$chunks_number        = '';
+	$chunk_length         = '';
+	$suffix               = '';
+	$instance             = '1';
+	$validity             = '';
+	$validity_type        = 'days';
+	$title                = __('Add New Generator Rule', 'wc-serial-numbers');
+	$submit               = __('Add Generator Rule', 'wc-serial-numbers');
+	$action_type          = 'wsn_add_generator_rule';
 	$generator_rule_input = '';
 }
 
