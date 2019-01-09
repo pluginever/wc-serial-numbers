@@ -33,23 +33,31 @@ class Admin_Menu {
 		global $wp_admin_bar;
 
 		$wp_admin_bar->add_menu(array(
-			'id'    => 'serial-numbers',
+			'id'    => 'wsn-serial-numbers',
 			'title' => __('Serial Numbers', 'wc-serial-numbers'),
 			'href'  => WPWSN_SERIAL_INDEX_PAGE,
 		));
 
 		$wp_admin_bar->add_menu(array(
-			'id'     => 'add-serial-number',
+			'id'     => 'wsn-add-serial-number',
 			'title'  => __('Add Serial Number', 'wc-serial-numbers'),
 			'href'   => WPWSN_ADD_SERIAL_PAGE,
-			'parent' => 'serial-numbers',
+			'parent' => 'wsn-serial-numbers',
+
+ 		));
+
+		$wp_admin_bar->add_menu(array(
+			'id'     => 'wsn-generate-serial-number',
+			'title'  => __('Generate Serial Number', 'wc-serial-numbers'),
+			'href'   => WPWSN_GENERATE_SERIAL_PAGE,
+			'parent' => 'wsn-serial-numbers',
 		));
 
 		$wp_admin_bar->add_menu(array(
-			'id'     => 'generate-serial-number',
-			'title'  => __('Generate Serial Number', 'wc-serial-numbers'),
-			'href'   => WPWSN_GENERATE_SERIAL_PAGE,
-			'parent' => 'serial-numbers',
+			'id'     => 'wsn-settings',
+			'title'  => __('Settings', 'wc-serial-numbers'),
+			'href'   => WPWSN_SETTINGS_PAGE,
+			'parent' => 'wsn-serial-numbers',
 		));
 
 	}
