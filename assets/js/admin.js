@@ -27,7 +27,7 @@ window.Project = (function (window, document, $, undefined) {
 			$(document).on('click', '.wsn_generate_btn', app.generate_numbers);
 
 			$('.ever-select').select2();
-			$('.ever-date').datepicker();
+			$('.ever-date, #validity[type=text]').datepicker();
 
 		},
 

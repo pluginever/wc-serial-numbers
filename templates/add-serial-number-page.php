@@ -7,13 +7,15 @@ if ($type == 'manual') {
 
 	if ($row_action == 'edit') {
 		$serial_number_id = $_REQUEST['serial_number'];
-		$serial_number    = get_the_title($serial_number_id);
-		$deliver_times    = get_post_meta($serial_number_id, 'deliver_times', true);
-		$max_instance     = get_post_meta($serial_number_id, 'max_instance', true);
-		$expires_on       = get_post_meta($serial_number_id, 'expires_on', true);
-		$validity         = get_post_meta($serial_number_id, 'validity', true);
-		$product          = get_post_meta($serial_number_id, 'product', true);
-		$image_license    = get_post_meta($serial_number_id, 'image_license', true);
+
+		$serial_number = get_the_title($serial_number_id);
+		$product       = get_post_meta($serial_number_id, 'product', true);
+		$variation     = get_post_meta($serial_number_id, 'variation', true);
+		$deliver_times = get_post_meta($serial_number_id, 'deliver_times', true);
+		$max_instance  = get_post_meta($serial_number_id, 'max_instance', true);
+		$validity_type = get_post_meta($serial_number_id, 'validity_type', true);
+		$validity      = get_post_meta($serial_number_id, 'validity', true);
+		$image_license = get_post_meta($serial_number_id, 'image_license', true);
 		//$order        = get_post_meta( $serial_number, 'order', true );
 		//$purchased_on = get_post_meta( $serial_number, 'purchased_on', true );
 		$title                  = __('Edit Serial Number', 'wc-serial-numbers');
@@ -22,11 +24,12 @@ if ($type == 'manual') {
 		$input_serial_number_id = '<input type="hidden" name="serial_number_id" value="' . $serial_number_id . '">';
 	} else {
 		$serial_number          = '';
+		$product                = '';
+		$variation              = '';
 		$deliver_times          = '1';
 		$max_instance           = '0';
-		$expires_on             = '';
+		$validity_type          = 'days';
 		$validity               = '';
-		$product                = '';
 		$image_license          = '';
 		$title                  = __('Add New Serial Number', 'wc-serial-numbers');
 		$submit                 = __('Add Serial Number', 'wc-serial-numbers');

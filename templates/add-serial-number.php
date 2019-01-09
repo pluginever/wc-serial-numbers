@@ -149,10 +149,17 @@
 
 		<tr>
 			<th scope="row">
-				<label for="validity"><?php _e('Validity (days)', 'wc-serial-numbers') ?></label>
+				<label for="validity"><?php _e('Validity', 'wc-serial-numbers') ?></label>
 			</th>
 			<td>
-				<input type="number" min="0" name="validity" id="validity" class="regular-text  ever-field-inline" value="<?php echo $validity ?>">
+
+				<input type="radio" class="validity_type" name="validity_type" value="days" <?php echo $validity_type == 'days' ? 'checked' : '' ?>> <?php _e('Days', 'wc-serial-numbers') ?>
+				&ensp;
+				<input type="radio" class="validity_type" name="validity_type" value="date" <?php echo $validity_type == 'date' ? 'checked' : '' ?>> <?php _e('Date', 'wc-serial-numbers') ?>
+
+				<br> <br>
+
+				<input type="<?php echo $validity_type == 'days' ? 'number' : 'text' ?>" min="0" name="validity" id="validity" class="regular-text  ever-field-inline" value="<?php echo $validity ?>">
 				<div class="ever-helper"> ?
 					<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 				</div>

@@ -219,7 +219,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 	function column_serial_numbers($item) {
 		$actions = array(
-			'edit'   => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['ID']),
+			'edit'   => '<a href="' . add_query_arg(['type' => 'manual', 'row_action' => 'edit', 'serial_number' => $item['ID']], WPWSN_ADD_SERIAL_PAGE) . '">' . __('Edit', 'wc-serial-number') . '</a>',
 			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['ID']),
 		);
 
