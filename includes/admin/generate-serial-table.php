@@ -11,15 +11,13 @@ if (!class_exists('WP_List_Table')) {
 /**
  * Create a new table class that will extend the WP_List_Table
  */
-class Generate_Serial_Table extends \WP_List_Table
-{
+class Generate_Serial_Table extends \WP_List_Table {
 
 	protected $is_single = false;
 	protected $search_query = false;
 
 	/** Class constructor */
-	public function __construct($post_id = '')
-	{
+	public function __construct($post_id = '') {
 
 		parent::__construct([
 			'singular' => __('Generate Serial Number', 'wc-serial-number'), //singular name of the listed records
@@ -41,8 +39,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	 * @return Void
 	 */
 
-	public function prepare_items()
-	{
+	public function prepare_items() {
 		$columns  = $this->get_columns();
 		$sortable = $this->get_sortable_columns();
 		$data     = $this->table_data();
@@ -65,8 +62,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	 *
 	 * @return array
 	 */
-	public function get_columns()
-	{
+	public function get_columns() {
 		$columns = array();
 		if (!$this->is_single) {
 			$columns = array(
@@ -77,6 +73,7 @@ class Generate_Serial_Table extends \WP_List_Table
 				'chunks_number' => __('Chunks', 'wc-serial-numbers'),
 				'chunks_length' => __('Chunks', 'wc-serial-numbers'),
 				'suffix'        => __('Suffix', 'wc-serial-numbers'),
+				'deliver_times'      => __('Deliver times', 'wc-serial-numbers'),
 				'instance'      => __('Instance', 'wc-serial-numbers'),
 				'validity'      => __('Validity', 'wc-serial-numbers'),
 				'generate'      => __('Generate', 'wc-serial-numbers'),
@@ -92,8 +89,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	 *
 
 	 */
-	public function get_sortable_columns()
-	{
+	public function get_sortable_columns() {
 		return [
 			'product'       => array('product', false),
 			'variation'     => array('variation', false),
@@ -108,8 +104,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	 *
 	 * @return array
 	 */
-	private function table_data()
-	{
+	private function table_data() {
 		$data = array();
 
 		$query = !$this->is_single ? ['s' => $this->search_query] : ['meta_key' => 'product', 'meta_value' => $this->is_single];
@@ -126,12 +121,13 @@ class Generate_Serial_Table extends \WP_List_Table
 			$chunks_number = get_post_meta($post->ID, 'chunks_number', true);
 			$chunk_length  = get_post_meta($post->ID, 'chunk_length', true);
 			$suffix        = get_post_meta($post->ID, 'suffix', true);
+			$deliver_times = get_post_meta($post->ID, 'deliver_times', true);
 			$instance      = get_post_meta($post->ID, 'max_instance', true);
 			$validity      = get_post_meta($post->ID, 'validity', true);
 			$generate_num  = wsn_get_settings('wsn_generate_number', '', 'wsn_serial_generator_settings');
 
-			$generate_html = '<input type="number" class="generate_number ever-thumbnail-small" name="generate_number" id="generate_number" value="'.$generate_num.'">
-			<button class="button button-primary wsn_generate_btn" data-rule_id="'.$post->ID.'"> '.__('Generate','wc-serial-numbers').'</button>
+			$generate_html = '<input type="number" class="generate_number ever-thumbnail-small" name="generate_number" id="generate_number" value="' . $generate_num . '">
+			<button class="button button-primary wsn_generate_btn" data-rule_id="' . $post->ID . '"> ' . __('Generate', 'wc-serial-numbers') . '</button>
 			';
 
 			$data[] = [
@@ -142,6 +138,7 @@ class Generate_Serial_Table extends \WP_List_Table
 				'chunks_number' => empty($chunks_number) ? '' : $chunks_number,
 				'chunks_length' => empty($chunk_length) ? '' : $chunk_length,
 				'suffix'        => empty($suffix) ? '' : $suffix,
+				'deliver_times' => empty($deliver_times) ? '∞' : $deliver_times,
 				'instance'      => empty($instance) ? '∞' : $instance,
 				'validity'      => empty($validity) ? '∞' : $validity,
 				'generate'      => $generate_html,
@@ -161,8 +158,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	 *
 	 * @return Mixed
 	 */
-	public function column_default($item, $column_name)
-	{
+	public function column_default($item, $column_name) {
 
 		switch ($column_name) {
 			case 'ID':
@@ -172,6 +168,7 @@ class Generate_Serial_Table extends \WP_List_Table
 			case 'chunks_number':
 			case 'chunks_length':
 			case 'suffix':
+			case 'deliver_times':
 			case 'instance':
 			case 'validity':
 			case 'generate':
@@ -187,8 +184,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	 * @return array
 	 */
 
-	public function get_bulk_actions()
-	{
+	public function get_bulk_actions() {
 		if (!$this->is_single) {
 			$actions = [
 				'bulk-delete' => 'Delete'
@@ -205,15 +201,13 @@ class Generate_Serial_Table extends \WP_List_Table
 	 *
 	 * @return string
 	 */
-	function column_cb($item)
-	{
+	function column_cb($item) {
 		return sprintf(
 			'<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
 		);
 	}
 
-	function column_product($item)
-	{
+	function column_product($item) {
 		$actions = array(
 			'edit'   => '<a href="' . add_query_arg(['type' => 'automate', 'row_action' => 'edit', 'generator_rule' => $item['ID']], WPWSN_ADD_GENERATE_RULE) . '">' . __('Edit', 'wc-serial-number') . '</a>',
 			'delete' => '<a href="' . add_query_arg(['row_action' => 'delete', 'generator_rule' => $item['ID']], WPWSN_GENERATE_SERIAL_PAGE) . '">' . __('Delete', 'wc-serial-number') . '</a>',
@@ -227,8 +221,7 @@ class Generate_Serial_Table extends \WP_List_Table
 	 *
 	 * @return Mixed
 	 */
-	private function sort_data($a, $b)
-	{
+	private function sort_data($a, $b) {
 		// Set defaults
 		$orderby = 'product';
 		$order   = 'asc';

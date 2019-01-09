@@ -11,6 +11,7 @@ if ($row_action == 'edit') {
 	$chunks_number        = get_post_meta($generator_rule_id, 'chunks_number', true);
 	$chunk_length         = get_post_meta($generator_rule_id, 'chunk_length', true);
 	$suffix               = get_post_meta($generator_rule_id, 'suffix', true);
+	$deliver_times        = get_post_meta($generator_rule_id, 'deliver_times', true);
 	$instance             = get_post_meta($generator_rule_id, 'max_instance', true);
 	$validity             = get_post_meta($generator_rule_id, 'validity', true);
 	$validity_type        = get_post_meta($generator_rule_id, 'validity_type', true);
@@ -22,12 +23,13 @@ if ($row_action == 'edit') {
 	$generator_rule_id    = '';
 	$product              = '';
 	$variation            = '';
-	$prefix               = '';
-	$chunks_number        = '';
-	$chunk_length         = '';
-	$suffix               = '';
-	$instance             = '1';
-	$validity             = '';
+	$prefix               = wsn_get_settings('wsn_generator_prefix', '', 'wsn_serial_generator_settings');
+	$chunks_number        = wsn_get_settings('wsn_generator_chunks_number', '', 'wsn_serial_generator_settings');
+	$chunk_length         = wsn_get_settings('wsn_generator_chunks_length', '', 'wsn_serial_generator_settings');
+	$suffix               = wsn_get_settings('wsn_generator_suffix', '', 'wsn_serial_generator_settings');
+	$deliver_times        = '';
+	$instance             = wsn_get_settings('wsn_generator_instance', '', 'wsn_serial_generator_settings');
+	$validity             = wsn_get_settings('wsn_generator_validity', '', 'wsn_serial_generator_settings');
 	$validity_type        = 'days';
 	$title                = __('Add New Generator Rule', 'wc-serial-numbers');
 	$submit               = __('Add Generator Rule', 'wc-serial-numbers');
@@ -84,12 +86,13 @@ if ($row_action == 'edit') {
 							<select name="product" id="product" class="ever-select  ever-field-inline">
 								<option value=""><?php _e('Choose a product', 'wc-serial-numbers') ?></option>
 								<?php
-								$posts = get_posts(['post_type' => 'product', 'posts_per_page' => -1]);
+								//$posts = get_posts(['post_type' => 'product', 'posts_per_page' => -1]);
+								$posts = wsn_get_products();
 
 								foreach ($posts as $post) {
 									setup_postdata($post);
-									$selected = $post->ID == $product ? 'selected' : '';
-									echo '<option value="' . $post->ID . '" ' . $selected . '>' . $post->ID . ' - ' . get_the_title($post->ID) . '</option>';
+									$selected = $post->id == $product ? 'selected' : '';
+									echo '<option value="' . $post->id . '" ' . $selected . '>' . $post->id . ' - ' . get_the_title($post->id) . '</option>';
 								}
 
 								?>
@@ -105,7 +108,7 @@ if ($row_action == 'edit') {
 					</th>
 					<td>
 
-						<select name="variation" id="variation" class="ever-select  ever-field-inline">
+						<select name="variation" id="variation" class="ever-field-inline">
 							<option value=""><?php _e('Main Product', 'wc-serial-numbers') ?></option>
 
 							<?php
@@ -169,6 +172,18 @@ if ($row_action == 'edit') {
 						<label for="suffix"><?php _e('Suffix', 'wc-serial-numbers') ?></label></th>
 					<td class="ever-form-group">
 						<input type="text" class="ever-field-inline" name="suffix" id="suffix" value="<?php echo $suffix ?>">
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row">
+						<label for="deliver_times"><?php _e('Max. Deliver Times', 'wc-serial-numbers') ?></label>
+					</th>
+					<td>
+						<input type="number" min="1" value="<?php echo $deliver_times ?>" name="deliver_times" id="deliver_times" class=" ever-field-inline">
 						<div class="ever-helper"> ?
 							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
 						</div>
