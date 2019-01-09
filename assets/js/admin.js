@@ -114,6 +114,7 @@ window.Project = (function (window, document, $, undefined) {
 
 		tab_add_serial_number_toggle: function (e) {
 			e.preventDefault();
+
 			$('.ever-panel').toggle();
 			$('.ever-select').select2();
 			$('.ever-date').datepicker();

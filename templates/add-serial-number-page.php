@@ -3,7 +3,9 @@
 $row_action = empty($_REQUEST['row_action']) ? '' : $_REQUEST['row_action'];
 $type       = empty($_REQUEST['type']) ? '' : $_REQUEST['type'];
 
-if ($type == 'manual') {
+if ($type == 'automate') {
+	$title = __('Add New Serial Number', 'wc-serial-numbers');
+}else{
 
 	if ($row_action == 'edit') {
 		$serial_number_id = $_REQUEST['serial_number'];
@@ -37,8 +39,6 @@ if ($type == 'manual') {
 		$input_serial_number_id = '';
 	}
 
-} elseif ($type == 'automate') {
-	$title = __('Add New Serial Number', 'wc-serial-numbers');
 }
 
 ?>
@@ -69,21 +69,21 @@ if ($type == 'manual') {
 
 	<div class="ever-panel">
 		<?php
-		if ($type == 'manual') {
-
-			ob_start();
-			include WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
-			$html = ob_get_clean();
-			echo $html;
-
-		} elseif ($type == 'automate') {
+		if ($type == 'automate') {
 
 			ob_start();
 			include WPWSN_TEMPLATES_DIR . '/generate-serial-number.php';
 			$html = ob_get_clean();
 			echo $html;
 
-		} ?>
+		}else{
+
+			ob_start();
+			include WPWSN_TEMPLATES_DIR . '/add-serial-number.php';
+			$html = ob_get_clean();
+			echo $html;
+
+		}?>
 	</div>
 </div>
 
