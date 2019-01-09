@@ -30,7 +30,7 @@ if (!$row_action) {
 			if (!$is_product_tab) {
 				//$serial_list->search_box('Search', 'search_id');
 				echo '<form action="" method="GET">';
-				echo $serial_list->search_box(__('Search'), 'wsn_serial_page');
+				echo $serial_list->search_box(__('Search', 'wc-serial-numbers'), 'wsn_serial_page');
 				echo '<input type="hidden" name="page" value="' . esc_attr($_REQUEST['page']) . '"/></form>'; // form end
 			}
 
@@ -53,7 +53,9 @@ if (!$row_action) {
 
 } elseif ($row_action == 'delete') {
 
-	wp_delete_post($_REQUEST['serial_number']);
+	if(current_user_can('manage_options')) {
+		wp_delete_post($_REQUEST['serial_number']);
+	}
 
 	wp_redirect(admin_url('admin.php?page=serial-numbers'));
 

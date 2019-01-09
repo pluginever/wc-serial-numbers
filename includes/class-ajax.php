@@ -139,7 +139,7 @@ class Ajax
 	function load_tab_data()
 	{
 
-		$post_id = $_REQUEST['post_id'];
+		$post_id = intval($_REQUEST['post_id']);
 
 		set_query_var('is_product_tab', $post_id);
 

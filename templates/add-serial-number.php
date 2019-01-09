@@ -109,7 +109,7 @@
 				<img class="image_license_prev ever-thumbnail" src="<?php echo $image_license ?>">
 				<input type="hidden" id="image_license" name="image_license" value="<?php echo $image_license ?>">
 
-				<button type="button" id="image_license_remove" class="button button-link-delete <?php echo $image_license ? '' : 'hidden'; ?>"><?php _e('Remove', 'wsn-serial-numbers') ?></button>
+				<button type="button" id="image_license_remove" class="button button-link-delete <?php echo $image_license ? '' : 'hidden'; ?>"><?php _e('Remove', 'wc-serial-numbers') ?></button>
 			</td>
 		</tr>
 

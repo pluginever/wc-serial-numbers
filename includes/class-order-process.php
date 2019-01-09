@@ -59,12 +59,14 @@ class Order_Process
 				$remain_deliver_times = get_post_meta($serial_number->ID, 'remain_deliver_times', true);
 
 				update_post_meta($serial_number->ID, 'order', $order->get_id());
-				update_post_meta($serial_number->ID, 'remain_deliver_times', ($remain_deliver_times - $quantity));
-				update_post_meta($serial_number->ID, 'purchased_on', $order->get_date_created());
 
-				$customer_name  = wsn_get_customer_detail('first_name', $order) . ' ' . wsn_get_customer_detail('last_name', $order);
-				$customer_email = wsn_get_customer_detail('email', $order);
-				update_post_meta($serial_number->ID, 'purchaser', $customer_name.'<br>'.$customer_email);
+				update_post_meta($serial_number->ID, 'remain_deliver_times', ($remain_deliver_times - $quantity));
+
+				//update_post_meta($serial_number->ID, 'purchased_on', $order->get_date_created());
+				//$customer_name  = wsn_get_customer_detail('first_name', $order) . ' ' . wsn_get_customer_detail('last_name', $order);
+				//$customer_email = wsn_get_customer_detail('email', $order);
+
+				//update_post_meta($serial_number->ID, 'purchaser', $customer_name.'<br>'.$customer_email);
 
 				$serial_numbers_ids[$product_id] = $serial_number->ID;
 

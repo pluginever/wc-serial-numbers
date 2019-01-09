@@ -79,7 +79,7 @@ add_action('woocommerce_product_data_panels', 'wsn_serial_number_tab_panel');
 function wsn_serial_number_tab($product_data_tabs) {
 
 	$product_data_tabs['serial_numbers'] = array(
-		'label'  => __('Serial Numbers', 'serial-numbers'),
+		'label'  => __('Serial Numbers', 'wc-serial-numbers'),
 		'target' => 'serial_numbers_data',
 		'class'  => 'ever-serial_numbers_tab hide_if_external hide_if_grouped',
 	);
@@ -205,6 +205,5 @@ function wsn_disabled() {
 function wsn_class_disabled() {
 	return wsn_is_wsnp() ? '' : 'ever-disabled';
 }
-
 
 

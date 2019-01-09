@@ -29,8 +29,8 @@ class FormHandler {
 		$product       = esc_attr($_REQUEST['product']);
 		$variation     = esc_attr($_REQUEST['variation']);
 		$image_license = esc_url($_REQUEST['image_license']);
-		$deliver_times = esc_attr($_REQUEST['deliver_times']);
-		$max_instance  = esc_attr($_REQUEST['max_instance']);
+		$deliver_times = intval($_REQUEST['deliver_times']);
+		$max_instance  = intval($_REQUEST['max_instance']);
 		$validity_type = esc_attr($_REQUEST['validity_type']);
 		$validity      = esc_attr($_REQUEST['validity']);
 
@@ -82,17 +82,17 @@ class FormHandler {
 
 	/**
 	 * Handle serial number table actions
-	 * @return bool|void
+	 * @return string|boolean
 	 */
 
 	function handle_serial_numbers_table() {
 
 		if (!isset($_REQUEST['wsn-serial-numbers-table-action'])) {
-			return;
+			return false;
 		}
 
 		if (!isset($_REQUEST['action'])) {
-			return;
+			return false;
 		}
 
 		if (!wp_verify_nonce($_REQUEST['wsn-serial-numbers-table-nonce'], 'wsn-serial-numbers-table')) {

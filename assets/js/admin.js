@@ -8,7 +8,7 @@
 
 /*jslint browser: true */
 /*global jQuery:false */
-/*global wc_serial_numbers:false */
+
 
 window.Project = (function (window, document, $, undefined) {
 	'use strict';
@@ -42,7 +42,7 @@ window.Project = (function (window, document, $, undefined) {
 					deliver_times: $('.ever-panel #deliver_times').val(),
 					max_instance: $('.ever-panel #max_instance').val(),
 					expires_on: $('.ever-panel #expires_on').val(),
-					validity: $('.ever-panel #validity').val(),
+					validity: $('.ever-panel #validity').val()
 				},
 
 				success: function (response) {
@@ -66,7 +66,7 @@ window.Project = (function (window, document, $, undefined) {
 			var msg = '';
 			if ($(this).is(':checked')) {
 				enable_serial_number = 'enable';
-				msg = 'Serial Number Activated.';
+				msg = wpwsn.i18n.serial_number_activated;
 			} else {
 				enable_serial_number = 'disable';
 				msg = 'Serial Number Dectivated.';
@@ -80,7 +80,7 @@ window.Project = (function (window, document, $, undefined) {
 			wp.ajax.send('enable_serial_number', {
 				data: {
 					enable_serial_number: enable_serial_number,
-					post_id: $('#post_ID').val(),
+					post_id: $('#post_ID').val()
 				},
 				success: function (response) {
 					$('.wsn-serial-number-tab').removeClass('ever-spinner');
@@ -97,7 +97,7 @@ window.Project = (function (window, document, $, undefined) {
 			$('.wsn-serial-number-tab').addClass('ever-spinner');
 			wp.ajax.send('load_tab_data', {
 				data: {
-					post_id: $('#post_ID').val(),
+					post_id: $('#post_ID').val()
 				},
 				success: function (response) {
 					$('.wsn-serial-number-tab').removeClass('ever-spinner');
@@ -127,7 +127,7 @@ window.Project = (function (window, document, $, undefined) {
 				// mutiple: true if you want to upload multiple files at once
 				multiple: false
 			}).open()
-				.on('select', function (e) {
+				.on('select', function () {
 					// This will return the selected image from the Media Uploader, the result is an object
 					var uploaded_image = image.state().get('selection').first();
 					// We convert uploaded_image to a JSON object to make accessing it easier
@@ -155,7 +155,7 @@ window.Project = (function (window, document, $, undefined) {
 
 			wp.ajax.send('load_variations', {
 				data: {
-					post_id: $(this).val(),
+					post_id: $(this).val()
 				},
 				success: function (response) {
 					console.log(response);
@@ -184,7 +184,7 @@ window.Project = (function (window, document, $, undefined) {
 
 				validity.attr('type', 'text');
 				validity.datepicker({
-					dateFormat: 'dd-mm-yy',
+					dateFormat: 'dd-mm-yy'
 				});
 
 			}
@@ -227,7 +227,7 @@ window.Project = (function (window, document, $, undefined) {
 		}
 
 
-	}
+	};
 
 	$(document).ready(app.init);
 

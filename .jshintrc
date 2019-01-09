@@ -22,6 +22,6 @@
 		"jQuery": false,
 		"JSON": false,
 		"wp": false,
-		"wc_serial_numbers":false
+		"wpwsn":false
 	}
 }

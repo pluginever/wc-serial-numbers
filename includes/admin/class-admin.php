@@ -99,7 +99,10 @@ class Admin {
 		], WPWSN_VERSION, true);
 		wp_localize_script('wc-serial-numbers', 'wpwsn', [
 			'ajaxurl' => admin_url('admin-ajax.php'),
-			'nonce'   => 'wc-serial-numbers'
+			'nonce'   => 'wc-serial-numbers',
+			'i18n' =>  array(
+				'serial_number_activated' => __('Serial Number Activated.', 'wc-serial-numbers')
+			)
 		]);
 	}
 

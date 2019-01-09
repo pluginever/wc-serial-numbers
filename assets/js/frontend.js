@@ -15,6 +15,6 @@ jQuery(document).ready(function ($, window, document, undefined) {
         init: function () {
 			
 		}
-    }
+    };
     $.wc_serial_numbers.init();
 });

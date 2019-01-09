@@ -269,7 +269,7 @@ final class WCSerialNumbers
 	 */
 	public function plugin_action_links($links)
 	{
-		$links[] = '<a href="' . admin_url('admin.php?page=wc_serial_numbers-settings') . '">' . __('Settings', '') . '</a>';
+		$links[] = '<a href="' . admin_url('admin.php?page=wc_serial_numbers-settings') . '">' . __('Settings', 'wc-serial-numbers') . '</a>';
 		return $links;
 	}
 

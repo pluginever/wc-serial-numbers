@@ -20,8 +20,8 @@ class Serial_List_Table extends \WP_List_Table {
 	public function __construct($post_id = '') {
 
 		parent::__construct([
-			'singular' => __('Serial Number', 'wc-serial-number'), //singular name of the listed records
-			'plural'   => __('Serial Numbers', 'wc-serial-number'), //plural name of the listed records
+			'singular' => __('Serial Number', 'wc-serial-numbers'), //singular name of the listed records
+			'plural'   => __('Serial Numbers', 'wc-serial-numbers'), //plural name of the listed records
 			'ajax'     => false //should this table support ajax?
 
 		]);
@@ -29,14 +29,14 @@ class Serial_List_Table extends \WP_List_Table {
 		$this->is_single = $post_id;
 
 		//Search based on serial number
-		empty($_GET['s']) ? false : $this->search_query = $_GET['s'];
+		empty($_GET['s']) ? false : $this->search_query = esc_attr($_GET['s']);
 
 	}
 
 	/**
 	 * Prepare the items for the table to process
 	 *
-	 * @return Void
+	 * @return void
 	 */
 
 	public function prepare_items() {
@@ -137,10 +137,16 @@ class Serial_List_Table extends \WP_List_Table {
 			$used_deliver_times = wsn_used_deliver_times($post->ID);
 			$max_instance       = get_post_meta($post->ID, 'max_instance', true);
 			$image_license      = get_post_meta($post->ID, 'image_license', true);
-			$purchaser          = get_post_meta($post->ID, 'purchaser', true);
 			$order              = get_post_meta($post->ID, 'order', true);
-			$purchased_on       = get_post_meta($post->ID, 'purchased_on', true);
-			$validity           = get_post_meta($post->ID, 'validity', true);
+
+			//Order Details
+			$order_obj      = wc_get_order($order);
+			$customer_name  = wsn_get_customer_detail('first_name', $order_obj) . ' ' . wsn_get_customer_detail('last_name', $order_obj);
+			$customer_email = wsn_get_customer_detail('email', $order_obj);
+			$purchaser    = $customer_name.'<br>'.$customer_email;
+			//$purchased_on = $order_obj->get_date_created();
+
+			$validity = get_post_meta($post->ID, 'validity', true);
 
 			$data[] = [
 				'ID'             => $post->ID,
@@ -219,8 +225,8 @@ class Serial_List_Table extends \WP_List_Table {
 
 	function column_serial_numbers($item) {
 		$actions = array(
-			'edit'   => '<a href="' . add_query_arg(['type' => 'manual', 'row_action' => 'edit', 'serial_number' => $item['ID']], WPWSN_ADD_SERIAL_PAGE) . '">' . __('Edit', 'wc-serial-number') . '</a>',
-			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['ID']),
+			'edit'   => '<a href="' . add_query_arg(['type' => 'manual', 'row_action' => 'edit', 'serial_number' => $item['ID']], WPWSN_ADD_SERIAL_PAGE) . '">' . __('Edit', 'wc-serial-numbers') . '</a>',
+			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', esc_attr($_REQUEST['page']), 'delete', $item['ID']),
 		);
 
 		return sprintf('%1$s %2$s', $item['serial_numbers'], $this->row_actions($actions));
@@ -238,11 +244,11 @@ class Serial_List_Table extends \WP_List_Table {
 
 		// If orderby is set, use this as the sort column
 		if (!empty($_GET['orderby'])) {
-			$orderby = $_GET['orderby'];
+			$orderby = esc_attr($_GET['orderby']);
 		}
 		// If order is set use this as the order
 		if (!empty($_GET['order'])) {
-			$order = $_GET['order'];
+			$order = esc_attr($_GET['order']);
 		}
 
 		$result = strcmp($a[$orderby], $b[$orderby]);
