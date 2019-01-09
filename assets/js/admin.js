@@ -174,39 +174,49 @@ window.Project = (function (window, document, $, undefined) {
 			var value = $(this).val();
 			var validity = $('#validity');
 
-			if(value === 'days'){
+			if (value === 'days') {
 
 				validity.attr('type', 'number');
 				validity.datepicker('destroy');
 
-			}else if(value === 'date'){
+			} else if (value === 'date') {
 
 				validity.attr('type', 'text');
 				validity.datepicker({
-					dateFormat : 'dd-mm-yy',
+					dateFormat: 'dd-mm-yy',
 				});
 
 			}
 
 
-
 		},
 
 		generate_numbers: function (e) {
+
 			e.preventDefault();
 
 			var $limit = $(this).prev().val();
 			var $rule_id = $(this).data('rule_id');
 
+			var $confirm = window.confirm('Are you sure to generate ' + $limit + ' keys?');
+
+			if (!$confirm) {
+				return;
+			}
+
 			wp.ajax.send('wsn_generate_numbers', {
+
 				data: {
 					limit: $limit,
-					rule_id: $rule_id,
+					rule_id: $rule_id
 				},
 
 				success: function (response) {
-
+					if(response.response){
+						window.alert($limit + 'Keys generated successfully.');
+					}
 				},
+
 				error: function (error) {
 					console.log(error);
 				}

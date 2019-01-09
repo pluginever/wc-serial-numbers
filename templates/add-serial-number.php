@@ -19,17 +19,69 @@
 					<select name="product" id="product" class="ever-select  ever-field-inline">
 						<option value=""><?php _e('Choose a product', 'wc-serial-numbers') ?></option>
 						<?php
-						$posts = get_posts(['post_type' => 'product', 'posts_per_page' => -1]);
-						foreach ($posts as $post) {
-							setup_postdata($post);
-							$selected = $post->ID == $product ? 'selected' : '';
-							echo '<option value="' . $post->ID . '" ' . $selected . '>' . $post->ID . ' - ' . get_the_title($post->ID) . '</option>';
+
+						$query_args = array();
+
+						if (!wsn_is_wsnp()) {
+							$query_args = array(
+								'type' => 'simple',
+							);
 						}
+
+						$posts = wsn_get_products($query_args);
+
+						foreach ($posts as $post) {
+
+							setup_postdata($post);
+							$selected = $post->id == $product ? 'selected' : '';
+							echo '<option value="' . $post->id . '" ' . $selected . '>' . $post->id . ' - ' . get_the_title($post->id) . '</option>';
+						}
+
 						?>
 					</select>
+					<?php if (empty(wsn_disabled())) { ?>
+						<div class="ever-spinner-product hidden"></div>
+					<?php } else { ?>
+						<div class="ever-helper"> ?
+							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+						</div>
+					<?php } ?>
+
 				</td>
 			</tr>
 		<?php } ?>
+
+		<tr>
+			<th scope="row">
+				<label for="variation"><?php _e('Product Variation', 'wc-serial-numbers') ?></label>
+			</th>
+			<td>
+
+				<select name="variation" id="variation" class="ever-select  ever-field-inline" <?php echo wsn_disabled() ?>>
+					<option value=""><?php _e('Main Product', 'wc-serial-numbers') ?></option>
+
+					<?php
+					if (!empty($variation)) {
+						$product_obj = wc_get_product($product);
+
+						$variations = $product_obj->get_children();
+
+						if (!empty($variations)) {
+
+							foreach ($variations as $all_variation) {
+
+								$variation_selected = ($all_variation == $variation) ? 'selected' : 'selected';
+
+								echo '<option value="' . $all_variation . '" ' . $variation_selected . '>' . get_the_title($variation) . '</option>';
+							}
+						}
+					}
+					?>
+
+				</select>
+
+			</td>
+		</tr>
 
 		<tr>
 			<th scope="row">

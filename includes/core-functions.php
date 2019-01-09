@@ -100,6 +100,15 @@ function wsn_serial_number_tab_panel()
 	include WPWSN_TEMPLATES_DIR . '/product-serial-number-tab.php';
 }
 
+function wsn_get_products($args = []){
+
+	$args = array_merge($args, array(
+		'limit' => -1,
+	));
+
+	return wc_get_products( $args );
+}
+
 /**
  * Get serial number posts
  *
