@@ -11,15 +11,13 @@ if (!class_exists('WP_List_Table')) {
 /**
  * Create a new table class that will extend the WP_List_Table
  */
-class Serial_List_Table extends \WP_List_Table
-{
+class Serial_List_Table extends \WP_List_Table {
 
 	protected $is_single = false;
 	protected $search_query = false;
 
 	/** Class constructor */
-	public function __construct($post_id = '')
-	{
+	public function __construct($post_id = '') {
 
 		parent::__construct([
 			'singular' => __('Serial Number', 'wc-serial-number'), //singular name of the listed records
@@ -41,8 +39,7 @@ class Serial_List_Table extends \WP_List_Table
 	 * @return Void
 	 */
 
-	public function prepare_items()
-	{
+	public function prepare_items() {
 		$columns  = $this->get_columns();
 		$hidden   = $this->get_hidden_columns();
 		$sortable = $this->get_sortable_columns();
@@ -64,18 +61,17 @@ class Serial_List_Table extends \WP_List_Table
 	/**
 	 * Override the parent columns method. Defines the columns to use in your listing table
 	 *
-	 * @return Array
+	 * @return array
 	 */
-	public function get_columns()
-	{
+	public function get_columns() {
 
 		if ($this->is_single) {
 			$columns = array(
 				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
 				'product'        => __('Product', 'wc-serial-numbers'),
+				'variation'      => __('Variation', 'wc-serial-numbers'),
 				'deliver_times'  => __('Deliver Times', 'wc-serial-numbers'),
 				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
-				'expires_on'     => __('Expires On', 'wc-serial-numbers'),
 				'validity'       => __('Validity', 'wc-serial-numbers'),
 			);
 		} else {
@@ -83,12 +79,12 @@ class Serial_List_Table extends \WP_List_Table
 				'cb'             => '<input type="checkbox" />',
 				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
 				'product'        => __('Product', 'wc-serial-numbers'),
+				'variation'      => __('Variation', 'wc-serial-numbers'),
 				'deliver_times'  => __('Deliver Times', 'wc-serial-numbers'),
 				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
 				'purchaser'      => __('Purchaser', 'wc-serial-numbers'),
 				'order'          => __('Order', 'wc-serial-numbers'),
 				'purchased_on'   => __('Purchased On', 'wc-serial-numbers'),
-				'expires_on'     => __('Expires On', 'wc-serial-numbers'),
 				'validity'       => __('Validity', 'wc-serial-numbers'),
 			);
 		}
@@ -99,10 +95,9 @@ class Serial_List_Table extends \WP_List_Table
 	/**
 	 * Define which columns are hidden
 	 *
-	 * @return Array
+	 * @return array
 	 */
-	public function get_hidden_columns()
-	{
+	public function get_hidden_columns() {
 		return array();
 	}
 
@@ -111,8 +106,7 @@ class Serial_List_Table extends \WP_List_Table
 	 *
 
 	 */
-	public function get_sortable_columns()
-	{
+	public function get_sortable_columns() {
 		return [
 			'serial_numbers' => array('serial_numbers', false),
 			'purchaser'      => array('purchaser', false),
@@ -124,10 +118,9 @@ class Serial_List_Table extends \WP_List_Table
 	/**
 	 * Get the table data
 	 *
-	 * @return Array
+	 * @return array
 	 */
-	private function table_data()
-	{
+	private function table_data() {
 		$data = array();
 
 		$query = !$this->is_single ? ['s' => $this->search_query] : ['meta_key' => 'product', 'meta_value' => $this->is_single];
@@ -138,11 +131,11 @@ class Serial_List_Table extends \WP_List_Table
 
 			setup_postdata($post);
 
+			$product            = get_post_meta($post->ID, 'product', true);
+			$variation          = get_post_meta($post->ID, 'variation', true);
 			$deliver_times      = get_post_meta($post->ID, 'deliver_times', true);
 			$used_deliver_times = wsn_used_deliver_times($post->ID);
 			$max_instance       = get_post_meta($post->ID, 'max_instance', true);
-			$expires_on         = get_post_meta($post->ID, 'expires_on', true);
-			$product            = get_post_meta($post->ID, 'product', true);
 			$image_license      = get_post_meta($post->ID, 'image_license', true);
 			$purchaser          = get_post_meta($post->ID, 'purchaser', true);
 			$order              = get_post_meta($post->ID, 'order', true);
@@ -151,14 +144,14 @@ class Serial_List_Table extends \WP_List_Table
 
 			$data[] = [
 				'ID'             => $post->ID,
-				'serial_numbers' => get_the_title($post->ID) . '<br><img src="'.$image_license.'" class="ever-thumbnail-small">',
+				'serial_numbers' => get_the_title($post->ID) . '<br><img src="' . $image_license . '" class="ever-thumbnail-small">',
 				'product'        => '<a href="' . get_the_permalink($product) . '">' . get_the_title($product) . '</a>',
+				'variation'      => get_the_title($variation),
 				'deliver_times'  => empty($deliver_times) ? '∞' : $used_deliver_times . '/' . $deliver_times,
 				'max_instance'   => empty($max_instance) ? '∞' : $max_instance,
 				'purchaser'      => empty($purchaser) ? '-' : $purchaser,
 				'order'          => empty($order) ? '-' : '<a href="' . get_edit_post_link($order) . '">#' . $order . '</a>',
 				'purchased_on'   => empty($purchased_on) ? '-' : date('m-d-Y H:i a', strtotime($purchased_on)),
-				'expires_on'     => empty($expires_on) ? '∞' : $expires_on,
 				'validity'       => empty($validity) ? '∞' : $validity,
 			];
 
@@ -171,24 +164,23 @@ class Serial_List_Table extends \WP_List_Table
 	/**
 	 * Define what data to show on each column of the table
 	 *
-	 * @param  Array $item Data
+	 * @param  array $item Data
 	 * @param  String $column_name - Current column name
 	 *
 	 * @return Mixed
 	 */
-	public function column_default($item, $column_name)
-	{
+	public function column_default($item, $column_name) {
 
 		switch ($column_name) {
 			case 'ID':
 			case 'serial_numbers':
 			case 'product':
+			case 'variation':
 			case 'deliver_times':
 			case 'max_instance':
 			case 'purchaser':
 			case 'order':
 			case 'purchased_on':
-			case 'expires_on':
 			case 'validity':
 				return $item[$column_name];
 			default:
@@ -202,8 +194,7 @@ class Serial_List_Table extends \WP_List_Table
 	 * @return array
 	 */
 
-	public function get_bulk_actions()
-	{
+	public function get_bulk_actions() {
 		if (!$this->is_single) {
 			$actions = [
 				'bulk-delete' => 'Delete'
@@ -220,15 +211,13 @@ class Serial_List_Table extends \WP_List_Table
 	 *
 	 * @return string
 	 */
-	function column_cb($item)
-	{
+	function column_cb($item) {
 		return sprintf(
 			'<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
 		);
 	}
 
-	function column_serial_numbers($item)
-	{
+	function column_serial_numbers($item) {
 		$actions = array(
 			'edit'   => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['ID']),
 			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['ID']),
@@ -242,8 +231,7 @@ class Serial_List_Table extends \WP_List_Table
 	 *
 	 * @return Mixed
 	 */
-	private function sort_data($a, $b)
-	{
+	private function sort_data($a, $b) {
 		// Set defaults
 		$orderby = 'serial_numbers';
 		$order   = 'asc';
