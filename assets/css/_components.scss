@@ -147,9 +147,9 @@
 	}
 }
 
-.generate_number{
-	width: 70px;
-	display: inline;
+.generate.column-generate{
+	display: flex;
+	justify-content: space-between;
 }
 
 

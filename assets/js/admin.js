@@ -213,7 +213,7 @@ window.Project = (function (window, document, $, undefined) {
 
 				success: function (response) {
 					if(response.response){
-						window.alert($limit + 'Keys generated successfully.');
+						window.alert($limit + ' Keys generated successfully.');
 					}
 				},
 

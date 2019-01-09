@@ -114,7 +114,7 @@
 
 		<tr>
 			<th scope="row">
-				<label for="deliver_times"><?php _e('Deliver Times', 'wc-serial-numbers') ?></label>
+				<label for="deliver_times"><?php _e('Max. Deliver Times', 'wc-serial-numbers') ?></label>
 			</th>
 			<td>
 				<input type="number" min="1" value="<?php echo $deliver_times ?>" name="deliver_times" id="deliver_times" class=" ever-field-inline">
@@ -135,17 +135,6 @@
 				</div>
 			</td>
 		</tr>
-
-		<!--Expires On				<tr>-->
-		<!--					<th scope="row"><label for="expires_on">--><?php //_e('Expires On', 'wc-serial-numbers') ?><!--</label>-->
-		<!--					</th>-->
-		<!--					<td>-->
-		<!--						<input type="text" name="expires_on" id="expires_on" class="ever-date regular-text  ever-field-inline" value="--><?php //echo $expires_on ?><!--">-->
-		<!--						<div class="ever-helper"> ?-->
-		<!--							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>-->
-		<!--						</div>-->
-		<!--					</td>-->
-		<!--				</tr>-->
 
 		<tr>
 			<th scope="row">
