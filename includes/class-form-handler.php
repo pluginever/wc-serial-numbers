@@ -6,8 +6,6 @@ class FormHandler {
 
 	function __construct() {
 		add_action('admin_post_wsn_add_edit_generator_rule', [$this, 'handle_add_edit_generator_rule']);
-		//add_action('admin_post_wsn_edit_serial_number', [$this, 'handle_edit_serial_number_form']);
-		//add_action('init', [$this, 'handle_serial_numbers_table']);
 	}
 
 	/**
@@ -27,12 +25,6 @@ class FormHandler {
 		}
 
 		$action_type = sanitize_text_field($_REQUEST['action_type']);
-
-		if ($action_type == 'wsn_edit_generator_rule') {
-			echo '<pre>';
-			//wp_die(print_r($_REQUEST));
-			echo '</pre>';
-		}
 
 		$product       = esc_attr($_REQUEST['product']);
 		$variation     = esc_attr($_REQUEST['variation']);

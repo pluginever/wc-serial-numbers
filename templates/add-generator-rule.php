@@ -86,13 +86,12 @@ if ($row_action == 'edit') {
 							<select name="product" id="product" class="ever-select  ever-field-inline">
 								<option value=""><?php _e('Choose a product', 'wc-serial-numbers') ?></option>
 								<?php
-								//$posts = get_posts(['post_type' => 'product', 'posts_per_page' => -1]);
 								$posts = wsn_get_products();
 
 								foreach ($posts as $post) {
 									setup_postdata($post);
-									$selected = $post->id == $product ? 'selected' : '';
-									echo '<option value="' . $post->id . '" ' . $selected . '>' . $post->id . ' - ' . get_the_title($post->id) . '</option>';
+									$selected = $post->get_id() == $product ? 'selected' : '';
+									echo '<option value="' . $post->get_id() . '" ' . $selected . '>' . $post->get_id() . ' - ' . get_the_title($post->get_id()) . '</option>';
 								}
 
 								?>

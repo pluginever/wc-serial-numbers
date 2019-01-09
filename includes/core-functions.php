@@ -2,6 +2,8 @@
 //function prefix wc_serial_number_pro
 
 
+
+
 /**
  * Active the Pro version
  *
