@@ -33,8 +33,9 @@
 						foreach ($posts as $post) {
 
 							setup_postdata($post);
-							$selected = $post->id == $product ? 'selected' : '';
-							echo '<option value="' . $post->id . '" ' . $selected . '>' . $post->id . ' - ' . get_the_title($post->id) . '</option>';
+
+							$selected = $post->get_id() == $product ? 'selected' : '';
+							echo '<option value="' . $post->get_id() . '" ' . $selected . '>' . $post->get_id() . ' - ' . get_the_title($post->get_id()) . '</option>';
 						}
 
 						?>

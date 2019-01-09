@@ -5,8 +5,7 @@
  * Get Plugin directory templates part
  * */
 
-function wsn_get_template_part($template_name, $wsnp = false)
-{
+function wsn_get_template_part($template_name, $wsnp = false) {
 
 	$template_dir = $wsnp ? WPWSNP_TEMPLATES_DIR : WPWSN_TEMPLATES_DIR;
 
@@ -24,8 +23,7 @@ function wsn_get_template_part($template_name, $wsnp = false)
 
 add_action('init', 'wsn_register_posttypes');
 
-function wsn_register_posttypes()
-{
+function wsn_register_posttypes() {
 	register_post_type('wsn_serial_number', array(
 		'labels'              => 'Serial Numbers',
 		'hierarchical'        => false,
@@ -48,8 +46,7 @@ function wsn_register_posttypes()
  * Redirect the user with custom message
  * */
 
-function wsn_redirect_with_message($url, $code, $type = 'success', $args = array())
-{
+function wsn_redirect_with_message($url, $code, $type = 'success', $args = array()) {
 	$redirect_url = add_query_arg(wp_parse_args($args, array(
 		'feedback' => $type,
 		'code'     => $code,
@@ -58,8 +55,7 @@ function wsn_redirect_with_message($url, $code, $type = 'success', $args = array
 	exit();
 }
 
-function wsn_get_feedback_message($code)
-{
+function wsn_get_feedback_message($code) {
 	switch ($code) {
 		case 'empty_serial_number':
 			return __('The Serial Number is empty. Please enter a serial number and try again', 'wc-serial-numbers');
@@ -80,8 +76,7 @@ add_action('woocommerce_product_data_panels', 'wsn_serial_number_tab_panel');
  *
  * @return mixed
  */
-function wsn_serial_number_tab($product_data_tabs)
-{
+function wsn_serial_number_tab($product_data_tabs) {
 
 	$product_data_tabs['serial_numbers'] = array(
 		'label'  => __('Serial Numbers', 'serial-numbers'),
@@ -95,18 +90,17 @@ function wsn_serial_number_tab($product_data_tabs)
 /**
  * Serial number tab panel
  */
-function wsn_serial_number_tab_panel()
-{
+function wsn_serial_number_tab_panel() {
 	include WPWSN_TEMPLATES_DIR . '/product-serial-number-tab.php';
 }
 
-function wsn_get_products($args = []){
+function wsn_get_products($args = []) {
 
 	$args = array_merge($args, array(
 		'limit' => -1,
 	));
 
-	return wc_get_products( $args );
+	return wc_get_products($args);
 }
 
 /**
@@ -116,8 +110,7 @@ function wsn_get_products($args = []){
  *
  * @return array
  */
-function wsn_get_serial_numbers($args)
-{
+function wsn_get_serial_numbers($args) {
 
 	$args = wp_parse_args($args, [
 		'post_type'      => 'wsn_serial_number',
@@ -137,13 +130,14 @@ function wsn_get_serial_numbers($args)
  * @param $serial_number_id
  */
 
-function wsn_used_deliver_times($serial_number_id)
-{
+function wsn_used_deliver_times($serial_number_id) {
 
-	$deliver_times        = get_post_meta($serial_number_id, 'deliver_times', true);
-	$remain_deliver_times = get_post_meta($serial_number_id, 'remain_deliver_times', true);
+	$deliver_times = (int)get_post_meta($serial_number_id, 'deliver_times', true);
+
+	$remain_deliver_times = (int)get_post_meta($serial_number_id, 'remain_deliver_times', true);
 
 	return $remain_deliver_times = ($deliver_times - $remain_deliver_times);
+
 }
 
 
@@ -156,8 +150,7 @@ function wsn_used_deliver_times($serial_number_id)
  *
  * @return string
  */
-function wsn_get_settings($key, $default = '', $section = '')
-{
+function wsn_get_settings($key, $default = '', $section = '') {
 	$option = get_option($section, []);
 
 	return !empty($option[$key]) ? $option[$key] : $default;
@@ -174,8 +167,7 @@ function wsn_get_settings($key, $default = '', $section = '')
  * @return mixed
  */
 
-function wsn_get_customer_detail($key, $order)
-{
+function wsn_get_customer_detail($key, $order) {
 	return $order->data['billing'][$key];
 }
 
@@ -187,8 +179,7 @@ function wsn_get_customer_detail($key, $order)
  *
  * @return boolean
  */
-function wsn_is_wsnp()
-{
+function wsn_is_wsnp() {
 	return apply_filters('is_wsnp', false);
 }
 
@@ -200,8 +191,7 @@ function wsn_is_wsnp()
  * @return string
  */
 
-function wsn_disabled()
-{
+function wsn_disabled() {
 	return wsn_is_wsnp() ? '' : 'disabled';
 }
 
@@ -212,8 +202,7 @@ function wsn_disabled()
  *
  * @return string
  */
-function wsn_class_disabled()
-{
+function wsn_class_disabled() {
 	return wsn_is_wsnp() ? '' : 'ever-disabled';
 }
 
