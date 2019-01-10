@@ -184,6 +184,12 @@ window.Project = (function (window, document, $, undefined) {
 			} else if (value === 'date') {
 
 				validity.attr('type', 'text');
+
+				if($('.ever-serial_numbers_tab').length > 0){
+					validity.attr('placeholder', 'dd-mm-yyyy');
+					return;
+				}
+
 				validity.datepicker({
 					dateFormat: 'dd-mm-yy'
 				});
