@@ -71,7 +71,7 @@ class Serial_List_Table extends \WP_List_Table {
 				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
 				'product'        => __('Product', 'wc-serial-numbers'),
 				'variation'      => __('Variation', 'wc-serial-numbers'),
-				'deliver_times'  => __('Deliver Times', 'wc-serial-numbers'),
+				'deliver_times'  => __('Delivered/ Deliver Times', 'wc-serial-numbers'),
 				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
 				'validity'       => __('Validity', 'wc-serial-numbers'),
 			);

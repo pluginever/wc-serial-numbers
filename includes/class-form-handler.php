@@ -54,6 +54,8 @@ class FormHandler {
 
 		if ($action_type == 'wsn_add_serial_number') {
 
+			$meta_input['remain_deliver_times'] = $deliver_times;
+
 			$post_id = wp_insert_post([
 				'post_title'  => $serial_number,
 				'post_type'   => 'wsn_serial_number',
