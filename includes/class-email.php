@@ -21,9 +21,7 @@ class Email
 
 		$serial_numbers = get_post_meta($order_id, 'serial_numbers', true);
 
-		trace($serial_numbers);
-
-		if (empty($serial_numbers)) {
+		if (empty($serial_numbers) or !wsn_check_status($order)) {
 			return;
 		}
 
