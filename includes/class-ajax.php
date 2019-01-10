@@ -13,9 +13,11 @@ class Ajax {
 	 */
 
 	function __construct() {
+
 		add_action('wp_ajax_add_serial_number', [$this, 'add_serial_number']);
 		add_action('wp_ajax_enable_serial_number', [$this, 'enable_serial_number']);
 		add_action('wp_ajax_load_tab_data', [$this, 'load_tab_data']);
+
 	}
 
 	/**
@@ -23,17 +25,16 @@ class Ajax {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string
 	 */
 
 	function add_serial_number() {
 
-		$product       = $_REQUEST['product'];
-		$serial_number = $_REQUEST['serial_number'];
-		$image_license = $_REQUEST['image_license'];
-		$deliver_times = $_REQUEST['deliver_times'];
-		$max_instance  = $_REQUEST['max_instance'];
-		$validity      = $_REQUEST['validity'];
+		$product       = intval($_REQUEST['product']);
+		$serial_number = sanitize_text_field($_REQUEST['serial_number']);
+		$image_license = esc_url($_REQUEST['image_license']);
+		$deliver_times = intval($_REQUEST['deliver_times']);
+		$max_instance  = intval($_REQUEST['max_instance']);
+		$validity      = esc_attr($_REQUEST['validity']);
 
 		if (empty($serial_number) && empty($image_license)) {
 
@@ -65,7 +66,7 @@ class Ajax {
 
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
-			echo '<h3 style="margin-bottom: -30px;">Available license number for this product:</h3>';
+			echo '<h3 style="margin-bottom: -30px;">'._e('Available license number for this product:','wc-serial-numbers').'</h3>';
 
 			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
 
@@ -85,13 +86,13 @@ class Ajax {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string
+	 * @return string|void
 	 */
 	function enable_serial_number() {
 
-		$post_id = $_REQUEST['post_id'];
+		$post_id = intval($_REQUEST['post_id']);
 
-		$is_serial_number_enabled = $_REQUEST['enable_serial_number'];
+		$is_serial_number_enabled = sanitize_text_field($_REQUEST['enable_serial_number']);
 
 
 		update_post_meta($post_id, 'enable_serial_number', $is_serial_number_enabled);
@@ -104,7 +105,7 @@ class Ajax {
 
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
-			echo '<h3 style="margin-bottom: -30px;">Available license number for this product:</h3>';
+			echo '<h3 style="margin-bottom: -30px;">'._e('Available license number for this product:','wc-serial-numbers').'</h3>';
 
 			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
 
@@ -130,7 +131,6 @@ class Ajax {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string
 	 */
 	function load_tab_data() {
 
@@ -145,7 +145,7 @@ class Ajax {
 			ob_start();
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
-			echo '<h3 style="margin-bottom: -30px;">Available license number for this product:</h3>';
+			echo '<h3 style="margin-bottom: -30px;">'._e('Available license number for this product:','wc-serial-numbers').'</h3>';
 
 			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
 
