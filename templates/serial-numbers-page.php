@@ -28,7 +28,6 @@ if (!$row_action) {
 		<div class="wsn-body">
 			<?php
 			if (!$is_product_tab) {
-				//$serial_list->search_box('Search', 'search_id');
 				echo '<form action="" method="GET">';
 				echo $serial_list->search_box(__('Search', 'wc-serial-numbers'), 'wsn_serial_page');
 				echo '<input type="hidden" name="page" value="' . esc_attr($_REQUEST['page']) . '"/></form>'; // form end
