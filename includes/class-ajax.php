@@ -64,7 +64,7 @@ class Ajax {
 
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
-			echo '<h3 style="margin-bottom: -30px;">'._e('Available license number for this product:','wc-serial-numbers').'</h3>';
+			echo '<h3 style="margin-bottom: -30px;">'.__('Available license number for this product:','wc-serial-numbers').'</h3>';
 
 			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
 
@@ -103,7 +103,7 @@ class Ajax {
 
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
-			echo '<h3 style="margin-bottom: -30px;">'._e('Available license number for this product:','wc-serial-numbers').'</h3>';
+			echo '<h3 style="margin-bottom: -30px;">'.__('Available license number for this product:','wc-serial-numbers').'</h3>';
 
 			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
 
@@ -143,7 +143,7 @@ class Ajax {
 			ob_start();
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
-			echo '<h3 style="margin-bottom: -30px;">'._e('Available license number for this product:','wc-serial-numbers').'</h3>';
+			echo '<h3 style="margin-bottom: -30px;">'.__('Available license number for this product:','wc-serial-numbers').'</h3>';
 
 			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
 
