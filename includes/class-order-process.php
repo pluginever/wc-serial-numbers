@@ -3,12 +3,10 @@
 namespace Pluginever\WCSerialNumbers;
 
 
-class Order_Process
-{
+class Order_Process {
 
 
-	function __construct()
-	{
+	function __construct() {
 
 		// Check if Customer can checkout even there is no serial number
 		$is_allowed = wsn_get_settings('wsn_allow_checkout', '', 'wsn_general_settings');
@@ -30,8 +28,7 @@ class Order_Process
 	 * @param $data
 	 */
 
-	function order_process($order_id)
-	{
+	function order_process($order_id) {
 
 		$order = wc_get_order($order_id);
 
@@ -79,12 +76,11 @@ class Order_Process
 	 * @param $order
 	 */
 
-	function order_serial_number_details($order)
-	{
+	function order_serial_number_details($order) {
 
 		$serial_numbers = get_post_meta($order->get_id(), 'serial_numbers', true);
 
-		if (empty($serial_numbers)) {
+		if (empty($serial_numbers) or !wsn_check_status($order)) {
 			return;
 		}
 
@@ -92,8 +88,7 @@ class Order_Process
 
 	}
 
-	function validate_cart_content()
-	{
+	function validate_cart_content() {
 
 		$car_products = WC()->cart->get_cart_contents();
 

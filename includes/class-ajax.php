@@ -139,7 +139,7 @@ class Ajax {
 		set_query_var('is_product_tab', $post_id);
 
 		$is_serial_number_enabled = get_post_meta($post_id, 'enable_serial_number', true);
-		
+
 
 		if ($is_serial_number_enabled == 'enable') {
 			ob_start();

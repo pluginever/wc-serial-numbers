@@ -1,19 +1,16 @@
 <?php
 
 namespace Pluginever\WCSerialNumbers\Admin;
-class Settings
-{
+class Settings {
 	private $settings_api;
 
-	function __construct()
-	{
+	function __construct() {
 		$this->settings_api = new \Ever_Settings_API();
 		add_action('admin_init', array($this, 'admin_init'));
 		add_action('admin_menu', array($this, 'admin_menu'));
 	}
 
-	function admin_init()
-	{
+	function admin_init() {
 		//set the settings
 		$this->settings_api->set_sections($this->get_settings_sections());
 		$this->settings_api->set_fields($this->get_settings_fields());
@@ -21,8 +18,7 @@ class Settings
 		$this->settings_api->admin_init();
 	}
 
-	function get_settings_sections()
-	{
+	function get_settings_sections() {
 		$sections = array(
 			array(
 				'id'    => 'wsn_general_settings',
@@ -52,8 +48,7 @@ class Settings
 	 *
 	 * @return array settings fields
 	 */
-	function get_settings_fields()
-	{
+	function get_settings_fields() {
 		$settings_fields = array(
 			'wsn_general_settings'          => array(
 				array(
@@ -209,10 +204,10 @@ class Settings
 					'class'   => 'ever-field-inline',
 					'type'    => 'select',
 					'options' => array(
-						'pending_payment' => __('Pending Payment', 'wc-serial-numbers'),
-						'processing'      => __('Processing', 'wc-serial-numbers'),
-						'on_hold'         => __('On hold', 'wc-serial-numbers'),
-						'completed'       => __('Completed', 'wc-serial-numbers'),
+						'pending'    => __('Pending Payment', 'wc-serial-numbers'),
+						'processing' => __('Processing', 'wc-serial-numbers'),
+						'on-hold'    => __('On hold', 'wc-serial-numbers'),
+						'completed'  => __('Completed', 'wc-serial-numbers'),
 					),
 				),
 
@@ -235,16 +230,14 @@ class Settings
 		return apply_filters('wc_serial_numbers_settings_fields', $settings_fields);
 	}
 
-	function admin_menu()
-	{
+	function admin_menu() {
 		add_submenu_page('serial-numbers', 'WC Serial Numbers Settings', 'WC Serial Numbers Settings', 'manage_options', 'wc_serial_numbers-settings', array(
 			$this,
 			'settings_page'
 		));
 	}
 
-	function settings_page()
-	{
+	function settings_page() {
 		?><?php
 		echo '<div class="wrap">';
 		echo sprintf("<h2>%s</h2>", __('WC Serial Numbers Settings', 'wc-serial-numbers'));
@@ -257,8 +250,7 @@ class Settings
 	 *
 	 * @return array page names with key value pairs
 	 */
-	function get_pages()
-	{
+	function get_pages() {
 		$pages         = get_pages();
 		$pages_options = array();
 		if ($pages) {

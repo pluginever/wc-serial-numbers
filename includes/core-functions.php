@@ -211,4 +211,21 @@ function wsn_class_disabled() {
 	return wsn_is_wsnp() ? '' : 'ever-disabled';
 }
 
+/**
+ * Check is the order status, is the settings saved order status for showing license
+ *
+ * @param $order
+ *
+ * @return bool
+ */
+
+function wsn_check_status($order){
+
+	$order_status   = $order->get_data()['status'];
+	$status_to_show = wsn_get_settings('wsn_send_serial_number', '', 'wsn_delivery_settings');
+
+	return $order_status == $status_to_show ? true : false;
+
+}
+
 
