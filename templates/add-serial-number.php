@@ -44,7 +44,7 @@
 						<div class="ever-spinner-product hidden"></div>
 					<?php } else { ?>
 						<div class="ever-helper"> ?
-							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+							<span class="text">Upgrade to PRO for adding serial numbers for variable products.</span>
 						</div>
 					<?php } ?>
 
@@ -90,7 +90,13 @@
 			<td class="ever-form-group">
 				<textarea name="serial_number" type="text" id="serial_number" class="regular-text ever-field-inline"><?php echo $serial_number ?></textarea>
 				<div class="ever-helper"> ?
-					<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+					<span class="text">
+						<?php _e('You can enter multiline text.','wc-serial-numbers') ?>
+						<br><strong><?php _e('Example:','wc-serial-numbers'); ?></strong><br>
+						username: johnsmith
+						<br>
+						password: johnsmith123
+					</span>
 				</div>
 			</td>
 		</tr>
@@ -103,7 +109,7 @@
 				<button class="ever-upload button <?php echo wsn_class_disabled() ?>" type="button" <?php echo wsn_disabled() ?> id="image_license_upload"><?php _e('Upload', 'wc-serial-numbers'); ?></button>
 
 				<div class="ever-helper"> ?
-					<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+					<span class="text"><strong><?php _e('Upgrade to PRO for, using image as License','wc-serial-numbers'); ?></strong></span>
 				</div>
 
 				<img class="image_license_prev ever-thumbnail" src="<?php echo $image_license ?>">
@@ -120,7 +126,7 @@
 			<td>
 				<input type="number" min="1" value="<?php echo $deliver_times ?>" name="deliver_times" id="deliver_times" class=" ever-field-inline">
 				<div class="ever-helper"> ?
-					<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+					<span class="text"><?php _e('The maximum number, the serial number can be delivered.','wc-serial-numbers'); ?></span>
 				</div>
 			</td>
 		</tr>
@@ -132,7 +138,7 @@
 			<td class="ever-form-group">
 				<input type="number" min="0" value="<?php echo $max_instance ?>" name="max_instance" id="max_instance" class="ever-field-inline">
 				<div class="ever-helper"> ?
-					<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+					<span class="text"><?php _e('The maximum number of the implementation for the verification of the tracking api. Ignore, If your product doesn\'t need tracking' ,'wc-serial-numbers'); ?></span>
 				</div>
 			</td>
 		</tr>
@@ -151,7 +157,11 @@
 
 				<input type="<?php echo $validity_type == 'days' ? 'number' : 'text' ?>" min="0" name="validity" id="validity" class="regular-text  ever-field-inline" value="<?php echo $validity ?>">
 				<div class="ever-helper"> ?
-					<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+					<span class="text">
+						<?php _e('Check Days for validity type of Days numbers','wc-serial-numbers'); ?>
+						<br>
+						<?php _e('Check Date for validity type of Date','wc-serial-numbers'); ?>
+					</span>
 				</div>
 			</td>
 		</tr>

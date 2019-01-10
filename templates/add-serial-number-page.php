@@ -57,7 +57,7 @@ if ($type == 'automate') {
 		<?php if (!wsn_is_wsnp()) { ?>
 
 			<div class="ever-helper"> ?
-				<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+				<span class="text"><strong>Please Upgrade to PRO, for generating serial numbers Automatically.</strong></span>
 			</div>
 
 		<?php } ?>
