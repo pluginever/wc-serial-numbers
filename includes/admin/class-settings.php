@@ -207,7 +207,7 @@ class Settings
 					'label'   => __('Send serial number on', 'wc-serial-numbers'),
 					'desc'    => __('<p class="description"> choose order status, when the serial number to be send</p>', 'wc-serial-numbers'),
 					'class'   => 'ever-field-inline',
-					'type'    => 'multicheck',
+					'type'    => 'select',
 					'options' => array(
 						'pending_payment' => __('Pending Payment', 'wc-serial-numbers'),
 						'processing'      => __('Processing', 'wc-serial-numbers'),
@@ -221,7 +221,7 @@ class Settings
 					'label'   => __('Revoke serial number on', 'wc-serial-numbers'),
 					'desc'    => __('<p class="description"> choose order status, when the serial number to be removed from the order details</p>', 'wc-serial-numbers'),
 					'class'   => 'ever-field-inline',
-					'type'    => 'multicheck',
+					'type'    => 'select',
 					'options' => array(
 						'cancelled' => __('Cancelled', 'wc-serial-numbers'),
 						'refunded'  => __('Refunded', 'wc-serial-numbers'),
