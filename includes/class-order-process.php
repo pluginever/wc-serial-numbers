@@ -24,6 +24,7 @@ class Order_Process {
 
 	/**
 	 * Reserve or generate a serial number for the product during place order process.
+	 *
 	 * @param $order
 	 * @param $data
 	 */
@@ -114,8 +115,23 @@ class Order_Process {
 
 			if ($is_enabled == 'enable') {
 				$serial_numbers = wsn_get_serial_numbers(['meta_key' => 'product', 'meta_value' => $product_id]);
-				$count_numbers  = count($serial_numbers);
 
+				$numbers = [];
+
+				foreach ($serial_numbers as $serial_number) {
+
+					$deliver_times = get_post_meta($serial_number->ID, 'deliver_times', true);
+					$used          = get_post_meta($serial_number->ID, 'used', true);
+
+					if ($deliver_times <= $used) {
+						continue;
+					}
+
+					$numbers[] = $serial_number->ID;
+
+				}
+
+				$count_numbers  = count($numbers);
 
 				if ($count_numbers < $quantity) {
 					wc_add_notice(__('Sorry, There is not enough <strong>Serial Number</strong> available for', 'wc-serial-numbers') . ' <strong>' . $product->get_title() . '</strong>, <br>' . __('Please remove this item or lower the quantity, For now we have', 'wc-serial-numbers') . ' ' . $count_numbers . ' ' . __('Serial Number(s)', 'wc-serial-numbers') . ' ' . __('for this product.', 'wc-serial-numbers') . '' . '<br>', 'error');
