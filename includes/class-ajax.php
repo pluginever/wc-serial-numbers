@@ -3,10 +3,7 @@
 namespace Pluginever\WCSerialNumbers;
 
 
-class Ajax
-
-
-{
+class Ajax {
 	/**
 	 * Ajax constructor.
 	 *
@@ -15,8 +12,7 @@ class Ajax
 	 * @return void
 	 */
 
-	function __construct()
-	{
+	function __construct() {
 		add_action('wp_ajax_add_serial_number', [$this, 'add_serial_number']);
 		add_action('wp_ajax_enable_serial_number', [$this, 'enable_serial_number']);
 		add_action('wp_ajax_load_tab_data', [$this, 'load_tab_data']);
@@ -30,15 +26,13 @@ class Ajax
 	 * @return string
 	 */
 
-	function add_serial_number()
-	{
+	function add_serial_number() {
 
 		$product       = $_REQUEST['product'];
 		$serial_number = $_REQUEST['serial_number'];
 		$image_license = $_REQUEST['image_license'];
 		$deliver_times = $_REQUEST['deliver_times'];
 		$max_instance  = $_REQUEST['max_instance'];
-		$expires_on    = $_REQUEST['expires_on'];
 		$validity      = $_REQUEST['validity'];
 
 		if (empty($serial_number) && empty($image_license)) {
@@ -47,18 +41,21 @@ class Ajax
 
 		} else {
 
+			$meta_input = array(
+				'product'       => $product,
+				'image_license' => $image_license,
+				'deliver_times' => $deliver_times,
+				'max_instance'  => $max_instance,
+				'validity'      => $validity,
+			);
+
 			$post_id = wp_insert_post([
 				'post_title'  => $serial_number,
 				'post_type'   => 'wsn_serial_number',
 				'post_status' => 'publish',
+				'meta_input'  => $meta_input,
 			]);
 
-			update_post_meta($post_id, 'product', $product);
-			update_post_meta($post_id, 'image_license', $image_license);
-			update_post_meta($post_id, 'deliver_times', $deliver_times);
-			update_post_meta($post_id, 'max_instance', $max_instance);
-			update_post_meta($post_id, 'expires_on', $expires_on);
-			update_post_meta($post_id, 'validity', $validity);
 
 			$is_serial_number_enabled = 'enable';
 
@@ -90,8 +87,7 @@ class Ajax
 	 *
 	 * @return string
 	 */
-	function enable_serial_number()
-	{
+	function enable_serial_number() {
 
 		$post_id = $_REQUEST['post_id'];
 
@@ -136,17 +132,14 @@ class Ajax
 	 *
 	 * @return string
 	 */
-	function load_tab_data()
-	{
+	function load_tab_data() {
 
 		$post_id = intval($_REQUEST['post_id']);
 
 		set_query_var('is_product_tab', $post_id);
 
 		$is_serial_number_enabled = get_post_meta($post_id, 'enable_serial_number', true);
-
-		//error_log(print_r($is_serial_number_enabled));
-		//die();
+		
 
 		if ($is_serial_number_enabled == 'enable') {
 			ob_start();
