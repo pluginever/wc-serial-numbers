@@ -95,7 +95,7 @@ class FormHandler {
 			wp_die('No Cheating!');
 		}
 
-		$bulk_deletes = esc_attr($_REQUEST['bulk-delete']);
+		$bulk_deletes = $_REQUEST['bulk-delete'];
 
 		if (!empty($bulk_deletes)) {
 			foreach ($bulk_deletes as $bulk_delete) {
