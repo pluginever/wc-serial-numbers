@@ -113,6 +113,8 @@ class Ajax {
 					'product'       => $product,
 					'variation'     => $variation,
 					'max_instance'  => $max_instance,
+					'deliver_times' => $max_instance,
+					'used'          => 0,
 					'validity_type' => $validity_type,
 					'validity'      => $validity,
 				),

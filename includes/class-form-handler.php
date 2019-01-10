@@ -53,6 +53,7 @@ class FormHandler {
 			'chunk_length'  => $chunk_length,
 			'suffix'        => $suffix,
 			'deliver_times' => $deliver_times,
+			'used'          => 0,
 			'max_instance'  => $max_instance,
 			'validity_type' => $validity_type,
 			'validity'      => $validity,
