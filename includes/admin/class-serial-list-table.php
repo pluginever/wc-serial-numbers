@@ -53,7 +53,7 @@ class Serial_List_Table extends \WP_List_Table {
 		));
 
 		$data                  = array_slice($data, (($currentPage - 1) * $perPage), $perPage);
-		$this->_column_headers = array($columns, $hidden, $sortable);
+		$this->_column_headers = array($columns, $sortable);
 		$this->items           = $data;
 
 	}
@@ -204,13 +204,13 @@ class Serial_List_Table extends \WP_List_Table {
 
 	public function get_bulk_actions() {
 
-		if (!$this->is_single) {
-			$actions = [
-				'bulk-delete' => 'Delete'
-			];
+		$actions = [];
 
-			return $actions;
+		if (!$this->is_single) {
+			$actions ['bulk-delete'] = 'Delete';
 		}
+
+		return $actions;
 	}
 
 	/**
@@ -239,7 +239,12 @@ class Serial_List_Table extends \WP_List_Table {
 	/**
 	 * Allows you to sort the data by the variables set in the $_GET
 	 *
-	 * @return Mixed
+	 * @since 1.0.0
+	 *
+	 * @param $a
+	 * @param $b
+	 *
+	 * @return mixed
 	 */
 	private function sort_data($a, $b) {
 		// Set defaults

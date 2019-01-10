@@ -3,6 +3,10 @@
 
 /*
  * Get Plugin directory templates part
+ *
+ * @since 1.0.0
+ *
+ * @return template file path
  * */
 
 function wsn_get_template_part($template_name, $wsnp = false) {
@@ -18,7 +22,7 @@ function wsn_get_template_part($template_name, $wsnp = false) {
  *
  * @since 1.0.0
  *
- * @return mixed
+ * @return void
  * */
 
 add_action('init', 'wsn_register_posttypes');
@@ -43,19 +47,31 @@ function wsn_register_posttypes() {
 }
 
 /*
- * Redirect the user with custom message
+ * Redirect the user with custom message on form validation
+ *
+ * @since 1.0.0
  * */
 
 function wsn_redirect_with_message($url, $code, $type = 'success', $args = array()) {
+
 	$redirect_url = add_query_arg(wp_parse_args($args, array(
 		'feedback' => $type,
 		'code'     => $code,
 	)), $url);
 	wp_redirect($redirect_url);
 	exit();
+
 }
 
+/**
+ * Get feedback message for form validation
+ *
+ * @param $code
+ * @return string|mixed
+ */
+
 function wsn_get_feedback_message($code) {
+
 	switch ($code) {
 		case 'empty_serial_number':
 			return __('The Serial Number is empty. Please enter a serial number and try again', 'wc-serial-numbers');
@@ -64,6 +80,9 @@ function wsn_get_feedback_message($code) {
 			return __('The product is empty. Please select a product and try again', 'wc-serial-numbers');
 			break;
 	}
+
+	return false;
+
 }
 
 add_filter('woocommerce_product_data_tabs', 'wsn_serial_number_tab');
@@ -88,11 +107,21 @@ function wsn_serial_number_tab($product_data_tabs) {
 }
 
 /**
- * Serial number tab panel
+ * Serial number tab panel content
+ *
+ * @since 1.0.0
+ *
  */
 function wsn_serial_number_tab_panel() {
 	include WPWSN_TEMPLATES_DIR . '/product-serial-number-tab.php';
 }
+
+/**
+ * Get all woocommerce products
+ *
+ * @param array $args
+ * @return array|stdClass
+ */
 
 function wsn_get_products($args = []) {
 
@@ -105,6 +134,8 @@ function wsn_get_products($args = []) {
 
 /**
  * Get serial number posts
+ *
+ * @since 1.0.0
  *
  * @param $args
  *
@@ -126,6 +157,8 @@ function wsn_get_serial_numbers($args) {
 
 /**
  * Get the remain usage for serial number
+ *
+ * @since 1.0.0
  *
  * @param $serial_number_id
  */
@@ -151,6 +184,7 @@ function wsn_used_deliver_times($serial_number_id) {
  * @return string
  */
 function wsn_get_settings($key, $default = '', $section = '') {
+
 	$option = get_option($section, []);
 
 	return !empty($option[$key]) ? $option[$key] : $default;

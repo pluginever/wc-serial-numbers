@@ -13,8 +13,6 @@ class FormHandler {
 	 * Handle add new serial number form
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return void
 	 */
 
 	function handle_add_edit_serial_number_form() {
@@ -88,21 +86,18 @@ class FormHandler {
 
 	function handle_serial_numbers_table() {
 
-		if (!isset($_REQUEST['wsn-serial-numbers-table-action'])) {
+		if (!isset($_REQUEST['wsn-serial-numbers-table-action']) || !isset($_REQUEST['action'])) {
 			return false;
 		}
 
-		if (!isset($_REQUEST['action'])) {
-			return false;
-		}
 
 		if (!wp_verify_nonce($_REQUEST['wsn-serial-numbers-table-nonce'], 'wsn-serial-numbers-table')) {
 			wp_die('No Cheating!');
 		}
 
-		$bulk_deletes = $_REQUEST['bulk-delete'];
+		$bulk_deletes = esc_attr($_REQUEST['bulk-delete']);
 
-		if (isset($bulk_deletes)) {
+		if (!empty($bulk_deletes)) {
 			foreach ($bulk_deletes as $bulk_delete) {
 				wp_delete_post($bulk_delete);
 			}

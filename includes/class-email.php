@@ -12,7 +12,10 @@ class Email
 
 	/**
 	 * Add serial number details to the email and send it to customer.
+	 *
 	 * @param $order
+	 *
+	 * @return string|void
 	 */
 	function add_serial_number_to_email($order)
 	{
