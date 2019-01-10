@@ -163,15 +163,15 @@ function wsn_get_serial_numbers($args) {
  * @param $serial_number_id
  */
 
-function wsn_used_deliver_times($serial_number_id) {
-
-	$deliver_times = (int)get_post_meta($serial_number_id, 'deliver_times', true);
-
-	$remain_deliver_times = (int)get_post_meta($serial_number_id, 'remain_deliver_times', true);
-
-	return $remain_deliver_times = ($deliver_times - $remain_deliver_times);
-
-}
+//function wsn_used_deliver_times($serial_number_id) {
+//
+//	$deliver_times = (int)get_post_meta($serial_number_id, 'deliver_times', true);
+//
+//	$remain_deliver_times = (int)get_post_meta($serial_number_id, 'remain_deliver_times', true);
+//
+//	return $remain_deliver_times = ($deliver_times - $remain_deliver_times);
+//
+//}
 
 
 /**

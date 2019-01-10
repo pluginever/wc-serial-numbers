@@ -41,12 +41,12 @@ class Ajax {
 		} else {
 
 			$meta_input = array(
-				'product'              => $product,
-				'image_license'        => $image_license,
-				'deliver_times'        => $deliver_times,
-				'remain_deliver_times' => $deliver_times,
-				'max_instance'         => $max_instance,
-				'validity'             => $validity,
+				'product'       => $product,
+				'image_license' => $image_license,
+				'deliver_times' => $deliver_times,
+				'used'          => 0,
+				'max_instance'  => $max_instance,
+				'validity'      => $validity,
 			);
 
 			$post_id = wp_insert_post([

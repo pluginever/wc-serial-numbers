@@ -51,16 +51,29 @@ class Order_Process {
 					'meta_value' => $product_id,
 				]);
 
-				$serial_number = $serial_numbers[array_rand($serial_numbers)]; //serial_number_to_be_used
+				$numbers = [];
 
-				$deliver_times = get_post_meta($serial_number->ID, 'deliver_times', true);
+				foreach ($serial_numbers as $serial_number) {
 
-				update_post_meta($serial_number->ID, 'order', $order->get_id());
+					$deliver_times = get_post_meta($serial_number->ID, 'deliver_times', true);
+					$used          = get_post_meta($serial_number->ID, 'used', true);
 
-				update_post_meta($serial_number->ID, 'remain_deliver_times', ($deliver_times - $quantity));
+					if ($deliver_times <= $used) {
+						continue;
+					}
+
+					$numbers[] = $serial_number->ID;
+
+				}
 
 
-				$serial_numbers_ids[$product_id] = $serial_number->ID;
+				$number = $numbers[array_rand($numbers)]; //serial_number_to_be_used
+
+				update_post_meta($number, 'order', $order->get_id());
+
+				update_post_meta($number, 'used', ($used + $quantity));
+
+				$serial_numbers_ids[$product_id] = $number;
 
 			}
 

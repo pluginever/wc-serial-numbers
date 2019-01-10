@@ -71,7 +71,7 @@ class Serial_List_Table extends \WP_List_Table {
 				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
 				'product'        => __('Product', 'wc-serial-numbers'),
 				'variation'      => __('Variation', 'wc-serial-numbers'),
-				'deliver_times'  => __('Delivered/ Deliver Times', 'wc-serial-numbers'),
+				'deliver_times'  => __('Used/ Deliver Times', 'wc-serial-numbers'),
 				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
 				'validity'       => __('Validity', 'wc-serial-numbers'),
 			);
@@ -83,7 +83,7 @@ class Serial_List_Table extends \WP_List_Table {
 				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
 				'product'        => __('Product', 'wc-serial-numbers'),
 				'variation'      => __('Variation', 'wc-serial-numbers'),
-				'deliver_times'  => __('Delivered/ Deliver Times', 'wc-serial-numbers'),
+				'deliver_times'  => __('Used/ Deliver Times', 'wc-serial-numbers'),
 				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
 				'purchaser'      => __('Purchaser', 'wc-serial-numbers'),
 				'order'          => __('Order', 'wc-serial-numbers'),
@@ -132,10 +132,14 @@ class Serial_List_Table extends \WP_List_Table {
 			$product            = get_post_meta($post->ID, 'product', true);
 			$variation          = get_post_meta($post->ID, 'variation', true);
 			$deliver_times      = get_post_meta($post->ID, 'deliver_times', true);
-			$used_deliver_times = wsn_used_deliver_times($post->ID);
+			$used_deliver_times = get_post_meta($post->ID, 'used', true);
 			$max_instance       = get_post_meta($post->ID, 'max_instance', true);
 			$image_license      = get_post_meta($post->ID, 'image_license', true);
 			$order              = get_post_meta($post->ID, 'order', true);
+
+			if($this->is_single && ($used_deliver_times >= $deliver_times)) {
+				continue;
+			}
 
 			//Order Details
 			$order_obj = wc_get_order($order);
@@ -153,7 +157,7 @@ class Serial_List_Table extends \WP_List_Table {
 			$data[] = [
 				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title($post->ID) . '<br><img src="' . $image_license . '" class="ever-thumbnail-small">',
-				'product'        => '<a href="' . get_the_permalink($product) . '">' . get_the_title($product) . '</a>',
+				'product'        => '<a href="' . get_edit_post_link($product) . '">' . get_the_title($product) . '</a>',
 				'variation'      => get_the_title($variation),
 				'deliver_times'  => empty($deliver_times) ? '∞' : $used_deliver_times . '/' . $deliver_times,
 				'max_instance'   => empty($max_instance) ? '∞' : $max_instance,
@@ -230,7 +234,8 @@ class Serial_List_Table extends \WP_List_Table {
 
 		$actions = array(
 			'edit'   => '<a href="' . add_query_arg(['type' => 'manual', 'row_action' => 'edit', 'serial_number' => $item['ID']], WPWSN_ADD_SERIAL_PAGE) . '">' . __('Edit', 'wc-serial-numbers') . '</a>',
-			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', !empty($_REQUEST['page']) ? esc_attr($_REQUEST['page']) : '', 'delete', $item['ID']),
+			//'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', !empty($_REQUEST['page']) ? esc_attr($_REQUEST['page']) : '', 'delete', $item['ID']),
+			'delete' => '<a href="' . add_query_arg(['type' => 'manual', 'row_action' => 'delete', 'serial_number' => $item['ID']], WPWSN_SERIAL_INDEX_PAGE) . '">Delete</a>',
 		);
 
 		return sprintf('%1$s %2$s', $item['serial_numbers'], $this->row_actions($actions));
