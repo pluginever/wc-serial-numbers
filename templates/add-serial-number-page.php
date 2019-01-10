@@ -18,8 +18,6 @@ if ($type == 'automate') {
 		$validity_type = get_post_meta($serial_number_id, 'validity_type', true);
 		$validity      = get_post_meta($serial_number_id, 'validity', true);
 		$image_license = get_post_meta($serial_number_id, 'image_license', true);
-		//$order        = get_post_meta( $serial_number, 'order', true );
-		//$purchased_on = get_post_meta( $serial_number, 'purchased_on', true );
 		$title                  = __('Edit Serial Number', 'wc-serial-numbers');
 		$submit                 = __('Save changes', 'wc-serial-numbers');
 		$action_type            = 'wsn_edit_serial_number';
