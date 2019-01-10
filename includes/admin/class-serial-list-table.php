@@ -146,7 +146,7 @@ class Serial_List_Table extends \WP_List_Table {
 			$customer_email = wsn_get_customer_detail('email', $order_obj);
 			$purchaser      = $customer_name . '<br>' . $customer_email;
 
-			if(is_object($order_obj)) {
+			if (is_object($order_obj)) {
 				$purchased_on = $order_obj->get_data()['date_created'];
 			}
 
@@ -230,7 +230,7 @@ class Serial_List_Table extends \WP_List_Table {
 	function column_serial_numbers($item) {
 		$actions = array(
 			'edit'   => '<a href="' . add_query_arg(['type' => 'manual', 'row_action' => 'edit', 'serial_number' => $item['ID']], WPWSN_ADD_SERIAL_PAGE) . '">' . __('Edit', 'wc-serial-numbers') . '</a>',
-			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', esc_attr($_REQUEST['page']), 'delete', $item['ID']),
+			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', !empty($_REQUEST['page']) ? esc_attr($_REQUEST['page']) : '', 'delete', $item['ID']),
 		);
 
 		return sprintf('%1$s %2$s', $item['serial_numbers'], $this->row_actions($actions));

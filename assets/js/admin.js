@@ -23,11 +23,11 @@ window.Project = (function (window, document, $, undefined) {
 			$(document).on('click', '#image_license_remove', app.remove_license_upload);
 
 			$(document).on('change', '#product', app.load_variations);
-			$(document).on('change', '.validity_type', app.change_validity_type);
+			$(document).on('change', '.ever-panel .validity_type', app.change_validity_type);
 			$(document).on('click', '.wsn_generate_btn', app.generate_numbers);
 
 			$('.ever-select').select2();
-			$('.ever-date, #validity[type=text]').datepicker();
+			$('.ever-date, .ever-panel #validity[type=text]').datepicker();
 
 		},
 
@@ -69,13 +69,12 @@ window.Project = (function (window, document, $, undefined) {
 				msg = wpwsn.i18n.serial_number_activated;
 			} else {
 				enable_serial_number = 'disable';
-				msg = 'Serial Number Dectivated.';
+				msg = wpwsn.i18n.serial_number_deactivated;
 
 			}
 
 
 			$('.ever-content-placeholder').html('<div class="notice notice-success is-dismissible"><p><strong>' + msg + '</strong></p></div>');
-			//$('.ever-content-placeholder').html('');
 
 			wp.ajax.send('enable_serial_number', {
 				data: {
@@ -124,16 +123,16 @@ window.Project = (function (window, document, $, undefined) {
 			e.preventDefault();
 			var image = wp.media({
 				title: 'Upload Image',
-				// mutiple: true if you want to upload multiple files at once
 				multiple: false
 			}).open()
 				.on('select', function () {
 					// This will return the selected image from the Media Uploader, the result is an object
 					var uploaded_image = image.state().get('selection').first();
+
 					// We convert uploaded_image to a JSON object to make accessing it easier
 					// Output to the console uploaded_image
-					//console.log(uploaded_image);
 					var image_url = uploaded_image.toJSON().url;
+
 					// Let's assign the url value to the input field
 					$('.image_license_prev').attr('src', image_url);
 					$('input[name="image_license"]').val(image_url);
@@ -173,7 +172,7 @@ window.Project = (function (window, document, $, undefined) {
 		change_validity_type: function () {
 
 			var value = $(this).val();
-			var validity = $('#validity');
+			var validity = $('.ever-panel #validity');
 
 			if (value === 'days') {
 
@@ -199,7 +198,7 @@ window.Project = (function (window, document, $, undefined) {
 			var $limit = $(this).prev().val();
 			var $rule_id = $(this).data('rule_id');
 
-			var $confirm = window.confirm('Are you sure to generate ' + $limit + ' keys?');
+			var $confirm = window.confirm( wpwsn.i18n.generate_confirm + $limit + ' numbers?');
 
 			if (!$confirm) {
 				return;
@@ -214,7 +213,9 @@ window.Project = (function (window, document, $, undefined) {
 
 				success: function (response) {
 					if(response.response){
-						window.alert($limit + ' Keys generated successfully.');
+
+						window.alert($limit + wpwsn.i18n.generate_success);
+
 					}
 				},
 

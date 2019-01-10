@@ -101,7 +101,10 @@ class Admin {
 			'ajaxurl' => admin_url('admin-ajax.php'),
 			'nonce'   => 'wc-serial-numbers',
 			'i18n' =>  array(
-				'serial_number_activated' => __('Serial Number Activated.', 'wc-serial-numbers')
+				'serial_number_activated' => __('Serial Number Activated.', 'wc-serial-numbers'),
+				'serial_number_deactivated' => __('Serial Number Deactivated.', 'wc-serial-numbers'),
+				'generate_confirm' => __('Are you sure to generate ', 'wc-serial-numbers'),
+				'generate_success' => __(' Keys generated successfully.', 'wc-serial-numbers'),
 			)
 		]);
 	}
