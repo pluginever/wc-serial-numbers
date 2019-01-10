@@ -13,11 +13,9 @@ class Ajax {
 	 */
 
 	function __construct() {
-
 		add_action('wp_ajax_add_serial_number', [$this, 'add_serial_number']);
 		add_action('wp_ajax_enable_serial_number', [$this, 'enable_serial_number']);
 		add_action('wp_ajax_load_tab_data', [$this, 'load_tab_data']);
-
 	}
 
 	/**

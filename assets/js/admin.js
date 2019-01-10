@@ -93,6 +93,7 @@ window.Project = (function (window, document, $, undefined) {
 		},
 
 		load_tab_data: function () {
+
 			$('.wsn-serial-number-tab').addClass('ever-spinner');
 			wp.ajax.send('load_tab_data', {
 				data: {
@@ -100,7 +101,7 @@ window.Project = (function (window, document, $, undefined) {
 				},
 				success: function (response) {
 					$('.wsn-serial-number-tab').removeClass('ever-spinner');
-					console.log(response);
+
 					if (response.html) {
 						$('.ever-content-placeholder').html(response.html);
 					}
@@ -109,6 +110,7 @@ window.Project = (function (window, document, $, undefined) {
 					console.log(error);
 				}
 			});
+
 		},
 
 		tab_add_serial_number_toggle: function (e) {
