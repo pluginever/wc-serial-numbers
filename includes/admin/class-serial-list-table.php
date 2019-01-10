@@ -8,9 +8,7 @@ if (!class_exists('WP_List_Table')) {
 	require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }
 
-/**
- * Create a new table class that will extend the WP_List_Table
- */
+
 class Serial_List_Table extends \WP_List_Table {
 
 	protected $is_single = false;
@@ -40,18 +38,20 @@ class Serial_List_Table extends \WP_List_Table {
 	 */
 
 	public function prepare_items() {
+
 		$columns  = $this->get_columns();
-		$hidden   = $this->get_hidden_columns();
 		$sortable = $this->get_sortable_columns();
 		$data     = $this->table_data();
 		usort($data, array(&$this, 'sort_data'));
 		$perPage     = 15;
 		$currentPage = $this->get_pagenum();
 		$totalItems  = count($data);
+
 		$this->set_pagination_args(array(
 			'total_items' => $totalItems,
 			'per_page'    => $perPage
 		));
+
 		$data                  = array_slice($data, (($currentPage - 1) * $perPage), $perPage);
 		$this->_column_headers = array($columns, $hidden, $sortable);
 		$this->items           = $data;
@@ -66,6 +66,7 @@ class Serial_List_Table extends \WP_List_Table {
 	public function get_columns() {
 
 		if ($this->is_single) {
+
 			$columns = array(
 				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
 				'product'        => __('Product', 'wc-serial-numbers'),
@@ -74,7 +75,9 @@ class Serial_List_Table extends \WP_List_Table {
 				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
 				'validity'       => __('Validity', 'wc-serial-numbers'),
 			);
+
 		} else {
+
 			$columns = array(
 				'cb'             => '<input type="checkbox" />',
 				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
@@ -87,19 +90,12 @@ class Serial_List_Table extends \WP_List_Table {
 				'purchased_on'   => __('Purchased On', 'wc-serial-numbers'),
 				'validity'       => __('Validity', 'wc-serial-numbers'),
 			);
+
 		}
 
 		return $columns;
 	}
 
-	/**
-	 * Define which columns are hidden
-	 *
-	 * @return array
-	 */
-	public function get_hidden_columns() {
-		return array();
-	}
 
 	/**
 	 * Define the sortable columns
@@ -119,8 +115,10 @@ class Serial_List_Table extends \WP_List_Table {
 	 * Get the table data
 	 *
 	 * @return array
+	 *
 	 */
 	private function table_data() {
+
 		$data = array();
 
 		$query = !$this->is_single ? ['s' => $this->search_query] : ['meta_key' => 'product', 'meta_value' => $this->is_single];
@@ -205,6 +203,7 @@ class Serial_List_Table extends \WP_List_Table {
 	 */
 
 	public function get_bulk_actions() {
+
 		if (!$this->is_single) {
 			$actions = [
 				'bulk-delete' => 'Delete'
@@ -228,6 +227,7 @@ class Serial_List_Table extends \WP_List_Table {
 	}
 
 	function column_serial_numbers($item) {
+
 		$actions = array(
 			'edit'   => '<a href="' . add_query_arg(['type' => 'manual', 'row_action' => 'edit', 'serial_number' => $item['ID']], WPWSN_ADD_SERIAL_PAGE) . '">' . __('Edit', 'wc-serial-numbers') . '</a>',
 			'delete' => sprintf('<a href="?page=%s&row_action=%s&serial_number=%s">Delete</a>', !empty($_REQUEST['page']) ? esc_attr($_REQUEST['page']) : '', 'delete', $item['ID']),
