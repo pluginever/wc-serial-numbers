@@ -34,8 +34,11 @@ class Admin_Menu {
 
 		$wp_admin_bar->add_menu(array(
 			'id'    => 'wsn-serial-numbers',
-			'title' => __('Serial Numbers', 'wc-serial-numbers'),
+			'title' => __('Serial Numbers', 'wc-serial-numbers') . apply_filters('wsn_admin_bar_notification_count', false),
 			'href'  => WPWSN_SERIAL_INDEX_PAGE,
+			'meta' => array(
+			'html'=> apply_filters('wsn_admin_bar_notification_lists', false),
+			),
 		));
 
 		$wp_admin_bar->add_menu(array(
