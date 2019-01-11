@@ -152,8 +152,9 @@ function wsn_update_notification_on_add_edit( $product_id ) {
 
 	$count_number = count( $numbers );
 
+	$is_exists = get_page_by_title( $product_id, OBJECT, 'wsnp_notification' );
+
 	if ( $count_number >= $show_number ) {
-		$is_exists = get_page_by_title( $product_id, OBJECT, 'wsnp_notification' );
 
 		if ( $is_exists ) {
 			wp_update_post( array(
@@ -168,7 +169,6 @@ function wsn_update_notification_on_add_edit( $product_id ) {
 		return;
 	}
 
-	$is_exists = get_page_by_title( $product_id, OBJECT, 'wsnp_notification' );
 
 	if ( $is_exists ) {
 		wp_update_post( array(
@@ -192,3 +192,51 @@ function wsn_update_notification_on_add_edit( $product_id ) {
 }
 
 add_action( 'wsn_update_notification_on_add_edit', 'wsn_update_notification_on_add_edit', 10, 2 );
+
+
+add_filter( 'wsn_admin_bar_notification', function () {
+	return '<span class="wsn_admin_bar_notification"></span>';
+} );
+
+add_filter( 'wsn_admin_bar_notification_list', 'wsn_admin_bar_notification_list' );
+
+
+function wsn_admin_bar_notification_list( $html ) {
+
+	if ( empty( get_post_type() ) ) {
+		global $post;
+	}
+
+	$posts = get_posts( [ 'post_type' => 'wsnp_notification', 'posts_per_page' => - 1, 'post_status' => 'publish' ] );
+
+
+	if ( ! empty( $posts ) ) {
+
+		ob_start();
+
+		echo '<span class="ever-notification"><span class="alert">'.sprintf('%02d',count($posts)).'</span></span> <ul class="ever-notification-list alert">';
+
+		foreach ( $posts as $post ) {
+
+			setup_postdata( $post );
+
+			?>
+
+			<li><?php
+				$name  = get_the_title( get_the_title( $post->ID ) );
+				$count = (int) get_the_content();
+				echo __( 'Please add license keys for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' License Key left', 'wc-serial-numbers' ); ?></li>
+
+			<?php
+		}
+
+		wp_reset_postdata();
+
+		echo '</ul>'; //End the list
+
+		$html = ob_get_clean();
+
+	}
+
+	return $html;
+}
