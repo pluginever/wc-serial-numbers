@@ -160,15 +160,15 @@ class Serial_List_Table extends \WP_List_Table {
 			$data[] = [
 				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title( $post->ID ) . '<br><img src="' . $image_license . '" class="ever-thumbnail-small">',
-				'product_id'     => empty( $product ) ? '' : $product,
 				'product'        => '<a href="' . get_edit_post_link( $product ) . '">' . get_the_title( $product ) . '</a>',
-				'variation'      => get_the_title( $variation ),
+				'variation'      => empty($variation) ? __('Main Product', 'wc-serial-numbers') : get_the_title( $variation ),
 				'deliver_times'  => empty( $deliver_times ) ? '∞' : $used_deliver_times . '/' . $deliver_times,
 				'max_instance'   => empty( $max_instance ) ? '∞' : $max_instance,
 				'purchaser'      => empty( $purchaser ) ? '-' : $purchaser,
 				'order'          => empty( $order ) ? '-' : '<a href="' . get_edit_post_link( $order ) . '">#' . $order . '</a>',
 				'purchased_on'   => empty( $purchased_on ) ? '-' : date( 'm-d-Y H:i a', strtotime( $purchased_on ) ),
 				'validity'       => empty( $validity ) ? '∞' : $validity,
+				'product_id'     => empty( $product ) ? '' : $product,
 			];
 
 		}
@@ -191,13 +191,13 @@ class Serial_List_Table extends \WP_List_Table {
 			case 'ID':
 			case 'serial_numbers':
 			case 'product':
-			case 'product_id':
 			case 'variation':
 			case 'deliver_times':
 			case 'max_instance':
 			case 'purchaser':
 			case 'order':
 			case 'purchased_on':
+			case 'product_id':
 			case 'validity':
 				return $item[ $column_name ];
 			default:

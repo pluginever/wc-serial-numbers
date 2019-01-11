@@ -55,7 +55,7 @@ if ( ! $row_action ) {
 } elseif ( $row_action == 'delete' ) {
 
 	if ( current_user_can( 'manage_options' ) ) {
-		
+
 		wp_delete_post( esc_attr( $_REQUEST['serial_number'] ) );
 
 		do_action( 'wsn_update_notification_on_order_delete', esc_attr( $_REQUEST['product'] ) );

@@ -163,11 +163,10 @@
 	justify-content: space-between;
 }
 
-#wp-admin-bar-wsn-serial-numbers{
-	.ab-item{
-		padding-right: 30px !important;
-	}
+.wsn_admin_bar_notification{
+	padding-right: 25px !important;
 }
+
 
 .ever-notification {
 	position: absolute !important;
@@ -196,8 +195,7 @@
 		z-index: 999999 !important;
 		margin: -1px 0 0 -10px !important;
 		max-height: 100% !important;
-		overflow: scroll;
-
+		overflow-y: scroll;
 		&:hover {
 			display: flex !important;
 		}
