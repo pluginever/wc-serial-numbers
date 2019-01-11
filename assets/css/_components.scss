@@ -195,7 +195,7 @@
 		flex-direction: column !important;
 		z-index: 999999 !important;
 		margin: -1px 0 0 -10px !important;
-		height: 100% !important;
+		max-height: 100% !important;
 		overflow: scroll;
 
 		&:hover {

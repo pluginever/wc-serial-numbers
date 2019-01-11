@@ -47,26 +47,7 @@ class Order_Process {
 
 			if ($enable_serial_number == 'enable') {
 
-				$serial_numbers = wsn_get_serial_numbers([
-					'meta_key'   => 'product',
-					'meta_value' => $product_id,
-				]);
-
-				$numbers = [];
-
-				foreach ($serial_numbers as $serial_number) {
-
-					$deliver_times = get_post_meta($serial_number->ID, 'deliver_times', true);
-					$used          = get_post_meta($serial_number->ID, 'used', true);
-
-					if ($deliver_times <= $used) {
-						continue;
-					}
-
-					$numbers[] = $serial_number->ID;
-
-				}
-
+				$numbers = wsn_get_available_numbers($product_id);
 
 				$number = $numbers[array_rand($numbers)]; //serial_number_to_be_used
 
@@ -75,6 +56,8 @@ class Order_Process {
 				update_post_meta($number, 'used', ($used + $quantity));
 
 				$serial_numbers_ids[$product_id] = $number;
+
+				//do_action('wsn_update_notification',  $product_id, $numbers);
 
 			}
 
@@ -114,22 +97,8 @@ class Order_Process {
 			$is_enabled = get_post_meta($product_id, 'enable_serial_number', true); //Check if the serial number enabled for this product.
 
 			if ($is_enabled == 'enable') {
-				$serial_numbers = wsn_get_serial_numbers(['meta_key' => 'product', 'meta_value' => $product_id]);
 
-				$numbers = [];
-
-				foreach ($serial_numbers as $serial_number) {
-
-					$deliver_times = get_post_meta($serial_number->ID, 'deliver_times', true);
-					$used          = get_post_meta($serial_number->ID, 'used', true);
-
-					if ($deliver_times <= $used) {
-						continue;
-					}
-
-					$numbers[] = $serial_number->ID;
-
-				}
+				$numbers = wsn_get_available_numbers($product_id);
 
 				$count_numbers  = count($numbers);
 

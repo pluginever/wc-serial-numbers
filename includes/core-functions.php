@@ -245,3 +245,38 @@ function wsn_check_status($order){
 }
 
 
+/**
+ * Get all available serial numbers for a product
+ *
+ * @param $product_id
+ *
+ * @return array
+ */
+
+function wsn_get_available_numbers($product_id){
+
+	$serial_numbers = wsn_get_serial_numbers([
+		'meta_key'   => 'product',
+		'meta_value' => $product_id,
+	]);
+
+	$numbers = [];
+
+	foreach ($serial_numbers as $serial_number) {
+
+		$deliver_times = get_post_meta($serial_number->ID, 'deliver_times', true);
+		$used          = get_post_meta($serial_number->ID, 'used', true);
+
+		if ($deliver_times <= $used) {
+			continue;
+		}
+
+		$numbers[] = $serial_number->ID;
+
+	}
+
+	return $numbers;
+
+}
+
+
