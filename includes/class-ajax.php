@@ -56,6 +56,11 @@ class Ajax {
 				'meta_input'  => $meta_input,
 			]);
 
+			/*
+			 * Update serial number notification posts when a new order added
+			 */
+
+			do_action( 'wsn_update_notification_on_add_edit', $product );
 
 			$is_serial_number_enabled = 'enable';
 

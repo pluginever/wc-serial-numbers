@@ -9,15 +9,15 @@ class Order_Process {
 	function __construct() {
 
 		// Check if Customer can checkout even there is no serial number
-		$is_allowed = wsn_get_settings('wsn_allow_checkout', '', 'wsn_general_settings');
+		$is_allowed = wsn_get_settings( 'wsn_allow_checkout', '', 'wsn_general_settings' );
 
-		if ($is_allowed != 'on') {
-			add_action('woocommerce_check_cart_items', [$this, 'validate_cart_content']);
+		if ( $is_allowed != 'on' ) {
+			add_action( 'woocommerce_check_cart_items', [ $this, 'validate_cart_content' ] );
 		}
 
-		add_action('woocommerce_checkout_order_processed', [$this, 'order_process']);
+		add_action( 'woocommerce_checkout_order_processed', [ $this, 'order_process' ] );
 
-		add_action('woocommerce_order_details_after_order_table', [$this, 'order_serial_number_details']);
+		add_action( 'woocommerce_order_details_after_order_table', [ $this, 'order_serial_number_details' ] );
 
 	}
 
@@ -29,42 +29,44 @@ class Order_Process {
 	 * @param $data
 	 */
 
-	function order_process($order_id) {
+	function order_process( $order_id ) {
 
-		$order = wc_get_order($order_id);
+		$order = wc_get_order( $order_id );
 
 		$items = $order->get_items();
 
 		$serial_numbers_ids = [];
 
-		foreach ($items as $item_id => $item_data) {
+		foreach ( $items as $item_id => $item_data ) {
 
 			$product    = $item_data->get_product();
 			$product_id = $product->get_id();
 			$quantity   = $item_data->get_quantity();
 
-			$enable_serial_number = get_post_meta($product_id, 'enable_serial_number', true);
+			$enable_serial_number = get_post_meta( $product_id, 'enable_serial_number', true );
 
-			if ($enable_serial_number == 'enable') {
+			if ( $enable_serial_number == 'enable' ) {
 
-				$numbers = wsn_get_available_numbers($product_id);
+				$numbers = wsn_get_available_numbers( $product_id );
 
-				$number = $numbers[array_rand($numbers)]; //serial_number_to_be_used
+				$number = $numbers[ array_rand( $numbers ) ]; //serial_number_to_be_used
 
-				update_post_meta($number, 'order', $order->get_id());
+				$used = get_post_meta( $number->ID, 'used', true );
 
-				update_post_meta($number, 'used', ($used + $quantity));
+				update_post_meta( $number, 'order', $order->get_id() );
 
-				$serial_numbers_ids[$product_id] = $number;
+				update_post_meta( $number, 'used', ( $used + $quantity ) );
 
-				//do_action('wsn_update_notification',  $product_id, $numbers);
+				$serial_numbers_ids[ $product_id ] = $number;
+
+				do_action( 'wsn_update_notification_on_order_delete', $product_id );
 
 			}
 
 		}
 
 		//Update Order meta data
-		update_post_meta($order_id, 'serial_numbers', $serial_numbers_ids);
+		update_post_meta( $order_id, 'serial_numbers', $serial_numbers_ids );
 	}
 
 	/**
@@ -73,11 +75,11 @@ class Order_Process {
 	 * @param $order
 	 */
 
-	function order_serial_number_details($order) {
+	function order_serial_number_details( $order ) {
 
-		$serial_numbers = get_post_meta($order->get_id(), 'serial_numbers', true);
+		$serial_numbers = get_post_meta( $order->get_id(), 'serial_numbers', true );
 
-		if (empty($serial_numbers) or !wsn_check_status($order)) {
+		if ( empty( $serial_numbers ) or ! wsn_check_status( $order ) ) {
 			return;
 		}
 
@@ -89,21 +91,21 @@ class Order_Process {
 
 		$car_products = WC()->cart->get_cart_contents();
 
-		foreach ($car_products as $id => $cart_product) {
+		foreach ( $car_products as $id => $cart_product ) {
 			$product    = $cart_product['data'];
 			$product_id = $cart_product['product_id'];
 			$quantity   = $cart_product['quantity'];
 
-			$is_enabled = get_post_meta($product_id, 'enable_serial_number', true); //Check if the serial number enabled for this product.
+			$is_enabled = get_post_meta( $product_id, 'enable_serial_number', true ); //Check if the serial number enabled for this product.
 
-			if ($is_enabled == 'enable') {
+			if ( $is_enabled == 'enable' ) {
 
-				$numbers = wsn_get_available_numbers($product_id);
+				$numbers = wsn_get_available_numbers( $product_id );
 
-				$count_numbers  = count($numbers);
+				$count_numbers = count( $numbers );
 
-				if ($count_numbers < $quantity) {
-					wc_add_notice(__('Sorry, There is not enough <strong>Serial Number</strong> available for', 'wc-serial-numbers') . ' <strong>' . $product->get_title() . '</strong>, <br>' . __('Please remove this item or lower the quantity, For now we have', 'wc-serial-numbers') . ' ' . $count_numbers . ' ' . __('Serial Number(s)', 'wc-serial-numbers') . ' ' . __('for this product.', 'wc-serial-numbers') . '' . '<br>', 'error');
+				if ( $count_numbers < $quantity ) {
+					wc_add_notice( __( 'Sorry, There is not enough <strong>Serial Number</strong> available for', 'wc-serial-numbers' ) . ' <strong>' . $product->get_title() . '</strong>, <br>' . __( 'Please remove this item or lower the quantity, For now we have', 'wc-serial-numbers' ) . ' ' . $count_numbers . ' ' . __( 'Serial Number(s)', 'wc-serial-numbers' ) . ' ' . __( 'for this product.', 'wc-serial-numbers' ) . '' . '<br>', 'error' );
 				}
 			}
 		}
