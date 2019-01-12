@@ -97,6 +97,37 @@ function wsnp_get_generator_rules( $args ) {
 }
 
 /**
+ * Update serial number notification posts when a serial number enable or disable for any product
+ *
+ * @since  1.0.0
+ *
+ * @param $product_id
+ *
+ * @retun void
+ */
+
+function wsn_update_notification_on_enable_disable( $product_id, $status ) {
+
+	$numbers = wsn_get_available_numbers( $product_id );
+
+	$is_exists = get_page_by_title( $product_id, OBJECT, 'wsnp_notification' );
+
+	if ( $is_exists ) {
+		wp_update_post( array(
+			'ID'             => $is_exists->ID,
+			'comment_status' => $status,
+		) );
+
+	}
+
+	return;
+
+}
+
+add_action( 'wsn_update_notification_on_enable_disable', 'wsn_update_notification_on_enable_disable', 10, 2 );
+
+
+/**
  * Update serial number notification posts when a order made or a serial number deleted
  *
  * @since  1.0.0
@@ -122,9 +153,10 @@ function wsn_update_notification_on_order_delete( $product_id ) {
 
 	if ( $is_exists ) {
 		wp_update_post( array(
-			'ID'           => $is_exists->ID,
-			'post_content' => $count_number,
-			'post_status'  => 'publish',
+			'ID'             => $is_exists->ID,
+			'post_content'   => $count_number,
+			'post_status'    => 'publish',
+			'comment_status' => 'enable',
 		) );
 
 	}
@@ -133,7 +165,7 @@ function wsn_update_notification_on_order_delete( $product_id ) {
 
 }
 
-add_action( 'wsn_update_notification_on_order_delete', 'wsn_update_notification_on_order_delete', 10, 2 );
+add_action( 'wsn_update_notification_on_order_delete', 'wsn_update_notification_on_order_delete' );
 
 
 /**
@@ -145,6 +177,7 @@ add_action( 'wsn_update_notification_on_order_delete', 'wsn_update_notification_
  */
 
 function wsn_update_notification_on_add_edit( $product_id ) {
+
 
 	$show_number = wsn_get_settings( 'wsn_admin_bar_notification_number', 5, 'wsn_notification_settings' );
 
@@ -158,12 +191,11 @@ function wsn_update_notification_on_add_edit( $product_id ) {
 
 		if ( $is_exists ) {
 			wp_update_post( array(
-				'ID'           => $is_exists->ID,
-				'post_content' => $count_number,
-				'post_status'  => 'draft',
+				'ID'             => $is_exists->ID,
+				'post_content'   => $count_number,
+				'post_status'    => 'draft',
+				'comment_status' => 'disable',
 			) );
-
-			return;
 		}
 
 		return;
@@ -172,19 +204,21 @@ function wsn_update_notification_on_add_edit( $product_id ) {
 
 	if ( $is_exists ) {
 		wp_update_post( array(
-			'ID'           => $is_exists->ID,
-			'post_content' => $count_number,
-			'post_status'  => 'publish',
+			'ID'             => $is_exists->ID,
+			'post_content'   => $count_number,
+			'post_status'    => 'publish',
+			'comment_status' => 'enable',
 		) );
 
 		return;
 	}
 
 	wp_insert_post( array(
-		'post_type'    => 'wsnp_notification',
-		'post_title'   => $product_id,
-		'post_content' => $count_number,
-		'post_status'  => 'publish',
+		'post_type'      => 'wsnp_notification',
+		'post_title'     => $product_id,
+		'post_content'   => $count_number,
+		'post_status'    => 'publish',
+		'comment_status' => 'enable',
 	) );
 
 	return;
@@ -193,28 +227,68 @@ function wsn_update_notification_on_add_edit( $product_id ) {
 
 add_action( 'wsn_update_notification_on_add_edit', 'wsn_update_notification_on_add_edit', 10, 2 );
 
+/**
+ * Show admin bar notification count number
+ *
+ * @since  1.0.0
+ *
+ * @return false|string
+ */
 
 add_filter( 'wsn_admin_bar_notification', function () {
-	return '<span class="wsn_admin_bar_notification"></span>';
+
+	$count = count( $posts = get_posts( [
+		'post_type'      => 'wsnp_notification',
+		'posts_per_page' => - 1,
+		'post_status'    => 'publish',
+		'comment_status' => 'enable'
+	] ) );
+
+	$show_notification = wsn_get_settings( 'wsn_admin_bar_notification', 'on', 'wsn_notification_settings' );
+
+	if ( $show_notification == 'on' and $count > 0 ) {
+		return '<span class="wsn_admin_bar_notification"></span>';
+	}
+
+	return false;
+
 } );
 
-add_filter( 'wsn_admin_bar_notification_list', 'wsn_admin_bar_notification_list' );
-
+/**
+ * Sho admin bar notification list
+ *
+ * @since 1.0.0
+ *
+ * @param $html
+ *
+ * @return false|string
+ */
 
 function wsn_admin_bar_notification_list( $html ) {
+
+	$show_notification = wsn_get_settings( 'wsn_admin_bar_notification', 'on', 'wsn_notification_settings' );
+
+	if ( $show_notification != 'on' ) {
+		return false;
+	}
 
 	if ( empty( get_post_type() ) ) {
 		global $post;
 	}
 
-	$posts = get_posts( [ 'post_type' => 'wsnp_notification', 'posts_per_page' => - 1, 'post_status' => 'publish' ] );
+	$posts = get_posts( [
+		'post_type'      => 'wsnp_notification',
+		'posts_per_page' => - 1,
+		'post_status'    => 'publish',
+		'comment_status' => 'enable'
+	] );
 
 
 	if ( ! empty( $posts ) ) {
 
 		ob_start();
 
-		echo '<span class="ever-notification"><span class="alert">'.sprintf('%02d',count($posts)).'</span></span> <ul class="ever-notification-list alert">';
+		echo '<span class="ever-notification"><span class="alert">' . sprintf( '%02d', count( $posts ) ) . '</span></span> <ul class="ever-notification-list alert">';
 
 		foreach ( $posts as $post ) {
 
@@ -223,9 +297,10 @@ function wsn_admin_bar_notification_list( $html ) {
 			?>
 
 			<li><?php
-				$name  = get_the_title( get_the_title( $post->ID ) );
-				$count = (int) get_the_content();
-				echo __( 'Please add license keys for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' License Key left', 'wc-serial-numbers' ); ?></li>
+				$name  = '<strong>' . get_the_title( get_the_title( $post->ID ) ) . '</strong>';
+				$count = '<strong>' . (int) get_the_content() . '</strong>';
+
+				echo __( 'Please add serial numbers for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-numbers' ); ?></li>
 
 			<?php
 		}
@@ -240,3 +315,5 @@ function wsn_admin_bar_notification_list( $html ) {
 
 	return $html;
 }
+
+add_filter( 'wsn_admin_bar_notification_list', 'wsn_admin_bar_notification_list' );
