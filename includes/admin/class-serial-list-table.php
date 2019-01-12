@@ -20,7 +20,7 @@ class Serial_List_Table extends \WP_List_Table {
 		parent::__construct( [
 			'singular' => __( 'Serial Number', 'wc-serial-numbers' ), //singular name of the listed records
 			'plural'   => __( 'Serial Numbers', 'wc-serial-numbers' ), //plural name of the listed records
-			'ajax'     => false //should this table support ajax?
+			'ajax'     => true //should this table support ajax?
 
 		] );
 

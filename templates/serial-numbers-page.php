@@ -33,15 +33,17 @@ if ( ! $row_action ) {
 				echo '<form action="" method="GET">';
 				echo $serial_list->search_box( __( 'Search', 'wc-serial-numbers' ), 'wsn_serial_page' );
 				echo '<input type="hidden" name="page" value="' . esc_attr( $_REQUEST['page'] ) . '"/></form>'; // form end
-			}
 
-			echo '<form id="wsn-serial-numbers-table" action="' . admin_url( 'admin-post.php' ) . '" method="post">
+				echo '<form id="wsn-serial-numbers-table" action="' . admin_url( 'admin-post.php' ) . '" method="post">
 			  	 <input type="hidden" name="wsn-serial-numbers-table-action">'
-			     . wp_nonce_field( 'wsn-serial-numbers-table', 'wsn-serial-numbers-table-nonce' );
+				     . wp_nonce_field( 'wsn-serial-numbers-table', 'wsn-serial-numbers-table-nonce' );
+			}
 
 			$serial_list->display();
 
-			echo '</form>';
+			if ( ! $is_product_tab ) {
+				echo '</form>';
+			}
 
 			?>
 		</div>

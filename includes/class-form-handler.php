@@ -90,7 +90,7 @@ class FormHandler {
 
 	function handle_serial_numbers_table() {
 
-		if ( ! isset( $_REQUEST['wsn-serial-numbers-table-action'] ) || ! isset( $_REQUEST['action'] ) ) {
+		if ( !isset( $_REQUEST['wsn-serial-numbers-table-action'] ) || empty( $_REQUEST['action'] ) || empty($_REQUEST['wsn-serial-numbers-table-nonce'])) {
 			return false;
 		}
 
@@ -102,16 +102,20 @@ class FormHandler {
 		$bulk_deletes = $_REQUEST['bulk-delete'];
 		$products     = $_REQUEST['product'];
 
-		if (!empty($bulk_deletes)) {
-			foreach ($bulk_deletes as $bulk_delete) {
-				$bulk_delete = esc_attr($bulk_delete);
-				wp_delete_post($bulk_delete);
+		if ( ! empty( $bulk_deletes ) ) {
 
-				do_action( 'wsn_update_notification_on_order_delete', $products[$bulk_delete] );
+			foreach ( $bulk_deletes as $bulk_delete ) {
+
+				$bulk_delete = esc_attr( $bulk_delete );
+
+				wp_delete_post( $bulk_delete );
+
+				do_action( 'wsn_update_notification_on_order_delete', $products[ $bulk_delete ] );
 			}
+
 		}
 
-		return wp_redirect(admin_url('admin . php ? page = serial - numbers'));
+		return wp_redirect( admin_url( 'admin.php?page=serial-numbers' ) );
 
 	}
 

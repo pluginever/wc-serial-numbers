@@ -85,6 +85,8 @@ window.Project = (function (window, document, $, undefined) {
 					$('.wsn-serial-number-tab').removeClass('ever-spinner');
 					if (response.html) {
 						$('.ever-content-placeholder').html(response.html);
+						$('.wsn-body>input[type=hidden]').remove();
+						$('.ever-panel>input[type=hidden]').remove();
 					}
 				}
 			});
@@ -104,6 +106,8 @@ window.Project = (function (window, document, $, undefined) {
 
 					if (response.html) {
 						$('.ever-content-placeholder').html(response.html);
+						$('.wsn-body>input[type=hidden]').remove();
+						$('.ever-panel>input[type=hidden]').remove();
 					}
 				},
 				error: function (error) {
@@ -185,7 +189,7 @@ window.Project = (function (window, document, $, undefined) {
 
 				validity.attr('type', 'text');
 
-				if($('.ever-serial_numbers_tab').length > 0){
+				if ($('.ever-serial_numbers_tab').length > 0) {
 					validity.attr('placeholder', 'dd-mm-yyyy');
 					return;
 				}
@@ -206,7 +210,7 @@ window.Project = (function (window, document, $, undefined) {
 			var $limit = $(this).prev().val();
 			var $rule_id = $(this).data('rule_id');
 
-			var $confirm = window.confirm( wpwsn.i18n.generate_confirm + $limit + ' numbers?');
+			var $confirm = window.confirm(wpwsn.i18n.generate_confirm + $limit + ' numbers?');
 
 			if (!$confirm) {
 				return;
@@ -220,7 +224,7 @@ window.Project = (function (window, document, $, undefined) {
 				},
 
 				success: function (response) {
-					if(response.response){
+					if (response.response) {
 
 						window.alert($limit + wpwsn.i18n.generate_success);
 
