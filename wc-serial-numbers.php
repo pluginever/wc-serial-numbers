@@ -33,6 +33,26 @@
 // don't call the file directly
 if (!defined('ABSPATH'))
 	exit;
+
+include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
+if (!is_plugin_active('woocommerce/woocommerce.php')) {
+
+	function wsn_woocommerce_activate_notice() {
+		?>
+
+		<div class="notice notice-error is-dismissible">
+			<p><?php _e('Please, Activate WooCommerce first, to make workable WC Serial Numbers.', 'wc-serial-numbers'); ?></p>
+		</div>
+
+		<?php
+	}
+
+	add_action('admin_notices', 'wsn_woocommerce_activate_notice');
+
+	return;
+}
+
 /**
  * Main initiation class
  *
@@ -44,6 +64,8 @@ if (!defined('ABSPATH'))
  *
  * @class WCSerialNumbers
  */
+
+
 final class WCSerialNumbers {
 	/**
 	 * The single instance of the class.
@@ -82,27 +104,6 @@ final class WCSerialNumbers {
 	 * @return boolean|WCSerialNumbers - Main instance.
 	 */
 	public static function instance() {
-
-		if (!class_exists('WooCommerce')) {
-
-			/**
-			 * Add admin notice if WooCommerce is not active
-			 */
-
-			function wsn_woocommerce_activate_notice() {
-				?>
-
-				<div class="notice notice-error is-dismissible">
-					<p><?php _e('Please, Activate WooCommerce first, to make workable WC Serial Numbers.', 'wc-serial-numbers'); ?></p>
-				</div>
-
-				<?php
-			}
-
-			add_action('admin_notices', 'wsn_woocommerce_activate_notice');
-
-			return false;
-		}
 
 		if (is_null(self::$instance)) {
 			self::$instance = new self();
@@ -316,3 +317,4 @@ function wc_serial_numbers() {
 
 //fire off the plugin
 wc_serial_numbers();
+

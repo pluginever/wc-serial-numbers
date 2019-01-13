@@ -235,7 +235,7 @@ function wsn_class_disabled() {
  * @return bool
  */
 
-function wsn_check_status($order){
+function wsn_check_status($order) {
 
 	$order_status   = $order->get_data()['status'];
 	$status_to_show = wsn_get_settings('wsn_send_serial_number', '', 'wsn_delivery_settings');
@@ -253,7 +253,7 @@ function wsn_check_status($order){
  * @return array
  */
 
-function wsn_get_available_numbers($product_id){
+function wsn_get_available_numbers($product_id) {
 
 	$serial_numbers = wsn_get_serial_numbers([
 		'meta_key'   => 'product',
@@ -278,6 +278,9 @@ function wsn_get_available_numbers($product_id){
 	return $numbers;
 
 }
+
+
+
 
 
 
