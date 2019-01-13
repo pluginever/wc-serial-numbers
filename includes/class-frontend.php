@@ -77,18 +77,8 @@ class Frontend {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function enqueue_scripts( $hook ) {
-		$suffix = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
-		//styles
-		wp_enqueue_style('wc-serial-number-pro', WPWSNP_ASSETS_URL."/css/frontend.css", [], WPWSNP_VERSION);
-		
-		//scripts
-		wp_enqueue_script('wc-serial-number-pro', WPWSNP_ASSETS_URL."/js/frontend/frontend{$suffix}.js", ['jquery'], WPWSNP_VERSION, true);
-		wp_localize_script('wc-serial-number-pro', 'wpwsnp', 
-		[
-			'ajaxurl' => admin_url( 'admin-ajax.php' ), 
-			'nonce' => wp_create_nonce('wc-serial-number-pro')
-		]);		
+	public function enqueue_scripts() {
+
 	}
 
 }

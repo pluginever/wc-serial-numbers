@@ -93,13 +93,7 @@ class Admin
 
 	public function enqueue_scripts($hook)
 	{
-		$suffix = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
-		//styles
-		wp_enqueue_style('wc-serial-number-pro', WPWSNP_ASSETS_URL . "/css/admin.css", [], WPWSNP_VERSION);
-
-		//scripts
-		wp_enqueue_script('wc-serial-number-pro', WPWSNP_ASSETS_URL . "/js/admin/admin{$suffix}.js", ['jquery'], WPWSNP_VERSION, true);
-		wp_enqueue_script('wc-serial-number-pro', 'wpwsnp', ['ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => 'wc-serial-number-pro']);
+		
 	}
 
 
