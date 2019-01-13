@@ -228,12 +228,20 @@
 }
 
 .ever-table-filter{
-	.select2{
-		margin-top: -10px !important;
+	&.serial-numbers {
+		.select2 {
+			margin-top: -10px !important;
+		}
 	}
 
 	#wsn-filter-table{
 		margin-left: 30px !important;
+	}
+}
+
+.generate-page{
+	.wp-heading-inline{
+		margin-bottom: 15px !important;
 	}
 }
 

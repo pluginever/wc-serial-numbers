@@ -315,7 +315,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 	function extra_tablenav($which) {
 
-		echo apply_filters('wsn_extra_table_nav', '');
+		echo apply_filters('wsn_extra_table_nav', '', 'serial-numbers');
 	}
 
 	/**

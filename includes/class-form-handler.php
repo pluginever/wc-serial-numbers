@@ -99,16 +99,25 @@ class FormHandler {
 			wp_die('No Cheating!');
 		}
 
-		if (!empty($_REQUEST['wsn-filter-table'])) {
+		if (!empty($_REQUEST['wsn-filter-table-serial-numbers'])) {
 
-			$serialnumber  = esc_attr($_REQUEST['filter-serialnumber']);
-			$product       = esc_attr($_REQUEST['filter-product']);
+			$serialnumber = esc_attr($_REQUEST['filter-serialnumber']);
+			$product      = esc_attr($_REQUEST['filter-product']);
 
 			return wp_redirect(add_query_arg(
 				[
-					'serialnumber'  => $serialnumber,
-					'product'       => $product,
+					'serialnumber' => $serialnumber,
+					'product'      => $product,
 				], WPWSN_SERIAL_INDEX_PAGE));
+
+		} elseif (!empty($_REQUEST['wsn-filter-table-generate'])) {
+
+			$product = esc_attr($_REQUEST['filter-product']);
+
+			return wp_redirect(add_query_arg(
+				[
+					'product' => $product,
+				], WPWSN_GENERATE_SERIAL_PAGE));
 		}
 
 		$bulk_deletes = $_REQUEST['bulk-delete'];

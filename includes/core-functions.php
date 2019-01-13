@@ -281,18 +281,22 @@ function wsn_get_available_numbers($product_id) {
 }
 
 
-function wsn_extra_table_nav() {
+function wsn_extra_table_nav($html, $page) {
 
 	$serialnumber = !empty($_REQUEST['serialnumber']) ? esc_attr($_REQUEST['serialnumber']) : '';
 	$product      = !empty($_REQUEST['product']) ? esc_attr($_REQUEST['product']) : '';
 
 	?>
 
-	<div class="ever-inline ever-table-filter">
+	<div class="ever-inline ever-table-filter <?php echo $page ?>">
 
 		<label class="ever-label">Filter: </label>
 
-		<input type="text" id="filter-serialnumber" name="filter-serialnumber" placeholder="Serial number" value="<?php echo $serialnumber ?>">
+		<?php if ($page == 'serial-numbers') { ?>
+
+			<input type="text" id="filter-serialnumber" name="filter-serialnumber" placeholder="Serial number" value="<?php echo $serialnumber ?>">
+
+		<?php } ?>
 
 		<select name="filter-product" id="filter-product" class="ever-select  ever-field-inline">
 			<option value=""><?php _e('Choose a product', 'wc-serial-numbers') ?></option>
@@ -321,18 +325,20 @@ function wsn_extra_table_nav() {
 
 		<div class="ever-helper"> ? <span class="text">
 				 1. <?php _e('Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers'); ?>
-				<hr>
-				2. <?php _e('Choose a product for filtering only the product.', 'wc-serial-numbers'); ?>
+				<?php if ($page == 'serial-numbers') { ?>
+					<hr>2. <?php _e('Choose a product for filtering only the product.', 'wc-serial-numbers'); ?>
+				<?php } ?>
+
 			</span>
 		</div>
 
-		<input type="submit" name="wsn-filter-table" id="wsn-filter-table" class="button button-primary" value="filter">
+		<input type="submit" name="wsn-filter-table-<?php echo $page ?>" id="wsn-filter-table" class="button button-primary" value="filter">
 	</div>
 
 	<?php
 }
 
-add_filter('wsn_extra_table_nav', 'wsn_extra_table_nav');
+add_filter('wsn_extra_table_nav', 'wsn_extra_table_nav', 10, 2);
 
 
 
