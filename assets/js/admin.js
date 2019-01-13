@@ -15,7 +15,7 @@ window.Project = (function (window, document, $, undefined) {
 	var app = {
 		init: function () {
 			$(document).on('click', '#enable_serial_number', app.enable_serial_number);
-			$(document).on('click', '.woocommerce_options_panel .add-serial-number-manually, .woocommerce_options_panel .wsn-body .next-page', app.add_tab_serial_number);
+			$(document).on('click', '.woocommerce_options_panel .add-serial-number-manually, .woocommerce_options_panel .wsn-body .next-page, .woocommerce_options_panel .wsn-body .prev-page', app.add_tab_serial_number);
 			$(document).on('click', '.woocommerce_options_panel .add-serial-title', app.tab_add_serial_number_toggle);
 
 			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
@@ -36,11 +36,14 @@ window.Project = (function (window, document, $, undefined) {
 
 			e.preventDefault();
 
-			if ($(this).attr('class')) {
-				var $paged_url = $(this).attr('href');
+			var $paged_url = '';
+
+			if ($(this).attr('class') === 'next-page' || $(this).attr('class') === 'prev-page') {
+				$paged_url = $(this).attr('href');
 			}
 
 			wp.ajax.send('add_serial_number', {
+
 				data: {
 					product: $('#post_ID').val(),
 					serial_number: $('.ever-panel #serial_number').val(),
@@ -55,6 +58,8 @@ window.Project = (function (window, document, $, undefined) {
 				success: function (response) {
 					if (response.html) {
 						$('.ever-content-placeholder').html(response.html);
+						$('.wsn-body>input[type=hidden]').remove();
+						$('.ever-panel>input[type=hidden]').remove();
 					} else if (response.empty_serial) {
 						$('.wsn-message').html(response.empty_serial);
 					}
