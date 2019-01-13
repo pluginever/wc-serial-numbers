@@ -87,7 +87,8 @@ function wsnp_get_generator_rules($args) {
 	$args = wp_parse_args($args, [
 		'post_type'      => 'wsnp_generator_rule',
 		'posts_per_page' => -1,
-		'meta_key'       => '',
+		's'              => '',
+		'meta_key'       => 'product',
 		'meta_value'     => '',
 		'order_by'       => 'date',
 		'order'          => 'DESC',
@@ -301,9 +302,9 @@ function wsn_admin_bar_notification_list($html) {
 
 			$msg = __('Please add serial numbers for ', 'wc-serial-numbers') . $name . ', ' . $count . __(' Serial number left', 'wc-serial-numbers');
 
-			$message .= '<tr><td>'.$msg.'</td>';
+			$message .= '<tr><td>' . $msg . '</td>';
 
-			echo '<li>'.$msg.'</li>';
+			echo '<li>' . $msg . '</li>';
 
 
 		}
@@ -315,7 +316,7 @@ function wsn_admin_bar_notification_list($html) {
 		$html = ob_get_clean();
 
 		//Send email notification if serial number stock low
-		$message = '<table>'.$message.'</table>';
+		$message = '<table>' . $message . '</table>';
 		do_action('wsn_send_email_notification', $message);
 
 	}

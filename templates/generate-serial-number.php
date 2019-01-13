@@ -14,7 +14,7 @@ if (!$row_action) {
 
 	?>
 
-	<div class="wrap wsn-container">
+	<div class="wrap wsn-container generate-page">
 		<?php if (!$is_product_tab) { ?>
 
 			<h1 class="wp-heading-inline"><?php _e('Generator Rules', 'wc-serial-numbers') ?></h1>
@@ -26,11 +26,6 @@ if (!$row_action) {
 
 		<div class="wsn-body">
 			<?php
-			if (!$is_product_tab) {
-				echo '<form action="" method="GET">';
-				echo $rule_list->search_box(__('Search'), 'wsn_generate_serial');
-				echo '<input type="hidden" name="page" value="' . esc_attr($_REQUEST['page']) . '"/></form>'; // form end
-			}
 
 			echo '<form id="wsn-serial-numbers-table" action="' . admin_url('admin-post.php') . '" method="post">
 			  	 <input type="hidden" name="wsn-serial-numbers-table-action">'

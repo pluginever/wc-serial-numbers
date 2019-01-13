@@ -13,9 +13,6 @@ if (!class_exists('WP_List_Table')) {
  */
 class Generate_Serial_Table extends \WP_List_Table {
 
-	protected $is_single = false;
-	protected $search_query = false;
-
 	/** Class constructor */
 	public function __construct($post_id = '') {
 
@@ -25,11 +22,6 @@ class Generate_Serial_Table extends \WP_List_Table {
 			'ajax'     => false //should this table support ajax?
 
 		]);
-
-		$this->is_single = $post_id;
-
-		//Search based on serial number
-		empty($_GET['s']) ? false : $this->search_query = $_GET['s'];
 
 	}
 
@@ -63,8 +55,7 @@ class Generate_Serial_Table extends \WP_List_Table {
 	 * @return array
 	 */
 	public function get_columns() {
-		$columns = array();
-		if (!$this->is_single) {
+
 			$columns = array(
 				'cb'            => '<input type="checkbox" />',
 				'product'       => __('Product', 'wc-serial-numbers'),
@@ -78,7 +69,6 @@ class Generate_Serial_Table extends \WP_List_Table {
 				'validity'      => __('Validity', 'wc-serial-numbers'),
 				'generate'      => __('Generate', 'wc-serial-numbers'),
 			);
-		}
 
 		return $columns;
 	}
@@ -107,7 +97,9 @@ class Generate_Serial_Table extends \WP_List_Table {
 	private function table_data() {
 		$data = array();
 
-		$query = !$this->is_single ? ['s' => $this->search_query] : ['meta_key' => 'product', 'meta_value' => $this->is_single];
+		$search_query  = !empty($_REQUEST['product']) ? esc_attr($_REQUEST['product']) : '';
+
+		$query = !empty($search_query) ? ['meta_value' => $search_query] : [];
 
 		$posts = wsnp_get_generator_rules($query);
 
@@ -226,7 +218,7 @@ class Generate_Serial_Table extends \WP_List_Table {
 	private function sort_data($a, $b) {
 		// Set defaults
 		$orderby = 'product';
-		$order   = 'asc';
+		$order   = 'desc';
 
 		// If orderby is set, use this as the sort column
 		if (!empty($_GET['orderby'])) {
@@ -243,6 +235,42 @@ class Generate_Serial_Table extends \WP_List_Table {
 		}
 
 		return -$result;
+	}
+
+
+	function display_tablenav($which) {
+
+		if ('bottom' === $which) {
+			return;
+		}
+
+		if ('top' === $which) {
+			wp_nonce_field('bulk-' . $this->_args['plural']);
+		}
+		?>
+		<div class="tablenav <?php echo esc_attr($which); ?>">
+
+			<?php if ($this->has_items()) { ?>
+				<div class="alignleft actions bulkactions">
+					<?php $this->bulk_actions($which); ?>
+				</div>
+				<?php
+				$this->pagination($which);
+			}
+			if (!$this->is_single) {
+				$this->extra_tablenav($which);
+			}
+
+			?>
+
+			<br class="clear"/>
+		</div>
+		<?php
+	}
+
+	function extra_tablenav($which) {
+
+		echo apply_filters('wsn_extra_table_nav', '', 'generate');
 	}
 
 
