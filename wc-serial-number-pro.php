@@ -32,6 +32,32 @@
 
 // don't call the file directly
 if ( !defined( 'ABSPATH' ) ) exit;
+
+
+/**
+ * Add admin notice if wc-serial-numbers is not active
+ */
+
+include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
+if (!is_plugin_active('wc-serial-numbers/wc-serial-numbers.php')) {
+
+	function wsn_activate_notice() {
+		?>
+
+		<div class="notice notice-error is-dismissible">
+			<p><?php _e('Please, Activate WC Serial Numbers first, to make workable WC Serial Numbers PRO.', 'wc-serial-numbers'); ?></p>
+		</div>
+
+		<?php
+	}
+
+	add_action('admin_notices', 'wsn_activate_notice');
+
+	return;
+}
+
+
 /**
  * Main initiation class
  *
@@ -81,9 +107,11 @@ final class WCSerialNumberPro {
      *
      * @since 1.0.0
      * @static
-     * @return WCSerialNumberPro - Main instance.
+     * @return false|WCSerialNumberPro - Main instance.
      */
     public static function instance() {
+
+
         if ( is_null( self::$instance ) ) {
             self::$instance = new self();
             self::$instance->setup();
