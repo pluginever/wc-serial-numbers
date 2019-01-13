@@ -148,8 +148,9 @@ function wsn_get_serial_numbers($args) {
 		'posts_per_page' => -1,
 		'meta_key'       => '',
 		'meta_value'     => '',
+		'meta_query'     => array(),
 		'order_by'       => 'date',
-		'order'          => 'DESC',
+		'order'          => 'ASC',
 	]);
 
 	return get_posts($args);
@@ -280,6 +281,58 @@ function wsn_get_available_numbers($product_id) {
 }
 
 
+function wsn_extra_table_nav() {
+
+	$serialnumber = !empty($_REQUEST['serialnumber']) ? esc_attr($_REQUEST['serialnumber']) : '';
+	$product      = !empty($_REQUEST['product']) ? esc_attr($_REQUEST['product']) : '';
+
+	?>
+
+	<div class="ever-inline ever-table-filter">
+
+		<label class="ever-label">Filter: </label>
+
+		<input type="text" id="filter-serialnumber" name="filter-serialnumber" placeholder="Serial number" value="<?php echo $serialnumber ?>">
+
+		<select name="filter-product" id="filter-product" class="ever-select  ever-field-inline">
+			<option value=""><?php _e('Choose a product', 'wc-serial-numbers') ?></option>
+			<?php
+
+			$query_args = array();
+
+			if (!wsn_is_wsnp()) {
+				$query_args = array(
+					'type' => 'simple',
+				);
+			}
+
+			$posts = wsn_get_products($query_args);
+
+			foreach ($posts as $post) {
+
+				setup_postdata($post);
+
+				$selected = $post->get_id() == $product ? 'selected' : '';
+				echo '<option value="' . $post->get_id() . '" ' . $selected . '>' . $post->get_id() . ' - ' . get_the_title($post->get_id()) . '</option>';
+			}
+
+			?>
+		</select>
+
+		<div class="ever-helper"> ? <span class="text">
+				 1. <?php _e('Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers'); ?>
+				<hr>
+				2. <?php _e('Choose a product for filtering only the product.', 'wc-serial-numbers'); ?>
+			</span>
+		</div>
+
+		<input type="submit" name="wsn-filter-table" id="wsn-filter-table" class="button button-primary" value="filter">
+	</div>
+
+	<?php
+}
+
+add_filter('wsn_extra_table_nav', 'wsn_extra_table_nav');
 
 
 

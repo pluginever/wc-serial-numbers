@@ -15,10 +15,11 @@ window.Project = (function (window, document, $, undefined) {
 	var app = {
 		init: function () {
 			$(document).on('click', '#enable_serial_number', app.enable_serial_number);
-			$(document).on('click', '.woocommerce_options_panel .add-serial-number-manually', app.add_tab_serial_number);
+			$(document).on('click', '.woocommerce_options_panel .add-serial-number-manually, .woocommerce_options_panel .wsn-body .next-page', app.add_tab_serial_number);
 			$(document).on('click', '.woocommerce_options_panel .add-serial-title', app.tab_add_serial_number_toggle);
 
 			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
+			//$(document).on('click', '.woocommerce_options_panel .wsn-body .next-page', app.pagination_load_tab_data);
 			$(document).on('click', '#image_license_upload', app.upload_license_upload);
 			$(document).on('click', '#image_license_remove', app.remove_license_upload);
 
@@ -32,7 +33,12 @@ window.Project = (function (window, document, $, undefined) {
 		},
 
 		add_tab_serial_number: function (e) {
+
 			e.preventDefault();
+
+			if ($(this).attr('class')) {
+				var $paged_url = $(this).attr('href');
+			}
 
 			wp.ajax.send('add_serial_number', {
 				data: {
@@ -42,7 +48,8 @@ window.Project = (function (window, document, $, undefined) {
 					deliver_times: $('.ever-panel #deliver_times').val(),
 					max_instance: $('.ever-panel #max_instance').val(),
 					expires_on: $('.ever-panel #expires_on').val(),
-					validity: $('.ever-panel #validity').val()
+					validity: $('.ever-panel #validity').val(),
+					paged_url: $paged_url
 				},
 
 				success: function (response) {
@@ -57,6 +64,7 @@ window.Project = (function (window, document, $, undefined) {
 				}
 
 			});
+
 		},
 
 		enable_serial_number: function () {
@@ -115,6 +123,10 @@ window.Project = (function (window, document, $, undefined) {
 				}
 			});
 
+		},
+
+		pagination_load_tab_data: function (e) {
+			e.preventDefault();
 		},
 
 		tab_add_serial_number_toggle: function (e) {

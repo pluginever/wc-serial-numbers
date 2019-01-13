@@ -99,6 +99,11 @@
 		display: inline;
 		margin-right: 15px;
 	}
+	#current-page-selector{
+		width: auto !important;
+		float: none !important;
+		height: auto !important;
+	}
 }
 
 //tool tip
@@ -211,6 +216,16 @@
 				}
 			}
 		}
+	}
+}
+
+.ever-table-filter{
+	.select2{
+		margin-top: -10px !important;
+	}
+
+	#wsn-filter-table{
+		margin-left: 30px !important;
 	}
 }
 
