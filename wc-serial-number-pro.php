@@ -321,3 +321,12 @@ function wc_serial_number_pro(){
 
 //fire off the plugin
 wc_serial_number_pro();
+
+register_deactivation_hook(__FILE__, 'wsnp_deactivation');
+
+function wsnp_deactivation() {
+	wp_clear_scheduled_hook('wsn_send_email_notification');
+}
+
+
+
