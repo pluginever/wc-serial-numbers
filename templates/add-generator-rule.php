@@ -54,7 +54,9 @@ if ($row_action == 'edit') {
 		<?php if (!wsn_is_wsnp()) { ?>
 
 			<div class="ever-helper"> ?
-				<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+				<span class="text">
+					<strong><?php _e('Updrade to PRO for generating serial numbers automatically.', 'wc-serial-numbers') ?></strong>
+				</span>
 			</div>
 
 		<?php } ?>
@@ -139,7 +141,10 @@ if ($row_action == 'edit') {
 					<td class="ever-form-group">
 						<input type="text" class="ever-field-inline" name="prefix" id="prefix" value="<?php echo $prefix ?>">
 						<div class="ever-helper"> ?
-							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+							<span class="text">
+								<?php _e('Prefix to added before the serial number', 'wc-serial-numbers') ?>
+								<br><strong>ex: <em>sl-xxxx-xxxx-xxxx-xxxx</em></strong>
+							</span>
 						</div>
 					</td>
 				</tr>
@@ -150,7 +155,10 @@ if ($row_action == 'edit') {
 					<td class="ever-form-group">
 						<input type="number" class="ever-field-inline" name="chunks_number" id="chunks_number" value="<?php echo $chunks_number ?>">
 						<div class="ever-helper"> ?
-							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+							<span class="text">
+								<?php _e('The number of chunks for the serial number.', 'wc-serial-numbers') ?>
+								<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>;
+							</span>
 						</div>
 					</td>
 				</tr>
@@ -161,7 +169,10 @@ if ($row_action == 'edit') {
 					<td class="ever-form-group">
 						<input type="number" class="ever-field-inline" name="chunk_length" id="chunk_length" value="<?php echo $chunk_length ?>">
 						<div class="ever-helper"> ?
-							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+							<span class="text">
+								<?php _e('The number of chunks length for the serial number.', 'wc-serial-numbers'); ?>
+								<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>
+							</span>
 						</div>
 					</td>
 				</tr>
@@ -172,7 +183,10 @@ if ($row_action == 'edit') {
 					<td class="ever-form-group">
 						<input type="text" class="ever-field-inline" name="suffix" id="suffix" value="<?php echo $suffix ?>">
 						<div class="ever-helper"> ?
-							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+							<span class="text">
+								<?php _e('Suffix to added after the serial number.', 'wc-serial-numbers'); ?>
+								<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx-suffix</em></strong>
+							</span>
 						</div>
 					</td>
 				</tr>
@@ -184,7 +198,9 @@ if ($row_action == 'edit') {
 					<td>
 						<input type="number" min="1" value="<?php echo $deliver_times ?>" name="deliver_times" id="deliver_times" class=" ever-field-inline">
 						<div class="ever-helper"> ?
-							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+							<span class="text">
+								<?php _e('The maximum number, the serial number can be delivered.', 'wc-serial-numbers') ?>
+							</span>
 						</div>
 					</td>
 				</tr>
@@ -196,7 +212,9 @@ if ($row_action == 'edit') {
 					<td class="ever-form-group">
 						<input type="number" min="0" value="<?php echo $instance ?>" name="max_instance" id="max_instance" class="ever-field-inline">
 						<div class="ever-helper"> ?
-							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+							<span class="text">
+							<?php _e('Maximum instance for the serial number.', 'wc-serial-numbers') ?>
+							</span>
 						</div>
 					</td>
 				</tr>
@@ -215,7 +233,11 @@ if ($row_action == 'edit') {
 
 						<input type="<?php echo $validity_type == 'days' ? 'number' : 'text' ?>" min="0" name="validity" id="validity" class="regular-text  ever-field-inline" value="<?php echo $validity ?>">
 						<div class="ever-helper"> ?
-							<span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, aut consectetur, harum modi, mollitia obcaecati omnis optio placeat rerum saepe temporibus veniam! Consequatur dolores excepturi facere repellat, ullam veritatis vitae.</span>
+							<span class="text">
+								<?php _e('Check Days for validity type of Days numbers','wc-serial-numbers'); ?>
+								<hr>
+								<?php _e('Check Date for validity type of Date','wc-serial-numbers'); ?>
+							</span>
 						</div>
 					</td>
 				</tr>
