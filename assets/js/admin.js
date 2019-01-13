@@ -19,7 +19,6 @@ window.Project = (function (window, document, $, undefined) {
 			$(document).on('click', '.woocommerce_options_panel .add-serial-title', app.tab_add_serial_number_toggle);
 
 			$('.ever-serial_numbers_tab').on('click', app.load_tab_data);
-			//$(document).on('click', '.woocommerce_options_panel .wsn-body .next-page', app.pagination_load_tab_data);
 			$(document).on('click', '#image_license_upload', app.upload_license_upload);
 			$(document).on('click', '#image_license_remove', app.remove_license_upload);
 
@@ -130,10 +129,6 @@ window.Project = (function (window, document, $, undefined) {
 
 		},
 
-		pagination_load_tab_data: function (e) {
-			e.preventDefault();
-		},
-
 		tab_add_serial_number_toggle: function (e) {
 			e.preventDefault();
 
@@ -224,14 +219,23 @@ window.Project = (function (window, document, $, undefined) {
 
 			e.preventDefault();
 
+			var $spinner = $(this).prev().prev();
+
 			var $limit = $(this).prev().val();
 			var $rule_id = $(this).data('rule_id');
+
+			if ($limit === '') {
+				window.alert(wpwsn.i18n.generate_number_validate);
+				return;
+			}
 
 			var $confirm = window.confirm(wpwsn.i18n.generate_confirm + $limit + ' numbers?');
 
 			if (!$confirm) {
 				return;
 			}
+
+			$spinner.css('display', 'block');
 
 			wp.ajax.send('wsn_generate_numbers', {
 
@@ -244,6 +248,7 @@ window.Project = (function (window, document, $, undefined) {
 					if (response.response) {
 
 						window.alert($limit + wpwsn.i18n.generate_success);
+						$spinner.css('display', 'none');
 
 					}
 				},
