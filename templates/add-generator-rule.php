@@ -27,8 +27,8 @@ if ($row_action == 'edit') {
 	$chunks_number        = wsn_get_settings('wsn_generator_chunks_number', '', 'wsn_serial_generator_settings');
 	$chunk_length         = wsn_get_settings('wsn_generator_chunks_length', '', 'wsn_serial_generator_settings');
 	$suffix               = wsn_get_settings('wsn_generator_suffix', '', 'wsn_serial_generator_settings');
-	$deliver_times        = '';
-	$instance             = wsn_get_settings('wsn_generator_instance', '', 'wsn_serial_generator_settings');
+	$deliver_times        = wsn_get_settings('wsn_generator_deliver_times', '1', 'wsn_serial_generator_settings');
+	$instance             = wsn_get_settings('wsn_generator_instance', '1', 'wsn_serial_generator_settings');
 	$validity             = wsn_get_settings('wsn_generator_validity', '', 'wsn_serial_generator_settings');
 	$validity_type        = 'days';
 	$title                = __('Add New Generator Rule', 'wc-serial-numbers');
