@@ -302,7 +302,7 @@ function wsn_admin_bar_notification_list( $html ) {
 
 			$msg = __( 'Please add serial numbers for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-numbers' );
 
-			$message .= '<tr><td>' . $msg . '</td>';
+			$message .= '<tr><td>' . $msg . '</td></tr>';
 
 			echo '<li>' . $msg . '</li>';
 
