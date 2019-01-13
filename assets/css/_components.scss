@@ -43,7 +43,7 @@
 	background-color: #fff;
 	border-radius: 4px 4px 0 0;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-	padding: 0 20px;
+	padding: 0 20px 30px;
 
 	&-header {
 		align-items: center;
@@ -165,7 +165,15 @@
 
 .generate.column-generate {
 	display: flex;
+	position: relative;
 	justify-content: space-between;
+	.ever-spinner{
+		height: 25px;
+		width: 20px;
+		position: absolute;
+		left: -20px;
+		display: none;
+	}
 }
 
 .wsn_admin_bar_notification{
@@ -227,6 +235,10 @@
 	#wsn-filter-table{
 		margin-left: 30px !important;
 	}
+}
+
+#ui-datepicker-div{
+	background-color: #f1f1f1 !important;
 }
 
 

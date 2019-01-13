@@ -113,11 +113,20 @@ class Settings {
 				array(
 					'name'        => 'wsn_generator_suffix',
 					'label'       => __('Suffix', 'wc-serial-numbers'),
-					'placeholder' => __('suffix-', 'wc-serial-numbers'),
-					'desc'        => __('Suffix to added after the serial number.', 'wc-serial-numbers').'<br><strong>ex: <em>suffix-xxxx-xxxx-xxxx-xxxx</em></strong>',
+					'placeholder' => __('-suffix', 'wc-serial-numbers'),
+					'desc'        => __('Suffix to added after the serial number.', 'wc-serial-numbers').'<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx-suffix</em></strong>',
 					'class'       => 'ever-field-inline',
 					'default'     => '',
 					'type'        => 'text',
+				),
+
+				array(
+					'name'    => 'wsn_generator_deliver_times',
+					'label'   => __('Max. Deliver Times', 'wc-serial-numbers'),
+					'desc'    => __('The maximum number, the serial number can be delivered..', 'wc-serial-numbers'),
+					'class'   => 'ever-field-inline',
+					'default' => 1,
+					'type'    => 'number',
 				),
 
 				array(
@@ -134,7 +143,7 @@ class Settings {
 					'label'   => __('Validity', 'wc-serial-numbers'),
 					'desc'    => __('Validity days for the serial number. Keep it 0, if the serial number doesn\'t expire', 'wc-serial-numbers'),
 					'class'   => 'ever-field-inline',
-					'default' => 0,
+					'default' => 1,
 					'type'    => 'number',
 				),
 
@@ -144,7 +153,7 @@ class Settings {
 					'label'   => __('Generate Number', 'wc-serial-numbers'),
 					'desc'    => __('The default generate number for generating serial number automatically.', 'wc-serial-numbers'),
 					'class'   => 'ever-field-inline',
-					'default' => 100,
+					'default' => 5,
 					'type'    => 'number',
 				),
 			),

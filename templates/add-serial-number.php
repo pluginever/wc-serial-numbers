@@ -108,9 +108,19 @@
 			<td>
 				<button class="ever-upload button <?php echo wsn_class_disabled() ?>" type="button" <?php echo wsn_disabled() ?> id="image_license_upload"><?php _e('Upload', 'wc-serial-numbers'); ?></button>
 
+				<?php if (!empty(wsn_disabled())) { ?>
+
 				<div class="ever-helper"> ?
 					<span class="text"><strong><?php _e('Upgrade to PRO for, using image as License','wc-serial-numbers'); ?></strong></span>
 				</div>
+
+				<?php }else{ ?>
+
+				<div class="ever-helper"> ?
+					<span class="text"><strong><?php _e('Upload a image for using image as License','wc-serial-numbers'); ?></strong></span>
+				</div>
+
+				<?php } ?>
 
 				<img class="image_license_prev ever-thumbnail" src="<?php echo $image_license ?>">
 				<input type="hidden" id="image_license" name="image_license" value="<?php echo $image_license ?>">
@@ -159,7 +169,7 @@
 				<div class="ever-helper"> ?
 					<span class="text">
 						<?php _e('Check Days for validity type of Days numbers','wc-serial-numbers'); ?>
-						<br>
+						<hr>
 						<?php _e('Check Date for validity type of Date','wc-serial-numbers'); ?>
 					</span>
 				</div>
