@@ -297,7 +297,7 @@ function wsn_admin_bar_notification_list( $html ) {
 			setup_postdata( $post );
 
 
-			$name  = '<strong>' . get_the_title( get_the_title( $post->ID ) ) . '</strong>';
+			$name  = '<a href="'.get_edit_post_link(get_the_title( $post->ID )).'">' . get_the_title( get_the_title( $post->ID ) ) . '</a>';
 			$count = '<strong>' . (int) get_the_content() . '</strong>';
 
 			$msg = __( 'Please add serial numbers for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-numbers' );
