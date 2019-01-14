@@ -17,7 +17,7 @@ class Admin_Menu{
 	}
 
 	function admin_menu(){
-		add_submenu_page( 'serial-numbers', __( 'Add generator rule', 'wc-serial-numbers' ), __( 'Add generator rule', 'wc-serial-numbers' ), 'manage_woocommerce', 'add-generator-rule', array(
+		add_submenu_page( 'serial-numbers', __( 'Add generator rule', 'wc-serial-number-pro' ), __( 'Add generator rule', 'wc-serial-number-pro' ), 'manage_woocommerce', 'add-generator-rule', array(
 			$this, 'add_generator_rule' ) );
 	}
 

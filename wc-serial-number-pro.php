@@ -46,7 +46,7 @@ if (!is_plugin_active('wc-serial-numbers/wc-serial-numbers.php')) {
 		?>
 
 		<div class="notice notice-error is-dismissible">
-			<p><?php _e('Please, Activate WC Serial Numbers first, to make workable WC Serial Numbers PRO.', 'wc-serial-numbers'); ?></p>
+			<p><?php _e('Please, Activate WC Serial Numbers first, to make workable WC Serial Numbers PRO.', 'wc-serial-number-pro'); ?></p>
 		</div>
 
 		<?php

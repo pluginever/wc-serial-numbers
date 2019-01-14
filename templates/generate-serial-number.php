@@ -17,9 +17,9 @@ if (!$row_action) {
 	<div class="wrap wsn-container generate-page">
 		<?php if (!$is_product_tab) { ?>
 
-			<h1 class="wp-heading-inline"><?php _e('Generator Rules', 'wc-serial-numbers') ?></h1>
+			<h1 class="wp-heading-inline"><?php _e('Generator Rules', 'wc-serial-number-pro') ?></h1>
 
-			<a href="<?php echo WPWSN_ADD_GENERATE_RULE ?>" class="page-title-action"><?php _e('Add new generator rule', 'wc-serial-numbers') ?></a>
+			<a href="<?php echo WPWSN_ADD_GENERATE_RULE ?>" class="page-title-action"><?php _e('Add new generator rule', 'wc-serial-number-pro') ?></a>
 
 
 		<?php } ?>

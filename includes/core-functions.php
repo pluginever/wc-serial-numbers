@@ -300,7 +300,7 @@ function wsn_admin_bar_notification_list( $html ) {
 			$name  = '<a href="'.get_edit_post_link(get_the_title( $post->ID )).'">' . get_the_title( get_the_title( $post->ID ) ) . '</a>';
 			$count = '<strong>' . (int) get_the_content() . '</strong>';
 
-			$msg = __( 'Please add serial numbers for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-numbers' );
+			$msg = __( 'Please add serial numbers for ', 'wc-serial-number-pro' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-number-pro' );
 
 			$message .= '<tr><td>' . $msg . '</td></tr>';
 
@@ -344,11 +344,11 @@ function wsn_send_email_notification( $message ) {
 	global $woocommerce;
 
 	$to      = wsn_get_settings( 'wsn_admin_bar_notification_email', '', 'wsn_notification_settings' );
-	$subject = __( 'Serial Numbers stock running low', 'wc-serial-numbers' );
+	$subject = __( 'Serial Numbers stock running low', 'wc-serial-number-pro' );
 
 	$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message' );
 
-	$heading = __( 'Please add more serial number for the following items', 'wc-serial-numbers' );
+	$heading = __( 'Please add more serial number for the following items', 'wc-serial-number-pro' );
 
 	$mailer = $woocommerce->mailer();
 

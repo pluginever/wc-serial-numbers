@@ -1,0 +1,266 @@
+# Copyright (C) 2019 pluginever
+# This file is distributed under the GPLv2+.
+msgid ""
+msgstr ""
+"Project-Id-Version: WC Serial Number Pro 1.0.0a\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/wc-serial-numbers-pro\n"
+"POT-Creation-Date: 2019-01-14 07:27:03+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
+
+#: includes/admin/class-admin-menu.php:20
+msgid "Add generator rule"
+msgstr ""
+
+#: includes/admin/class-settings-api.php:352
+msgid "Choose File"
+msgstr ""
+
+#: includes/admin/class-settings.php:32
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-settings.php:48
+msgid "Text Field"
+msgstr ""
+
+#: includes/admin/class-settings.php:49
+msgid "Text Field Desc"
+msgstr ""
+
+#: includes/admin/class-settings.php:50
+msgid "Place Holder"
+msgstr ""
+
+#: includes/admin/class-settings.php:61
+msgid "WC Serial Number Pro Settings"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:20
+msgid "Generate Serial Number"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:21
+msgid "Generate Serial Numbers"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:61
+msgid "Product"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:62
+msgid "Variation"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:63
+msgid "Prefix. "
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:64
+#: includes/admin/generate-serial-table.php:65
+msgid "Chunks"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:66
+#: templates/add-generator-rule.php:182
+msgid "Suffix"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:67
+msgid "Deliver times"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:68
+msgid "Instance"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:69
+#: templates/add-generator-rule.php:224
+msgid "Validity"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:70
+#: includes/admin/generate-serial-table.php:124
+msgid "Generate"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:130 includes/class-ajax.php:41
+#: includes/class-ajax.php:51 templates/add-generator-rule.php:113
+msgid "Main Product"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:206
+msgid "Edit"
+msgstr ""
+
+#: includes/admin/generate-serial-table.php:207
+msgid "Delete"
+msgstr ""
+
+#: includes/class-install.php:86
+msgid "User Role"
+msgstr ""
+
+#: includes/class-install.php:122
+msgid "Monthly"
+msgstr ""
+
+#: includes/core-functions.php:303
+msgid "Please add serial numbers for "
+msgstr ""
+
+#: includes/core-functions.php:303
+msgid " Serial number left"
+msgstr ""
+
+#: includes/core-functions.php:347
+msgid "Serial Numbers stock running low"
+msgstr ""
+
+#: includes/core-functions.php:351
+msgid "Please add more serial number for the following items"
+msgstr ""
+
+#: templates/add-generator-rule.php:18
+msgid "Edit Generator Rule"
+msgstr ""
+
+#: templates/add-generator-rule.php:19
+msgid "Save changes"
+msgstr ""
+
+#: templates/add-generator-rule.php:34
+msgid "Add New Generator Rule"
+msgstr ""
+
+#: templates/add-generator-rule.php:35
+msgid "Add Generator Rule"
+msgstr ""
+
+#: templates/add-generator-rule.php:50
+msgid "Add serial key manually"
+msgstr ""
+
+#: templates/add-generator-rule.php:52
+msgid "Generate serial key Automatically"
+msgstr ""
+
+#: templates/add-generator-rule.php:58
+msgid "Updrade to PRO for generating serial numbers automatically."
+msgstr ""
+
+#: templates/add-generator-rule.php:85
+msgid "Choose Product"
+msgstr ""
+
+#: templates/add-generator-rule.php:89
+msgid "Choose a product"
+msgstr ""
+
+#: templates/add-generator-rule.php:108
+msgid "Product Variation"
+msgstr ""
+
+#: templates/add-generator-rule.php:140
+msgid "Prefix"
+msgstr ""
+
+#: templates/add-generator-rule.php:145
+msgid "Prefix to added before the serial number"
+msgstr ""
+
+#: templates/add-generator-rule.php:154
+msgid "Chunks Number"
+msgstr ""
+
+#: templates/add-generator-rule.php:159
+msgid "The number of chunks for the serial number."
+msgstr ""
+
+#: templates/add-generator-rule.php:168
+msgid "Chunk Length"
+msgstr ""
+
+#: templates/add-generator-rule.php:173
+msgid "The number of chunks length for the serial number."
+msgstr ""
+
+#: templates/add-generator-rule.php:187
+msgid "Suffix to added after the serial number."
+msgstr ""
+
+#: templates/add-generator-rule.php:196
+msgid "Max. Deliver Times"
+msgstr ""
+
+#: templates/add-generator-rule.php:202
+msgid "The maximum number, the serial number can be delivered."
+msgstr ""
+
+#: templates/add-generator-rule.php:210
+msgid "Maximum Instance"
+msgstr ""
+
+#: templates/add-generator-rule.php:216
+msgid "Maximum instance for the serial number."
+msgstr ""
+
+#: templates/add-generator-rule.php:228
+msgid "Days"
+msgstr ""
+
+#: templates/add-generator-rule.php:230
+msgid "Date"
+msgstr ""
+
+#: templates/add-generator-rule.php:237
+msgid "Check Days for validity type of Days numbers"
+msgstr ""
+
+#: templates/add-generator-rule.php:239
+msgid "Check Date for validity type of Date"
+msgstr ""
+
+#: templates/generate-serial-number.php:20
+msgid "Generator Rules"
+msgstr ""
+
+#: templates/generate-serial-number.php:22
+msgid "Add new generator rule"
+msgstr ""
+
+#: wc-serial-number-pro.php:49
+msgid ""
+"Please, Activate WC Serial Numbers first, to make workable WC Serial "
+"Numbers PRO."
+msgstr ""
+
+#: wc-serial-number-pro.php:129
+msgid "Cloning is forbidden."
+msgstr ""
+
+#: wc-serial-number-pro.php:138
+msgid "Unserializing instances of this class is forbidden."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WC Serial Number Pro"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.pluginever.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "The Best WordPress Plugin ever made!"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "pluginever"
+msgstr ""

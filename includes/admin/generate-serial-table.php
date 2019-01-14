@@ -17,8 +17,8 @@ class Generate_Serial_Table extends \WP_List_Table {
 	public function __construct($post_id = '') {
 
 		parent::__construct([
-			'singular' => __('Generate Serial Number', 'wc-serial-number'), //singular name of the listed records
-			'plural'   => __('Generate Serial Numbers', 'wc-serial-number'), //plural name of the listed records
+			'singular' => __('Generate Serial Number', 'wc-serial-number-pro'), //singular name of the listed records
+			'plural'   => __('Generate Serial Numbers', 'wc-serial-number-pro'), //plural name of the listed records
 			'ajax'     => false //should this table support ajax?
 
 		]);
@@ -58,16 +58,16 @@ class Generate_Serial_Table extends \WP_List_Table {
 
 			$columns = array(
 				'cb'            => '<input type="checkbox" />',
-				'product'       => __('Product', 'wc-serial-numbers'),
-				'variation'     => __('Variation', 'wc-serial-numbers'),
-				'prefix'        => __('Prefix. ', 'wc-serial-numbers'),
-				'chunks_number' => __('Chunks', 'wc-serial-numbers'),
-				'chunks_length' => __('Chunks', 'wc-serial-numbers'),
-				'suffix'        => __('Suffix', 'wc-serial-numbers'),
-				'deliver_times'      => __('Deliver times', 'wc-serial-numbers'),
-				'instance'      => __('Instance', 'wc-serial-numbers'),
-				'validity'      => __('Validity', 'wc-serial-numbers'),
-				'generate'      => __('Generate', 'wc-serial-numbers'),
+				'product'       => __('Product', 'wc-serial-number-pro'),
+				'variation'     => __('Variation', 'wc-serial-number-pro'),
+				'prefix'        => __('Prefix. ', 'wc-serial-number-pro'),
+				'chunks_number' => __('Chunks', 'wc-serial-number-pro'),
+				'chunks_length' => __('Chunks', 'wc-serial-number-pro'),
+				'suffix'        => __('Suffix', 'wc-serial-number-pro'),
+				'deliver_times'      => __('Deliver times', 'wc-serial-number-pro'),
+				'instance'      => __('Instance', 'wc-serial-number-pro'),
+				'validity'      => __('Validity', 'wc-serial-number-pro'),
+				'generate'      => __('Generate', 'wc-serial-number-pro'),
 			);
 
 		return $columns;
@@ -121,13 +121,13 @@ class Generate_Serial_Table extends \WP_List_Table {
 			$generate_html = '
 			<span class="ever-spinner"></span>
 			<input type="number" class="generate_number ever-thumbnail-small" name="generate_number" id="generate_number" value="' . $generate_num . '">
-			<button class="button button-primary wsn_generate_btn" data-rule_id="' . $post->ID . '"> ' . __('Generate', 'wc-serial-numbers') . '</button>
+			<button class="button button-primary wsn_generate_btn" data-rule_id="' . $post->ID . '"> ' . __('Generate', 'wc-serial-number-pro') . '</button>
 			';
 
 			$data[] = [
 				'ID'            => $post->ID,
 				'product'       => '<a href="' . get_edit_post_link($product) . '">' . get_the_title($product) . '</a>',
-				'variation'     => empty($variation) ? __('Main Product', 'wc-serial-number') : get_the_title($variation),
+				'variation'     => empty($variation) ? __('Main Product', 'wc-serial-number-pro') : get_the_title($variation),
 				'prefix'        => empty($prefix) ? '' : $prefix,
 				'chunks_number' => empty($chunks_number) ? '' : $chunks_number,
 				'chunks_length' => empty($chunk_length) ? '' : $chunk_length,
@@ -203,8 +203,8 @@ class Generate_Serial_Table extends \WP_List_Table {
 
 	function column_product($item) {
 		$actions = array(
-			'edit'   => '<a href="' . add_query_arg(['type' => 'automate', 'row_action' => 'edit', 'generator_rule' => $item['ID']], WPWSN_ADD_GENERATE_RULE) . '">' . __('Edit', 'wc-serial-number') . '</a>',
-			'delete' => '<a href="' . add_query_arg(['row_action' => 'delete', 'generator_rule' => $item['ID']], WPWSN_GENERATE_SERIAL_PAGE) . '">' . __('Delete', 'wc-serial-number') . '</a>',
+			'edit'   => '<a href="' . add_query_arg(['type' => 'automate', 'row_action' => 'edit', 'generator_rule' => $item['ID']], WPWSN_ADD_GENERATE_RULE) . '">' . __('Edit', 'wc-serial-number-pro') . '</a>',
+			'delete' => '<a href="' . add_query_arg(['row_action' => 'delete', 'generator_rule' => $item['ID']], WPWSN_GENERATE_SERIAL_PAGE) . '">' . __('Delete', 'wc-serial-number-pro') . '</a>',
 		);
 
 		return sprintf('%1$s %2$s', $item['product'], $this->row_actions($actions));

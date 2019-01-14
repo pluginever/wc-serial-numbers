@@ -38,7 +38,7 @@ class Ajax {
 
 			ob_start();
 
-			echo '<option value="">' . __('Main Product', 'wc-serial-numbers') . '</option>';
+			echo '<option value="">' . __('Main Product', 'wc-serial-number-pro') . '</option>';
 
 			foreach ($variations as $variation) { ?>
 				<option value="<?php echo $variation ?>"><?php echo get_the_title($variation) ?></option>
@@ -48,7 +48,7 @@ class Ajax {
 
 
 		} else {
-			$html = '<option value="">' . __('Main Product', 'wc-serial-numbers') . '</option>';
+			$html = '<option value="">' . __('Main Product', 'wc-serial-number-pro') . '</option>';
 		}
 
 		wp_send_json_success([

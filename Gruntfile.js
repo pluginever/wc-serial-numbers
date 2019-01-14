@@ -21,7 +21,7 @@ module.exports = function (grunt) {
 			all: [
 				'Gruntfile.js',
 				'<%= dirs.js %>/*.js',
-				'!<%= dirs.js %>/admin/*.min.js',
+				'!<%= dirs.js %>/admin/*.min.js'
 			]
 		},
 
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
 				files: [
 					'<%= dirs.js %>/*js',
 					'<%= dirs.js %>/*js',
-					'!<%= dirs.js %>/*.min.js',
+					'!<%= dirs.js %>/*.min.js'
 				],
 				tasks: ['jshint', 'uglify']
 			}
