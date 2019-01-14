@@ -311,7 +311,7 @@ function wsn_extra_table_nav($html, $page) {
 
 		<?php if ($page == 'serial-numbers') { ?>
 
-			<input type="text" id="filter-serialnumber" name="filter-serialnumber" placeholder="Serial number" value="<?php echo $serialnumber ?>">
+			<input type="text" id="filter-serialnumber" name="filter-serialnumber" class="ever-field-inline" placeholder="Serial number" value="<?php echo $serialnumber ?>">
 
 		<?php } ?>
 
@@ -348,7 +348,10 @@ function wsn_extra_table_nav($html, $page) {
 			</span>
 		</div>
 
-		<input type="submit" name="wsn-filter-table-<?php echo $page ?>" id="wsn-filter-table" class="button button-primary" value="filter">
+		<input type="submit" name="wsn-filter-table-<?php echo $page ?>" id="wsn-filter-table" class="button button-primary" value="Filter">
+
+		<button class="button button ever-inline"><a href="<?php echo WPWSN_SERIAL_INDEX_PAGE ?>">Clear filter</a></button>
+
 	</div>
 
 	<?php

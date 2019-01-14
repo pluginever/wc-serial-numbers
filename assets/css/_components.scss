@@ -218,9 +218,10 @@
 				border-left: 5px solid red;
 				padding: 0 15px 0 10px !important;
 				margin: 5px 0 !important;
-				font-size: 16px !important;
-				&>strong{
-					font-weight: bold !important;
+				font-size: 14px !important;
+				&>a{
+					display: inline !important;
+					padding: 0 !important;
 				}
 			}
 		}
@@ -230,7 +231,7 @@
 .ever-table-filter{
 	&.serial-numbers {
 		.select2 {
-			margin-top: -10px !important;
+			margin-top: -5px !important;
 		}
 	}
 
