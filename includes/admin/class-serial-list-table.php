@@ -35,11 +35,13 @@ class Serial_List_Table extends \WP_List_Table {
 
 	public function prepare_items() {
 
+		$per_page = wsn_get_settings('wsn_rows_per_page', 15, 'wsn_general_settings');
+
 		$columns  = $this->get_columns();
 		$sortable = $this->get_sortable_columns();
 		$data     = $this->table_data();
 		usort($data, array(&$this, 'sort_data'));
-		$perPage     = 15;
+		$perPage     = $per_page;
 		$currentPage = $this->get_pagenum();
 		$totalItems  = count($data);
 

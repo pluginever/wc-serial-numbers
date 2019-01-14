@@ -69,16 +69,9 @@ class Settings {
 					'type'    => 'checkbox',
 					'checked' => '',
 				),
-				array(
-					'name'    => 'wsn_admin_bar_notification',
-					'label'   => __('Admin bar notification', 'wc-serial-numbers'),
-					'desc'    => __('Show addmin bar notification, if there is not enough serial number for any products', 'wc-serial-numbers'),
-					'default' => 10,
-					'class'   => 'ever-field-inline',
-					'type'    => 'checkbox',
-					'checked' => '',
-				),
+
 			),
+
 			'wsn_serial_generator_settings' => array(
 				array(
 					'name'        => 'wsn_generator_prefix',
@@ -157,6 +150,7 @@ class Settings {
 					'type'    => 'number',
 				),
 			),
+
 			'wsn_notification_settings'     => array(
 
 				array(
