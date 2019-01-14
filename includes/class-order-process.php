@@ -79,13 +79,14 @@ class Order_Process {
 
 		$serial_numbers = get_post_meta( $order->get_id(), 'serial_numbers', true );
 
-		if ( empty( $serial_numbers ) or ! wsn_check_status( $order ) ) {
+		if ( empty( $serial_numbers ) or ! wsn_check_status_to_send( $order ) ) {
 			return;
 		}
 
 		include WPWSN_TEMPLATES_DIR . '/order-details-serial-number.php';
 
 	}
+
 
 	function validate_cart_content() {
 

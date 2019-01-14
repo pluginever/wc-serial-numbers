@@ -236,10 +236,27 @@ function wsn_class_disabled() {
  * @return bool
  */
 
-function wsn_check_status($order) {
+function wsn_check_status_to_send($order) {
 
 	$order_status   = $order->get_data()['status'];
 	$status_to_show = wsn_get_settings('wsn_send_serial_number', '', 'wsn_delivery_settings');
+
+	return $order_status == $status_to_show ? true : false;
+
+}
+
+/**
+ * Check is the order status, is the settings saved order status for showing license
+ *
+ * @param $order
+ *
+ * @return bool
+ */
+
+function wsn_check_status_to_revoke($order) {
+
+	$order_status   = $order->get_data()['status'];
+	$status_to_show = wsn_get_settings('wsn_revoke_serial_number', '', 'wsn_delivery_settings');
 
 	return $order_status == $status_to_show ? true : false;
 
@@ -326,8 +343,7 @@ function wsn_extra_table_nav($html, $page) {
 		<div class="ever-helper"> ? <span class="text">
 				 1. <?php _e('Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers'); ?>
 				<?php if ($page == 'serial-numbers') { ?>
-					<hr>2. <?php _e('Choose a product for filtering only the product.', 'wc-serial-numbers'); ?>
-				<?php } ?>
+					<hr>2. <?php _e('Choose a product for filtering only the product.', 'wc-serial-numbers'); ?><?php } ?>
 
 			</span>
 		</div>
@@ -339,6 +355,94 @@ function wsn_extra_table_nav($html, $page) {
 }
 
 add_filter('wsn_extra_table_nav', 'wsn_extra_table_nav', 10, 2);
+
+
+/**
+ * Send serial number via email if order status match with the settings order status to send the email
+ *
+ * @since 1.0.0
+ *
+ * @param $order_id
+ * @param $old_status
+ * @param $new_status
+ * @param $order
+ */
+
+function wsn_send_serial_number_email($order_id, $old_status, $new_status, $order) {
+
+	global $woocommerce;
+
+	$serial_numbers = get_post_meta($order_id, 'serial_numbers', true);
+
+	if (empty($serial_numbers)) {
+		return;
+	}
+
+	if (wsn_check_status_to_send($order)) {
+
+		$customer_email = wsn_get_customer_detail('email', $order);
+
+		$to      = $customer_email;
+
+		$subject = __('Serial Number for  for Order #', 'wc-serial-numbers') . $order_id;
+
+		$headers = apply_filters('woocommerce_email_headers', '', 'rewards_message');
+
+		$heading = __('Serial Number for for Order #', 'wc-serial-numbers') . $order_id;
+
+		$mailer = $woocommerce->mailer();
+
+		ob_start();
+		include WPWSN_TEMPLATES_DIR . '/order-details-serial-number.php';
+		$html = ob_get_clean();
+
+
+		$message = $mailer->wrap_message($heading, $html);
+
+		$mailer->send($to, $subject, $message, $headers, array());
+	}
+
+}
+
+
+add_action('woocommerce_order_status_changed', 'wsn_send_serial_number_email', 10, 4);
+
+
+/**
+ * Revoke the serial number from the order and make it as before
+ *
+ * @since 1.0.0
+ *
+ * @param $order_id
+ * @param $old_status
+ * @param $new_status
+ * @param $order
+ */
+
+function wsn_revoke_serial_number($order_id, $old_status, $new_status, $order) {
+
+	$serial_numbers = get_post_meta($order_id, 'serial_numbers', true);
+
+	if (empty($serial_numbers)) {
+		return;
+	}
+
+	if (wsn_check_status_to_revoke($order)) {
+		foreach ($serial_numbers as $serial_number_id){
+			$used = get_post_meta($serial_number_id, 'used', true);
+
+			update_post_meta($serial_number_id, 'used', $used -1 );
+			update_post_meta($serial_number_id, 'order', '' );
+		}
+	}
+
+	return;
+
+}
+
+
+add_action('woocommerce_order_status_changed', 'wsn_revoke_serial_number', 10, 4);
+
 
 
 
