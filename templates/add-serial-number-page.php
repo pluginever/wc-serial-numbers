@@ -55,7 +55,7 @@ if ($type == 'automate') {
 		<?php if (!wsn_is_wsnp()) { ?>
 
 			<div class="ever-helper"> ?
-				<span class="text"><strong>Please Upgrade to PRO, for generating serial numbers Automatically.</strong></span>
+				<span class="text"><strong><?php _e('Please Upgrade to PRO, for generating serial numbers Automatically.','wc-serial-numbers'); ?></strong></span>
 			</div>
 
 		<?php } ?>

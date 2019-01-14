@@ -27,7 +27,9 @@ class Settings {
 
 			array(
 				'id'    => 'wsn_serial_generator_settings',
-				'title' => __('Serial Numbers Generator', 'wc-serial-numbers')
+				'title' => wsn_is_wsnp()
+					? __('Serial Numbers Generator', 'wc-serial-numbers')
+					: __('Serial Numbers Generator', 'wc-serial-numbers') . '<div class="ever-helper"> ? <span class="text"><strong>' . __('Please Upgrade to PRO, for generating serial numbers Automatically.', 'wc-serial-numbers') . '</strong></span></div>'
 			),
 
 			array(
@@ -50,7 +52,7 @@ class Settings {
 	 */
 	function get_settings_fields() {
 		$settings_fields = array(
-			'wsn_general_settings'          => array(
+			'wsn_general_settings' => array(
 				array(
 					'name'    => 'wsn_rows_per_page',
 					'label'   => __('Numbers of rows per page', 'wc-serial-numbers'),
@@ -77,7 +79,7 @@ class Settings {
 					'name'        => 'wsn_generator_prefix',
 					'label'       => __('Prefix', 'wc-serial-numbers'),
 					'placeholder' => __('sl-', 'wc-serial-numbers'),
-					'desc'        => __('Prefix to added before the serial number.', 'wc-serial-numbers').'<br><strong>ex: <em>sl-xxxx-xxxx-xxxx-xxxx</em></strong>',
+					'desc'        => __('Prefix to added before the serial number.', 'wc-serial-numbers') . '<br><strong>ex: <em>sl-xxxx-xxxx-xxxx-xxxx</em></strong>',
 					'class'       => 'ever-field-inline',
 					'default'     => '',
 					'type'        => 'text',
@@ -87,7 +89,7 @@ class Settings {
 					'name'        => 'wsn_generator_chunks_number',
 					'label'       => __('Chunks Number', 'wc-serial-numbers'),
 					'placeholder' => __('4', 'wc-serial-numbers'),
-					'desc'        => __('The number of chunks for the serial number.', 'wc-serial-numbers').'<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>',
+					'desc'        => __('The number of chunks for the serial number.', 'wc-serial-numbers') . '<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>',
 					'class'       => 'ever-field-inline',
 					'default'     => 4,
 					'type'        => 'number',
@@ -97,7 +99,7 @@ class Settings {
 					'name'        => 'wsn_generator_chunks_length',
 					'label'       => __('Chunks Length', 'wc-serial-numbers'),
 					'placeholder' => __('4', 'wc-serial-numbers'),
-					'desc'        => __('The number of chunks length for the serial number.', 'wc-serial-numbers').'<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>',
+					'desc'        => __('The number of chunks length for the serial number.', 'wc-serial-numbers') . '<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>',
 					'class'       => 'ever-field-inline',
 					'default'     => 4,
 					'type'        => 'number',
@@ -107,7 +109,7 @@ class Settings {
 					'name'        => 'wsn_generator_suffix',
 					'label'       => __('Suffix', 'wc-serial-numbers'),
 					'placeholder' => __('-suffix', 'wc-serial-numbers'),
-					'desc'        => __('Suffix to added after the serial number.', 'wc-serial-numbers').'<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx-suffix</em></strong>',
+					'desc'        => __('Suffix to added after the serial number.', 'wc-serial-numbers') . '<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx-suffix</em></strong>',
 					'class'       => 'ever-field-inline',
 					'default'     => '',
 					'type'        => 'text',
@@ -151,12 +153,12 @@ class Settings {
 				),
 			),
 
-			'wsn_notification_settings'     => array(
+			'wsn_notification_settings' => array(
 
 				array(
 					'name'    => 'wsn_admin_bar_notification',
 					'label'   => __('Admin bar notification', 'wc-serial-numbers'),
-					'desc'    => '<p class="description">'.__('Show addmin bar notification, if there is not enough serial number for any products', 'wc-serial-numbers').'</p>',
+					'desc'    => '<p class="description">' . __('Show addmin bar notification, if there is not enough serial number for any products', 'wc-serial-numbers') . '</p>',
 					'default' => '',
 					'class'   => 'ever-field-inline',
 					'type'    => 'checkbox',
@@ -180,7 +182,7 @@ class Settings {
 				array(
 					'name'    => 'wsn_admin_bar_notification_send_email',
 					'label'   => __('Send Email', 'wc-serial-numbers'),
-					'desc'    => '<p class="description">'.__('Also receive email notification, if there is not enough serial number for any product', 'wc-serial-numbers').'</p>',
+					'desc'    => '<p class="description">' . __('Also receive email notification, if there is not enough serial number for any product', 'wc-serial-numbers') . '</p>',
 					'default' => '',
 					'class'   => 'ever-field-inline',
 					'type'    => 'checkbox',
@@ -198,12 +200,12 @@ class Settings {
 
 
 			),
-			'wsn_delivery_settings'         => array(
+			'wsn_delivery_settings'     => array(
 
 				array(
 					'name'    => 'wsn_send_serial_number',
 					'label'   => __('Send serial number on', 'wc-serial-numbers'),
-					'desc'    => '<p class="description">'.__('Choose order status, when the serial number to be send', 'wc-serial-numbers').'</p>',
+					'desc'    => '<p class="description">' . __('Choose order status, when the serial number to be send', 'wc-serial-numbers') . '</p>',
 					'class'   => 'ever-field-inline',
 					'type'    => 'select',
 					'options' => array(
@@ -217,7 +219,7 @@ class Settings {
 				array(
 					'name'    => 'wsn_revoke_serial_number',
 					'label'   => __('Revoke serial number on', 'wc-serial-numbers'),
-					'desc'    => '<p class="description">'.__('Choose order status, when the serial number to be removed from the order details', 'wc-serial-numbers').'</p>',
+					'desc'    => '<p class="description">' . __('Choose order status, when the serial number to be removed from the order details', 'wc-serial-numbers') . '</p>',
 					'class'   => 'ever-field-inline',
 					'type'    => 'select',
 					'options' => array(
