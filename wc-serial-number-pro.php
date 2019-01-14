@@ -3,7 +3,7 @@
  * Plugin Name: WC Serial Number Pro
  * Plugin URI:  https://www.pluginever.com
  * Description: The Best WordPress Plugin ever made!
- * Version:     1.0.0
+ * Version:     1.0.0a
  * Author:      pluginever
  * Author URI:  https://www.pluginever.com
  * Donate link: https://www.pluginever.com
@@ -75,7 +75,7 @@ final class WCSerialNumberPro {
      *
      * @var string
      */
-    public $version = '1.0.0';
+    public $version = '1.0.0a';
 
     /**
      * Minimum PHP version required
