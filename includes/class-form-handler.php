@@ -23,14 +23,14 @@ class FormHandler {
 
 		$action_type = sanitize_text_field($_REQUEST['action_type']);
 
-		$serial_number = sanitize_textarea_field($_REQUEST['serial_number']);
-		$product       = intval($_REQUEST['product']);
-		$variation     = empty($_REQUEST['variation'])? 0 : intval($_REQUEST['variation']);
-		$image_license = esc_url($_REQUEST['image_license']);
-		$deliver_times = intval($_REQUEST['deliver_times']);
-		$max_instance  = intval($_REQUEST['max_instance']);
-		$validity_type = esc_attr($_REQUEST['validity_type']);
-		$validity      = esc_attr($_REQUEST['validity']);
+		$serial_number = empty($_REQUEST['serial_number']) ? '' : sanitize_textarea_field($_REQUEST['serial_number']);
+		$product       = empty($_REQUEST['product']) ? '' : intval($_REQUEST['product']);
+		$variation     = empty($_REQUEST['variation']) ? 0 : intval($_REQUEST['variation']);
+		$image_license = empty($_REQUEST['image_license']) ? '' : esc_url($_REQUEST['image_license']);
+		$deliver_times = empty($_REQUEST['deliver_times']) ? '' : intval($_REQUEST['deliver_times']);
+		$max_instance  = empty($_REQUEST['max_instance']) ? '' : intval($_REQUEST['max_instance']);
+		$validity_type = empty($_REQUEST['validity_type']) ? '' : esc_attr($_REQUEST['validity_type']);
+		$validity      = empty($_REQUEST['validity']) ? '' : esc_attr($_REQUEST['validity']);
 
 		$url = untrailingslashit($_SERVER['HTTP_ORIGIN']) . $_REQUEST['_wp_http_referer'];
 
@@ -136,7 +136,7 @@ class FormHandler {
 
 		}
 
-		return wp_redirect(admin_url('admin.php?page=serial-numbers'));
+		return wp_redirect(WPWSN_SERIAL_INDEX_PAGE);
 
 	}
 

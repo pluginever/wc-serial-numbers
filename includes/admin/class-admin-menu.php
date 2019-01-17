@@ -17,15 +17,15 @@ class Admin_Menu {
 	function admin_menu() {
 
 
-		add_submenu_page( 'woocommerce', __( 'WC Serial Numbers', 'wc-serial-numbers' ), __( 'Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'serial-numbers', array(
+		add_submenu_page( 'woocommerce', __( 'WC Serial Numbers', 'wc-serial-numbers' ), __( 'Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers', array(
 			$this,
 			'serial_numbers_page'
 		) );
-		add_submenu_page( 'serial-numbers', __( 'Add Serial Number', 'wc-serial-numbers' ), __( 'Add Serial Number', 'wc-serial-numbers' ), 'manage_woocommerce', 'add-serial-number', array(
+		add_submenu_page( 'serial-numbers', __( 'Add Serial Number', 'wc-serial-numbers' ), __( 'Add Serial Number', 'wc-serial-numbers' ), 'manage_woocommerce', 'add-wc-serial-number', array(
 			$this,
 			'add_serial_numbers_page'
 		) );
-		add_submenu_page( 'serial-numbers', __( 'Generate Serial Number', 'wc-serial-numbers' ), __( 'Generate Serial Number', 'wc-serial-numbers' ), 'manage_woocommerce', 'generate-serial-number', array(
+		add_submenu_page( 'serial-numbers', __( 'Generate Serial Number', 'wc-serial-numbers' ), __( 'Generate Serial Number', 'wc-serial-numbers' ), 'manage_woocommerce', 'generate-wc-serial-number', array(
 			$this,
 			'generate_serial_numbers_page'
 		) );

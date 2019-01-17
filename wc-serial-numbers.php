@@ -64,8 +64,6 @@ if (!is_plugin_active('woocommerce/woocommerce.php')) {
  *
  * @class WCSerialNumbers
  */
-
-
 final class WCSerialNumbers {
 	/**
 	 * The single instance of the class.
@@ -152,11 +150,11 @@ final class WCSerialNumbers {
 		define('WPWSN_ASSETS_URL', WPWSN_URL . '/assets');
 		define('WPWSN_TEMPLATES_DIR', WPWSN_PATH . '/templates');
 
-		define('WPWSN_SERIAL_INDEX_PAGE', admin_url('admin.php?page=serial-numbers'));
-		define('WPWSN_ADD_SERIAL_PAGE', admin_url('admin.php?page=add-serial-number&type=manual'));
-		define('WPWSN_GENERATE_SERIAL_PAGE', admin_url('admin.php?page=add-serial-number&type=automate'));
-		define('WPWSN_SETTINGS_PAGE', admin_url('admin.php?page=wc_serial_numbers-settings'));
-		define('WPWSN_ADD_GENERATE_RULE', admin_url('admin.php?page=add-generator-rule'));
+		define('WPWSN_SERIAL_INDEX_PAGE', admin_url('admin.php?page=wc-serial-numbers'));
+		define('WPWSN_ADD_SERIAL_PAGE', admin_url('admin.php?page=add-wc-serial-number&type=manual'));
+		define('WPWSN_GENERATE_SERIAL_PAGE', admin_url('admin.php?page=add-wc-serial-number&type=automate'));
+		define('WPWSN_SETTINGS_PAGE', admin_url('admin.php?page=wc-serial-numbers-settings'));
+		define('WPWSN_ADD_GENERATE_RULE', admin_url('admin.php?page=add-wc-generator-rule'));
 	}
 
 	/**
@@ -278,7 +276,7 @@ final class WCSerialNumbers {
 	 * @return array
 	 */
 	public function plugin_action_links($links) {
-		$links[] = '<a href="' . admin_url('admin.php?page=wc_serial_numbers-settings') . '">' . __('Settings', 'wc-serial-numbers') . '</a>';
+		$links[] = '<a href="' . WPWSN_SERIAL_INDEX_PAGE . '">' . __('Settings', 'wc-serial-numbers') . '</a>';
 		return $links;
 	}
 

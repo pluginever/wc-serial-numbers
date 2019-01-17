@@ -1,12 +1,3 @@
-.ehrm-people-avatar {
-	height: 34px;
-	width: 34px;
-	margin-right: 10px;
-	border-radius: 100%;
-	border: 1px solid #ddd;
-	padding: 2px;
-}
-
 .ever-spinner {
 	background-image: url(../images/spinner.gif);
 	display: block;
@@ -22,21 +13,6 @@
 		background-position: 50% 50%;
 	}
 }
-
-.ehrm-ajax-table {
-	.ehrm-spinner {
-		margin: 0 auto;
-		padding: 50px 0;
-	}
-
-	//.search-box {
-	//	float: left;
-	//}
-	//.tablenav {
-	//	clear: none;
-	//}
-}
-
 
 //panel
 .ever-panel {
@@ -107,7 +83,6 @@
 }
 
 //tool tip
-
 .ever-helper {
 	position: absolute;
 	display: inline-block;
@@ -148,9 +123,7 @@
 	}
 }
 
-
 //Image
-
 .ever-thumbnail {
 	width: 350px;
 	display: block;
@@ -179,7 +152,6 @@
 .wsn_admin_bar_notification{
 	padding-right: 25px !important;
 }
-
 
 .ever-notification {
 	position: absolute !important;

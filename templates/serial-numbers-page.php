@@ -61,6 +61,6 @@ if (!$row_action) {
 		do_action('wsn_update_notification_on_order_delete', esc_attr($_REQUEST['product']));
 	}
 
-	wp_redirect(admin_url('admin.php?page=serial-numbers'));
+	wp_redirect(WPWSN_SERIAL_INDEX_PAGE);
 
 } ?>
