@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WC Serial Numbers
  * Plugin URI:  https://www.pluginever.com
- * Description: The Best WordPress Plugin ever made!
+ * Description: The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
  * Version:     1.0.0a
  * Author:      pluginever
  * Author URI:  https://www.pluginever.com
