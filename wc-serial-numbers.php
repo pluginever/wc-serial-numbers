@@ -1,12 +1,11 @@
 <?php
 /**
  * Plugin Name: WC Serial Numbers
- * Plugin URI:  https://www.pluginever.com
+ * Plugin URI:  http://manik.me
  * Description: The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
- * Version:     1.0.0a
- * Author:      pluginever
- * Author URI:  https://www.pluginever.com
- * Donate link: https://www.pluginever.com
+ * Version:     1.0.0
+ * Author:      manikmist09
+ * Author URI:  http://manik.me/about
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /i18n/languages/
@@ -77,7 +76,7 @@ final class WCSerialNumbers {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.0a';
+	public $version = '1.0.0';
 	/**
 	 * Minimum PHP version required
 	 *
