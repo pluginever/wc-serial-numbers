@@ -7,7 +7,6 @@ class Install {
      */
     public function __construct() {
         add_action( 'init', array( __CLASS__, 'install' ) );
-//        add_filter( 'cron_schedules', array( __CLASS__, 'cron_schedules' ) );
     }
 
     public static function install() {

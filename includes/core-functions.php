@@ -239,7 +239,7 @@ function wsn_class_disabled() {
 function wsn_check_status_to_send($order) {
 
 	$order_status   = $order->get_data()['status'];
-	$status_to_show = wsn_get_settings('wsn_send_serial_number', '', 'wsn_delivery_settings');
+	$status_to_show = wsn_get_settings('wsn_send_serial_number', 'completed', 'wsn_delivery_settings');
 
 	return $order_status == $status_to_show ? true : false;
 
@@ -256,9 +256,10 @@ function wsn_check_status_to_send($order) {
 function wsn_check_status_to_revoke($order) {
 
 	$order_status   = $order->get_data()['status'];
-	$status_to_show = wsn_get_settings('wsn_revoke_serial_number', '', 'wsn_delivery_settings');
 
-	return $order_status == $status_to_show ? true : false;
+	$status_to_show = wsn_get_settings('wsn_revoke_serial_number', array('cancelled', 'refunded', 'failed'), 'wsn_delivery_settings');
+
+	return in_array($order_status, (array) $status_to_show) ? true : false;
 
 }
 
@@ -431,7 +432,9 @@ function wsn_revoke_serial_number($order_id, $old_status, $new_status, $order) {
 	}
 
 	if (wsn_check_status_to_revoke($order)) {
+
 		foreach ($serial_numbers as $serial_number_id){
+
 			$used = get_post_meta($serial_number_id, 'used', true);
 
 			update_post_meta($serial_number_id, 'used', $used -1 );
@@ -686,6 +689,25 @@ function wsn_admin_bar_notification_list( $html ) {
 }
 
 add_filter( 'wsn_admin_bar_notification_list', 'wsn_admin_bar_notification_list' );
+
+add_action('woocommerce_after_order_itemmeta', 'wsn_woocommerce_after_order_itemmeta',10, 3);
+
+function wsn_woocommerce_after_order_itemmeta($item_id, $item, $product){
+
+	//$product          = $item_data->get_product();
+	//$product_id       = $product->get_id();
+	//$product_name     = $product->get_name();
+
+	$serial_number_id = get_post_meta( $item->get_data()['order_id'], 'serial_numbers', true )[ $product->get_id() ];
+	$serial_number    = get_the_title( $serial_number_id );
+
+	?>
+
+	<div class="wc-order-item-sku">
+		<strong><?php _e('Serial Number', 'wc-serial-numbers') ?>:</strong> <?php echo $serial_number; ?>
+	</div>
+
+<?php }
 
 
 

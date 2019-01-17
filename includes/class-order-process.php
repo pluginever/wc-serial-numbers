@@ -93,6 +93,7 @@ class Order_Process {
 		$car_products = WC()->cart->get_cart_contents();
 
 		foreach ( $car_products as $id => $cart_product ) {
+
 			$product    = $cart_product['data'];
 			$product_id = $cart_product['product_id'];
 			$quantity   = $cart_product['quantity'];
@@ -109,6 +110,7 @@ class Order_Process {
 					wc_add_notice( __( 'Sorry, There is not enough <strong>Serial Number</strong> available for', 'wc-serial-numbers' ) . ' <strong>' . $product->get_title() . '</strong>, <br>' . __( 'Please remove this item or lower the quantity, For now we have', 'wc-serial-numbers' ) . ' ' . $count_numbers . ' ' . __( 'Serial Number(s)', 'wc-serial-numbers' ) . ' ' . __( 'for this product.', 'wc-serial-numbers' ) . '' . '<br>', 'error' );
 				}
 			}
+
 		}
 	}
 }

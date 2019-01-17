@@ -11,15 +11,19 @@ class Settings {
 	}
 
 	function admin_init() {
+
 		//set the settings
 		$this->settings_api->set_sections($this->get_settings_sections());
 		$this->settings_api->set_fields($this->get_settings_fields());
+
 		//initialize settings
 		$this->settings_api->admin_init();
 	}
 
 	function get_settings_sections() {
+
 		$sections = array(
+
 			array(
 				'id'    => 'wsn_general_settings',
 				'title' => __('General Settings', 'wc-serial-numbers')
@@ -50,8 +54,11 @@ class Settings {
 	 *
 	 * @return array settings fields
 	 */
+
 	function get_settings_fields() {
+
 		$settings_fields = array(
+
 			'wsn_general_settings' => array(
 				array(
 					'name'    => 'wsn_rows_per_page',
@@ -221,7 +228,7 @@ class Settings {
 					'label'   => __('Revoke serial number on', 'wc-serial-numbers'),
 					'desc'    => '<p class="description">' . __('Choose order status, when the serial number to be removed from the order details', 'wc-serial-numbers') . '</p>',
 					'class'   => 'ever-field-inline',
-					'type'    => 'select',
+					'type'    => 'multicheck',
 					'options' => array(
 						'cancelled' => __('Cancelled', 'wc-serial-numbers'),
 						'refunded'  => __('Refunded', 'wc-serial-numbers'),

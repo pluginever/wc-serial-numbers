@@ -25,7 +25,9 @@ class Email
 		$serial_numbers = get_post_meta($order_id, 'serial_numbers', true);
 
 		if (empty($serial_numbers) or ! wsn_check_status_to_send($order)) {
+
 			return;
+
 		}
 
 		echo '<h2 style="color: #96588a;font-family: &quot;Helvetica Neue&quot;, Helvetica, Roboto, Arial, sans-serif;font-size: 18px;font-weight: bold;line-height: 130%;margin: 0 0 18px;text-align: left">'.__('Serial Numbers', 'wc-serial-numbers').'</h2>
