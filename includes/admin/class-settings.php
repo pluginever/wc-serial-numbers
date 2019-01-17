@@ -30,13 +30,6 @@ class Settings {
 			),
 
 			array(
-				'id'    => 'wsn_serial_generator_settings',
-				'title' => wsn_is_wsnp()
-					? __('Serial Numbers Generator', 'wc-serial-numbers')
-					: __('Serial Numbers Generator', 'wc-serial-numbers') . '<div class="ever-helper"> ? <span class="text"><strong>' . __('Please Upgrade to PRO, for generating serial numbers Automatically.', 'wc-serial-numbers') . '</strong></span></div>'
-			),
-
-			array(
 				'id'    => 'wsn_notification_settings',
 				'title' => __('Notifications', 'wc-serial-numbers')
 			),
