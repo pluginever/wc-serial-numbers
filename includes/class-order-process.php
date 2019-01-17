@@ -46,12 +46,12 @@ class Order_Process {
 			$enable_serial_number = get_post_meta( $product_id, 'enable_serial_number', true );
 
 			if ( $enable_serial_number == 'enable' ) {
-
 				$numbers = wsn_get_available_numbers( $product_id );
+				error_log(print_r($numbers, true ));
 
 				$number = $numbers[ array_rand( $numbers ) ]; //serial_number_to_be_used
-
-				$used = get_post_meta( $number->ID, 'used', true );
+				error_log(print_r($number, true ));
+				$used = get_post_meta( $number, 'used', true );
 
 				update_post_meta( $number, 'order', $order->get_id() );
 

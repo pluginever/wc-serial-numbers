@@ -29,7 +29,7 @@ if (!$row_action) {
 				<?php
 				if (!$is_product_tab) {
 					echo '<form action="" method="GET">';
-					echo $serial_list->search_box(__('Search', 'wc-serial-numbers'), 'wsn_serial_page');
+					$serial_list->search_box(__('Search', 'wc-serial-numbers'), 'wsn_serial_page');
 					echo '<input type="hidden" name="page" value="' . esc_attr($_REQUEST['page']) . '"/></form>'; // form end
 
 					echo '<form id="wsn-serial-numbers-table" action="' . admin_url('admin-post.php') . '" method="post">

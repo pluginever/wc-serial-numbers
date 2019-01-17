@@ -24,7 +24,7 @@ class Email
 
 		$serial_numbers = get_post_meta($order_id, 'serial_numbers', true);
 
-		if (empty($serial_numbers) or !wsn_check_status($order)) {
+		if (empty($serial_numbers) or ! wsn_check_status_to_send($order)) {
 			return;
 		}
 

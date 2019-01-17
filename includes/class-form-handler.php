@@ -24,8 +24,8 @@ class FormHandler {
 		$action_type = sanitize_text_field($_REQUEST['action_type']);
 
 		$serial_number = sanitize_textarea_field($_REQUEST['serial_number']);
-		$product       = esc_attr($_REQUEST['product']);
-		$variation     = esc_attr($_REQUEST['variation']);
+		$product       = intval($_REQUEST['product']);
+		$variation     = empty($_REQUEST['variation'])? 0 : intval($_REQUEST['variation']);
 		$image_license = esc_url($_REQUEST['image_license']);
 		$deliver_times = intval($_REQUEST['deliver_times']);
 		$max_instance  = intval($_REQUEST['max_instance']);

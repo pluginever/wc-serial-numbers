@@ -17,10 +17,9 @@ class Serial_List_Table extends \WP_List_Table {
 	public function __construct($post_id = '') {
 
 		parent::__construct([
-			'singular' => __('Serial Number', 'wc-serial-numbers'), //singular name of the listed records
-			'plural'   => __('Serial Numbers', 'wc-serial-numbers'), //plural name of the listed records
-			'ajax'     => true //should this table support ajax?
-
+			'singular' => __('Serial Number', 'wc-serial-numbers'),
+			'plural'   => __('Serial Numbers', 'wc-serial-numbers'),
+			'ajax'     => false
 		]);
 
 		$this->is_single = $post_id;
@@ -36,7 +35,7 @@ class Serial_List_Table extends \WP_List_Table {
 	public function prepare_items() {
 
 		$per_page = wsn_get_settings('wsn_rows_per_page', 15, 'wsn_general_settings');
-
+//
 		$columns  = $this->get_columns();
 		$sortable = $this->get_sortable_columns();
 		$data     = $this->table_data();
@@ -51,9 +50,8 @@ class Serial_List_Table extends \WP_List_Table {
 		));
 
 		$data                  = array_slice($data, (($currentPage - 1) * $perPage), $perPage);
-		$this->_column_headers = array($columns, $sortable);
+		$this->_column_headers = array($columns, array(),  $sortable);
 		$this->items           = $data;
-
 	}
 
 	/**
@@ -101,12 +99,14 @@ class Serial_List_Table extends \WP_List_Table {
 
 	 */
 	public function get_sortable_columns() {
-		return [
+		$shortable =  [
 			'serial_numbers' => array('serial_numbers', false),
 			'purchaser'      => array('purchaser', false),
 			'order'          => array('order', false),
 			'purchased_on'   => array('purchased_on', false),
 		];
+
+		return $shortable;
 	}
 
 	/**
