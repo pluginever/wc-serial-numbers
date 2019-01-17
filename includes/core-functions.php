@@ -351,7 +351,7 @@ function wsn_extra_table_nav($html, $page) {
 
 		<input type="submit" name="wsn-filter-table-<?php echo $page ?>" id="wsn-filter-table" class="button button-primary" value="Filter">
 
-		<button class="button button ever-inline"><a href="<?php echo WPWSN_SERIAL_INDEX_PAGE ?>">Clear filter</a></button>
+		<button class="button ever-inline"><a href="<?php echo WPWSN_SERIAL_INDEX_PAGE ?>" class="wsn-button">Clear filter</a></button>
 
 	</div>
 
@@ -694,11 +694,13 @@ add_action('woocommerce_after_order_itemmeta', 'wsn_woocommerce_after_order_item
 
 function wsn_woocommerce_after_order_itemmeta($item_id, $item, $product){
 
-	//$product          = $item_data->get_product();
-	//$product_id       = $product->get_id();
-	//$product_name     = $product->get_name();
+	$serial_numbers = get_post_meta( $item->get_data()['order_id'], 'serial_numbers', true );
 
-	$serial_number_id = get_post_meta( $item->get_data()['order_id'], 'serial_numbers', true )[ $product->get_id() ];
+	if(empty($serial_numbers)){
+		return;
+	}
+
+	$serial_number_id = $serial_numbers[$product->get_id()];
 	$serial_number    = get_the_title( $serial_number_id );
 
 	?>

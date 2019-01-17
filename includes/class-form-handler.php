@@ -63,6 +63,8 @@ class FormHandler {
 				'meta_input'  => $meta_input,
 			]);
 
+			update_post_meta($product, 'enable_serial_number', 'enable');
+
 		} elseif ($action_type == 'wsn_edit_serial_number') {
 
 			$serial_number_id = esc_attr($_REQUEST['serial_number_id']);

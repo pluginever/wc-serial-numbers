@@ -46,6 +46,7 @@ class Order_Process {
 			$enable_serial_number = get_post_meta( $product_id, 'enable_serial_number', true );
 
 			if ( $enable_serial_number == 'enable' ) {
+
 				$numbers = wsn_get_available_numbers( $product_id );
 				error_log(print_r($numbers, true ));
 
@@ -102,11 +103,20 @@ class Order_Process {
 
 			if ( $is_enabled == 'enable' ) {
 
+				$total_number = 0;
+
 				$numbers = wsn_get_available_numbers( $product_id );
 
-				$count_numbers = count( $numbers );
+				foreach ($numbers as $number){
 
-				if ( $count_numbers < $quantity ) {
+					$deliver_times = get_post_meta($number, 'deliver_times', true);
+					$used          = get_post_meta($number, 'used', true);
+
+					$total_number += ($deliver_times -$used);
+
+				}
+
+				if ( $total_number < $quantity ) {
 					wc_add_notice( __( 'Sorry, There is not enough <strong>Serial Number</strong> available for', 'wc-serial-numbers' ) . ' <strong>' . $product->get_title() . '</strong>, <br>' . __( 'Please remove this item or lower the quantity, For now we have', 'wc-serial-numbers' ) . ' ' . $count_numbers . ' ' . __( 'Serial Number(s)', 'wc-serial-numbers' ) . ' ' . __( 'for this product.', 'wc-serial-numbers' ) . '' . '<br>', 'error' );
 				}
 			}

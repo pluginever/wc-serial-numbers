@@ -318,8 +318,10 @@ class Serial_List_Table extends \WP_List_Table {
 					<?php $this->bulk_actions($which); ?>
 				</div>
 				<?php
+
 				$this->pagination($which);
 			}
+
 			if (!$this->is_single) {
 				$this->extra_tablenav($which);
 			}
