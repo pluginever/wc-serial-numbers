@@ -200,15 +200,28 @@
 	}
 }
 
+#wsn-serial-numbers-table{
+	.tablenav{
+		margin-bottom: 15px;
+	}
+}
+
 .ever-table-filter{
 	&.serial-numbers {
+		input, button{
+			height: 32px;
+		}
 		.select2 {
 			margin-top: -5px !important;
+			.select2-selection{
+				border-radius: 0 !important;
+			}
 		}
 	}
 
 	#wsn-filter-table{
 		margin-left: 30px !important;
+		padding: 0 20px;
 	}
 }
 

@@ -27,19 +27,20 @@ class Ajax {
 
 	function add_serial_number() {
 
-		$product       = intval($_REQUEST['product']);
-		$serial_number = sanitize_text_field($_REQUEST['serial_number']);
-		$image_license = esc_url($_REQUEST['image_license']);
-		$deliver_times = intval($_REQUEST['deliver_times']);
-		$max_instance  = intval($_REQUEST['max_instance']);
-		$validity      = esc_attr($_REQUEST['validity']);
+		$product       = !empty($_REQUEST['product']) ? intval($_REQUEST['product']) : '';
+		$serial_number = !empty($_REQUEST['serial_number']) ? sanitize_text_field($_REQUEST['serial_number']) : '';
+		$image_license = !empty($_REQUEST['image_license']) ? esc_url($_REQUEST['image_license']) : '';
+		$deliver_times = !empty($_REQUEST['deliver_times']) ? intval($_REQUEST['deliver_times']) : '';
+		$max_instance  = !empty($_REQUEST['max_instance']) ? intval($_REQUEST['max_instance']) : '';
+		$validity      = !empty($_REQUEST['validity']) ? esc_attr($_REQUEST['validity']) : '';
+		$paged_url     = !empty($_REQUEST['paged_url']) ? esc_attr($_REQUEST['paged_url']) : '';
 
 		set_query_var('is_product_tab', $product);
 		$is_serial_number_enabled = 'enable';
 
-		$paged_url = !empty($_REQUEST['paged_url']) ? esc_attr($_REQUEST['paged_url']) : '';
 
 		if (!empty($paged_url)) {
+
 			$url_to_parse = $paged_url;
 			$parsed_url   = parse_url($url_to_parse);
 			$url_query    = $parsed_url['query'];
@@ -121,7 +122,7 @@ class Ajax {
 	 */
 	function enable_serial_number() {
 
-		$post_id = intval($_REQUEST['post_id']);
+		$post_id = !empty($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : '';
 
 		$is_serial_number_enabled = sanitize_text_field($_REQUEST['enable_serial_number']);
 
@@ -167,7 +168,7 @@ class Ajax {
 	 */
 	function load_tab_data() {
 
-		$post_id = intval($_REQUEST['post_id']);
+		$post_id = !empty($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : '';
 
 		set_query_var('is_product_tab', $post_id);
 
@@ -175,6 +176,7 @@ class Ajax {
 
 
 		if ($is_serial_number_enabled == 'enable') {
+
 			ob_start();
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
@@ -185,6 +187,7 @@ class Ajax {
 			require WPWSN_TEMPLATES_DIR . '/add-serial-number-page.php';
 
 			$html = ob_get_clean();
+
 		} else {
 			ob_start();
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';

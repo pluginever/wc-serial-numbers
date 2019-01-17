@@ -15,6 +15,7 @@ if (!$row_action) {
 	?>
 
 	<div class="wrap wsn-container">
+
 		<?php if (!$is_product_tab) { ?>
 
 			<h1 class="wp-heading-inline"><?php _e('Serial Numbers', 'wc-serial-numbers') ?></h1>
@@ -25,26 +26,27 @@ if (!$row_action) {
 
 		<?php } ?>
 
-			<div class="wsn-body">
-				<?php
-				if (!$is_product_tab) {
-					echo '<form action="" method="GET">';
-					$serial_list->search_box(__('Search', 'wc-serial-numbers'), 'wsn_serial_page');
-					echo '<input type="hidden" name="page" value="' . esc_attr($_REQUEST['page']) . '"/></form>'; // form end
+		<div class="wsn-body">
+			<?php
+			if (!$is_product_tab) {
 
-					echo '<form id="wsn-serial-numbers-table" action="' . admin_url('admin-post.php') . '" method="post">
+				echo '<form action="" method="GET">';
+				$serial_list->search_box(__('Search', 'wc-serial-numbers'), 'wsn_serial_page');
+				echo '<input type="hidden" name="page" value="' . esc_attr($_REQUEST['page']) . '"/></form>'; // form end
+
+				echo '<form id="wsn-serial-numbers-table" action="' . admin_url('admin-post.php') . '" method="post">
 			  	 <input type="hidden" name="wsn-serial-numbers-table-action">'
-						. wp_nonce_field('wsn-serial-numbers-table', 'wsn-serial-numbers-table-nonce');
-				}
+					. wp_nonce_field('wsn-serial-numbers-table', 'wsn-serial-numbers-table-nonce');
+			}
 
-				$serial_list->display();
+			$serial_list->display();
 
-				if (!$is_product_tab) {
-					echo '</form>';
-				}
+			if (!$is_product_tab) {
+				echo '</form>';
+			}
 
-				?>
-			</div>
+			?>
+		</div>
 
 	</div>
 

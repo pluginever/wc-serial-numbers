@@ -16,10 +16,12 @@ class Serial_List_Table extends \WP_List_Table {
 	/** Class constructor */
 	public function __construct($post_id = '') {
 
+		$GLOBALS['hook_suffix'] = null;
+
 		parent::__construct([
 			'singular' => __('Serial Number', 'wc-serial-numbers'),
 			'plural'   => __('Serial Numbers', 'wc-serial-numbers'),
-			'ajax'     => false
+			'ajax'     => false,
 		]);
 
 		$this->is_single = $post_id;
@@ -35,7 +37,7 @@ class Serial_List_Table extends \WP_List_Table {
 	public function prepare_items() {
 
 		$per_page = wsn_get_settings('wsn_rows_per_page', 15, 'wsn_general_settings');
-//
+
 		$columns  = $this->get_columns();
 		$sortable = $this->get_sortable_columns();
 		$data     = $this->table_data();
@@ -44,13 +46,15 @@ class Serial_List_Table extends \WP_List_Table {
 		$currentPage = $this->get_pagenum();
 		$totalItems  = count($data);
 
+		$hidden = $this->get_hidden_columns();
+
 		$this->set_pagination_args(array(
 			'total_items' => $totalItems,
 			'per_page'    => $perPage
 		));
 
 		$data                  = array_slice($data, (($currentPage - 1) * $perPage), $perPage);
-		$this->_column_headers = array($columns, array(),  $sortable);
+		$this->_column_headers = array($columns, $hidden, $sortable);
 		$this->items           = $data;
 	}
 
@@ -61,33 +65,18 @@ class Serial_List_Table extends \WP_List_Table {
 	 */
 	public function get_columns() {
 
-		if ($this->is_single) {
-
-			$columns = array(
-				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
-				'product'        => __('Product', 'wc-serial-numbers'),
-				'variation'      => __('Variation', 'wc-serial-numbers'),
-				'deliver_times'  => __('Used/ Deliver Times', 'wc-serial-numbers'),
-				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
-				'validity'       => __('Validity', 'wc-serial-numbers'),
-			);
-
-		} else {
-
-			$columns = array(
-				'cb'             => '<input type="checkbox" />',
-				'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
-				'product'        => __('Product', 'wc-serial-numbers'),
-				'variation'      => __('Variation', 'wc-serial-numbers'),
-				'deliver_times'  => __('Used/ Deliver Times', 'wc-serial-numbers'),
-				'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
-				'purchaser'      => __('Purchaser', 'wc-serial-numbers'),
-				'order'          => __('Order', 'wc-serial-numbers'),
-				'purchased_on'   => __('Purchased On', 'wc-serial-numbers'),
-				'validity'       => __('Validity', 'wc-serial-numbers'),
-			);
-
-		}
+		$columns = array(
+			'cb'             => '<input type="checkbox" />',
+			'serial_numbers' => __('Serial Numbers', 'wc-serial-numbers'),
+			'product'        => __('Product', 'wc-serial-numbers'),
+			'variation'      => __('Variation', 'wc-serial-numbers'),
+			'deliver_times'  => __('Used/ Deliver Times', 'wc-serial-numbers'),
+			'max_instance'   => __('Max. Instance', 'wc-serial-numbers'),
+			'purchaser'      => __('Purchaser', 'wc-serial-numbers'),
+			'order'          => __('Order', 'wc-serial-numbers'),
+			'purchased_on'   => __('Purchased On', 'wc-serial-numbers'),
+			'validity'       => __('Validity', 'wc-serial-numbers'),
+		);
 
 		return $columns;
 	}
@@ -99,7 +88,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 	 */
 	public function get_sortable_columns() {
-		$shortable =  [
+		$shortable = [
 			'serial_numbers' => array('serial_numbers', false),
 			'purchaser'      => array('purchaser', false),
 			'order'          => array('order', false),
@@ -196,6 +185,33 @@ class Serial_List_Table extends \WP_List_Table {
 		return $data;
 	}
 
+	function get_pagenum() {
+
+		if ($this->is_single) {
+			return get_query_var('wsn_product_edit_paged') ? get_query_var('wsn_product_edit_paged') : 1;
+		}
+
+		$pagenum = isset($_REQUEST['paged']) ? absint($_REQUEST['paged']) : 0;
+
+		if (isset($this->_pagination_args['total_pages']) && $pagenum > $this->_pagination_args['total_pages'])
+			$pagenum = $this->_pagination_args['total_pages'];
+
+		return max(1, $pagenum);
+
+	}
+
+	public function get_hidden_columns() {
+
+		$hidden = [];
+
+		if ($this->is_single) {
+
+			$hidden = ['purchaser', 'order', 'purchased_on',];
+
+		}
+
+		return $hidden;
+	}
 
 	/**
 	 * Define what data to show on each column of the table
@@ -350,23 +366,6 @@ class Serial_List_Table extends \WP_List_Table {
 		}
 
 		return -$result;
-	}
-
-
-
-	function get_pagenum() {
-
-		if($this->is_single) {
-			return get_query_var('wsn_product_edit_paged') ? get_query_var('wsn_product_edit_paged') : 1;
-		}
-
-		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
-
-		if ( isset( $this->_pagination_args['total_pages'] ) && $pagenum > $this->_pagination_args['total_pages'] )
-			$pagenum = $this->_pagination_args['total_pages'];
-
-		return max( 1, $pagenum );
-
 	}
 
 

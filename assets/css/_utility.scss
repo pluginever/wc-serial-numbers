@@ -31,3 +31,19 @@
 	color: #666666 !important;
 	cursor: not-allowed !important;
 }
+
+.ever-flex {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.wsn-button{
+	&-primary{
+		background: #0085ba !important;
+		border-color: #0073aa #006799 #006799 !important;
+		box-shadow: 0 1px 0 #006799 !important;
+		color: #fff !important;
+		text-decoration: none !important;
+		text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799 !important;
+	}
+}

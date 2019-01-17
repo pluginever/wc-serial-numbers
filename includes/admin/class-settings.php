@@ -236,7 +236,7 @@ class Settings {
 	}
 
 	function admin_menu() {
-		add_submenu_page('serial-numbers', 'WC Serial Numbers Settings', 'WC Serial Numbers Settings', 'manage_options', 'wc_serial_numbers-settings', array(
+		add_submenu_page('serial-numbers', 'WC Serial Numbers Settings', 'WC Serial Numbers Settings', 'manage_options', 'wc-serial-numbers-settings', array(
 			$this,
 			'settings_page'
 		));
