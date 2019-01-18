@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 $feedback_type = empty( $_REQUEST['feedback'] ) ? 'success' : esc_attr( $_REQUEST['feedback'] );
 $code = empty( $_REQUEST['code'] ) ? '' : esc_attr( $_REQUEST['code'] );
 ?>

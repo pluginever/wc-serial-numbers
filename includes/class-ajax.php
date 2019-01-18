@@ -2,6 +2,7 @@
 
 namespace Pluginever\WCSerialNumbers;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class Ajax {
 	/**

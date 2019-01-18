@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 $row_action = empty($_REQUEST['row_action']) ? '' : $_REQUEST['row_action'];
 

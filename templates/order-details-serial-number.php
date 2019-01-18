@@ -1,9 +1,11 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit;?>
 <h2><?php _e( 'Serial Number', 'wc-serial-numbers' ) ?></h2>
 
 <table class="shop_table order_details" style="width: 100%;">
 
 	<thead>
 	<tr>
+		<!-- todo must use translation string -->
 		<th style="text-align:left;width: 20%;"><strong>Product</strong></th>
 		<th style="text-align:left;width: 80%;"><strong>Serial Number</strong></th>
 	</tr>

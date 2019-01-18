@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <form action="<?php echo admin_url('admin-post.php') ?>" method="post">
 
 	<?php wp_nonce_field('wsn_add_edit_serial_numbers', 'wsn_add_edit_serial_numbers_nonce') ?>
@@ -16,7 +17,7 @@
 					<label for="product"><?php _e('Choose Product', 'wc-serial-numbers') ?></label>
 				</th>
 				<td>
-					<select name="product" id="product" class="ever-select  ever-field-inline">
+					<select name="product" id="product" class="ever-select  ever-field-inline" required>
 						<option value=""><?php _e('Choose a product', 'wc-serial-numbers') ?></option>
 						<?php
 
@@ -44,7 +45,7 @@
 						<div class="ever-spinner-product hidden"></div>
 					<?php } else { ?>
 						<div class="ever-helper"> ?
-							<span class="text">Upgrade to PRO for adding serial numbers for variable products.</span>
+							<span class="text"><?php _e('Upgrade to PRO for adding serial numbers for variable products.', 'wc-serial-numbers');?></span>
 						</div>
 					<?php } ?>
 

@@ -1,6 +1,9 @@
 <?php
 
 namespace Pluginever\WCSerialNumbers\Admin;
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class Settings {
 	private $settings_api;
 

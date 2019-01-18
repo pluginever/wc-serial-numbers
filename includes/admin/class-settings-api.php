@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if ( ! class_exists( 'Ever_Settings_API' ) ):
     class Ever_Settings_API {
         /**

@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 $row_action = empty($_REQUEST['row_action']) ? '' : $_REQUEST['row_action'];
 $type       = empty($_REQUEST['type']) ? '' : $_REQUEST['type'];
 
@@ -33,7 +33,7 @@ if ($type == 'automate') {
 		$image_license          = '';
 		$title                  = __('Add New Serial Number', 'wc-serial-numbers');
 		$submit                 = __('Add Serial Number', 'wc-serial-numbers');
-		$action_type            = 'wsn_add_serial_number';
+		$action_type            = 'add_serial_number';
 		$input_serial_number_id = '';
 	}
 

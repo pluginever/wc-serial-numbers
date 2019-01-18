@@ -5,6 +5,8 @@ namespace Pluginever\WCSerialNumbers\Admin;
 use Pluginever\WCSerialNumbers\Ajax;
 use Pluginever\WCSerialNumbers\FormHandler;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class Admin {
 	/**
 	 * The single instance of the class.

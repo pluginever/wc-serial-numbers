@@ -1,5 +1,5 @@
 <?php
-//function prefix wc_serial_numbers
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /*
  * Get Plugin directory templates part
