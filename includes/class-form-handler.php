@@ -9,7 +9,7 @@ class FormHandler {
 	function __construct() {
 		add_action( 'admin_post_wsn_add_edit_serial_number', [ $this, 'handle_add_edit_serial_number_form' ] );
 		add_action( 'admin_post_wsn_edit_serial_number', [ $this, 'handle_edit_serial_number_form' ] );
-		add_action( 'init', [ $this, 'handle_serial_numbers_table' ] );
+		//add_action( 'init', [ $this, 'handle_serial_numbers_table' ] );
 	}
 
 	/**
