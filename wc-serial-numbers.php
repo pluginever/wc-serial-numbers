@@ -134,7 +134,7 @@ final class WCSerialNumbers {
 	 * @return void
 	 */
 	private function define_constants() {
-		//$upload_dir = wp_upload_dir( null, false );
+
 		define( 'WPWSN_VERSION', $this->version );
 		define( 'WPWSN_FILE', __FILE__ );
 		define( 'WPWSN_PATH', dirname( WPWSN_FILE ) );
@@ -154,6 +154,7 @@ final class WCSerialNumbers {
 	 * Include required core files used in admin and on the frontend.
 	 */
 	public function includes() {
+
 		//core includes
 		include_once WPWSN_INCLUDES . '/core-functions.php';
 		include_once WPWSN_INCLUDES . '/class-install.php';
@@ -178,6 +179,7 @@ final class WCSerialNumbers {
 	 * @return bool
 	 */
 	private function is_request( $type ) {
+
 		switch ( $type ) {
 			case 'admin':
 				return is_admin();
@@ -188,6 +190,7 @@ final class WCSerialNumbers {
 			case 'frontend':
 				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' ) && ! defined( 'REST_REQUEST' );
 		}
+
 	}
 
 	/**

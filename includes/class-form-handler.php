@@ -9,7 +9,7 @@ class FormHandler {
 	function __construct() {
 		add_action( 'admin_post_wsn_add_edit_serial_number', [ $this, 'handle_add_edit_serial_number_form' ] );
 		add_action( 'admin_post_wsn_edit_serial_number', [ $this, 'handle_edit_serial_number_form' ] );
-		//add_action( 'init', [ $this, 'handle_serial_numbers_table' ] );
+		add_action( 'init', [ $this, 'handle_serial_numbers_table' ] );
 	}
 
 	/**
@@ -25,7 +25,7 @@ class FormHandler {
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die(__('You are not allowed to use this', 'wc-serial-numbers'));
+			wp_die( __( 'You are not allowed to use this', 'wc-serial-numbers' ) );
 		}
 
 		$action_type = isset( $_REQUEST['action_type'] ) && ! empty( $_REQUEST['action_type'] ) ? sanitize_key( $_REQUEST['action_type'] ) : '';
@@ -59,6 +59,11 @@ class FormHandler {
 		}
 
 		//todo check current_user_can
+
+		if ( ! current_user_can( 'publish_posts' ) ) {
+			return false;
+		}
+
 		$meta_input = array(
 			'product'              => $product,
 			'variation'            => $variation,
@@ -85,13 +90,18 @@ class FormHandler {
 
 		} elseif ( $action_type == 'wsn_edit_serial_number' ) {
 
-			$serial_number_id = intval( $_REQUEST['serial_number_id'] );
+			$serial_number_id = ! empty( $_REQUEST['serial_number_id'] ) ? intval( $_REQUEST['serial_number_id'] ) : '';
+
 			//todo check the product is really exist before updating
-			$post_id = wp_update_post( [
-				'ID'         => $serial_number_id,
-				'post_title' => $serial_number,
-				'meta_input' => $meta_input,
-			] );
+			if ( get_post_status( $serial_number_id ) ) {
+
+				$post_id = wp_update_post( [
+					'ID'         => $serial_number_id,
+					'post_title' => $serial_number,
+					'meta_input' => $meta_input,
+				] );
+
+			}
 		}
 
 		do_action( 'wsn_update_notification_on_add_edit', $product );
@@ -108,6 +118,7 @@ class FormHandler {
 	 */
 
 	function handle_serial_numbers_table() {
+
 		//todo whole rewrite the section
 		if ( ! isset( $_REQUEST['wsn-serial-numbers-table-action'] ) || empty( $_REQUEST['wsn-serial-numbers-table-nonce'] ) ) {
 			return false;
@@ -119,44 +130,46 @@ class FormHandler {
 		}
 
 		//todo do not use request directly like this check like if(!empty($_REQUEST['wsn-filter-table-serial-numbers']) && $_REQUEST['wsn-filter-table-serial-numbers'] == 'somevalue')
-		if ( ! empty( $_REQUEST['wsn-filter-table-serial-numbers'] ) ) {
+		if ( ! empty( $_REQUEST['wsn-filter-table-serial-numbers'] ) && $_REQUEST['wsn-filter-table-serial-numbers'] == 'Filter' ) {
 
-			$serialnumber = esc_attr( $_REQUEST['filter-serialnumber'] );
-			$product      = esc_attr( $_REQUEST['filter-product'] );
+			$serialnumber = ! empty( $_REQUEST['filter-serialnumber'] ) ? sanitize_key( $_REQUEST['filter-serialnumber'] ) : '';
+			$product      = ! empty( $_REQUEST['filter-product'] ) ? intval( $_REQUEST['filter-product'] ) : '';
 
-			return wp_redirect( add_query_arg(
+			return wp_safe_redirect( add_query_arg(
 				[
 					'serialnumber' => $serialnumber,
 					'product'      => $product,
 				], WPWSN_SERIAL_INDEX_PAGE ) );
 
-		} elseif ( ! empty( $_REQUEST['wsn-filter-table-generate'] ) ) {
+		} elseif ( ! empty( $_REQUEST['wsn-filter-table-generate'] ) && $_REQUEST['wsn-filter-table-generate'] == 'Filter' ) {
 
-			$product = esc_attr( $_REQUEST['filter-product'] );
+			$product = ! empty( $_REQUEST['filter-product'] ) ? intval( $_REQUEST['filter-product'] ) : '';
 
-			return wp_redirect( add_query_arg(
-				[
-					'product' => $product,
-				], WPWSN_GENERATE_SERIAL_PAGE ) );
+			return wp_safe_redirect( add_query_arg( [ 'product' => $product, ], WPWSN_GENERATE_SERIAL_PAGE ) );
+
 		}
 
-		$bulk_deletes = $_REQUEST['bulk-delete'];
-		$products     = $_REQUEST['product'];
+		$bulk_deletes = ! empty( $_REQUEST['bulk-delete'] ) && is_array( $_REQUEST['bulk-delete'] ) ? array_map( 'intval', $_REQUEST['bulk-delete'] ) : '';
+		$products     = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : NULL;
 
 		if ( ! empty( $bulk_deletes ) ) {
 
 			foreach ( $bulk_deletes as $bulk_delete ) {
 
-				$bulk_delete = esc_attr( $bulk_delete );
+				$bulk_delete = intval( $bulk_delete );
 
-				wp_delete_post( $bulk_delete );
+				if(current_user_can('delete_posts') && get_post_status($bulk_delete)) {
+
+					wp_delete_post( $bulk_delete, true );
+
+				}
 
 				do_action( 'wsn_update_notification_on_order_delete', $products[ $bulk_delete ] );
 			}
 
 		}
 
-		return wp_redirect( WPWSN_SERIAL_INDEX_PAGE );
+		return wp_safe_redirect( WPWSN_SERIAL_INDEX_PAGE );
 
 	}
 

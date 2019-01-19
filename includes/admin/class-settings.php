@@ -5,12 +5,15 @@ namespace Pluginever\WCSerialNumbers\Admin;
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class Settings {
+
 	private $settings_api;
 
 	function __construct() {
+
 		$this->settings_api = new \Ever_Settings_API();
 		add_action('admin_init', array($this, 'admin_init'));
 		add_action('admin_menu', array($this, 'admin_menu'));
+
 	}
 
 	function admin_init() {
@@ -56,6 +59,7 @@ class Settings {
 		$settings_fields = array(
 
 			'wsn_general_settings' => array(
+
 				array(
 					'name'    => 'wsn_rows_per_page',
 					'label'   => __('Numbers of rows per page', 'wc-serial-numbers'),
@@ -65,6 +69,7 @@ class Settings {
 					'type'    => 'number',
 					'min'     => 1,
 				),
+
 				array(
 					'name'    => 'wsn_allow_checkout',
 					'label'   => __('Allow to checkout, Even there is no serial number', 'wc-serial-numbers'),
@@ -78,6 +83,7 @@ class Settings {
 			),
 
 			'wsn_serial_generator_settings' => array(
+
 				array(
 					'name'        => 'wsn_generator_prefix',
 					'label'       => __('Prefix', 'wc-serial-numbers'),
@@ -154,6 +160,7 @@ class Settings {
 					'default' => 5,
 					'type'    => 'number',
 				),
+
 			),
 
 			'wsn_notification_settings' => array(
@@ -176,6 +183,7 @@ class Settings {
 					'default'     => 5,
 					'type'        => 'number',
 				),
+
 				array(
 					'name'    => 'wsn_admin_bar_notification_email_heading',
 					'default' => __('Email Notifications', 'wc-serial-numbers'),
@@ -191,6 +199,7 @@ class Settings {
 					'type'    => 'checkbox',
 					'checked' => '',
 				),
+
 				array(
 					'name'        => 'wsn_admin_bar_notification_email',
 					'label'       => __('Email Address', 'wc-serial-numbers'),
@@ -246,28 +255,12 @@ class Settings {
 	}
 
 	function settings_page() {
-		?><?php
+
 		echo '<div class="wrap">';
 		echo sprintf("<h2>%s</h2>", __('WC Serial Numbers Settings', 'wc-serial-numbers'));
 		$this->settings_api->show_settings();
 		echo '</div>';
+
 	}
 
-	/**
-	 * Get all the pages
-	 *
-	 * @return array page names with key value pairs
-	 */
-	function get_pages() {
-
-		$pages         = get_pages();
-		$pages_options = array();
-		if ($pages) {
-			foreach ($pages as $page) {
-				$pages_options[$page->ID] = $page->post_title;
-			}
-		}
-
-		return $pages_options;
-	}
 }

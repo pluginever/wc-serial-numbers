@@ -43,8 +43,7 @@ class Ajax {
 		if (!empty($paged_url)) {
 
 			$url_to_parse = $paged_url;
-			$parsed_url   = parse_url($url_to_parse);
-			$url_query    = $parsed_url['query'];
+			$url_query   = parse_url($url_to_parse, PHP_URL_QUERY);
 			parse_str($url_query, $params);
 			$paged = $params['paged'];
 
@@ -68,7 +67,7 @@ class Ajax {
 
 			if (empty($serial_number) && empty($image_license)) {
 
-				$response = array('empty_serial' => '<div class="notice notice-error is-dismissible"><p><strong>' . __('Please enter a valid serial number', 'wc-serial-numbers') . '</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>');
+				$response = array('empty_serial' => '<div class="notice notice-error is-dismissible"><p><strong>' . __('Please enter a valid serial number', 'wc-serial-numbers') . '</strong></p><button type="button" class="notice-dismiss"></button></div>');
 
 			} else {
 

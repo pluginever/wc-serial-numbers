@@ -298,19 +298,25 @@ function wsn_get_available_numbers($product_id) {
 
 }
 
+/**
+ * Serial numbers Table filter
+ *
+ * @param $html
+ * @param $page
+ */
 
 function wsn_extra_table_nav($html, $page) {
 
 	$serialnumber = !empty($_REQUEST['serialnumber']) ? esc_attr($_REQUEST['serialnumber']) : '';
-	$product      = !empty($_REQUEST['product']) ? esc_attr($_REQUEST['product']) : '';
+	$product      = !empty($_REQUEST['product']) ? intval($_REQUEST['product']) : '';
 
 	?>
 
 	<div class="ever-inline ever-table-filter <?php echo $page ?>">
 
-		<label class="ever-label">Filter: </label>
+		<label class="ever-label"><?php _e('Filter:', 'wc-serial-nummbers') ?> </label>
 
-		<?php if ($page == 'serial-numbers') { ?>
+		<?php if (!empty($page) && $page === 'serial-numbers') { ?>
 
 			<input type="text" id="filter-serialnumber" name="filter-serialnumber" class="ever-field-inline" placeholder="Serial number" value="<?php echo $serialnumber ?>">
 
@@ -341,17 +347,23 @@ function wsn_extra_table_nav($html, $page) {
 			?>
 		</select>
 
-		<div class="ever-helper"> ? <span class="text">
-				 1. <?php _e('Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers'); ?>
+		<div class="ever-helper"> ?
+			<span class="text">
+
+				<?php _e('1. Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers'); ?>
+
 				<?php if ($page == 'serial-numbers') { ?>
-					<hr>2. <?php _e('Choose a product for filtering only the product.', 'wc-serial-numbers'); ?><?php } ?>
+					<hr><?php _e('2. Choose a product for filtering only the product.', 'wc-serial-numbers'); ?>
+				<?php } ?>
 
 			</span>
 		</div>
 
 		<input type="submit" name="wsn-filter-table-<?php echo $page ?>" id="wsn-filter-table" class="button button-primary" value="Filter">
 
-		<button class="button ever-inline"><a href="<?php echo WPWSN_SERIAL_INDEX_PAGE ?>" class="wsn-button">Clear filter</a></button>
+		<button class="button ever-inline">
+			<a href="<?php echo WPWSN_SERIAL_INDEX_PAGE ?>" class="wsn-button"><?php _e('Clear filter' ,'wc-serial-numbers') ?></a>
+		</button>
 
 	</div>
 
@@ -710,10 +722,3 @@ function wsn_woocommerce_after_order_itemmeta($item_id, $item, $product){
 	</div>
 
 <?php }
-
-
-
-
-
-
-

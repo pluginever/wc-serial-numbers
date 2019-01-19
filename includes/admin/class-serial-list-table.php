@@ -89,6 +89,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 	 */
 	public function get_sortable_columns() {
+
 		$shortable = [
 			'serial_numbers' => array('serial_numbers', false),
 			'purchaser'      => array('purchaser', false),
@@ -155,14 +156,16 @@ class Serial_List_Table extends \WP_List_Table {
 			}
 
 			//Order Details
-			$order_obj = wc_get_order($order);
+			if(!empty($order)) {
+				$order_obj = wc_get_order( $order );
 
-			$customer_name  = wsn_get_customer_detail('first_name', $order_obj) . ' ' . wsn_get_customer_detail('last_name', $order_obj);
-			$customer_email = wsn_get_customer_detail('email', $order_obj);
-			$purchaser      = $customer_name . '<br>' . $customer_email;
+				$customer_name  = wsn_get_customer_detail( 'first_name', $order_obj ) . ' ' . wsn_get_customer_detail( 'last_name', $order_obj );
+				$customer_email = wsn_get_customer_detail( 'email', $order_obj );
+				$purchaser      = $customer_name . '<br>' . $customer_email;
 
-			if (is_object($order_obj)) {
-				$purchased_on = $order_obj->get_data()['date_created'];
+				if ( is_object( $order_obj ) ) {
+					$purchased_on = $order_obj->get_data()['date_created'];
+				}
 			}
 
 			$validity = get_post_meta($post->ID, 'validity', true);
@@ -333,6 +336,12 @@ class Serial_List_Table extends \WP_List_Table {
 		</div>
 		<?php
 	}
+
+	/**
+	 * Filter the table
+	 *
+	 * @param string $which
+	 */
 
 	function extra_tablenav($which) {
 

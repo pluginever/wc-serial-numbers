@@ -85,15 +85,15 @@ class Admin {
 
 
 	public function enqueue_scripts() {
-		$suffix = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
+
 		//styles
-		wp_enqueue_style('wp-ever-css', WPWSN_ASSETS_URL . "/css/wp-ever{$suffix}.css", [], WPWSN_VERSION);
+		wp_enqueue_style('wp-ever-css', WPWSN_ASSETS_URL . "/css/wp-ever.css", [], WPWSN_VERSION);
 		wp_enqueue_style('wc-serial-numbers', WPWSN_ASSETS_URL . "/css/admin.css", ['woocommerce_admin_styles'], WPWSN_VERSION);
 
 		//scripts
 		wp_enqueue_script('jquery-ui-datepicker');
 
-		wp_enqueue_script('wc-serial-numbers', WPWSN_ASSETS_URL . "/js/admin{$suffix}.js", [
+		wp_enqueue_script('wc-serial-numbers', WPWSN_ASSETS_URL . "/js/admin.js", [
 			'jquery',
 			'wp-util',
 			'select2',
