@@ -33,8 +33,8 @@ class Ajax {
 		$image_license = !empty($_REQUEST['image_license']) ? esc_url($_REQUEST['image_license']) : '';
 		$deliver_times = !empty($_REQUEST['deliver_times']) ? intval($_REQUEST['deliver_times']) : '';
 		$max_instance  = !empty($_REQUEST['max_instance']) ? intval($_REQUEST['max_instance']) : '';
-		$validity      = !empty($_REQUEST['validity']) ? esc_attr($_REQUEST['validity']) : '';
-		$paged_url     = !empty($_REQUEST['paged_url']) ? esc_attr($_REQUEST['paged_url']) : '';
+		$validity      = !empty($_REQUEST['validity']) ? sanitize_key($_REQUEST['validity']) : '';
+		$paged_url     = !empty($_REQUEST['paged_url']) ? esc_url($_REQUEST['paged_url']) : '';
 
 		set_query_var('is_product_tab', $product);
 		$is_serial_number_enabled = 'enable';

@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FormHandler {
 	function __construct() {
 		add_action( 'admin_post_wsn_add_edit_serial_number', [ $this, 'handle_add_edit_serial_number_form' ] );
-		add_action( 'admin_post_wsn_edit_serial_number', [ $this, 'handle_edit_serial_number_form' ] );
 		add_action( 'init', [ $this, 'handle_serial_numbers_table' ] );
 	}
 
@@ -30,13 +29,13 @@ class FormHandler {
 
 		$action_type = isset( $_REQUEST['action_type'] ) && ! empty( $_REQUEST['action_type'] ) ? sanitize_key( $_REQUEST['action_type'] ) : '';
 
-		if ( empty( $action_type ) || ! in_array( $action_type, array( 'add_serial_number', 'edit_serial_number' ) ) ) {
+		if ( empty( $action_type ) || ! in_array( $action_type, array( 'add_serial_number', 'wsn_edit_serial_number' ) ) ) {
 			return false;
 		}
 
 		$serial_number = empty( $_REQUEST['serial_number'] ) ? '' : sanitize_textarea_field( $_REQUEST['serial_number'] );
 		$product       = empty( $_REQUEST['product'] ) ? '' : intval( $_REQUEST['product'] );
-		$variation     = empty( $_REQUEST['variation'] ) ? 0 : intval( $_REQUEST['variation'] );
+		$variation     = empty( $_REQUEST['variation'] ) ? '' : intval( $_REQUEST['variation'] );
 		$deliver_times = empty( $_REQUEST['deliver_times'] ) ? '' : intval( $_REQUEST['deliver_times'] );
 		$max_instance  = empty( $_REQUEST['max_instance'] ) ? '' : intval( $_REQUEST['max_instance'] );
 		$validity_type = empty( $_REQUEST['validity_type'] ) ? '' : sanitize_key( $_REQUEST['validity_type'] );

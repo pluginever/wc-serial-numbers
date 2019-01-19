@@ -48,10 +48,9 @@ class Order_Process {
 			if ( $enable_serial_number == 'enable' ) {
 
 				$numbers = wsn_get_available_numbers( $product_id );
-				error_log(print_r($numbers, true ));
 
 				$number = $numbers[ array_rand( $numbers ) ]; //serial_number_to_be_used
-				error_log(print_r($number, true ));
+
 				$used = get_post_meta( $number, 'used', true );
 
 				update_post_meta( $number, 'order', $order->get_id() );
@@ -117,7 +116,10 @@ class Order_Process {
 				}
 
 				if ( $total_number < $quantity ) {
-					wc_add_notice( __( 'Sorry, There is not enough <strong>Serial Number</strong> available for', 'wc-serial-numbers' ) . ' <strong>' . $product->get_title() . '</strong>, <br>' . __( 'Please remove this item or lower the quantity, For now we have', 'wc-serial-numbers' ) . ' ' . $count_numbers . ' ' . __( 'Serial Number(s)', 'wc-serial-numbers' ) . ' ' . __( 'for this product.', 'wc-serial-numbers' ) . '' . '<br>', 'error' );
+					wc_add_notice( __( 'Sorry, There is not enough <strong>Serial Number</strong> available for', 'wc-serial-numbers' )
+					               . ' <strong>' . $product->get_title() . '</strong>, <br>'
+					               . __( 'Please remove this item or lower the quantity, For now we have', 'wc-serial-numbers' ) . ' '
+					               . $total_number . ' ' . __( 'Serial Number(s)', 'wc-serial-numbers' ) . ' ' . __( 'for this product.', 'wc-serial-numbers' ) . '' . '<br>', 'error' );
 				}
 			}
 

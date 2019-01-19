@@ -1,4 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;?>
+
 <div class="wsn_nottification"></div>
 
 <h3 class="wsn_enable_serial_number"><?php _e('Enable Serial Number for this Product:', 'wc-serial-numbers');?></h3>

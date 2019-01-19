@@ -4,12 +4,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $row_action = '';
+
 if ( ! empty( $_REQUEST['row_action'] ) && in_array( $_REQUEST['row_action'], array( 'edit', 'delete' ) ) ) {
 	$row_action = sanitize_key( $_REQUEST['row_action'] );
 }
 
 $is_product_tab   = ! empty( get_query_var( 'is_product_tab' ) ) ? get_query_var( 'is_product_tab' ) : '';
-$serial_number_id = empty( $_REQUEST['serial_number'] ) ? '' : sanitize_key( $_REQUEST['serial_number'] );
+$serial_number_id = ! empty( $_REQUEST['serial_number'] ) ? intval( $_REQUEST['serial_number'] ) : '';
 
 if ( 'edit' === $row_action && ! empty( $serial_number_id ) ) {
 	include WPWSN_TEMPLATES_DIR . '/add-serial-number-page.php';
@@ -17,12 +18,15 @@ if ( 'edit' === $row_action && ! empty( $serial_number_id ) ) {
 } elseif ( 'delete' === $row_action && ! empty( $serial_number_id ) ) {
 
 	$post = get_post( $serial_number_id );
+
 	if ( current_user_can( 'manage_options' ) && $post && $post->post_type === 'wsn_serial_number' ) {
+
 		wp_delete_post( $serial_number_id, true );
 		do_action( 'wsn_update_notification_on_order_delete', $serial_number_id );
 	}
 
 	wp_redirect( WPWSN_SERIAL_INDEX_PAGE );
+
 } else {
 
 	include WPWSN_INCLUDES . '/admin/class-serial-list-table.php';
@@ -39,14 +43,17 @@ if ( 'edit' === $row_action && ! empty( $serial_number_id ) ) {
 
 			<h1 class="wp-heading-inline"><?php _e( 'Serial Numbers', 'wc-serial-numbers' ) ?></h1>
 
-			<a href="<?php echo WPWSN_ADD_SERIAL_PAGE ?>" class="page-title-action"><?php _e( 'Add new serial number', 'wc-serial-numbers' ) ?></a>
+			<a href="<?php echo WPWSN_ADD_SERIAL_PAGE ?>"
+			   class="page-title-action"><?php _e( 'Add new serial number', 'wc-serial-numbers' ) ?></a>
 
-			<a href="<?php echo WPWSN_SETTINGS_PAGE ?>" class="page-title-action"><?php _e( 'Settings', 'wc-serial-numbers' ) ?></a>
+			<a href="<?php echo WPWSN_SETTINGS_PAGE ?>"
+			   class="page-title-action"><?php _e( 'Settings', 'wc-serial-numbers' ) ?></a>
 
 		<?php } ?>
 
 		<div class="wsn-body">
 			<?php
+
 			if ( ! $is_product_tab ) {
 
 				echo '<form action="" method="GET">';

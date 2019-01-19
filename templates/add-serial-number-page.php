@@ -2,15 +2,15 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-$row_action = empty( $_REQUEST['row_action'] ) ? '' : $_REQUEST['row_action'];
-$type       = empty( $_REQUEST['type'] ) ? '' : $_REQUEST['type'];
+$row_action = empty( $_REQUEST['row_action'] ) ? '' : sanitize_key( $_REQUEST['row_action'] );
+$type       = empty( $_REQUEST['type'] ) ? '' : sanitize_key( $_REQUEST['type'] );
 
-if ( $type == 'automate' ) {
+if ( ! empty( $type ) && $type == 'automate' ) {
 	$title = __( 'Add New Serial Number', 'wc-serial-numbers' );
 } else {
-	if ( $row_action == 'edit' ) {
-		$serial_number_id = $_REQUEST['serial_number'];
 
+	if ( 'edit' == $row_action ) {
+		$serial_number_id       = ! empty( $_REQUEST['serial_number'] ) ? intval( $_REQUEST['serial_number'] ) : '';
 		$serial_number          = get_the_title( $serial_number_id );
 		$product                = get_post_meta( $serial_number_id, 'product', true );
 		$variation              = get_post_meta( $serial_number_id, 'variation', true );
@@ -49,14 +49,17 @@ if ( $type == 'automate' ) {
 
 		<h1 class="wp-heading-inline"><?php echo $title ?></h1>
 
-		<a href="<?php echo add_query_arg( 'type', 'manual', WPWSN_ADD_SERIAL_PAGE ); ?>" class="wsn-button-primary add-serial-title page-title-action"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></a>
+		<a href="<?php echo add_query_arg( 'type', 'manual', WPWSN_ADD_SERIAL_PAGE ); ?>"
+		   class="wsn-button-primary add-serial-title page-title-action"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></a>
 
-		<a href="<?php echo add_query_arg( 'type', 'automate', WPWSN_ADD_SERIAL_PAGE ); ?>" class="wsn-button page-title-action <?php echo wsn_is_wsnp() ? '' : 'button-disabled'; ?>" <?php echo wsn_disabled() ?>><?php _e( 'Generate serial key Automatically', 'wc-serial-numbers' ) ?></a>
+		<a href="<?php echo add_query_arg( 'type', 'automate', WPWSN_ADD_SERIAL_PAGE ); ?>"
+		   class="wsn-button page-title-action <?php echo wsn_is_wsnp() ? '' : 'button-disabled'; ?>" <?php echo wsn_disabled() ?>><?php _e( 'Generate serial key Automatically', 'wc-serial-numbers' ) ?></a>
 
 		<?php if ( ! wsn_is_wsnp() ) { ?>
 
 			<div class="ever-helper"> ?
-				<span class="text"><strong><?php _e( 'Please Upgrade to PRO, for generating serial numbers Automatically.', 'wc-serial-numbers' ); ?></strong></span>
+				<span
+					class="text"><strong><?php _e( 'Please Upgrade to PRO, for generating serial numbers Automatically.', 'wc-serial-numbers' ); ?></strong></span>
 			</div>
 
 		<?php } ?>
@@ -65,7 +68,8 @@ if ( $type == 'automate' ) {
 
 	<div class="ever-panel">
 		<?php
-		if ( $type == 'automate' ) {
+
+		if ( 'automate' == $type ) {
 
 			ob_start();
 			include WPWSN_TEMPLATES_DIR . '/generate-serial-number.php';
@@ -79,8 +83,11 @@ if ( $type == 'automate' ) {
 			$html = ob_get_clean();
 			echo $html;
 
-		} ?>
+		}
+
+		?>
 	</div>
+
 </div>
 
 

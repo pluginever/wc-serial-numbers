@@ -1,4 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <form action="<?php echo admin_url('admin-post.php') ?>" method="post">
 
 	<?php wp_nonce_field('wsn_add_edit_serial_numbers', 'wsn_add_edit_serial_numbers_nonce') ?>
@@ -64,6 +65,7 @@
 
 					<?php
 					if (!empty($variation)) {
+
 						$product_obj = wc_get_product($product);
 
 						$variations = $product_obj->get_children();
