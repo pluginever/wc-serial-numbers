@@ -157,7 +157,7 @@ function wsn_get_serial_numbers( $args, $count = false ) {
 		'order_by'       => 'date',
 		'order'          => 'ASC',
 	) );
-	
+
 	$result = new WP_Query($args);
 	wp_reset_query();
 

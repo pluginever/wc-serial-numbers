@@ -16,9 +16,9 @@ class Ajax {
 	 */
 
 	function __construct() {
-		add_action( 'wp_ajax_add_serial_number', array( $this, 'add_serial_number' ) );
-		add_action( 'wp_ajax_enable_serial_number', array( $this, 'enable_serial_number' ) );
-		add_action( 'wp_ajax_load_tab_data', array( $this, 'load_tab_data' ) );
+		add_action( 'wp_ajax_wsn_add_serial_number', array( $this, 'add_serial_number' ) );
+		add_action( 'wp_ajax_wsn_enable_serial_number', array( $this, 'enable_serial_number' ) );
+		add_action( 'wp_ajax_wsn_load_tab_data', array( $this, 'load_tab_data' ) );
 	}
 
 	/**

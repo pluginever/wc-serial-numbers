@@ -41,7 +41,7 @@ window.Project = (function (window, document, $, undefined) {
 				$paged_url = $(this).attr('href');
 			}
 
-			wp.ajax.send('add_serial_number', {
+			wp.ajax.send('wsn_add_serial_number', {
 
 				data: {
 					nonce: wpwsn.nonce,
@@ -89,7 +89,7 @@ window.Project = (function (window, document, $, undefined) {
 
 			$('.ever-content-placeholder').html('<div class="notice notice-success is-dismissible"><p><strong>' + msg + '</strong></p></div>');
 
-			wp.ajax.send('enable_serial_number', {
+			wp.ajax.send('wsn_enable_serial_number', {
 				data: {
 					enable_serial_number: enable_serial_number,
 					post_id: $('#post_ID').val()
@@ -110,7 +110,7 @@ window.Project = (function (window, document, $, undefined) {
 		load_tab_data: function () {
 
 			$('.wsn-serial-number-tab').addClass('ever-spinner');
-			wp.ajax.send('load_tab_data', {
+			wp.ajax.send('wsn_load_tab_data', {
 				data: {
 					post_id: $('#post_ID').val()
 				},
