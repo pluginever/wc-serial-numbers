@@ -20,7 +20,7 @@ class Admin_Menu {
 	function admin_menu() {
 
 
-		add_submenu_page( 'woocommerce', __( 'WC Serial Numbers', 'wc-serial-numbers' ), __( 'Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers', array(
+		add_submenu_page( 'woocommerce', __( 'WC Serial Numbers', 'wc-serial-numbers' ), __( 'WC Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers', array(
 			$this,
 			'serial_numbers_page'
 		) );
@@ -40,7 +40,7 @@ class Admin_Menu {
 
 		$wp_admin_bar->add_menu( array(
 			'id'    => 'wsn-serial-numbers',
-			'title' => __( 'Serial Numbers', 'wc-serial-numbers' ) . apply_filters( 'wsn_admin_bar_notification', false ),
+			'title' => __( 'WC Serial Numbers', 'wc-serial-numbers' ) . apply_filters( 'wsn_admin_bar_notification', false ),
 			'href'  => WPWSN_SERIAL_INDEX_PAGE,
 			'meta'  => array(
 				'html' => apply_filters( 'wsn_admin_bar_notification_list', '' ),
