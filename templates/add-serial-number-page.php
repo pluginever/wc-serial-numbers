@@ -54,8 +54,10 @@ if ( ! empty( $type ) && 'automate' == $type  ) {
 
 	</div>
 
+	<div class="wsn-message"></div>
 
 	<div class="ever-panel">
+
 		<?php
 
 		if ( 'automate' == $type ) {

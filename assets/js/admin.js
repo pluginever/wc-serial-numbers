@@ -44,6 +44,7 @@ window.Project = (function (window, document, $, undefined) {
 			wp.ajax.send('add_serial_number', {
 
 				data: {
+					nonce: wpwsn.nonce,
 					product: $('#post_ID').val(),
 					serial_number: $('.ever-panel #serial_number').val(),
 					image_license: $('.ever-panel #image_license').val(),

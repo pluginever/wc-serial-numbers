@@ -95,7 +95,9 @@
 				<div class="ever-helper"> ?
 					<span class="text">
 						<?php _e('You can enter multiline text.','wc-serial-numbers') ?>
-						<br><strong><?php _e('Example:','wc-serial-numbers'); ?></strong><br>
+						<br>
+						<strong><?php _e('Example:','wc-serial-numbers'); ?></strong>
+						<br>
 						username: johnsmith
 						<br>
 						password: johnsmith123

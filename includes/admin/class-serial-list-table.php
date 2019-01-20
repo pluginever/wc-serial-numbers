@@ -35,6 +35,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 	public function prepare_items() {
 
+		$this->process_bulk_action();
 		$per_page = wsn_get_settings( 'wsn_rows_per_page', 15, 'wsn_general_settings' );
 
 		$columns     = $this->get_columns();
@@ -52,6 +53,43 @@ class Serial_List_Table extends \WP_List_Table {
 		$data                  = array_slice( $data, ( ( $currentPage - 1 ) * $perPage ), $perPage );
 		$this->_column_headers = array( $columns, array(), $sortable );
 		$this->items           = $data;
+	}
+
+	//Process Bulk action
+	public function process_bulk_action() {
+
+		// security check!
+		if ( isset( $_POST['_wpnonce'] ) && ! empty( $_POST['_wpnonce'] ) ) {
+
+			$nonce  = filter_input( INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING );
+			$action = 'bulk-' . $this->_args['plural'];
+
+			if ( ! wp_verify_nonce( $nonce, $action ) ) {
+				wp_die( 'No, Cheating!' );
+			}
+
+			$bulk_deletes = ! empty( $_REQUEST['bulk-delete'] ) && is_array( $_REQUEST['bulk-delete'] ) ? array_map( 'intval', $_REQUEST['bulk-delete'] ) : '';
+
+			if ( ! empty( $bulk_deletes ) ) {
+
+				foreach ( $bulk_deletes as $bulk_delete ) {
+
+					$bulk_delete = intval( $bulk_delete );
+					$product     = get_post_meta( $bulk_delete, 'product', true );
+
+					if ( current_user_can( 'delete_posts' ) && get_post_status( $bulk_delete ) ) {
+
+						wp_delete_post( $bulk_delete, true );
+
+					}
+
+					do_action( 'wsn_update_notification_on_order_delete', $product );
+				}
+
+			}
+
+		}
+
 	}
 
 	/**
@@ -76,7 +114,6 @@ class Serial_List_Table extends \WP_List_Table {
 
 		return $columns;
 	}
-
 
 	/**
 	 * Define the sortable columns
@@ -107,32 +144,13 @@ class Serial_List_Table extends \WP_List_Table {
 
 		$query = array();
 
-		$serialnumber = ! empty( $_REQUEST['serialnumber'] ) ? sanitize_key( $_REQUEST['serialnumber'] ) : '';
-
-		if ( ! empty( $_REQUEST['s'] ) || ! empty( $serialnumber ) ) {
-			$search_query = ! empty( $_REQUEST['s'] ) ? sanitize_key( $_REQUEST['s'] ) : $serialnumber;
-		}
-
-		$product = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : '';
+		$search_query = ! empty( $_REQUEST['s'] ) ? sanitize_key( $_REQUEST['s'] ) : '';
 
 		$data = array();
 
-		if ( ! empty( $product ) ) {
-
-			$product = array(
-				array(
-					'key'     => 'product',
-					'value'   => $product,
-					'compare' => '=',
-				)
-			);
-
-			$query = array(
-				's'          => $search_query,
-				'meta_query' => array( $product ),
-			);
-
-		}
+		$query = array(
+			's' => $search_query,
+		);
 
 		$posts = wsn_get_serial_numbers( $query );
 
@@ -147,7 +165,6 @@ class Serial_List_Table extends \WP_List_Table {
 			$max_instance       = get_post_meta( $post->ID, 'max_instance', true );
 			$validity           = get_post_meta( $post->ID, 'validity', true );
 			$order              = get_post_meta( $post->ID, 'order', true );
-
 
 			//Order Details
 			if ( ! empty( $order ) ) {
@@ -182,7 +199,6 @@ class Serial_List_Table extends \WP_List_Table {
 
 		return $data;
 	}
-
 
 	/**
 	 * Define what data to show on each column of the table
@@ -233,29 +249,26 @@ class Serial_List_Table extends \WP_List_Table {
 	 * @return string
 	 */
 	function column_cb( $item ) {
-		return sprintf(
-			'<input type="checkbox" name="bulk-delete[]" value="%d" />
-					<input type="hidden" name="product[%d]" value="%d" />',
-			$item['ID'], $item['ID'], $item['product_id']
-		);
+		return sprintf( '<input type="checkbox" name="bulk-delete[]" value="%d" />', $item['ID'] );
 	}
 
 	function column_serial_numbers( $item ) {
 
 		$actions = array(
-			'edit' => '<a href="' . add_query_arg( [
+
+			'edit' => '<a href="' . add_query_arg( array(
 					'type'          => 'manual',
 					'row_action'    => 'edit',
 					'serial_number' => $item['ID'],
 					'product'       => $item['product_id'],
-				], WPWSN_ADD_SERIAL_PAGE ) . '">' . __( 'Edit', 'wc-serial-numbers' ) . '</a>',
+				), WPWSN_ADD_SERIAL_PAGE ) . '">' . __( 'Edit', 'wc-serial-numbers' ) . '</a>',
 
-			'delete' => '<a href="' . add_query_arg( [
+			'delete' => '<a href="' . add_query_arg( array(
 					'type'          => 'manual',
 					'row_action'    => 'delete',
 					'serial_number' => $item['ID'],
 					'product'       => $item['product_id'],
-				], WPWSN_SERIAL_INDEX_PAGE ) . '">Delete</a>',
+				), WPWSN_SERIAL_INDEX_PAGE ) . '">' . __( 'Delete', 'wc-serial-numbers' ) . '</a>',
 		);
 
 		return sprintf( '%1$s %2$s', $item['serial_numbers'], $this->row_actions( $actions ) );
@@ -301,15 +314,6 @@ class Serial_List_Table extends \WP_List_Table {
 		<?php
 	}
 
-	/**
-	 * Filter the table
-	 *
-	 * @param string $which
-	 */
-
-	function extra_tablenav( $which ) {
-		echo apply_filters( 'wsn_extra_table_nav', '', 'serial-numbers' );
-	}
 
 
 }

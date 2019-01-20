@@ -150,15 +150,14 @@ function wsn_get_serial_numbers( $args, $count = false ) {
 
 	$args = wp_parse_args( $args, array(
 		'post_type'      => 'wsn_serial_number',
-		'posts_per_page' => 20,
+		'posts_per_page' => -1,
 		'meta_key'       => '',
 		'meta_value'     => '',
 		'meta_query'     => array(),
 		'order_by'       => 'date',
 		'order'          => 'ASC',
 	) );
-
-
+	
 	$result = new WP_Query($args);
 	wp_reset_query();
 

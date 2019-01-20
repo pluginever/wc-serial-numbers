@@ -9,7 +9,7 @@ class FormHandler {
 
 	function __construct() {
 		add_action( 'admin_post_wsn_add_edit_serial_number', array( $this, 'handle_add_edit_serial_number_form' ) );
-		add_action( 'admin_init', array( $this, 'handle_serial_numbers_table' ) );
+		//add_action( 'admin_init', array( $this, 'handle_serial_numbers_table' ) );
 	}
 
 	/**
@@ -146,13 +146,13 @@ class FormHandler {
 		}
 
 		$bulk_deletes = ! empty( $_REQUEST['bulk-delete'] ) && is_array( $_REQUEST['bulk-delete'] ) ? array_map( 'intval', $_REQUEST['bulk-delete'] ) : '';
-		$products     = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : '';
 
 		if ( ! empty( $bulk_deletes ) ) {
 
 			foreach ( $bulk_deletes as $bulk_delete ) {
 
 				$bulk_delete = intval( $bulk_delete );
+				$product     = get_post_meta($bulk_delete, 'product', true);
 
 				if ( current_user_can( 'delete_posts' ) && get_post_status( $bulk_delete ) ) {
 
@@ -160,7 +160,7 @@ class FormHandler {
 
 				}
 
-				do_action( 'wsn_update_notification_on_order_delete', $products[ $bulk_delete ] );
+				do_action( 'wsn_update_notification_on_order_delete', $product );
 			}
 
 		}

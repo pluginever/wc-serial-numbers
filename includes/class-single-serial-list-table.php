@@ -43,8 +43,7 @@ class Single_List_Table extends \WP_List_Table {
 		$perPage     = $per_page;
 		$currentPage = $this->get_pagenum();
 		$totalItems  = count( $data );
-
-		$hidden = $this->get_hidden_columns();
+		$hidden      = $this->get_hidden_columns();
 
 		$this->set_pagination_args( array(
 			'total_items' => $totalItems,
@@ -52,8 +51,8 @@ class Single_List_Table extends \WP_List_Table {
 		) );
 
 		$data                  = array_slice( $data, ( ( $currentPage - 1 ) * $perPage ), $perPage );
-		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items           = $data;
+		$this->_column_headers = array( $columns, $hidden, $sortable );
 	}
 
 	/**
@@ -138,7 +137,6 @@ class Single_List_Table extends \WP_List_Table {
 					'deliver_times'  => empty( $deliver_times ) ? '∞' : $used_deliver_times . '/' . $deliver_times,
 					'max_instance'   => empty( $max_instance ) ? '∞' : $max_instance,
 					'validity'       => empty( $validity ) ? '∞' : $validity,
-					'product_id'     => empty( $product ) ? '' : $product,
 				);
 
 			}
@@ -149,7 +147,9 @@ class Single_List_Table extends \WP_List_Table {
 
 	function get_pagenum() {
 
-		return get_query_var( 'wsn_product_edit_paged' ) ? get_query_var( 'wsn_product_edit_paged' ) : 1;
+		$paged =  !empty(get_query_var( 'wsn_product_edit_paged' )) ? get_query_var( 'wsn_product_edit_paged' ) : 1;
+
+		return $paged;
 
 	}
 
@@ -176,7 +176,6 @@ class Single_List_Table extends \WP_List_Table {
 			case 'variation':
 			case 'deliver_times':
 			case 'max_instance':
-			case 'product_id':
 			case 'validity':
 				return $item[ $column_name ];
 			default:
@@ -193,14 +192,12 @@ class Single_List_Table extends \WP_List_Table {
 					'type'          => 'manual',
 					'row_action'    => 'edit',
 					'serial_number' => $item['ID'],
-					'product'       => $item['product_id'],
 				), WPWSN_ADD_SERIAL_PAGE ) . '">' . __( 'Edit', 'wc-serial-numbers' ) . '</a>',
 
 			'delete' => '<a href="' . add_query_arg( array(
 					'type'          => 'manual',
 					'row_action'    => 'delete',
 					'serial_number' => $item['ID'],
-					'product'       => $item['product_id'],
 				), WPWSN_SERIAL_INDEX_PAGE ) . '">' . __( 'Delete', 'wc-serial-numbers' ) . '</a>',
 
 		);

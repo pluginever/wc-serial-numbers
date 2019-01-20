@@ -101,7 +101,7 @@ class Admin {
 
 		wp_localize_script('wc-serial-numbers', 'wpwsn', [
 			'ajaxurl' => admin_url('admin-ajax.php'),
-			'nonce'   => 'wc-serial-numbers',
+			'nonce'   => wp_create_nonce('wc-serial-numbers'),
 			'i18n' =>  array(
 				'serial_number_activated' => __('Serial Number Activated.', 'wc-serial-numbers'),
 				'serial_number_deactivated' => __('Serial Number Deactivated.', 'wc-serial-numbers'),
