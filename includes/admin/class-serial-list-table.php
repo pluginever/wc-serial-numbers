@@ -112,13 +112,13 @@ class Serial_List_Table extends \WP_List_Table {
 
 		$search_query = false;
 
-		$serialnumber = ! empty( $_REQUEST['serialnumber'] ) ? esc_attr( $_REQUEST['serialnumber'] ) : '';
+		$serialnumber = ! empty( $_REQUEST['serialnumber'] ) ? sanitize_key( $_REQUEST['serialnumber'] ) : '';
 
 		if ( ! empty( $_REQUEST['s'] ) || ! empty( $serialnumber ) ) {
-			$search_query = ! empty( $_REQUEST['s'] ) ? esc_attr( $_REQUEST['s'] ) : $serialnumber;
+			$search_query = ! empty( $_REQUEST['s'] ) ? sanitize_key( $_REQUEST['s'] ) : $serialnumber;
 		}
 
-		$product = ! empty( $_REQUEST['product'] ) ? esc_attr( $_REQUEST['product'] ) : '';
+		$product = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : '';
 
 		$data = array();
 
@@ -160,6 +160,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 			//Order Details
 			if ( ! empty( $order ) ) {
+
 				$order_obj = wc_get_order( $order );
 
 				$customer_name  = wsn_get_customer_detail( 'first_name', $order_obj ) . ' ' . wsn_get_customer_detail( 'last_name', $order_obj );
@@ -169,6 +170,7 @@ class Serial_List_Table extends \WP_List_Table {
 				if ( is_object( $order_obj ) ) {
 					$purchased_on = $order_obj->get_data()['date_created'];
 				}
+
 			}
 
 			$data[] = [
@@ -208,11 +210,11 @@ class Serial_List_Table extends \WP_List_Table {
 
 	public function get_hidden_columns() {
 
-		$hidden = [];
+		$hidden = array();
 
 		if ( $this->is_single ) {
 
-			$hidden = [ 'purchaser', 'order', 'purchased_on', ];
+			$hidden = array( 'purchaser', 'order', 'purchased_on' );
 
 		}
 
@@ -255,7 +257,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 	public function get_bulk_actions() {
 
-		$actions = [];
+		$actions = array();
 
 		if ( ! $this->is_single ) {
 			$actions ['bulk-delete'] = 'Delete';
@@ -367,11 +369,11 @@ class Serial_List_Table extends \WP_List_Table {
 
 		// If orderby is set, use this as the sort column
 		if ( ! empty( $_GET['orderby'] ) ) {
-			$orderby = esc_attr( $_GET['orderby'] );
+			$orderby = sanitize_key( $_GET['orderby'] );
 		}
 		// If order is set use this as the order
 		if ( ! empty( $_GET['order'] ) ) {
-			$order = esc_attr( $_GET['order'] );
+			$order = sanitize_key( $_GET['order'] );
 		}
 
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );

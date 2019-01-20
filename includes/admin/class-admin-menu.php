@@ -56,13 +56,6 @@ class Admin_Menu {
 		) );
 
 		$wp_admin_bar->add_menu( array(
-			'id'     => 'wsn-generate-serial-number',
-			'title'  => __( 'Generate Serial Number', 'wc-serial-numbers' ),
-			'href'   => WPWSN_GENERATE_SERIAL_PAGE,
-			'parent' => 'wsn-serial-numbers',
-		) );
-
-		$wp_admin_bar->add_menu( array(
 			'id'     => 'wsn-settings',
 			'title'  => __( 'Settings', 'wc-serial-numbers' ),
 			'href'   => WPWSN_SETTINGS_PAGE,

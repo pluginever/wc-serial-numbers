@@ -316,7 +316,7 @@ function wsn_get_available_numbers( $product_id ) {
 
 function wsn_extra_table_nav( $html, $page ) {
 
-	$serialnumber = ! empty( $_REQUEST['serialnumber'] ) ? esc_attr( $_REQUEST['serialnumber'] ) : '';
+	$serialnumber = ! empty( $_REQUEST['serialnumber'] ) ? sanitize_key( $_REQUEST['serialnumber'] ) : '';
 	$product      = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : '';
 
 	?>
@@ -350,10 +350,12 @@ function wsn_extra_table_nav( $html, $page ) {
 				setup_postdata( $post );
 
 				$selected = $post->get_id() == $product ? 'selected' : '';
+
 				echo '<option value="' . $post->get_id() . '" ' . $selected . '>' . $post->get_id() . ' - ' . get_the_title( $post->get_id() ) . '</option>';
 			}
 
 			?>
+
 		</select>
 
 		<div class="ever-helper"> ? <span class="text">
@@ -361,7 +363,8 @@ function wsn_extra_table_nav( $html, $page ) {
 				<?php _e( '1. Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers' ); ?>
 
 				<?php if ( $page == 'serial-numbers' ) { ?>
-					<hr><?php _e( '2. Choose a product for filtering only the product.', 'wc-serial-numbers' ); ?><?php } ?>
+					<hr><?php _e( '2. Choose a product for filtering only the product.', 'wc-serial-numbers' ); ?>
+				<?php } ?>
 
 			</span>
 		</div>
@@ -668,7 +671,7 @@ function wsn_admin_bar_notification_list( $html ) {
 
 		ob_start();
 
-		echo '<span class="ever-notification"><span class="alert">' . sprintf( '%02d', count($posts) ) . '</span></span> <ul class="ever-notification-list alert">';
+		echo '<span class="ever-notification"><span class="alert">' . sprintf( '%02d', count( $posts ) ) . '</span></span> <ul class="ever-notification-list alert">';
 
 		foreach ( $posts as $post ) {
 

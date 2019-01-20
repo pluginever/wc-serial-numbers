@@ -91,7 +91,7 @@ class FormHandler {
 
 			$serial_number_id = ! empty( $_REQUEST['serial_number_id'] ) ? intval( $_REQUEST['serial_number_id'] ) : '';
 
-			if ( get_post_status( $serial_number_id ) ) {
+			if ( !empty($serial_number_id) && get_post_status( $serial_number_id ) ) {
 
 				wp_update_post( [
 					'ID'         => $serial_number_id,
@@ -145,7 +145,7 @@ class FormHandler {
 		}
 
 		$bulk_deletes = ! empty( $_REQUEST['bulk-delete'] ) && is_array( $_REQUEST['bulk-delete'] ) ? array_map( 'intval', $_REQUEST['bulk-delete'] ) : '';
-		$products     = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : null;
+		$products     = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : '';
 
 		if ( ! empty( $bulk_deletes ) ) {
 
