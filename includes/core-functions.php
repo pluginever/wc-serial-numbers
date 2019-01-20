@@ -644,7 +644,8 @@ add_filter( 'wsn_admin_bar_notification', function () {
 
 function wsn_admin_bar_notification_list( $html ) {
 
-	$show_notification = wsn_get_settings( 'wsn_admin_bar_notification', 'on', 'wsn_notification_settings' );
+	$show_notification        = wsn_get_settings( 'wsn_admin_bar_notification', 'on', 'wsn_notification_settings' );
+	$show_notification_number = wsn_get_settings( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' );
 
 	if ( $show_notification != 'on' ) {
 		return false;
@@ -661,22 +662,22 @@ function wsn_admin_bar_notification_list( $html ) {
 		'comment_status' => 'enable'
 	] );
 
-
 	if ( ! empty( $posts ) ) {
 
 		$message = '';
 
 		ob_start();
 
-		echo '<span class="ever-notification"><span class="alert">' . sprintf( '%02d', count( $posts ) ) . '</span></span> <ul class="ever-notification-list alert">';
+		echo '<span class="ever-notification"><span class="alert">' . sprintf( '%02d', count($posts) ) . '</span></span> <ul class="ever-notification-list alert">';
 
 		foreach ( $posts as $post ) {
 
 			setup_postdata( $post );
 
+			$count = (int) get_the_content( $post->ID );
 
 			$name  = '<a href="' . get_edit_post_link( get_the_title( $post->ID ) ) . '">' . get_the_title( get_the_title( $post->ID ) ) . '</a>';
-			$count = '<strong>' . (int) get_the_content() . '</strong>';
+			$count = '<strong>' . $count . '</strong>';
 
 			$msg = __( 'Please add serial numbers for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-numbers' );
 
@@ -692,15 +693,6 @@ function wsn_admin_bar_notification_list( $html ) {
 		echo '</ul>'; //End the list
 
 		$html = ob_get_clean();
-
-		//Send email notification if serial number stock low
-		$message = '<table>' . $message . '</table>';
-
-		$is_on_email = wsn_get_settings( 'wsn_admin_bar_notification_send_email', '', 'wsn_notification_settings' );
-
-		if ( $is_on_email == 'on' ) {
-			wp_schedule_event( time(), 'daily', 'wsn_send_email_notification', array( $message ) );
-		}
 
 	}
 
