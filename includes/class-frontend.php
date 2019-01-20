@@ -85,7 +85,7 @@ class Frontend {
 		wp_enqueue_style('wc-serial-numbers', WPWSN_ASSETS_URL."/css/frontend.css", [], WPWSN_VERSION);
 		
 		//scripts
-		wp_enqueue_script('wc-serial-numbers', WPWSN_ASSETS_URL."/js/frontend/frontend.js", ['jquery'], WPWSN_VERSION, true);
+
 		wp_localize_script('wc-serial-numbers', 'wpwsn', 
 		[
 			'ajaxurl' => admin_url( 'admin-ajax.php' ), 

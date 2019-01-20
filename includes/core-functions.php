@@ -1,6 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /*
  * Get Plugin directory templates part
@@ -10,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * @return template file path
  * */
 
-function wsn_get_template_part($template_name, $wsnp = false) {
+function wsn_get_template_part( $template_name, $wsnp = false ) {
 
 	$template_dir = $wsnp ? WPWSNP_TEMPLATES_DIR : WPWSN_TEMPLATES_DIR;
 
@@ -26,13 +28,13 @@ function wsn_get_template_part($template_name, $wsnp = false) {
  * @return void
  * */
 
-add_action('init', 'wsn_register_posttypes');
+add_action( 'init', 'wsn_register_posttypes' );
 
 function wsn_register_posttypes() {
-	register_post_type('wsn_serial_number', array(
+	register_post_type( 'wsn_serial_number', array(
 		'labels'              => 'Serial Numbers',
 		'hierarchical'        => false,
-		'supports'            => array('title'),
+		'supports'            => array( 'title' ),
 		'public'              => false,
 		'exclude_from_search' => true,
 		'has_archive'         => false,
@@ -44,7 +46,7 @@ function wsn_register_posttypes() {
 			'create_posts' => 'do_not_allow', // false < WP 4.5, credit @Ewout
 		),
 		'map_meta_cap'        => true,
-	));
+	) );
 }
 
 /*
@@ -53,13 +55,13 @@ function wsn_register_posttypes() {
  * @since 1.0.0
  * */
 
-function wsn_redirect_with_message($url, $code, $type = 'success', $args = array()) {
+function wsn_redirect_with_message( $url, $code, $type = 'success', $args = array() ) {
 
-	$redirect_url = add_query_arg(wp_parse_args($args, array(
+	$redirect_url = add_query_arg( wp_parse_args( $args, array(
 		'feedback' => $type,
 		'code'     => $code,
-	)), $url);
-	wp_redirect($redirect_url);
+	) ), $url );
+	wp_redirect( $redirect_url );
 	exit();
 
 }
@@ -68,17 +70,18 @@ function wsn_redirect_with_message($url, $code, $type = 'success', $args = array
  * Get feedback message for form validation
  *
  * @param $code
+ *
  * @return string|mixed
  */
 
-function wsn_get_feedback_message($code) {
+function wsn_get_feedback_message( $code ) {
 
-	switch ($code) {
+	switch ( $code ) {
 		case 'empty_serial_number':
-			return __('The Serial Number is empty. Please enter a serial number and try again', 'wc-serial-numbers');
+			return __( 'The Serial Number is empty. Please enter a serial number and try again', 'wc-serial-numbers' );
 			break;
 		case 'empty_product':
-			return __('The product is empty. Please select a product and try again', 'wc-serial-numbers');
+			return __( 'The product is empty. Please select a product and try again', 'wc-serial-numbers' );
 			break;
 	}
 
@@ -86,8 +89,8 @@ function wsn_get_feedback_message($code) {
 
 }
 
-add_filter('woocommerce_product_data_tabs', 'wsn_serial_number_tab');
-add_action('woocommerce_product_data_panels', 'wsn_serial_number_tab_panel');
+add_filter( 'woocommerce_product_data_tabs', 'wsn_serial_number_tab' );
+add_action( 'woocommerce_product_data_panels', 'wsn_serial_number_tab_panel' );
 
 /**
  * Serial number tab
@@ -96,10 +99,10 @@ add_action('woocommerce_product_data_panels', 'wsn_serial_number_tab_panel');
  *
  * @return mixed
  */
-function wsn_serial_number_tab($product_data_tabs) {
+function wsn_serial_number_tab( $product_data_tabs ) {
 
 	$product_data_tabs['serial_numbers'] = array(
-		'label'  => __('Serial Numbers', 'wc-serial-numbers'),
+		'label'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
 		'target' => 'serial_numbers_data',
 		'class'  => 'ever-serial_numbers_tab hide_if_external hide_if_grouped',
 	);
@@ -121,16 +124,17 @@ function wsn_serial_number_tab_panel() {
  * Get all woocommerce products
  *
  * @param array $args
+ *
  * @return array|stdClass
  */
 
-function wsn_get_products($args = []) {
+function wsn_get_products( $args = [] ) {
 
-	$args = array_merge($args, array(
-		'limit' => -1,
-	));
+	$args = array_merge( $args, array(
+		'limit' => - 1,
+	) );
 
-	return wc_get_products($args);
+	return wc_get_products( $args );
 }
 
 /**
@@ -142,19 +146,19 @@ function wsn_get_products($args = []) {
  *
  * @return array
  */
-function wsn_get_serial_numbers($args) {
+function wsn_get_serial_numbers( $args ) {
 
-	$args = wp_parse_args($args, [
+	$args = wp_parse_args( $args, [
 		'post_type'      => 'wsn_serial_number',
-		'posts_per_page' => -1,
+		'posts_per_page' => - 1,
 		'meta_key'       => '',
 		'meta_value'     => '',
 		'meta_query'     => array(),
 		'order_by'       => 'date',
 		'order'          => 'ASC',
-	]);
+	] );
 
-	return get_posts($args);
+	return get_posts( $args );
 }
 
 
@@ -167,11 +171,11 @@ function wsn_get_serial_numbers($args) {
  *
  * @return string
  */
-function wsn_get_settings($key, $default = '', $section = '') {
+function wsn_get_settings( $key, $default = '', $section = '' ) {
 
-	$option = get_option($section, []);
+	$option = get_option( $section, [] );
 
-	return !empty($option[$key]) ? $option[$key] : $default;
+	return ! empty( $option[ $key ] ) ? $option[ $key ] : $default;
 }
 
 /**
@@ -185,13 +189,13 @@ function wsn_get_settings($key, $default = '', $section = '') {
  * @return mixed
  */
 
-function wsn_get_customer_detail($key, $order) {
+function wsn_get_customer_detail( $key, $order ) {
 
-	if (!is_object($order)) {
+	if ( ! is_object( $order ) ) {
 		return false;
 	}
 
-	return $order->get_data()['billing'][$key];
+	return $order->get_data()['billing'][ $key ];
 }
 
 
@@ -203,7 +207,7 @@ function wsn_get_customer_detail($key, $order) {
  * @return boolean
  */
 function wsn_is_wsnp() {
-	return apply_filters('is_wsnp', false);
+	return apply_filters( 'is_wsnp', false );
 }
 
 /**
@@ -237,10 +241,10 @@ function wsn_class_disabled() {
  * @return bool
  */
 
-function wsn_check_status_to_send($order) {
+function wsn_check_status_to_send( $order ) {
 
 	$order_status   = $order->get_data()['status'];
-	$status_to_show = wsn_get_settings('wsn_send_serial_number', 'completed', 'wsn_delivery_settings');
+	$status_to_show = wsn_get_settings( 'wsn_send_serial_number', 'completed', 'wsn_delivery_settings' );
 
 	return $order_status == $status_to_show ? true : false;
 
@@ -254,13 +258,17 @@ function wsn_check_status_to_send($order) {
  * @return bool
  */
 
-function wsn_check_status_to_revoke($order) {
+function wsn_check_status_to_revoke( $order ) {
 
-	$order_status   = $order->get_data()['status'];
+	$order_status = $order->get_data()['status'];
 
-	$status_to_show = wsn_get_settings('wsn_revoke_serial_number', array('cancelled', 'refunded', 'failed'), 'wsn_delivery_settings');
+	$status_to_show = wsn_get_settings( 'wsn_revoke_serial_number', array(
+		'cancelled',
+		'refunded',
+		'failed'
+	), 'wsn_delivery_settings' );
 
-	return in_array($order_status, (array) $status_to_show) ? true : false;
+	return in_array( $order_status, (array) $status_to_show ) ? true : false;
 
 }
 
@@ -273,21 +281,21 @@ function wsn_check_status_to_revoke($order) {
  * @return array
  */
 
-function wsn_get_available_numbers($product_id) {
+function wsn_get_available_numbers( $product_id ) {
 
-	$serial_numbers = wsn_get_serial_numbers([
+	$serial_numbers = wsn_get_serial_numbers( [
 		'meta_key'   => 'product',
 		'meta_value' => $product_id,
-	]);
+	] );
 
 	$numbers = array();
 
-	foreach ($serial_numbers as $serial_number) {
+	foreach ( $serial_numbers as $serial_number ) {
 
-		$deliver_times = get_post_meta($serial_number->ID, 'deliver_times', true);
-		$used          = get_post_meta($serial_number->ID, 'used', true);
+		$deliver_times = get_post_meta( $serial_number->ID, 'deliver_times', true );
+		$used          = get_post_meta( $serial_number->ID, 'used', true );
 
-		if ($deliver_times <= $used) {
+		if ( $deliver_times <= $used ) {
 			continue;
 		}
 
@@ -306,56 +314,54 @@ function wsn_get_available_numbers($product_id) {
  * @param $page
  */
 
-function wsn_extra_table_nav($html, $page) {
+function wsn_extra_table_nav( $html, $page ) {
 
-	$serialnumber = !empty($_REQUEST['serialnumber']) ? esc_attr($_REQUEST['serialnumber']) : '';
-	$product      = !empty($_REQUEST['product']) ? intval($_REQUEST['product']) : '';
+	$serialnumber = ! empty( $_REQUEST['serialnumber'] ) ? esc_attr( $_REQUEST['serialnumber'] ) : '';
+	$product      = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : '';
 
 	?>
 
 	<div class="ever-inline ever-table-filter <?php echo $page ?>">
 
-		<label class="ever-label"><?php _e('Filter:', 'wc-serial-nummbers') ?> </label>
+		<label class="ever-label"><?php _e( 'Filter:', 'wc-serial-nummbers' ) ?> </label>
 
-		<?php if (!empty($page) && $page === 'serial-numbers') { ?>
+		<?php if ( ! empty( $page ) && $page === 'serial-numbers' ) { ?>
 
 			<input type="text" id="filter-serialnumber" name="filter-serialnumber" class="ever-field-inline" placeholder="Serial number" value="<?php echo $serialnumber ?>">
 
 		<?php } ?>
 
 		<select name="filter-product" id="filter-product" class="ever-select  ever-field-inline">
-			<option value=""><?php _e('Choose a product', 'wc-serial-numbers') ?></option>
+			<option value=""><?php _e( 'Choose a product', 'wc-serial-numbers' ) ?></option>
 			<?php
 
 			$query_args = array();
 
-			if (!wsn_is_wsnp()) {
+			if ( ! wsn_is_wsnp() ) {
 				$query_args = array(
 					'type' => 'simple',
 				);
 			}
 
-			$posts = wsn_get_products($query_args);
+			$posts = wsn_get_products( $query_args );
 
-			foreach ($posts as $post) {
+			foreach ( $posts as $post ) {
 
-				setup_postdata($post);
+				setup_postdata( $post );
 
 				$selected = $post->get_id() == $product ? 'selected' : '';
-				echo '<option value="' . $post->get_id() . '" ' . $selected . '>' . $post->get_id() . ' - ' . get_the_title($post->get_id()) . '</option>';
+				echo '<option value="' . $post->get_id() . '" ' . $selected . '>' . $post->get_id() . ' - ' . get_the_title( $post->get_id() ) . '</option>';
 			}
 
 			?>
 		</select>
 
-		<div class="ever-helper"> ?
-			<span class="text">
+		<div class="ever-helper"> ? <span class="text">
 
-				<?php _e('1. Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers'); ?>
+				<?php _e( '1. Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers' ); ?>
 
-				<?php if ($page == 'serial-numbers') { ?>
-					<hr><?php _e('2. Choose a product for filtering only the product.', 'wc-serial-numbers'); ?>
-				<?php } ?>
+				<?php if ( $page == 'serial-numbers' ) { ?>
+					<hr><?php _e( '2. Choose a product for filtering only the product.', 'wc-serial-numbers' ); ?><?php } ?>
 
 			</span>
 		</div>
@@ -363,7 +369,7 @@ function wsn_extra_table_nav($html, $page) {
 		<input type="submit" name="wsn-filter-table-<?php echo $page ?>" id="wsn-filter-table" class="button button-primary" value="Filter">
 
 		<button class="button ever-inline">
-			<a href="<?php echo WPWSN_SERIAL_INDEX_PAGE ?>" class="wsn-button"><?php _e('Clear filter' ,'wc-serial-numbers') ?></a>
+			<a href="<?php echo WPWSN_SERIAL_INDEX_PAGE ?>" class="wsn-button"><?php _e( 'Clear filter', 'wc-serial-numbers' ) ?></a>
 		</button>
 
 	</div>
@@ -371,7 +377,7 @@ function wsn_extra_table_nav($html, $page) {
 	<?php
 }
 
-add_filter('wsn_extra_table_nav', 'wsn_extra_table_nav', 10, 2);
+add_filter( 'wsn_extra_table_nav', 'wsn_extra_table_nav', 10, 2 );
 
 
 /**
@@ -385,27 +391,27 @@ add_filter('wsn_extra_table_nav', 'wsn_extra_table_nav', 10, 2);
  * @param $order
  */
 
-function wsn_send_serial_number_email($order_id, $old_status, $new_status, $order) {
+function wsn_send_serial_number_email( $order_id, $old_status, $new_status, $order ) {
 
 	global $woocommerce;
 
-	$serial_numbers = get_post_meta($order_id, 'serial_numbers', true);
+	$serial_numbers = get_post_meta( $order_id, 'serial_numbers', true );
 
-	if (empty($serial_numbers)) {
+	if ( empty( $serial_numbers ) ) {
 		return;
 	}
 
-	if (wsn_check_status_to_send($order)) {
+	if ( wsn_check_status_to_send( $order ) ) {
 
-		$customer_email = wsn_get_customer_detail('email', $order);
+		$customer_email = wsn_get_customer_detail( 'email', $order );
 
-		$to      = $customer_email;
+		$to = $customer_email;
 
-		$subject = __('Serial Number for  for Order #', 'wc-serial-numbers') . $order_id;
+		$subject = __( 'Serial Number for  for Order #', 'wc-serial-numbers' ) . $order_id;
 
-		$headers = apply_filters('woocommerce_email_headers', '', 'rewards_message');
+		$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message' );
 
-		$heading = __('Serial Number for for Order #', 'wc-serial-numbers') . $order_id;
+		$heading = __( 'Serial Number for for Order #', 'wc-serial-numbers' ) . $order_id;
 
 		$mailer = $woocommerce->mailer();
 
@@ -414,15 +420,15 @@ function wsn_send_serial_number_email($order_id, $old_status, $new_status, $orde
 		$html = ob_get_clean();
 
 
-		$message = $mailer->wrap_message($heading, $html);
+		$message = $mailer->wrap_message( $heading, $html );
 
-		$mailer->send($to, $subject, $message, $headers, array());
+		$mailer->send( $to, $subject, $message, $headers, array() );
 	}
 
 }
 
 
-add_action('woocommerce_order_status_changed', 'wsn_send_serial_number_email', 10, 4);
+add_action( 'woocommerce_order_status_changed', 'wsn_send_serial_number_email', 10, 4 );
 
 
 /**
@@ -436,22 +442,22 @@ add_action('woocommerce_order_status_changed', 'wsn_send_serial_number_email', 1
  * @param $order
  */
 
-function wsn_revoke_serial_number($order_id, $old_status, $new_status, $order) {
+function wsn_revoke_serial_number( $order_id, $old_status, $new_status, $order ) {
 
-	$serial_numbers = get_post_meta($order_id, 'serial_numbers', true);
+	$serial_numbers = get_post_meta( $order_id, 'serial_numbers', true );
 
-	if (empty($serial_numbers)) {
+	if ( empty( $serial_numbers ) ) {
 		return;
 	}
 
-	if (wsn_check_status_to_revoke($order)) {
+	if ( wsn_check_status_to_revoke( $order ) ) {
 
-		foreach ($serial_numbers as $serial_number_id){
+		foreach ( $serial_numbers as $serial_number_id ) {
 
-			$used = get_post_meta($serial_number_id, 'used', true);
+			$used = get_post_meta( $serial_number_id, 'used', true );
 
-			update_post_meta($serial_number_id, 'used', $used -1 );
-			update_post_meta($serial_number_id, 'order', '' );
+			update_post_meta( $serial_number_id, 'used', $used - 1 );
+			update_post_meta( $serial_number_id, 'order', '' );
 		}
 	}
 
@@ -460,7 +466,7 @@ function wsn_revoke_serial_number($order_id, $old_status, $new_status, $order) {
 }
 
 
-add_action('woocommerce_order_status_changed', 'wsn_revoke_serial_number', 10, 4);
+add_action( 'woocommerce_order_status_changed', 'wsn_revoke_serial_number', 10, 4 );
 
 
 /**
@@ -669,7 +675,7 @@ function wsn_admin_bar_notification_list( $html ) {
 			setup_postdata( $post );
 
 
-			$name  = '<a href="'.get_edit_post_link(get_the_title( $post->ID )).'">' . get_the_title( get_the_title( $post->ID ) ) . '</a>';
+			$name  = '<a href="' . get_edit_post_link( get_the_title( $post->ID ) ) . '">' . get_the_title( get_the_title( $post->ID ) ) . '</a>';
 			$count = '<strong>' . (int) get_the_content() . '</strong>';
 
 			$msg = __( 'Please add serial numbers for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-numbers' );
@@ -703,23 +709,65 @@ function wsn_admin_bar_notification_list( $html ) {
 
 add_filter( 'wsn_admin_bar_notification_list', 'wsn_admin_bar_notification_list' );
 
-add_action('woocommerce_after_order_itemmeta', 'wsn_woocommerce_after_order_itemmeta',10, 3);
 
-function wsn_woocommerce_after_order_itemmeta($item_id, $item, $product){
+/**
+ * Display serial number details on order edit page
+ *
+ * @since 1.0.0
+ *
+ * @param $item_id
+ * @param $item
+ * @param $product
+ */
 
-	$serial_numbers = get_post_meta( $item->get_data()['order_id'], 'serial_numbers', true );
+function wsn_woocommerce_after_order_itemmeta( $item_id, $item, $product ) {
 
-	if(empty($serial_numbers)){
+	$serial_numbers = get_post_meta( $item->get_data()['order_id'], 'serial_numbers', true )[ $product->get_id() ];
+
+	if ( empty( $serial_numbers ) ) {
 		return;
 	}
 
-	$serial_number_id = $serial_numbers[$product->get_id()];
-	$serial_number    = get_the_title( $serial_number_id );
+	foreach ( $serial_numbers as $serial_number_id ) {
 
-	?>
+		$serial_number = get_the_title( $serial_number_id );
+		$max_instance  = get_post_meta( $serial_number_id, 'max_instance', true );
+		$validity_type = get_post_meta( $serial_number_id, 'validity_type', true );
+		$validity      = get_post_meta( $serial_number_id, 'validity', true );
 
-	<div class="wc-order-item-sku">
-		<strong><?php _e('Serial Number', 'wc-serial-numbers') ?>:</strong> <?php echo $serial_number; ?>
-	</div>
+		?>
 
-<?php }
+		<div class="wc-order-item-sku">
+			<strong><?php _e( 'Serial Number', 'wc-serial-numbers' ) ?>:</strong> <?php echo $serial_number; ?>
+			<br>
+			<?php
+			if ( ! empty( $max_instance ) && $max_instance > 0 ) {
+				echo sprintf( __( 'Can be used: %d times', 'wc-serial-numbers' ), $max_instance );
+			}
+			?>
+
+			<?php
+
+			if ( ! empty( $validity_type ) && ! empty( $validity ) && in_array( $validity_type, array(
+					'days',
+					'date'
+				) ) ) {
+
+				echo '<br>';
+
+				if ( $validity_type == 'days' ) {
+					echo sprintf( __( 'Validity: %d (Days)', 'wc-serial-numbers' ), $validity );
+				} elseif ( $validity_type == 'date' ) {
+					echo sprintf( __( 'Validity: until %s', 'wc-serial-numbers' ), $validity );
+				}
+
+			}
+
+			?>
+
+		</div>
+
+	<?php }
+}
+
+add_action( 'woocommerce_after_order_itemmeta', 'wsn_woocommerce_after_order_itemmeta', 10, 3 );
