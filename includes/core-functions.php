@@ -280,7 +280,7 @@ function wsn_get_available_numbers($product_id) {
 		'meta_value' => $product_id,
 	]);
 
-	$numbers = [];
+	$numbers = array();
 
 	foreach ($serial_numbers as $serial_number) {
 

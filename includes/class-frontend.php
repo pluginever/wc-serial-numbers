@@ -80,13 +80,12 @@ class Frontend {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function enqueue_scripts( $hook ) {
-		$suffix = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
+	public function enqueue_scripts( ) {
 		//styles
 		wp_enqueue_style('wc-serial-numbers', WPWSN_ASSETS_URL."/css/frontend.css", [], WPWSN_VERSION);
 		
 		//scripts
-		wp_enqueue_script('wc-serial-numbers', WPWSN_ASSETS_URL."/js/frontend/frontend{$suffix}.js", ['jquery'], WPWSN_VERSION, true);
+		wp_enqueue_script('wc-serial-numbers', WPWSN_ASSETS_URL."/js/frontend/frontend.js", ['jquery'], WPWSN_VERSION, true);
 		wp_localize_script('wc-serial-numbers', 'wpwsn', 
 		[
 			'ajaxurl' => admin_url( 'admin-ajax.php' ), 

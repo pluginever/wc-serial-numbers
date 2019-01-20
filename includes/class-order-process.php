@@ -2,7 +2,10 @@
 
 namespace Pluginever\WCSerialNumbers;
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
 class Order_Process {
 
 
@@ -12,12 +15,12 @@ class Order_Process {
 		$is_allowed = wsn_get_settings( 'wsn_allow_checkout', '', 'wsn_general_settings' );
 
 		if ( $is_allowed != 'on' ) {
-			add_action( 'woocommerce_check_cart_items', [ $this, 'validate_cart_content' ] );
+			add_action( 'woocommerce_check_cart_items', array( $this, 'validate_cart_content' ) );
 		}
 
-		add_action( 'woocommerce_checkout_order_processed', [ $this, 'order_process' ] );
+		add_action( 'woocommerce_checkout_order_processed', array( $this, 'order_process' ) );
 
-		add_action( 'woocommerce_order_details_after_order_table', [ $this, 'order_serial_number_details' ] );
+		add_action( 'woocommerce_order_details_after_order_table', array( $this, 'order_serial_number_details' ) );
 
 	}
 
@@ -43,23 +46,29 @@ class Order_Process {
 			$product_id = $product->get_id();
 			$quantity   = $item_data->get_quantity();
 
+
 			$enable_serial_number = get_post_meta( $product_id, 'enable_serial_number', true );
 
 			if ( $enable_serial_number == 'enable' ) {
 
-				$numbers = wsn_get_available_numbers( $product_id );
+				for ( $i = 0; $i < $quantity; $i ++ ) {
 
-				$number = $numbers[ array_rand( $numbers ) ]; //serial_number_to_be_used
+					$numbers = wsn_get_available_numbers( $product_id );
 
-				$used = get_post_meta( $number, 'used', true );
+					$number = $numbers[ array_rand( $numbers ) ]; //serial_number_to_be_used
 
-				update_post_meta( $number, 'order', $order->get_id() );
+					$used = get_post_meta( $number, 'used', true );
 
-				update_post_meta( $number, 'used', ( $used + $quantity ) );
+					update_post_meta( $number, 'order', $order->get_id() );
 
-				$serial_numbers_ids[ $product_id ] = $number;
+					update_post_meta( $number, 'used', ( $used + 1 ) );
 
-				do_action( 'wsn_update_notification_on_order_delete', $product_id );
+					$serial_numbers_ids[ $product_id ][] = $number;
+
+					do_action( 'wsn_update_notification_on_order_delete', $product_id );
+
+				}
+
 
 			}
 
@@ -106,12 +115,12 @@ class Order_Process {
 
 				$numbers = wsn_get_available_numbers( $product_id );
 
-				foreach ($numbers as $number){
+				foreach ( $numbers as $number ) {
 
-					$deliver_times = get_post_meta($number, 'deliver_times', true);
-					$used          = get_post_meta($number, 'used', true);
+					$deliver_times = get_post_meta( $number, 'deliver_times', true );
+					$used          = get_post_meta( $number, 'used', true );
 
-					$total_number += ($deliver_times -$used);
+					$total_number += ( $deliver_times - $used );
 
 				}
 
