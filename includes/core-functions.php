@@ -144,21 +144,29 @@ function wsn_get_products( $args = [] ) {
  *
  * @param $args
  *
- * @return array
+ * @return array|int
  */
-function wsn_get_serial_numbers( $args ) {
+function wsn_get_serial_numbers( $args, $count = false ) {
 
-	$args = wp_parse_args( $args, [
+	$args = wp_parse_args( $args, array(
 		'post_type'      => 'wsn_serial_number',
-		'posts_per_page' => - 1,
+		'posts_per_page' => 20,
 		'meta_key'       => '',
 		'meta_value'     => '',
 		'meta_query'     => array(),
 		'order_by'       => 'date',
 		'order'          => 'ASC',
-	] );
+	) );
 
-	return get_posts( $args );
+
+	$result = new WP_Query($args);
+	wp_reset_query();
+
+	if( $count ){
+		return $result->found_posts;
+	}
+
+	return $result->get_posts();
 }
 
 

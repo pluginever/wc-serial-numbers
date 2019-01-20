@@ -121,27 +121,26 @@ class Ajax {
 	 */
 	function enable_serial_number() {
 
-		$post_id = ! empty( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : '';
-
+		$post_id                  = ! empty( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : '';
 		$is_serial_number_enabled = ! empty( $_REQUEST['enable_serial_number'] ) ? sanitize_key( $_REQUEST['enable_serial_number'] ) : '';
 
 		update_post_meta( $post_id, 'enable_serial_number', $is_serial_number_enabled );
 
 		if ( 'enable' == $is_serial_number_enabled ) {
 
-			set_query_var( 'is_product_tab', $post_id );
+			set_query_var( 'single_list_post_id', $post_id );
 
 			ob_start();
 
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
-			echo '<h3 style="margin-bottom: -30px;">' . __( 'Available license number for this product:', 'wc-serial-numbers' ) . '</h3>';
-
-			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
+			require WPWSN_TEMPLATES_DIR . '/single-serial-numbers.php';
 
 			require WPWSN_TEMPLATES_DIR . '/add-serial-number-page.php';
 
 			$html = ob_get_clean();
+
+
 		} else {
 			ob_start();
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
@@ -165,19 +164,17 @@ class Ajax {
 
 		$post_id = ! empty( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : '';
 
-		set_query_var( 'is_product_tab', $post_id );
+		set_query_var( 'single_list_post_id', $post_id );
 
 		$is_serial_number_enabled = get_post_meta( $post_id, 'enable_serial_number', true );
-
 
 		if ( 'enable' == $is_serial_number_enabled ) {
 
 			ob_start();
+
 			include WPWSN_TEMPLATES_DIR . '/product-tab-enable-serial-number.php';
 
-			echo '<h3 style="margin-bottom: -30px;">' . __( 'Available license number for this product:', 'wc-serial-numbers' ) . '</h3>';
-
-			require WPWSN_TEMPLATES_DIR . '/serial-numbers-page.php';
+			require WPWSN_TEMPLATES_DIR . '/single-serial-numbers.php';
 
 			require WPWSN_TEMPLATES_DIR . '/add-serial-number-page.php';
 

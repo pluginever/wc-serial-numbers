@@ -14,10 +14,8 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 
 class Serial_List_Table extends \WP_List_Table {
 
-	protected $is_single = false;
-
 	/** Class constructor */
-	public function __construct( $post_id = '' ) {
+	public function __construct() {
 
 		$GLOBALS['hook_suffix'] = null;
 
@@ -26,8 +24,6 @@ class Serial_List_Table extends \WP_List_Table {
 			'plural'   => __( 'Serial Numbers', 'wc-serial-numbers' ),
 			'ajax'     => false,
 		] );
-
-		$this->is_single = $post_id;
 
 	}
 
@@ -41,15 +37,12 @@ class Serial_List_Table extends \WP_List_Table {
 
 		$per_page = wsn_get_settings( 'wsn_rows_per_page', 15, 'wsn_general_settings' );
 
-		$columns  = $this->get_columns();
-		$sortable = $this->get_sortable_columns();
-		$data     = $this->table_data();
-		usort( $data, array( &$this, 'sort_data' ) );
+		$columns     = $this->get_columns();
+		$sortable    = $this->get_sortable_columns();
+		$data        = $this->table_data();
 		$perPage     = $per_page;
 		$currentPage = $this->get_pagenum();
 		$totalItems  = count( $data );
-
-		$hidden = $this->get_hidden_columns();
 
 		$this->set_pagination_args( array(
 			'total_items' => $totalItems,
@@ -57,7 +50,7 @@ class Serial_List_Table extends \WP_List_Table {
 		) );
 
 		$data                  = array_slice( $data, ( ( $currentPage - 1 ) * $perPage ), $perPage );
-		$this->_column_headers = array( $columns, $hidden, $sortable );
+		$this->_column_headers = array( $columns, array(), $sortable );
 		$this->items           = $data;
 	}
 
@@ -92,12 +85,12 @@ class Serial_List_Table extends \WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 
-		$shortable = [
+		$shortable = array(
 			'serial_numbers' => array( 'serial_numbers', false ),
 			'purchaser'      => array( 'purchaser', false ),
 			'order'          => array( 'order', false ),
 			'purchased_on'   => array( 'purchased_on', false ),
-		];
+		);
 
 		return $shortable;
 	}
@@ -112,6 +105,8 @@ class Serial_List_Table extends \WP_List_Table {
 
 		$search_query = false;
 
+		$query = array();
+
 		$serialnumber = ! empty( $_REQUEST['serialnumber'] ) ? sanitize_key( $_REQUEST['serialnumber'] ) : '';
 
 		if ( ! empty( $_REQUEST['s'] ) || ! empty( $serialnumber ) ) {
@@ -122,22 +117,22 @@ class Serial_List_Table extends \WP_List_Table {
 
 		$data = array();
 
-		$product = ! empty( $product ) ? [
-			'key'     => 'product',
-			'value'   => $product,
-			'compare' => '=',
-		] : '';
+		if ( ! empty( $product ) ) {
 
-		$query = ! $this->is_single
-			? [
+			$product = array(
+				array(
+					'key'     => 'product',
+					'value'   => $product,
+					'compare' => '=',
+				)
+			);
+
+			$query = array(
 				's'          => $search_query,
 				'meta_query' => array( $product ),
+			);
 
-			]
-			: [
-				'meta_key'   => 'product',
-				'meta_value' => $this->is_single
-			];
+		}
 
 		$posts = wsn_get_serial_numbers( $query );
 
@@ -153,10 +148,6 @@ class Serial_List_Table extends \WP_List_Table {
 			$validity           = get_post_meta( $post->ID, 'validity', true );
 			$order              = get_post_meta( $post->ID, 'order', true );
 
-
-			if ( $this->is_single && ( $used_deliver_times >= $deliver_times ) ) {
-				continue;
-			}
 
 			//Order Details
 			if ( ! empty( $order ) ) {
@@ -192,34 +183,7 @@ class Serial_List_Table extends \WP_List_Table {
 		return $data;
 	}
 
-	function get_pagenum() {
 
-		if ( $this->is_single ) {
-			return get_query_var( 'wsn_product_edit_paged' ) ? get_query_var( 'wsn_product_edit_paged' ) : 1;
-		}
-
-		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
-
-		if ( isset( $this->_pagination_args['total_pages'] ) && $pagenum > $this->_pagination_args['total_pages'] ) {
-			$pagenum = $this->_pagination_args['total_pages'];
-		}
-
-		return max( 1, $pagenum );
-
-	}
-
-	public function get_hidden_columns() {
-
-		$hidden = array();
-
-		if ( $this->is_single ) {
-
-			$hidden = array( 'purchaser', 'order', 'purchased_on' );
-
-		}
-
-		return $hidden;
-	}
 
 	/**
 	 * Define what data to show on each column of the table
@@ -257,11 +221,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 	public function get_bulk_actions() {
 
-		$actions = array();
-
-		if ( ! $this->is_single ) {
-			$actions ['bulk-delete'] = 'Delete';
-		}
+		$actions ['bulk-delete'] = 'Delete';
 
 		return $actions;
 	}
@@ -318,26 +278,16 @@ class Serial_List_Table extends \WP_List_Table {
 		if ( 'top' === $which ) {
 			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
 		}
+
 		?>
+
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-			<?php if ( $this->has_items() ) { ?>
-				<div class="alignleft actions bulkactions">
-					<?php $this->bulk_actions( $which ); ?>
-				</div>
-				<?php
-
-				$this->pagination( $which );
-			}
-
-			if ( ! $this->is_single ) {
-				$this->extra_tablenav( $which );
-			}
-
-			?>
+			<?php $this->extra_tablenav( $which ); ?>
 
 			<br class="clear"/>
 		</div>
+
 		<?php
 	}
 
@@ -348,40 +298,7 @@ class Serial_List_Table extends \WP_List_Table {
 	 */
 
 	function extra_tablenav( $which ) {
-
 		echo apply_filters( 'wsn_extra_table_nav', '', 'serial-numbers' );
-	}
-
-	/**
-	 * Allows you to sort the data by the variables set in the $_GET
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param $a
-	 * @param $b
-	 *
-	 * @return mixed
-	 */
-	private function sort_data( $a, $b ) {
-		// Set defaults
-		$orderby = 'serial_numbers';
-		$order   = 'desc';
-
-		// If orderby is set, use this as the sort column
-		if ( ! empty( $_GET['orderby'] ) ) {
-			$orderby = sanitize_key( $_GET['orderby'] );
-		}
-		// If order is set use this as the order
-		if ( ! empty( $_GET['order'] ) ) {
-			$order = sanitize_key( $_GET['order'] );
-		}
-
-		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
-		if ( $order === 'asc' ) {
-			return $result;
-		}
-
-		return - $result;
 	}
 
 

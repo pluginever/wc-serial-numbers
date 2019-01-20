@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 class FormHandler {
+
 	function __construct() {
 		add_action( 'admin_post_wsn_add_edit_serial_number', array( $this, 'handle_add_edit_serial_number_form' ) );
 		add_action( 'admin_init', array( $this, 'handle_serial_numbers_table' ) );
@@ -117,12 +118,12 @@ class FormHandler {
 
 	function handle_serial_numbers_table() {
 
-		if ( ! isset( $_REQUEST['wsn-serial-numbers-table-action'] ) || empty( $_REQUEST['wsn-serial-numbers-table-nonce'] ) ) {
+		if ( ! isset( $_REQUEST['wsn-serial-numbers-table-action'] ) || empty( $_REQUEST['nonce'] ) ) {
 			return false;
 		}
 
 
-		if ( ! wp_verify_nonce( $_REQUEST['wsn-serial-numbers-table-nonce'], 'wsn-serial-numbers-table' ) ) {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wsn-serial-numbers-table' ) ) {
 			wp_die( 'No Cheating!' );
 		}
 
