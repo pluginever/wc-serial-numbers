@@ -184,7 +184,6 @@ class Serial_List_Table extends \WP_List_Table {
 	}
 
 
-
 	/**
 	 * Define what data to show on each column of the table
 	 *
@@ -221,7 +220,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 	public function get_bulk_actions() {
 
-		$actions ['bulk-delete'] = 'Delete';
+		$actions ['bulk-delete'] = __( 'Delete', 'wc-serial-numbers' );
 
 		return $actions;
 	}
@@ -282,6 +281,17 @@ class Serial_List_Table extends \WP_List_Table {
 		?>
 
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
+
+			<?php if ( $this->has_items() ) { ?>
+
+				<div class="alignleft actions bulkactions">
+					<?php $this->bulk_actions( $which ); ?>
+				</div>
+
+				<?php $this->pagination( $which );
+			}
+
+			?>
 
 			<?php $this->extra_tablenav( $which ); ?>
 
