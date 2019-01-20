@@ -323,7 +323,7 @@ function wsn_extra_table_nav( $html, $page ) {
 
 	<div class="ever-inline ever-table-filter <?php echo $page ?>">
 
-		<label class="ever-label"><?php _e( 'Filter:', 'wc-serial-nummbers' ) ?> </label>
+		<label class="ever-label"><?php _e( 'Filter:', 'wc-serial-numbers' ) ?> </label>
 
 		<?php if ( ! empty( $page ) && $page === 'serial-numbers' ) { ?>
 
