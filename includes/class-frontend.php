@@ -2,6 +2,8 @@
 
 namespace Pluginever\WCSerialNumbers;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class Frontend {
 	/**
 	 * The single instance of the class.
@@ -46,8 +48,8 @@ class Frontend {
 	 * @return void
 	 */
 	private function includes() {
-		require_once dirname( __FILE__ ) . '/template-functions.php';
-		require_once dirname( __FILE__ ) . '/class-shortcode.php';
+		require_once dirname( __FILE__ ) . '/class-order-process.php';
+		require_once dirname( __FILE__ ) . '/class-email.php';
 	}
 
 	/**
@@ -66,7 +68,8 @@ class Frontend {
 	 * @since 1.0.0
 	 */
 	protected function instance() {
-		new ShortCode();
+		new Order_Process();
+		new Email();
 	}
 
 	/**
@@ -77,13 +80,12 @@ class Frontend {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function enqueue_scripts( $hook ) {
-		$suffix = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
+	public function enqueue_scripts( ) {
 		//styles
 		wp_enqueue_style('wc-serial-numbers', WPWSN_ASSETS_URL."/css/frontend.css", [], WPWSN_VERSION);
 		
 		//scripts
-		wp_enqueue_script('wc-serial-numbers', WPWSN_ASSETS_URL."/js/frontend/frontend{$suffix}.js", ['jquery'], WPWSN_VERSION, true);
+
 		wp_localize_script('wc-serial-numbers', 'wpwsn', 
 		[
 			'ajaxurl' => admin_url( 'admin-ajax.php' ), 

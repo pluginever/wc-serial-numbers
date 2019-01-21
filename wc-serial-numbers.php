@@ -1,15 +1,18 @@
 <?php
 /**
- * Plugin Name: WC Serial Numbers
- * Plugin URI:  https://www.pluginever.com
- * Description: The Best WordPress Plugin ever made!
+ * Plugin Name: WooCommerce Serial Numbers
+ * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
+ * Description: The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
  * Version:     1.0.0
  * Author:      pluginever
- * Author URI:  https://www.pluginever.com
- * Donate link: https://www.pluginever.com
+ * Author URI:  http://pluginever.com
+ * Donate link: https://pluginever.com/contact
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /i18n/languages/
+ * Tested up to: 5.0.2
+ * WC requires at least: 3.0.0
+ * WC tested up to: 3.5.3
  */
 
 /**
@@ -31,12 +34,28 @@
  */
 
 // don't call the file directly
-if ( !defined( 'ABSPATH' ) ) exit;
-/**
- * Main initiation class
- *
- * @since 1.0.0
- */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+
+	function wsn_woocommerce_activate_notice() {
+		?>
+
+		<div class="notice notice-error is-dismissible">
+			<p><?php _e( 'Please, Activate WooCommerce first, to make workable WC Serial Numbers.', 'wc-serial-numbers' ); ?></p>
+		</div>
+
+		<?php
+	}
+
+	add_action( 'admin_notices', 'wsn_woocommerce_activate_notice' );
+
+	return;
+}
 
 /**
  * Main WCSerialNumbers Class.
@@ -44,168 +63,105 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @class WCSerialNumbers
  */
 final class WCSerialNumbers {
-    /**
-     * WCSerialNumbers version.
-     *
-     * @var string
-     */
-    public $version = '1.0.0';
+	/**
+	 * The single instance of the class.
+	 *
+	 * @var WCSerialNumbers
+	 * @since 1.0.0
+	 */
+	protected static $instance = null;
+	/**
+	 * WCSerialNumbers version.
+	 *
+	 * @var string
+	 */
+	public $version = '1.0.0';
+	/**
+	 * Minimum PHP version required
+	 *
+	 * @var string
+	 */
+	private $min_php = '5.6.0';
+	/**
+	 * Holds various class instances
+	 *
+	 * @var array
+	 */
+	private $container = array();
 
-    /**
-     * Minimum PHP version required
-     *
-     * @var string
-     */
-    private $min_php = '5.6.0';
+	/**
+	 * Main WCSerialNumbers Instance.
+	 *
+	 * Ensures only one instance of WCSerialNumbers is loaded or can be loaded.
+	 *
+	 * @since 1.0.0
+	 * @static
+	 * @return boolean|WCSerialNumbers - Main instance.
+	 */
+	public static function instance() {
 
-    /**
-     * The single instance of the class.
-     *
-     * @var WCSerialNumbers
-     * @since 1.0.0
-     */
-    protected static $instance = null;
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+			self::$instance->setup();
+		}
 
+		return self::$instance;
+	}
 
-    /**
-     * Holds various class instances
-     *
-     * @var array
-     */
-    private $container = array();
+	/**
+	 * EverProjects Constructor.
+	 */
+	public function setup() {
+		$this->check_environment();
+		$this->define_constants();
+		$this->includes();
+		$this->init_hooks();
+		$this->plugin_init();
+		do_action( 'wc_serial_numbers_loaded' );
+	}
 
-    /**
-     * Main WCSerialNumbers Instance.
-     *
-     * Ensures only one instance of WCSerialNumbers is loaded or can be loaded.
-     *
-     * @since 1.0.0
-     * @static
-     * @return WCSerialNumbers - Main instance.
-     */
-    public static function instance() {
-        if ( is_null( self::$instance ) ) {
-            self::$instance = new self();
-            self::$instance->setup();
-        }
+	/**
+	 * Ensure theme and server variable compatibility
+	 */
+	public function check_environment() {
+		if ( version_compare( PHP_VERSION, $this->min_php, '<=' ) ) {
+			deactivate_plugins( plugin_basename( __FILE__ ) );
 
-        return self::$instance;
-    }
+			wp_die( "Unsupported PHP version Min required PHP Version:{$this->min_php}" );
+		}
+	}
 
-    /**
-     * Cloning is forbidden.
-     *
-     * @since 1.0
-     */
-    public function __clone() {
-        _doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'wc-serial-numbers' ), '1.0.0' );
-    }
+	/**
+	 * Define EverProjects Constants.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	private function define_constants() {
 
-    /**
-     * Unserializing instances of this class is forbidden.
-     *
-     * @since 1.0
-     */
-    public function __wakeup() {
-        _doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'wc-serial-numbers' ), '2.1' );
-    }
+		define( 'WPWSN_VERSION', $this->version );
+		define( 'WPWSN_FILE', __FILE__ );
+		define( 'WPWSN_PATH', dirname( WPWSN_FILE ) );
+		define( 'WPWSN_INCLUDES', WPWSN_PATH . '/includes' );
+		define( 'WPWSN_URL', plugins_url( '', WPWSN_FILE ) );
+		define( 'WPWSN_ASSETS_URL', WPWSN_URL . '/assets' );
+		define( 'WPWSN_TEMPLATES_DIR', WPWSN_PATH . '/templates' );
 
-    /**
-     * Magic getter to bypass referencing plugin.
-     *
-     * @param $prop
-     *
-     * @return mixed
-     */
-    public function __get( $prop ) {
-        if ( array_key_exists( $prop, $this->container ) ) {
-            return $this->container[ $prop ];
-        }
+		define( 'WPWSN_SERIAL_INDEX_PAGE', admin_url( 'admin.php?page=wc-serial-numbers' ) );
+		define( 'WPWSN_ADD_SERIAL_PAGE', admin_url( 'admin.php?page=add-wc-serial-number&type=manual' ) );
+		define( 'WPWSN_GENERATE_SERIAL_PAGE', admin_url( 'admin.php?page=add-wc-serial-number&type=automate' ) );
+		define( 'WPWSN_SETTINGS_PAGE', admin_url( 'admin.php?page=wc-serial-numbers-settings' ) );
+		define( 'WPWSN_ADD_GENERATE_RULE', admin_url( 'admin.php?page=add-wc-generator-rule' ) );
+	}
 
-        return $this->{$prop};
-    }
+	/**
+	 * Include required core files used in admin and on the frontend.
+	 */
+	public function includes() {
 
-    /**
-     * Magic isset to bypass referencing plugin.
-     *
-     * @param $prop
-     *
-     * @return mixed
-     */
-    public function __isset( $prop ) {
-        return isset( $this->{$prop} ) || isset( $this->container[ $prop ] );
-    }
-
-    /**
-     * EverProjects Constructor.
-     */
-    public function setup() {
-        $this->check_environment();
-        $this->define_constants();
-        $this->includes();
-        $this->init_hooks();
-        $this->plugin_init();
-        do_action( 'wc_serial_numbers_loaded' );
-    }
-
-    /**
-     * Ensure theme and server variable compatibility
-     */
-    public function check_environment() {
-        if ( version_compare( PHP_VERSION, $this->min_php, '<=' ) ) {
-            deactivate_plugins( plugin_basename( __FILE__ ) );
-
-            wp_die( "Unsupported PHP version Min required PHP Version:{$this->min_php}" );
-        }
-    }
-
-    /**
-     * Define EverProjects Constants.
-     *
-     * @since 1.0.0
-     * @return void
-     */
-    private function define_constants() {
-        //$upload_dir = wp_upload_dir( null, false );
-        define( 'WPWSN_VERSION', $this->version );
-        define( 'WPWSN_FILE', __FILE__ );
-        define( 'WPWSN_PATH', dirname( WPWSN_FILE ) );
-        define( 'WPWSN_INCLUDES', WPWSN_PATH . '/includes' );
-        define( 'WPWSN_URL', plugins_url( '', WPWSN_FILE ) );
-        define( 'WPWSN_ASSETS_URL', WPWSN_URL . '/assets' );
-        define( 'WPWSN_TEMPLATES_DIR', WPWSN_PATH . '/templates' );
-    }
-
-
-    /**
-     * What type of request is this?
-     *
-     * @param  string $type admin, ajax, cron or frontend.
-     *
-     * @return bool
-     */
-    private function is_request( $type ) {
-        switch ( $type ) {
-            case 'admin':
-                return is_admin();
-            case 'ajax':
-                return defined( 'DOING_AJAX' );
-            case 'cron':
-                return defined( 'DOING_CRON' );
-            case 'frontend':
-                return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' ) && ! defined( 'REST_REQUEST' );
-        }
-    }
-
-
-    /**
-     * Include required core files used in admin and on the frontend.
-     */
-    public function includes() {
-        //core includes
+		//core includes
 		include_once WPWSN_INCLUDES . '/core-functions.php';
 		include_once WPWSN_INCLUDES . '/class-install.php';
-		include_once WPWSN_INCLUDES . '/class-post-types.php';
 
 		//admin includes
 		if ( $this->is_request( 'admin' ) ) {
@@ -217,79 +173,183 @@ final class WCSerialNumbers {
 			include_once WPWSN_INCLUDES . '/class-frontend.php';
 		}
 
-    }
+	}
 
-    /**
-     * Hook into actions and filters.
-     *
-     * @since 2.3
-     */
-    private function init_hooks() {
-        // Localize our plugin
-        add_action( 'init', array( $this, 'localization_setup' ) );
+	/**
+	 * What type of request is this?
+	 *
+	 * @param  string $type admin, ajax, cron or frontend.
+	 *
+	 * @return bool
+	 */
+	private function is_request( $type ) {
 
-        //add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
-    }
+		switch ( $type ) {
+			case 'admin':
+				return is_admin();
+			case 'ajax':
+				return defined( 'DOING_AJAX' );
+			case 'cron':
+				return defined( 'DOING_CRON' );
+			case 'frontend':
+				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' ) && ! defined( 'REST_REQUEST' );
+		}
 
-    /**
-     * Initialize plugin for localization
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    public function localization_setup() {
-        load_plugin_textdomain( 'wc-serial-numbers', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-    }
+	}
 
-    /**
-     * Plugin action links
-     *
-     * @param  array $links
-     *
-     * @return array
-     */
-    public function plugin_action_links( $links ) {
-        //$links[] = '<a href="' . admin_url( 'admin.php?page=' ) . '">' . __( 'Settings', '' ) . '</a>';
-        return $links;
-    }
+	/**
+	 * Hook into actions and filters.
+	 *
+	 * @since 2.3
+	 */
+	private function init_hooks() {
+		// Localize our plugin
+		add_action( 'init', array( $this, 'localization_setup' ) );
 
-    public function plugin_init() {
-        new \Pluginever\WCSerialNumbers\PostTypes();
-    }
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
 
-    /**
-     * Get the plugin url.
-     *
-     * @return string
-     */
-    public function plugin_url() {
-        return untrailingslashit( plugins_url( '/', WPWSN_FILE ) );
-    }
+		add_action( 'admin_notices', array( $this, 'show_admin_notice' ) );
+	}
 
-    /**
-     * Get the plugin path.
-     *
-     * @return string
-     */
-    public function plugin_path() {
-        return untrailingslashit( plugin_dir_path( WPWSN_FILE ) );
-    }
+	public function plugin_init() {
 
-    /**
-     * Get the template path.
-     *
-     * @return string
-     */
-    public function template_path() {
-        return WPWSN_TEMPLATES_DIR;
-    }
+	}
+
+	/**
+	 * Cloning is forbidden.
+	 *
+	 * @since 1.0
+	 */
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'wc-serial-numbers' ), '1.0.0' );
+	}
+
+	/**
+	 * Universalizing instances of this class is forbidden.
+	 *
+	 * @since 1.0
+	 */
+	public function __wakeup() {
+		_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'wc-serial-numbers' ), '2.1' );
+	}
+
+	/**
+	 * Magic getter to bypass referencing plugin.
+	 *
+	 * @param $prop
+	 *
+	 * @return mixed
+	 */
+	public function __get( $prop ) {
+		if ( array_key_exists( $prop, $this->container ) ) {
+			return $this->container[ $prop ];
+		}
+
+		return $this->{$prop};
+	}
+
+	/**
+	 * Magic isset to bypass referencing plugin.
+	 *
+	 * @param $prop
+	 *
+	 * @return mixed
+	 */
+	public function __isset( $prop ) {
+		return isset( $this->{$prop} ) || isset( $this->container[ $prop ] );
+	}
+
+	/**
+	 * Initialize plugin for localization
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function localization_setup() {
+		load_plugin_textdomain( 'wc-serial-numbers', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+
+	/**
+	 * Plugin action links
+	 *
+	 * @param  array $links
+	 *
+	 * @return array
+	 */
+	public function plugin_action_links( $links ) {
+		$links[] = '<a href="' . WPWSN_SERIAL_INDEX_PAGE . '">' . __( 'Settings', 'wc-serial-numbers' ) . '</a>';
+
+		return $links;
+	}
+
+	/**
+	 * Get the plugin url.
+	 *
+	 * @return string
+	 */
+	public function plugin_url() {
+		return untrailingslashit( plugins_url( '/', WPWSN_FILE ) );
+	}
+
+	/**
+	 * Get the plugin path.
+	 *
+	 * @return string
+	 */
+	public function plugin_path() {
+		return untrailingslashit( plugin_dir_path( WPWSN_FILE ) );
+	}
+
+	/**
+	 * Get the template path.
+	 *
+	 * @return string
+	 */
+	public function template_path() {
+		return WPWSN_TEMPLATES_DIR;
+	}
+
+	public function add_notice( $message, $type = 'success' ) {
+		$notices = get_option('wsn_admin_notices', []);
+
+		$notices[] = array(
+			'message' => $message,
+			'type'    => $type
+		);
+
+		update_option('wsn_admin_notices', $notices);
+	}
+
+	public function show_admin_notice() {
+		$notices = get_option('wsn_admin_notices', []);
+		if(empty($notices)){
+			return ;
+		}
+		foreach ( $notices as $notice ) {
+			?>
+			<div class="notice notice-<?php echo sanitize_html_class( $notice['type'] ); ?> is-dismissible">
+				<p><?php echo esc_html( $notice['message'] ); ?></p>
+			</div>
+			<?php
+		}
+
+		delete_option('wsn_admin_notices');
+	}
 
 }
 
-function wc_serial_numbers(){
-    return WCSerialNumbers::instance();
+function wc_serial_numbers() {
+	return WCSerialNumbers::instance();
 }
 
 //fire off the plugin
 wc_serial_numbers();
+
+//Check if is serial number validity date whether expired or not
+register_deactivation_hook(__FILE__, 'wsn_deactivation');
+
+function wsn_deactivation() {
+	wp_clear_scheduled_hook('wsn_check_validity_date');
+}
+
