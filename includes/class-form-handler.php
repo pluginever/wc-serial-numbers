@@ -5,7 +5,7 @@ namespace Pluginever\WCSerialNumberPro;
 class FormHandler {
 
 	function __construct() {
-		add_action('admin_post_wsn_add_edit_generator_rule', [$this, 'handle_add_edit_generator_rule']);
+		add_action('admin_post_wsn_add_edit_generator_rule', array($this, 'handle_add_edit_generator_rule'));
 	}
 
 	/**
@@ -18,14 +18,11 @@ class FormHandler {
 
 	function handle_add_edit_generator_rule() {
 
-		if (!wp_verify_nonce($_REQUEST['wsn_add_edit_generator_rule_nonce'], 'wsn_add_edit_generator_rule')) {
-
-			return;
-
+		if (!wp_verify_nonce($_REQUEST['_nonce'], 'wsn_add_edit_generator_rule')) {
+			wp_die(__('No, Cheating','wc-serial-numbers'));
 		}
 
 		$action_type = sanitize_text_field($_REQUEST['action_type']);
-
 		$product       = esc_attr($_REQUEST['product']);
 		$variation     = esc_attr($_REQUEST['variation']);
 		$prefix        = esc_html($_REQUEST['prefix']);
