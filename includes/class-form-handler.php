@@ -19,7 +19,7 @@ class FormHandler {
 	function handle_add_edit_generator_rule() {
 
 		if ( ! wp_verify_nonce( $_REQUEST['_nonce'], 'wsn_add_edit_generator_rule' ) ) {
-			wp_die( __( 'No, Cheating', 'wc-serial-numbers' ) );
+			wp_die( __( 'No, Cheating', 'wc-serial-number-pro' ) );
 		}
 
 		$action_type   = ! empty( $_REQUEST['action_type'] ) ? sanitize_key( $_REQUEST['action_type'] ) : '';
@@ -39,7 +39,7 @@ class FormHandler {
 		if ( empty( $product ) ) {
 
 			if ( empty( $product ) ) {
-				wc_serial_numbers()->add_notice( __( 'The product is empty. Please select a product and try again', 'wc-serial-numbers' ) );
+				wc_serial_numbers()->add_notice( __( 'The product is empty. Please select a product and try again', 'wc-serial-number-pro' ) );
 				wp_safe_redirect( $url );
 				exit();
 			}

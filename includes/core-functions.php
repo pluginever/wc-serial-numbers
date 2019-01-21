@@ -131,7 +131,7 @@ add_action( 'wsn_send_email_notification', 'wsn_send_email_notification' );
 function wsnp_add_settings_field($sections){
 	$sections[] = array(
 		'id'    => 'wsn_serial_generator_settings',
-		'title' => __('Serial Numbers Generator', 'wc-serial-numbers')
+		'title' => __('Serial Numbers Generator', 'wc-serial-number-pro')
 	);
 
 	return $sections;

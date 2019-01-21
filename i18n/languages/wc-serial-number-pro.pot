@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WC Serial Number Pro 1.0.0a\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers-pro\n"
-"POT-Creation-Date: 2019-01-14 07:27:03+00:00\n"
+"POT-Creation-Date: 2019-01-21 09:44:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,65 +42,73 @@ msgstr ""
 msgid "WC Serial Number Pro Settings"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:20
+#: includes/admin/generate-serial-table.php:22
 msgid "Generate Serial Number"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:21
+#: includes/admin/generate-serial-table.php:23
 msgid "Generate Serial Numbers"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:61
+#: includes/admin/generate-serial-table.php:106
 msgid "Product"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:62
+#: includes/admin/generate-serial-table.php:107
 msgid "Variation"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:63
+#: includes/admin/generate-serial-table.php:108
 msgid "Prefix. "
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:64
-#: includes/admin/generate-serial-table.php:65
+#: includes/admin/generate-serial-table.php:109
+#: includes/admin/generate-serial-table.php:110
 msgid "Chunks"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:66
-#: templates/add-generator-rule.php:182
+#: includes/admin/generate-serial-table.php:111
+#: templates/add-generator-rule.php:176
 msgid "Suffix"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:67
+#: includes/admin/generate-serial-table.php:112
 msgid "Deliver times"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:68
+#: includes/admin/generate-serial-table.php:113
 msgid "Instance"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:69
-#: templates/add-generator-rule.php:224
+#: includes/admin/generate-serial-table.php:114
+#: templates/add-generator-rule.php:215
 msgid "Validity"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:70
-#: includes/admin/generate-serial-table.php:124
+#: includes/admin/generate-serial-table.php:115
+#: includes/admin/generate-serial-table.php:169
 msgid "Generate"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:130 includes/class-ajax.php:41
-#: includes/class-ajax.php:51 templates/add-generator-rule.php:113
+#: includes/admin/generate-serial-table.php:175 includes/class-ajax.php:41
+#: includes/class-ajax.php:51 templates/add-generator-rule.php:108
 msgid "Main Product"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:206
+#: includes/admin/generate-serial-table.php:250
 msgid "Edit"
 msgstr ""
 
-#: includes/admin/generate-serial-table.php:207
+#: includes/admin/generate-serial-table.php:254
 msgid "Delete"
+msgstr ""
+
+#: includes/class-form-handler.php:22
+msgid "No, Cheating"
+msgstr ""
+
+#: includes/class-form-handler.php:42
+msgid "The product is empty. Please select a product and try again"
 msgstr ""
 
 #: includes/class-install.php:86
@@ -111,27 +119,23 @@ msgstr ""
 msgid "Monthly"
 msgstr ""
 
-#: includes/core-functions.php:303
-msgid "Please add serial numbers for "
-msgstr ""
-
-#: includes/core-functions.php:303
-msgid " Serial number left"
-msgstr ""
-
-#: includes/core-functions.php:347
+#: includes/core-functions.php:113
 msgid "Serial Numbers stock running low"
 msgstr ""
 
-#: includes/core-functions.php:351
+#: includes/core-functions.php:117
 msgid "Please add more serial number for the following items"
 msgstr ""
 
-#: templates/add-generator-rule.php:18
+#: includes/core-functions.php:134
+msgid "Serial Numbers Generator"
+msgstr ""
+
+#: templates/add-generator-rule.php:16
 msgid "Edit Generator Rule"
 msgstr ""
 
-#: templates/add-generator-rule.php:19
+#: templates/add-generator-rule.php:17
 msgid "Save changes"
 msgstr ""
 
@@ -143,95 +147,91 @@ msgstr ""
 msgid "Add Generator Rule"
 msgstr ""
 
-#: templates/add-generator-rule.php:50
+#: templates/add-generator-rule.php:51
 msgid "Add serial key manually"
 msgstr ""
 
-#: templates/add-generator-rule.php:52
+#: templates/add-generator-rule.php:53
 msgid "Generate serial key Automatically"
 msgstr ""
 
-#: templates/add-generator-rule.php:58
-msgid "Updrade to PRO for generating serial numbers automatically."
-msgstr ""
-
-#: templates/add-generator-rule.php:85
+#: templates/add-generator-rule.php:75
 msgid "Choose Product"
 msgstr ""
 
-#: templates/add-generator-rule.php:89
+#: templates/add-generator-rule.php:81
 msgid "Choose a product"
 msgstr ""
 
-#: templates/add-generator-rule.php:108
+#: templates/add-generator-rule.php:103
 msgid "Product Variation"
 msgstr ""
 
-#: templates/add-generator-rule.php:140
+#: templates/add-generator-rule.php:137
 msgid "Prefix"
 msgstr ""
 
-#: templates/add-generator-rule.php:145
+#: templates/add-generator-rule.php:141
 msgid "Prefix to added before the serial number"
 msgstr ""
 
-#: templates/add-generator-rule.php:154
+#: templates/add-generator-rule.php:150
 msgid "Chunks Number"
 msgstr ""
 
-#: templates/add-generator-rule.php:159
+#: templates/add-generator-rule.php:154
 msgid "The number of chunks for the serial number."
 msgstr ""
 
-#: templates/add-generator-rule.php:168
+#: templates/add-generator-rule.php:163
 msgid "Chunk Length"
 msgstr ""
 
-#: templates/add-generator-rule.php:173
+#: templates/add-generator-rule.php:167
 msgid "The number of chunks length for the serial number."
 msgstr ""
 
-#: templates/add-generator-rule.php:187
+#: templates/add-generator-rule.php:180
 msgid "Suffix to added after the serial number."
 msgstr ""
 
-#: templates/add-generator-rule.php:196
+#: templates/add-generator-rule.php:189
 msgid "Max. Deliver Times"
 msgstr ""
 
-#: templates/add-generator-rule.php:202
+#: templates/add-generator-rule.php:194
 msgid "The maximum number, the serial number can be delivered."
 msgstr ""
 
-#: templates/add-generator-rule.php:210
+#: templates/add-generator-rule.php:202
 msgid "Maximum Instance"
 msgstr ""
 
-#: templates/add-generator-rule.php:216
+#: templates/add-generator-rule.php:207
 msgid "Maximum instance for the serial number."
 msgstr ""
 
-#: templates/add-generator-rule.php:228
+#: templates/add-generator-rule.php:219
 msgid "Days"
 msgstr ""
 
-#: templates/add-generator-rule.php:230
+#: templates/add-generator-rule.php:221
 msgid "Date"
 msgstr ""
 
-#: templates/add-generator-rule.php:237
+#: templates/add-generator-rule.php:227
 msgid "Check Days for validity type of Days numbers"
 msgstr ""
 
-#: templates/add-generator-rule.php:239
+#: templates/add-generator-rule.php:229
 msgid "Check Date for validity type of Date"
 msgstr ""
 
-#: templates/generate-serial-number.php:20
+#: templates/generate-serial-number.php:19
 msgid "Generator Rules"
 msgstr ""
 
-#: templates/generate-serial-number.php:22
+#: templates/generate-serial-number.php:20
 msgid "Add new generator rule"
 msgstr ""
 
