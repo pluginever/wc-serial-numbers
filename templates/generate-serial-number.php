@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 ob_start();
 
-echo '';
+echo '<h1>' . __('Please, Upgrade to PRO for generating serial numbers Automatically', 'wc-serial-numbers') . '</h1>';
 
 $html = ob_get_clean();
 

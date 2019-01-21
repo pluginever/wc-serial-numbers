@@ -52,6 +52,18 @@ if ( ! empty( $type ) && 'automate' == $type  ) {
 		<a href="<?php echo add_query_arg( 'type', 'manual', WPWSN_ADD_SERIAL_PAGE ); ?>"
 		   class="wsn-button-primary add-serial-title page-title-action"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></a>
 
+		<a href="<?php echo add_query_arg( 'type', 'automate', WPWSN_ADD_SERIAL_PAGE ); ?>"
+			class="wsn-button page-title-action <?php echo wsn_is_wsnp() ? '' : 'button-disabled'; ?>" <?php echo wsn_disabled() ?>><?php _e( 'Generate serial key Automatically', 'wc-serial-numbers' ) ?></a>
+
+		<?php if ( ! wsn_is_wsnp() ) { ?>
+
+			<div class="ever-helper"> ?
+				<span
+					class="text"><strong><?php _e( 'Please Upgrade to PRO, for generating serial numbers Automatically.', 'wc-serial-numbers' ); ?></strong></span>
+			</div>
+
+		<?php } ?>
+
 	</div>
 
 	<div class="wsn-message"></div>
