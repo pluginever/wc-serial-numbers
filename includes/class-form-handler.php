@@ -73,11 +73,13 @@ class FormHandler {
 
 			$generator_rule_id = !empty($_REQUEST['generator_rule_id']) ? intval( $_REQUEST['generator_rule_id'] ) : '';
 
-			if(get_post_status($generator_rule_id)) {
+			if( current_user_can('publish_posts') && get_post_status($generator_rule_id) ) {
+
 				wp_update_post( [
 					'ID'         => $generator_rule_id,
 					'meta_input' => $meta_input,
 				] );
+
 			}
 
 		}

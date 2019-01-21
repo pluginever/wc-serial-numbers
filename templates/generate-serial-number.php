@@ -1,54 +1,45 @@
 <?php
 
-$row_action = empty($_REQUEST['row_action']) ? '' : $_REQUEST['row_action'];
+$row_action = empty( $_REQUEST['row_action'] ) ? '' : $_REQUEST['row_action'];
 
-$is_product_tab = !empty(get_query_var('is_product_tab')) ? get_query_var('is_product_tab') : '';
+$is_product_tab = ! empty( get_query_var( 'is_product_tab' ) ) ? get_query_var( 'is_product_tab' ) : '';
 
-if (!$row_action) {
+if ( ! $row_action ) {
 
 	include WPWSNP_INCLUDES . '/admin/generate-serial-table.php';
 
-	$rule_list = new Pluginever\WCSerialNumberPro\Admin\Generate_Serial_Table($is_product_tab);
+	$rule_list = new Pluginever\WCSerialNumberPro\Admin\Generate_Serial_Table();
 
 	$rule_list->prepare_items();
 
 	?>
 
 	<div class="wrap wsn-container generate-page">
-		<?php if (!$is_product_tab) { ?>
 
-			<h1 class="wp-heading-inline"><?php _e('Generator Rules', 'wc-serial-number-pro') ?></h1>
-
-			<a href="<?php echo WPWSN_ADD_GENERATE_RULE ?>" class="page-title-action"><?php _e('Add new generator rule', 'wc-serial-number-pro') ?></a>
-
-
-		<?php } ?>
+		<h1 class="wp-heading-inline"><?php _e( 'Generator Rules', 'wc-serial-number-pro' ) ?></h1>
+		<a href="<?php echo WPWSN_ADD_GENERATE_RULE ?>" class="page-title-action"><?php _e( 'Add new generator rule', 'wc-serial-number-pro' ) ?></a>
 
 		<div class="wsn-body">
-			<?php
-
-			echo '<form id="wsn-serial-numbers-table" action="' . admin_url('admin-post.php') . '" method="post">
-			  	 <input type="hidden" name="wsn-serial-numbers-table-action">'
-				. wp_nonce_field('wsn-serial-numbers-table', 'wsn-serial-numbers-table-nonce');
-
-			$rule_list->display();
-
-			echo '</form>';
-
-			?>
+			<form action="" method="post">
+				<?php $rule_list->display(); ?>
+			</form>
 		</div>
 
 	</div>
 
-<?php } elseif ($row_action == 'edit') {
+<?php } elseif ( $row_action == 'edit' ) {
 
 	include WPWSNP_TEMPLATES_DIR . '/add-generator-rule.php';
 
-} elseif ($row_action == 'delete') {
+} elseif ( $row_action == 'delete' ) {
 
-	wp_delete_post($_REQUEST['generator_rule']);
+	$rule_id = ! empty( $_REQUEST['generator_rule'] ) ? intval( $_REQUEST['generator_rule'] ) : '';
 
-	wp_redirect(WPWSN_GENERATE_SERIAL_PAGE);
+	if ( current_user_can( 'delete_posts' ) && get_post_status( $rule_id ) ) {
+		wp_delete_post();
+	}
+
+	wp_safe_redirect( WPWSN_GENERATE_SERIAL_PAGE );
 
 } ?>
 
