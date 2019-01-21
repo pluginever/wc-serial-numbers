@@ -150,7 +150,7 @@ function wsn_get_serial_numbers( $args, $count = false ) {
 
 	$args = wp_parse_args( $args, array(
 		'post_type'      => 'wsn_serial_number',
-		'posts_per_page' => -1,
+		'posts_per_page' => - 1,
 		'meta_key'       => '',
 		'meta_value'     => '',
 		'meta_query'     => array(),
@@ -158,10 +158,10 @@ function wsn_get_serial_numbers( $args, $count = false ) {
 		'order'          => 'ASC',
 	) );
 
-	$result = new WP_Query($args);
+	$result = new WP_Query( $args );
 	wp_reset_query();
 
-	if( $count ){
+	if ( $count ) {
 		return $result->found_posts;
 	}
 
@@ -370,8 +370,7 @@ function wsn_extra_table_nav( $html, $page ) {
 				<?php _e( '1. Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers' ); ?>
 
 				<?php if ( $page == 'serial-numbers' ) { ?>
-					<hr><?php _e( '2. Choose a product for filtering only the product.', 'wc-serial-numbers' ); ?>
-				<?php } ?>
+					<hr><?php _e( '2. Choose a product for filtering only the product.', 'wc-serial-numbers' ); ?><?php } ?>
 
 			</span>
 		</div>
@@ -773,3 +772,40 @@ function wsn_woocommerce_after_order_itemmeta( $item_id, $item, $product ) {
 }
 
 add_action( 'woocommerce_after_order_itemmeta', 'wsn_woocommerce_after_order_itemmeta', 10, 3 );
+
+
+/**
+ * Check if the validity of a serial number is expired or not
+ *
+ * @since 1.0.0
+ *
+ * @param $validity
+ * @param $validity_type
+ * @param $purchased_on
+ *
+ * @return bool - true on if validity available, false on expired
+ */
+
+function wsn_is_serial_valid( $validity, $validity_type, $purchased_on ) {
+
+	if ( $validity_type == 'days' ) {
+
+		$datediff = time() - strtotime( $purchased_on );
+
+		$datediff = round( $datediff / ( 60 * 60 * 24 ) );
+
+		if ( $datediff > $validity ) {
+			return false;
+		}
+
+	} elseif ( $validity_type == 'date' ) {
+
+		if ( time() > strtotime( $validity ) ) {
+			return false;
+		}
+
+	}
+
+	return true;
+
+}

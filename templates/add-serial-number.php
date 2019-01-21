@@ -67,7 +67,8 @@
 					<option value=""><?php _e( 'Main Product', 'wc-serial-numbers' ) ?></option>
 
 					<?php
-					if ( ! empty( $variation ) ) {
+
+					if ( wsn_is_wsnp() && ! empty( $variation ) ) {
 
 						$product_obj = wc_get_product( $product );
 
@@ -83,6 +84,7 @@
 							}
 						}
 					}
+
 					?>
 
 				</select>
@@ -94,7 +96,7 @@
 			<th scope="row">
 				<label for="serial_number"><?php _e( 'Serial Number', 'wc-serial-numbers' ) ?></label></th>
 			<td class="ever-form-group">
-				<textarea name="serial_number" type="text" id="serial_number" class="regular-text ever-field-inline"><?php echo $serial_number ?></textarea>
+				<textarea name="serial_number" type="text" id="serial_number" class="regular-text ever-field-inline" required><?php echo $serial_number ?></textarea>
 				<div class="ever-helper"> ? <span class="text">
 						<?php _e( 'You can enter multiline text.', 'wc-serial-numbers' ) ?>
 						<br>

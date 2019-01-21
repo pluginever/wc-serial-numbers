@@ -27,7 +27,9 @@ window.Project = (function (window, document, $, undefined) {
 			$(document).on('click', '.wsn_generate_btn', app.generate_numbers);
 
 			$('.ever-select').select2();
-			$('.ever-date, .ever-panel #validity[type=text]').datepicker();
+			$('.ever-date, .ever-panel #validity[type=text]').datepicker({
+				dateFormat: 'dd-mm-yy'
+			});
 
 		},
 
@@ -135,7 +137,9 @@ window.Project = (function (window, document, $, undefined) {
 
 			$('.ever-panel').toggle();
 			$('.ever-select').select2();
-			$('.ever-date').datepicker();
+			$('.ever-date').datepicker({
+				dateFormat: 'dd-mm-yy'
+			});
 		},
 
 		upload_license_upload: function (e) {

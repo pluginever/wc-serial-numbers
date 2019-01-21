@@ -163,8 +163,14 @@ class Serial_List_Table extends \WP_List_Table {
 			$deliver_times      = get_post_meta( $post->ID, 'deliver_times', true );
 			$used_deliver_times = get_post_meta( $post->ID, 'used', true );
 			$max_instance       = get_post_meta( $post->ID, 'max_instance', true );
+			$validity_type      = get_post_meta( $post->ID, 'validity_type', true );
 			$validity           = get_post_meta( $post->ID, 'validity', true );
 			$order              = get_post_meta( $post->ID, 'order', true );
+			$purchased_on       = '';
+			$valid_msg          = '';
+
+
+			$valid_style = '';
 
 			//Order Details
 			if ( ! empty( $order ) ) {
@@ -181,6 +187,28 @@ class Serial_List_Table extends \WP_List_Table {
 
 			}
 
+			//Check if the validity of a serial number is expired or not
+			if ( $validity_type == 'days' && ! empty( $validity ) && ! empty( $purchased_on ) ) {
+
+				$datediff = time() - strtotime( $purchased_on );
+
+				$datediff = round( $datediff / ( 60 * 60 * 24 ) );
+
+				if ( $datediff > $validity ) {
+					$valid_style = 'style="color:red"';
+					$valid_msg   = __( 'Expired', 'wc-serial-numbers' );
+				}
+
+			} elseif ( $validity_type == 'date' && ! empty( $validity ) ) {
+
+				if ( time() > strtotime( $validity ) ) {
+					$valid_style = 'style="color:red"';
+					$valid_msg   = __( 'Expired', 'wc-serial-numbers' );
+				}
+
+			}
+
+
 			$data[] = [
 				'ID'             => $post->ID,
 				'serial_numbers' => get_the_title( $post->ID ),
@@ -191,7 +219,7 @@ class Serial_List_Table extends \WP_List_Table {
 				'purchaser'      => empty( $purchaser ) ? '-' : $purchaser,
 				'order'          => empty( $order ) ? '-' : '<a href="' . get_edit_post_link( $order ) . '">#' . $order . '</a>',
 				'purchased_on'   => empty( $purchased_on ) ? '-' : date( 'm-d-Y H:i a', strtotime( $purchased_on ) ),
-				'validity'       => empty( $validity ) ? '∞' : $validity,
+				'validity'       => empty( $validity ) ? '∞' : sprintf( '<span %s>%s <br> %s </span>', $valid_style, $validity, $valid_msg ),
 				'product_id'     => empty( $product ) ? '' : $product,
 			];
 
@@ -313,7 +341,6 @@ class Serial_List_Table extends \WP_List_Table {
 
 		<?php
 	}
-
 
 
 }

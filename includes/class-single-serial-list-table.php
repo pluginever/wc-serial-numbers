@@ -81,9 +81,7 @@ class Single_List_Table extends \WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 
-		$shortable = array(
-			'serial_numbers' => array( 'serial_numbers', false ),
-		);
+		$shortable = array();
 
 		return $shortable;
 	}
