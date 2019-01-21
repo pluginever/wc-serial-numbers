@@ -325,8 +325,8 @@ function wsn_get_available_numbers( $product_id ) {
 
 function wsn_extra_table_nav( $html, $page ) {
 
-	$serialnumber = ! empty( $_REQUEST['serialnumber'] ) ? sanitize_key( $_REQUEST['serialnumber'] ) : '';
-	$product      = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : '';
+	$serialnumber = ! empty( $_REQUEST['filter-serialnumber'] ) ? sanitize_key( $_REQUEST['filter-serialnumber'] ) : '';
+	$product      = ! empty( $_REQUEST['filter-product'] ) ? intval( $_REQUEST['filter-product'] ) : '';
 
 	?>
 
@@ -372,7 +372,8 @@ function wsn_extra_table_nav( $html, $page ) {
 				<?php _e( '1. Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers' ); ?>
 
 				<?php if ( $page == 'serial-numbers' ) { ?>
-					<hr><?php _e( '2. Choose a product for filtering only the product.', 'wc-serial-numbers' ); ?><?php } ?>
+					<hr><?php _e( '2. Choose a product for filtering only the product.', 'wc-serial-numbers' ); ?>
+				<?php } ?>
 
 			</span>
 		</div>
@@ -380,7 +381,7 @@ function wsn_extra_table_nav( $html, $page ) {
 		<input type="submit" name="wsn-filter-table-<?php echo $page ?>" id="wsn-filter-table" class="button button-primary" value="Filter">
 
 		<button class="button ever-inline">
-			<a href="<?php echo WPWSN_SERIAL_INDEX_PAGE ?>" class="wsn-button"><?php _e( 'Clear filter', 'wc-serial-numbers' ) ?></a>
+			<a href="<?php echo $page == 'serial-numbers' ? WPWSN_SERIAL_INDEX_PAGE : WPWSN_GENERATE_SERIAL_PAGE ?>" class="wsn-button"><?php _e( 'Clear filter', 'wc-serial-numbers' ) ?></a>
 		</button>
 
 	</div>

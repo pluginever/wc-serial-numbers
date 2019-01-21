@@ -28,7 +28,7 @@ if ( ! empty( $type ) && 'automate' == $type  ) {
 		$product                = '';
 		$variation              = '';
 		$deliver_times          = '1';
-		$max_instance           = '0';
+		$max_instance           = '1';
 		$validity_type          = 'days';
 		$validity               = '';
 		$image_license          = '';
@@ -50,10 +50,10 @@ if ( ! empty( $type ) && 'automate' == $type  ) {
 		<h1 class="wp-heading-inline"><?php echo $title ?></h1>
 
 		<a href="<?php echo add_query_arg( 'type', 'manual', WPWSN_ADD_SERIAL_PAGE ); ?>"
-		   class="wsn-button-primary add-serial-title page-title-action"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></a>
+		   class="add-serial-title page-title-action <?php echo ($type == 'manual') ? 'wsn-button-primary' : '' ?>"><?php _e( 'Add serial key manually', 'wc-serial-numbers' ) ?></a>
 
 		<a href="<?php echo add_query_arg( 'type', 'automate', WPWSN_ADD_SERIAL_PAGE ); ?>"
-			class="wsn-button page-title-action <?php echo wsn_is_wsnp() ? '' : 'button-disabled'; ?>" <?php echo wsn_disabled() ?>><?php _e( 'Generate serial key Automatically', 'wc-serial-numbers' ) ?></a>
+			class="wsn-button page-title-action <?php echo wsn_is_wsnp() ? '' : 'button-disabled'; ?> <?php echo ($type == 'automate' && wsn_is_wsnp()) ? 'wsn-button-primary' : '' ?>" <?php echo wsn_disabled() ?>><?php _e( 'Generate serial key Automatically', 'wc-serial-numbers' ) ?></a>
 
 		<?php if ( ! wsn_is_wsnp() ) { ?>
 

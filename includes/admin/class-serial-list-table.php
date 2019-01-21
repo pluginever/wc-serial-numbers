@@ -122,12 +122,7 @@ class Serial_List_Table extends \WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 
-		$shortable = array(
-			'serial_numbers' => array( 'serial_numbers', false ),
-			'purchaser'      => array( 'purchaser', false ),
-			'order'          => array( 'order', false ),
-			'purchased_on'   => array( 'purchased_on', false ),
-		);
+		$shortable = array();
 
 		return $shortable;
 	}
@@ -144,13 +139,21 @@ class Serial_List_Table extends \WP_List_Table {
 
 		$query = array();
 
-		$search_query = ! empty( $_REQUEST['s'] ) ? sanitize_key( $_REQUEST['s'] ) : '';
+		if ( ! empty( $_REQUEST['wsn-filter-table-serial-numbers'] ) && $_REQUEST['wsn-filter-table-serial-numbers'] == 'Filter' ) {
+
+			if ( ! empty( $_REQUEST['filter-product'] ) ) {
+				$query['meta_key'] = 'product';
+				$query['meta_value'] = intval( $_REQUEST['filter-product'] );
+			}
+
+			if ( ! empty( $_REQUEST['filter-serialnumber'] ) ) {
+				$query['s'] = sanitize_key( $_REQUEST['filter-serialnumber'] );
+			}
+
+		}
+
 
 		$data = array();
-
-		$query = array(
-			's' => $search_query,
-		);
 
 		$posts = wsn_get_serial_numbers( $query );
 
@@ -309,16 +312,29 @@ class Serial_List_Table extends \WP_List_Table {
 				</div>
 
 				<?php $this->pagination( $which );
+
+				$this->extra_tablenav( $which );
 			}
 
 			?>
 
-			<?php $this->extra_tablenav( $which ); ?>
-
 			<br class="clear"/>
+
 		</div>
 
 		<?php
+	}
+
+	/**
+	 * Table Filter html
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $which
+	 */
+
+	function extra_tablenav( $which ) {
+		echo apply_filters( 'wsn_extra_table_nav', '', 'serial-numbers' );
 	}
 
 
