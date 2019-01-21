@@ -1,10 +1,8 @@
 <?php
 
-$row_action = empty( $_REQUEST['row_action'] ) ? '' : sanitize_key( $_REQUEST['row_action'] );
+if ( ! empty($_REQUEST['generator_rule']) ) {
 
-if ( 'edit' == $row_action ) {
-
-	$generator_rule_id    = intval($_REQUEST['generator_rule']);
+	$generator_rule_id    = intval( $_REQUEST['generator_rule'] );
 	$product              = get_post_meta( $generator_rule_id, 'product', true );
 	$variation            = get_post_meta( $generator_rule_id, 'variation', true );
 	$prefix               = get_post_meta( $generator_rule_id, 'prefix', true );
@@ -17,8 +15,8 @@ if ( 'edit' == $row_action ) {
 	$validity_type        = get_post_meta( $generator_rule_id, 'validity_type', true );
 	$title                = __( 'Edit Generator Rule', 'wc-serial-number-pro' );
 	$submit               = __( 'Save changes', 'wc-serial-number-pro' );
-	$action_type          = 'wsn_edit_generator_rule';
-	$generator_rule_input = sprintf('<input type="hidden" name="generator_rule_id" value="%d">', $generator_rule_id);
+	$action_type          = 'edit';
+	$generator_rule_input = sprintf( '<input type="hidden" name="generator_rule_id" value="%d">', $generator_rule_id );
 
 } else {
 
@@ -35,7 +33,7 @@ if ( 'edit' == $row_action ) {
 	$validity_type        = 'days';
 	$title                = __( 'Add New Generator Rule', 'wc-serial-number-pro' );
 	$submit               = __( 'Add Generator Rule', 'wc-serial-number-pro' );
-	$action_type          = 'wsn_add_generator_rule';
+	$action_type          = 'add';
 	$generator_rule_input = '';
 
 }
@@ -110,7 +108,7 @@ if ( 'edit' == $row_action ) {
 							<option value=""><?php _e( 'Main Product', 'wc-serial-number-pro' ) ?></option>
 
 							<?php
-							
+
 							if ( ! empty( $variation ) ) {
 								$product_obj = wc_get_product( $product );
 

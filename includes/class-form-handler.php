@@ -5,7 +5,7 @@ namespace Pluginever\WCSerialNumberPro;
 class FormHandler {
 
 	function __construct() {
-		add_action('admin_post_wsn_add_edit_generator_rule', array($this, 'handle_add_edit_generator_rule'));
+		add_action( 'admin_post_wsn_add_edit_generator_rule', array( $this, 'handle_add_edit_generator_rule' ) );
 	}
 
 	/**
@@ -18,66 +18,71 @@ class FormHandler {
 
 	function handle_add_edit_generator_rule() {
 
-		if (!wp_verify_nonce($_REQUEST['_nonce'], 'wsn_add_edit_generator_rule')) {
-			wp_die(__('No, Cheating','wc-serial-numbers'));
+		if ( ! wp_verify_nonce( $_REQUEST['_nonce'], 'wsn_add_edit_generator_rule' ) ) {
+			wp_die( __( 'No, Cheating', 'wc-serial-numbers' ) );
 		}
 
-		$action_type = sanitize_text_field($_REQUEST['action_type']);
-		$product       = esc_attr($_REQUEST['product']);
-		$variation     = esc_attr($_REQUEST['variation']);
-		$prefix        = esc_html($_REQUEST['prefix']);
-		$chunks_number = esc_attr($_REQUEST['chunks_number']);
-		$chunk_length  = esc_attr($_REQUEST['chunk_length']);
-		$suffix        = esc_html($_REQUEST['suffix']);
-		$deliver_times = esc_attr($_REQUEST['deliver_times']);
-		$max_instance  = esc_attr($_REQUEST['max_instance']);
-		$validity_type = esc_html($_REQUEST['validity_type']);
-		$validity      = esc_attr($_REQUEST['validity']);
+		$action_type   = ! empty( $_REQUEST['action_type'] ) ? sanitize_key( $_REQUEST['action_type'] ) : '';
+		$product       = ! empty( $_REQUEST['product'] ) ? intval( $_REQUEST['product'] ) : '';
+		$variation     = ! empty( $_REQUEST['variation'] ) ? intval( $_REQUEST['variation'] ) : '';
+		$prefix        = ! empty( $_REQUEST['prefix'] ) ? sanitize_text_field( $_REQUEST['prefix'] ) : '';
+		$chunks_number = ! empty( $_REQUEST['chunks_number'] ) ? intval( $_REQUEST['chunks_number'] ) : '';
+		$chunk_length  = ! empty( $_REQUEST['chunk_length'] ) ? intval( $_REQUEST['chunk_length'] ) : '';
+		$suffix        = ! empty( $_REQUEST['suffix'] ) ? sanitize_text_field( $_REQUEST['suffix'] ) : '';
+		$deliver_times = ! empty( $_REQUEST['deliver_times'] ) ? intval( $_REQUEST['deliver_times'] ) : '';
+		$max_instance  = ! empty( $_REQUEST['max_instance'] ) ? intval( $_REQUEST['max_instance'] ) : '';
+		$validity_type = ! empty( $_REQUEST['validity_type'] ) ? sanitize_key( $_REQUEST['validity_type'] ) : '';
+		$validity      = ! empty( $_REQUEST['validity'] ) ? sanitize_key( $_REQUEST['validity'] ) : '';
 
+		$url = admin_url( 'admin.php?page=add-wc-generator-rule' );
 
-		$url = untrailingslashit($_SERVER['HTTP_ORIGIN']) . $_REQUEST['_wp_http_referer'];
+		if ( empty( $product ) ) {
 
+			if ( empty( $product ) ) {
+				wc_serial_numbers()->add_notice( __( 'The product is empty. Please select a product and try again', 'wc-serial-numbers' ) );
+				wp_safe_redirect( $url );
+				exit();
+			}
 
-		if (empty($product)) {
-			wsn_redirect_with_message($url, 'empty_product', 'error');
 		}
 
 		$meta_input = array(
-			'product'       => $product,
-			'variation'     => $variation,
-			'prefix'        => $prefix,
-			'chunks_number' => $chunks_number,
-			'chunk_length'  => $chunk_length,
-			'suffix'        => $suffix,
-			'deliver_times' => $deliver_times,
-			'used'          => 0,
-			'max_instance'  => $max_instance,
-			'validity_type' => $validity_type,
-			'validity'      => $validity,
-
+			'product'              => $product,
+			'variation'            => $variation,
+			'prefix'               => $prefix,
+			'chunks_number'        => $chunks_number,
+			'chunk_length'         => $chunk_length,
+			'suffix'               => $suffix,
+			'deliver_times'        => $deliver_times,
+			'used'                 => 0,
+			'max_instance'         => $max_instance,
+			'validity_type'        => $validity_type,
+			'validity'             => $validity,
 			'enable_serial_number' => 'enable',
 		);
 
-		if ($action_type == 'wsn_add_generator_rule') {
+		if ( $action_type == 'add' ) {
 
-			$post_id = wp_insert_post([
+			wp_insert_post( [
 				'post_type'   => 'wsnp_generator_rule',
 				'post_status' => 'publish',
 				'meta_input'  => $meta_input,
-			]);
+			] );
 
-		} elseif ($action_type == 'wsn_edit_generator_rule') {
+		} elseif ( $action_type == 'edit' ) {
 
-			$generator_rule_id = esc_attr($_REQUEST['generator_rule_id']);
+			$generator_rule_id = !empty($_REQUEST['generator_rule_id']) ? intval( $_REQUEST['generator_rule_id'] ) : '';
 
-			$post_id = wp_update_post([
-				'ID'         => $generator_rule_id,
-				'meta_input' => $meta_input,
-			]);
+			if(get_post_status($generator_rule_id)) {
+				wp_update_post( [
+					'ID'         => $generator_rule_id,
+					'meta_input' => $meta_input,
+				] );
+			}
 
 		}
 
-		wp_redirect(add_query_arg('type', 'automate', WPWSN_ADD_SERIAL_PAGE));
+		wp_safe_redirect( add_query_arg( 'type', 'automate', WPWSN_ADD_SERIAL_PAGE ) );
 
 	}
 
