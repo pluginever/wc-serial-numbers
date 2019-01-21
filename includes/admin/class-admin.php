@@ -5,8 +5,7 @@ namespace Pluginever\WCSerialNumberPro\Admin;
 use Pluginever\WCSerialNumberPro\FormHandler;
 use Pluginever\WCSerialNumberPro\Ajax;
 
-class Admin
-{
+class Admin {
 	/**
 	 * The single instance of the class.
 	 *
@@ -22,9 +21,8 @@ class Admin
 	 * @static
 	 * @return Admin - Main instance.
 	 */
-	public static function init()
-	{
-		if (is_null(self::$init)) {
+	public static function init() {
+		if ( is_null( self::$init ) ) {
 			self::$init = new self();
 			self::$init->setup();
 		}
@@ -38,8 +36,7 @@ class Admin
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function setup()
-	{
+	public function setup() {
 		$this->includes();
 		$this->init_hooks();
 		$this->instance();
@@ -48,21 +45,19 @@ class Admin
 	/**
 	 * Includes all files related to admin
 	 */
-	public function includes()
-	{
-		require_once dirname(__FILE__) . '/class-admin-menu.php';
-		require_once dirname(__FILE__) . '/class-metabox.php';
+	public function includes() {
+		require_once dirname( __FILE__ ) . '/class-admin-menu.php';
+		require_once dirname( __FILE__ ) . '/class-metabox.php';
 		//require_once dirname(__FILE__) . '/class-settings-api.php';
 		//require_once dirname(__FILE__) . '/class-settings.php';
 		require_once WPWSNP_INCLUDES . '/class-ajax.php';
 		require_once WPWSNP_INCLUDES . '/class-form-handler.php';
 	}
 
-	private function init_hooks()
-	{
-		add_action('admin_init', array($this, 'buffer'), 1);
-		add_action('init', array($this, 'includes'));
-		add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
+	private function init_hooks() {
+		add_action( 'admin_init', array( $this, 'buffer' ), 1 );
+		add_action( 'init', array( $this, 'includes' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
 
@@ -71,8 +66,7 @@ class Admin
 	 *
 	 * @since 1.0.0
 	 */
-	protected function instance()
-	{
+	protected function instance() {
 		new Admin_Menu();
 		new MetaBox();
 		//new Settings();
@@ -85,14 +79,12 @@ class Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function buffer()
-	{
+	public function buffer() {
 		ob_start();
 	}
 
 
-	public function enqueue_scripts($hook)
-	{
+	public function enqueue_scripts( $hook ) {
 
 	}
 

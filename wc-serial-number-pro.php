@@ -233,10 +233,12 @@ final class WCSerialNumberPro {
         //core includes
 		include_once WPWSNP_INCLUDES . '/core-functions.php';
 		include_once WPWSNP_INCLUDES . '/class-install.php';
+		include_once WPWSNP_INCLUDES . '/class-updater.php';
 
+	    $license = new \Pluginever_Framework_License( WPWSNP_FILE, 'WoCommerce Serial Numbers Pro', WPWSNP_VERSION, 'tools.php' );
 
 		//admin includes
-		if ( $this->is_request( 'admin' ) ) {
+		if ( $this->is_request( 'admin' )  && $license->is_license_valid()) {
 			include_once WPWSNP_INCLUDES . '/admin/class-admin.php';
 		}
 
