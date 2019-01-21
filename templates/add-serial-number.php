@@ -40,17 +40,20 @@
 
 							$selected = $post->get_id() == $product ? 'selected' : '';
 
-							echo sprintf( '<option class="hee" value="%d" %s %s>%1$d - %s %s</option>', $post->get_id(), $selected, $disabled, get_the_title( $post->get_id() ), '<em>' . $upgrade . '</em>' );
+							echo sprintf( '<option value="%d" %s %s>%1$d - %s %s</option>', $post->get_id(), $selected, $disabled, get_the_title( $post->get_id() ), $upgrade );
 						}
 
 						?>
 					</select>
+
 					<?php if ( empty( wsn_disabled() ) ) { ?>
 						<div class="ever-spinner-product hidden"></div>
 					<?php } else { ?>
+
 						<div class="ever-helper"> ?
 							<span class="text"><?php _e( 'Upgrade to PRO for adding serial numbers for variable products.', 'wc-serial-numbers' ); ?></span>
 						</div>
+
 					<?php } ?>
 
 				</td>
