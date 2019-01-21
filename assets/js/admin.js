@@ -250,10 +250,8 @@ window.Project = (function (window, document, $, undefined) {
 
 				success: function (response) {
 					if (response.response) {
-
-						window.alert($limit + wpwsn.i18n.generate_success);
 						$spinner.css('display', 'none');
-
+						window.alert($limit + wpwsn.i18n.generate_success);
 					}
 				},
 

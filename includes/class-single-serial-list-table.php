@@ -105,6 +105,8 @@ class Single_List_Table extends \WP_List_Table {
 
 			foreach ( $serial_numbers as $serial_number_id ) {
 
+				$variation          = get_post_meta( $serial_number_id, 'variation', true );
+				$image_license      = get_post_meta( $serial_number_id, 'image_license', true );
 				$deliver_times      = get_post_meta( $serial_number_id, 'deliver_times', true );
 				$used_deliver_times = get_post_meta( $serial_number_id, 'used', true );
 				$max_instance       = get_post_meta( $serial_number_id, 'max_instance', true );
@@ -113,7 +115,7 @@ class Single_List_Table extends \WP_List_Table {
 
 				$data[] = array(
 					'ID'             => $serial_number_id,
-					'serial_numbers' => get_the_title( $serial_number_id ),
+					'serial_numbers' => sprintf( '%s <br> <img src="%s" class="ever-thumbnail-small">', get_the_title( $serial_number_id ), $image_license ),
 					'variation'      => empty( $variation ) ? __( 'Main Product', 'wc-serial-numbers' ) : get_the_title( $variation ),
 					'deliver_times'  => empty( $deliver_times ) ? '∞' : $used_deliver_times . '/' . $deliver_times,
 					'max_instance'   => empty( $max_instance ) ? '∞' : $max_instance,

@@ -142,17 +142,17 @@ class Serial_List_Table extends \WP_List_Table {
 		if ( ! empty( $_REQUEST['wsn-filter-table-serial-numbers'] ) && $_REQUEST['wsn-filter-table-serial-numbers'] == 'Filter' ) {
 
 			if ( ! empty( $_REQUEST['filter-product'] ) ) {
-				$query['meta_key'] = 'product';
+				$query['meta_key']   = 'product';
 				$query['meta_value'] = intval( $_REQUEST['filter-product'] );
 			}
 
-			if ( ! empty( $_REQUEST['filter-serialnumber'] )  ) {
-					$query['s'] = sanitize_key( $_REQUEST['filter-serialnumber'] );
+			if ( ! empty( $_REQUEST['filter-serialnumber'] ) ) {
+				$query['s'] = sanitize_key( $_REQUEST['filter-serialnumber'] );
 			}
 
 		}
 
-		if(! empty( $_REQUEST['s'] )) {
+		if ( ! empty( $_REQUEST['s'] ) ) {
 			$query['s'] = sanitize_key( $_REQUEST['s'] );
 		}
 
@@ -167,6 +167,7 @@ class Serial_List_Table extends \WP_List_Table {
 
 			$product            = get_post_meta( $post->ID, 'product', true );
 			$variation          = get_post_meta( $post->ID, 'variation', true );
+			$image_license      = get_post_meta( $post->ID, 'image_license', true );
 			$deliver_times      = get_post_meta( $post->ID, 'deliver_times', true );
 			$used_deliver_times = get_post_meta( $post->ID, 'used', true );
 			$max_instance       = get_post_meta( $post->ID, 'max_instance', true );
@@ -191,13 +192,13 @@ class Serial_List_Table extends \WP_List_Table {
 
 			}
 
-			$is_valid = wsn_is_serial_valid($validity, $validity_type, $purchased_on);
+			$is_valid = wsn_is_serial_valid( $validity, $validity_type, $purchased_on );
 
-			$valid_style = !empty($is_valid) ? 'style="color:red"' : '' ;
+			$valid_style = ! empty( $is_valid ) ? 'style="color:red"' : '';
 
 			$data[] = [
 				'ID'             => $post->ID,
-				'serial_numbers' => get_the_title( $post->ID ),
+				'serial_numbers' => sprintf( '%s <br> <img src="%s" class="ever-thumbnail-small">', get_the_title( $post->ID ), $image_license ),
 				'product'        => '<a href="' . get_edit_post_link( $product ) . '">' . get_the_title( $product ) . '</a>',
 				'variation'      => empty( $variation ) ? __( 'Main Product', 'wc-serial-numbers' ) : get_the_title( $variation ),
 				'deliver_times'  => empty( $deliver_times ) ? '∞' : $used_deliver_times . '/' . $deliver_times,
