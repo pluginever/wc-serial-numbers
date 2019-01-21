@@ -688,21 +688,21 @@ function wsn_admin_bar_notification_list( $html ) {
 			$count = (int) get_the_content( $post->ID );
 			$title = get_the_title( $post->ID );
 
-			if( get_post_status($title) != 'publish' ) {
+			//Check if the product is published of the serial number
+			if ( get_post_status( $title ) != 'publish' ) {
 
-				if(current_user_can('delete_posts')){
-					wp_delete_post($post->ID);
+				if ( current_user_can( 'delete_posts' ) ) {
+					wp_delete_post( $post->ID );
 
 				}
 
 			}
 
-				$name    = '<a href="' . get_edit_post_link( $title ) . '">' . get_the_title( $title ) . '</a>';
-				$count   = '<strong>' . $count . '</strong>';
-				$msg     = __( 'Please add serial numbers for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-numbers' );
-				$message .= '<tr><td>' . $msg . '</td></tr>';
+			$name    = sprintf( '<a href="%s">%s</a>', get_edit_post_link( $title ), get_the_title( $title ) );
+			$msg     = sprintf( __('Please add serial numbers for %s , %d Serial number left', 'wc-serial-numbers'), $name, $count );
+			$message .= '<tr><td>' . $msg . '</td></tr>';
 
-				echo '<li>' . $msg . '</li>';
+			echo '<li>' . $msg . '</li>';
 
 		}
 

@@ -146,10 +146,14 @@ class Serial_List_Table extends \WP_List_Table {
 				$query['meta_value'] = intval( $_REQUEST['filter-product'] );
 			}
 
-			if ( ! empty( $_REQUEST['filter-serialnumber'] ) ) {
-				$query['s'] = sanitize_key( $_REQUEST['filter-serialnumber'] );
+			if ( ! empty( $_REQUEST['filter-serialnumber'] )  ) {
+					$query['s'] = sanitize_key( $_REQUEST['filter-serialnumber'] );
 			}
 
+		}
+
+		if(! empty( $_REQUEST['s'] )) {
+			$query['s'] = sanitize_key( $_REQUEST['s'] );
 		}
 
 
