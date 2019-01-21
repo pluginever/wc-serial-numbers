@@ -304,7 +304,7 @@ function wsn_get_available_numbers( $product_id ) {
 		$validity_type = get_post_meta( $serial_number->ID, 'validity_type', true );
 		$validity      = get_post_meta( $serial_number->ID, 'validity', true );
 
-		if ( $deliver_times <= $used ||  ! empty( wsn_is_serial_valid( $validity, $validity_type ) ) ) {
+		if ( $deliver_times <= $used || ! empty( wsn_is_serial_valid( $validity, $validity_type ) ) ) {
 			continue;
 		}
 
@@ -372,8 +372,7 @@ function wsn_extra_table_nav( $html, $page ) {
 				<?php _e( '1. Enter a part of the serial number in the serial number box,  don\'t  need the whole number.', 'wc-serial-numbers' ); ?>
 
 				<?php if ( $page == 'serial-numbers' ) { ?>
-					<hr><?php _e( '2. Choose a product for filtering only the product.', 'wc-serial-numbers' ); ?>
-				<?php } ?>
+					<hr><?php _e( '2. Choose a product for filtering only the product.', 'wc-serial-numbers' ); ?><?php } ?>
 
 			</span>
 		</div>
@@ -669,7 +668,7 @@ function wsn_admin_bar_notification_list( $html ) {
 
 	$posts = get_posts( [
 		'post_type'      => 'wsnp_notification',
-		'posts_per_page' => - 1,
+		'posts_per_page' => 20,
 		'post_status'    => 'publish',
 		'comment_status' => 'enable'
 	] );
@@ -687,16 +686,23 @@ function wsn_admin_bar_notification_list( $html ) {
 			setup_postdata( $post );
 
 			$count = (int) get_the_content( $post->ID );
+			$title = get_the_title( $post->ID );
 
-			$name  = '<a href="' . get_edit_post_link( get_the_title( $post->ID ) ) . '">' . get_the_title( get_the_title( $post->ID ) ) . '</a>';
-			$count = '<strong>' . $count . '</strong>';
+			if( get_post_status($title) != 'publish' ) {
 
-			$msg = __( 'Please add serial numbers for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-numbers' );
+				if(current_user_can('delete_posts')){
+					wp_delete_post($post->ID);
 
-			$message .= '<tr><td>' . $msg . '</td></tr>';
+				}
 
-			echo '<li>' . $msg . '</li>';
+			}
 
+				$name    = '<a href="' . get_edit_post_link( $title ) . '">' . get_the_title( $title ) . '</a>';
+				$count   = '<strong>' . $count . '</strong>';
+				$msg     = __( 'Please add serial numbers for ', 'wc-serial-numbers' ) . $name . ', ' . $count . __( ' Serial number left', 'wc-serial-numbers' );
+				$message .= '<tr><td>' . $msg . '</td></tr>';
+
+				echo '<li>' . $msg . '</li>';
 
 		}
 
@@ -705,6 +711,12 @@ function wsn_admin_bar_notification_list( $html ) {
 		echo '</ul>'; //End the list
 
 		$html = ob_get_clean();
+
+		$is_on_email = wsn_get_settings( 'wsn_admin_bar_notification_send_email', '', 'wsn_notification_settings' );
+
+		if ( $is_on_email == 'on' ) {
+			wp_schedule_event( time(), 'daily', 'wsn_send_email_notification', array( $message ) );
+		}
 
 	}
 
@@ -798,6 +810,7 @@ function wsn_is_serial_valid( $validity, $validity_type, $purchased_on = '' ) {
 		$datediff = round( $datediff / ( 60 * 60 * 24 ) );
 
 		if ( $datediff > $validity ) {
+
 			$valid_msg = __( 'Expired', 'wc-serial-numbers' );
 
 			return $valid_msg;
@@ -815,4 +828,28 @@ function wsn_is_serial_valid( $validity, $validity_type, $purchased_on = '' ) {
 
 	return '';
 
+}
+
+
+function wsn_check_validity_date() {
+
+	$serial_numbers = wsn_get_serial_numbers( array() );
+
+	foreach ( $serial_numbers as $serial_number ) {
+
+		$product_id    = get_post_meta( $serial_number->ID, 'product', true );
+		$validity_type = get_post_meta( $serial_number->ID, 'validity_type', true );
+		$validity      = get_post_meta( $serial_number->ID, 'validity', true );
+
+		if ( ! empty( wsn_is_serial_valid( $validity, $validity_type ) ) ) {
+			wsn_update_notification_on_add_edit( $product_id );
+		}
+
+	}
+}
+
+add_action( 'wsn_check_validity_date', 'wsn_check_validity_date' );
+
+if ( ! wp_next_scheduled( 'wsn_check_validity_date' ) ) {
+	wp_schedule_event( time(), 'daily', 'wsn_check_validity_date' );
 }

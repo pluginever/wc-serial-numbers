@@ -342,3 +342,10 @@ function wc_serial_numbers() {
 //fire off the plugin
 wc_serial_numbers();
 
+//Check if is serial number validity date whether expired or not
+register_deactivation_hook(__FILE__, 'wsn_deactivation');
+
+function wsn_deactivation() {
+	wp_clear_scheduled_hook('wsn_check_validity_date');
+}
+
