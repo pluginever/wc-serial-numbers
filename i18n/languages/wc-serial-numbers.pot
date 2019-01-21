@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WC Serial Numbers 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2019-01-20 12:46:18+00:00\n"
+"POT-Creation-Date: 2019-01-21 05:42:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,16 +26,6 @@ msgstr ""
 msgid "WC Serial Numbers"
 msgstr ""
 
-#: includes/admin/class-admin-menu.php:23
-#: includes/admin/class-admin-menu.php:43
-#: includes/admin/class-serial-list-table.php:24
-#: includes/admin/class-serial-list-table.php:104 includes/class-email.php:35
-#: includes/class-email.php:40 includes/class-single-serial-list-table.php:24
-#: includes/class-single-serial-list-table.php:66
-#: includes/core-functions.php:105 templates/serial-numbers-page.php:41
-msgid "Serial Numbers"
-msgstr ""
-
 #: includes/admin/class-admin-menu.php:27
 #: includes/admin/class-admin-menu.php:52
 #: templates/add-serial-number-page.php:36
@@ -43,10 +33,11 @@ msgid "Add Serial Number"
 msgstr ""
 
 #: includes/admin/class-admin-menu.php:31
+#: includes/admin/class-admin-menu.php:60
 msgid "Generate Serial Number"
 msgstr ""
 
-#: includes/admin/class-admin-menu.php:60 templates/serial-numbers-page.php:45
+#: includes/admin/class-admin-menu.php:67 templates/serial-numbers-page.php:45
 #: wc-serial-numbers.php:277
 msgid "Settings"
 msgstr ""
@@ -73,10 +64,18 @@ msgstr ""
 
 #: includes/admin/class-serial-list-table.php:23
 #: includes/class-single-serial-list-table.php:23
-#: includes/core-functions.php:743 templates/add-serial-number.php:92
+#: includes/core-functions.php:744 templates/add-serial-number.php:97
 #: templates/order-details-serial-number.php:5
 #: templates/order-details-serial-number.php:12
 msgid "Serial Number"
+msgstr ""
+
+#: includes/admin/class-serial-list-table.php:24
+#: includes/admin/class-serial-list-table.php:104 includes/class-email.php:35
+#: includes/class-email.php:40 includes/class-single-serial-list-table.php:24
+#: includes/class-single-serial-list-table.php:66
+#: includes/core-functions.php:105 templates/serial-numbers-page.php:41
+msgid "Serial Numbers"
 msgstr ""
 
 #: includes/admin/class-serial-list-table.php:105 includes/class-email.php:39
@@ -114,24 +113,24 @@ msgstr ""
 #: includes/admin/class-serial-list-table.php:112
 #: includes/admin/class-settings.php:147
 #: includes/class-single-serial-list-table.php:70
-#: templates/add-serial-number.php:163
+#: templates/add-serial-number.php:167
 msgid "Validity"
 msgstr ""
 
-#: includes/admin/class-serial-list-table.php:188
-#: includes/class-single-serial-list-table.php:136
-#: templates/add-serial-number.php:64
+#: includes/admin/class-serial-list-table.php:195
+#: includes/class-single-serial-list-table.php:117
+#: templates/add-serial-number.php:67
 msgid "Main Product"
 msgstr ""
 
-#: includes/admin/class-serial-list-table.php:239
-#: includes/admin/class-serial-list-table.php:271
-#: includes/class-single-serial-list-table.php:201
+#: includes/admin/class-serial-list-table.php:246
+#: includes/admin/class-serial-list-table.php:278
+#: includes/class-single-serial-list-table.php:182
 msgid "Delete"
 msgstr ""
 
-#: includes/admin/class-serial-list-table.php:264
-#: includes/class-single-serial-list-table.php:195
+#: includes/admin/class-serial-list-table.php:271
+#: includes/class-single-serial-list-table.php:176
 msgid "Edit"
 msgstr ""
 
@@ -209,7 +208,7 @@ msgstr ""
 msgid "Suffix to added after the serial number."
 msgstr ""
 
-#: includes/admin/class-settings.php:129 templates/add-serial-number.php:139
+#: includes/admin/class-settings.php:129 templates/add-serial-number.php:143
 msgid "Max. Deliver Times"
 msgstr ""
 
@@ -363,54 +362,58 @@ msgstr ""
 msgid "for this product."
 msgstr ""
 
-#: includes/core-functions.php:333
+#: includes/core-functions.php:335
 msgid "Filter:"
 msgstr ""
 
-#: includes/core-functions.php:342 templates/add-serial-number.php:22
+#: includes/core-functions.php:344 templates/add-serial-number.php:24
 msgid "Choose a product"
 msgstr ""
 
-#: includes/core-functions.php:370
+#: includes/core-functions.php:372
 msgid ""
 "1. Enter a part of the serial number in the serial number box,  don't  need "
 "the whole number."
 msgstr ""
 
-#: includes/core-functions.php:373
+#: includes/core-functions.php:375
 msgid "2. Choose a product for filtering only the product."
 msgstr ""
 
-#: includes/core-functions.php:382
+#: includes/core-functions.php:383
 msgid "Clear filter"
 msgstr ""
 
-#: includes/core-functions.php:420
+#: includes/core-functions.php:421
 msgid "Serial Number for  for Order #"
 msgstr ""
 
-#: includes/core-functions.php:424
+#: includes/core-functions.php:425
 msgid "Serial Number for for Order #"
 msgstr ""
 
-#: includes/core-functions.php:692
+#: includes/core-functions.php:693
 msgid "Please add serial numbers for "
 msgstr ""
 
-#: includes/core-functions.php:692
+#: includes/core-functions.php:693
 msgid " Serial number left"
 msgstr ""
 
-#: includes/core-functions.php:747 templates/order-details-serial-number.php:48
+#: includes/core-functions.php:748 templates/order-details-serial-number.php:48
 msgid "Can be used: %d times"
 msgstr ""
 
-#: includes/core-functions.php:761 templates/order-details-serial-number.php:63
+#: includes/core-functions.php:762 templates/order-details-serial-number.php:63
 msgid "Validity: %d (Days)"
 msgstr ""
 
-#: includes/core-functions.php:763 templates/order-details-serial-number.php:65
+#: includes/core-functions.php:764 templates/order-details-serial-number.php:65
 msgid "Validity: until %s"
+msgstr ""
+
+#: includes/core-functions.php:800 includes/core-functions.php:808
+msgid "Expired"
 msgstr ""
 
 #: templates/add-serial-number-page.php:9
@@ -430,74 +433,90 @@ msgstr ""
 msgid "Add serial key manually"
 msgstr ""
 
-#: templates/add-serial-number.php:18
+#: templates/add-serial-number-page.php:56
+msgid "Generate serial key Automatically"
+msgstr ""
+
+#: templates/add-serial-number-page.php:62
+msgid "Please Upgrade to PRO, for generating serial numbers Automatically."
+msgstr ""
+
+#: templates/add-serial-number.php:20
 msgid "Choose Product"
 msgstr ""
 
-#: templates/add-serial-number.php:49
+#: templates/add-serial-number.php:35
+msgid "( Upgrade to PRO )"
+msgstr ""
+
+#: templates/add-serial-number.php:52
 msgid "Upgrade to PRO for adding serial numbers for variable products."
 msgstr ""
 
-#: templates/add-serial-number.php:59
+#: templates/add-serial-number.php:62
 msgid "Product Variation"
 msgstr ""
 
-#: templates/add-serial-number.php:97
+#: templates/add-serial-number.php:101
 msgid "You can enter multiline text."
 msgstr ""
 
-#: templates/add-serial-number.php:99
+#: templates/add-serial-number.php:103
 msgid "Example:"
 msgstr ""
 
-#: templates/add-serial-number.php:111
+#: templates/add-serial-number.php:115
 msgid "Image License"
 msgstr ""
 
-#: templates/add-serial-number.php:114
+#: templates/add-serial-number.php:118
 msgid "Upload"
 msgstr ""
 
-#: templates/add-serial-number.php:119
+#: templates/add-serial-number.php:123
 msgid "Upgrade to PRO for, using image as License"
 msgstr ""
 
-#: templates/add-serial-number.php:125
+#: templates/add-serial-number.php:129
 msgid "Upload a image for using image as License"
 msgstr ""
 
-#: templates/add-serial-number.php:133
+#: templates/add-serial-number.php:137
 msgid "Remove"
 msgstr ""
 
-#: templates/add-serial-number.php:144
+#: templates/add-serial-number.php:148
 msgid "The maximum number, the serial number can be delivered."
 msgstr ""
 
-#: templates/add-serial-number.php:151
+#: templates/add-serial-number.php:155
 msgid "Maximum Instance"
 msgstr ""
 
-#: templates/add-serial-number.php:156
+#: templates/add-serial-number.php:160
 msgid ""
 "The maximum number of the implementation for the verification of the "
 "tracking api. Ignore, If your product doesn't need tracking"
 msgstr ""
 
-#: templates/add-serial-number.php:167
+#: templates/add-serial-number.php:171
 msgid "Days"
 msgstr ""
 
-#: templates/add-serial-number.php:169
+#: templates/add-serial-number.php:173
 msgid "Date"
 msgstr ""
 
-#: templates/add-serial-number.php:176
+#: templates/add-serial-number.php:179
 msgid "Check Days for validity type of Days numbers"
 msgstr ""
 
-#: templates/add-serial-number.php:178
+#: templates/add-serial-number.php:181
 msgid "Check Date for validity type of Date"
+msgstr ""
+
+#: templates/generate-serial-number.php:7
+msgid "Please, Upgrade to PRO for generating serial numbers Automatically"
 msgstr ""
 
 #: templates/product-tab-enable-serial-number.php:5

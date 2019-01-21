@@ -97,6 +97,10 @@ class Order_Process {
 	}
 
 
+	/**
+	 * Check if a product has enough serial number for quantity
+	 */
+
 	function validate_cart_content() {
 
 		$car_products = WC()->cart->get_cart_contents();
@@ -125,10 +129,9 @@ class Order_Process {
 				}
 
 				if ( $total_number < $quantity ) {
-					wc_add_notice( __( 'Sorry, There is not enough <strong>Serial Number</strong> available for', 'wc-serial-numbers' )
-					               . ' <strong>' . $product->get_title() . '</strong>, <br>'
-					               . __( 'Please remove this item or lower the quantity, For now we have', 'wc-serial-numbers' ) . ' '
-					               . $total_number . ' ' . __( 'Serial Number(s)', 'wc-serial-numbers' ) . ' ' . __( 'for this product.', 'wc-serial-numbers' ) . '' . '<br>', 'error' );
+
+					wc_add_notice(sprintf(__( 'Sorry, There is not enough Serial Number available for %s, Please remove this item or lower the quantity,
+												For now we have %d Serial Number for this product. <br>', 'wc-serial-numbers' ), $product->get_title(),  $total_number), 'error');
 				}
 			}
 
