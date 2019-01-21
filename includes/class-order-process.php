@@ -113,7 +113,7 @@ class Order_Process {
 
 				$total_number = 0;
 
-				$numbers = wsn_get_available_numbers( $product_id );
+				$numbers       = wsn_get_available_numbers( $product_id );
 
 				foreach ( $numbers as $number ) {
 

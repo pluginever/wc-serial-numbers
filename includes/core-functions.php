@@ -301,8 +301,10 @@ function wsn_get_available_numbers( $product_id ) {
 
 		$deliver_times = get_post_meta( $serial_number->ID, 'deliver_times', true );
 		$used          = get_post_meta( $serial_number->ID, 'used', true );
+		$validity_type = get_post_meta( $serial_number->ID, 'validity_type', true );
+		$validity      = get_post_meta( $serial_number->ID, 'validity', true );
 
-		if ( $deliver_times <= $used ) {
+		if ( $deliver_times <= $used ||  ! empty( wsn_is_serial_valid( $validity, $validity_type ) ) ) {
 			continue;
 		}
 
@@ -783,29 +785,33 @@ add_action( 'woocommerce_after_order_itemmeta', 'wsn_woocommerce_after_order_ite
  * @param $validity_type
  * @param $purchased_on
  *
- * @return bool - true on if validity available, false on expired
+ * @return string - null on if validity available, expired on expired
  */
 
-function wsn_is_serial_valid( $validity, $validity_type, $purchased_on ) {
+function wsn_is_serial_valid( $validity, $validity_type, $purchased_on = '' ) {
 
-	if ( $validity_type == 'days' ) {
+	if ( $validity_type == 'days' && ! empty( $validity ) && ! empty( $purchased_on ) ) {
 
 		$datediff = time() - strtotime( $purchased_on );
 
 		$datediff = round( $datediff / ( 60 * 60 * 24 ) );
 
 		if ( $datediff > $validity ) {
-			return false;
+			$valid_msg = __( 'Expired', 'wc-serial-numbers' );
+
+			return $valid_msg;
 		}
 
-	} elseif ( $validity_type == 'date' ) {
+	} elseif ( $validity_type == 'date' && ! empty( $validity ) ) {
 
 		if ( time() > strtotime( $validity ) ) {
-			return false;
+			$valid_msg = __( 'Expired', 'wc-serial-numbers' );
+
+			return $valid_msg;
 		}
 
 	}
 
-	return true;
+	return '';
 
 }

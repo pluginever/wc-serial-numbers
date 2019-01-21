@@ -66,8 +66,8 @@ window.Project = (function (window, document, $, undefined) {
 						$('.wsn-message').html(response.empty_serial);
 					}
 				},
-				error: function (error) {
-					console.log(error);
+				error: function () {
+
 				}
 
 			});
@@ -180,7 +180,6 @@ window.Project = (function (window, document, $, undefined) {
 					post_id: $(this).val()
 				},
 				success: function (response) {
-					console.log(response);
 					$('#variation').html(response.html);
 					$('.ever-spinner-product').css('visibility', 'hidden');
 

@@ -101,36 +101,19 @@ class Single_List_Table extends \WP_List_Table {
 
 		if ( ! empty( $product ) ) {
 
-			$query = array(
-				'meta_query' => array(
-					array(
-						'key'     => 'product',
-						'value'   => $product,
-						'compare' => '=',
-					)
-				),
-			);
+			$serial_numbers = wsn_get_available_numbers( $product );
 
-			$posts = wsn_get_serial_numbers( $query );
+			foreach ( $serial_numbers as $serial_number_id ) {
 
-			foreach ( $posts as $post ) {
+				$deliver_times      = get_post_meta( $serial_number_id, 'deliver_times', true );
+				$used_deliver_times = get_post_meta( $serial_number_id, 'used', true );
+				$max_instance       = get_post_meta( $serial_number_id, 'max_instance', true );
+				$validity           = get_post_meta( $serial_number_id, 'validity', true );
 
-				setup_postdata( $post );
-
-				$product            = get_post_meta( $post->ID, 'product', true );
-				$deliver_times      = get_post_meta( $post->ID, 'deliver_times', true );
-				$used_deliver_times = get_post_meta( $post->ID, 'used', true );
-				$max_instance       = get_post_meta( $post->ID, 'max_instance', true );
-				$validity           = get_post_meta( $post->ID, 'validity', true );
-
-
-				if ( $used_deliver_times >= $deliver_times ) {
-					continue;
-				}
 
 				$data[] = array(
-					'ID'             => $post->ID,
-					'serial_numbers' => get_the_title( $post->ID ),
+					'ID'             => $serial_number_id,
+					'serial_numbers' => get_the_title( $serial_number_id ),
 					'variation'      => empty( $variation ) ? __( 'Main Product', 'wc-serial-numbers' ) : get_the_title( $variation ),
 					'deliver_times'  => empty( $deliver_times ) ? '∞' : $used_deliver_times . '/' . $deliver_times,
 					'max_instance'   => empty( $max_instance ) ? '∞' : $max_instance,
