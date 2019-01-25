@@ -143,6 +143,7 @@ module.exports = function (grunt) {
 				options: {
 					potFilename: 'wc-serial-number-pro.pot',
 					exclude: [
+						'includes/class-updater.php',
 						'apigen/.*',
 						'vendor/.*',
 						'tests/.*',

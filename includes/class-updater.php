@@ -158,7 +158,7 @@ if ( ! class_exists( 'Pluginever_Framework_Updater' ) ):
                 $changelog_link = self_admin_url( 'index.php?edd_sl_action=view_plugin_changelog&plugin=' . $this->name . '&slug=' . $this->slug . '&TB_iframe=true&width=772&height=911' );
                 if ( empty( $version_info->download_link ) ) {
                     printf(
-                        __( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'easy-digital-downloads' ),
+                        __( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'wc-serial-number-pro' ),
                         esc_html( $version_info->name ),
                         '<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
                         esc_html( $version_info->new_version ),
@@ -166,7 +166,7 @@ if ( ! class_exists( 'Pluginever_Framework_Updater' ) ):
                     );
                 } else {
                     printf(
-                        __( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'easy-digital-downloads' ),
+                        __( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'wc-serial-number-pro' ),
                         esc_html( $version_info->name ),
                         '<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
                         esc_html( $version_info->new_version ),
@@ -329,7 +329,7 @@ if ( ! class_exists( 'Pluginever_Framework_Updater' ) ):
                 return;
             }
             if ( ! current_user_can( 'update_plugins' ) ) {
-                wp_die( __( 'You do not have permission to install plugin updates', 'easy-digital-downloads' ), __( 'Error', 'easy-digital-downloads' ), array( 'response' => 403 ) );
+                wp_die( __( 'You do not have permission to install plugin updates', 'wc-serial-number-pro' ), __( 'Error', 'wc-serial-number-pro' ), array( 'response' => 403 ) );
             }
             $data         = $edd_plugin_data[ $_REQUEST['slug'] ];
             $beta         = ! empty( $data['beta'] ) ? true : false;
@@ -612,7 +612,7 @@ if ( ! class_exists( 'Pluginever_Framework_License' ) ):
          * Register license activation page
          */
         public function register_license_menu() {
-            add_submenu_page( $this->parent_slug, $this->item_name, __( 'License', 'ever' ), 'manage_options', $this->license_page_slug, array(
+            add_submenu_page( $this->parent_slug, $this->item_name, __( 'License', 'wc-serial-number-pro' ), 'manage_options', $this->license_page_slug, array(
                 $this,
                 'render_license_page'
             ) );
@@ -685,11 +685,11 @@ if ( ! class_exists( 'Pluginever_Framework_License' ) ):
         public function handle_license_activation() {
 
             if ( ! current_user_can( 'manage_options' ) ) {
-                wp_die( __( 'No cheat!', 'ever' ) );
+                wp_die( __( 'No cheat!', 'wc-serial-number-pro' ) );
             }
 
             if ( ! wp_verify_nonce( $_POST['nonce'], $this->get_unique_key( 'nonce' ) ) ) {
-                wp_die( __( 'session expired try again', 'ever' ) );
+                wp_die( __( 'session expired try again', 'wc-serial-number-pro' ) );
             }
 
             $license_key = esc_attr( $_POST['license_key'] );
@@ -714,7 +714,7 @@ if ( ! class_exists( 'Pluginever_Framework_License' ) ):
                 if ( is_wp_error( $response ) ) {
                     $message = $response->get_error_message();
                 } else {
-                    $message = __( 'An error occurred, please try again.' );
+                    $message = __( 'An error occurred, please try again.', 'wc-serial-number-pro' );
                 }
 
             } else {
@@ -728,40 +728,40 @@ if ( ! class_exists( 'Pluginever_Framework_License' ) ):
                         case 'expired' :
 
                             $message = sprintf(
-                                __( 'Your license key expired on %s.' ),
+                                __( 'Your license key expired on %s.','wc-serial-number-pro' ),
                                 date_i18n( get_option( 'date_format' ), strtotime( $license_data['expires'], current_time( 'timestamp' ) ) )
                             );
                             break;
 
                         case 'revoked' :
 
-                            $message = __( 'Your license key has been disabled.' );
+                            $message = __( 'Your license key has been disabled.','wc-serial-number-pro' );
                             break;
 
                         case 'missing' :
 
-                            $message = __( 'Invalid license, Please use correct license key.' );
+                            $message = __( 'Invalid license, Please use correct license key.','wc-serial-number-pro' );
                             break;
 
                         case 'invalid' :
                         case 'site_inactive' :
 
-                            $message = __( 'Your license is not active for this URL.' );
+                            $message = __( 'Your license is not active for this URL.','wc-serial-number-pro' );
                             break;
 
                         case 'item_name_mismatch' :
 
-                            $message = sprintf( __( 'This appears to be an invalid license key for %s.' ), $license_data['item_name'] );
+                            $message = sprintf( __( 'This appears to be an invalid license key for %s.','wc-serial-number-pro' ), $license_data['item_name'] );
                             break;
 
                         case 'no_activations_left':
 
-                            $message = __( 'Your license key has reached its activation limit.' );
+                            $message = __( 'Your license key has reached its activation limit.','wc-serial-number-pro' );
                             break;
 
                         default :
 
-                            $message = __( 'An error occurred, please try again.' );
+                            $message = __( 'An error occurred, please try again.','wc-serial-number-pro' );
                             break;
                     }
 
@@ -784,7 +784,7 @@ if ( ! class_exists( 'Pluginever_Framework_License' ) ):
 
                 $redirect = add_query_arg( array(
                     'activation' => 'true',
-                    'msg'        => __( 'License has been activated successfully!', 'ever' )
+                    'msg'        => __( 'License has been activated successfully!', 'wc-serial-number-pro' )
                 ), $this->license_page_url );
             }
 
@@ -813,7 +813,7 @@ if ( ! class_exists( 'Pluginever_Framework_License' ) ):
 
                     <p><?php _e( "Thank you for choosing <strong>{$this->item_name}</strong>. Activate the plugin license by putting your license key below to get auto update,
                     support and to be notified when we release any new feature.Login into your PluginEver <strong><a href='{$this->my_account_page_url}' target='_blank'>Account</a></strong> 
-                    to get your license key. You can read more about how to activate license <strong><a href='{$this->activate_license_guide}' target='_blank'>here</a></strong>.", 'ever' ); ?>
+                    to get your license key. You can read more about how to activate license <strong><a href='{$this->activate_license_guide}' target='_blank'>here</a></strong>.", 'wc-serial-number-pro' ); ?>
                     </p>
 
 
@@ -822,15 +822,15 @@ if ( ! class_exists( 'Pluginever_Framework_License' ) ):
                             <tbody>
 
                             <tr valign="top">
-                                <th scope="row" valign="top"><?php _e( 'License status', 'ever' ); ?></th>
+                                <th scope="row" valign="top"><?php _e( 'License status', 'wc-serial-number-pro' ); ?></th>
                                 <td>
                                     <?php if ( ! $this->is_license_valid() ): ?>
-                                        <span class="license-status-inactive"><?php _e( 'INACTIVE', 'ever' ); ?></span>
-                                        &nbsp; - &nbsp; <?php _e( 'you are <strong>not</strong> receiving updates.', 'ever' ); ?>
+                                        <span class="license-status-inactive"><?php _e( 'INACTIVE', 'wc-serial-number-pro' ); ?></span>
+                                        &nbsp; - &nbsp; <?php _e( 'you are <strong>not</strong> receiving updates.', 'wc-serial-number-pro' ); ?>
 
                                     <?php else: ?>
-                                        <span class="license-status-active"><?php _e( 'ACTIVE', 'ever' ); ?></span>
-                                        &nbsp; - &nbsp; <?php _e( 'you are receiving updates.', 'ever' ); ?>
+                                        <span class="license-status-active"><?php _e( 'ACTIVE', 'wc-serial-number-pro' ); ?></span>
+                                        &nbsp; - &nbsp; <?php _e( 'you are receiving updates.', 'wc-serial-number-pro' ); ?>
                                     <?php endif; ?>
                                 </td>
                             </tr>
@@ -849,12 +849,12 @@ if ( ! class_exists( 'Pluginever_Framework_License' ) ):
 
 
                             <tr valign="top">
-                                <th scope="row" valign="top"><?php _e( 'License Key	', 'ever' ); ?></th>
+                                <th scope="row" valign="top"><?php _e( 'License Key	', 'wc-serial-number-pro' ); ?></th>
                                 <td>
                                     <input type="text" class="regular-text textinput"
                                            name="license_key"
                                            value="<?php echo $this->license_key; ?>"
-                                           placeholder="<?php _e( 'Paste your license key here...', 'ever' ); ?>">
+                                           placeholder="<?php _e( 'Paste your license key here...', 'wc-serial-number-pro' ); ?>">
                                 </td>
                             </tr>
 
@@ -866,7 +866,7 @@ if ( ! class_exists( 'Pluginever_Framework_License' ) ):
                                         <button name="<?php echo esc_attr( 'activate-license' ); ?>" type="submit"
                                                 class="button button-secondary license-activate" value="activate">
 
-                                            <?php echo __( 'Activate License', 'ever' ); ?>
+                                            <?php echo __( 'Activate License', 'wc-serial-number-pro' ); ?>
 
                                         </button>
                                     <?php else: ?>

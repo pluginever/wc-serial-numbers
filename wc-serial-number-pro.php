@@ -2,8 +2,8 @@
 /**
  * Plugin Name: WC Serial Number Pro
  * Plugin URI:  https://www.pluginever.com
- * Description: The Best WordPress Plugin ever made!
- * Version:     1.0.0a
+ * Description: The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
+ * Version:     1.0.0
  * Author:      pluginever
  * Author URI:  https://www.pluginever.com
  * Donate link: https://www.pluginever.com
@@ -57,13 +57,6 @@ if (!is_plugin_active('wc-serial-numbers/wc-serial-numbers.php')) {
 	return;
 }
 
-
-/**
- * Main initiation class
- *
- * @since 1.0.0
- */
-
 /**
  * Main WCSerialNumberPro Class.
  *
@@ -75,7 +68,7 @@ final class WCSerialNumberPro {
      *
      * @var string
      */
-    public $version = '1.0.0a';
+    public $version = '1.0.0';
 
     /**
      * Minimum PHP version required
