@@ -25,6 +25,32 @@ class WC_Serial_Numbers_Install {
 			update_option( $key . '_install_time', current_time( 'timestamp' ) );
 		}
 
+		$delivery_settings = array(
+			'wsn_send_serial_number'   => 'completed',
+			'wsn_revoke_serial_number' => array(
+				'cancelled' => 'cancelled',
+				'refunded'  => 'refunded',
+				'failed'    => 'failed',
+			),
+		);
+
+		$saved_delivery_settings = get_option( 'wsn_delivery_settings' );
+		if ( empty( $saved_delivery_settings ) ) {
+			update_option( 'wsn_delivery_settings', $delivery_settings );
+		}
+
+		$notification_settings = array(
+			'wsn_admin_bar_notification'            => 'on',
+			'wsn_admin_bar_notification_number'     => '5',
+			'wsn_admin_bar_notification_send_email' => 'on',
+			'wsn_admin_bar_notification_email'      => get_option( 'admin_email' ),
+		);
+
+		$saved_notification_settings = get_option( 'wsn_notification_settings' );
+		if ( empty( $saved_notification_settings ) ) {
+			update_option( 'wsn_notification_settings', $notification_settings );
+		}
+
 		self::create_tables();
 		self::create_cron();
 	}

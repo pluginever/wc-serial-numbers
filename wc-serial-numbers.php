@@ -119,7 +119,7 @@ final class WCSerialNumbers {
 			$this->serial_number = new WC_Serial_Numbers_Serial_Number();
 			$this->activation    = new WC_Serial_Numbers_Activation();
 			// API
-			$this->api_url = add_query_arg( 'wc-api', 'serial-numbers-api', home_url( '/' ) );
+			$this->api_url  = add_query_arg( 'wc-api', 'serial-numbers-api', home_url( '/' ) );
 			$this->elements = new Ever_Elements();
 		}
 	}
@@ -266,21 +266,21 @@ final class WCSerialNumbers {
 	public function includes() {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-install.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/wc-functions.php' );
-//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/script-functions.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/metabox-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-crud.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-activation.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-elements.php' );
-//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-form-handler.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-wc-handler.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-numbers-api.php' );
-//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-settings-api.php' );
-//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-settings.php' );
 
 		//admin
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-menu.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-form-handler.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings-api.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings.php' );
 	}
 
 

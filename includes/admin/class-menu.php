@@ -11,6 +11,7 @@ class WC_Serial_Numbers_Menu {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 999 );
 	}
 
 	/**
@@ -23,7 +24,7 @@ class WC_Serial_Numbers_Menu {
 	}
 
 	/**
-	 *
+	 * add serial make contents
 	 *
 	 * @since 1.0.0
 	 */
@@ -34,6 +35,55 @@ class WC_Serial_Numbers_Menu {
 			include( dirname( __FILE__ ) . '/views/html-view-serial-numbers.php' );
 		}
 	}
+
+	/**
+	 * add admin bar menu item
+	 *
+	 * @since 1.0.0
+	 */
+	function admin_bar_menu() {
+		global $wp_admin_bar;
+
+		$wp_admin_bar->add_menu( array(
+			'id'    => 'wsn-wc-serial-numbers',
+			'title' => __( 'WC Serial Numbers', 'wc-serial-numbers' ) . apply_filters( 'wsn_admin_bar_notification', false ),
+			'href'  => admin_url('admin.php?page=wc-serial-numbers'),
+			'meta'  => array(
+				'html' => apply_filters( 'wsn_admin_bar_notification_list', '' ),
+			),
+		) );
+
+		$wp_admin_bar->add_menu( array(
+			'id'     => 'wsn-serial-numbers',
+			'title'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
+			'href'   => admin_url('admin.php?page=wc-serial-numbers'),
+			'parent' => 'wsn-wc-serial-numbers',
+
+		) );
+
+		$wp_admin_bar->add_menu( array(
+			'id'     => 'wsn-add-serial-number',
+			'title'  => __( 'Add Serial Number', 'wc-serial-numbers' ),
+			'href'   => admin_url('admin.php?page=wc-serial-numbers&action_type=add_serial_number'),
+			'parent' => 'wsn-wc-serial-numbers',
+		) );
+//
+//		$wp_admin_bar->add_menu( array(
+//			'id'     => 'wsn-generate-serial-number',
+//			'title'  => __( 'Generate Serial Number', 'wc-serial-numbers' ),
+//			'href'   => WPWSN_GENERATE_SERIAL_PAGE,
+//			'parent' => 'wsn-wc-serial-numbers',
+//		) );
+//
+//		$wp_admin_bar->add_menu( array(
+//			'id'     => 'wsn-settings',
+//			'title'  => __( 'Settings', 'wc-serial-numbers' ),
+//			'href'   => WPWSN_SETTINGS_PAGE,
+//			'parent' => 'wsn-wc-serial-numbers',
+//		) );
+
+	}
+
 
 }
 

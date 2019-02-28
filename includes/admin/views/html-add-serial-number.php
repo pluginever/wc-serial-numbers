@@ -130,16 +130,16 @@ if ( empty( $serial_number ) ) {
 								'desc'     => __( 'After this date the key will not be assigned with any order. Leave blank for no expire date.', 'wc-serial-numbers' ),
 							) );
 
-							if ( ! empty( $serial_number_id ) ) {
-								echo wc_serial_numbers()->elements->input( array(
-									'label'    => __( 'Order ID', 'wc-serial-numbers' ),
-									'name'     => 'order_id',
-									'type'     => 'number',
-									'value'    => ! empty( $serial_number->order_id ) ? $serial_number->order_id : '',
-									'required' => false,
-									'desc'     => __( 'Leave blank for new', 'wc-serial-numbers' ),
-								) );
-							}
+//							if ( ! empty( $serial_number_id ) ) {
+//								echo wc_serial_numbers()->elements->input( array(
+//									'label'    => __( 'Order ID', 'wc-serial-numbers' ),
+//									'name'     => 'order_id',
+//									'type'     => 'number',
+//									'value'    => ! empty( $serial_number->order_id ) ? $serial_number->order_id : '',
+//									'required' => false,
+//									'desc'     => __( 'Leave blank for new', 'wc-serial-numbers' ),
+//								) );
+//							}
 
 							echo wc_serial_numbers()->elements->select( array(
 								'label'            => __( 'Status', 'wc-serial-numbers' ),
@@ -228,6 +228,11 @@ if ( empty( $serial_number ) ) {
 
 				.postbox-container {
 					margin-right: 20px;
+				}
+				@media only screen and (min-width: 800px) and (max-width: 1499px) {
+					#wpbody-content #dashboard-widgets .postbox-container {
+						width: 46.5% !important;
+					}
 				}
 
 			</style>
