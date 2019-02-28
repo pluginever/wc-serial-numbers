@@ -26,6 +26,7 @@ class WC_Serial_Numbers_Install {
 		}
 
 		self::create_tables();
+		self::create_cron();
 	}
 
 	/**
