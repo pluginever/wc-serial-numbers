@@ -5,6 +5,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * get settings options
+ *
+ * @param        $key
+ * @param string $default
+ * @param string $section
+ *
+ * @return string
+ */
+function wcsn_get_settings( $key, $default = '', $section = '' ) {
+
+	$option = get_option( $section, [] );
+
+	return ! empty( $option[ $key ] ) ? $option[ $key ] : $default;
+}
+
+/**
  * Get serial numbers
  * since 1.0.0
  *
