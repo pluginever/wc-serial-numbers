@@ -19,10 +19,10 @@
 			</td>
 			<td class="td" style="text-align:text-align:left;">
 				<ul>
-					<li><?php _e( 'Serial Email:', 'wc-serial-numbers' ); ?> <strong><?php echo esc_html( $serial_number->activation_email ); ?></strong></li>
-					<li><?php _e( 'Serial Key:', 'wc-serial-numbers' ); ?> <strong><?php echo esc_html( $serial_number->serial_key ); ?></strong></li>
-					<li><?php _e( 'Validity:', 'wc-serial-numbers' ); ?> <strong><?php echo ! empty( $serial_number->validity ) ? sprintf( _n( '%s Day', '%s Days', $serial_number->validity, 'wc-serial-numbers' ), number_format_i18n( $serial_number->validity ) ) : __( 'Never expire', 'wc-serial-numbers' ); ?></strong></li>
-					<li><?php _e( 'Activation Limit:', 'wc-serial-numbers' ); ?> <strong><?php echo empty( $serial_number->activation_limit ) ? __( 'Unlimited', 'wc-serial-numbers' ) : intval( $serial_number->activation_limit ); ?></strong></li>
+					<li><strong><?php _e( 'Serial Email:', 'wc-serial-numbers' ); ?></strong> <br><?php echo esc_html( $serial_number->activation_email ); ?></li>
+					<li><strong><?php _e( 'Serial Key:', 'wc-serial-numbers' ); ?></strong> <br><?php echo sanitize_textarea_field( $serial_number->serial_key ); ?></li>
+					<li><strong><?php _e( 'Validity:', 'wc-serial-numbers' ); ?></strong> <br><?php echo ! empty( $serial_number->validity ) ? sprintf( _n( '%s Day', '%s Days', $serial_number->validity, 'wc-serial-numbers' ), number_format_i18n( $serial_number->validity ) ) : __( 'Never expire', 'wc-serial-numbers' ); ?></li>
+					<li><strong><?php _e( 'Activation Limit:', 'wc-serial-numbers' ); ?></strong> <br><?php echo empty( $serial_number->activation_limit ) ? __( 'Unlimited', 'wc-serial-numbers' ) : intval( $serial_number->activation_limit ); ?></li>
 				</ul>
 			</td>
 		</tr>
