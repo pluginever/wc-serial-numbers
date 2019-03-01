@@ -171,6 +171,7 @@ if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '3.0', '<' ) ) {
 
 function wcsn_register_metaboxes() {
 	add_meta_box( 'wcsn-order-serial-keys', __( 'License Numbers', 'wc-serial-numbers' ), 'wcsn_license_numbers_metabox', 'shop_order', 'normal', 'high' );
+	add_meta_box( 'wcsn-order-activations', __( 'Serial Numbers Activations', 'wc-serial-numbers' ), 'wcsn_activations_metabox', 'shop_order', 'normal', 'high' );
 }
 
 add_action( 'add_meta_boxes', 'wcsn_register_metaboxes' );
@@ -178,47 +179,53 @@ add_action( 'add_meta_boxes', 'wcsn_register_metaboxes' );
 function wcsn_license_numbers_metabox() {
 	global $post, $wpdb;
 	$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $post->ID ] );
-	foreach ( $serial_numbers as $serial_number ): ?>
-		<div class="order_license_keys wc-metaboxes-wrapper">
+	if ( sizeof( $serial_numbers ) > 0 ) {
+		foreach ( $serial_numbers as $serial_number ): ?>
+			<div class="order_license_keys wc-metaboxes-wrapper">
 
-			<div class="wc-metaboxes">
-				<div class="wc-metabox closed">
+				<div class="wc-metaboxes">
+					<div class="wc-metabox closed">
 
-					<h3 class="fixed">
-						<a href="<?php echo add_query_arg( array(
-							'page'        => 'wc-serial-numbers',
-							'action_type' => 'add_serial_number',
-							'row_action'  => 'edit',
-							'serial_id'   => $serial_number->id,
-						), admin_url( 'admin.php' ) ); ?>" class="button" style="float: right;"><?php _e( 'Edit key', 'wc-serial-numbers' ); ?></a>
-						<div class="handlediv" title="<?php _e( 'Click to toggle', 'wc-serial-numbers' ); ?>"></div>
-						<strong><?php printf( __( 'Product: #%d %s', 'wc-serial-numbers' ), $serial_number->product_id, get_the_title( $serial_number->product_id ) ); ?></strong>
-						<input type="hidden" name="license_id[<?php echo $serial_number->id; ?>]" value="<?php echo $serial_number->id; ?>"/>
-					</h3>
+						<h3 class="fixed">
+							<a href="<?php echo add_query_arg( array(
+								'page'        => 'wc-serial-numbers',
+								'action_type' => 'add_serial_number',
+								'row_action'  => 'edit',
+								'serial_id'   => $serial_number->id,
+							), admin_url( 'admin.php' ) ); ?>" class="button" style="float: right;"><?php _e( 'Edit key', 'wc-serial-numbers' ); ?></a>
+							<div class="handlediv" title="<?php _e( 'Click to toggle', 'wc-serial-numbers' ); ?>"></div>
+							<strong><?php printf( __( 'Product: #%d %s', 'wc-serial-numbers' ), $serial_number->product_id, get_the_title( $serial_number->product_id ) ); ?></strong>
+							<input type="hidden" name="license_id[<?php echo $serial_number->id; ?>]" value="<?php echo $serial_number->id; ?>"/>
+						</h3>
 
-					<table cellpadding="0" cellspacing="0" class="wc-metabox-content">
-						<tbody>
-						<tr>
-							<td>
-								<label><?php _e( 'Serial Key', 'wc-serial-numbers' ); ?>:</label>
-								<input type="text" class="short" value="<?php echo $serial_number->serial_key; ?>" readonly="readonly"/>
-							</td>
-							<td>
-								<label><?php _e( 'Activation Email', 'wc-serial-numbers' ); ?>:</label>
-								<input type="text" class="short" value="<?php echo $serial_number->activation_email; ?>" readonly="readonly"/>
-							</td>
-							<td>
-								<label><?php _e( 'Activation Limit', 'wc-serial-numbers' ); ?>:</label>
-								<input type="text" class="short" value="<?php echo $serial_number->activation_limit; ?>" placeholder="<?php _e( 'Unlimited', 'wc-serial-numbers' ); ?>" readonly="readonly"/>
-							</td>
-						</tr>
-						</tbody>
-					</table>
+						<table cellpadding="0" cellspacing="0" class="wc-metabox-content">
+							<tbody>
+							<tr>
+								<td>
+									<label><?php _e( 'Serial Key', 'wc-serial-numbers' ); ?>:</label>
+									<input type="text" class="short" value="<?php echo $serial_number->serial_key; ?>" readonly="readonly"/>
+								</td>
+								<td>
+									<label><?php _e( 'Activation Email', 'wc-serial-numbers' ); ?>:</label>
+									<input type="text" class="short" value="<?php echo $serial_number->activation_email; ?>" readonly="readonly"/>
+								</td>
+								<td>
+									<label><?php _e( 'Activation Limit', 'wc-serial-numbers' ); ?>:</label>
+									<input type="text" class="short" value="<?php echo $serial_number->activation_limit; ?>" placeholder="<?php _e( 'Unlimited', 'wc-serial-numbers' ); ?>" readonly="readonly"/>
+								</td>
+							</tr>
+							</tbody>
+						</table>
 
+					</div>
 				</div>
 			</div>
-		</div>
-	<?php endforeach;
+		<?php endforeach;
+	} else {
+		?>
+		<p style="padding:0 12px 12px;"><?php _e( 'No Serial enabled products', 'wc-serial-numbers' ) ?></p>
+		<?php
+	}
 }
 
 add_filter( 'manage_edit-product_columns', 'show_product_order', 15 );
@@ -238,6 +245,84 @@ add_action( 'manage_product_posts_custom_column', 'wcsn_product_column_content',
 function wcsn_product_column_content( $column, $postid ) {
 	if ( $column == 'serial_numbers' ) {
 		$is_serial_number_enabled = get_post_meta( $postid, '_is_serial_number', true );
-		echo $is_serial_number_enabled =='yes' ? '<span class="dashicons dashicons-admin-network"></span>' : '&#45;';
+		echo $is_serial_number_enabled == 'yes' ? '<span class="dashicons dashicons-admin-network"></span>' : '&#45;';
+	}
+}
+
+
+function wcsn_activations_metabox() {
+	global $post;
+	global $wpdb;
+
+	$activations = $wpdb->get_results( "
+			SELECT * FROM {$wpdb->prefix}wcsn_activations as activations
+			LEFT JOIN {$wpdb->prefix}wcsn_serial_numbers as licenses ON activations.serial_id = licenses.id
+			WHERE order_id = {$post->ID}
+		" );
+
+	if ( sizeof( $activations ) > 0 ) { ?>
+		<div class="wcsn-activations">
+			<table class="activations-table woocommerce_order_items" cellspacing="0">
+				<thead>
+				<tr>
+					<!--					<th>--><?php //_e( 'Serial Key', 'wc-serial-numbers' ) ?><!--</th>-->
+					<th><?php _e( 'Product', 'wc-serial-numbers' ) ?></th>
+					<th><?php _e( 'Instance', 'wc-serial-numbers' ) ?></th>
+					<th><?php _e( 'Platform/OS', 'wc-serial-numbers' ) ?></th>
+					<th><?php _e( 'Status', 'wc-serial-numbers' ) ?></th>
+					<th><?php _e( 'Date &amp; Time', 'wc-serial-numbers' ) ?></th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php $i = 1;
+				foreach ( $activations as $activation ) : $i ++ ?>
+					<tr<?php if ( $i % 2 == 1 )
+						echo ' class="alternate"' ?>>
+						<!--						<td>--><?php //echo $activation->serial_key; ?><!--</td>-->
+						<td><?php echo get_the_title( $activation->product_id ); ?></td>
+						<td><?php echo ( $activation->instance ) ? $activation->instance : __( 'N/A', 'wc-serial-numbers' ); ?></td>
+						<td><?php echo ( $activation->platform ) ? $activation->platform : __( 'N/A', 'wc-serial-numbers' ); ?></td>
+						<td><?php echo ( $activation->active ) ? __( 'Activated', 'wc-serial-numbers' ) : __( 'Deactivated', 'wc-serial-numbers' ) ?></td>
+						<td><?php echo date( __( 'D j M Y \a\t h:ia', 'wc-serial-numbers' ), strtotime( $activation->activation_time ) ) ?></td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+		<style>
+			.wcsn-activations {
+				margin: 0;
+				overflow-x: auto;
+			}
+
+			.wcsn-activations .activations-table {
+				width: 100%;
+				background: #fff;
+			}
+
+			.wcsn-activations .activations-table th {
+				text-align: left;
+				padding: 1em;
+				font-weight: 600;
+				color: #333;
+				background: #efefef;
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+			.wcsn-activations .activations-table td {
+				text-align: left;
+				padding: 1em;
+				font-weight: 400;
+				color: #333;
+			}
+		</style>
+
+	<?php } else { ?>
+		<p style="padding:0 12px 12px;"><?php _e( 'No activations yet', 'wc-serial-numbers' ) ?></p>
+		<?php
 	}
 }

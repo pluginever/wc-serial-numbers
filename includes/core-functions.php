@@ -139,7 +139,7 @@ function wcsn_get_serial_statuses() {
 		'refunded' => __( 'Refunded', 'wc-serial-numbers' ),
 		'rejected' => __( 'Rejected', 'wc-serial-numbers' ),
 		'expired'  => __( 'Expired', 'wc-serial-numbers' ),
-		'used'     => __( 'Used', 'wc-serial-numbers' ),
+		'active'   => __( 'Active', 'wc-serial-numbers' ),
 	);
 }
 
