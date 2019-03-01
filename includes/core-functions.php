@@ -38,7 +38,7 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 		'status'      => '',
 		'orderby'     => 'id',
 		'order'       => 'ASC',
-		'expire_date' => current_time('mysql'),
+		'expire_date' => current_time( 'mysql' ),
 	) );
 
 
@@ -103,8 +103,8 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 
 	// check expire date
 	if ( ! empty( $args['expire_date'] ) ) {
-		$expire_date = sanitize_textarea_field($args['expire_date']);
-		$where  .= " AND ( `expire_date` = '0000-00-00 00:00:00' OR `expire_date` >= '{$expire_date}')";
+		$expire_date = sanitize_textarea_field( $args['expire_date'] );
+		$where       .= " AND ( `expire_date` = '0000-00-00 00:00:00' OR `expire_date` >= '{$expire_date}')";
 	}
 
 	//$join  .= " LEFT JOIN {$wpdb->posts} wc_order ON wc_order.ID = serial.order_id";
@@ -122,7 +122,6 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 	$sql = "SELECT * from {$wpdb->prefix}wcsn_serial_numbers serial $join $where ORDER BY {$args['orderby']} {$args['order']} LIMIT %d,%d;";
 
 	return $wpdb->get_results( $wpdb->prepare( $sql, absint( $args['offset'] ), absint( $args['number'] ) ) );
-
 }
 
 
@@ -203,4 +202,105 @@ function wcsn_get_pro_features() {
 	);
 
 	return $features;
+}
+
+
+/**
+ * get remaining activation
+ *
+ * @since 1.0.0
+ *
+ * @param $serial_id
+ *
+ * @return int|mixed
+ */
+function wcsn_get_remaining_activation( $serial_id ) {
+	global $wpdb;
+
+	$serial_id = (int) $serial_id;
+
+	if ( ! $serial_id ) {
+		return 0;
+	}
+
+	$activation_limit = $wpdb->get_var( $wpdb->prepare( "SELECT activation_limit FROM {$wpdb->prefix}wcsn_serial_numbers WHERE id = %s;", $serial_id ) );
+
+	if ( null == $activation_limit || 0 == $activation_limit ) {
+		return 999999999;
+	}
+
+	$active_activations = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}wcsn_activations WHERE serial_id = %s AND active = 1;", $serial_id ) );
+	$remaining          = max( 0, $activation_limit - $active_activations );
+
+	return $remaining;
+}
+
+/**
+ * activate
+ * since 1.0.0
+ *
+ * @param        $serial_id
+ * @param string $instance
+ * @param string $platform
+ *
+ * @return bool|false|int
+ */
+function wcsn_activate_serial_key( $serial_id, $instance = '', $platform = '' ) {
+	global $wpdb;
+	$activation = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcsn_activations WHERE serial_id=%d AND instance=%s", $serial_id, $instance ) );
+	if ( $activation ) {
+		$sql = $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_activations SET active=%d WHERE serial_id=%d AND id=%d", 1, $serial_id, $activation->id );
+
+		return $wpdb->query( $sql );
+	} else {
+		$date_time = current_time( 'mysql' );
+		$wpdb->insert( "{$wpdb->prefix}wcsn_activations",
+			array(
+				'serial_id'       => $serial_id,
+				'instance'        => $instance,
+				'active'          => '1',
+				'platform'        => $platform,
+				'activation_time' => $date_time
+			)
+		);
+
+		return $wpdb->insert_id;
+	}
+
+	return false;
+}
+
+
+/**
+ * Get activation_id of given license serial_id and instance.
+ *
+ * @since 1.0.0
+ *
+ * @param $serial_id
+ * @param $instance
+ *
+ * @return null|string
+ */
+function wcsn_get_active_activations( $serial_id, $instance, $status = '1' ) {
+	global $wpdb;
+	$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcsn_activations WHERE serial_id = %s AND instance = %s AND active=%d", $serial_id, $instance, $status );
+
+	return $wpdb->get_row( $sql );
+}
+
+/**
+ * deactivate serial key
+ *
+ * since 1.0.0
+ *
+ * @param $serial_id
+ * @param $instance
+ *
+ * @return false|int
+ */
+function wcsn_deactivate_serial_key( $serial_id, $instance ) {
+	global $wpdb;
+	$sql = $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_activations SET active=%s WHERE serial_id=%d AND instance=%s", '0', $serial_id, $instance );
+
+	return $wpdb->query( $sql );
 }

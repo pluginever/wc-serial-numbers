@@ -146,7 +146,7 @@ class WCSN_WC_Handler {
 
 		foreach ( $serial_numbers as $product_id => $serial_keys ) {
 			foreach ( $serial_keys as $serial_serial_id ) {
-				wc_serial_numbers()->serial_number->update( $serial_serial_id, [ 'status' => 'used', 'order_date' => current_time( 'mysql' ) ] );
+				wc_serial_numbers()->serial_number->update( $serial_serial_id, [ 'status' => 'active', 'order_date' => current_time( 'mysql' ) ] );
 			}
 		}
 	}

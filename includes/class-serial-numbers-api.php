@@ -26,8 +26,8 @@ class WC_Serial_Numbers_API {
 		$email         = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
 		$serial_key    = ! empty( $_REQUEST['serial_key'] ) ? sanitize_key( $_REQUEST['serial_key'] ) : '';
 		$product_id    = ! empty( $_REQUEST['product_id'] ) ? intval( $_REQUEST['product_id'] ) : '';
-		$instance      = ! empty( $_REQUEST['instance'] ) ? sanitize_key( $_REQUEST['instance'] ) : time();
-		$platform      = ! empty( $_REQUEST['platform'] ) ? sanitize_key( $_REQUEST['platform'] ) : null;
+		$instance      = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : time();
+		$platform      = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : null;
 		$activation_id = ! empty( $_REQUEST['activation_id'] ) ? sanitize_key( $_REQUEST['activation_id'] ) : null;
 
 		//validation check
@@ -43,11 +43,13 @@ class WC_Serial_Numbers_API {
 			$this->send_result( $this->error( '100', __( 'The product id provided is invalid', 'wc-serial-numbers' ) ) );
 		}
 
-		$data = wcsn_get_serial_numbers( [ 'serial_key' => $serial_key, 'activation_email' => $email, 'product_id' => $product_id ] );
+		$data = wcsn_get_serial_numbers( [ 'serial_key' => $serial_key, 'activation_email' => $email, 'product_id' => $product_id, 'status' => 'active', 'expire_date' => '' ] );
 
 		if ( empty( $data ) ) {
 			$this->send_result( $this->error( '101', __( 'No matching serial key exists', 'wc-serial-numbers' ) ) );
 		}
+
+		$data = array_pop( $data );
 
 		// Validate order if set.
 		if ( $data->order_id ) {
@@ -70,28 +72,75 @@ class WC_Serial_Numbers_API {
 		}
 
 		switch ( $request ) {
+			case 'check':
+				$this->check( $serial );
+				break;
 			case 'activate':
 				$this->activate( $serial, $instance, $platform );
 				break;
 			case 'deactivate':
 				$this->deactivation( $serial->id, $instance );
 				break;
-			case 'check':
-				$this->check( $serial );
+			case 'version_check':
+				$this->version_check( $serial );
+				break;
+			default:
+				$this->send_result( $this->error( '100', __( 'Invalid request type', 'wc-serial-numbers' ) ) );
 				break;
 		}
 	}
 
-	//todo check this method seems not workign
+	/**
+	 * Check if serial number is okay
+	 *
+	 * since 1.0.0
+	 *
+	 * @param $serial
+	 */
+	public function check( $serial ) {
+		global $wpdb;
+		$activations_rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcsn_activations WHERE serial_id=%d", $serial->id ) );
+		$activations      = array();
+
+		foreach ( $activations_rows as $row ) {
+			if ( ! $row->active ) {
+				continue;
+			}
+
+			$activations[] = array(
+				'activation_id' => $row->id,
+				'instance'      => $row->instance,
+				'platform'      => $row->platform,
+				'time'          => $row->activation_time,
+			);
+		}
+
+		$output_data['success']     = true;
+		$output_data['time']        = time();
+		$output_data['remaining']   = wcsn_get_remaining_activation( $serial->id );
+		$output_data['activations'] = $activations;
+
+		$this->send_result( $output_data );
+	}
+
+	/**
+	 * activate license
+	 *
+	 * since 1.0.0
+	 *
+	 * @param $serial
+	 * @param $instance
+	 * @param $platform
+	 */
 	public function activate( $serial, $instance, $platform ) {
-		$activation_id = wcsn_get_activation_instance_id( $serial->id, $instance );
+		global $wpdb;
 
-		$existing_activation   = ( $activation_id > 0 );
+		//	$activation = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}wcsn_activations WHERE serial_id=%d AND instance=%s", $serial->id, $instance));
+
 		$activations_remaining = wcsn_get_remaining_activation( $serial->id );
-		wp_send_json( $existing_activation );
 
-//		 Check remaining activations only if this is new activation.
-		if ( ! $existing_activation && ! $activations_remaining ) {
+		//Check remaining activations only if this is new activation.
+		if ( ! $activations_remaining ) {
 			$this->send_result( $this->error( '103', __( 'Remaining activations is equal to zero', 'wc-serial-numbers' ) ) );
 		}
 
@@ -102,18 +151,25 @@ class WC_Serial_Numbers_API {
 
 		$output_data['activated'] = $result;
 		$output_data['instance']  = $instance;
-		$output_data['message']   = sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), $activations_remaining, $serial->activations_limit );
+		$output_data['message']   = sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), $activations_remaining, $serial->activation_limit );
 		$output_data['time']      = time();
-
 
 		$this->send_result( $output_data );
 	}
 
-
+	/**
+	 * Deactivate license key
+	 *
+	 * since 1.0.0
+	 *
+	 * @param        $serial_id
+	 * @param string $instance
+	 */
 	public function deactivation( $serial_id, $instance = '' ) {
-		$activation_id = wcsn_get_activation_instance_id( $serial_id, $instance );
+		global $wpdb;
+		$activation = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcsn_activations WHERE serial_id=%d AND instance=%s", $serial_id, $instance ) );
 
-		if ( empty( $activation_id ) ) {
+		if ( empty( $activation ) ) {
 			$this->send_result( $this->error( '100', __( 'Could not find any active instance of the serial', 'wc-serial-numbers' ) ) );
 		}
 
@@ -125,30 +181,20 @@ class WC_Serial_Numbers_API {
 		$output_data['instance']    = $instance;
 		$output_data['time']        = time();
 
-
 		$this->send_result( $output_data );
 	}
 
-	public function check( $serial ) {
-		$activations_rows = wcsn_get_activations( $serial->id );
-		$activations      = array();
-		foreach ( $activations_rows as $row ) {
-			if ( ! $row->active ) {
-				continue;
-			}
-
-			$activations[] = array(
-				'activation_id' => $row->activation_id,
-				'instance'      => $row->instance,
-				'platform'      => $row->platform,
-				'time'          => $row->activation_time,
-			);
-		}
-
-		$output_data['success']     = true;
-		$output_data['time']        = time();
-		$output_data['remaining']   = wcsn_get_remaining_activation( $serial->id );
-		$output_data['activations'] = $activations;
+	/**
+	 * Check if serial number is okay
+	 *
+	 * since 1.0.0
+	 *
+	 * @param $serial
+	 */
+	public function version_check( $serial ) {
+		$output_data['success'] = true;
+		$output_data['time']    = time();
+		$output_data['version'] = get_post_meta( $serial->product_id, '_software_version', true );
 
 		$this->send_result( $output_data );
 	}
