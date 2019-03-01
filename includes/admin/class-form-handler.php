@@ -22,7 +22,6 @@ class WCSN_Form_Handler {
 
 		$id            = ! empty( $_POST['serial_number_id'] ) ? intval( $_POST['serial_number_id'] ) : '';
 		$product_id    = ! empty( $_POST['product_id'] ) ? intval( $_POST['product_id'] ) : '';
-		$variation_id    = ! empty( $_POST['variation_id'] ) ? intval( $_POST['variation_id'] ) : '';
 		$redirect_args = array(
 			'page'        => 'wc-serial-numbers',
 			'action_type' => 'add_serial_number',
@@ -40,7 +39,6 @@ class WCSN_Form_Handler {
 			'serial_key'       => ! empty( $_POST['serial_key'] ) ? sanitize_textarea_field( $_POST['serial_key'] ) : '',
 			'license_image'    => ! empty( $_POST['license_image'] ) ? sanitize_text_field( $_POST['license_image'] ) : '',
 			'product_id'       => $product_id,
-			'variation_id'     => $variation_id,
 			'activation_limit' => ! empty( $_POST['activation_limit'] ) ? intval( $_POST['activation_limit'] ) : '',
 			'validity'         => ! empty( $_POST['validity'] ) ? intval( $_POST['validity'] ) : '',
 			'expire_date'      => ! empty( $_POST['expire_date'] ) ? sanitize_text_field( $_POST['expire_date'] ) : '',
@@ -52,14 +50,6 @@ class WCSN_Form_Handler {
 
 		if ( empty( $posted['serial_key'] ) && empty( $posted['license_image'] ) ) {
 			wc_serial_numbers()->add_notice( 'error', __( 'The Serial Number is empty. Please enter a serial number and try again', 'wc-serial-numbers' ) );
-			wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
-			exit();
-		}
-
-		$product = wc_get_product( $product_id );
-
-		if ( $product->get_type() == 'variable' && empty( $posted['variation_id'] ) ) {
-			wc_serial_numbers()->add_notice( 'error', __( 'You must select a variation for the variable product', 'wc-serial-numbers' ) );
 			wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
 			exit();
 		}
@@ -82,13 +72,9 @@ class WCSN_Form_Handler {
 			$redirect_args['serial_id'] = $id;
 		}
 
-		if ( ! empty( $variation_id ) ) {
-			update_post_meta( $variation_id, '_is_serial_number', 'yes' );
-		} else {
-			update_post_meta( $product_id, '_is_serial_number', 'yes' );
-		}
+		update_post_meta( $product_id, '_is_serial_number', 'yes' );
 
-		do_action( 'created_serial_number', $inserted, $product_id, $variation_id );
+		do_action( 'created_serial_number', $inserted, $product_id );
 		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
 		exit();
 

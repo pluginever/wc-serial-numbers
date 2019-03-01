@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $default
  * @param string $section
  *
- * @return string
+ * @return string|array
  */
 function wcsn_get_settings( $key, $default = '', $section = '' ) {
 
@@ -80,6 +80,19 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 		$where .= " AND `product_id` IN( {$product_ids} ) ";
 	}
 
+	//specific email
+	if ( ! empty( $args['activation_email'] ) ) {
+		$activation_email = sanitize_email( $args['activation_email'] );
+		$where            .= " AND `activation_email` = '{$activation_email}' ";
+	}
+
+	//specific serial key
+	if ( ! empty( $args['serial_key'] ) ) {
+		$serial_key = sanitize_textarea_field( $args['serial_key'] );
+		$where      .= " AND `serial_key` = '{$serial_key}' ";
+	}
+
+
 	// Specific status
 	if ( ! empty( $args['status'] ) ) {
 
@@ -118,6 +131,7 @@ function wcsn_get_serial_statuses() {
 		'new'      => __( 'New', 'wc-serial-numbers' ),
 		'pending'  => __( 'Pending', 'wc-serial-numbers' ),
 		'refunded' => __( 'Refunded', 'wc-serial-numbers' ),
+		'rejected' => __( 'Rejected', 'wc-serial-numbers' ),
 		'expired'  => __( 'Expired', 'wc-serial-numbers' ),
 		'used'     => __( 'Used', 'wc-serial-numbers' ),
 	);
@@ -133,10 +147,28 @@ function wcsn_get_product_list() {
 	$list = [];
 
 	$products        = array_map( 'wc_get_product', get_posts( [ 'post_type' => 'product', 'nopaging' => true ] ) );
-	$supported_types = apply_filters( 'wcsn_supported_product_types', array( 'simple' ) );
+	$supported_types = apply_filters( 'wcsn_supported_product_types', array( 'simple', 'variable' ) );
 	foreach ( $products as $product ) {
 		if ( in_array( $product->get_type(), $supported_types ) ) {
-			$list[ $product->get_id() ] = $product->get_title() . ' (#' . $product->get_id() . ' ' . $product->get_sku() . ')';
+			if ( 'simple' == $product->get_type() ) {
+				$list[ $product->get_id() ] = $product->get_title() . ' (#' . $product->get_id() . ' ' . $product->get_sku() . ')';
+			} elseif ( 'variable' == $product->get_type() ) {
+				$args_get_children = array(
+					'post_type'      => array( 'product_variation', 'product' ),
+					'posts_per_page' => - 1,
+					'order'          => 'ASC',
+					'orderby'        => 'title',
+					'post_parent'    => $product->get_id()
+				);
+				$children_products = get_children( $args_get_children );
+				if ( ! empty( $children_products ) ) :
+					foreach ( $children_products as $child ) :
+						$sku                = get_post_meta( $child->ID, '_sku', true );
+						$list[ $child->ID ] = $child->post_title . ' (#' . $child->ID . ' ' . $sku . ')';;
+					endforeach;
+
+				endif;
+			}
 		}
 	}
 
@@ -149,7 +181,7 @@ function wcsn_get_product_list() {
  * @since 1.0.0
  * @return array
  */
-function wcsn_get_pro_features(){
+function wcsn_get_pro_features() {
 	$features = array(
 		'Create license keys and directly assign them to products.',
 		'You will be able to set how many times you want to sell that same license key.',

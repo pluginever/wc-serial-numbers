@@ -78,7 +78,6 @@ class WC_Serial_Numbers_Install {
 			serial_key longtext DEFAULT NULL,
 			serial_image varchar(200) DEFAULT NULL,
 			product_id bigint(20) NOT NULL,
-			variation_id bigint(20) DEFAULT 0,
 			activation_limit int(9) NULL,
 			order_id bigint(20) NOT NULL DEFAULT 0,
 			activation_email varchar(200) DEFAULT NULL,

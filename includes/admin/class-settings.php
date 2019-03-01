@@ -233,6 +233,17 @@ class WCSN_Settings {
 						'failed'    => __( 'Failed', 'wc-serial-numbers' ),
 					),
 				),
+				array(
+					'name'    => 'wsn_re_use_serial',
+					'label'   => __( 'Reuse Serial Number', 'wc-serial-numbers' ),
+					'desc'    => '<p class="description">' . __( 'Enable Serial number reuse, recovered from failed/refunded orders', 'wc-serial-numbers' ) . '</p>',
+					'class'   => 'ever-field-inline',
+					'type'    => 'select',
+					'options' => array(
+						'no'  => __( 'No', 'wc-serial-numbers' ),
+						'yes' => __( 'yes', 'wc-serial-numbers' )
+					),
+				),
 
 			)
 		);

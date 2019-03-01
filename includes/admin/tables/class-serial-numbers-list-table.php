@@ -55,7 +55,6 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 			case 'product':
 				$line = ! empty( $item->product_id ) ? get_the_title( $item->product_id ) : '&#45;';
 				echo ! empty( $item->product_id ) ? '<a href="' . get_edit_post_link( $item->product_id ) . '">' . $line . '</a>' : $line;
-				echo ! empty( $item->variation_id ) ? '<br/><span class="wcsn-variation-label" style="color: #999;">' . __( 'Variation:', 'wc-serial-numbers' ) . ' ' . get_the_title( $item->variation_id ) . '</span>' : '';
 				break;
 			case 'order':
 				$line = ! empty( $item->order_id ) ? '#' . $item->order_id : '&#45;';
@@ -102,7 +101,6 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 	}
 
 
-
 	protected function column_cb( $item ) {
 		return "<input type='checkbox' name='id[]' id='id_{$item->id}' value='{$item->id}' />";
 	}
@@ -128,20 +126,26 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 	function process_bulk_action() {
 		global $wpdb;
 
-		if ( ! isset( $_POST['id'] ) ) return;
+		if ( ! isset( $_POST['id'] ) ) {
+			return;
+		}
 
 		$items = array_map( 'intval', $_POST['id'] );
 
 		//Detect when a bulk action is being triggered…
 		if ( 'delete' === $this->current_action() ) {
 
-			if ( $items ) foreach ( $items as $id ) {
-				if ( ! $id ) continue;
+			if ( $items ) {
+				foreach ( $items as $id ) {
+					if ( ! $id ) {
+						continue;
+					}
 
-				$id = (int) $id;
+					$id = (int) $id;
 
-				$wpdb->query( "DELETE FROM {$wpdb->prefix}wcsn_serial_numbers WHERE id = {$id}" );
-				$wpdb->query( "DELETE FROM {$wpdb->prefix}wcsn_activations WHERE serial_id = {$id}" );
+					$wpdb->query( "DELETE FROM {$wpdb->prefix}wcsn_serial_numbers WHERE id = {$id}" );
+					$wpdb->query( "DELETE FROM {$wpdb->prefix}wcsn_activations WHERE serial_id = {$id}" );
+				}
 			}
 
 			echo '<div class="updated"><p>' . __( 'Serial Number Deleted', 'wc-serial-numbers' ) . '</p></div>';

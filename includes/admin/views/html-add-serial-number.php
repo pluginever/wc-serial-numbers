@@ -51,14 +51,14 @@ if ( empty( $serial_number ) ) {
 								'placeholder'      => '',
 								'show_option_all'  => '',
 								'show_option_none' => '',
-								'class'            => 'select-2 wcsn-product-selection',
+								'class'            => 'select-2',
 								'options'          => wcsn_get_product_list(),
 								'required'         => true,
 								'selected'         => ! empty( $serial_number->product_id ) ? $serial_number->product_id : '',
 								'desc'             => ! wc_serial_numbers()->is_pro_installed() ? __( 'Upgrade to PRO for adding serial numbers for variable products.', 'wc-serial-numbers' ) : '',
 							) );
 
-							echo wc_serial_numbers()->elements->select( array(
+						/*	echo wc_serial_numbers()->elements->select( array(
 								'label'            => __( 'Product Variation', 'wc-serial-numbers' ),
 								'name'             => 'variation_id',
 								'placeholder'      => '',
@@ -73,7 +73,7 @@ if ( empty( $serial_number ) ) {
 									'disabled' => 'disabled'
 								),
 								'selected'         => ! empty( $serial_number->variation_id ) ? $serial_number->variation_id : '',
-							) );
+							) );*/
 
 
 							echo wc_serial_numbers()->elements->textarea( array(
