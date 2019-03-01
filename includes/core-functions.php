@@ -32,12 +32,13 @@ function wcsn_get_settings( $key, $default = '', $section = '' ) {
 function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 	global $wpdb;
 	$args = wp_parse_args( $args, array(
-		'number'  => 20,
-		'offset'  => 0,
-		'search'  => '',
-		'status'  => '',
-		'orderby' => 'id',
-		'order'   => 'ASC',
+		'number'      => 20,
+		'offset'      => 0,
+		'search'      => '',
+		'status'      => '',
+		'orderby'     => 'id',
+		'order'       => 'ASC',
+		'expire_date' => current_time('mysql'),
 	) );
 
 
@@ -98,6 +99,12 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 
 		$status = sanitize_key( $args['status'] );
 		$where  .= " AND `status` = '{$status}' ";
+	}
+
+	// check expire date
+	if ( ! empty( $args['expire_date'] ) ) {
+		$expire_date = sanitize_textarea_field($args['expire_date']);
+		$where  .= " AND ( `expire_date` = '0000-00-00 00:00:00' OR `expire_date` >= '{$expire_date}')";
 	}
 
 	//$join  .= " LEFT JOIN {$wpdb->posts} wc_order ON wc_order.ID = serial.order_id";

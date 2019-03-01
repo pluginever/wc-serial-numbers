@@ -42,11 +42,10 @@ class WCSN_Form_Handler {
 			'activation_limit' => ! empty( $_POST['activation_limit'] ) ? intval( $_POST['activation_limit'] ) : '',
 			'validity'         => ! empty( $_POST['validity'] ) ? intval( $_POST['validity'] ) : '',
 			'expire_date'      => ! empty( $_POST['expire_date'] ) ? sanitize_text_field( $_POST['expire_date'] ) : '',
-			'status'           => ! empty( $_POST['status'] ) ? sanitize_key( $_POST['status'] ) : '',
-			'order_id'         => ! empty( $_POST['order_id'] ) ? intval( $_POST['status'] ) : '',
+			//'status'           => ! empty( $_POST['status'] ) ? sanitize_key( $_POST['status'] ) : '',
+			//'order_id'         => ! empty( $_POST['order_id'] ) ? intval( $_POST['status'] ) : '',
 		);
 
-		$posted = array_filter( $posted );
 
 		if ( empty( $posted['serial_key'] ) && empty( $posted['license_image'] ) ) {
 			wc_serial_numbers()->add_notice( 'error', __( 'The Serial Number is empty. Please enter a serial number and try again', 'wc-serial-numbers' ) );

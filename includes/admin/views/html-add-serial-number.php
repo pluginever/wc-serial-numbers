@@ -141,17 +141,17 @@ if ( empty( $serial_number ) ) {
 //								) );
 //							}
 
-							echo wc_serial_numbers()->elements->select( array(
-								'label'            => __( 'Status', 'wc-serial-numbers' ),
-								'name'             => 'status',
-								'placeholder'      => '',
-								'show_option_all'  => '',
-								'show_option_none' => '',
-								'options'          => wcsn_get_serial_statuses(),
-								'required'         => true,
-								'selected'         => ! empty( $serial_number->status ) ? $serial_number->status : 'available',
-								//'desc'             => __( '', 'wc-serial-numbers' ),
-							) );
+//							echo wc_serial_numbers()->elements->select( array(
+//								'label'            => __( 'Status', 'wc-serial-numbers' ),
+//								'name'             => 'status',
+//								'placeholder'      => '',
+//								'show_option_all'  => '',
+//								'show_option_none' => '',
+//								'options'          => wcsn_get_serial_statuses(),
+//								'required'         => true,
+//								'selected'         => ! empty( $serial_number->status ) ? $serial_number->status : 'available',
+//								//'desc'             => __( '', 'wc-serial-numbers' ),
+//							) );
 
 							?>
 

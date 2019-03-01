@@ -71,7 +71,7 @@ class WC_Serial_Numbers_Serial_Number extends WC_Serial_Numbers_Crud {
 			'activation_limit' => '1',
 			'order_id'         => '',
 			'activation_email' => '',
-			'status'           => 'available',
+			'status'           => 'new',
 			'validity'         => '365',
 			'expire_date'      => '0000-00-00 00:00:00',
 			'order_date'       => '0000-00-00 00:00:00',

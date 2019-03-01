@@ -268,7 +268,6 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/wc-functions.php' );
-//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/metabox-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-crud.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-activation.php' );
@@ -281,6 +280,7 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-form-handler.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings-api.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/metabox-functions.php' );
 	}
 
 
