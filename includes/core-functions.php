@@ -153,7 +153,7 @@ function wcsn_get_product_list() {
 	$list = [];
 
 	$products        = array_map( 'wc_get_product', get_posts( [ 'post_type' => 'product', 'nopaging' => true ] ) );
-	$supported_types = apply_filters( 'wcsn_supported_product_types', array( 'simple', 'variable' ) );
+	$supported_types = apply_filters( 'wcsn_supported_product_types', array( 'simple' ) );
 	foreach ( $products as $product ) {
 		if ( in_array( $product->get_type(), $supported_types ) ) {
 			if ( 'simple' == $product->get_type() ) {
