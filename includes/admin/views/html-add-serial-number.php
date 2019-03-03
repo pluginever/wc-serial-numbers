@@ -88,19 +88,19 @@ if ( empty( $serial_number ) ) {
 								'desc'     => __( 'You can enter multiline text.', 'wc-serial-numbers' ) . '<br><strong>Example:</strong><br>username: johndoe<br>password: johndoeh123',
 							) );
 
-							echo wc_serial_numbers()->elements->input( apply_filters(
-								'wc_serial_number_image_license_input_args',
-								array(
-									'label'    => __( 'Image License', 'wc-serial-numbers' ),
-									'name'     => 'license_image',
-									'type'     => 'file',
-									//'value'    => '',
-									'required' => false,
-									'disabled' => true,
-									'desc'     => __( 'Upgrade to PRO for, using image as License', 'wc-serial-numbers' ),
-								),
-								$serial_number
-							) );
+//							echo wc_serial_numbers()->elements->input( apply_filters(
+//								'wc_serial_number_image_license_input_args',
+//								array(
+//									'label'    => __( 'Image License', 'wc-serial-numbers' ),
+//									'name'     => 'license_image',
+//									'type'     => 'file',
+//									//'value'    => '',
+//									'required' => false,
+//									'disabled' => true,
+//									'desc'     => __( 'Upgrade to PRO for, using image as License', 'wc-serial-numbers' ),
+//								),
+//								$serial_number
+//							) );
 
 							echo wc_serial_numbers()->elements->input( array(
 								'label'    => __( 'Activation Limit', 'wc-serial-numbers' ),

@@ -125,10 +125,8 @@ abstract class WC_Serial_Numbers_Crud {
 		// Reorder $column_formats to match the order of columns given in $data
 		$data_keys      = array_keys( $data );
 		$column_formats = array_merge( array_flip( $data_keys ), $column_formats );
-		var_dump($column_formats);
-		var_dump($data);
-		var_dump($wpdb->insert( $this->get_table_name(), $data, $column_formats ));
 
+		$wpdb->insert( $this->get_table_name(), $data, $column_formats );
 		$wpdb_insert_id = $wpdb->insert_id;
 
 		return $wpdb_insert_id;

@@ -39,9 +39,11 @@ function wcsn_product_save_data() {
 	}
 
 	update_post_meta( $post->ID, '_serial_key_source', ! empty( $_POST['_serial_key_source'] ) ? sanitize_key( $_POST['_serial_key_source'] ) : 'custom_source' );
-	update_post_meta( $post->ID, '_serial_number_key_prefix', ! empty( $_POST['_serial_number_key_prefix'] ) ? sanitize_key( $_POST['_serial_number_key_prefix'] ) : '' );
+	update_post_meta( $post->ID, '_serial_number_key_prefix', ! empty( $_POST['_serial_number_key_prefix'] ) ? sanitize_text_field( $_POST['_serial_number_key_prefix'] ) : '' );
 	update_post_meta( $post->ID, '_activation_limit', ! empty( $_POST['_activation_limit'] ) ? intval( $_POST['_activation_limit'] ) : '0' );
+	update_post_meta( $post->ID, '_validity', ! empty( $_POST['_validity'] ) ? intval( $_POST['_validity'] ) : '0' );
 	update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
+	do_action( 'wcsn_save_simple_product_meta', $post );
 }
 
 add_filter( 'woocommerce_process_product_meta', 'wcsn_product_save_data' );
@@ -70,18 +72,16 @@ function wcsn_product_write_panel() {
 	?>
 	<div id="serial_number_data" class="panel woocommerce_options_panel show_if_simple" style="padding-bottom: 50px;">
 		<?php
-		woocommerce_wp_select( apply_filters( 'wcsn_serial_number_assign_type_field_args', array(
+		woocommerce_wp_select( array(
 			'id'          => '_serial_key_source',
 			'label'       => __( 'Serial Key Source', 'wc-serial-numbers' ),
 			'description' => __( 'Auto generated will automatically generate serial key & assign to order. Custom generated key will be used from available generated serial key.', 'wc-serial-numbers' ),
 			'placeholder' => __( 'N/A', 'wc-serial-numbers' ),
 			'desc_tip'    => true,
-			'value'       => 'custom_generated',
-			'options'     => array(
+			'options'     => apply_filters( 'wcsn_serial_key_sources', array(
 				'custom_source' => __( 'Manually Generated serial number', 'wc-serial-numbers' ),
-				//'auto_generated'   => __( 'Auto generated serial number (Upgrade to PRO)', 'wc-serial-numbers' ),
-			),
-		) ) );
+			) ),
+		) );
 
 		if ( ! wc_serial_numbers()->is_pro_installed() ) {
 			echo sprintf( '<p>%s <a href="%s" target="_blank">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order? Upgrade to Pro', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
@@ -101,6 +101,15 @@ function wcsn_product_write_panel() {
 				'id'          => '_activation_limit',
 				'label'       => __( 'Activation limit', 'wc-serial-numbers' ),
 				'description' => __( 'Amount of activations possible per license key. 0 means unlimited. If its not a software product ignore this.', 'wc-serial-numbers' ),
+				'placeholder' => __( '0', 'wc-serial-numbers' ),
+				'desc_tip'    => true,
+			)
+		);
+		woocommerce_wp_text_input(
+			array(
+				'id'          => '_validity',
+				'label'       => __( 'Validity', 'wc-serial-numbers' ),
+				'description' => __( 'The number validity in days.', 'wc-serial-numbers' ),
 				'placeholder' => __( '0', 'wc-serial-numbers' ),
 				'desc_tip'    => true,
 			)
@@ -132,6 +141,7 @@ function wcsn_product_write_panel() {
 	$javascript = "
 			jQuery('input#_is_serial_number').change(function(){
 				jQuery('.show_if_serial_number').hide();
+				
 
 				if ( jQuery('#_is_serial_number').is(':checked') ) {
 					jQuery('.show_if_serial_number').show();
@@ -139,15 +149,17 @@ function wcsn_product_write_panel() {
 				} else {
 					if ( jQuery('.serial_number_tab').is('.active') ) jQuery('ul.product_data_tabs li:visible').eq(0).find('a').click();
 				}
+				
 
 			}).change();
 			
 			
 			jQuery('select#_serial_key_source').change(function(){
+			console.log($(this).val());
 				if('custom_source' ===  $(this).val()){
 					$('.serial-numbers-custom-generated').show();
 					$('._serial_number_key_prefix_field, ._activation_limit_field').hide();
-				}else if('automatic' ===  $(this).val()){
+				}else if('auto_generated' ===  $(this).val()){
 					$('.serial-numbers-custom-generated').hide();
 					$('._serial_number_key_prefix_field, ._activation_limit_field').show();
 				}

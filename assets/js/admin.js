@@ -8,7 +8,8 @@ var WCSN_Admin = {};
 				changeMonth: true,
 				changeYear: true,
 				dateFormat: 'yy-mm-dd',
-				firstDay: 7
+				firstDay: 7,
+				minDate: new Date()
 			});
 		}
 	};
