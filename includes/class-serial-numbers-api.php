@@ -121,6 +121,7 @@ class WC_Serial_Numbers_API {
 
 		$output_data['success']     = true;
 		$output_data['time']        = time();
+		$output_data['expire_date'] = wcsn_get_serial_expiration_date( $serial );
 		$output_data['remaining']   = wcsn_get_remaining_activation( $serial->id );
 		$output_data['activations'] = $activations;
 

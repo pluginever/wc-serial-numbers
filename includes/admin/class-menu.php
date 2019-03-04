@@ -20,7 +20,7 @@ class WC_Serial_Numbers_Menu {
 	function admin_menu() {
 		add_menu_page( __( 'WC Serial Numbers', 'wc-serial-numbers' ), __( 'Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers', array( $this, 'serial_numbers_page' ), 'dashicons-admin-network' );
 		add_submenu_page( 'wc-serial-numbers', __( 'Serial Numbers', 'wc-serial-numbers' ), __( 'Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers', array( $this, 'serial_numbers_page' ) );
-		//add_submenu_page( 'wc-serial-numbers', __( 'Generated Rules', 'wc-serial-numbers' ), __( 'Generated Rules', 'wc-serial-numbers' ), 'manage_woocommerce', 'wcsn-generated-rules', array( $this, 'generated_rules_page' ) );
+		add_submenu_page( 'wc-serial-numbers', __( 'API Doc', 'wc-serial-numbers' ), __( 'API Doc', 'wc-serial-numbers' ), 'manage_woocommerce', 'wcsn-api-doc', array( $this, 'api_doc_page' ) );
 	}
 
 	/**
@@ -47,7 +47,7 @@ class WC_Serial_Numbers_Menu {
 		$wp_admin_bar->add_menu( array(
 			'id'    => 'wsn-wc-serial-numbers',
 			'title' => __( 'WC Serial Numbers', 'wc-serial-numbers' ) . apply_filters( 'wsn_admin_bar_notification', false ),
-			'href'  => admin_url('admin.php?page=wc-serial-numbers'),
+			'href'  => admin_url( 'admin.php?page=wc-serial-numbers' ),
 			'meta'  => array(
 				'html' => apply_filters( 'wsn_admin_bar_notification_list', '' ),
 			),
@@ -56,7 +56,7 @@ class WC_Serial_Numbers_Menu {
 		$wp_admin_bar->add_menu( array(
 			'id'     => 'wsn-serial-numbers',
 			'title'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
-			'href'   => admin_url('admin.php?page=wc-serial-numbers'),
+			'href'   => admin_url( 'admin.php?page=wc-serial-numbers' ),
 			'parent' => 'wsn-wc-serial-numbers',
 
 		) );
@@ -64,7 +64,7 @@ class WC_Serial_Numbers_Menu {
 		$wp_admin_bar->add_menu( array(
 			'id'     => 'wsn-add-serial-number',
 			'title'  => __( 'Add Serial Number', 'wc-serial-numbers' ),
-			'href'   => admin_url('admin.php?page=wc-serial-numbers&action_type=add_serial_number'),
+			'href'   => admin_url( 'admin.php?page=wc-serial-numbers&action_type=add_serial_number' ),
 			'parent' => 'wsn-wc-serial-numbers',
 		) );
 //
@@ -82,6 +82,10 @@ class WC_Serial_Numbers_Menu {
 //			'parent' => 'wsn-wc-serial-numbers',
 //		) );
 
+	}
+
+	public function api_doc_page() {
+		include( dirname( __FILE__ ) . '/views/html-api-doc.php' );
 	}
 
 
