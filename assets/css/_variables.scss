@@ -3,4 +3,10 @@ $primarytext: desaturate(lighten($primary, 50%), 18%); // Text on primary color 
 
 $secondary: desaturate(lighten($primary, 40%), 21%); // Secondary buttons
 $secondarytext: desaturate(darken($secondary, 60%), 21%); // Text on secondary color bg
-$gray:#333333;
+$gray: #333333;
+
+$pending: #d39e00;
+$new: #17a2b8;
+$active: #28a745;
+$expired: #dc3545;
+$refunded: #f2dede;

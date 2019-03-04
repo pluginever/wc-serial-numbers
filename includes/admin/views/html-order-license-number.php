@@ -32,7 +32,7 @@ if ( sizeof( $serial_numbers ) > 0 ) { ?>
 					<td><?php
 						$order_date = $serial_number->order_date;
 						echo ! empty( $serial_number->validity ) ? date( 'Y-m-d', strtotime( $order_date . ' + ' . $serial_number->validity . ' Day ' ) ) : __( 'Never expire', 'wc-serial-numbers' ); ?></td>
-					<td><?php echo ! empty( $serial_number->status ) ? wcsn_get_serial_statuses()[ $serial_number->status ] : '&#45;'; ?></td>
+					<td><?php echo ! empty( $serial_number->status ) ? "<span class='wcsn-status-{$serial_number->status}'>" . wcsn_get_serial_statuses()[ $serial_number->status ] . '</span>' : '&#45;'; ?></td>
 					<td>
 						<a href="<?php echo add_query_arg( array(
 							'page'        => 'wc-serial-numbers',

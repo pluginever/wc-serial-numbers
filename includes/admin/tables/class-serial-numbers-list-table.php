@@ -71,7 +71,7 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 				break;
 			case 'status':
 				$statues = wcsn_get_serial_statuses();
-				echo ! empty( $item->status ) && array_key_exists($item->status, $statues)? "<span class='wcsn-statues-{$item->status}'>{$statues[$item->status]}</span>" : '&#45;';
+				echo ! empty( $item->status ) && array_key_exists($item->status, $statues)? "<span class='wcsn-status-{$item->status}'>{$statues[$item->status]}</span>" : '&#45;';
 				break;
 			case 'date':
 				echo ! empty( $item->order_date ) && '0000-00-00 00:00:00' != $item->order_date ? date( get_option( 'date_format' ), strtotime( $item->order_date ) ) : '&#45;';
