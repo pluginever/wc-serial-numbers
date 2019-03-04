@@ -70,7 +70,7 @@ add_action( 'woocommerce_product_write_panel_tabs', 'wcsn_product_write_panel_ta
 function wcsn_product_write_panel() {
 	global $post, $woocommerce;
 	?>
-	<div id="serial_number_data" class="panel woocommerce_options_panel show_if_simple" style="padding-bottom: 50px;">
+	<div id="serial_number_data" class="panel woocommerce_options_panel show_if_simple" style="padding-bottom: 50px;display: none;">
 		<?php
 		woocommerce_wp_select( array(
 			'id'          => '_serial_key_source',
@@ -189,7 +189,9 @@ function wcsn_register_metaboxes() {
 add_action( 'add_meta_boxes', 'wcsn_register_metaboxes' );
 
 function wcsn_license_numbers_metabox() {
+	global $post;
 	include WC_SERIAL_NUMBERS_INCLUDES . '/admin/views/html-order-license-number.php';
+	do_action( 'wcsn_after_order_serial_numbers_table', $post );
 }
 
 add_filter( 'manage_edit-product_columns', 'show_product_order', 15 );

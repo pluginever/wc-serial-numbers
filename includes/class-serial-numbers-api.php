@@ -43,13 +43,17 @@ class WC_Serial_Numbers_API {
 			$this->send_result( $this->error( '100', __( 'The product id provided is invalid', 'wc-serial-numbers' ) ) );
 		}
 
-		$data = wcsn_get_serial_numbers( [ 'serial_key' => $serial_key, 'activation_email' => $email, 'product_id' => $product_id, 'status' => 'active', 'expire_date' => '' ] );
+		$data = wcsn_get_serial_numbers( [ 'serial_key' => $serial_key, 'activation_email' => $email, 'product_id' => $product_id, 'expire_date' => '' ] );
 
 		if ( empty( $data ) ) {
 			$this->send_result( $this->error( '101', __( 'No matching serial key exists', 'wc-serial-numbers' ) ) );
 		}
 
 		$data = array_pop( $data );
+
+		if ( 'active' !== $data->status ) {
+			$this->send_result( $this->error( '106' ) );
+		}
 
 		// Validate order if set.
 		if ( $data->order_id ) {
@@ -217,7 +221,7 @@ class WC_Serial_Numbers_API {
 				$error = array( 'error' => __( 'Invalid Serial Key', 'wc-serial-numbers' ), 'code' => '101' );
 				break;
 			case '102' :
-				$error = array( 'error' => __( 'Software has been deactivated', 'wc-serial-numbers' ), 'code' => '102' );
+				$error = array( 'error' => __( 'Serial number has been deactivated', 'wc-serial-numbers' ), 'code' => '102' );
 				break;
 			case '103' :
 				$error = array( 'error' => __( 'Exceeded maximum number of activations', 'wc-serial-numbers' ), 'code' => '103' );
@@ -227,6 +231,9 @@ class WC_Serial_Numbers_API {
 				break;
 			case '105' :
 				$error = array( 'error' => __( 'Invalid security key', 'wc-serial-numbers' ), 'code' => '105' );
+				break;
+			case '106' :
+				$error = array( 'error' => __( 'Matching serial number is not active yet.', 'wc-serial-numbers' ), 'code' => '106' );
 				break;
 			case '403' :
 				$error = array( 'error' => __( 'Forbidden', 'wc-serial-numbers' ), 'code' => '403' );

@@ -70,7 +70,8 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 				echo ! empty( $item->validity ) ? sprintf( _n( '%s Day', '%s Days', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
 				break;
 			case 'status':
-				echo ! empty( $item->status ) ? wcsn_get_serial_statuses()[ $item->status ] : '&#45;';
+				$statues = wcsn_get_serial_statuses();
+				echo ! empty( $item->status ) && array_key_exists($item->status, $statues)? "<span class='wcsn-statues-{$item->status}'>{$statues[$item->status]}</span>" : '&#45;';
 				break;
 			case 'date':
 				echo ! empty( $item->order_date ) && '0000-00-00 00:00:00' != $item->order_date ? date( get_option( 'date_format' ), strtotime( $item->order_date ) ) : '&#45;';
