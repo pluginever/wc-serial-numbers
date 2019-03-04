@@ -80,7 +80,6 @@ class WCSN_Form_Handler {
 
 		update_post_meta( $product_id, '_is_serial_number', 'yes' );
 
-		do_action( 'created_serial_number', $inserted, $product_id );
 		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
 		exit();
 

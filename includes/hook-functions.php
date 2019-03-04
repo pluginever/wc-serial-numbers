@@ -49,7 +49,7 @@ add_action( 'woocommerce_order_details_after_order_table', 'wcsn_order_table_ser
  * @param $order
  */
 function wcsn_auto_complete_order( $order ) {
-
+	error_log('wcsn_auto_complete_order');
 	if('yes' !== wcsn_get_settings('wsn_auto_complete_order', '', 'wsn_delivery_settings')){
 		return;
 	}
@@ -63,13 +63,11 @@ function wcsn_auto_complete_order( $order ) {
 
 		$is_serial_number_enabled = get_post_meta( $product_id, '_is_serial_number', true ); //Check if the serial number enabled for this product.
 
-		if ( 'yes' !== $is_serial_number_enabled ) {
-			return;
+		if ( 'yes' == $is_serial_number_enabled ) {
+			$order->update_status( 'completed' );
 		}
 
 	}
-
-	$order->update_status( 'completed' );
 
 }
 
