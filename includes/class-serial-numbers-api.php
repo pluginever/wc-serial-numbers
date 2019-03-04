@@ -139,7 +139,7 @@ class WC_Serial_Numbers_API {
 	public function activate( $serial, $instance, $platform ) {
 		global $wpdb;
 
-		//	$activation = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}wcsn_activations WHERE serial_id=%d AND instance=%s", $serial->id, $instance));
+//			$activation = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}wcsn_activations WHERE serial_id=%d AND instance=%s", $serial->id, $instance));
 
 		$activations_remaining = wcsn_get_remaining_activation( $serial->id );
 
