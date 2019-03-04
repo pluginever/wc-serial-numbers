@@ -35,9 +35,43 @@ function wcsn_order_table_serial_number_details( $order ) {
 	if ( empty( $serial_numbers ) ) {
 		return;
 	}
-	
+
 	wc_get_template( '/html-order-details-table.php', array( 'serial_numbers' => $serial_numbers ), '', WC_SERIAL_NUMBERS_TEMPLATES );
 }
 
 add_action( 'woocommerce_order_details_after_order_table', 'wcsn_order_table_serial_number_details' );
+
+/**
+ * Auto Complete Order
+ *
+ * @since 1.0.0
+ *
+ * @param $order
+ */
+function wcsn_auto_complete_order( $order ) {
+
+	if('yes' !== wcsn_get_settings('wsn_auto_complete_order', '', 'wsn_delivery_settings')){
+		return;
+	}
+
+	$items = $order->get_items();
+
+	foreach ( $items as $item_data ) {
+
+		$product    = $item_data->get_product();
+		$product_id = $product->get_id();
+
+		$is_serial_number_enabled = get_post_meta( $product_id, '_is_serial_number', true ); //Check if the serial number enabled for this product.
+
+		if ( 'yes' !== $is_serial_number_enabled ) {
+			return;
+		}
+
+	}
+
+	$order->update_status( 'completed' );
+
+}
+
+add_action( 'wcsn_after_process_serial_number', 'wcsn_auto_complete_order' );
 
