@@ -155,13 +155,12 @@ function wcsn_product_write_panel() {
 			
 			
 			jQuery('select#_serial_key_source').change(function(){
-			console.log($(this).val());
 				if('custom_source' ===  $(this).val()){
 					$('.serial-numbers-custom-generated').show();
-					$('._serial_number_key_prefix_field, ._activation_limit_field').hide();
+					$('._serial_number_key_prefix_field, ._activation_limit_field, ._validity_field').hide();
 				}else if('auto_generated' ===  $(this).val()){
 					$('.serial-numbers-custom-generated').hide();
-					$('._serial_number_key_prefix_field, ._activation_limit_field').show();
+					$('._serial_number_key_prefix_field, ._activation_limit_field, ._validity_field').show();
 				}
 				
 			}).change();
