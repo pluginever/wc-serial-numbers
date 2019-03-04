@@ -153,10 +153,9 @@ function wcsn_get_serial_statuses() {
  * @return array
  */
 function wcsn_get_product_list( $only_enabled = false ) {
-	$list = [];
-
+	$list      = [];
 	$post_args = array(
-		'post_type' => apply_filters('wcsn_supported_product_types', array( 'product' )),
+		'post_type' => 'product',
 		'nopaging'  => true,
 		'orderby'   => 'ID',
 		'order'     => 'ASC',
@@ -165,16 +164,41 @@ function wcsn_get_product_list( $only_enabled = false ) {
 		$post_args['meta_key']   = '_is_serial_number';
 		$post_args['meta_value'] = 'yes';
 	}
-	$posts    = get_posts( $post_args );
-	$products = array_map( 'wc_get_product', $posts );
-
+	$posts           = get_posts( $post_args );
+	$products        = array_map( 'wc_get_product', $posts );
+	$supported_types = apply_filters( 'wcsn_supported_product_types', array( 'simple' ) );
 	foreach ( $products as $product ) {
-		$title = $product->get_title();
-		$title .= "(#{$product->get_id()} {$product->get_sku()} ";
-		$title .= $product->get_type() == 'variation' ? ', Variation' : '';
-		$title .= ')';
-
-		$list[ $product->get_id() ] = $title;
+		if ( in_array( $product->get_type(), $supported_types ) ) {
+			if ( 'simple' == $product->get_type() ) {
+				$title                      = $product->get_title();
+				$title                      .= "(#{$product->get_id()} {$product->get_sku()} ";
+				$title                      .= $product->get_type() == 'variation' ? ', Variation' : '';
+				$title                      .= ')';
+				$list[ $product->get_id() ] = $title;
+			} elseif ( 'variable' == $product->get_type() ) {
+				$args_get_children = array(
+					'post_type'      => array( 'product_variation', 'product' ),
+					'posts_per_page' => - 1,
+					'order'          => 'ASC',
+					'orderby'        => 'title',
+					'post_parent'    => $product->get_id()
+				);
+				if ( $only_enabled ) {
+					$args_get_children['meta_key']   = '_is_serial_number';
+					$args_get_children['meta_value'] = 'yes';
+				}
+				$children_products = get_children( $args_get_children );
+				if ( ! empty( $children_products ) ) {
+					foreach ( $children_products as $child ) {
+						$title                    = $child->get_title();
+						$title                    .= "(#{$child->get_id()} {$child->get_sku()} ";
+						$title                    .= $child->get_type() == 'variation' ? ', Variation' : '';
+						$title                    .= ')';
+						$list[ $child->get_id() ] = $title;
+					}
+				}
+			}
+		}
 	}
 
 	return $list;
