@@ -190,17 +190,18 @@ function wcsn_get_product_list( $only_enabled = false ) {
 				$children_products = get_children( $args_get_children );
 				if ( ! empty( $children_products ) ) {
 					foreach ( $children_products as $child ) {
-						$title                    = $child->get_title();
-						$title                    .= "(#{$child->get_id()} {$child->get_sku()} ";
-						$title                    .= $child->get_type() == 'variation' ? ', Variation' : '';
+						$sku = get_post_meta($child->ID, '_sku', true );
+						$title                    = get_the_title($child->ID);
+						$title                    .= "(#{$child->ID} {$sku} ";
+						$title                    .= 'Variation';
 						$title                    .= ')';
-						$list[ $child->get_id() ] = $title;
+						$list[ $child->ID ] = $title;
 					}
 				}
 			}
 		}
 	}
-
+	krsort($list);
 	return $list;
 }
 

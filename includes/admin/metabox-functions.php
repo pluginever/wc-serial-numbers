@@ -91,7 +91,7 @@ function wcsn_product_write_panel() {
 			array(
 				'id'          => '_serial_number_key_prefix',
 				'label'       => __( 'License key prefix', 'wc-serial-numbers' ),
-				'description' => __( 'Optional prefix for generated license keys.', 'wc-serial-numbers' ),
+				'description' => __( 'Optional prefix for generated serial number.', 'wc-serial-numbers' ),
 				'placeholder' => __( 'N/A', 'wc-serial-numbers' ),
 				'desc_tip'    => true,
 			)
@@ -100,7 +100,7 @@ function wcsn_product_write_panel() {
 			array(
 				'id'          => '_activation_limit',
 				'label'       => __( 'Activation limit', 'wc-serial-numbers' ),
-				'description' => __( 'Amount of activations possible per license key. 0 means unlimited. If its not a software product ignore this.', 'wc-serial-numbers' ),
+				'description' => __( 'Amount of activations possible per serial number. 0 means unlimited. If its not a software product ignore this.', 'wc-serial-numbers' ),
 				'placeholder' => __( '0', 'wc-serial-numbers' ),
 				'desc_tip'    => true,
 			)
