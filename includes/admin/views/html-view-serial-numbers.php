@@ -14,8 +14,8 @@ $wp_list_table->prepare_items();
 		<?php _e( 'Serial Numbers', 'wc-serial-numbers' ); ?>
 	</h1>
 
-
 	<a href="<?php echo admin_url( 'admin.php?page=wc-serial-numbers&action_type=add_serial_number' ) ?>" class="add-serial-title page-title-action"><?php _e( 'Add serial number', 'wc-serial-numbers' ) ?></a>
+	<?php do_action( 'wcsn_serial_numbers_list_table_after_title' ); ?>
 	<hr class="wp-header-end">
 	<form id="wc-serial-numbers-list" method="post">
 		<input type="hidden" name="page" value="wc-serial-numbers">
