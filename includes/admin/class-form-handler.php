@@ -16,6 +16,11 @@ class WCSN_Form_Handler {
 		add_action( 'admin_post_unlink_serial_number', array( $this, 'unlink_serial_number' ) );
 	}
 
+	/**
+	 * Create serial number
+	 *
+	 * since 1.0.0
+	 */
 	public function create_serial_number() {
 		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wcsn_create_serial_number' ) ) {
 			wp_die( 'No, Cheating!' );
@@ -81,6 +86,11 @@ class WCSN_Form_Handler {
 
 	}
 
+	/**
+	 * Delete serial number
+	 *
+	 * since 1.0.0
+	 */
 	public function delete_wc_serial_number() {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'delete_wc_serial_number' ) ) {
 			wp_die( 'No, Cheating!' );
@@ -110,7 +120,6 @@ class WCSN_Form_Handler {
 	 */
 
 	public function unlink_serial_number() {
-
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'unlink_serial_number' ) ) {
 			wp_die( 'No, Cheating!' );
 		}
@@ -121,19 +130,11 @@ class WCSN_Form_Handler {
 			$serial_id = intval( $_REQUEST['serial_id'] );
 		}
 
-		$reuse_serial_number = wcsn_get_settings( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' );
-
-		$data = [];
-
-		if ( 'yes' == $reuse_serial_number ) {
-			$data['order_date']       = '';
-			$data['order_id']         = '';
-			$data['order_date']       = '';
-			$data['activation_email'] = '';
-			$data['status']           = 'new';
-		} else {
-			$data['status'] = 'rejected';
-		}
+		$data['order_date']       = '';
+		$data['order_id']         = '';
+		$data['order_date']       = '';
+		$data['activation_email'] = '';
+		$data['status']           = 'new';
 
 		if ( wc_serial_numbers()->serial_number->update( $serial_id, $data ) ) {
 			wc_serial_numbers()->add_notice( 'success', __( 'Serial Number successfully Unlinked from the order', 'wc-serial-numbers' ) );

@@ -125,7 +125,7 @@ function wcsn_product_write_panel() {
 		);
 		?>
 
-		<p class="form-field serial-numbers-custom-generated"><?php echo sprintf( __( 'You have <strong>%s</strong> remaining Generated serial numbers for <strong>%s</strong>', 'wc-serial-numbers' ), wcsn_get_serial_numbers( [ 'product_id' => $post->ID ], true ), get_the_title( $post ) ); ?></p>
+		<p class="form-field serial-numbers-custom-generated"><?php echo sprintf( __( 'You have <strong>%s</strong> remaining Generated serial numbers for <strong>%s</strong>', 'wc-serial-numbers' ), wcsn_get_serial_numbers( [ 'product_id' => $post->ID, 'status' => 'new' ], true ), get_the_title( $post ) ); ?></p>
 		<p class="form-field serial-numbers-custom-generated">
 			<a href="<?php echo add_query_arg( array(
 				'page'       => 'wc-serial-numbers',
