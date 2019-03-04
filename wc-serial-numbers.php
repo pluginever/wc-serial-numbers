@@ -274,6 +274,7 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-elements.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-wc-handler.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-numbers-api.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
 
 		//admin
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-menu.php' );

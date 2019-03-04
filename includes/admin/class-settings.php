@@ -210,7 +210,7 @@ class WCSN_Settings {
 				array(
 					'name'    => 'wsn_auto_complete_order',
 					'label'   => __( 'Auto Complete Order', 'wc-serial-numbers' ),
-					'desc'    => '<p class="description">' . __( 'Choose, whether the Order will be auto complete after purchasing.', 'wc-serial-numbers' ) . '</p>',
+					'desc'    => '<p class="description">' . __( 'Whether the Order will be auto completed after purchasing.', 'wc-serial-numbers' ) . '</p>',
 					'class'   => 'ever-field-inline',
 					'type'    => 'select',
 					'options' => array(
