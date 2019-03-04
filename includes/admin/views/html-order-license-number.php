@@ -38,8 +38,16 @@ if ( sizeof( $serial_numbers ) > 0 ) { ?>
 							'action_type' => 'add_serial_number',
 							'row_action'  => 'edit',
 							'serial_id'   => $serial_number->id,
-						), admin_url( 'admin.php' ) ); ?> "> <?php _e( 'Edit', 'wc-serial-numbers' ); ?>
+						), admin_url( 'admin.php' ) ); ?>" class="wcsn-action"  title="<?php _e( 'Edit', 'wc-serial-numbers' ); ?>">
+							<span class="dashicons-edit dashicons-before wp-menu-image wcsn-action-edit" ></span>
 						</a>
+
+						<a href="<?php echo add_query_arg( array(
+							'_wp_http_referer' => urlencode( $_SERVER['REQUEST_URI'] ),
+							'nonce'            => wp_create_nonce( 'unlink_serial_number' ),
+							'action'           => 'unlink_serial_number',
+							'serial_id'        => $serial_number->id,
+						), admin_url( 'admin-post.php' ) ); ?>" class="wcsn-action" title="<?php _e( 'Unlink', 'wc-serial-numbers' ); ?>"><span class="dashicons-editor-unlink dashicons-before wp-menu-image wcsn-action-unlink"></span></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>

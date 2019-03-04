@@ -52,7 +52,7 @@
 	}
 }
 
-.column-status {
+.status.column-status {
 	font-weight: bold;
 	font-size: 12px !important;
 }
@@ -74,3 +74,9 @@
 	}
 }
 
+.wcsn-action {
+	padding-right: 10px;
+	&-unlink {
+		color: $expired;
+	}
+}

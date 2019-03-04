@@ -9,9 +9,11 @@ class WCSN_Form_Handler {
 	/**
 	 * WCSN_Form_Handler constructor.
 	 */
+
 	public function __construct() {
 		add_action( 'admin_post_wcsn_create_serial_number', array( $this, 'create_serial_number' ) );
 		add_action( 'admin_post_delete_wc_serial_number', array( $this, 'delete_wc_serial_number' ) );
+		add_action( 'admin_post_unlink_serial_number', array( $this, 'unlink_serial_number' ) );
 	}
 
 	public function create_serial_number() {
@@ -99,6 +101,45 @@ class WCSN_Form_Handler {
 		), admin_url( 'admin.php' ) ) );
 		exit();
 
+	}
+
+	/**
+	 * Unlink serial number
+	 *
+	 * @since 1.0.0
+	 */
+
+	public function unlink_serial_number() {
+
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'unlink_serial_number' ) ) {
+			wp_die( 'No, Cheating!' );
+		}
+
+		if ( empty( $_REQUEST['serial_id'] ) ) {
+			return;
+		} else {
+			$serial_id = intval( $_REQUEST['serial_id'] );
+		}
+
+		$reuse_serial_number = wcsn_get_settings( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' );
+
+		$data = [];
+
+		if ( 'yes' == $reuse_serial_number ) {
+			$data['order_date']       = '';
+			$data['order_id']         = '';
+			$data['order_date']       = '';
+			$data['activation_email'] = '';
+			$data['status']           = 'new';
+		} else {
+			$data['status'] = 'rejected';
+		}
+
+		if ( wc_serial_numbers()->serial_number->update( $serial_id, $data ) ) {
+			wc_serial_numbers()->add_notice( 'success', __( 'Serial Number successfully Unlinked from the order', 'wc-serial-numbers' ) );
+		}
+
+		wp_safe_redirect( site_url( $_REQUEST['_wp_http_referer'] ) );
 	}
 }
 
