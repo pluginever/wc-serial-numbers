@@ -212,16 +212,14 @@ function wcsn_get_product_list( $only_enabled = false ) {
  */
 function wcsn_get_pro_features() {
 	$features = array(
-		'Create license keys and directly assign them to products.',
-		'You will be able to set how many times you want to sell that same license key.',
-		'It will also enable you to select the maximum instances for a license key. (How many times/devices the user will be able to use that key).',
-		'Setting license validity is another powerful option. There are two different options to set the validity. Restriction by days and date are those two different license expiration options for your complete control.',
-		'Notifications will keep you informed when your generated licenses are about to finish.',
-		'Set the minimum license number to trigger a notification.',
-		'You can also choose to get an email notification.',
-		'Generate and deliver the license keys in image format.',
-		'Automatically generate license keys to populate your license pool.',
-		'The settings section offers ample customization options for automatic serial number generation.'
+		'Add serial numbers for variable products',
+		'Automatically generate serial numbers and assign to order',
+		'Bulk serial numbers generation from custom pattern like serial-############',
+		'Generate random or sequential serial numbers with your custom rules',
+		'Bulk serial numbers Import',
+		'Serial numbers export',
+		'Add products from edit order page',
+		'Extensive reports of your sold serial numbers.',
 	);
 
 	return $features;
