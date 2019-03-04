@@ -34,7 +34,7 @@ class WCSN_WC_Handler {
 			$is_enabled     = get_post_meta( $product_id, '_is_serial_number', true ); //Check if the serial number enabled for this product.
 			$assign_type    = get_post_meta( $product_id, '_serial_key_source', true );
 			$allow_checkout = wcsn_get_settings( 'wsn_allow_checkout', 'no', 'wsn_general_settings' );
-
+			error_log($is_enabled);
 			if ( ( $is_enabled == 'yes' ) ) {
 
 				if ( ( 'auto_generated' == $assign_type ) || ( 'on' == $allow_checkout ) ) {
