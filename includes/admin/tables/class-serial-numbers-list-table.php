@@ -157,7 +157,7 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 	function prepare_items() {
 		global $wpdb;
-		$per_page              = 20;
+		$per_page              = wcsn_get_settings('wsn_rows_per_page', 20, 'wsn_general_settings');
 		$columns               = $this->get_columns();
 		$hidden                = [];
 		$sortable              = $this->get_sortable_columns();
