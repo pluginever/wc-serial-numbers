@@ -65,6 +65,8 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 				break;
 			case 'activation_limit':
 				echo ! empty( $item->activation_limit ) ? $item->activation_limit : __( 'Unlimited', 'wc-serial-numbers' );
+				echo '/';
+				echo wcsn_get_remaining_activation($item->id);
 				break;
 			case 'validity':
 				echo ! empty( $item->validity ) ? sprintf( _n( '%s Day', '%s Days', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
