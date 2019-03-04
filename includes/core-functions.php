@@ -102,10 +102,10 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 	}
 
 	// check expire date
-	if ( ! empty( $args['expire_date'] ) ) {
-		$expire_date = sanitize_textarea_field( $args['expire_date'] );
-		$where       .= " AND ( `expire_date` = '0000-00-00 00:00:00' OR `expire_date` >= '{$expire_date}')";
-	}
+//	if ( ! empty( $args['expire_date'] ) ) {
+//		$expire_date = sanitize_textarea_field( $args['expire_date'] );
+//		$where       .= " AND ( `expire_date` = '0000-00-00 00:00:00' OR `expire_date` >= '{$expire_date}')";
+//	}
 
 	//$join  .= " LEFT JOIN {$wpdb->posts} wc_order ON wc_order.ID = serial.order_id";
 	//$where .= " AND wc_order.post_type='shop_order' ";
@@ -149,33 +149,29 @@ function wcsn_get_serial_statuses() {
  * @since 1.0.0
  * @return array
  */
-function wcsn_get_product_list() {
+function wcsn_get_product_list( $only_enabled = false ) {
 	$list = [];
 
-	$products        = array_map( 'wc_get_product', get_posts( [ 'post_type' => 'product', 'nopaging' => true ] ) );
-	$supported_types = apply_filters( 'wcsn_supported_product_types', array( 'simple' ) );
-	foreach ( $products as $product ) {
-		if ( in_array( $product->get_type(), $supported_types ) ) {
-			if ( 'simple' == $product->get_type() ) {
-				$list[ $product->get_id() ] = $product->get_title() . ' (#' . $product->get_id() . ' ' . $product->get_sku() . ')';
-			} elseif ( 'variable' == $product->get_type() ) {
-				$args_get_children = array(
-					'post_type'      => array( 'product_variation', 'product' ),
-					'posts_per_page' => - 1,
-					'order'          => 'ASC',
-					'orderby'        => 'title',
-					'post_parent'    => $product->get_id()
-				);
-				$children_products = get_children( $args_get_children );
-				if ( ! empty( $children_products ) ) :
-					foreach ( $children_products as $child ) :
-						$sku                = get_post_meta( $child->ID, '_sku', true );
-						$list[ $child->ID ] = $child->post_title . ' (#' . $child->ID . ' ' . $sku . ')';;
-					endforeach;
+	$post_args = array(
+		'post_type' => array( 'product', 'product_variation' ),
+		'nopaging'  => true,
+		'orderby'   => 'ID',
+		'order'     => 'ASC',
+	);
+	if ( $only_enabled ) {
+		$post_args['meta_key']   = '_is_serial_number';
+		$post_args['meta_value'] = 'yes';
+	}
+	$posts    = get_posts( $post_args );
+	$products = array_map( 'wc_get_product', $posts );
 
-				endif;
-			}
-		}
+	foreach ( $products as $product ) {
+		$title = $product->get_title();
+		$title .= "(#{$product->get_id()} {$product->get_sku()} ";
+		$title .= $product->get_type() == 'variation' ? ', Variation' : '';
+		$title .= ')';
+
+		$list[ $product->get_id() ] = $title;
 	}
 
 	return $list;
@@ -303,4 +299,24 @@ function wcsn_deactivate_serial_key( $serial_id, $instance ) {
 	$sql = $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_activations SET active=%s WHERE serial_id=%d AND instance=%s", '0', $serial_id, $instance );
 
 	return $wpdb->query( $sql );
+}
+
+/**
+ * Assign order
+ *
+ * @since 1.0.0
+ *
+ * @param        $serial_id
+ * @param        $order_id
+ * @param string $status
+ */
+function wcsn_serial_number_assign_order( $serial_id, $order_id, $status = null ) {
+	$order = wc_get_order( $order_id );
+
+	wc_serial_numbers()->serial_number->update( $serial_id, array(
+		'order_id'         => $order->get_id(),
+		'activation_email' => $order->get_billing_email( 'edit' ),
+		'status'           => $order->get_status( 'edit' ) == 'completed' ? 'active' : 'pending',
+		'order_date'       => current_time( 'mysql' )
+	) );
 }
