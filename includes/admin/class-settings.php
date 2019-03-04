@@ -167,7 +167,7 @@ class WCSN_Settings {
 				array(
 					'name'    => 'wsn_admin_bar_notification',
 					'label'   => __( 'Admin bar notification', 'wc-serial-numbers' ),
-					'desc'    => '<p class="description">' . __( 'Show addmin bar notification, if there is not enough serial number for any products', 'wc-serial-numbers' ) . '</p>',
+					'desc'    => '<p class="description">' . __( 'Show admin bar notification, if there is not enough serial number for any product', 'wc-serial-numbers' ) . '</p>',
 					'default' => '',
 					'class'   => 'ever-field-inline',
 					'type'    => 'checkbox',
@@ -175,9 +175,9 @@ class WCSN_Settings {
 				),
 				array(
 					'name'        => 'wsn_admin_bar_notification_number',
-					'label'       => __( 'Show notification when serial number under', 'wc-serial-numbers' ),
+					'label'       => __( 'Set Limit', 'wc-serial-numbers' ),
 					'placeholder' => __( '2', 'wc-serial-numbers' ),
-					'desc'        => __( 'Show notifications in the admin panel when, Number of available serial numbers for licensable products is under the given number', 'wc-serial-numbers' ),
+					'desc'        => __( 'Show notifications in the admin panel when, Number of available serial numbers for license able products is under the given number', 'wc-serial-numbers' ),
 					'class'       => 'ever-field-inline',
 					'default'     => 5,
 					'type'        => 'number',
@@ -208,16 +208,14 @@ class WCSN_Settings {
 			'wsn_delivery_settings'     => array(
 
 				array(
-					'name'    => 'wsn_send_serial_number',
-					'label'   => __( 'Send serial number on', 'wc-serial-numbers' ),
-					'desc'    => '<p class="description">' . __( 'Choose order status, when the serial number to be send', 'wc-serial-numbers' ) . '</p>',
+					'name'    => 'wsn_auto_complete_order',
+					'label'   => __( 'Auto Complete Order', 'wc-serial-numbers' ),
+					'desc'    => '<p class="description">' . __( 'Choose, whether the Order will be auto complete after purchasing.', 'wc-serial-numbers' ) . '</p>',
 					'class'   => 'ever-field-inline',
 					'type'    => 'select',
 					'options' => array(
-						'pending'    => __( 'Pending Payment', 'wc-serial-numbers' ),
-						'processing' => __( 'Processing', 'wc-serial-numbers' ),
-						'on-hold'    => __( 'On hold', 'wc-serial-numbers' ),
-						'completed'  => __( 'Completed', 'wc-serial-numbers' ),
+						'yes' => __( 'Yes', 'wc-serial-numbers' ),
+						'no'  => __( 'No', 'wc-serial-numbers' ),
 					),
 				),
 
@@ -241,7 +239,7 @@ class WCSN_Settings {
 					'type'    => 'select',
 					'options' => array(
 						'no'  => __( 'No', 'wc-serial-numbers' ),
-						'yes' => __( 'yes', 'wc-serial-numbers' )
+						'yes' => __( 'Yes', 'wc-serial-numbers' )
 					),
 				),
 
