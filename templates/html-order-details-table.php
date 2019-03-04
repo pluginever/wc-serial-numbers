@@ -21,7 +21,7 @@
 				<ul style="list-style: none; margin: 0;font-size: 14px;">
 					<li><strong><?php _e( 'Serial Key:', 'wc-serial-numbers' ); ?></strong> <?php echo sanitize_textarea_field( $serial_number->serial_key ); ?></li>
 					<li><strong><?php _e( 'Serial Email:', 'wc-serial-numbers' ); ?></strong> <?php echo esc_html( $serial_number->activation_email ); ?></li>
-					<li><strong><?php _e( 'Validity:', 'wc-serial-numbers' ); ?></strong> <?php echo ! empty( $serial_number->validity ) ? sprintf( _n( '%s Day', '%s Days', $serial_number->validity, 'wc-serial-numbers' ), number_format_i18n( $serial_number->validity ) ) : __( 'Never expire', 'wc-serial-numbers' ); ?></li>
+					<li><strong><?php _e( 'Expire Date:', 'wc-serial-numbers' ); ?></strong> <?php echo wcsn_get_serial_expiration_date( $serial_number ); ?></li>
 					<li><strong><?php _e( 'Activation Limit:', 'wc-serial-numbers' ); ?></strong> <?php echo empty( $serial_number->activation_limit ) ? __( 'Unlimited', 'wc-serial-numbers' ) : intval( $serial_number->activation_limit ); ?></li>
 				</ul>
 			</td>

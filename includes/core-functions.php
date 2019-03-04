@@ -345,3 +345,18 @@ function wcsn_serial_number_assign_order( $serial_id, $order_id, $status = null 
 		'order_date'       => current_time( 'mysql' )
 	) );
 }
+/**
+ * get expiration date
+ *
+ * since 1.0.0
+ * @param $serial
+ *
+ * @return string
+ */
+function wcsn_get_serial_expiration_date( $serial ) {
+	if ( empty( $serial->validity ) ) {
+		return __( 'Never Expire', 'wc-serial-numbers' );
+	}
+
+	return date( 'Y-m-d', strtotime( $serial->order_date . ' + ' . $serial->validity . ' Day ' ) );
+}

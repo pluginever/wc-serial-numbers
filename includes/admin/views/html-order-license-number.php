@@ -30,7 +30,7 @@ if ( sizeof( $serial_numbers ) > 0 ) { ?>
 					</td>
 					<td><span style="max-width: 150px;"><?php echo $serial_number->serial_key; ?></span></td>
 					<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
-					<td><?php echo ! empty( $serial_number->validity ) ? date( 'Y-m-d', strtotime( $serial_number->order_date . ' + ' . $serial_number->validity . ' Day ' ) ) : __( 'Never expire', 'wc-serial-numbers' ); ?></td>
+					<td><?php echo wcsn_get_serial_expiration_date($serial_number); ?></td>
 					<td><?php echo ! empty( $serial_number->status ) ? "<span class='wcsn-status-{$serial_number->status}'>" . wcsn_get_serial_statuses()[ $serial_number->status ] . '</span>' : '&#45;'; ?></td>
 					<td>
 						<a href="<?php echo add_query_arg( array(

@@ -66,14 +66,14 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 			case 'activation_limit':
 				echo ! empty( $item->activation_limit ) ? $item->activation_limit : __( 'Unlimited', 'wc-serial-numbers' );
 				echo '/';
-				echo wcsn_get_remaining_activation($item->id);
+				echo wcsn_get_remaining_activation( $item->id );
 				break;
 			case 'validity':
 				echo ! empty( $item->validity ) ? sprintf( _n( '%s Day', '%s Days', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
 				break;
 			case 'status':
 				$statues = wcsn_get_serial_statuses();
-				echo ! empty( $item->status ) && array_key_exists($item->status, $statues)? "<span class='wcsn-status-{$item->status}'>{$statues[$item->status]}</span>" : '&#45;';
+				echo ! empty( $item->status ) && array_key_exists( $item->status, $statues ) ? "<span class='wcsn-status-{$item->status}'>{$statues[$item->status]}</span>" : '&#45;';
 				break;
 			case 'date':
 				echo ! empty( $item->order_date ) && '0000-00-00 00:00:00' != $item->order_date ? date( get_option( 'date_format' ), strtotime( $item->order_date ) ) : '&#45;';
@@ -159,7 +159,7 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 	function prepare_items() {
 		global $wpdb;
-		$per_page              = wcsn_get_settings('wsn_rows_per_page', 20, 'wsn_general_settings');
+		$per_page              = wcsn_get_settings( 'wsn_rows_per_page', 20, 'wsn_general_settings' );
 		$columns               = $this->get_columns();
 		$hidden                = [];
 		$sortable              = $this->get_sortable_columns();
