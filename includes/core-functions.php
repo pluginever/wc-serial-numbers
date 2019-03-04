@@ -41,6 +41,9 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 		'expire_date' => current_time( 'mysql' ),
 	) );
 
+	if ( $args['number'] < 1 ) {
+		$args['number'] = 999999999;
+	}
 
 	$where = ' WHERE 1=1 ';
 	$join  = '';
@@ -153,7 +156,7 @@ function wcsn_get_product_list( $only_enabled = false ) {
 	$list = [];
 
 	$post_args = array(
-		'post_type' => array( 'product', 'product_variation' ),
+		'post_type' => apply_filters('wcsn_supported_product_types', array( 'product' )),
 		'nopaging'  => true,
 		'orderby'   => 'ID',
 		'order'     => 'ASC',
