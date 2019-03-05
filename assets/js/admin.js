@@ -3,7 +3,9 @@ var WCSN_Admin = {};
 	'use strict';
 	WCSN_Admin = {
 		init: function () {
+
 			$('.select-2').select2();
+
 			$('.wcsn-select-date').datepicker({
 				changeMonth: true,
 				changeYear: true,
