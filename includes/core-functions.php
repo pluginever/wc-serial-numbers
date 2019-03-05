@@ -25,7 +25,7 @@ function wcsn_get_settings( $key, $default = '', $section = '' ) {
  * since 1.0.0
  *
  * @param array $args
- * @param bool  $count
+ * @param bool $count
  *
  * @return array|null|int
  */
@@ -105,10 +105,10 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 	}
 
 	// check expire date
-//	if ( ! empty( $args['expire_date'] ) ) {
-//		$expire_date = sanitize_textarea_field( $args['expire_date'] );
-//		$where       .= " AND ( `expire_date` = '0000-00-00 00:00:00' OR `expire_date` >= '{$expire_date}')";
-//	}
+	//	if ( ! empty( $args['expire_date'] ) ) {
+	//		$expire_date = sanitize_textarea_field( $args['expire_date'] );
+	//		$where       .= " AND ( `expire_date` = '0000-00-00 00:00:00' OR `expire_date` >= '{$expire_date}')";
+	//	}
 
 	//$join  .= " LEFT JOIN {$wpdb->posts} wc_order ON wc_order.ID = serial.order_id";
 	//$where .= " AND wc_order.post_type='shop_order' ";
@@ -190,18 +190,19 @@ function wcsn_get_product_list( $only_enabled = false ) {
 				$children_products = get_children( $args_get_children );
 				if ( ! empty( $children_products ) ) {
 					foreach ( $children_products as $child ) {
-						$sku = get_post_meta($child->ID, '_sku', true );
-						$title                    = get_the_title($child->ID);
-						$title                    .= "(#{$child->ID} {$sku} ";
-						$title                    .= 'Variation';
-						$title                    .= ')';
+						$sku                = get_post_meta( $child->ID, '_sku', true );
+						$title              = get_the_title( $child->ID );
+						$title              .= "(#{$child->ID} {$sku} ";
+						$title              .= 'Variation';
+						$title              .= ')';
 						$list[ $child->ID ] = $title;
 					}
 				}
 			}
 		}
 	}
-	krsort($list);
+	krsort( $list );
+
 	return $list;
 }
 
@@ -346,10 +347,12 @@ function wcsn_serial_number_assign_order( $serial_id, $order_id, $status = null 
 		'order_date'       => current_time( 'mysql' )
 	) );
 }
+
 /**
  * get expiration date
  *
  * since 1.0.0
+ *
  * @param $serial
  *
  * @return string
@@ -360,4 +363,40 @@ function wcsn_get_serial_expiration_date( $serial ) {
 	}
 
 	return date( 'Y-m-d', strtotime( $serial->order_date . ' + ' . $serial->validity . ' Day ' ) );
+}
+
+/**
+ * Get notifications
+ *
+ * @since 1.0.0
+ *
+ * @param array $args
+ * @param bool $count
+ *
+ * @return array|int|null|object
+ */
+
+function wcsn_get_notifications( $args = array(), $count = false ) {
+	global $wpdb;
+
+	$args = wp_parse_args( $args, array(
+		'post_type'      => 'wcsn_notification',
+		'post_status'    => 'publish',
+		'comment_status' => 'enable',
+		'limit'          => 10,
+	) );
+
+	$where = " WHERE `post_type` = '{$args['post_type']}' AND `post_status` = '{$args['post_status']}' AND `comment_status` = '{$args['comment_status']}' ";
+	$limit = $args['limit'];
+
+
+	if ( $count ) {
+		$total = $wpdb->get_col("SELECT ID FROM $wpdb->posts $where LIMIT $limit;");
+		return count( $total );
+	}
+
+	$sql = $wpdb->prepare( "SELECT ID FROM $wpdb->posts $where LIMIT %d ;", $limit );
+
+	return $wpdb->get_results( $sql );
+
 }

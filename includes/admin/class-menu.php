@@ -46,10 +46,10 @@ class WC_Serial_Numbers_Menu {
 
 		$wp_admin_bar->add_menu( array(
 			'id'    => 'wsn-wc-serial-numbers',
-			'title' => __( 'WC Serial Numbers', 'wc-serial-numbers' ) . apply_filters( 'wsn_admin_bar_notification', false ),
+			'title' => __( 'WC Serial Numbers', 'wc-serial-numbers' ) . apply_filters( 'wcsn_admin_bar_notification_label', false ),
 			'href'  => admin_url( 'admin.php?page=wc-serial-numbers' ),
 			'meta'  => array(
-				'html' => apply_filters( 'wsn_admin_bar_notification_list', '' ),
+				'html' => apply_filters( 'wcsn_admin_bar_notification_list', '' ),
 			),
 		) );
 

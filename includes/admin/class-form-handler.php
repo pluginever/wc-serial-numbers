@@ -26,7 +26,6 @@ class WCSN_Form_Handler {
 			wp_die( 'No, Cheating!' );
 		}
 
-
 		$id            = ! empty( $_POST['serial_number_id'] ) ? intval( $_POST['serial_number_id'] ) : '';
 		$product_id    = ! empty( $_POST['product_id'] ) ? intval( $_POST['product_id'] ) : '';
 		$redirect_args = array(
@@ -80,7 +79,10 @@ class WCSN_Form_Handler {
 
 		update_post_meta( $product_id, '_is_serial_number', 'yes' );
 
+		do_action( 'wcsn_serial_number_created', $id, $product_id );
+
 		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
+
 		exit();
 
 	}
@@ -91,23 +93,31 @@ class WCSN_Form_Handler {
 	 * since 1.0.0
 	 */
 	public function delete_wc_serial_number() {
+
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'delete_wc_serial_number' ) ) {
 			wp_die( 'No, Cheating!' );
 		}
 
 		$id = ! empty( $_REQUEST['serial_id'] ) ? intval( $_REQUEST['serial_id'] ) : '';
 
+		$serial_number = array_pop(wcsn_get_serial_numbers( array( 'id' => $id ) ));
+
 		if ( ! empty( $id ) ) {
 			wc_serial_numbers()->serial_number->delete( $id );
 			wc_serial_numbers()->add_notice( 'success', __( 'Serial Number deleted successfully', 'wc-serial-numbers' ) );
 		}
+
+		do_action( 'wcsn_serial_number_deleted', $id, $serial_number->product_id );
+
 		if ( ! empty( $_REQUEST['order_id'] ) ) {
 			wp_safe_redirect( get_edit_post_link( intval( $_REQUEST['order_id'] ) ) );
 			exit();
 		}
+
 		wp_safe_redirect( add_query_arg( array(
 			'page' => 'wc-serial-numbers',
 		), admin_url( 'admin.php' ) ) );
+
 		exit();
 
 	}

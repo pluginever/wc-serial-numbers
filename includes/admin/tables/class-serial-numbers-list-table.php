@@ -54,7 +54,7 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 		switch ( $column_name ) {
 			case 'product':
 				$line = ! empty( $item->product_id ) ? get_the_title( $item->product_id ) : '&#45;';
-				echo ! empty( $item->product_id ) ? '<a href="' . get_edit_post_link( $item->product_id ) . '">' . $line . '</a>' : $line;
+				echo ! empty( $item->product_id ) ? '<a href="' . get_edit_post_link( $item->product_id ) . '">' . $line  . '</a>' : $line;
 				break;
 			case 'order':
 				$line = ! empty( $item->order_id ) ? '#' . $item->order_id : '&#45;';

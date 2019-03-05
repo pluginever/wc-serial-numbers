@@ -3,39 +3,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 abstract class WC_Serial_Numbers_Crud {
-	/**
-	 * set table name
-	 * since 1.0.0
-	 *
-	 * @return string
-	 */
-	public abstract function get_table_name();
-
-	/**
-	 * set primary key
-	 * since 1.0.0
-	 *
-	 * @return mixed
-	 */
-	public abstract function get_primary_key();
-
-	/**
-	 * Whitelist of columns
-	 *
-	 * @since   1.0.0
-	 * @return  array
-	 */
-	public abstract function get_columns();
-
-	/**
-	 * Default column values
-	 *
-	 * @since   1.0.0
-	 * @return  array
-	 */
-	public abstract function get_column_defaults();
-
 	/**
 	 * Get things started
 	 *
@@ -43,7 +12,6 @@ abstract class WC_Serial_Numbers_Crud {
 	 */
 	public function __construct() {
 	}
-
 
 	/**
 	 * Retrieve a row by the primary key
@@ -57,7 +25,13 @@ abstract class WC_Serial_Numbers_Crud {
 		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$this->get_table_name()} WHERE $this->primary_key = %s LIMIT 1;", $row_id ) );
 	}
 
-
+	/**
+	 * set table name
+	 * since 1.0.0
+	 *
+	 * @return string
+	 */
+	public abstract function get_table_name();
 
 	/**
 	 * Retrieve a row by a specific column / value
@@ -68,6 +42,7 @@ abstract class WC_Serial_Numbers_Crud {
 	public function get_by( $column, $row_id ) {
 		global $wpdb;
 		$column = esc_sql( $column );
+
 		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$this->get_table_name()} WHERE $column = %s LIMIT 1;", $row_id ) );
 	}
 
@@ -133,6 +108,22 @@ abstract class WC_Serial_Numbers_Crud {
 	}
 
 	/**
+	 * Default column values
+	 *
+	 * @since   1.0.0
+	 * @return  array
+	 */
+	public abstract function get_column_defaults();
+
+	/**
+	 * Whitelist of columns
+	 *
+	 * @since   1.0.0
+	 * @return  array
+	 */
+	public abstract function get_columns();
+
+	/**
 	 * Update a row
 	 *
 	 * @since   1.0.0
@@ -174,6 +165,14 @@ abstract class WC_Serial_Numbers_Crud {
 	}
 
 	/**
+	 * set primary key
+	 * since 1.0.0
+	 *
+	 * @return mixed
+	 */
+	public abstract function get_primary_key();
+
+	/**
 	 * Delete a row identified by the primary key
 	 *
 	 * @since   1.0.0
@@ -198,6 +197,16 @@ abstract class WC_Serial_Numbers_Crud {
 	}
 
 	/**
+	 * Check if the table was ever installed
+	 *
+	 * @since  1.0.0
+	 * @return bool Returns if the customers table was installed and upgrade routine run
+	 */
+	public function installed() {
+		return $this->table_exists( $this->get_table_name() );
+	}
+
+	/**
 	 * Check if the given table exists
 	 *
 	 * @since  1.0.0
@@ -211,16 +220,6 @@ abstract class WC_Serial_Numbers_Crud {
 		$table = sanitize_text_field( $table );
 
 		return $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE '%s'", $table ) ) === $table;
-	}
-
-	/**
-	 * Check if the table was ever installed
-	 *
-	 * @since  1.0.0
-	 * @return bool Returns if the customers table was installed and upgrade routine run
-	 */
-	public function installed() {
-		return $this->table_exists( $this->get_table_name() );
 	}
 
 }
