@@ -4,6 +4,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+function wc_serial_numbers_scripts( $hook ) {
+
+	$css_dir    = WC_SERIAL_NUMBERS_ASSETS_URL . '/css/';
+
+	//styles
+	wp_enqueue_style( 'wc-serial-numbers', $css_dir . "/frontend.css", [], WC_SERIAL_NUMBERS_VERSION );
+}
+add_action( 'wp_enqueue_scripts', 'wc_serial_numbers_scripts');
+
 function wc_serial_numbers_load_admin_scripts( $hook ) {
 	$js_dir     = WC_SERIAL_NUMBERS_ASSETS_URL . '/js/';
 	$css_dir    = WC_SERIAL_NUMBERS_ASSETS_URL . '/css/';

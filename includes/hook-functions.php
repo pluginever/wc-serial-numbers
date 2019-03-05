@@ -152,9 +152,9 @@ function wcsn_render_notification_list($email_notification = false ) {
 		ob_start();
 		wc_get_template( 'notification-list.php', array( 'ids' => $ids, 'email_notification' => $email_notification, ), '', WC_SERIAL_NUMBERS_INCLUDES . '/admin/notification/' );
 		$html = ob_get_clean();
+		return $html;
 	}
 
-	return $html;
 }
 
 add_filter( 'wcsn_admin_bar_notification_list', 'wcsn_render_notification_list' );
