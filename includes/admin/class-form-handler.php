@@ -65,7 +65,6 @@ class WCSN_Form_Handler {
 
 			if ( ! empty( $inserted ) ) {
 				wc_serial_numbers()->add_notice( 'success', __( 'Serial Number created successfully', 'wc-serial-numbers' ) );
-				$redirect_args['serial_id'] = $inserted;
 			} else {
 				wc_serial_numbers()->add_notice( 'error', __( 'Could not create serial number', 'wc-serial-numbers' ) );
 				wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
@@ -74,14 +73,13 @@ class WCSN_Form_Handler {
 		} else {
 			wc_serial_numbers()->serial_number->update( $id, $posted );
 			wc_serial_numbers()->add_notice( 'success', __( 'Serial Number updated successfully', 'wc-serial-numbers' ) );
-			$redirect_args['serial_id'] = $id;
 		}
 
 		update_post_meta( $product_id, '_is_serial_number', 'yes' );
 
 		do_action( 'wcsn_serial_number_created', $id, $product_id );
 
-		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
+		wp_safe_redirect( add_query_arg( array( 'page' => $redirect_args['page'] ), admin_url( 'admin.php' ) ) );
 
 		exit();
 
@@ -100,7 +98,7 @@ class WCSN_Form_Handler {
 
 		$id = ! empty( $_REQUEST['serial_id'] ) ? intval( $_REQUEST['serial_id'] ) : '';
 
-		$serial_number = array_pop(wcsn_get_serial_numbers( array( 'id' => $id ) ));
+		$serial_number = array_pop( wcsn_get_serial_numbers( array( 'id' => $id ) ) );
 
 		if ( ! empty( $id ) ) {
 			wc_serial_numbers()->serial_number->delete( $id );
