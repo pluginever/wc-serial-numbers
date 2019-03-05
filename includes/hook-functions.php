@@ -138,10 +138,9 @@ add_filter( 'wcsn_admin_bar_notification_label', 'wcsn_admin_bar_notification_la
  * @return bool|false|string
  */
 
-function wcsn_render_notification_list( $html, $email_notification = false ) {
+function wcsn_render_notification_list($email_notification = false ) {
 
 	$show_notification        = wcsn_get_settings( 'wsn_admin_bar_notification', 'on', 'wsn_notification_settings' );
-	$show_notification_number = wcsn_get_settings( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' );
 
 	if ( 'on' != $show_notification ) {
 		return false;
@@ -150,22 +149,15 @@ function wcsn_render_notification_list( $html, $email_notification = false ) {
 	$ids = wcsn_get_notifications();
 
 	if ( ! empty( $ids ) ) {
-
-		$message = '';
-
 		ob_start();
-		wc_get_template( 'notification-list.php', array( 'ids' => $ids ), '', WC_SERIAL_NUMBERS_INCLUDES . '/admin/notification/' );
+		wc_get_template( 'notification-list.php', array( 'ids' => $ids, 'email_notification' => $email_notification, ), '', WC_SERIAL_NUMBERS_INCLUDES . '/admin/notification/' );
 		$html = ob_get_clean();
-	}
-
-	if ( $email_notification ) {
-		return $message;
 	}
 
 	return $html;
 }
 
-add_filter( 'wcsn_admin_bar_notification_list', 'wcsn_render_notification_list', 10, 2 );
+add_filter( 'wcsn_admin_bar_notification_list', 'wcsn_render_notification_list' );
 
 /**
  * Update Notification on serial number created and update
@@ -176,7 +168,7 @@ add_filter( 'wcsn_admin_bar_notification_list', 'wcsn_render_notification_list',
  * @param $product_id
  */
 
-function wcsn_update_notification_on_list( $serial_id, $product_id ) {
+function wcsn_update_notification_list( $serial_id, $product_id ) {
 
 	$available_numbers = wcsn_get_serial_numbers( array( 'status' => 'new', 'product_id' => $product_id ), true );
 
@@ -220,8 +212,40 @@ function wcsn_update_notification_on_list( $serial_id, $product_id ) {
 	return;
 }
 
-add_action( 'wcsn_serial_number_created', 'wcsn_update_notification_on_list', 10, 2 );
-add_action( 'wcsn_serial_number_deleted', 'wcsn_update_notification_on_list', 10, 2 );
+add_action( 'wcsn_serial_number_created', 'wcsn_update_notification_list', 10, 2 );
+add_action( 'wcsn_serial_number_deleted', 'wcsn_update_notification_list', 10, 2 );
 
+/**
+ * Send Serial Numbers stock notification to email
+ * this email send daily
+ *
+ * @since 1.0.0
+ */
+
+function wcsn_send_notification_to_email(){
+
+	$message = wcsn_render_notification_list(true);
+
+	global $woocommerce;
+
+	$to      = wcsn_get_settings( 'wsn_admin_bar_notification_email', get_option('admin_email'), 'wsn_notification_settings' );
+
+	$subject = __( 'Serial Numbers stock running low', 'wc-serial-number-pro' );
+
+	$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message' );
+
+	$heading = __( 'Please add more serial number for the following items', 'wc-serial-number-pro' );
+
+	$mailer = $woocommerce->mailer();
+
+	$message = $mailer->wrap_message( $heading, $message );
+
+	$mailer->send( $to, $subject, $message, $headers, array() );
+
+	exit();
+
+}
+
+add_action( 'wcsn_daily_event', 'wcsn_send_notification_to_email' );
 
 
