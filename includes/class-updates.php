@@ -50,7 +50,8 @@ class WCSN_Updates {
 				update_option( 'wc_serial_numbers_version', $version );
 			}
 		}
-		delete_option('wpcp_version');
+
+		update_option( 'wpcp_version', WC_SERIAL_NUMBERS_VERSION );
 		update_option( 'wc_serial_numbers_version', WC_SERIAL_NUMBERS_VERSION );
 	}
 }
