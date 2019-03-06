@@ -10,9 +10,9 @@
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /i18n/languages/
- * Tested up to: 5.0.2
+ * Tested up to: 5.1.0
  * WC requires at least: 3.0.0
- * WC tested up to: 3.5.2
+ * WC tested up to: 3.5.5
  */
 
 /**
@@ -277,7 +277,6 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-updates.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
-//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/wc-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-crud.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-activation.php' );
