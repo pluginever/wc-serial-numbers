@@ -52,7 +52,7 @@ class Ever_Elements {
 		}
 
 		if ( $args['chosen'] ) {
-			$args['class'] .= ' ever-hrm-select-chosen';
+			$args['class'] .= ' ever-select-chosen';
 			if ( is_rtl() ) {
 				$args['class'] .= ' chosen-rtl';
 			}
@@ -125,7 +125,7 @@ class Ever_Elements {
 
 		$output .= '</select>';
 		if ( ! empty( $args['desc'] ) ) {
-			$output .= '<span class="ever-hrm-description">' . wp_kses_post( $args['desc'] ) . '</span>';
+			$output .= '<span class="ever-description">' . wp_kses_post( $args['desc'] ) . '</span>';
 		}
 		$output .= '</div>';
 
@@ -210,7 +210,7 @@ class Ever_Elements {
 		$output .= '<input type="' . esc_attr( $args['type'] ) . '" name="' . esc_attr( $args['name'] ) . '" id="' . esc_attr( $args['id'] ) . '" value="' . esc_attr( $args['value'] ) . '" class="' . $class . '" ' . $attributes . ' />';
 
 		if ( ! empty( $args['desc'] ) ) {
-			$output .= '<span class="ever-hrm-description">' .  $args['desc'] . '</span>';
+			$output .= '<span class="ever-description">' .  $args['desc'] . '</span>';
 		}
 
 		$output .= '</div>';
@@ -290,7 +290,7 @@ class Ever_Elements {
 		$output .= '<textarea name="' . esc_attr( $args['name'] ) . '" id="' . esc_attr( $args['id'] ) . '" class="' . $class . '"' . $attributes . '>' . sanitize_textarea_field( $args['value'] ) . '</textarea>';
 
 		if ( ! empty( $args['desc'] ) ) {
-			$output .= '<span class="ever-hrm-description">' . $args['desc']  . '</span>';
+			$output .= '<span class="ever-description">' . $args['desc']  . '</span>';
 		}
 
 		$output .= '</span>';

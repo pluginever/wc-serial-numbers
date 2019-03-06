@@ -55,52 +55,53 @@ if ( empty( $serial_number ) ) {
 								'options'          => wcsn_get_product_list(),
 								'required'         => true,
 								'selected'         => ! empty( $serial_number->product_id ) ? $serial_number->product_id : '',
-								'desc'             => ! wc_serial_numbers()->is_pro_installed() ? __( 'Upgrade to PRO for adding serial numbers for variable products.', 'wc-serial-numbers' ) : '',
+								'desc'             => ! wc_serial_numbers()->is_pro_installed() ? __( 'Upgrade to <a href="https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generate_serial_page&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro%20Now">PRO</a> for adding serial numbers for variable products.', 'wc-serial-numbers' ) : '',
 							) );
 
-						/*	echo wc_serial_numbers()->elements->select( array(
-								'label'            => __( 'Product Variation', 'wc-serial-numbers' ),
-								'name'             => 'variation_id',
-								'placeholder'      => '',
-								'show_option_all'  => '',
-								'show_option_none' => '',
-								'class'            => 'wcsn-variable-selection',
-								'options'          => array(
-									'' => __('Main Product', 'wc-serial-numbers')
-								),
-								'required'         => false,
-								'attrs'         => array(
-									'disabled' => 'disabled'
-								),
-								'selected'         => ! empty( $serial_number->variation_id ) ? $serial_number->variation_id : '',
-							) );*/
+							/*	echo wc_serial_numbers()->elements->select( array(
+									'label'            => __( 'Product Variation', 'wc-serial-numbers' ),
+									'name'             => 'variation_id',
+									'placeholder'      => '',
+									'show_option_all'  => '',
+									'show_option_none' => '',
+									'class'            => 'wcsn-variable-selection',
+									'options'          => array(
+										'' => __('Main Product', 'wc-serial-numbers')
+									),
+									'required'         => false,
+									'attrs'         => array(
+										'disabled' => 'disabled'
+									),
+									'selected'         => ! empty( $serial_number->variation_id ) ? $serial_number->variation_id : '',
+								) );*/
 
 
 							echo wc_serial_numbers()->elements->textarea( array(
-								'label'    => __( 'Serial Number', 'wc-serial-numbers' ),
-								'name'     => 'serial_key',
-								'required' => true,
-								'value'    => ! empty( $serial_number->serial_key ) ? $serial_number->serial_key : '',
-								'attrs'    => array(
+								'label'       => __( 'Serial Number', 'wc-serial-numbers' ),
+								'name'        => 'serial_key',
+								'placeholder' => 'd555b5ae-d9a6-41cb-ae54-361427357382',
+								'required'    => true,
+								'value'       => ! empty( $serial_number->serial_key ) ? $serial_number->serial_key : '',
+								'attrs'       => array(
 									'rows' => 5,
 								),
-								'help'     => 'You can enter multiline text.',
-								'desc'     => __( 'You can enter multiline text.', 'wc-serial-numbers' ) . '<br><strong>Example:</strong><br>username: johndoe<br>password: johndoeh123',
+								'help'        => 'You can enter multiline text.',
+								'desc'        => __( 'Your secret number, supports multiline.', 'wc-serial-numbers' ) . '<br><strong>Example: d555b5ae-d9a6-41cb-ae54-361427357382',
 							) );
 
-//							echo wc_serial_numbers()->elements->input( apply_filters(
-//								'wc_serial_number_image_license_input_args',
-//								array(
-//									'label'    => __( 'Image License', 'wc-serial-numbers' ),
-//									'name'     => 'license_image',
-//									'type'     => 'file',
-//									//'value'    => '',
-//									'required' => false,
-//									'disabled' => true,
-//									'desc'     => __( 'Upgrade to PRO for, using image as License', 'wc-serial-numbers' ),
-//								),
-//								$serial_number
-//							) );
+							//							echo wc_serial_numbers()->elements->input( apply_filters(
+							//								'wc_serial_number_image_license_input_args',
+							//								array(
+							//									'label'    => __( 'Image License', 'wc-serial-numbers' ),
+							//									'name'     => 'license_image',
+							//									'type'     => 'file',
+							//									//'value'    => '',
+							//									'required' => false,
+							//									'disabled' => true,
+							//									'desc'     => __( 'Upgrade to PRO for, using image as License', 'wc-serial-numbers' ),
+							//								),
+							//								$serial_number
+							//							) );
 
 							echo wc_serial_numbers()->elements->input( array(
 								'label'    => __( 'Activation Limit', 'wc-serial-numbers' ),
@@ -124,34 +125,34 @@ if ( empty( $serial_number ) ) {
 								'label'    => __( 'Expire Date', 'wc-serial-numbers' ),
 								'name'     => 'expire_date',
 								'type'     => 'text',
-								'class'     => 'wcsn-select-date',
+								'class'    => 'wcsn-select-date',
 								'value'    => ! empty( $serial_number->expire_date ) && ( $serial_number->expire_date != '0000-00-00 00:00:00' ) ? date( 'Y-m-d', strtotime( $serial_number->expire_date ) ) : '',
 								'required' => false,
 								'desc'     => __( 'After this date the key will not be assigned with any order. Leave blank for no expire date.', 'wc-serial-numbers' ),
 							) );
 
-//							if ( ! empty( $serial_number_id ) ) {
-//								echo wc_serial_numbers()->elements->input( array(
-//									'label'    => __( 'Order ID', 'wc-serial-numbers' ),
-//									'name'     => 'order_id',
-//									'type'     => 'number',
-//									'value'    => ! empty( $serial_number->order_id ) ? $serial_number->order_id : '',
-//									'required' => false,
-//									'desc'     => __( 'Leave blank for new', 'wc-serial-numbers' ),
-//								) );
-//							}
+							//							if ( ! empty( $serial_number_id ) ) {
+							//								echo wc_serial_numbers()->elements->input( array(
+							//									'label'    => __( 'Order ID', 'wc-serial-numbers' ),
+							//									'name'     => 'order_id',
+							//									'type'     => 'number',
+							//									'value'    => ! empty( $serial_number->order_id ) ? $serial_number->order_id : '',
+							//									'required' => false,
+							//									'desc'     => __( 'Leave blank for new', 'wc-serial-numbers' ),
+							//								) );
+							//							}
 
-//							echo wc_serial_numbers()->elements->select( array(
-//								'label'            => __( 'Status', 'wc-serial-numbers' ),
-//								'name'             => 'status',
-//								'placeholder'      => '',
-//								'show_option_all'  => '',
-//								'show_option_none' => '',
-//								'options'          => wcsn_get_serial_statuses(),
-//								'required'         => true,
-//								'selected'         => ! empty( $serial_number->status ) ? $serial_number->status : 'available',
-//								//'desc'             => __( '', 'wc-serial-numbers' ),
-//							) );
+							//							echo wc_serial_numbers()->elements->select( array(
+							//								'label'            => __( 'Status', 'wc-serial-numbers' ),
+							//								'name'             => 'status',
+							//								'placeholder'      => '',
+							//								'show_option_all'  => '',
+							//								'show_option_none' => '',
+							//								'options'          => wcsn_get_serial_statuses(),
+							//								'required'         => true,
+							//								'selected'         => ! empty( $serial_number->status ) ? $serial_number->status : 'available',
+							//								//'desc'             => __( '', 'wc-serial-numbers' ),
+							//							) );
 
 							?>
 
@@ -229,6 +230,7 @@ if ( empty( $serial_number ) ) {
 				.postbox-container {
 					margin-right: 20px;
 				}
+
 				@media only screen and (min-width: 800px) and (max-width: 1499px) {
 					#wpbody-content #dashboard-widgets .postbox-container {
 						width: 46.5% !important;
