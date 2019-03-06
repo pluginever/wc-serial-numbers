@@ -25,7 +25,19 @@ class WC_Serial_Numbers_Install {
 			update_option( $key . '_install_time', current_time( 'timestamp' ) );
 		}
 
+		$general_settings = array(
+			'wsn_rows_per_page'  => '20',
+			'wsn_allow_checkout' => 'no',
+		);
+
+		$saved_general_settings = get_option( 'wsn_general_settings' );
+		if ( empty( $saved_general_settings ) ) {
+			update_option( 'wsn_general_settings', $general_settings );
+		}
+
 		$delivery_settings = array(
+			'wsn_auto_complete_order'  => 'no',
+			'wsn_re_use_serial'        => 'no',
 			'wsn_send_serial_number'   => 'completed',
 			'wsn_revoke_serial_number' => array(
 				'cancelled' => 'cancelled',
