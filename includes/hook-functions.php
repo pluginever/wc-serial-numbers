@@ -230,11 +230,11 @@ function wcsn_send_notification_to_email(){
 
 	$to      = wcsn_get_settings( 'wsn_admin_bar_notification_email', get_option('admin_email'), 'wsn_notification_settings' );
 
-	$subject = __( 'Serial Numbers stock running low', 'wc-serial-number-pro' );
+	$subject = __( 'Serial Numbers stock running low', 'wc-serial-numbers' );
 
 	$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message' );
 
-	$heading = __( 'Please add more serial number for the following items', 'wc-serial-number-pro' );
+	$heading = __( 'Please add more serial number for the following items', 'wc-serial-numbers' );
 
 	$mailer = $woocommerce->mailer();
 

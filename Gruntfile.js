@@ -21,7 +21,7 @@ module.exports = function (grunt) {
 			all: [
 				'Gruntfile.js',
 				'<%= dirs.js %>/*.js',
-				'!<%= dirs.js %>/admin/*.min.js'
+				'!<%= dirs.js %>/*.min.js'
 			]
 		},
 
@@ -344,13 +344,12 @@ module.exports = function (grunt) {
 	grunt.registerTask('build',
 	[
 		'clean',
-		'zip'
+		'clean',
+		'copy'
 	]);
 
 	grunt.registerTask('zip',
 		[
-			'clean',
-			'copy',
 			'compress'
 		]);
 };
