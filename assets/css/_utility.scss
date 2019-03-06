@@ -1,0 +1,82 @@
+.ever-inline {
+	display: inline !important;
+}
+
+.ever-block {
+	display: block;
+}
+
+.ever-float-left {
+	float: left !important;
+}
+
+.ever-float-right {
+	float: right !important;
+}
+
+.ehrm-align-center {
+	text-align: center !important;
+}
+
+.ehrm-align-left {
+	text-align: left !important;
+}
+
+.ehrm-align-right {
+	text-align: right !important;
+}
+
+.ever-disabled {
+	border: 1px solid #999999 !important;
+	background-color: #cccccc !important;
+	color: #666666 !important;
+	cursor: not-allowed !important;
+}
+
+.ever-flex {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.wsn-button {
+
+	text-decoration: none;
+
+	&-primary {
+		background: #0085ba !important;
+		border-color: #0073aa #006799 #006799 !important;
+		box-shadow: 0 1px 0 #006799 !important;
+		color: #fff !important;
+		text-decoration: none !important;
+		text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799 !important;
+	}
+}
+
+.status.column-status {
+	font-weight: bold;
+	font-size: 12px !important;
+}
+
+.wcsn-status {
+	&-new {
+		color: $new;
+	}
+
+	&-pending {
+		color: $pending;
+	}
+
+	&-active {
+		color: $active;
+	}
+	&-expired {
+		color: $expired;
+	}
+}
+
+.wcsn-action {
+	padding-right: 10px;
+	&-unlink {
+		color: $expired;
+	}
+}

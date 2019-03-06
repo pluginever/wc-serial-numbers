@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if ( ! class_exists( 'Ever_Settings_API' ) ):
     class Ever_Settings_API {
         /**
@@ -223,6 +226,18 @@ if ( ! class_exists( 'Ever_Settings_API' ) ):
         }
 
         /**
+         * Displays a number field for a settings field
+         *
+         * @param array $args settings field args
+         */
+        function callback_heading( $args ) {
+            $value       = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+            $html        = sprintf( '<h2 class="ever-settings-heading">%1$s</h2>', $value);
+            $html        .= $this->get_field_description( $args );
+            echo $html;
+        }
+
+        /**
          * Displays a checkbox for a settings field
          *
          * @param array $args settings field args
@@ -349,7 +364,7 @@ if ( ! class_exists( 'Ever_Settings_API' ) ):
             $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
             $id    = $args['section'] . '[' . $args['id'] . ']';
-            $label = isset( $args['options']['button_label'] ) ? $args['options']['button_label'] : __( 'Choose File', 'wc-serial-number-pro' );
+            $label = isset( $args['options']['button_label'] ) ? $args['options']['button_label'] : __( 'Choose File', 'wc-serial-numbers' );
             $html  = sprintf( '<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
             $html  .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
             $html  .= $this->get_field_description( $args );
@@ -693,6 +708,11 @@ if ( ! class_exists( 'Ever_Settings_API' ) ):
                     border-bottom: 1px solid #cccccc;
 
                 }
+
+				.ever-settings-heading{
+					position: relative;
+					left: -17%;
+				}
 
             </style>
             <?php

@@ -21,7 +21,7 @@ module.exports = function (grunt) {
 			all: [
 				'Gruntfile.js',
 				'<%= dirs.js %>/*.js',
-				'!<%= dirs.js %>/admin/*.min.js'
+				'!<%= dirs.js %>/*.min.js'
 			]
 		},
 
@@ -141,7 +141,7 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				options: {
-					potFilename: 'wc-serial-number-pro.pot',
+					potFilename: 'wc-serial-numbers.pot',
 					exclude: [
 						'includes/class-updater.php',
 						'apigen/.*',
@@ -156,7 +156,7 @@ module.exports = function (grunt) {
 		// Check textdomain errors.
 		checktextdomain: {
 			options: {
-				text_domain: 'wc-serial-number-pro',
+				text_domain: 'wc-serial-numbers',
 				keywords: [
 					'__:1,2d',
 					'_e:1,2d',
@@ -344,13 +344,12 @@ module.exports = function (grunt) {
 	grunt.registerTask('build',
 	[
 		'clean',
-		'zip'
+		'clean',
+		'copy'
 	]);
 
 	grunt.registerTask('zip',
 		[
-			'clean',
-			'copy',
 			'compress'
 		]);
 };

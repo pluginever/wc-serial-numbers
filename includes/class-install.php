@@ -1,139 +1,148 @@
 <?php
-namespace Pluginever\WCSerialNumberPro;
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-class Install {
-    /**
-     * Install constructor.
-     */
-    public function __construct() {
-//        add_action( 'init', array( __CLASS__, 'install' ) );
-//        add_filter( 'cron_schedules', array( __CLASS__, 'cron_schedules' ) );
-    }
+class WC_Serial_Numbers_Install {
+	/**
+	 * WC_Serial_Numbers_Install constructor.
+	 */
+	public function __construct() {
+		register_activation_hook( WC_SERIAL_NUMBERS_FILE, array( $this, 'activate' ) );
+		register_deactivation_hook( WC_SERIAL_NUMBERS_FILE, array( $this, 'deactivate' ) );
+	}
 
-    public static function install() {
+	public static function activate() {
+		$key     = sanitize_key( wc_serial_numbers()->plugin_name );
+		$version = get_option( $key . '_version', '0' );
+		if ( empty( $version ) ) {
+			update_option( $key . '_version', wc_serial_numbers()->version );
+		}
 
-        if ( ! is_blog_installed() ) {
-            return;
-        }
+		$install_date = get_option( $key . '_install_time', '0' );
+		if ( empty( $install_date ) ) {
+			update_option( $key . '_install_time', current_time( 'timestamp' ) );
+		}
 
-        // Check if we are not already running this routine.
-        if ( 'yes' === get_transient( 'wc_serial_number_pros_installing' ) ) {
-            return;
-        }
+		$general_settings = array(
+			'wsn_rows_per_page'  => '20',
+			'wsn_allow_checkout' => 'no',
+		);
 
-        self::create_options();
-        self::create_tables();
-        self::create_roles();
-        self::create_cron_jobs();
-        
-        delete_transient( 'wc_serial_number_pros_installing' );
-    }
+		$saved_general_settings = get_option( 'wsn_general_settings' );
+		if ( empty( $saved_general_settings ) ) {
+			update_option( 'wsn_general_settings', $general_settings );
+		}
 
-    /**
-     * Save option data
-     */
-    public static function create_options() {
-        //save db version
-        update_option( 'wpcp_version', WPWSNP_VERSION );
+		$delivery_settings = array(
+			'wsn_auto_complete_order'  => 'no',
+			'wsn_re_use_serial'        => 'no',
+			'wsn_send_serial_number'   => 'completed',
+			'wsn_revoke_serial_number' => array(
+				'cancelled' => 'cancelled',
+				'refunded'  => 'refunded',
+				'failed'    => 'failed',
+			),
+		);
 
-        //save install date
-        update_option( 'wc_serial_number_pros_install_date', current_time( 'timestamp' ) );
-    }
+		$saved_delivery_settings = get_option( 'wsn_delivery_settings' );
+		if ( empty( $saved_delivery_settings ) ) {
+			update_option( 'wsn_delivery_settings', $delivery_settings );
+		}
 
-    private static function create_tables() {
-        global $wpdb;
-        $collate = '';
-        if ( $wpdb->has_cap( 'collation' ) ) {
-            if ( ! empty( $wpdb->charset ) ) {
-                $collate .= "DEFAULT CHARACTER SET $wpdb->charset";
-            }
-            if ( ! empty( $wpdb->collate ) ) {
-                $collate .= " COLLATE $wpdb->collate";
-            }
-        }
-        $table_schema = [
-            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}table` (
-                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-                `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
-                PRIMARY KEY (`id`),
-                  UNIQUE (url)
-            ) $collate;",
-        ];
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        foreach ( $table_schema as $table ) {
-            dbDelta( $table );
-        }
-    }
+		$notification_settings = array(
+			'wsn_admin_bar_notification'            => 'on',
+			'wsn_admin_bar_notification_number'     => '5',
+			'wsn_admin_bar_notification_send_email' => 'on',
+			'wsn_admin_bar_notification_email'      => get_option( 'admin_email' ),
+		);
 
-    /**
-     * Create roles and capabilities.
-     */
-    private static function create_roles() {
-        global $wp_roles;
+		$saved_notification_settings = get_option( 'wsn_notification_settings' );
+		if ( empty( $saved_notification_settings ) ) {
+			update_option( 'wsn_notification_settings', $notification_settings );
+		}
 
-        if ( ! class_exists( 'WP_Roles' ) ) {
-            return;
-        }
+		self::create_tables();
+		self::create_cron();
+	}
 
-        if ( ! isset( $wp_roles ) ) {
-            $wp_roles = new \WP_Roles();
-        }
+	/**
+	 * Create tables
+	 *
+	 * @since 1.0.0
+	 */
+	public static function create_tables() {
+		global $wpdb;
+		$collate = '';
+		if ( $wpdb->has_cap( 'collation' ) ) {
+			if ( ! empty( $wpdb->charset ) ) {
+				$collate .= "DEFAULT CHARACTER SET $wpdb->charset";
+			}
+			if ( ! empty( $wpdb->collate ) ) {
+				$collate .= " COLLATE $wpdb->collate";
+			}
+		}
 
-        // Customer role.
-        add_role(
-            'userrole',
-            __( 'User Role', 'wc-serial-number-pro' ),
-            self::get_caps( 'userrole' )
-        );
+		$tables = [
+			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wcsn_serial_numbers(
+			id bigint(20) NOT NULL AUTO_INCREMENT,
+			serial_key longtext DEFAULT NULL,
+			serial_image varchar(200) DEFAULT NULL,
+			product_id bigint(20) NOT NULL,
+			activation_limit int(9) NULL,
+			order_id bigint(20) NOT NULL DEFAULT 0,
+			activation_email varchar(200) DEFAULT NULL,
+			status varchar(50) DEFAULT 'available',
+			validity varchar(200) DEFAULT NULL,
+			expire_date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			order_date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			created datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+			PRIMARY KEY  (id)
+			) $collate;",
+			"CREATE TABLE {$wpdb->prefix}wcsn_activations (
+			  id bigint(20) NOT NULL auto_increment,
+			  serial_id bigint(20) NOT NULL,
+			  instance varchar(200) NOT NULL,
+			  active int(1) NOT NULL DEFAULT 1,
+			  platform varchar(200) NULL,
+			  activation_time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			  PRIMARY KEY  (id)
+			) $collate;"
+		];
 
-        //add all new caps to admin
-        $admin_capabilities = self::get_caps( 'administrator' );
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-        foreach ( $admin_capabilities as $cap ) {
-            $wp_roles->add_cap( 'administrator', $cap );
-        }
-    }
+		foreach ( $tables as $table ) {
+			dbDelta( $table );
+		}
+	}
 
-    /**
-     * @param $role
-     *
-     * @return array
-     */
-    private static function get_caps( $role ) {
-        $caps = [
-            'userrole'      => [],
-            'administrator' => [],
-        ];
+	/**
+	 * create cron event
+	 *
+	 * @since 1.0.0
+	 */
+	public static function create_cron() {
+		if ( ! wp_next_scheduled( 'wcsn_hourly_event' ) ) {
+			wp_schedule_event( time(), 'hourly', 'wcsn_hourly_event' );
+		}
 
-        return $caps[ $role ];
-    }
+		if ( ! wp_next_scheduled( 'wcsn_daily_event' ) ) {
+			wp_schedule_event( time(), 'daily', 'wcsn_daily_event' );
+		}
+	}
 
-    /**
-     * Add more cron schedules.
-     *
-     * @param  array $schedules List of WP scheduled cron jobs.
-     *
-     * @return array
-     */
-    public static function cron_schedules( $schedules ) {
-        $schedules['monthly'] = array(
-            'interval' => 2635200,
-            'display'  => __( 'Monthly', 'wc-serial-number-pro' ),
-        );
-
-        return $schedules;
-    }
-
-    /**
-     * Create cron jobs (clear them first).
-     */
-    private static function create_cron_jobs() {
-        wp_clear_scheduled_hook( 'wc_serial_number_pro_daily_cron' );
-        wp_schedule_event( time(), 'daily', 'wc_serial_number_pro_daily_cron' );
-    }
-
+	/**
+	 * Disable plugin specific data
+	 *
+	 * @since 1.0.0
+	 */
+	public static function deactivate() {
+		wp_clear_scheduled_hook( 'wcsn_hourly_event' );
+		wp_clear_scheduled_hook( 'wcsn_daily_event' );
+	}
 
 }
 
-new Install();
+new WC_Serial_Numbers_Install();
