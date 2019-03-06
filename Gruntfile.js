@@ -344,13 +344,12 @@ module.exports = function (grunt) {
 	grunt.registerTask('build',
 	[
 		'clean',
-		'zip'
+		'clean',
+		'copy'
 	]);
 
 	grunt.registerTask('zip',
 		[
-			'clean',
-			'copy',
 			'compress'
 		]);
 };
