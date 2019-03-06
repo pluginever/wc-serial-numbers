@@ -221,7 +221,7 @@ function wcsn_get_pro_features() {
 		'Bulk serial numbers Import',
 		'Serial numbers export',
 		'Add products from edit order page',
-		'Extensive reports of your sold serial numbers.',
+//		'Extensive reports of your sold serial numbers.',
 	);
 
 	return $features;
