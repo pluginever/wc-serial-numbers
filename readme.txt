@@ -86,12 +86,12 @@ The advanced features include bulk import of license keys and automatic license 
 WooCommerce Serial Numbers has a dedicated page for Software API. You can learn about more from  https://www.pluginever.com/docs/woocommerce-serial-numbers/woocommerce-serial-numbers-api-docs/ about how it works.
  
 == Screenshots ==
-1. Serial number table
+1. License table generated and populated by WooCommerce Serial Numbers 
 2. WC Serial Numbers product page
 3. WC serial number delivery settings
-4. Automatic serial number generator
+4. Create serial number
 5. Serial number on thank you page
-6. Serial number in email
+6. Serial number admin notification
 
 == Changelog ==
 = 1.0 (21 January,2019) =
