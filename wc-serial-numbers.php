@@ -277,7 +277,9 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
 
 		//admin
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-promotion.php' );
+		if ( ! $this->is_pro_installed() ) {
+			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-promotion.php' );
+		}
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-menu.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-form-handler.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings-api.php' );
