@@ -49,7 +49,7 @@ final class WCSerialNumbers {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.0';
+	public $version = '1.0.1';
 
 	/**
 	 * @since 1.0.0
@@ -111,6 +111,7 @@ final class WCSerialNumbers {
 		register_activation_hook( __FILE__, array( $this, 'activation_check' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
 		add_action( 'init', array( $this, 'localization_setup' ) );
+		add_action( 'admin_init', array( $this, 'init_update' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
 
 		if ( $this->is_plugin_compatible() ) {
@@ -118,6 +119,7 @@ final class WCSerialNumbers {
 			$this->includes();
 			$this->serial_number = new WC_Serial_Numbers_Serial_Number();
 			$this->activation    = new WC_Serial_Numbers_Activation();
+
 			// API
 			$this->api_url  = add_query_arg( 'wc-api', 'serial-numbers-api', home_url( '/' ) );
 			$this->elements = new Ever_Elements();
@@ -245,6 +247,13 @@ final class WCSerialNumbers {
 		return $links;
 	}
 
+	public function init_update() {
+		$updater = new WCSN_Updates();
+		if ( $updater->needs_update() ) {
+			$updater->perform_updates();
+		}
+	}
+
 	/**
 	 * define plugin constants
 	 *
@@ -265,6 +274,7 @@ final class WCSerialNumbers {
 	 */
 	public function includes() {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-install.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-updates.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/wc-functions.php' );

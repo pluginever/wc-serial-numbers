@@ -43,7 +43,7 @@ class WCSN_Updates {
 	 */
 	function perform_updates() {
 		$installed_version = $this->get_version();
-		$path              = trailingslashit( dirname( __FILE__ ) );
+		$path              = trailingslashit( WC_SERIAL_NUMBERS_INCLUDES );
 		foreach ( self::$upgrades as $version => $file ) {
 			if ( version_compare( $installed_version, $version, '<' ) ) {
 				include $path . $file;
@@ -54,3 +54,4 @@ class WCSN_Updates {
 		update_option( 'wc_serial_numbers_version', WC_SERIAL_NUMBERS_VERSION );
 	}
 }
+

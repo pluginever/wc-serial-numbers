@@ -1,5 +1,7 @@
 <?php
 function wcsn_update_1_0_1() {
+	WC_Serial_Numbers_Install::activate();
+
 	$serial_numbers = get_posts( array(
 		'post_type' => 'wsn_serial_number',
 		'nopaging'  => true,
