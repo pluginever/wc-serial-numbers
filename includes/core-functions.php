@@ -25,7 +25,7 @@ function wcsn_get_settings( $key, $default = '', $section = '' ) {
  * since 1.0.0
  *
  * @param array $args
- * @param bool $count
+ * @param bool  $count
  *
  * @return array|null|int
  */
@@ -237,7 +237,7 @@ function wcsn_get_pro_features() {
  *
  * @return int|mixed
  */
-function wcsn_get_remaining_activation( $serial_id ) {
+function wcsn_get_remaining_activation( $serial_id, $context = 'edit' ) {
 	global $wpdb;
 
 	$serial_id = (int) $serial_id;
@@ -249,13 +249,13 @@ function wcsn_get_remaining_activation( $serial_id ) {
 	$activation_limit = $wpdb->get_var( $wpdb->prepare( "SELECT activation_limit FROM {$wpdb->prefix}wcsn_serial_numbers WHERE id = %s;", $serial_id ) );
 
 	if ( null == $activation_limit || 0 == $activation_limit ) {
-		return 999999999;
+		return $context == 'edit' ? 999999999 : __( 'Unlimited', 'wc-serial-numbers' );
 	}
 
 	$active_activations = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}wcsn_activations WHERE serial_id = %s AND active = 1;", $serial_id ) );
 	$remaining          = max( 0, $activation_limit - $active_activations );
 
-	return $remaining;
+	return $context == 'edit' ? $remaining : $remaining > 9999 ? __( 'Unlimited', 'wc-serial-numbers' ) : $remaining;
 }
 
 /**
@@ -371,7 +371,7 @@ function wcsn_get_serial_expiration_date( $serial ) {
  * @since 1.0.0
  *
  * @param array $args
- * @param bool $count
+ * @param bool  $count
  *
  * @return array|int|null|object
  */
@@ -391,7 +391,8 @@ function wcsn_get_notifications( $args = array(), $count = false ) {
 
 
 	if ( $count ) {
-		$total = $wpdb->get_col("SELECT ID FROM $wpdb->posts $where LIMIT $limit;");
+		$total = $wpdb->get_col( "SELECT ID FROM $wpdb->posts $where LIMIT $limit;" );
+
 		return count( $total );
 	}
 
