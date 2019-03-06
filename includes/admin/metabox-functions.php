@@ -200,7 +200,7 @@ function show_product_order( $columns ) {
 
 	//add column
 	$columns['serial_numbers'] = '<span class="dashicons dashicons-admin-network"></span>';
-	$columns['date']           = __( 'Date', 'woocommerce' );
+	$columns['date']           = __( 'Date', 'wc-serial-numbers' );
 
 	return $columns;
 }

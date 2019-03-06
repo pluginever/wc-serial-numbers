@@ -96,3 +96,10 @@ WooCommerce Serial Numbers has a dedicated page for Software API. You can learn 
 == Changelog ==
 = 1.0 (21 January,2019) =
 Initial release
+
+= 1.0.1 (6 March,2019) =
+* Rewrite serial generation process
+* Add software API
+* Update settings
+* Improve notification
+* Fix bug

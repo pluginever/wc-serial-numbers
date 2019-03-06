@@ -1,0 +1,752 @@
+# Copyright (C) 2019 pluginever
+# This file is distributed under the GPLv2+.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Serial Numbers 1.0.1\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/wc-serial-numbers\n"
+"POT-Creation-Date: 2019-03-06 14:44:21+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
+
+#: includes/admin/metabox-functions.php:104
+#: includes/admin/metabox-functions.php:113
+msgid "0"
+msgstr ""
+
+#: includes/admin/class-settings.php:179
+msgid "2"
+msgstr ""
+
+#: includes/admin/class-settings.php:99 includes/admin/class-settings.php:109
+msgid "4"
+msgstr ""
+
+#: includes/admin/class-form-handler.php:38
+msgid "You must select a product to add serial number."
+msgstr ""
+
+#: includes/admin/class-form-handler.php:57
+msgid "The Serial Number is empty. Please enter a serial number and try again"
+msgstr ""
+
+#: includes/admin/class-form-handler.php:67
+msgid "Serial Number created successfully"
+msgstr ""
+
+#: includes/admin/class-form-handler.php:69
+msgid "Could not create serial number"
+msgstr ""
+
+#: includes/admin/class-form-handler.php:75
+msgid "Serial Number updated successfully"
+msgstr ""
+
+#: includes/admin/class-form-handler.php:105
+msgid "Serial Number deleted successfully"
+msgstr ""
+
+#: includes/admin/class-form-handler.php:147
+msgid "Serial Number successfully Unlinked from the order"
+msgstr ""
+
+#: includes/admin/class-menu.php:21 includes/admin/class-menu.php:49
+msgid "WC Serial Numbers"
+msgstr ""
+
+#: includes/admin/class-menu.php:21 includes/admin/class-menu.php:22
+#: includes/admin/class-menu.php:58
+#: includes/admin/emails/email-serial-numbers.php:5
+#: includes/admin/metabox-functions.php:58
+#: includes/admin/tables/class-serial-numbers-list-table.php:15
+#: includes/admin/views/html-view-serial-numbers.php:14
+#: templates/html-order-details-table.php:5
+msgid "Serial Numbers"
+msgstr ""
+
+#: includes/admin/class-menu.php:23
+msgid "API Doc"
+msgstr ""
+
+#: includes/admin/class-menu.php:66
+#: includes/admin/views/html-add-serial-number.php:19
+#: includes/admin/views/html-add-serial-number.php:38
+msgid "Add Serial Number"
+msgstr ""
+
+#: includes/admin/class-settings-api.php:367
+msgid "Choose File"
+msgstr ""
+
+#: includes/admin/class-settings.php:34
+msgid "General Settings"
+msgstr ""
+
+#: includes/admin/class-settings.php:39
+msgid "Notifications"
+msgstr ""
+
+#: includes/admin/class-settings.php:43
+msgid "Delivery Settings"
+msgstr ""
+
+#: includes/admin/class-settings.php:64
+msgid "Numbers of rows per page"
+msgstr ""
+
+#: includes/admin/class-settings.php:65
+msgid "Display the serial numbers in the serial table list"
+msgstr ""
+
+#: includes/admin/class-settings.php:74
+msgid "Allow to checkout, Even there is no serial number"
+msgstr ""
+
+#: includes/admin/class-settings.php:75
+msgid ""
+"Allow Customers to checkout, Even there is no serial number for a serial "
+"activated product"
+msgstr ""
+
+#: includes/admin/class-settings.php:88
+msgid "Prefix"
+msgstr ""
+
+#: includes/admin/class-settings.php:89
+msgid "sl-"
+msgstr ""
+
+#: includes/admin/class-settings.php:90
+msgid "Prefix to added before the serial number."
+msgstr ""
+
+#: includes/admin/class-settings.php:98
+msgid "Chunks Number"
+msgstr ""
+
+#: includes/admin/class-settings.php:100
+msgid "The number of chunks for the serial number."
+msgstr ""
+
+#: includes/admin/class-settings.php:108
+msgid "Chunks Length"
+msgstr ""
+
+#: includes/admin/class-settings.php:110
+msgid "The number of chunks length for the serial number."
+msgstr ""
+
+#: includes/admin/class-settings.php:118
+msgid "Suffix"
+msgstr ""
+
+#: includes/admin/class-settings.php:119
+msgid "-suffix"
+msgstr ""
+
+#: includes/admin/class-settings.php:120
+msgid "Suffix to added after the serial number."
+msgstr ""
+
+#: includes/admin/class-settings.php:128
+msgid "Max. Deliver Times"
+msgstr ""
+
+#: includes/admin/class-settings.php:129
+msgid "The maximum number, the serial number can be delivered.."
+msgstr ""
+
+#: includes/admin/class-settings.php:137
+msgid "Instance Number"
+msgstr ""
+
+#: includes/admin/class-settings.php:138
+msgid "Maximum instance for the serial number."
+msgstr ""
+
+#: includes/admin/class-settings.php:146
+#: includes/admin/metabox-functions.php:111
+#: includes/admin/tables/class-serial-numbers-list-table.php:32
+#: includes/admin/views/html-add-serial-number.php:116
+msgid "Validity"
+msgstr ""
+
+#: includes/admin/class-settings.php:147
+msgid ""
+"Validity days for the serial number. Keep it 0, if the serial number "
+"doesn't expire"
+msgstr ""
+
+#: includes/admin/class-settings.php:156
+msgid "Generate Number"
+msgstr ""
+
+#: includes/admin/class-settings.php:157
+msgid "The default generate number for generating serial number automatically."
+msgstr ""
+
+#: includes/admin/class-settings.php:169
+msgid "Admin bar notification"
+msgstr ""
+
+#: includes/admin/class-settings.php:170
+msgid ""
+"Show admin bar notification, if there is not enough serial number for any "
+"product"
+msgstr ""
+
+#: includes/admin/class-settings.php:178
+msgid "Set Limit"
+msgstr ""
+
+#: includes/admin/class-settings.php:180
+msgid ""
+"Show notifications in the admin panel when, Number of available serial "
+"numbers for license able products is under the given number"
+msgstr ""
+
+#: includes/admin/class-settings.php:188
+msgid "Send Email"
+msgstr ""
+
+#: includes/admin/class-settings.php:189
+msgid ""
+"Also receive email notification, if there is not enough serial number for "
+"any product"
+msgstr ""
+
+#: includes/admin/class-settings.php:198
+msgid "Email Address"
+msgstr ""
+
+#: includes/admin/class-settings.php:200
+msgid "The email address to be used for sending the email notification"
+msgstr ""
+
+#: includes/admin/class-settings.php:212
+msgid "Auto Complete Order"
+msgstr ""
+
+#: includes/admin/class-settings.php:213
+msgid "Whether the Order will be auto completed after purchasing."
+msgstr ""
+
+#: includes/admin/class-settings.php:217 includes/admin/class-settings.php:242
+msgid "Yes"
+msgstr ""
+
+#: includes/admin/class-settings.php:218 includes/admin/class-settings.php:241
+msgid "No"
+msgstr ""
+
+#: includes/admin/class-settings.php:224
+msgid "Revoke serial number on"
+msgstr ""
+
+#: includes/admin/class-settings.php:225
+msgid ""
+"Choose order status, when the serial number to be removed from the order "
+"details"
+msgstr ""
+
+#: includes/admin/class-settings.php:229
+msgid "Cancelled"
+msgstr ""
+
+#: includes/admin/class-settings.php:230 includes/core-functions.php:142
+msgid "Refunded"
+msgstr ""
+
+#: includes/admin/class-settings.php:231
+msgid "Failed"
+msgstr ""
+
+#: includes/admin/class-settings.php:236
+msgid "Reuse Serial Number"
+msgstr ""
+
+#: includes/admin/class-settings.php:237
+msgid "Enable Serial number reuse, recovered from failed/refunded orders"
+msgstr ""
+
+#: includes/admin/class-settings.php:262
+msgid "WC Serial Numbers Settings"
+msgstr ""
+
+#: includes/admin/emails/email-serial-numbers.php:10
+#: includes/admin/tables/class-serial-numbers-list-table.php:28
+#: includes/admin/views/html-add-serial-number.php:49
+#: includes/admin/views/html-order-activations.php:20
+#: includes/admin/views/html-order-license-number.php:16
+#: templates/html-order-details-table.php:10
+msgid "Product"
+msgstr ""
+
+#: includes/admin/emails/email-serial-numbers.php:11
+#: includes/admin/metabox-functions.php:18
+#: includes/admin/tables/class-serial-numbers-list-table.php:14
+#: includes/admin/views/html-add-serial-number.php:80
+#: templates/html-order-details-table.php:11
+msgid "Serial Number"
+msgstr ""
+
+#: includes/admin/emails/email-serial-numbers.php:22
+#: templates/html-order-details-table.php:23
+msgid "Serial Email:"
+msgstr ""
+
+#: includes/admin/emails/email-serial-numbers.php:23
+#: templates/html-order-details-table.php:22
+msgid "Serial Key:"
+msgstr ""
+
+#: includes/admin/emails/email-serial-numbers.php:24
+msgid "Validity:"
+msgstr ""
+
+#: includes/admin/emails/email-serial-numbers.php:25
+#: templates/html-order-details-table.php:25
+msgid "Activation Limit:"
+msgstr ""
+
+#: includes/admin/emails/email-serial-numbers.php:25
+#: includes/admin/tables/class-serial-numbers-list-table.php:67
+#: includes/core-functions.php:252 includes/core-functions.php:258
+#: templates/html-order-details-table.php:25
+msgid "Unlimited"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:19
+msgid "Enable this option if you want to enable license numbers"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:77
+msgid "Serial Key Source"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:78
+msgid ""
+"Auto generated will automatically generate serial key & assign to order. "
+"Custom generated key will be used from available generated serial key."
+msgstr ""
+
+#: includes/admin/metabox-functions.php:79
+#: includes/admin/metabox-functions.php:95
+#: includes/admin/views/html-order-activations.php:32
+#: includes/admin/views/html-order-activations.php:33
+#: includes/admin/views/html-order-license-number.php:32
+msgid "N/A"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:82
+msgid "Manually Generated serial number"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:87
+msgid ""
+"Want serial number to be generated automatically and auto assign with "
+"order? Upgrade to Pro"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:87
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:93
+msgid "License key prefix"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:94
+msgid "Optional prefix for generated serial number."
+msgstr ""
+
+#: includes/admin/metabox-functions.php:102
+msgid "Activation limit"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:103
+msgid ""
+"Amount of activations possible per serial number. 0 means unlimited. If its "
+"not a software product ignore this."
+msgstr ""
+
+#: includes/admin/metabox-functions.php:112
+#: includes/admin/views/html-add-serial-number.php:121
+msgid "The number validity in days."
+msgstr ""
+
+#: includes/admin/metabox-functions.php:120
+msgid "Software Version"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:121
+msgid "Version number for the software. If its not a software product ignore this."
+msgstr ""
+
+#: includes/admin/metabox-functions.php:122
+msgid "e.g. 1.0"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:128
+msgid ""
+"You have <strong>%s</strong> remaining Generated serial numbers for "
+"<strong>%s</strong>"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:133
+msgid "View serial numbers"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:137
+msgid "Add serial numbers"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:184
+msgid "License Numbers"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:185
+msgid "Serial Numbers Activations"
+msgstr ""
+
+#: includes/admin/metabox-functions.php:203
+msgid "Date"
+msgstr ""
+
+#: includes/admin/notification/notification-list.php:32
+msgid "Please add serial numbers for %s , %d Serial number left"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:21
+msgid "No serial number found."
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:27
+#: includes/admin/views/html-order-license-number.php:17
+msgid "Serial Key"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:29
+msgid "Order"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:30
+msgid "Customer Email"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:31
+#: includes/admin/views/html-add-serial-number.php:107
+#: includes/admin/views/html-order-license-number.php:18
+msgid "Activation Limit"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:33
+#: includes/admin/views/html-order-activations.php:23
+#: includes/admin/views/html-order-license-number.php:20
+msgid "Status"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:34
+msgid "Order Date"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:69
+msgid "Remaining"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:72
+msgid "%s Day"
+msgid_plural "%s Days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:72
+msgid "Never expire"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:93
+#: includes/admin/views/html-order-license-number.php:41
+msgid "Edit"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:99
+#: includes/admin/tables/class-serial-numbers-list-table.php:120
+msgid "Delete"
+msgstr ""
+
+#: includes/admin/tables/class-serial-numbers-list-table.php:154
+msgid "Serial Number Deleted"
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:17
+#: includes/admin/views/html-add-serial-number.php:36
+msgid "Edit Serial Number"
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:24
+msgid "Add new serial number"
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:58
+msgid ""
+"Upgrade to <a "
+"href=\"https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/"
+"?utm_source=generate_serial_page&utm_medium=link&utm_campaign=wc-serial-"
+"numbers&utm_content=Upgrade%20to%20Pro%20Now\">PRO</a> for adding serial "
+"numbers for variable products."
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:89
+msgid "Your secret number, supports multiline."
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:112
+msgid ""
+"Maximum number of times the key can be used to activate specially software. "
+"If the product is not software keep blank."
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:125
+#: includes/admin/views/html-order-license-number.php:19
+msgid "Expire Date"
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:131
+msgid ""
+"After this date the key will not be assigned with any order. Leave blank "
+"for no expire date."
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:164
+msgid "Submit"
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:175
+msgid "Upgrade to WooCommerce Serial License Pro"
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:178
+msgid "Features :"
+msgstr ""
+
+#: includes/admin/views/html-add-serial-number.php:185
+msgid "Upgrade To Pro Now"
+msgstr ""
+
+#: includes/admin/views/html-api-doc.php:9
+msgid "Serial Numbers API Doc"
+msgstr ""
+
+#: includes/admin/views/html-order-activations.php:21
+msgid "Instance"
+msgstr ""
+
+#: includes/admin/views/html-order-activations.php:22
+msgid "Platform/OS"
+msgstr ""
+
+#: includes/admin/views/html-order-activations.php:24
+msgid "Date &amp; Time"
+msgstr ""
+
+#: includes/admin/views/html-order-activations.php:34
+msgid "Activated"
+msgstr ""
+
+#: includes/admin/views/html-order-activations.php:34
+msgid "Deactivated"
+msgstr ""
+
+#: includes/admin/views/html-order-activations.php:35
+msgid "D j M Y \\a\\t h:ia"
+msgstr ""
+
+#: includes/admin/views/html-order-activations.php:43
+msgid "No activations yet"
+msgstr ""
+
+#: includes/admin/views/html-order-license-number.php:21
+msgid "Actions"
+msgstr ""
+
+#: includes/admin/views/html-order-license-number.php:50
+msgid "Unlink"
+msgstr ""
+
+#: includes/admin/views/html-order-license-number.php:59
+msgid "No Serial enabled products"
+msgstr ""
+
+#: includes/admin/views/html-view-serial-numbers.php:17
+msgid "Add serial number"
+msgstr ""
+
+#: includes/admin/views/html-view-serial-numbers.php:24
+msgid "Search"
+msgstr ""
+
+#: includes/class-elements.php:21
+msgid "- Please Select -"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:35
+msgid "The email provided is invalid"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:39
+msgid "The serial key provided is invalid"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:43
+msgid "The product id provided is invalid"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:49
+msgid "No matching serial key exists"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:62
+msgid "The order related to the data is not available."
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:66
+msgid "The purchase matching this product is not complete"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:75
+#: includes/class-serial-numbers-api.php:92
+msgid "Invalid request type"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:149
+msgid "Remaining activations is equal to zero"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:159
+msgid "%s out of %s activations remaining"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:178
+msgid "Could not find any active instance of the serial"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:222
+msgid "Invalid Serial Key"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:225
+msgid "Serial number has been deactivated"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:228
+msgid "Exceeded maximum number of activations"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:231
+msgid "Invalid Instance ID"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:234
+msgid "Invalid security key"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:237
+msgid "Matching serial number is not active yet."
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:240
+msgid "Forbidden"
+msgstr ""
+
+#: includes/class-serial-numbers-api.php:243
+msgid "Invalid Request"
+msgstr ""
+
+#: includes/class-wc-handler.php:47
+msgid ""
+"Sorry, There is not enough Serial Number available for %s, Please remove "
+"this item or lower the quantity,\n"
+"\t\t\t\t\t\t\t\t\t\t\t\tFor now we have %d Serial Number for this product. "
+"<br>"
+msgstr ""
+
+#: includes/core-functions.php:140
+msgid "New"
+msgstr ""
+
+#: includes/core-functions.php:141
+msgid "Pending"
+msgstr ""
+
+#: includes/core-functions.php:143
+msgid "Rejected"
+msgstr ""
+
+#: includes/core-functions.php:144
+msgid "Expired"
+msgstr ""
+
+#: includes/core-functions.php:145
+msgid "Active"
+msgstr ""
+
+#: includes/core-functions.php:362
+msgid "Never Expire"
+msgstr ""
+
+#: includes/hook-functions.php:233
+msgid "Serial Numbers stock running low"
+msgstr ""
+
+#: includes/hook-functions.php:237
+msgid "Please add more serial number for the following items"
+msgstr ""
+
+#: templates/html-order-details-table.php:24
+msgid "Expire Date:"
+msgstr ""
+
+#: wc-serial-numbers.php:242
+msgid "Documentation"
+msgstr ""
+
+#: wc-serial-numbers.php:244
+msgid "Upgrade to PRO"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Serial Numbers"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"The best WordPress Plugin to sell license keys, redeem cards and other "
+"secret numbers!"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "pluginever"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://pluginever.com"
+msgstr ""
+
+#: includes/class-elements.php:23
+msgctxt "all dropdown items"
+msgid "All"
+msgstr ""
+
+#: includes/class-elements.php:24
+msgctxt "no dropdown items"
+msgid "None"
+msgstr ""
