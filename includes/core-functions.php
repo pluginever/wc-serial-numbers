@@ -218,8 +218,8 @@ function wcsn_get_pro_features() {
 		'Automatically generate serial numbers and assign to order',
 		'Bulk serial numbers generation from custom pattern like serial-############',
 		'Generate random or sequential serial numbers with your custom rules',
-		'Bulk serial numbers Import',
-		'Serial numbers export',
+		'Bulk serial numbers import from CSV',
+		'Serial numbers export in CSV format',
 		'Add products from edit order page',
 //		'Extensive reports of your sold serial numbers.',
 	);
