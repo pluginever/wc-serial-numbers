@@ -134,6 +134,7 @@ function wcsn_product_write_panel() {
 			<a href="<?php echo add_query_arg( array(
 				'page'        => 'wc-serial-numbers',
 				'action_type' => 'add_serial_number',
+				'product_id' => $post->ID,
 			), admin_url( 'admin.php' ) ); ?>" class="button button-secondary"><?php _e( 'Add serial numbers', 'wc-serial-numbers' ); ?></a>
 		</p>
 	</div>
