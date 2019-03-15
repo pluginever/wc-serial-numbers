@@ -32,8 +32,9 @@ WooCommerce Serial Numbers empower your store to sell WooCommerce license keys, 
 * Sell serial numbers or license keys for variable products either its a physical or digital product.
 * Enables you to define your own pattern to generate serial numbers Like Serial-############## 
 * You can even include date in serial numbers like Serial-{y}{m}{d}############
-* You can create random or sequential numbers depending on your needs If you do not like to generate serial numbers your own set the option it will generate automatically and assign to order depending on how you set the rule.
-* Manage serial numbers directly from the order management page you can edit, assign new, delete from there.
+* You can create random or sequential numbers depending on your needs 
+* If you do not like to generate serial numbers your own, then set the option it will generate automatically and assign to order depending on how you set the rule.
+* Manage serial numbers directly from the order management page. You can edit, assign new, delete from there.
 * Create unlimited serial number generator rules with your custom serial numbers patterns.
 * Bulk generation of  serial numbers with a single click.
 * Bulk Serial numbers/License keys import from CSV
