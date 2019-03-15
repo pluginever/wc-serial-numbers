@@ -3,16 +3,16 @@
  * Plugin Name: WooCommerce Serial Numbers
  * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
  * Description: The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
- * Version:     1.0.1
+ * Version:     1.0.2
  * Author:      pluginever
  * Author URI:  http://pluginever.com
  * Donate link: https://pluginever.com/contact
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /i18n/languages/
- * Tested up to: 5.1.0
+ * Tested up to: 5.1.1
  * WC requires at least: 3.0.0
- * WC tested up to: 3.5.5
+ * WC tested up to: 3.5.6
  */
 
 /**
@@ -49,7 +49,7 @@ final class WCSerialNumbers {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.1';
+	public $version = '1.0.2';
 
 	/**
 	 * @since 1.0.0
@@ -291,6 +291,8 @@ final class WCSerialNumbers {
 		}
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-menu.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-form-handler.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-insight.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-tracker.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings-api.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/metabox-functions.php' );

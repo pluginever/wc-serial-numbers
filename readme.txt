@@ -2,7 +2,7 @@
 Contributors: manikmist09,pluginever
 Tags: WooCommerce Serial Number, WooCommerce License Number, WooCommerce License Key,license keys,software license,woocommerce
 Requires at least: 4.4
-Tested up to: 5.0.3
+Tested up to: 5.1.1
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -113,3 +113,9 @@ Initial release
 * Update settings
 * Improve notification
 * Fix bug
+
+= 1.0.1 (15 March,2019) =
+* Fix link from product page to add new serial number page
+* Fix conflict with Divi theme admin design
+* Fix compatibly with WP v5.1.1
+* Fix compatibly with WC v3.5.6
