@@ -25,8 +25,6 @@ function wc_serial_numbers_load_admin_scripts( $hook ) {
 	wp_enqueue_style( 'wc-serial-numbers', $css_dir . "/admin.css", [ 'woocommerce_admin_styles' ], WC_SERIAL_NUMBERS_VERSION );
 
 	//scripts
-	wp_enqueue_style( 'jquery-ui-style' );
-	wp_enqueue_script( 'jquery-ui-datepicker' );
 
 	wp_enqueue_script( 'wc-serial-numbers', $js_dir . "/admin{$suffix}", [ 'jquery', 'wp-util', 'select2', ], WC_SERIAL_NUMBERS_VERSION, true );
 }
