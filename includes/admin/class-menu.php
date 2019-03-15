@@ -30,7 +30,6 @@ class WC_Serial_Numbers_Menu {
 	 */
 	public function serial_numbers_page() {
 		wp_enqueue_style( 'jquery-ui-style' );
-		wp_enqueue_script( 'jquery-ui-datepicker' );
 		if ( ! empty( $_GET['action_type'] ) && 'add_serial_number' == $_GET['action_type'] ) {
 			include( dirname( __FILE__ ) . '/views/html-add-serial-number.php' );
 		} else {
