@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Serial Numbers 1.0.1\n"
+"Project-Id-Version: WooCommerce Serial Numbers 1.0.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2019-03-06 14:44:21+00:00\n"
+"POT-Creation-Date: 2019-03-15 14:54:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -55,12 +55,50 @@ msgstr ""
 msgid "Serial Number successfully Unlinked from the order"
 msgstr ""
 
-#: includes/admin/class-menu.php:21 includes/admin/class-menu.php:49
+#: includes/admin/class-insight.php:284
+msgid ""
+"Want to help make <strong>%s</strong> even more awesome? Allow Pluginever "
+"to collect non-sensitive diagnostic data and usage information."
+msgstr ""
+
+#: includes/admin/class-insight.php:289
+msgid "what we collect"
+msgstr ""
+
+#: includes/admin/class-insight.php:295
+msgid "Allow"
+msgstr ""
+
+#: includes/admin/class-insight.php:296
+msgid "No thanks"
+msgstr ""
+
+#: includes/admin/class-insight.php:473
+msgid "Once Weekly"
+msgstr ""
+
+#: includes/admin/class-insight.php:609
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr ""
+
+#: includes/admin/class-insight.php:623
+msgid "I rather wouldn't say"
+msgstr ""
+
+#: includes/admin/class-insight.php:624
+msgid "Submit & Deactivate"
+msgstr ""
+
+#: includes/admin/class-insight.php:625
+msgid "Cancel"
+msgstr ""
+
+#: includes/admin/class-menu.php:21 includes/admin/class-menu.php:50
 msgid "WC Serial Numbers"
 msgstr ""
 
 #: includes/admin/class-menu.php:21 includes/admin/class-menu.php:22
-#: includes/admin/class-menu.php:58
+#: includes/admin/class-menu.php:59
 #: includes/admin/emails/email-serial-numbers.php:5
 #: includes/admin/metabox-functions.php:58
 #: includes/admin/tables/class-serial-numbers-list-table.php:15
@@ -73,7 +111,7 @@ msgstr ""
 msgid "API Doc"
 msgstr ""
 
-#: includes/admin/class-menu.php:66
+#: includes/admin/class-menu.php:67
 #: includes/admin/views/html-add-serial-number.php:19
 #: includes/admin/views/html-add-serial-number.php:38
 msgid "Add Serial Number"
@@ -278,6 +316,13 @@ msgstr ""
 msgid "WC Serial Numbers Settings"
 msgstr ""
 
+#: includes/admin/class-tracker.php:14
+msgid ""
+"Want to help make <strong>WooCommerce Serial Numbers</strong> even more "
+"awesome? Allow PluginEver to collect non-sensitive diagnostic data and "
+"usage information."
+msgstr ""
+
 #: includes/admin/emails/email-serial-numbers.php:10
 #: includes/admin/tables/class-serial-numbers-list-table.php:28
 #: includes/admin/views/html-add-serial-number.php:49
@@ -316,7 +361,7 @@ msgstr ""
 
 #: includes/admin/emails/email-serial-numbers.php:25
 #: includes/admin/tables/class-serial-numbers-list-table.php:67
-#: includes/core-functions.php:252 includes/core-functions.php:258
+#: includes/core-functions.php:256 includes/core-functions.php:262
 #: templates/html-order-details-table.php:25
 msgid "Unlimited"
 msgstr ""
@@ -402,19 +447,19 @@ msgstr ""
 msgid "View serial numbers"
 msgstr ""
 
-#: includes/admin/metabox-functions.php:137
+#: includes/admin/metabox-functions.php:138
 msgid "Add serial numbers"
 msgstr ""
 
-#: includes/admin/metabox-functions.php:184
+#: includes/admin/metabox-functions.php:185
 msgid "License Numbers"
 msgstr ""
 
-#: includes/admin/metabox-functions.php:185
+#: includes/admin/metabox-functions.php:186
 msgid "Serial Numbers Activations"
 msgstr ""
 
-#: includes/admin/metabox-functions.php:203
+#: includes/admin/metabox-functions.php:204
 msgid "Date"
 msgstr ""
 
@@ -695,7 +740,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: includes/core-functions.php:362
+#: includes/core-functions.php:366
 msgid "Never Expire"
 msgstr ""
 

@@ -2,7 +2,7 @@
 Contributors: manikmist09,pluginever
 Tags: WooCommerce Serial Number, WooCommerce License Number, WooCommerce License Key,license keys,software license,woocommerce
 Requires at least: 4.4
-Tested up to: 5.0.3
+Tested up to: 5.1.1
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -11,33 +11,43 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
 
 == Description ==
-Selling gift cards, other secret number based products and of course licensed digital products is not a challenge for you WooCommerce powered store anymore. Here is the best product license management extension for WooCommerce, proudly brought to you by PluginEver. This out of the box plugin is so powerful and lightweight yet loaded with all the necessary features to sell licensed products. So, you will be able to evade all the challenges of selling licensed products. We all understand the importance of serial numbers or license keys. Serial numbers are very important to safeguard your digital products against piracy. With this brilliant plugin you will be able to bypass the challenges associated with selling digital products. The extraordinary features will enable you effortlessly create and manage license pool to sell digital products. So, let’s leave aside the worries and put your undivided attention on your business growth.
+WooCommerce Serial Numbers is a simple and powerful serial numbers/license keys manager that enables you to easily sell any kind of numbers/secret keys distributed products.
 
->[Get The PRO Version](https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/)  |  [Support](https://www.pluginever.com/support/)  |  [Documentation ](https://www.pluginever.com/docs/woocommerce-serial-numbers/)
+WooCommerce Serial Numbers empower your store to sell WooCommerce license keys, any kind of gift cards, physical products that include a serial number or license key, digital software with access keys, username & password, tickets, lotteries, pin codes almost any kind of secret number based products.
+
+> [Demo](http://wc-serial-numbers.pluginever.com/wp-admin) | [Get The PRO Version](https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/)  |  [Support](https://www.pluginever.com/support/)  |  [Documentation ](https://www.pluginever.com/docs/woocommerce-serial-numbers/)
 
 == WooCommerce Serial Numbers Plugin Features ==
-* Create and assign license keys with either physical/digital products directly.
-* Set license validity to expire licenses after your pre set time.
-* You can preset a expire date of the license key after that date license key wont be delivered.
-* It will also enable you to select the maximum instances for a license key.
-* Setting activation limit will enable you to restrict the use of licenses for software and games.
-* Notification option will keep you informed when your generated licenses are about to finish.
-* You can also choose to get an email notification.
+* Create and assign license keys with either physical or digital products directly.
+* Set license validity to expire licenses after your preset time.
+* You can preset a expire date of the license key after that date license key won't be delivered.
+* Activation limit will enable you to restrict the use of the license key to enable software
+* The dedicated notification system will keep you informed when your generated license numbers are about to finish by sending automatic emails.
+* Dedicated dashboard from where you can easily manage serial numbers Built-in validator API (with activation, validation deactivation, and Software version endpoints).
+* Admin can easily track license keys from the order page.
+* For software, you can easily track the usage of license keys from the order page
+* Lots of customization options
 
-== Pro Features of WooCommerce Serial Numbers ==
-* Add serial numbers for variable products.
-* Automatically generate serial numbers and assign them to order.
-* Bulk serial numbers generation from custom pattern like Special-################
-* Generate random or sequential serial numbers with your custom rules.
-* Import / Export bulk serial numbers.
-* You also be able to add products from the edit order page.
-* Get extensive reports of your sold serial numbers.(Upcoming)
-
+== WooCommerce Serial Numbers Pro Features ==
+* Sell serial numbers or license keys for variable products either its a physical or digital product.
+* Enables you to define your own pattern to generate serial numbers Like Serial-############## 
+* You can even include date in serial numbers like Serial-{y}{m}{d}############
+* You can create random or sequential numbers depending on your needs 
+* If you do not like to generate serial numbers your own, then set the option it will generate automatically and assign to order depending on how you set the rule.
+* Manage serial numbers directly from the order management page. You can edit, assign new, delete from there.
+* Create unlimited serial number generator rules with your custom serial numbers patterns.
+* Bulk generation of  serial numbers with a single click.
+* Bulk Serial numbers/License keys import from CSV
+* Serial numbers export in CSV format
+* Dedicated support
 
 == How will WooCommerce Serial Numbers benefit you: ==
-* You will be able to sell digital products and gift cards along with other physical products.
-* Selling license activated software and games will be a piece of cake.
+* You will be able to sell WooCommerce Serial Numbers and  WooCommerce license keys.
+* Selling license activated digital software and games will be a piece of cake.
+* Sell physical products that include a serial number or license key
 * Sell gift cards and/or other secret number based products.
+* Sell username & passwords.
+* Sell Pin codes.
 * You will even be able to sell lottery tickets.
 * Finally, this plugin will help increase your revenue by adding new product types.
 
@@ -58,7 +68,7 @@ You can either add license keys while adding a new product or during editing a p
 Under this section, you will select options for sending and revoking serial number. Here you will find different options and select the appropriate option for you.
          	
 == Compatibility: ==
-This robust plugin is only dependent on WooCommerce. You should at least have PHP version - 5.6 for the smooth operation of this state-of-the-art plugin. We tested this plugin thoroughly to make sure it operates seamlessly under every situation. We did not detect any problem or conflict during our test. Still, we are open to issues as we understand that WordPress and WooCommerce is a vast ecosystem and anything can happen.
+WooCommerce Serial Numbers is only dependent on WooCommerce. You should at least have PHP version - 5.6 for the smooth operation of this state-of-the-art plugin. We tested this plugin thoroughly to make sure it operates seamlessly under every situation. We did not detect any problem or conflict during our test. Still, we are open to issues as we understand that WordPress and WooCommerce is a vast ecosystem and anything can happen.
 
 == Installation ==
 1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
@@ -103,3 +113,9 @@ Initial release
 * Update settings
 * Improve notification
 * Fix bug
+
+= 1.0.1 (15 March,2019) =
+* Fix link from product page to add new serial number page
+* Fix conflict with Divi theme admin design
+* Fix compatibly with WP v5.1.1
+* Fix compatibly with WC v3.5.6

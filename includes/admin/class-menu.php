@@ -29,6 +29,7 @@ class WC_Serial_Numbers_Menu {
 	 * @since 1.0.0
 	 */
 	public function serial_numbers_page() {
+		wp_enqueue_style( 'jquery-ui-style' );
 		if ( ! empty( $_GET['action_type'] ) && 'add_serial_number' == $_GET['action_type'] ) {
 			include( dirname( __FILE__ ) . '/views/html-add-serial-number.php' );
 		} else {
