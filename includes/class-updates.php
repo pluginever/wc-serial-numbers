@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Upgrade Routine
  *
@@ -11,8 +12,9 @@ class WCSN_Updates {
 	 * @var array
 	 */
 	private static $upgrades = array(
-		'1.0.1'    => 'updates/update-1.0.1.php',
+		'1.0.1' => 'updates/update-1.0.1.php',
 	);
+
 	/**
 	 * Get the plugin version
 	 *
@@ -21,6 +23,7 @@ class WCSN_Updates {
 	public function get_version() {
 		return get_option( 'wpcp_version' );
 	}
+
 	/**
 	 * Check if the plugin needs any update
 	 *
@@ -34,8 +37,10 @@ class WCSN_Updates {
 		if ( version_compare( $this->get_version(), WC_SERIAL_NUMBERS_VERSION, '<' ) ) {
 			return true;
 		}
+
 		return false;
 	}
+
 	/**
 	 * Perform all the necessary upgrade routines
 	 *
@@ -51,7 +56,7 @@ class WCSN_Updates {
 			}
 		}
 
-		update_option( 'wpcp_version', WC_SERIAL_NUMBERS_VERSION );
+		delete_option( 'wpcp_version' );
 		update_option( 'wc_serial_numbers_version', WC_SERIAL_NUMBERS_VERSION );
 	}
 }
