@@ -114,8 +114,13 @@ Initial release
 * Improve notification
 * Fix bug
 
-= 1.0.1 (15 March,2019) =
+= 1.0.2 (15 March,2019) =
 * Fix link from product page to add new serial number page
 * Fix conflict with Divi theme admin design
 * Fix compatibly with WP v5.1.1
 * Fix compatibly with WC v3.5.6
+
+= 1.0.3 (18 March,2019) =
+* Fix broken style
+* Fix auto complete order
+* Conditional styles/script loading
