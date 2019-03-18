@@ -134,7 +134,8 @@ class WCSN_Form_Handler {
 		if ( empty( $_REQUEST['serial_id'] ) ) {
 			return;
 		} else {
-			$serial_id = intval( $_REQUEST['serial_id'] );
+			$serial_id  = intval( $_REQUEST['serial_id'] );
+			$product_id = reset( wcsn_get_serial_numbers( array( 'id' => $serial_id ) ) )->product_id;
 		}
 
 		$data['order_date']       = '';
@@ -146,6 +147,8 @@ class WCSN_Form_Handler {
 		if ( wc_serial_numbers()->serial_number->update( $serial_id, $data ) ) {
 			wc_serial_numbers()->add_notice( 'success', __( 'Serial Number successfully Unlinked from the order', 'wc-serial-numbers' ) );
 		}
+
+		do_action( 'wcsn_serial_number_unlinked', $serial_id, $product_id);
 
 		wp_safe_redirect( site_url( $_REQUEST['_wp_http_referer'] ) );
 	}

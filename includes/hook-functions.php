@@ -172,7 +172,7 @@ add_filter( 'wcsn_admin_bar_notification_list', 'wcsn_render_notification_list' 
  * @param $product_id
  */
 
-function wcsn_update_notification_list( $serial_id, $product_id ) {
+function wcsn_update_notification_list( $serial_id = false, $product_id = false ) {
 
 	$available_numbers = wcsn_get_serial_numbers( array( 'status' => 'new', 'product_id' => $product_id ), true );
 
@@ -217,7 +217,10 @@ function wcsn_update_notification_list( $serial_id, $product_id ) {
 }
 
 add_action( 'wcsn_serial_number_created', 'wcsn_update_notification_list', 10, 2 );
+add_action( 'wcsn_serial_number_generated', 'wcsn_update_notification_list', 10, 2 );
 add_action( 'wcsn_serial_number_deleted', 'wcsn_update_notification_list', 10, 2 );
+add_action( 'wcsn_serial_number_unlinked', 'wcsn_update_notification_list', 10, 2 );
+add_action( 'wcsn_after_process_serial_number', 'wcsn_update_notification_list', 10, 2 );
 
 /**
  * Send Serial Numbers stock notification to email
