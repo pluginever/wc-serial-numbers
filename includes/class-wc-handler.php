@@ -83,7 +83,7 @@ class WCSN_WC_Handler {
 			do_action( 'wcsn_process_serial_number', $order, $product_id, $quantity, $serial_key_source );
 		}
 
-		do_action( 'wcsn_after_process_serial_number', $order );
+		do_action( 'wcsn_after_process_serial_number', $order, $product_id );
 
 	}
 

@@ -11,9 +11,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
 
 == Description ==
-WooCommerce Serial Numbers is a simple and powerful serial numbers/license keys manager that enables you to easily sell any kind of numbers/secret keys distributed products.
+WooCommerce Serial Numbers is a simple and powerful serial numbers, license keys manager plugin that enables you to easily sell any kind of numbers or secret keys distributed products.
 
-WooCommerce Serial Numbers empower your store to sell WooCommerce license keys, any kind of gift cards, physical products that include a serial number or license key, digital software with access keys, username & password, tickets, lotteries, pin codes almost any kind of secret number based products.
+WooCommerce Serial Numbers enable your store to sell WooCommerce license keys, any kind of gift cards, physical products that include a serial number or license key, digital software with access keys, username & password, tickets, lotteries, pin codes almost any kind of secret number based products.
 
 > [Demo](http://wc-serial-numbers.pluginever.com/wp-admin) | [Get The PRO Version](https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/)  |  [Support](https://www.pluginever.com/support/)  |  [Documentation ](https://www.pluginever.com/docs/woocommerce-serial-numbers/)
 
@@ -114,8 +114,13 @@ Initial release
 * Improve notification
 * Fix bug
 
-= 1.0.1 (15 March,2019) =
+= 1.0.2 (15 March,2019) =
 * Fix link from product page to add new serial number page
 * Fix conflict with Divi theme admin design
 * Fix compatibly with WP v5.1.1
 * Fix compatibly with WC v3.5.6
+
+= 1.0.3 (18 March,2019) =
+* Fix broken style
+* Fix auto complete order
+* Conditional styles/script loading

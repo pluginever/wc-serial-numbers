@@ -250,7 +250,7 @@ class WCSN_Settings {
 	}
 
 	function admin_menu() {
-		add_submenu_page( 'wc-serial-numbers', 'WC Serial Numbers Settings', 'Settings', 'manage_options', 'wc-serial-numbers-settings', array(
+		add_submenu_page( 'wc-serial-numbers', 'WC Serial Numbers Settings', 'Settings', 'manage_woocommerce', 'wc-serial-numbers-settings', array(
 			$this,
 			'settings_page'
 		) );
