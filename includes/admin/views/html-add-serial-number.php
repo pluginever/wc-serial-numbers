@@ -8,6 +8,12 @@ $serial_number    = wc_serial_numbers()->serial_number->get_by( 'id', $serial_nu
 if ( empty( $serial_number ) ) {
 	$serial_number = (object) wc_serial_numbers()->serial_number->get_column_defaults();
 }
+$product_id = null;
+if ( ! empty( $serial_number->product_id ) ) {
+	$product_id = $serial_number->product_id;
+} else if ( isset( $_GET['product_id'] ) && ! empty( $_GET['product_id'] ) ) {
+	$product_id = intval( $_GET['product_id'] );
+}
 ?>
 
 <div class="wrap">
@@ -54,7 +60,7 @@ if ( empty( $serial_number ) ) {
 								'class'            => 'select-2',
 								'options'          => wcsn_get_product_list(),
 								'required'         => true,
-								'selected'         => ! empty( $serial_number->product_id ) ? $serial_number->product_id : !empty($_GET['product_id'])? intval($_GET['product_id']): '',
+								'selected'         => $product_id,
 								'desc'             => ! wc_serial_numbers()->is_pro_installed() ? __( 'Upgrade to <a href="https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generate_serial_page&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro%20Now">PRO</a> for adding serial numbers for variable products.', 'wc-serial-numbers' ) : '',
 							) );
 
