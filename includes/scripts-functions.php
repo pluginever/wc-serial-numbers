@@ -14,6 +14,7 @@ function wc_serial_numbers_scripts( $hook ) {
 add_action( 'wp_enqueue_scripts', 'wc_serial_numbers_scripts');
 
 function wc_serial_numbers_load_admin_scripts( $hook ) {
+
 	$js_dir     = WC_SERIAL_NUMBERS_ASSETS_URL . '/js/';
 	$css_dir    = WC_SERIAL_NUMBERS_ASSETS_URL . '/css/';
 	$vendor_dir = WC_SERIAL_NUMBERS_ASSETS_URL . '/vendor/';
@@ -22,7 +23,7 @@ function wc_serial_numbers_load_admin_scripts( $hook ) {
 	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.js' : '.min.js';
 
 	//styles
-	wp_enqueue_style( 'wc-serial-numbers', $css_dir . "/admin.css", [], WC_SERIAL_NUMBERS_VERSION );
+	wp_enqueue_style( 'wc-serial-numbers', $css_dir . "/admin.css", ['woocommerce_admin_styles'], WC_SERIAL_NUMBERS_VERSION );
 
 	//scripts
 	wp_enqueue_script( 'jquery-ui-datepicker' );
