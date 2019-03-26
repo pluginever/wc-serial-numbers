@@ -113,6 +113,9 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 	//$join  .= " LEFT JOIN {$wpdb->posts} wc_order ON wc_order.ID = serial.order_id";
 	//$where .= " AND wc_order.post_type='shop_order' ";
 
+	if ( ! empty( $args['search'] ) ) {
+		$where .= " AND ( `serial_key` LIKE '%%" . esc_sql( $args['search'] ) . "%%' OR `activation_email` LIKE '%%" . esc_sql( $args['search'] ) . "%%')";
+	}
 
 	$args['orderby'] = esc_sql( $args['orderby'] );
 	$args['order']   = esc_sql( $args['order'] );

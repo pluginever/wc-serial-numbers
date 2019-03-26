@@ -54,7 +54,7 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 		switch ( $column_name ) {
 			case 'product':
 				$line = ! empty( $item->product_id ) ? get_the_title( $item->product_id ) : '&#45;';
-				echo ! empty( $item->product_id ) ? '<a href="' . get_edit_post_link( $item->product_id ) . '">' . $line  . '</a>' : $line;
+				echo ! empty( $item->product_id ) ? '<a href="' . get_edit_post_link( $item->product_id ) . '">' . $line . '</a>' : $line;
 				break;
 			case 'order':
 				$line = ! empty( $item->order_id ) ? '#' . $item->order_id : '&#45;';
@@ -66,7 +66,7 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 			case 'activation_limit':
 				echo ! empty( $item->activation_limit ) ? $item->activation_limit : __( 'Unlimited', 'wc-serial-numbers' );
 				echo '<br>';
-				echo '<span class="wcsn-remaining-activation" style="color: #999;font-size: 11px;">'.__('Remaining', 'wc-serial-numbers').': '.wcsn_get_remaining_activation( $item->id, 'view' ) .'</span>';
+				echo '<span class="wcsn-remaining-activation" style="color: #999;font-size: 11px;">' . __( 'Remaining', 'wc-serial-numbers' ) . ': ' . wcsn_get_remaining_activation( $item->id, 'view' ) . '</span>';
 				break;
 			case 'validity':
 				echo ! empty( $item->validity ) ? sprintf( _n( '%s Day', '%s Days', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
@@ -157,6 +157,38 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 	}
 
+	function extra_tablenav( $which ) {
+		if ( $which == "top" ) {
+			$products   = wcsn_get_product_list();
+			$statuses   = wcsn_get_serial_statuses();
+			$s_product_id = empty( $_REQUEST['product_id'] ) ? '' : intval( $_REQUEST['product_id'] );
+			$s_status     = empty( $_REQUEST['status'] ) ? '' : sanitize_text_field( $_REQUEST['status'] );
+			?>
+			<div class="alignleft actions bulkactions">
+				<select name="product_id" id="product_id" class="product_id">
+					<option value=""><?php _e( 'Filter by Product', 'wc-serial-numbers' ); ?></option>
+					<?php foreach ( $products as $product_id => $product_title ) {
+						echo '<option value="' . $product_id . '" '.selected($product_id, $s_product_id).'>' . esc_html( $product_title ) . '</option>';
+					} ?>
+				</select>
+
+				<select name="status" id="status">
+					<option value=""><?php _e( 'Filter by status', 'wc-serial-numbers' ); ?></option>
+					<?php foreach ( $statuses as $status_key => $status_label ) {
+						echo '<option value="' . $status_key . '" '.selected($status_key, $s_status).'>' . esc_html( $status_label ) . '</option>';
+					} ?>
+
+				</select>
+				<button type="submit" class="button-secondary">Submit</button>
+			</div>
+			<?php
+		}
+		if ( $which == "bottom" ) {
+			//The code that goes after the table is there
+
+		}
+	}
+
 	function prepare_items() {
 		global $wpdb;
 		$per_page              = wcsn_get_settings( 'wsn_rows_per_page', 20, 'wsn_general_settings' );
@@ -172,7 +204,8 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 			'offset'     => ( $current_page - 1 ) * $per_page,
 			'orderby'    => ! empty( $_REQUEST['orderby'] ) && '' != $_REQUEST['orderby'] ? $_REQUEST['orderby'] : 'id',
 			'order'      => ! empty( $_REQUEST['order'] ) && '' != $_REQUEST['order'] ? $_REQUEST['order'] : 'desc',
-			'search'     => ! empty( $_REQUEST['search'] ) && '' != $_REQUEST['search'] ? $_REQUEST['search'] : '',
+			'search'     => ! empty( $_REQUEST['s'] ) && '' != $_REQUEST['s'] ? $_REQUEST['s'] : '',
+			'status'     => ! empty( $_REQUEST['status'] ) && '' != $_REQUEST['status'] ? sanitize_text_field( $_REQUEST['status'] ) : '',
 			'product_id' => ! empty( $_REQUEST['product_id'] ) && '' != $_REQUEST['product_id'] ? intval( $_REQUEST['product_id'] ) : '',
 		] );
 
