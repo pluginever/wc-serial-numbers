@@ -124,3 +124,12 @@ Initial release
 * Fix broken style
 * Fix auto complete order
 * Conditional styles/script loading
+
+= 1.0.4 (1 April,2019) =
+* Fix Email notification stop is not working
+* Fix Notification is showing for normal products too
+* Fix Validity takes negative value as input
+* Fix Sending serial numbers table even when order does not contains serial enabled products
+* Fix serial number search is not working
+* Enhance Add serial number search filter
+* Confirm compatibility with WC 3.5.7
