@@ -408,3 +408,53 @@ function wcsn_get_notifications( $args = array(), $count = false ) {
 	return $wpdb->get_results( $sql );
 
 }
+
+/**
+ * Checks if serial numbers enabled for this
+ * product
+ *
+ * @since 1.0.3
+ *
+ * @param $product_id
+ *
+ * @return bool
+ */
+function wcsn_is_serial_number_enabled( $product_id ) {
+	return 'yes' === get_post_meta( $product_id, '_is_serial_number', true );
+}
+
+/**
+ * Get variable product enabled serial numbers
+ *
+ * @since 1.0.0
+ *
+ * @param $product
+ *
+ * @return array
+ */
+function wcsn_get_product_variations( $product ) {
+	if ( is_numeric( $product ) ) {
+		$product = new WC_Product( $product );
+	}
+	if ( $product->is_type( 'simple' ) ) {
+		return array();
+	}
+
+	$args          = array(
+		'post_type'   => 'product_variation',
+		'post_status' => array( 'publish' ),
+		'numberposts' => - 1,
+		'orderby'     => 'menu_order',
+		'order'       => 'asc',
+		'post_parent' => $product->get_id()
+	);
+	$variations    = get_posts( $args );
+	$variation_ids = wp_list_pluck( $variations, 'ID' );
+	foreach ( $variation_ids as $key => $variation_id ) {
+		if ( ! wcsn_is_serial_number_enabled( $variation_id ) ) {
+			unset( $variation_ids[ $key ] );
+		}
+	}
+
+	return $variation_ids;
+}
