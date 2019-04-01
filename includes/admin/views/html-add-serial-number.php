@@ -116,6 +116,9 @@ if ( ! empty( $serial_number->product_id ) ) {
 								'value'    => ! empty( $serial_number->activation_limit ) ? $serial_number->activation_limit : '0',
 								'required' => false,
 								'desc'     => __( 'Maximum number of times the key can be used to activate specially software. If the product is not software keep blank.', 'wc-serial-numbers' ),
+								'attrs'    => array(
+									'min' => '1',
+								)
 							) );
 
 							echo wc_serial_numbers()->elements->input( array(
@@ -125,6 +128,9 @@ if ( ! empty( $serial_number->product_id ) ) {
 								'value'    => ! empty( $serial_number->validity ) ? $serial_number->validity : '0',
 								'required' => false,
 								'desc'     => __( 'The number validity in days.', 'wc-serial-numbers' ),
+								'attrs'    => array(
+									'min' => '1',
+								)
 							) );
 
 							echo wc_serial_numbers()->elements->input( array(
