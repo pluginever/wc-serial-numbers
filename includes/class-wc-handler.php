@@ -204,12 +204,11 @@ class WCSN_WC_Handler {
 		}
 
 		$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id ] );
-		if(empty($serial_numbers)){
-			return ;
+		if ( empty( $serial_numbers ) ) {
+			return;
 		}
 		wc_get_template( 'email-serial-numbers.php', array( 'serial_numbers' => $serial_numbers ), '', WC_SERIAL_NUMBERS_INCLUDES . '/admin/emails/' );
 	}
-
 }
 
 new WCSN_WC_Handler();
