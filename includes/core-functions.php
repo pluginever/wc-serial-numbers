@@ -426,7 +426,7 @@ function wcsn_is_serial_number_enabled( $product_id ) {
 /**
  * Get variable product enabled serial numbers
  *
- * @since 1.0.0
+ * @since 1.0.3
  *
  * @param $product
  *
@@ -457,4 +457,15 @@ function wcsn_get_product_variations( $product ) {
 	}
 
 	return $variation_ids;
+}
+
+/**
+ *
+ * since 1.0.3
+ * @param $product_id
+ *
+ * @return bool
+ */
+function wcsn_is_key_source_automatic($product_id){
+	return 'auto_generated' === get_post_meta( $product_id, '_serial_key_source', true );
 }
