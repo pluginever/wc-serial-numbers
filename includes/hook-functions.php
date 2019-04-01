@@ -239,6 +239,10 @@ add_action( 'wcsn_after_process_serial_number', 'wcsn_update_notification_list',
 
 function wcsn_send_notification_to_email() {
 
+	$send_notification = wcsn_get_settings( 'wsn_admin_bar_notification_send_email', 'on', 'wsn_notification_settings' );
+	if ( 'on' !== $send_notification ) {
+		return false;
+	}
 	$message = wcsn_render_notification_list( true );
 
 	global $woocommerce;
