@@ -49,13 +49,12 @@ add_action( 'woocommerce_order_details_after_order_table', 'wcsn_order_table_ser
  * @param $order
  */
 function wcsn_auto_complete_order( $order_id ) {
-	error_log($order_id);
+	error_log( $order_id );
 	if ( 'yes' !== wcsn_get_settings( 'wsn_auto_complete_order', '', 'wsn_delivery_settings' ) ) {
 		return;
 	}
-	$order = wc_get_order($order_id);
+	$order          = wc_get_order( $order_id );
 	$current_status = $order->get_status();
-	error_log($current_status);
 	// We only want to update the status to 'completed' if it's coming from one of the following statuses:
 	//$allowed_current_statuses = array( 'on-hold', 'pending', 'failed' );
 	if ( 'processing' == $current_status ) {
@@ -73,6 +72,7 @@ function wcsn_auto_complete_order( $order_id ) {
 	}
 
 }
+
 add_action( 'woocommerce_thankyou', 'wcsn_auto_complete_order', 99, 1 );
 
 /**
@@ -174,6 +174,13 @@ add_filter( 'wcsn_admin_bar_notification_list', 'wcsn_render_notification_list' 
  */
 
 function wcsn_update_notification_list( $serial_id = false, $product_id = false ) {
+	if ( ! $product_id ) {
+		return;
+	}
+
+	if ( 'yes' != get_post_meta( $product_id, '_is_serial_number', true ) ) {
+		return;
+	}
 
 	$available_numbers = wcsn_get_serial_numbers( array( 'status' => 'new', 'product_id' => $product_id ), true );
 
@@ -232,6 +239,10 @@ add_action( 'wcsn_after_process_serial_number', 'wcsn_update_notification_list',
 
 function wcsn_send_notification_to_email() {
 
+	$send_notification = wcsn_get_settings( 'wsn_admin_bar_notification_send_email', 'on', 'wsn_notification_settings' );
+	if ( 'on' !== $send_notification ) {
+		return false;
+	}
 	$message = wcsn_render_notification_list( true );
 
 	global $woocommerce;

@@ -43,7 +43,7 @@ fi
 echo -e "Did you tagged version(v$SVNPLUGINVERSION):  (y/n)\c"
 read TAGGED
 if [ "$TAGGED" != "y" ]
- then svn cp -m"tagging v$PLUGINVERSION" https://plugins.svn.wordpress.org/$DIR_NAME/trunk https://plugins.svn.wordpress.org/$DIR_NAME/tags/$SVNPLUGINVERSION;
+ then svn cp -m"tagging v$SVNPLUGINVERSION" https://plugins.svn.wordpress.org/$DIR_NAME/trunk https://plugins.svn.wordpress.org/$DIR_NAME/tags/$SVNPLUGINVERSION;
 fi
 
 #remove build dir
