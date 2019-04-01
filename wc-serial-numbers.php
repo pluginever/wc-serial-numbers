@@ -123,6 +123,7 @@ final class WCSerialNumbers {
 			// API
 			$this->api_url  = add_query_arg( 'wc-api', 'serial-numbers-api', home_url( '/' ) );
 			$this->elements = new Ever_Elements();
+			do_action('wc_serial_numbers_loaded');
 		}
 	}
 
