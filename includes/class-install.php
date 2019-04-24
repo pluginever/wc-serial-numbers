@@ -95,9 +95,9 @@ class WC_Serial_Numbers_Install {
 			activation_email varchar(200) DEFAULT NULL,
 			status varchar(50) DEFAULT 'available',
 			validity varchar(200) DEFAULT NULL,
-			expire_date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			order_date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			created datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+			expire_date TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			order_date TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 			PRIMARY KEY  (id)
 			) $collate;",
 			"CREATE TABLE {$wpdb->prefix}wcsn_activations (
@@ -106,7 +106,7 @@ class WC_Serial_Numbers_Install {
 			  instance varchar(200) NOT NULL,
 			  active int(1) NOT NULL DEFAULT 1,
 			  platform varchar(200) NULL,
-			  activation_time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			  activation_time TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			  PRIMARY KEY  (id)
 			) $collate;"
 		];
