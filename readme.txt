@@ -133,3 +133,7 @@ Initial release
 * Fix serial number search is not working
 * Enhance Add serial number search filter
 * Confirm compatibility with WC 3.5.7
+
+= 1.0.5 (24 April,2019) =
+* Fix Serial number table not generating in sql version lower than 5.5 [#31]
+* Confirm compatibility with WC 3.6.1
