@@ -128,12 +128,11 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 	 */
 	function process_bulk_action() {
 		global $wpdb;
-
-		if ( ! isset( $_POST['id'] ) ) {
+		if ( ! isset( $_REQUEST['id'] ) ) {
 			return;
 		}
 
-		$items = array_map( 'intval', $_POST['id'] );
+		$items = array_map( 'intval', $_REQUEST['id'] );
 
 		//Detect when a bulk action is being triggered…
 		if ( 'delete' === $this->current_action() ) {

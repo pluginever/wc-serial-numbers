@@ -49,7 +49,6 @@ add_action( 'woocommerce_order_details_after_order_table', 'wcsn_order_table_ser
  * @param $order
  */
 function wcsn_auto_complete_order( $order_id ) {
-	error_log( $order_id );
 	if ( 'yes' !== wcsn_get_settings( 'wsn_auto_complete_order', '', 'wsn_delivery_settings' ) ) {
 		return;
 	}
