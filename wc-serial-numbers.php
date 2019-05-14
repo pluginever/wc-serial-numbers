@@ -218,7 +218,7 @@ final class WCSerialNumbers {
 	 * @return void
 	 */
 	public function localization_setup() {
-		load_plugin_textdomain( 'wc-serial-numbers', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'wc-serial-numbers', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages/' );
 	}
 
 	/**
@@ -249,9 +249,11 @@ final class WCSerialNumbers {
 	}
 
 	public function init_update() {
-		$updater = new WCSN_Updates();
-		if ( $updater->needs_update() ) {
-			$updater->perform_updates();
+		if ( class_exists( 'WCSN_Updates' ) ) {
+			$updater = new WCSN_Updates();
+			if ( $updater->needs_update() ) {
+				$updater->perform_updates();
+			}
 		}
 	}
 
