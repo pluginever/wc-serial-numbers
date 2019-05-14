@@ -187,6 +187,20 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 
 	$is_exists = get_page_by_title( $product_id, OBJECT, 'wcsn_notification' );
 
+	$skip_notification = apply_filters( 'wcsn_skip_notification', false, $product_id, $available_numbers, $show_number );
+
+	if ( $skip_notification ) {
+		if ( $is_exists ) {
+			wp_update_post( array(
+				'ID'             => $is_exists->ID,
+				'post_content'   => $available_numbers,
+				'post_status'    => 'draft',
+				'comment_status' => 'disable',
+			) );
+		}
+		return;
+	}
+	
 	if ( $available_numbers >= $show_number ) {
 
 		if ( $is_exists ) {
