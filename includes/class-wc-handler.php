@@ -203,7 +203,7 @@ class WCSN_WC_Handler {
 			return;
 		}
 
-		$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id ] );
+		$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id, 'number' => -1 ] );
 		if ( empty( $serial_numbers ) ) {
 			return;
 		}

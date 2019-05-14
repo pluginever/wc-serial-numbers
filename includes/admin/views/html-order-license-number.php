@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $post, $wpdb;
 
-$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $post->ID ] );
+$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $post->ID, 'number' => -1 ] );
 
 if ( sizeof( $serial_numbers ) > 0 ) { ?>
 	<div class="wcsn-metabox-table-wrapper">
