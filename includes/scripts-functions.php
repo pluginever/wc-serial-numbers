@@ -22,7 +22,8 @@ function wc_serial_numbers_load_admin_scripts( $hook ) {
 		'serial-numbers_page_wcsn-generator-rules',
 		'serial-numbers_page_woocommerce-serial-numbers-pro-license',
 		'serial-numbers_page_wc-serial-numbers-settings',
-		'post.php'
+		'post.php',
+		'post-new.php',
 	);
 
 	if ( ! in_array( $hook, $hooks ) ) {
