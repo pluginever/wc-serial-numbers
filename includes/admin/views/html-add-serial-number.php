@@ -8,6 +8,11 @@ $serial_number    = wc_serial_numbers()->serial_number->get_by( 'id', $serial_nu
 if ( empty( $serial_number ) ) {
 	$serial_number = (object) wc_serial_numbers()->serial_number->get_column_defaults();
 }
+
+$serial_key = $serial_number->serial_key;
+if ( ! empty( $serial_key ) && wcsn_is_encrypted( $serial_key ) ) {
+	$serial_key = wcsn_decrypt( $serial_key );
+}
 $product_id = null;
 if ( ! empty( $serial_number->product_id ) ) {
 	$product_id = $serial_number->product_id;
@@ -87,7 +92,7 @@ if ( ! empty( $serial_number->product_id ) ) {
 								'name'        => 'serial_key',
 								'placeholder' => 'd555b5ae-d9a6-41cb-ae54-361427357382',
 								'required'    => true,
-								'value'       => ! empty( $serial_number->serial_key ) ? $serial_number->serial_key : '',
+								'value'       => ! empty( $serial_key ) ? $serial_key : '',
 								'attrs'       => array(
 									'rows' => 5,
 								),

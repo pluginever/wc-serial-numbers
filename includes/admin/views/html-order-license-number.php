@@ -24,11 +24,18 @@ if ( sizeof( $serial_numbers ) > 0 ) { ?>
 			<tbody>
 			<?php $i = 1;
 			foreach ( $serial_numbers as $serial_number ): $i ++ ?>
+				<?php
+					$serial_key = $serial_number->serial_key;
+
+					if ( ! empty( $serial_key ) && wcsn_is_encrypted( $serial_key ) ) {
+						$serial_key = wcsn_decrypt( $serial_key );
+					}
+				?>
 				<tr class="<?php echo ( $i % 2 == 1 ) ? 'alternate' : ''; ?>">
 					<td>
 						<a href="<?php echo get_edit_post_link( $serial_number->product_id ); ?>"><?php echo get_the_title( $serial_number->product_id ); ?></a>
 					</td>
-					<td><span style="max-width: 150px;"><?php echo $serial_number->serial_key; ?></span></td>
+					<td><span style="max-width: 150px;"><?php echo $serial_key; ?></span></td>
 					<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
 					<td><?php echo wcsn_get_serial_expiration_date($serial_number); ?></td>
 					<td><?php echo ! empty( $serial_number->status ) ? "<span class='wcsn-status-{$serial_number->status}'>" . wcsn_get_serial_statuses()[ $serial_number->status ] . '</span>' : '&#45;'; ?></td>

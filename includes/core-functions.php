@@ -448,3 +448,79 @@ function wcsn_get_product_variations( $product ) {
 function wcsn_is_key_source_automatic($product_id){
 	return 'auto_generated' === get_post_meta( $product_id, '_serial_key_source', true );
 }
+
+
+function wcsn_generate_random_string( $length = 10 ) {
+    $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_@$#';
+    $chars_length = strlen( $chars );
+    $random_string = '';
+    for ($i = 0; $i < $length; $i++) {
+        $random_string .= $chars[rand(0, $chars_length - 1)];
+    }
+    return $random_string;
+}
+
+function wcsn_get_encrypt_key() {
+	$p_key = get_option( 'wcsn_pkey', false );
+
+	if ( false === $p_key || '' === $p_key ) {
+		$salt = wcsn_generate_random_string();
+		$time = time();
+		$home_url = get_home_url( '/' );
+		$salts = array( $time, $home_url, $salt );
+
+		shuffle( $salts );
+
+		$p_key = hash( 'sha256', implode( '-', $salts ) );
+
+		update_option( 'wcsn_pkey', $p_key );
+	}
+
+	return $p_key;
+}
+
+function wcsn_encrypt( $string ) {
+	if ( ! function_exists( 'wc_serial_numbers' ) ) {
+		return $string;
+	}
+	$p_key = wcsn_get_encrypt_key();
+	
+	$hash = wc_serial_numbers()->encryption->encryptPlainTextWithRandomIV( $string, $p_key );
+
+	return $hash;
+}
+function wcsn_decrypt( $hash ) {
+	if ( ! function_exists( 'wc_serial_numbers' ) ) {
+		return $hash;
+	}
+
+	$p_key = wcsn_get_encrypt_key();
+
+	$string = wc_serial_numbers()->encryption->decryptCipherTextWithRandomIV( $hash, $p_key );
+
+	return $string;
+}
+
+function wcsn_is_encrypted( $string ) {
+	if ( preg_match( '/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/', $string ) ) {
+		return true;
+	}
+
+	return false;
+}
+/* 
+add_action( 'template_redirect', function () {
+	$string = 'The quick brown fox jumps over to the lazy dog.';
+	var_dump( $string );
+	$hash = wcsn_encrypt( $string );
+	var_dump( $hash );
+	var_dump( sanitize_textarea_field( $hash ) );
+	var_dump( sanitize_text_field( $hash ) );
+	var_dump( wcsn_is_encrypted( $string ) );
+	var_dump( wcsn_is_encrypted( $hash ) );
+
+	$new_string = wcsn_decrypt( $hash );
+
+	var_dump( $new_string );
+	die;
+} ); */
