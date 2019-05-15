@@ -508,19 +508,3 @@ function wcsn_is_encrypted( $string ) {
 
 	return false;
 }
-/* 
-add_action( 'template_redirect', function () {
-	$string = 'The quick brown fox jumps over to the lazy dog.';
-	var_dump( $string );
-	$hash = wcsn_encrypt( $string );
-	var_dump( $hash );
-	var_dump( sanitize_textarea_field( $hash ) );
-	var_dump( sanitize_text_field( $hash ) );
-	var_dump( wcsn_is_encrypted( $string ) );
-	var_dump( wcsn_is_encrypted( $hash ) );
-
-	$new_string = wcsn_decrypt( $hash );
-
-	var_dump( $new_string );
-	die;
-} ); */
