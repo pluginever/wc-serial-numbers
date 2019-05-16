@@ -449,7 +449,12 @@ function wcsn_is_key_source_automatic($product_id){
 	return 'auto_generated' === get_post_meta( $product_id, '_serial_key_source', true );
 }
 
-
+/**
+ * Generate Random String
+ *
+ * @param integer $length
+ * @return string
+ */
 function wcsn_generate_random_string( $length = 10 ) {
     $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_@$#';
     $chars_length = strlen( $chars );
@@ -460,6 +465,11 @@ function wcsn_generate_random_string( $length = 10 ) {
     return $random_string;
 }
 
+/**
+ * Get encrypt private key
+ *
+ * @return string
+ */
 function wcsn_get_encrypt_key() {
 	$p_key = get_option( 'wcsn_pkey', false );
 
@@ -479,6 +489,12 @@ function wcsn_get_encrypt_key() {
 	return $p_key;
 }
 
+/**
+ * Encrypt String
+ *
+ * @param string $string
+ * @return string
+ */
 function wcsn_encrypt( $string ) {
 	if ( ! function_exists( 'wc_serial_numbers' ) ) {
 		return $string;
@@ -489,6 +505,13 @@ function wcsn_encrypt( $string ) {
 
 	return $hash;
 }
+
+/**
+ * Decrypt hash to string
+ *
+ * @param string $hash
+ * @return string
+ */
 function wcsn_decrypt( $hash ) {
 	if ( ! function_exists( 'wc_serial_numbers' ) ) {
 		return $hash;
@@ -501,6 +524,12 @@ function wcsn_decrypt( $hash ) {
 	return $string;
 }
 
+/**
+ * Is encrypted
+ *
+ * @param string $string
+ * @return bool
+ */
 function wcsn_is_encrypted( $string ) {
 	if ( preg_match( '/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/', $string ) ) {
 		return true;
