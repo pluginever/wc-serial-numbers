@@ -102,7 +102,7 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		$serial_key = $item->serial_key;
 
-		if ( ! empty( $serial_key ) && wcsn_is_encrypted( $serial_key ) ) {
+		if ( ! empty( $serial_key ) ) {
 			$serial_key = wcsn_decrypt( $serial_key );
 		}
 
