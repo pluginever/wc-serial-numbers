@@ -124,7 +124,7 @@ final class WCSerialNumbers {
 			$this->includes();
 			$this->serial_number = new WC_Serial_Numbers_Serial_Number();
 			$this->activation    = new WC_Serial_Numbers_Activation();
-			$this->encryption    = new \MrShan0\CryptoLib\CryptoLib();
+			$this->encryption    = new CryptoLib();
 
 			// API
 			$this->api_url  = add_query_arg( 'wc-api', 'serial-numbers-api', home_url( '/' ) );
@@ -282,8 +282,8 @@ final class WCSerialNumbers {
 	 * Include required core files used in admin and on the frontend.
 	 */
 	public function includes() {
-		require_once( WC_SERIAL_NUMBERS_PATH . '/vendor/autoload.php' );
-
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-cryptolib.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-install.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-install.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-updates.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
