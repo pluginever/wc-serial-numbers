@@ -162,7 +162,7 @@ final class WCSerialNumbers {
 	protected function is_plugin_compatible() {
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-			$this->add_notice( 'notice-error', sprintf(
+			$this->add_notice( 'error', sprintf(
 				'<strong>%s</strong> requires <strong>WooCommerce</strong> installed and active.',
 				$this->plugin_name
 			) );
