@@ -241,7 +241,7 @@ function wcsn_get_remaining_activation( $serial_id, $context = 'edit' ) {
 	$active_activations = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}wcsn_activations WHERE serial_id = %s AND active = 1;", $serial_id ) );
 	$remaining          = max( 0, $activation_limit - $active_activations );
 
-	return $context == 'edit' ? $remaining : $remaining > 9999 ? __( 'Unlimited', 'wc-serial-numbers' ) : $remaining;
+	return $context == 'edit' ? $remaining : ( $remaining > 9999 ? __( 'Unlimited', 'wc-serial-numbers' ) : $remaining );
 }
 
 /**
@@ -501,7 +501,7 @@ function wcsn_encrypt( $string ) {
 	}
 	$p_key = wcsn_get_encrypt_key();
 	
-	$hash = wc_serial_numbers()->encryption->encryptPlainTextWithRandomIV( $string, $p_key );
+	$hash = wc_serial_numbers()->encryption->encrypt( $string, $p_key, 'kcv4tu0FSCB9oJyH' );
 
 	return $hash;
 }
@@ -519,7 +519,7 @@ function wcsn_decrypt( $hash ) {
 
 	$p_key = wcsn_get_encrypt_key();
 
-	$string = wc_serial_numbers()->encryption->decryptCipherTextWithRandomIV( $hash, $p_key );
+	$string = wc_serial_numbers()->encryption->decrypt( $hash, $p_key, 'kcv4tu0FSCB9oJyH' );
 
 	return $string;
 }
