@@ -176,8 +176,18 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 	if ( ! $product_id ) {
 		return;
 	}
+
+	$is_exists = get_page_by_title( $product_id, OBJECT, 'wcsn_notification' );
 	
 	if ( 'yes' != get_post_meta( $product_id, '_is_serial_number', true ) ) {
+		if ( $is_exists && 'publish' === $is_exists->post_status ) {
+			wp_update_post( array(
+				'ID'             => $is_exists->ID,
+				'post_content'   => 0,
+				'post_status'    => 'draft',
+				'comment_status' => 'disable',
+			) );
+		}
 		return;
 	}
 	
@@ -185,7 +195,6 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 	
 	$show_number = wcsn_get_settings( 'wsn_admin_bar_notification_number', 5, 'wsn_notification_settings' );
 	
-	$is_exists = get_page_by_title( $product_id, OBJECT, 'wcsn_notification' );
 	
 	$skip_notification = apply_filters( 'wcsn_skip_notification', false, $product_id, $available_numbers, $show_number );
 
