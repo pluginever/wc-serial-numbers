@@ -8,7 +8,6 @@ class WCSN_Automatic_Notification extends WC_Background_Process {
     protected $action = 'wcsn_automatic_notification';
 
     protected function task( $product_id ) {
-        error_log( $product_id );
         $notification = wcsn_update_notification_list( false, $product_id );
 		return false;
     }
