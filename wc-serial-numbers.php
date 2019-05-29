@@ -118,6 +118,8 @@ final class WCSerialNumbers {
 		add_action( 'init', array( $this, 'localization_setup' ) );
 		add_action( 'admin_init', array( $this, 'init_update' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
+		add_action( 'woocommerce_init', array( $this, 'automatic_notification' ) );
+		add_filter( 'cron_schedules', array( $this, 'custom_cron_schedules' ) );
 
 		if ( $this->is_plugin_compatible() ) {
 			$this->define_constants();
@@ -295,7 +297,7 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-wc-handler.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-numbers-api.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
-
+		
 		//admin
 		if ( ! $this->is_pro_installed() ) {
 			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-promotion.php' );
@@ -307,6 +309,28 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings-api.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/metabox-functions.php' );
+	}
+	
+	public function automatic_notification() {
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-automatic-notification.php' );
+
+		new WCSN_Automatic_Notification();
+	}
+
+	/**
+	 * Add custom cron schedule
+	 *
+	 * @param $schedules
+	 *
+	 * @return mixed
+	 */
+	public function custom_cron_schedules( $schedules ) {
+		$schedules ['once_a_minute'] = array(
+			'interval' => 60,
+			'display'  => __( 'Once a Minute' )
+		);
+
+		return $schedules;
 	}
 
 

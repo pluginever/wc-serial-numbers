@@ -124,6 +124,10 @@ class WC_Serial_Numbers_Install {
 	 * @since 1.0.0
 	 */
 	public static function create_cron() {
+		if ( ! wp_next_scheduled( 'wcsn_per_minute_event' ) ) {
+			wp_schedule_event( time(), 'once_a_minute', 'wcsn_per_minute_event' );
+		}
+
 		if ( ! wp_next_scheduled( 'wcsn_hourly_event' ) ) {
 			wp_schedule_event( time(), 'hourly', 'wcsn_hourly_event' );
 		}
