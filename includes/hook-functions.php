@@ -157,6 +157,8 @@ function wcsn_render_notification_list( $email_notification = false ) {
 		$html = ob_get_clean();
 
 		return $html;
+	} else {
+		return false;
 	}
 
 }
@@ -278,6 +280,10 @@ function wcsn_send_notification_to_email() {
 		return false;
 	}
 	$message = wcsn_render_notification_list( true );
+
+	if ( $message === false ) {
+		exit();
+	}
 
 	global $woocommerce;
 
