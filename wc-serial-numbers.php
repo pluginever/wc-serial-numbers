@@ -73,6 +73,11 @@ final class WCSerialNumbers {
 	public $serial_number;
 
 	/**
+	 * @var WC_Serial_Numbers_TMP_Serial_Number
+	 */
+	public $tmp_serial_number;
+
+	/**
 	 * @var WC_Serial_Numbers_Activation
 	 */
 	public $activation;
@@ -124,9 +129,10 @@ final class WCSerialNumbers {
 		if ( $this->is_plugin_compatible() ) {
 			$this->define_constants();
 			$this->includes();
-			$this->serial_number = new WC_Serial_Numbers_Serial_Number();
-			$this->activation    = new WC_Serial_Numbers_Activation();
-			$this->encryption    = new CryptoLib();
+			$this->serial_number     = new WC_Serial_Numbers_Serial_Number();
+			$this->tmp_serial_number = new WC_Serial_Numbers_TMP_Serial_Number();
+			$this->activation        = new WC_Serial_Numbers_Activation();
+			$this->encryption        = new CryptoLib();
 
 			// API
 			$this->api_url  = add_query_arg( 'wc-api', 'serial-numbers-api', home_url( '/' ) );
@@ -292,6 +298,7 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-crud.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-tmp-serial-number.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-activation.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-elements.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-wc-handler.php' );
