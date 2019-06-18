@@ -334,7 +334,7 @@ final class WCSerialNumbers {
 	public function custom_cron_schedules( $schedules ) {
 		$schedules ['once_a_minute'] = array(
 			'interval' => 60,
-			'display'  => __( 'Once a Minute' )
+			'display'  => __( 'Once a Minute', 'wc-serial-numbers' )
 		);
 
 		return $schedules;
