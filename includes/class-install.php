@@ -95,9 +95,9 @@ class WC_Serial_Numbers_Install {
 			activation_email varchar(200) DEFAULT NULL,
 			status varchar(50) DEFAULT 'available',
 			validity varchar(200) DEFAULT NULL,
-			expire_date TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			order_date TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+			expire_date DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			order_date DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
 			PRIMARY KEY  (id)
 			) $collate;",
 			"CREATE TABLE {$wpdb->prefix}wcsn_activations (
@@ -124,6 +124,10 @@ class WC_Serial_Numbers_Install {
 	 * @since 1.0.0
 	 */
 	public static function create_cron() {
+		if ( ! wp_next_scheduled( 'wcsn_per_minute_event' ) ) {
+			wp_schedule_event( time(), 'once_a_minute', 'wcsn_per_minute_event' );
+		}
+
 		if ( ! wp_next_scheduled( 'wcsn_hourly_event' ) ) {
 			wp_schedule_event( time(), 'hourly', 'wcsn_hourly_event' );
 		}

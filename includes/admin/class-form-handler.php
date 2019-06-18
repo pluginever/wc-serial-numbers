@@ -42,7 +42,7 @@ class WCSN_Form_Handler {
 
 
 		$posted = array(
-			'serial_key'       => ! empty( $_POST['serial_key'] ) ? sanitize_textarea_field( $_POST['serial_key'] ) : '',
+			'serial_key'       => ! empty( $_POST['serial_key'] ) ? sanitize_textarea_field( wcsn_encrypt( $_POST['serial_key'] ) ) : '',
 			'license_image'    => ! empty( $_POST['license_image'] ) ? sanitize_text_field( $_POST['license_image'] ) : '',
 			'product_id'       => $product_id,
 			'activation_limit' => ! empty( $_POST['activation_limit'] ) ? intval( $_POST['activation_limit'] ) : '',
@@ -98,7 +98,9 @@ class WCSN_Form_Handler {
 
 		$id = ! empty( $_REQUEST['serial_id'] ) ? intval( $_REQUEST['serial_id'] ) : '';
 
-		$serial_number = array_pop( wcsn_get_serial_numbers( array( 'id' => $id ) ) );
+		$serial_numbers = wcsn_get_serial_numbers( array( 'id' => $id ) );
+
+		$serial_number = array_pop( $serial_numbers );
 
 		if ( ! empty( $id ) ) {
 			wc_serial_numbers()->serial_number->delete( $id );

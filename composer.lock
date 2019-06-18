@@ -4,8 +4,58 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df4e384940557b268b8dcb4d3d83c037",
-    "packages": [],
+    "content-hash": "1a4b43f001f0d7604d87c8b0bc63d56c",
+    "packages": [
+        {
+            "name": "ahsankhatri/cryptolib-php",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ahsankhatri/cryptolib-php.git",
+                "reference": "2a8c76cc4083d501d30d49b55daf69719824633e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ahsankhatri/cryptolib-php/zipball/2a8c76cc4083d501d30d49b55daf69719824633e",
+                "reference": "2a8c76cc4083d501d30d49b55daf69719824633e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MrShan0\\CryptoLib\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ahsaan Muhammad Yousuf",
+                    "email": "ahsankhatri1992@gmail.com",
+                    "homepage": "https://ahsaan.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A library to encrypt or decrypt with random password generator based on secret key defined.",
+            "homepage": "https://github.com/ahsankhatri/cryptolib-php",
+            "keywords": [
+                "Rijndael",
+                "aes-encryption",
+                "cryptolib"
+            ],
+            "time": "2019-05-02T22:56:00+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",

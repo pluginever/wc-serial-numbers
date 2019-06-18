@@ -157,6 +157,8 @@ function wcsn_render_notification_list( $email_notification = false ) {
 		$html = ob_get_clean();
 
 		return $html;
+	} else {
+		return false;
 	}
 
 }
@@ -177,16 +179,39 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 		return;
 	}
 
+	$is_exists = get_page_by_title( $product_id, OBJECT, 'wcsn_notification' );
+	
 	if ( 'yes' != get_post_meta( $product_id, '_is_serial_number', true ) ) {
+		if ( $is_exists && 'publish' === $is_exists->post_status ) {
+			wp_update_post( array(
+				'ID'             => $is_exists->ID,
+				'post_content'   => 0,
+				'post_status'    => 'draft',
+				'comment_status' => 'disable',
+			) );
+		}
 		return;
 	}
-
+	
 	$available_numbers = wcsn_get_serial_numbers( array( 'status' => 'new', 'product_id' => $product_id ), true );
-
+	
 	$show_number = wcsn_get_settings( 'wsn_admin_bar_notification_number', 5, 'wsn_notification_settings' );
+	
+	
+	$skip_notification = apply_filters( 'wcsn_skip_notification', false, $product_id, $available_numbers, $show_number );
 
-	$is_exists = get_page_by_title( $product_id, OBJECT, 'wcsn_notification' );
-
+	if ( $skip_notification ) {
+		if ( $is_exists ) {
+			wp_update_post( array(
+				'ID'             => $is_exists->ID,
+				'post_content'   => $available_numbers,
+				'post_status'    => 'draft',
+				'comment_status' => 'disable',
+			) );
+		}
+		return;
+	}
+	
 	if ( $available_numbers >= $show_number ) {
 
 		if ( $is_exists ) {
@@ -223,11 +248,23 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 	return;
 }
 
-add_action( 'wcsn_serial_number_created', 'wcsn_update_notification_list', 10, 2 );
-add_action( 'wcsn_serial_number_generated', 'wcsn_update_notification_list', 10, 2 );
-add_action( 'wcsn_serial_number_deleted', 'wcsn_update_notification_list', 10, 2 );
-add_action( 'wcsn_serial_number_unlinked', 'wcsn_update_notification_list', 10, 2 );
-add_action( 'wcsn_after_process_serial_number', 'wcsn_update_notification_list', 10, 2 );
+function wcsn_run_notification_check() {
+	$products = wcsn_get_product_list();
+
+	
+	if ( ! empty( $products ) ) {
+		$product_ids = array_keys( $products );
+		$check_notification = new WCSN_Automatic_Notification();
+		
+		foreach( $product_ids as $product_id ) {
+			$check_notification->push_to_queue( $product_id );
+		}
+		
+		$check_notification->save()->dispatch();
+	}
+}
+
+add_action( 'wcsn_per_minute_event', 'wcsn_run_notification_check' );
 
 /**
  * Send Serial Numbers stock notification to email
@@ -243,6 +280,10 @@ function wcsn_send_notification_to_email() {
 		return false;
 	}
 	$message = wcsn_render_notification_list( true );
+
+	if ( $message === false ) {
+		exit();
+	}
 
 	global $woocommerce;
 

@@ -156,54 +156,33 @@ function wcsn_get_serial_statuses() {
  * @return array
  */
 function wcsn_get_product_list( $only_enabled = false ) {
+	global $wpdb;
 	$list      = [];
-	$post_args = array(
-		'post_type' => 'product',
-		'nopaging'  => true,
-		'orderby'   => 'ID',
-		'order'     => 'ASC',
-	);
+
+	$sql = "SELECT post.ID FROM {$wpdb->prefix}posts post INNER JOIN {$wpdb->prefix}postmeta postmeta ON postmeta.post_id=post.ID WHERE post.post_type IN ('product_variation', 'product') ORDER BY post.ID ASC";
+
 	if ( $only_enabled ) {
-		$post_args['meta_key']   = '_is_serial_number';
-		$post_args['meta_value'] = 'yes';
+		$sql = "SELECT post.ID FROM {$wpdb->prefix}posts post INNER JOIN {$wpdb->prefix}postmeta postmeta ON postmeta.post_id=post.ID WHERE post.post_type IN ('product_variation', 'product') AND postmeta.meta_key='_is_serial_number' AND postmeta.meta_value='yes' ORDER BY post.ID ASC";
 	}
-	$posts           = get_posts( $post_args );
+
+	
+	$posts = $wpdb->get_results( $sql );
 	$products        = array_map( 'wc_get_product', $posts );
+
 	$supported_types = apply_filters( 'wcsn_supported_product_types', array( 'simple' ) );
+
 	foreach ( $products as $product ) {
 		if ( in_array( $product->get_type(), $supported_types ) ) {
-			if ( 'simple' == $product->get_type() ) {
+			if ( 'simple' == $product->get_type() || 'variation' == $product->get_type() ) {
 				$title                      = $product->get_title();
 				$title                      .= "(#{$product->get_id()} {$product->get_sku()} ";
 				$title                      .= $product->get_type() == 'variation' ? ', Variation' : '';
 				$title                      .= ')';
 				$list[ $product->get_id() ] = $title;
-			} elseif ( 'variable' == $product->get_type() ) {
-				$args_get_children = array(
-					'post_type'      => array( 'product_variation', 'product' ),
-					'posts_per_page' => - 1,
-					'order'          => 'ASC',
-					'orderby'        => 'title',
-					'post_parent'    => $product->get_id()
-				);
-				if ( $only_enabled ) {
-					$args_get_children['meta_key']   = '_is_serial_number';
-					$args_get_children['meta_value'] = 'yes';
-				}
-				$children_products = get_children( $args_get_children );
-				if ( ! empty( $children_products ) ) {
-					foreach ( $children_products as $child ) {
-						$sku                = get_post_meta( $child->ID, '_sku', true );
-						$title              = get_the_title( $child->ID );
-						$title              .= "(#{$child->ID} {$sku} ";
-						$title              .= 'Variation';
-						$title              .= ')';
-						$list[ $child->ID ] = $title;
-					}
-				}
 			}
 		}
 	}
+
 	krsort( $list );
 
 	return $list;
@@ -262,7 +241,7 @@ function wcsn_get_remaining_activation( $serial_id, $context = 'edit' ) {
 	$active_activations = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}wcsn_activations WHERE serial_id = %s AND active = 1;", $serial_id ) );
 	$remaining          = max( 0, $activation_limit - $active_activations );
 
-	return $context == 'edit' ? $remaining : $remaining > 9999 ? __( 'Unlimited', 'wc-serial-numbers' ) : $remaining;
+	return $context == 'edit' ? $remaining : ( $remaining > 9999 ? __( 'Unlimited', 'wc-serial-numbers' ) : $remaining );
 }
 
 /**
@@ -468,4 +447,93 @@ function wcsn_get_product_variations( $product ) {
  */
 function wcsn_is_key_source_automatic($product_id){
 	return 'auto_generated' === get_post_meta( $product_id, '_serial_key_source', true );
+}
+
+/**
+ * Generate Random String
+ *
+ * @param integer $length
+ * @return string
+ */
+function wcsn_generate_random_string( $length = 10 ) {
+    $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_@$#';
+    $chars_length = strlen( $chars );
+    $random_string = '';
+    for ($i = 0; $i < $length; $i++) {
+        $random_string .= $chars[rand(0, $chars_length - 1)];
+    }
+    return $random_string;
+}
+
+/**
+ * Get encrypt private key
+ *
+ * @return string
+ */
+function wcsn_get_encrypt_key() {
+	$p_key = get_option( 'wcsn_pkey', false );
+
+	if ( false === $p_key || '' === $p_key ) {
+		$salt = wcsn_generate_random_string();
+		$time = time();
+		$home_url = get_home_url( '/' );
+		$salts = array( $time, $home_url, $salt );
+
+		shuffle( $salts );
+
+		$p_key = hash( 'sha256', implode( '-', $salts ) );
+
+		update_option( 'wcsn_pkey', $p_key );
+	}
+
+	return $p_key;
+}
+
+/**
+ * Encrypt String
+ *
+ * @param string $string
+ * @return string
+ */
+function wcsn_encrypt( $string ) {
+	if ( ! function_exists( 'wc_serial_numbers' ) ) {
+		return $string;
+	}
+	$p_key = wcsn_get_encrypt_key();
+	
+	$hash = wc_serial_numbers()->encryption->encrypt( $string, $p_key, 'kcv4tu0FSCB9oJyH' );
+
+	return $hash;
+}
+
+/**
+ * Decrypt hash to string
+ *
+ * @param string $hash
+ * @return string
+ */
+function wcsn_decrypt( $hash ) {
+	if ( ! function_exists( 'wc_serial_numbers' ) ) {
+		return $hash;
+	}
+
+	$p_key = wcsn_get_encrypt_key();
+
+	$string = wc_serial_numbers()->encryption->decrypt( $hash, $p_key, 'kcv4tu0FSCB9oJyH' );
+
+	return $string;
+}
+
+/**
+ * Is encrypted
+ *
+ * @param string $string
+ * @return bool
+ */
+function wcsn_is_encrypted( $string ) {
+	if ( preg_match( '/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/', $string ) ) {
+		return true;
+	}
+
+	return false;
 }

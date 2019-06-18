@@ -53,8 +53,10 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'product':
+				$post = get_post( $item->product_id );
+				$product_id = $post->post_parent ? $post->post_parent : $item->product_id;
 				$line = ! empty( $item->product_id ) ? get_the_title( $item->product_id ) : '&#45;';
-				echo ! empty( $item->product_id ) ? '<a href="' . get_edit_post_link( $item->product_id ) . '">' . $line . '</a>' : $line;
+				echo ! empty( $item->product_id ) ? '<a href="' . get_edit_post_link( $product_id ) . '">' . $line . '</a>' : $line;
 				break;
 			case 'order':
 				$line = ! empty( $item->order_id ) ? '#' . $item->order_id : '&#45;';
@@ -100,7 +102,13 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		);
 
-		return sprintf( '%1$s %2$s', $item->serial_key, $this->row_actions( $actions ) );
+		$serial_key = $item->serial_key;
+
+		if ( ! empty( $serial_key ) ) {
+			$serial_key = wcsn_decrypt( $serial_key );
+		}
+
+		return sprintf( '%1$s %2$s', $serial_key, $this->row_actions( $actions ) );
 	}
 
 

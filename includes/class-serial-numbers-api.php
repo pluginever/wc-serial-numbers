@@ -24,7 +24,7 @@ class WC_Serial_Numbers_API {
 	 */
 	public function handle_api_request() {
 		$email         = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
-		$serial_key    = ! empty( $_REQUEST['serial_key'] ) ? sanitize_key( $_REQUEST['serial_key'] ) : '';
+		$serial_key    = ! empty( $_REQUEST['serial_key'] ) ? esc_attr( $_REQUEST['serial_key'] ) : '';
 		$product_id    = ! empty( $_REQUEST['product_id'] ) ? intval( $_REQUEST['product_id'] ) : '';
 		$instance      = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : time();
 		$platform      = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : null;
@@ -43,7 +43,7 @@ class WC_Serial_Numbers_API {
 			$this->send_result( $this->error( '100', __( 'The product id provided is invalid', 'wc-serial-numbers' ) ) );
 		}
 
-		$data = wcsn_get_serial_numbers( [ 'serial_key' => $serial_key, 'activation_email' => $email, 'product_id' => $product_id, 'expire_date' => '' ] );
+		$data = wcsn_get_serial_numbers( [ 'serial_key' => wcsn_encrypt( $serial_key ), 'activation_email' => $email, 'product_id' => $product_id, 'expire_date' => '' ] );
 
 		if ( empty( $data ) ) {
 			$this->send_result( $this->error( '101', __( 'No matching serial key exists', 'wc-serial-numbers' ) ) );

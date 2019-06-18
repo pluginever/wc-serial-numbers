@@ -182,7 +182,7 @@ if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '3.0', '<' ) ) {
 }
 
 function wcsn_register_metaboxes() {
-	add_meta_box( 'wcsn-order-serial-keys', __( 'License Numbers', 'wc-serial-numbers' ), 'wcsn_license_numbers_metabox', 'shop_order', 'normal', 'high' );
+	add_meta_box( 'wcsn-order-serial-keys', __( 'Serial Numbers', 'wc-serial-numbers' ), 'wcsn_license_numbers_metabox', 'shop_order', 'normal', 'high' );
 	add_meta_box( 'wcsn-order-activations', __( 'Serial Numbers Activations', 'wc-serial-numbers' ), 'wcsn_activations_metabox', 'shop_order', 'normal', 'high' );
 }
 

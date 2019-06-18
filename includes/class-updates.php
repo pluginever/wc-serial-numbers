@@ -13,7 +13,13 @@ class WCSN_Updates {
 	 */
 	private static $upgrades = array(
 		'1.0.1' => 'updates/update-1.0.1.php',
+		'1.0.6' => 'updates/update-1.0.6.php',
 	);
+
+	public function get_key() {
+		$key = sanitize_key( wc_serial_numbers()->plugin_name );
+		return $key . '_version';
+	}
 
 	/**
 	 * Get the plugin version
@@ -21,7 +27,8 @@ class WCSN_Updates {
 	 * @return string
 	 */
 	public function get_version() {
-		return get_option( 'wpcp_version' );
+		$key = $this->get_key();
+		return get_option( $key );
 	}
 
 	/**
@@ -49,15 +56,16 @@ class WCSN_Updates {
 	function perform_updates() {
 		$installed_version = $this->get_version();
 		$path              = trailingslashit( WC_SERIAL_NUMBERS_INCLUDES );
+		$key               = $this->get_key();
 		foreach ( self::$upgrades as $version => $file ) {
 			if ( version_compare( $installed_version, $version, '<' ) ) {
 				include $path . $file;
-				update_option( 'wc_serial_numbers_version', $version );
+				update_option( $key, $version );
 			}
 		}
 
-		delete_option( 'wpcp_version' );
-		update_option( 'wc_serial_numbers_version', WC_SERIAL_NUMBERS_VERSION );
+		delete_option( $key );
+		update_option( $key, WC_SERIAL_NUMBERS_VERSION );
 	}
 }
 

@@ -2,7 +2,7 @@
 Contributors: manikmist09,pluginever
 Tags: WooCommerce Serial Number, WooCommerce License Number, WooCommerce License Key,license keys,software license,woocommerce
 Requires at least: 4.4
-Tested up to: 5.1.1
+Tested up to: 5.2.1
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -26,6 +26,7 @@ WooCommerce Serial Numbers enable your store to sell WooCommerce license keys, a
 * Dedicated dashboard from where you can easily manage serial numbers Built-in validator API (with activation, validation deactivation, and Software version endpoints).
 * Admin can easily track license keys from the order page.
 * For software, you can easily track the usage of license keys from the order page
+* All the serial numbers in the database are encrypted [NEW]
 * Lots of customization options
 
 == WooCommerce Serial Numbers Pro Features ==
@@ -137,3 +138,11 @@ Initial release
 = 1.0.5 (24 April,2019) =
 * Fix Serial number table not generating in sql version lower than 5.5 [#31]
 * Confirm compatibility with WC 3.6.1
+
+= 1.0.6 (18 June,2019) =
+* Fix: Plugin translation issue
+* Fix: Product order page serial number limitation
+* Fix: Unwanted notification for the serial number
+* Fix: Empty email notification
+* New: Encryption - all serial number at DB is encrypted
+* Tweak: Notification moved to the background process. No more failed check.

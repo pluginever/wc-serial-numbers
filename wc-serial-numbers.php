@@ -3,16 +3,16 @@
  * Plugin Name: WooCommerce Serial Numbers
  * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
  * Description: The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
- * Version:     1.0.5
+ * Version:     1.0.6
  * Author:      pluginever
  * Author URI:  http://pluginever.com
  * Donate link: https://pluginever.com/contact
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /i18n/languages/
- * Tested up to: 5.1.1
+ * Tested up to: 5.2.1
  * WC requires at least: 3.0.0
- * WC tested up to: 3.6.1
+ * WC tested up to: 3.6.4
  */
 
 /**
@@ -49,7 +49,7 @@ final class WCSerialNumbers {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.5';
+	public $version = '1.0.6';
 
 	/**
 	 * @since 1.0.0
@@ -73,9 +73,19 @@ final class WCSerialNumbers {
 	public $serial_number;
 
 	/**
+	 * @var WC_Serial_Numbers_TMP_Serial_Number
+	 */
+	public $tmp_serial_number;
+
+	/**
 	 * @var WC_Serial_Numbers_Activation
 	 */
 	public $activation;
+
+	/**
+	 * @var CryptoLib
+	 */
+	public $encryption;
 
 	/**
 	 * The single instance of the class.
@@ -113,12 +123,16 @@ final class WCSerialNumbers {
 		add_action( 'init', array( $this, 'localization_setup' ) );
 		add_action( 'admin_init', array( $this, 'init_update' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
+		add_action( 'woocommerce_init', array( $this, 'automatic_notification' ) );
+		add_filter( 'cron_schedules', array( $this, 'custom_cron_schedules' ) );
 
 		if ( $this->is_plugin_compatible() ) {
 			$this->define_constants();
 			$this->includes();
-			$this->serial_number = new WC_Serial_Numbers_Serial_Number();
-			$this->activation    = new WC_Serial_Numbers_Activation();
+			$this->serial_number     = new WC_Serial_Numbers_Serial_Number();
+			$this->tmp_serial_number = new WC_Serial_Numbers_TMP_Serial_Number();
+			$this->activation        = new WC_Serial_Numbers_Activation();
+			$this->encryption        = new CryptoLib();
 
 			// API
 			$this->api_url  = add_query_arg( 'wc-api', 'serial-numbers-api', home_url( '/' ) );
@@ -156,7 +170,7 @@ final class WCSerialNumbers {
 	protected function is_plugin_compatible() {
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-			$this->add_notice( 'notice-error', sprintf(
+			$this->add_notice( 'error', sprintf(
 				'<strong>%s</strong> requires <strong>WooCommerce</strong> installed and active.',
 				$this->plugin_name
 			) );
@@ -218,7 +232,7 @@ final class WCSerialNumbers {
 	 * @return void
 	 */
 	public function localization_setup() {
-		load_plugin_textdomain( 'wc-serial-numbers', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'wc-serial-numbers', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages/' );
 	}
 
 	/**
@@ -249,9 +263,11 @@ final class WCSerialNumbers {
 	}
 
 	public function init_update() {
-		$updater = new WCSN_Updates();
-		if ( $updater->needs_update() ) {
-			$updater->perform_updates();
+		if ( class_exists( 'WCSN_Updates' ) ) {
+			$updater = new WCSN_Updates();
+			if ( $updater->needs_update() ) {
+				$updater->perform_updates();
+			}
 		}
 	}
 
@@ -274,18 +290,21 @@ final class WCSerialNumbers {
 	 * Include required core files used in admin and on the frontend.
 	 */
 	public function includes() {
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-cryptolib.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-install.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-install.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-updates.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-crud.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-tmp-serial-number.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-activation.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-elements.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-wc-handler.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-numbers-api.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
-
+		
 		//admin
 		if ( ! $this->is_pro_installed() ) {
 			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-promotion.php' );
@@ -298,6 +317,28 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/metabox-functions.php' );
 	}
+	
+	public function automatic_notification() {
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-automatic-notification.php' );
+
+		new WCSN_Automatic_Notification();
+	}
+
+	/**
+	 * Add custom cron schedule
+	 *
+	 * @param $schedules
+	 *
+	 * @return mixed
+	 */
+	public function custom_cron_schedules( $schedules ) {
+		$schedules ['once_a_minute'] = array(
+			'interval' => 60,
+			'display'  => __( 'Once a Minute', 'wc-serial-numbers' )
+		);
+
+		return $schedules;
+	}
 
 
 	/**
@@ -307,7 +348,7 @@ final class WCSerialNumbers {
 	 * @return \WCSerialNumbers
 	 */
 	public static function instance() {
-
+		
 		if ( null === self::$instance ) {
 
 			self::$instance = new self();
