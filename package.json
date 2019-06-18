@@ -2,7 +2,7 @@
   "name": "wc-serial-number-pro",
   "title": "WC Serial Number Pro",
   "description": "The Best WordPress Plugin ever made!",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "homepage": "https://www.pluginever.com",
   "author": {
     "name": "pluginever",
@@ -40,7 +40,7 @@
     "grunt-phpcs": "~0.4.0",
     "grunt-postcss": "~0.9.0",
     "grunt-prompt": "^1.3.3",
-    "grunt-sass": "~2.1.0",
+    "grunt-sass": "^2.1.0",
     "grunt-stylelint": "~0.10.0",
     "grunt-wp-i18n": "~1.0.1",
     "stylelint": "~9.2.1"

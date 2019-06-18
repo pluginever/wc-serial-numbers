@@ -10,9 +10,9 @@
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /i18n/languages/
- * Tested up to: 5.1.1
+ * Tested up to: 5.2.1
  * WC requires at least: 3.0.0
- * WC tested up to: 3.6.1
+ * WC tested up to: 3.6.4
  */
 
 /**
@@ -83,7 +83,7 @@ final class WCSerialNumbers {
 	public $activation;
 
 	/**
-	 * @var \MrShan0\CryptoLib\CryptoLib
+	 * @var CryptoLib
 	 */
 	public $encryption;
 
@@ -334,7 +334,7 @@ final class WCSerialNumbers {
 	public function custom_cron_schedules( $schedules ) {
 		$schedules ['once_a_minute'] = array(
 			'interval' => 60,
-			'display'  => __( 'Once a Minute' )
+			'display'  => __( 'Once a Minute', 'wc-serial-numbers' )
 		);
 
 		return $schedules;
