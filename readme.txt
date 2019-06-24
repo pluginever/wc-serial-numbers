@@ -2,7 +2,7 @@
 Contributors: manikmist09,pluginever
 Tags: WooCommerce Serial Number, WooCommerce License Number, WooCommerce License Key,license keys,software license,woocommerce
 Requires at least: 4.4
-Tested up to: 5.2.1
+Tested up to: 5.2.2
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -146,3 +146,6 @@ Initial release
 * Fix: Empty email notification
 * New: Encryption - all serial number at DB is encrypted
 * Tweak: Notification moved to the background process. No more failed check.
+
+= 1.0.7 (24 June,2019) =
+* Fix compatibly with WP v5.2.2

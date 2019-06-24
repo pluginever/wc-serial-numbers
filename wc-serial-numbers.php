@@ -3,14 +3,14 @@
  * Plugin Name: WooCommerce Serial Numbers
  * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
  * Description: The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
- * Version:     1.0.6
+ * Version:     1.0.7
  * Author:      pluginever
  * Author URI:  http://pluginever.com
  * Donate link: https://pluginever.com/contact
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /i18n/languages/
- * Tested up to: 5.2.1
+ * Tested up to: 5.2.2
  * WC requires at least: 3.0.0
  * WC tested up to: 3.6.4
  */
@@ -49,7 +49,7 @@ final class WCSerialNumbers {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.6';
+	public $version = '1.0.7';
 
 	/**
 	 * @since 1.0.0
@@ -304,7 +304,7 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-wc-handler.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-numbers-api.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
-		
+
 		//admin
 		if ( ! $this->is_pro_installed() ) {
 			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-promotion.php' );
@@ -317,7 +317,7 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/metabox-functions.php' );
 	}
-	
+
 	public function automatic_notification() {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-automatic-notification.php' );
 
@@ -348,7 +348,7 @@ final class WCSerialNumbers {
 	 * @return \WCSerialNumbers
 	 */
 	public static function instance() {
-		
+
 		if ( null === self::$instance ) {
 
 			self::$instance = new self();
