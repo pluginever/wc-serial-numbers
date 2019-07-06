@@ -14,10 +14,12 @@ class WCSN_Updates {
 	private static $upgrades = array(
 		'1.0.1' => 'updates/update-1.0.1.php',
 		'1.0.6' => 'updates/update-1.0.6.php',
+		'1.0.8' => 'updates/update-1.0.8.php',
 	);
 
 	public function get_key() {
 		$key = sanitize_key( wc_serial_numbers()->plugin_name );
+
 		return $key . '_version';
 	}
 
@@ -28,6 +30,7 @@ class WCSN_Updates {
 	 */
 	public function get_version() {
 		$key = $this->get_key();
+
 		return get_option( $key );
 	}
 

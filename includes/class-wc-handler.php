@@ -108,7 +108,6 @@ class WCSN_WC_Handler {
 	 *
 	 * @param $order
 	 * @param $product_id
-	 * @param $variation_id
 	 * @param $quantity
 	 * @param $serial_key_source
 	 *
