@@ -1,14 +1,26 @@
 <?php if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} ?>
+}
 
-<h2 class="woocommerce-order-downloads__title" style="margin-top: 20px;"><?php esc_html_e( 'Serial Numbers', 'wc-serial-numbers' ); ?></h2>
+$heading_text         = apply_filters( 'wcsn_heading_text', __( 'Serial Numbers', 'wc-serial-numbers' ) );
+$table_column_heading = apply_filters( 'wcsn_table_column_heading', __( 'Serial Number', 'wc-serial-numbers' ) );
+$serial_key_label     = apply_filters( 'wcsn_serial_key_label', __( 'Serial Key:', 'wc-serial-numbers' ) );
+$serial_email_label   = apply_filters( 'wcsn_serial_email_label', __( 'Serial Email:', 'wc-serial-numbers' ) );
 
-<table class="td" cellspacing="0" cellpadding="6" style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 40px;">
+$show_validity         = apply_filters( 'wcsn_show_validity', true );
+$show_activation_limit = apply_filters( 'wcsn_show_activation_limit', true );
+?>
+<?php if ( ! empty( $heading_text ) ): ?>
+	<h2 class="woocommerce-order-downloads__title"
+	    style="margin-top: 20px;"><?php echo esc_html( $heading_text ); ?></h2>
+<?php endif; ?>
+
+<table class="td" cellspacing="0" cellpadding="6"
+       style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 40px;">
 	<thead>
 	<tr>
 		<th class="td" scope="col" style="text-align:left;"><?php esc_html_e( 'Product', 'wc-serial-numbers' ); ?></th>
-		<th class="td" scope="col" style="text-align:left;"><?php esc_html_e( 'Serial Number', 'wc-serial-numbers' ); ?></th>
+		<th class="td" scope="col" style="text-align:left;"><?php echo esc_html( $table_column_heading ); ?></th>
 	</tr>
 	</thead>
 
@@ -19,10 +31,23 @@
 			</td>
 			<td class="td" style="text-align:text-align:left;">
 				<ul style="list-style: none; margin: 0;font-size: 14px;">
-					<li><strong><?php _e( 'Serial Key:', 'wc-serial-numbers' ); ?></strong> <?php echo wcsn_decrypt( sanitize_textarea_field( $serial_number->serial_key ) ); ?></li>
-					<li><strong><?php _e( 'Serial Email:', 'wc-serial-numbers' ); ?></strong> <?php echo esc_html( $serial_number->activation_email ); ?></li>
-					<li><strong><?php _e( 'Expire Date:', 'wc-serial-numbers' ); ?></strong> <?php echo wcsn_get_serial_expiration_date( $serial_number ); ?></li>
-					<li><strong><?php _e( 'Activation Limit:', 'wc-serial-numbers' ); ?></strong> <?php echo empty( $serial_number->activation_limit ) ? __( 'Unlimited', 'wc-serial-numbers' ) : intval( $serial_number->activation_limit ); ?></li>
+					<li>
+						<strong><?php echo esc_html( $serial_key_label ); ?></strong>&nbsp;<?php echo wcsn_decrypt( sanitize_textarea_field( $serial_number->serial_key ) ); ?>
+					</li>
+					<li>
+						<strong><?php echo esc_html( $serial_email_label ); ?></strong>&nbsp;<?php echo esc_html( $serial_number->activation_email ); ?>
+					</li>
+					<?php if ( $show_validity ): ?>
+						<li>
+							<strong><?php _e( 'Validity:', 'wc-serial-numbers' ); ?></strong>&nbsp;<?php echo wcsn_get_serial_expiration_date( $serial_number ); ?>
+						</li>
+					<?php endif; ?>
+					<?php if ( $show_activation_limit ): ?>
+						<li>
+							<strong><?php _e( 'Activation Limit:', 'wc-serial-numbers' ); ?></strong>&nbsp;<?php echo empty( $serial_number->activation_limit ) ? __( 'Unlimited', 'wc-serial-numbers' ) : intval( $serial_number->activation_limit ); ?>
+						</li>
+					<?php endif; ?>
+
 				</ul>
 			</td>
 		</tr>

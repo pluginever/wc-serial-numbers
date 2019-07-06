@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Serial Numbers 1.0.6\n"
+"Project-Id-Version: WooCommerce Serial Numbers 1.0.8\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2019-06-18 10:12:04+00:00\n"
+"POT-Creation-Date: 2019-07-06 11:09:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -328,18 +328,18 @@ msgstr ""
 #: includes/admin/metabox-functions.php:18
 #: includes/admin/tables/class-serial-numbers-list-table.php:14
 #: includes/admin/views/html-add-serial-number.php:91
-#: templates/html-order-details-table.php:11
+#: templates/html-order-details-table.php:6
 msgid "Serial Number"
 msgstr ""
 
 #: includes/admin/emails/email-serial-numbers.php:8
-#: templates/html-order-details-table.php:23
-msgid "Serial Email:"
+#: templates/html-order-details-table.php:7
+msgid "Serial Key:"
 msgstr ""
 
 #: includes/admin/emails/email-serial-numbers.php:9
-#: templates/html-order-details-table.php:22
-msgid "Serial Key:"
+#: templates/html-order-details-table.php:8
+msgid "Serial Email:"
 msgstr ""
 
 #: includes/admin/emails/email-serial-numbers.php:20
@@ -347,23 +347,24 @@ msgstr ""
 #: includes/admin/views/html-add-serial-number.php:60
 #: includes/admin/views/html-order-activations.php:20
 #: includes/admin/views/html-order-license-number.php:16
-#: templates/html-order-details-table.php:10
+#: templates/html-order-details-table.php:22
 msgid "Product"
 msgstr ""
 
 #: includes/admin/emails/email-serial-numbers.php:35
+#: templates/html-order-details-table.php:42
 msgid "Validity:"
 msgstr ""
 
 #: includes/admin/emails/email-serial-numbers.php:38
-#: templates/html-order-details-table.php:25
+#: templates/html-order-details-table.php:47
 msgid "Activation Limit:"
 msgstr ""
 
 #: includes/admin/emails/email-serial-numbers.php:38
 #: includes/admin/tables/class-serial-numbers-list-table.php:69
 #: includes/core-functions.php:238 includes/core-functions.php:244
-#: templates/html-order-details-table.php:25
+#: templates/html-order-details-table.php:47
 msgid "Unlimited"
 msgstr ""
 
@@ -717,7 +718,7 @@ msgstr ""
 msgid "Invalid Request"
 msgstr ""
 
-#: includes/class-wc-handler.php:47
+#: includes/class-wc-handler.php:50
 msgid ""
 "Sorry, There is not enough Serial Number available for %s, Please remove "
 "this item or lower the quantity,\n"
@@ -755,10 +756,6 @@ msgstr ""
 
 #: includes/hook-functions.php:296
 msgid "Please add more serial number for the following items"
-msgstr ""
-
-#: templates/html-order-details-table.php:24
-msgid "Expire Date:"
 msgstr ""
 
 #: wc-serial-numbers.php:257

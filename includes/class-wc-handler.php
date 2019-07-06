@@ -40,7 +40,10 @@ class WCSN_WC_Handler {
 					return true;
 				}
 
-				$total_number = wcsn_get_serial_numbers( array( 'product_id' => $product_id, 'status' => 'new' ), true );
+				$total_number = wcsn_get_serial_numbers( array(
+					'product_id' => $product_id,
+					'status'     => 'new'
+				), true );
 
 				if ( $total_number < $quantity ) {
 
@@ -78,6 +81,17 @@ class WCSN_WC_Handler {
 				continue;
 			}
 
+			//check if the item already has a serial number
+			$order_contains_serials = wcsn_get_serial_numbers( [
+				'order_id'   => $order_id,
+				'product_id' => $product_id,
+			] );
+
+			//if already assigned serial number then no need
+			if ( ! empty( $order_contains_serials ) ) {
+				continue;
+			}
+
 			$serial_key_source = get_post_meta( $product_id, '_serial_key_source', true );
 			$serial_key_source = empty( $serial_key_source ) ? 'custom_source' : $serial_key_source;
 			do_action( 'wcsn_process_serial_number', $order, $product_id, $quantity, $serial_key_source );
@@ -94,7 +108,6 @@ class WCSN_WC_Handler {
 	 *
 	 * @param $order
 	 * @param $product_id
-	 * @param $variation_id
 	 * @param $quantity
 	 * @param $serial_key_source
 	 *
@@ -105,7 +118,11 @@ class WCSN_WC_Handler {
 			return false;
 		}
 
-		$serial_numbers = wcsn_get_serial_numbers( array( 'product_id' => $product_id, 'number' => $quantity, 'status' => 'new' ) );
+		$serial_numbers = wcsn_get_serial_numbers( array(
+			'product_id' => $product_id,
+			'number'     => $quantity,
+			'status'     => 'new'
+		) );
 
 		foreach ( $serial_numbers as $serial_number_item ) {
 			wc_serial_numbers()->serial_number->update( $serial_number_item->id, array(
@@ -147,7 +164,10 @@ class WCSN_WC_Handler {
 
 		foreach ( $serial_numbers as $product_id => $serial_keys ) {
 			foreach ( $serial_keys as $serial_serial_id ) {
-				wc_serial_numbers()->serial_number->update( $serial_serial_id, [ 'status' => 'active', 'order_date' => current_time( 'mysql' ) ] );
+				wc_serial_numbers()->serial_number->update( $serial_serial_id, [
+					'status'     => 'active',
+					'order_date' => current_time( 'mysql' )
+				] );
 			}
 		}
 	}
@@ -163,14 +183,17 @@ class WCSN_WC_Handler {
 	 */
 	public function revoke_serial_numbers( $order_id, $from_status, $to_status, $instance ) {
 		$serial_numbers = wcsn_get_serial_numbers( array( 'order_id' => $order_id ) );
-
 		if ( empty( $serial_numbers ) ) {
 			return;
 		}
 
 		$delivery_settings = wcsn_get_settings( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' );
 		$delivery_settings = array_keys( $delivery_settings );
-		if ( in_array( $from_status, array( 'completed', 'processing', 'on-hold' ) ) && in_array( $to_status, $delivery_settings ) ) {
+		if ( in_array( $from_status, array(
+				'completed',
+				'processing',
+				'on-hold'
+			) ) && in_array( $to_status, $delivery_settings ) ) {
 			$reuse_serial_number = wcsn_get_settings( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' );
 			foreach ( $serial_numbers as $serial_number ) {
 				$data = [];
@@ -203,7 +226,7 @@ class WCSN_WC_Handler {
 			return;
 		}
 
-		$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id, 'number' => -1 ] );
+		$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
 		if ( empty( $serial_numbers ) ) {
 			return;
 		}

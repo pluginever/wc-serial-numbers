@@ -106,7 +106,7 @@ class WC_Serial_Numbers_Install {
 			  instance varchar(200) NOT NULL,
 			  active int(1) NOT NULL DEFAULT 1,
 			  platform varchar(200) NULL,
-			  activation_time TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			  activation_time DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			  PRIMARY KEY  (id)
 			) $collate;"
 		];
