@@ -196,18 +196,18 @@ function wcsn_get_product_list( $only_enabled = false ) {
  */
 function wcsn_get_pro_features() {
 	$features = array(
-		'Sell serial numbers or license keys for variable products either its a physical or digital product.',
-		'Enables you to define your own pattern to generate serial numbers Like Serial-############## ',
-		'You can even include date in serial numbers like Serial-{y}{m}{d}############',
-		'You can create random or sequential numbers depending on your needs.',
-		'If you do not like to generate serial numbers your own, then set the option it will generate automatically and assign to order depending on how you set the rule.',
-		'Manage serial numbers directly from the order management page.You can edit, assign new, delete from there.',
-		'Create unlimited serial number generator rules with your custom serial numbers patterns.',
-		'Bulk generation of  serial numbers with a single click.',
-		'Bulk Serial numbers/License keys import from CSV',
-		'Serial numbers export in CSV format',
-		'Sell license keys, any kind of gift cards, physical products that include a serial number or license key, digital software with access keys, username & password, tickets, lotteries, pin codes almost any kind of secret number based products.',
-		'Dedicated customer support.',
+		__('Sell serial numbers or license keys for variable products either its a physical or digital product.','wc-serial-number'),
+		__('Enables you to define your own pattern to generate serial numbers Like Serial-############## ','wc-serial-number'),
+		__('You can even include date in serial numbers like Serial-{y}{m}{d}############','wc-serial-number'),
+		__('You can create random or sequential numbers depending on your needs.','wc-serial-number'),
+		__('If you do not like to generate serial numbers your own, then set the option it will generate automatically and assign to order depending on how you set the rule.','wc-serial-number'),
+		__('Manage serial numbers directly from the order management page.You can edit, assign new, delete from there.','wc-serial-number'),
+		__('Create unlimited serial number generator rules with your custom serial numbers patterns.','wc-serial-number'),
+		__('Bulk generation of  serial numbers with a single click.','wc-serial-number'),
+		__('Bulk Serial numbers/License keys import from CSV','wc-serial-number'),
+		__('Serial numbers export in CSV format','wc-serial-number'),
+		__('Sell license keys, any kind of gift cards, physical products that include a serial number or license key, digital software with access keys, username & password, tickets, lotteries, pin codes almost any kind of secret number based products.','wc-serial-number'),
+		__('Dedicated customer support.','wc-serial-number'),
 	);
 
 	return $features;
