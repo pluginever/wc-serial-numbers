@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Serial Numbers 1.0.8\n"
+"Project-Id-Version: WooCommerce Serial Numbers 1.0.9\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2019-07-06 11:09:38+00:00\n"
+"POT-Creation-Date: 2019-08-25 04:21:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -744,6 +744,71 @@ msgstr ""
 
 #: includes/core-functions.php:148
 msgid "Active"
+msgstr ""
+
+#: includes/core-functions.php:199
+msgid ""
+"Sell serial numbers or license keys for variable products either its a "
+"physical or digital product."
+msgstr ""
+
+#: includes/core-functions.php:200
+msgid ""
+"Enables you to define your own pattern to generate serial numbers Like "
+"Serial-############## "
+msgstr ""
+
+#: includes/core-functions.php:201
+msgid ""
+"You can even include date in serial numbers like "
+"Serial-{y}{m}{d}############"
+msgstr ""
+
+#: includes/core-functions.php:202
+msgid "You can create random or sequential numbers depending on your needs."
+msgstr ""
+
+#: includes/core-functions.php:203
+msgid ""
+"If you do not like to generate serial numbers your own, then set the option "
+"it will generate automatically and assign to order depending on how you set "
+"the rule."
+msgstr ""
+
+#: includes/core-functions.php:204
+msgid ""
+"Manage serial numbers directly from the order management page.You can edit, "
+"assign new, delete from there."
+msgstr ""
+
+#: includes/core-functions.php:205
+msgid ""
+"Create unlimited serial number generator rules with your custom serial "
+"numbers patterns."
+msgstr ""
+
+#: includes/core-functions.php:206
+msgid "Bulk generation of  serial numbers with a single click."
+msgstr ""
+
+#: includes/core-functions.php:207
+msgid "Bulk Serial numbers/License keys import from CSV"
+msgstr ""
+
+#: includes/core-functions.php:208
+msgid "Serial numbers export in CSV format"
+msgstr ""
+
+#: includes/core-functions.php:209
+msgid ""
+"Sell license keys, any kind of gift cards, physical products that include a "
+"serial number or license key, digital software with access keys, username & "
+"password, tickets, lotteries, pin codes almost any kind of secret number "
+"based products."
+msgstr ""
+
+#: includes/core-functions.php:210
+msgid "Dedicated customer support."
 msgstr ""
 
 #: includes/core-functions.php:348
