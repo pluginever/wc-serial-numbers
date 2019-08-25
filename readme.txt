@@ -154,3 +154,8 @@ Initial release
 * Fix - Table create failed below mysql v5.6
 * Fix - Serial number label chancing is not working on order complete page
 * Fix - creating multiple serial number for a single product when order failed
+
+= 1.0.9 (25 August,2019) =
+* Fix - WPML Support
+* Fix - WP Compatibility
+* Fix - WC Compatibility
