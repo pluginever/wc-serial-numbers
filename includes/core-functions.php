@@ -159,7 +159,7 @@ function wcsn_get_product_list( $only_enabled = false ) {
 	global $wpdb;
 	$list      = [];
 
-	$sql = "SELECT post.ID FROM {$wpdb->prefix}posts post INNER JOIN {$wpdb->prefix}postmeta postmeta ON postmeta.post_id=post.ID WHERE post.post_type IN ('product_variation', 'product') ORDER BY post.ID ASC";
+	$sql = "SELECT post.ID FROM {$wpdb->prefix}posts post WHERE post.post_type IN ('product_variation', 'product') ORDER BY post.ID ASC";
 
 	if ( $only_enabled ) {
 		$sql = "SELECT post.ID FROM {$wpdb->prefix}posts post INNER JOIN {$wpdb->prefix}postmeta postmeta ON postmeta.post_id=post.ID WHERE post.post_type IN ('product_variation', 'product') AND postmeta.meta_key='_is_serial_number' AND postmeta.meta_value='yes' ORDER BY post.ID ASC";
