@@ -180,7 +180,7 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 	}
 
 	$is_exists = get_page_by_title( $product_id, OBJECT, 'wcsn_notification' );
-	
+
 	if ( 'yes' != get_post_meta( $product_id, '_is_serial_number', true ) ) {
 		if ( $is_exists && 'publish' === $is_exists->post_status ) {
 			wp_update_post( array(
@@ -192,12 +192,12 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 		}
 		return;
 	}
-	
+
 	$available_numbers = wcsn_get_serial_numbers( array( 'status' => 'new', 'product_id' => $product_id ), true );
-	
+
 	$show_number = wcsn_get_settings( 'wsn_admin_bar_notification_number', 5, 'wsn_notification_settings' );
-	
-	
+
+
 	$skip_notification = apply_filters( 'wcsn_skip_notification', false, $product_id, $available_numbers, $show_number );
 
 	if ( $skip_notification ) {
@@ -211,7 +211,7 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 		}
 		return;
 	}
-	
+
 	if ( $available_numbers >= $show_number ) {
 
 		if ( $is_exists ) {
@@ -251,15 +251,15 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 function wcsn_run_notification_check() {
 	$products = wcsn_get_product_list();
 
-	
+
 	if ( ! empty( $products ) ) {
 		$product_ids = array_keys( $products );
 		$check_notification = new WCSN_Automatic_Notification();
-		
+
 		foreach( $product_ids as $product_id ) {
 			$check_notification->push_to_queue( $product_id );
 		}
-		
+
 		$check_notification->save()->dispatch();
 	}
 }
@@ -372,4 +372,20 @@ function wcsn_admin_bar_notification_styles() { ?>
 add_action( 'admin_head', 'wcsn_admin_bar_notification_styles' );
 add_action( 'wp_head', 'wcsn_admin_bar_notification_styles' );
 
+function wcsn_set_stock_for_serial_number( $value, $product ) {
+	if ( $product->managing_stock() && wcsn_is_serial_number_enabled( $product->get_id() ) && ! wcsn_is_key_source_automatic( $product->get_id() ) ) {
+		$total_serials = wcsn_get_serial_numbers( array(
+			'product_id' => $product->get_id(),
+			'number'     => -1,
+			'status'     => 'new',
+		), true );
+
+		$total_serials = intval( $total_serials );
+
+		return $total_serials;
+	}
+
+	return $value;
+}
+add_filter( 'woocommerce_product_get_stock_quantity', 'wcsn_set_stock_for_serial_number', 10, 2 );
 

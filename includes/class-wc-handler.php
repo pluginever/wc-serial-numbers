@@ -192,7 +192,8 @@ class WCSN_WC_Handler {
 		if ( in_array( $from_status, array(
 				'completed',
 				'processing',
-				'on-hold'
+				'on-hold',
+				'pending'
 			) ) && in_array( $to_status, $delivery_settings ) ) {
 			$reuse_serial_number = wcsn_get_settings( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' );
 			foreach ( $serial_numbers as $serial_number ) {
