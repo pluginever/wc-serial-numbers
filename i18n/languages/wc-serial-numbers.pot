@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Serial Numbers 1.0.9\n"
+"Project-Id-Version: WooCommerce Serial Numbers 1.1.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2019-08-25 04:21:45+00:00\n"
+"POT-Creation-Date: 2019-09-22 05:00:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -363,7 +363,7 @@ msgstr ""
 
 #: includes/admin/emails/email-serial-numbers.php:38
 #: includes/admin/tables/class-serial-numbers-list-table.php:69
-#: includes/core-functions.php:238 includes/core-functions.php:244
+#: includes/core-functions.php:236 includes/core-functions.php:242
 #: templates/html-order-details-table.php:47
 msgid "Unlimited"
 msgstr ""
@@ -721,7 +721,7 @@ msgstr ""
 #: includes/class-wc-handler.php:50
 msgid ""
 "Sorry, There is not enough Serial Number available for %s, Please remove "
-"this item or lower the quantity,\n"
+"this item or lower the quantity,\r\n"
 "\t\t\t\t\t\t\t\t\t\t\t\tFor now we have %d Serial Number for this product. "
 "<br>"
 msgstr ""
@@ -746,60 +746,60 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: includes/core-functions.php:199
+#: includes/core-functions.php:197
 msgid ""
 "Sell serial numbers or license keys for variable products either its a "
 "physical or digital product."
 msgstr ""
 
-#: includes/core-functions.php:200
+#: includes/core-functions.php:198
 msgid ""
 "Enables you to define your own pattern to generate serial numbers Like "
 "Serial-############## "
 msgstr ""
 
-#: includes/core-functions.php:201
+#: includes/core-functions.php:199
 msgid ""
 "You can even include date in serial numbers like "
 "Serial-{y}{m}{d}############"
 msgstr ""
 
-#: includes/core-functions.php:202
+#: includes/core-functions.php:200
 msgid "You can create random or sequential numbers depending on your needs."
 msgstr ""
 
-#: includes/core-functions.php:203
+#: includes/core-functions.php:201
 msgid ""
 "If you do not like to generate serial numbers your own, then set the option "
 "it will generate automatically and assign to order depending on how you set "
 "the rule."
 msgstr ""
 
-#: includes/core-functions.php:204
+#: includes/core-functions.php:202
 msgid ""
 "Manage serial numbers directly from the order management page.You can edit, "
 "assign new, delete from there."
 msgstr ""
 
-#: includes/core-functions.php:205
+#: includes/core-functions.php:203
 msgid ""
 "Create unlimited serial number generator rules with your custom serial "
 "numbers patterns."
 msgstr ""
 
-#: includes/core-functions.php:206
+#: includes/core-functions.php:204
 msgid "Bulk generation of  serial numbers with a single click."
 msgstr ""
 
-#: includes/core-functions.php:207
+#: includes/core-functions.php:205
 msgid "Bulk Serial numbers/License keys import from CSV"
 msgstr ""
 
-#: includes/core-functions.php:208
+#: includes/core-functions.php:206
 msgid "Serial numbers export in CSV format"
 msgstr ""
 
-#: includes/core-functions.php:209
+#: includes/core-functions.php:207
 msgid ""
 "Sell license keys, any kind of gift cards, physical products that include a "
 "serial number or license key, digital software with access keys, username & "
@@ -807,11 +807,11 @@ msgid ""
 "based products."
 msgstr ""
 
-#: includes/core-functions.php:210
+#: includes/core-functions.php:208
 msgid "Dedicated customer support."
 msgstr ""
 
-#: includes/core-functions.php:348
+#: includes/core-functions.php:346
 msgid "Never Expire"
 msgstr ""
 

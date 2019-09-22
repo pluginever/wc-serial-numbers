@@ -2,7 +2,7 @@
 Contributors: manikmist09,pluginever
 Tags: WooCommerce Serial Number, WooCommerce License Number, WooCommerce License Key,license keys,software license,woocommerce
 Requires at least: 4.4
-Tested up to: 5.2.2
+Tested up to: 5.2.3
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -105,26 +105,34 @@ WooCommerce Serial Numbers has a dedicated page for Software API. You can learn 
 6. Serial number admin notification
 
 == Changelog ==
-= 1.0 (21 January,2019) =
-Initial release
 
-= 1.0.1 (6 March,2019) =
-* Rewrite serial generation process
-* Add software API
-* Update settings
-* Improve notification
-* Fix bug
+= 1.1.0 (22 September,2019) =
+* Fix - Serial number reuse is not working on paypal gateway
 
-= 1.0.2 (15 March,2019) =
-* Fix link from product page to add new serial number page
-* Fix conflict with Divi theme admin design
-* Fix compatibly with WP v5.1.1
-* Fix compatibly with WC v3.5.6
+= 1.0.9 (25 August,2019) =
+* Fix - WPML Support
+* Fix - WP Compatibility
+* Fix - WC Compatibility
 
-= 1.0.3 (18 March,2019) =
-* Fix broken style
-* Fix auto complete order
-* Conditional styles/script loading
+= 1.0.8 (6 July,2019) =
+* Fix - Table create failed below mysql v5.6
+* Fix - Serial number label chancing is not working on order complete page
+* Fix - creating multiple serial number for a single product when order failed
+
+= 1.0.7 (24 June,2019) =
+* Fix compatibly with WP v5.2.2
+
+= 1.0.6 (18 June,2019) =
+* Fix: Plugin translation issue
+* Fix: Product order page serial number limitation
+* Fix: Unwanted notification for the serial number
+* Fix: Empty email notification
+* New: Encryption - all serial number at DB is encrypted
+* Tweak: Notification moved to the background process. No more failed check.
+
+= 1.0.5 (24 April,2019) =
+* Fix Serial number table not generating in sql version lower than 5.5 [#31]
+* Confirm compatibility with WC 3.6.1
 
 = 1.0.4 (1 April,2019) =
 * Fix Email notification stop is not working
@@ -135,27 +143,24 @@ Initial release
 * Enhance Add serial number search filter
 * Confirm compatibility with WC 3.5.7
 
-= 1.0.5 (24 April,2019) =
-* Fix Serial number table not generating in sql version lower than 5.5 [#31]
-* Confirm compatibility with WC 3.6.1
+= 1.0.3 (18 March,2019) =
+* Fix broken style
+* Fix auto complete order
+* Conditional styles/script loading
 
-= 1.0.6 (18 June,2019) =
-* Fix: Plugin translation issue
-* Fix: Product order page serial number limitation
-* Fix: Unwanted notification for the serial number
-* Fix: Empty email notification
-* New: Encryption - all serial number at DB is encrypted
-* Tweak: Notification moved to the background process. No more failed check.
+= 1.0.2 (15 March,2019) =
+* Fix link from product page to add new serial number page
+* Fix conflict with Divi theme admin design
+* Fix compatibly with WP v5.1.1
+* Fix compatibly with WC v3.5.6
 
-= 1.0.7 (24 June,2019) =
-* Fix compatibly with WP v5.2.2
+= 1.0.1 (6 March,2019) =
+* Rewrite serial generation process
+* Add software API
+* Update settings
+* Improve notification
+* Fix bug
 
-= 1.0.8 (6 July,2019) =
-* Fix - Table create failed below mysql v5.6
-* Fix - Serial number label chancing is not working on order complete page
-* Fix - creating multiple serial number for a single product when order failed
+= 1.0 (21 January,2019) =
+Initial release
 
-= 1.0.9 (25 August,2019) =
-* Fix - WPML Support
-* Fix - WP Compatibility
-* Fix - WC Compatibility
