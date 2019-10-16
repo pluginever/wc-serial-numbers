@@ -402,11 +402,11 @@ add_filter( 'woocommerce_product_get_stock_quantity', 'wcsn_set_stock_for_serial
  * @since 1.1.1
  *
  */
-function wcsn_notification_after_create_number( $product_id ) {
+function wcsn_notification_after_create_number( $id, $product_id ) {
 	wcsn_update_notification_list( false, $product_id );
 }
 
-add_action( 'wcsn_serial_number_created', 'wcsn_notification_after_create_number' );
+add_action( 'wcsn_serial_number_created', 'wcsn_notification_after_create_number', 10, 2 );
 
 /**
  * Support WooCommerce PDF Invoices & Packing Slips plugin
