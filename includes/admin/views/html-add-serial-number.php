@@ -69,24 +69,6 @@ if ( ! empty( $serial_number->product_id ) ) {
 								'desc'             => ! wc_serial_numbers()->is_pro_installed() ? __( 'Upgrade to <a href="https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generate_serial_page&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro%20Now">PRO</a> for adding serial numbers for variable products.', 'wc-serial-numbers' ) : '',
 							) );
 
-							/*	echo wc_serial_numbers()->elements->select( array(
-									'label'            => __( 'Product Variation', 'wc-serial-numbers' ),
-									'name'             => 'variation_id',
-									'placeholder'      => '',
-									'show_option_all'  => '',
-									'show_option_none' => '',
-									'class'            => 'wcsn-variable-selection',
-									'options'          => array(
-										'' => __('Main Product', 'wc-serial-numbers')
-									),
-									'required'         => false,
-									'attrs'         => array(
-										'disabled' => 'disabled'
-									),
-									'selected'         => ! empty( $serial_number->variation_id ) ? $serial_number->variation_id : '',
-								) );*/
-
-
 							echo wc_serial_numbers()->elements->textarea( array(
 								'label'       => __( 'Serial Number', 'wc-serial-numbers' ),
 								'name'        => 'serial_key',
@@ -99,20 +81,6 @@ if ( ! empty( $serial_number->product_id ) ) {
 								'help'        => 'You can enter multiline text.',
 								'desc'        => __( 'Your secret number, supports multiline.', 'wc-serial-numbers' ) . '<br><strong>Example: d555b5ae-d9a6-41cb-ae54-361427357382',
 							) );
-
-							//							echo wc_serial_numbers()->elements->input( apply_filters(
-							//								'wc_serial_number_image_license_input_args',
-							//								array(
-							//									'label'    => __( 'Image License', 'wc-serial-numbers' ),
-							//									'name'     => 'license_image',
-							//									'type'     => 'file',
-							//									//'value'    => '',
-							//									'required' => false,
-							//									'disabled' => true,
-							//									'desc'     => __( 'Upgrade to PRO for, using image as License', 'wc-serial-numbers' ),
-							//								),
-							//								$serial_number
-							//							) );
 
 							echo wc_serial_numbers()->elements->input( array(
 								'label'    => __( 'Activation Limit', 'wc-serial-numbers' ),
