@@ -19,9 +19,10 @@ add_action( 'wcsn_hourly_event', 'wcsn_check_expired_serial_numbers' );
 /**
  * Show serial number details on order details table
  *
+ * @param $order
+ *
  * @since 1.0.0
  *
- * @param $order
  */
 
 function wcsn_order_table_serial_number_details( $order ) {
@@ -44,9 +45,10 @@ add_action( 'woocommerce_order_details_after_order_table', 'wcsn_order_table_ser
 /**
  * Auto Complete Order
  *
+ * @param $order
+ *
  * @since 1.0.0
  *
- * @param $order
  */
 function wcsn_auto_complete_order( $order_id ) {
 	if ( 'yes' !== wcsn_get_settings( 'wsn_auto_complete_order', '', 'wsn_delivery_settings' ) ) {
@@ -105,9 +107,9 @@ add_action( 'init', 'wcsn_register_post_types' );
 /**
  * Show Admin Bar Notification Label
  *
+ * @return bool|string
  * @since 1.0.0
  *
- * @return bool|string
  */
 
 function wcsn_admin_bar_notification_label() {
@@ -168,10 +170,11 @@ add_filter( 'wcsn_admin_bar_notification_list', 'wcsn_render_notification_list' 
 /**
  * Update Notification on serial number created and update
  *
- * @since 1.0.0
- *
  * @param $serial_id
  * @param $product_id
+ *
+ * @since 1.0.0
+ *
  */
 
 function wcsn_update_notification_list( $serial_id = false, $product_id = false ) {
@@ -190,6 +193,7 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 				'comment_status' => 'disable',
 			) );
 		}
+
 		return;
 	}
 
@@ -209,6 +213,7 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 				'comment_status' => 'disable',
 			) );
 		}
+
 		return;
 	}
 
@@ -249,14 +254,15 @@ function wcsn_update_notification_list( $serial_id = false, $product_id = false 
 }
 
 function wcsn_run_notification_check() {
-	$products = wcsn_get_product_list();
+	//set value true for only get product which have relation with serial number
+	$products = wcsn_get_product_list( true );
 
 
 	if ( ! empty( $products ) ) {
-		$product_ids = array_keys( $products );
+		$product_ids        = array_keys( $products );
 		$check_notification = new WCSN_Automatic_Notification();
 
-		foreach( $product_ids as $product_id ) {
+		foreach ( $product_ids as $product_id ) {
 			$check_notification->push_to_queue( $product_id );
 		}
 
@@ -376,7 +382,7 @@ function wcsn_set_stock_for_serial_number( $value, $product ) {
 	if ( $product->managing_stock() && wcsn_is_serial_number_enabled( $product->get_id() ) && ! wcsn_is_key_source_automatic( $product->get_id() ) ) {
 		$total_serials = wcsn_get_serial_numbers( array(
 			'product_id' => $product->get_id(),
-			'number'     => -1,
+			'number'     => - 1,
 			'status'     => 'new',
 		), true );
 
@@ -387,5 +393,169 @@ function wcsn_set_stock_for_serial_number( $value, $product ) {
 
 	return $value;
 }
+
 add_filter( 'woocommerce_product_get_stock_quantity', 'wcsn_set_stock_for_serial_number', 10, 2 );
+
+/**
+ * @param $product_id
+ *
+ * @since 1.1.1
+ *
+ */
+function wcsn_notification_after_create_number( $id, $product_id ) {
+	wcsn_update_notification_list( false, $product_id );
+}
+
+add_action( 'wcsn_serial_number_created', 'wcsn_notification_after_create_number', 10, 2 );
+
+/**
+ * Support WooCommerce PDF Invoices & Packing Slips plugin
+ *
+ * @param $type
+ * @param $order
+ *
+ * @return string
+ * @since 1.1.1
+ *
+ */
+function wcsn_add_serial_numner_list( $type, $order ) {
+	global $post;
+	$order_id       = $order->get_id();
+	$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
+	if ( empty( $serial_numbers ) ) {
+		return '';
+	}
+	?>
+	<table class="order-details">
+		<thead>
+		<tr>
+			<th class="product"><?php _e( 'Product', 'wc-serial-numbers' ); ?></th>
+			<th class="quantity"><?php _e( 'Serial Number', 'wc-serial-numbers' ); ?></th>
+			<th class="quantity"><?php _e( 'Activation Limit', 'wc-serial-numbers' ); ?></th>
+			<th class="quantity"><?php _e( 'Expire Date', 'wc-serial-numbers' ); ?></th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach ( $serial_numbers as $serial_number ): ?>
+			<tr>
+				<td><?php echo get_the_title( $serial_number->product_id ); ?></td>
+				<td><?php echo wcsn_decrypt( $serial_number->serial_key ); ?></td>
+				<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
+				<td><?php echo wcsn_get_serial_expiration_date( $serial_number ); ?></td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+	<?php
+}
+
+add_action( 'wpo_wcpdf_before_order_details', 'wcsn_add_serial_numner_list', 10, 2 );
+
+/**
+ * Support WooCommerce PDF Invoices, Packing Slips, Delivery Notes & Shipping Labels plugin
+ *
+ * @param $find_replace
+ * @param $html
+ * @param $template_type
+ * @param $order
+ * @param $box_packing
+ * @param $order_package
+ *
+ * @return array
+ * @since 1.1.1
+ *
+ */
+function wcsn_wf_module_add_serial_numner_list( $find_replace, $html, $template_type, $order, $box_packing, $order_package ) {
+	if ( isset( $find_replace['[wfte_product_table_start]'] ) ) {
+		global $post;
+		$order_id       = $order->id;
+		$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
+		if ( empty( $serial_numbers ) ) {
+			return $find_replace;
+		}
+		ob_start();
+		?>
+		<table class="wfte_product_table wcsn-pdf-table">
+			<thead class="wfte_product_table_head wfte_table_head_color wfte_product_table_head_bg wfte_text_center">
+			<tr>
+				<th class="product"><?php _e( 'Product', 'wc-serial-numbers' ); ?></th>
+				<th class="quantity"><?php _e( 'Serial Number', 'wc-serial-numbers' ); ?></th>
+				<th class="quantity"><?php _e( 'Activation Limit', 'wc-serial-numbers' ); ?></th>
+				<th class="quantity"><?php _e( 'Expire Date', 'wc-serial-numbers' ); ?></th>
+			</tr>
+			</thead>
+			<tbody class="wfte_payment_summary_table_body wfte_table_body_color">
+			<?php foreach ( $serial_numbers as $serial_number ): ?>
+				<tr>
+					<td><?php echo get_the_title( $serial_number->product_id ); ?></td>
+					<td><?php echo wcsn_decrypt( $serial_number->serial_key ); ?></td>
+					<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
+					<td><?php echo wcsn_get_serial_expiration_date( $serial_number ); ?></td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+		<style type="text/css">
+			.wfte_product_table.wcsn-pdf-table {
+				margin-bottom: 30px;
+			}
+		</style>
+		<?php
+		$find_replace['[wfte_product_table_start]'] = ob_get_clean();
+	}
+
+	return $find_replace;
+}
+
+add_filter( 'wf_module_generate_template_html', 'wcsn_wf_module_add_serial_numner_list', 10, 6 );
+
+/**
+ * WooCommerce PDF Invoices
+ *
+ * @param $headers
+ * @param $order_id
+ *
+ * @return string
+ * @since 1.1.1
+ *
+ */
+function wcsn_woocommerce_invoice( $headers, $order_id ) {
+	$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
+	if ( empty( $serial_numbers ) ) {
+		return $headers;
+	}
+	ob_start();
+	?>
+	<table class="shop_table orderdetails" width="100%">
+		<thead>
+		<tr>
+			<th colspan="7" align="left"><h2><?php _e( 'Serial Number', 'wc-serial-numbers' ); ?></h2></th>
+		</tr>
+		<tr>
+			<th class="product"><?php _e( 'Product', 'wc-serial-numbers' ); ?></th>
+			<th class="quantity"><?php _e( 'Serial Number', 'wc-serial-numbers' ); ?></th>
+			<th class="quantity"><?php _e( 'Activation Limit', 'wc-serial-numbers' ); ?></th>
+			<th class="quantity"><?php _e( 'Expire Date', 'wc-serial-numbers' ); ?></th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach ( $serial_numbers as $serial_number ): ?>
+			<tr>
+				<td><?php echo get_the_title( $serial_number->product_id ); ?></td>
+				<td><?php echo wcsn_decrypt( $serial_number->serial_key ); ?></td>
+				<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
+				<td><?php echo wcsn_get_serial_expiration_date( $serial_number ); ?></td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+	<?php
+	$content = ob_get_clean();
+
+	return $content . $headers;
+}
+
+add_filter( 'pdf_template_table_headings', 'wcsn_woocommerce_invoice', 10, 2 );
+
+
 
