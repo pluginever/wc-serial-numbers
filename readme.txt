@@ -15,7 +15,7 @@ WooCommerce Serial Numbers is a simple and powerful serial numbers, license keys
 
 WooCommerce Serial Numbers enable your store to sell WooCommerce license keys, any kind of gift cards, physical products that include a serial number or license key, digital software with access keys, username & password, tickets, lotteries, pin codes almost any kind of secret number based products.
 
-> [Demo](http://wc-serial-numbers.pluginever.com/wp-admin) | [Get The PRO Version](https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/)  |  [Support](https://www.pluginever.com/support/)  |  [Documentation ](https://www.pluginever.com/docs/woocommerce-serial-numbers/)
+> [Demo](http://demo.pluginever.com/wc-serial-numbers/) | [Get The PRO Version](https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/)  |  [Support](https://www.pluginever.com/support/)  |  [Documentation ](https://www.pluginever.com/docs/woocommerce-serial-numbers/)
 
 == WooCommerce Serial Numbers Plugin Features ==
 * Create and assign license keys with either physical or digital products directly.
