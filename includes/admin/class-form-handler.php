@@ -64,7 +64,8 @@ class WCSN_Form_Handler {
 			'product_id' => $posted['product_id'],
 			'number'     => 1
 		] );
-		if ( ! empty( $exists ) ) {
+
+		if ( ! empty( $exists ) && current( $exists )->id != $id ) {
 			wc_serial_numbers()->add_notice( 'error', sprintf( __( 'This Serial key already exists with this product %s', 'wc-serial-numbers' ), get_the_title( $posted['product_id'] ) ) );
 			wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
 			exit();
