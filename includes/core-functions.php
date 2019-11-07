@@ -270,8 +270,11 @@ function wcsn_activate_serial_key( $serial_id, $instance = '', $platform = '' ) 
 				'activation_time' => $date_time
 			)
 		);
+		if($wpdb->insert_id){
+			$activation = $wpdb->get_row( $wpdb->prepare( "SELECT count(id) as activate FROM {$wpdb->prefix}wcsn_activations WHERE serial_id=%d AND active=%s", $serial_id, 1 ) );
+			return $activation->activate;
+		}
 
-		return $wpdb->insert_id;
 	}
 
 	return false;

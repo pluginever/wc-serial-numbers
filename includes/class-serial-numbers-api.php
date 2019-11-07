@@ -19,8 +19,8 @@ class WC_Serial_Numbers_API {
 	/**
 	 * handle request
 	 *
-	 * @since 1.0.0
 	 * @return array
+	 * @since 1.0.0
 	 */
 	public function handle_api_request() {
 		$email         = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
@@ -43,7 +43,12 @@ class WC_Serial_Numbers_API {
 			$this->send_result( $this->error( '100', __( 'The product id provided is invalid', 'wc-serial-numbers' ) ) );
 		}
 
-		$data = wcsn_get_serial_numbers( [ 'serial_key' => wcsn_encrypt( $serial_key ), 'activation_email' => $email, 'product_id' => $product_id, 'expire_date' => '' ] );
+		$data = wcsn_get_serial_numbers( [
+			'serial_key'       => wcsn_encrypt( $serial_key ),
+			'activation_email' => $email,
+			'product_id'       => $product_id,
+			'expire_date'      => ''
+		] );
 
 		if ( empty( $data ) ) {
 			$this->send_result( $this->error( '101', __( 'No matching serial key exists', 'wc-serial-numbers' ) ) );
@@ -71,7 +76,13 @@ class WC_Serial_Numbers_API {
 
 		$request = empty( $_REQUEST['request'] ) ? '' : sanitize_key( $_REQUEST['request'] );
 
-		if ( empty( $request ) || ! in_array( $request, array( 'check', 'activate', 'deactivate', 'deactivate', 'version_check' ) ) ) {
+		if ( empty( $request ) || ! in_array( $request, array(
+				'check',
+				'activate',
+				'deactivate',
+				'deactivate',
+				'version_check'
+			) ) ) {
 			$this->send_result( $this->error( '100', __( 'Invalid request type', 'wc-serial-numbers' ) ) );
 		}
 
@@ -140,13 +151,11 @@ class WC_Serial_Numbers_API {
 	public function activate( $serial, $instance, $platform ) {
 		global $wpdb;
 
-//			$activation = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}wcsn_activations WHERE serial_id=%d AND instance=%s", $serial->id, $instance));
-
 		$activations_remaining = wcsn_get_remaining_activation( $serial->id );
 
 		//Check remaining activations only if this is new activation.
 		if ( ! $activations_remaining ) {
-			$this->send_result( $this->error( '103', __( 'Remaining activations is equal to zero', 'wc-serial-numbers' ) ) );
+			$this->send_result( $this->error( '103', __( 'Activation limit reached', 'wc-serial-numbers' ) ) );
 		}
 
 		// Activation
@@ -156,7 +165,7 @@ class WC_Serial_Numbers_API {
 
 		$output_data['activated'] = $result;
 		$output_data['instance']  = $instance;
-		$output_data['message']   = sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), $activations_remaining, $serial->activation_limit );
+		$output_data['message']   = sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), ( $serial->activation_limit - $result ), $serial->activation_limit );
 		$output_data['time']      = time();
 
 		$this->send_result( $output_data );
@@ -208,13 +217,13 @@ class WC_Serial_Numbers_API {
 	/**
 	 * get error code
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param int    $code
+	 * @param int $code
 	 * @param string $message
-	 * @param bool   $status
+	 * @param bool $status
 	 *
 	 * @return array
+	 * @since 1.0.0
+	 *
 	 */
 	public function error( $code = 100, $message = '', $status = false ) {
 		switch ( $code ) {
@@ -222,10 +231,16 @@ class WC_Serial_Numbers_API {
 				$error = array( 'error' => __( 'Invalid Serial Key', 'wc-serial-numbers' ), 'code' => '101' );
 				break;
 			case '102' :
-				$error = array( 'error' => __( 'Serial number has been deactivated', 'wc-serial-numbers' ), 'code' => '102' );
+				$error = array(
+					'error' => __( 'Serial number has been deactivated', 'wc-serial-numbers' ),
+					'code'  => '102'
+				);
 				break;
 			case '103' :
-				$error = array( 'error' => __( 'Exceeded maximum number of activations', 'wc-serial-numbers' ), 'code' => '103' );
+				$error = array(
+					'error' => __( 'Exceeded maximum number of activations', 'wc-serial-numbers' ),
+					'code'  => '103'
+				);
 				break;
 			case '104' :
 				$error = array( 'error' => __( 'Invalid Instance ID', 'wc-serial-numbers' ), 'code' => '104' );
@@ -234,7 +249,10 @@ class WC_Serial_Numbers_API {
 				$error = array( 'error' => __( 'Invalid security key', 'wc-serial-numbers' ), 'code' => '105' );
 				break;
 			case '106' :
-				$error = array( 'error' => __( 'Matching serial number is not active yet.', 'wc-serial-numbers' ), 'code' => '106' );
+				$error = array(
+					'error' => __( 'Matching serial number is not active yet.', 'wc-serial-numbers' ),
+					'code'  => '106'
+				);
 				break;
 			case '403' :
 				$error = array( 'error' => __( 'Forbidden', 'wc-serial-numbers' ), 'code' => '403' );
@@ -257,9 +275,10 @@ class WC_Serial_Numbers_API {
 	/**
 	 *
 	 *
+	 * @param $result
+	 *
 	 * @since 1.0.0
 	 *
-	 * @param $result
 	 */
 	public function send_result( $result ) {
 		nocache_headers();
