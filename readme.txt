@@ -106,6 +106,12 @@ WooCommerce Serial Numbers has a dedicated page for Software API. You can learn 
 
 == Changelog ==
 
+= 1.1.2 (11 November,2019) =
+* New - Obscure serial keys in dashboard
+* Enhance - Change API response
+* Fix - Indexing serial number table 
+* Fix - WC Compatibility v3.8.0
+
 = 1.1.1 (16 October,2019) =
 * New - Built-in support for leading PDF Invoice & Packing Slip plugins.
 * Fix - Show auto draft products while creating serial numbers.
