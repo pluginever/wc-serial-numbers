@@ -366,3 +366,4 @@ function wc_serial_numbers() {
 
 //fire off the plugin
 wc_serial_numbers();
+
