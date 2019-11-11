@@ -53,9 +53,9 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'product':
-				$post = get_post( $item->product_id );
+				$post       = get_post( $item->product_id );
 				$product_id = $post->post_parent ? $post->post_parent : $item->product_id;
-				$line = ! empty( $item->product_id ) ? get_the_title( $item->product_id ) : '&#45;';
+				$line       = ! empty( $item->product_id ) ? get_the_title( $item->product_id ) : '&#45;';
 				echo ! empty( $item->product_id ) ? '<a href="' . get_edit_post_link( $product_id ) . '">' . $line . '</a>' : $line;
 				break;
 			case 'order':
@@ -84,16 +84,16 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 	}
 
 	function column_serial_key( $item ) {
+		$hide_serial_key = wcsn_get_settings( 'wsn_hide_serial_key', 'on', 'wsn_general_settings' );
+		$actions         = array(
 
-		$actions = array(
-
-			'edit' => '<a href="' . add_query_arg( array(
+			'edit'   => '<a href="' . add_query_arg( array(
 					'page'        => 'wc-serial-numbers',
 					'action_type' => 'add_serial_number',
 					'row_action'  => 'edit',
 					'serial_id'   => $item->id,
 				), admin_url( 'admin.php' ) ) . '">' . __( 'Edit', 'wc-serial-numbers' ) . '</a>',
-
+			'show'   => sprintf( '<a data-serial-id="%d" data-nonce="%s" class="wsn-show-serial-key"   href="#"> %s</a>', $item->id, wp_create_nonce( 'wcsn_show_serial_key' ), __( 'Show', 'wc-serial-numbers' ) ),
 			'delete' => '<a href="' . add_query_arg( array(
 					'action'    => 'delete_wc_serial_number',
 					'nonce'     => wp_create_nonce( 'delete_wc_serial_number' ),
@@ -102,13 +102,13 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		);
 
-		$serial_key = $item->serial_key;
+		$serial_key = 'XXXXXXXXXXXXX';
 
-		if ( ! empty( $serial_key ) ) {
-			$serial_key = wcsn_decrypt( $serial_key );
+		if ( ( $hide_serial_key != 'on' ) && ! empty( $item->serial_key ) ) {
+			$serial_key = wcsn_decrypt( $item->serial_key );
 		}
 
-		return sprintf( '%1$s %2$s', $serial_key, $this->row_actions( $actions ) );
+		return sprintf( '<span class="wsn-admin-serial-key" id="wsn-admin-serial-key-%1$d">%2$s</span> %3$s', $item->id, $serial_key, $this->row_actions( $actions ) );
 	}
 
 
@@ -166,8 +166,8 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 	function extra_tablenav( $which ) {
 		if ( $which == "top" ) {
-			$products   = wcsn_get_product_list();
-			$statuses   = wcsn_get_serial_statuses();
+			$products     = wcsn_get_product_list();
+			$statuses     = wcsn_get_serial_statuses();
 			$s_product_id = empty( $_REQUEST['product_id'] ) ? '' : intval( $_REQUEST['product_id'] );
 			$s_status     = empty( $_REQUEST['status'] ) ? '' : sanitize_text_field( $_REQUEST['status'] );
 			?>
@@ -175,14 +175,14 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 				<select name="product_id" id="product_id" class="product_id">
 					<option value=""><?php _e( 'Filter by Product', 'wc-serial-numbers' ); ?></option>
 					<?php foreach ( $products as $product_id => $product_title ) {
-						echo '<option value="' . $product_id . '" '.selected($product_id, $s_product_id).'>' . esc_html( $product_title ) . '</option>';
+						echo '<option value="' . $product_id . '" ' . selected( $product_id, $s_product_id ) . '>' . esc_html( $product_title ) . '</option>';
 					} ?>
 				</select>
 
 				<select name="status" id="status">
 					<option value=""><?php _e( 'Filter by status', 'wc-serial-numbers' ); ?></option>
 					<?php foreach ( $statuses as $status_key => $status_label ) {
-						echo '<option value="' . $status_key . '" '.selected($status_key, $s_status).'>' . esc_html( $status_label ) . '</option>';
+						echo '<option value="' . $status_key . '" ' . selected( $status_key, $s_status ) . '>' . esc_html( $status_label ) . '</option>';
 					} ?>
 
 				</select>

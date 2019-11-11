@@ -311,6 +311,7 @@ final class WCSerialNumbers {
 		}
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-menu.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-form-handler.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-ajax.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-insight.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-tracker.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-settings-api.php' );
