@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WooCommerce Serial Numbers
  * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
- * Description: The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
+ * Description: The best WooCommerce Plugin to sell license keys, redeem cards and other secret numbers!
  * Version:     1.1.1
  * Author:      pluginever
  * Author URI:  http://pluginever.com
