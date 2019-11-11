@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Serial Numbers 1.1.1\n"
+"Project-Id-Version: WooCommerce Serial Numbers 1.1.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2019-10-16 09:20:34+00:00\n"
+"POT-Creation-Date: 2019-11-11 10:52:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,11 +19,11 @@ msgstr ""
 msgid "0"
 msgstr ""
 
-#: includes/admin/class-settings.php:179
+#: includes/admin/class-settings.php:188
 msgid "2"
 msgstr ""
 
-#: includes/admin/class-settings.php:99 includes/admin/class-settings.php:109
+#: includes/admin/class-settings.php:108 includes/admin/class-settings.php:118
 msgid "4"
 msgstr ""
 
@@ -35,23 +35,27 @@ msgstr ""
 msgid "The Serial Number is empty. Please enter a serial number and try again"
 msgstr ""
 
-#: includes/admin/class-form-handler.php:67
+#: includes/admin/class-form-handler.php:69
+msgid "This Serial key already exists with this product %s"
+msgstr ""
+
+#: includes/admin/class-form-handler.php:78
 msgid "Serial Number created successfully"
 msgstr ""
 
-#: includes/admin/class-form-handler.php:69
+#: includes/admin/class-form-handler.php:80
 msgid "Could not create serial number"
 msgstr ""
 
-#: includes/admin/class-form-handler.php:75
+#: includes/admin/class-form-handler.php:86
 msgid "Serial Number updated successfully"
 msgstr ""
 
-#: includes/admin/class-form-handler.php:107
+#: includes/admin/class-form-handler.php:118
 msgid "Serial Number deleted successfully"
 msgstr ""
 
-#: includes/admin/class-form-handler.php:150
+#: includes/admin/class-form-handler.php:161
 msgid "Serial Number successfully Unlinked from the order"
 msgstr ""
 
@@ -152,168 +156,176 @@ msgid ""
 "activated product"
 msgstr ""
 
-#: includes/admin/class-settings.php:88
+#: includes/admin/class-settings.php:83
+msgid "Hide serial key"
+msgstr ""
+
+#: includes/admin/class-settings.php:84
+msgid "Hide serial key in admin dashboard table"
+msgstr ""
+
+#: includes/admin/class-settings.php:97
 msgid "Prefix"
 msgstr ""
 
-#: includes/admin/class-settings.php:89
+#: includes/admin/class-settings.php:98
 msgid "sl-"
 msgstr ""
 
-#: includes/admin/class-settings.php:90
+#: includes/admin/class-settings.php:99
 msgid "Prefix to added before the serial number."
 msgstr ""
 
-#: includes/admin/class-settings.php:98
+#: includes/admin/class-settings.php:107
 msgid "Chunks Number"
 msgstr ""
 
-#: includes/admin/class-settings.php:100
+#: includes/admin/class-settings.php:109
 msgid "The number of chunks for the serial number."
 msgstr ""
 
-#: includes/admin/class-settings.php:108
+#: includes/admin/class-settings.php:117
 msgid "Chunks Length"
 msgstr ""
 
-#: includes/admin/class-settings.php:110
+#: includes/admin/class-settings.php:119
 msgid "The number of chunks length for the serial number."
 msgstr ""
 
-#: includes/admin/class-settings.php:118
+#: includes/admin/class-settings.php:127
 msgid "Suffix"
 msgstr ""
 
-#: includes/admin/class-settings.php:119
+#: includes/admin/class-settings.php:128
 msgid "-suffix"
 msgstr ""
 
-#: includes/admin/class-settings.php:120
+#: includes/admin/class-settings.php:129
 msgid "Suffix to added after the serial number."
 msgstr ""
 
-#: includes/admin/class-settings.php:128
+#: includes/admin/class-settings.php:137
 msgid "Max. Deliver Times"
 msgstr ""
 
-#: includes/admin/class-settings.php:129
+#: includes/admin/class-settings.php:138
 msgid "The maximum number, the serial number can be delivered.."
 msgstr ""
 
-#: includes/admin/class-settings.php:137
+#: includes/admin/class-settings.php:146
 msgid "Instance Number"
 msgstr ""
 
-#: includes/admin/class-settings.php:138
+#: includes/admin/class-settings.php:147
 msgid "Maximum instance for the serial number."
 msgstr ""
 
-#: includes/admin/class-settings.php:146
+#: includes/admin/class-settings.php:155
 #: includes/admin/metabox-functions.php:111
 #: includes/admin/tables/class-serial-numbers-list-table.php:32
 #: includes/admin/views/html-add-serial-number.php:98
 msgid "Validity"
 msgstr ""
 
-#: includes/admin/class-settings.php:147
+#: includes/admin/class-settings.php:156
 msgid ""
 "Validity days for the serial number. Keep it 0, if the serial number "
 "doesn't expire"
 msgstr ""
 
-#: includes/admin/class-settings.php:156
+#: includes/admin/class-settings.php:165
 msgid "Generate Number"
 msgstr ""
 
-#: includes/admin/class-settings.php:157
+#: includes/admin/class-settings.php:166
 msgid "The default generate number for generating serial number automatically."
 msgstr ""
 
-#: includes/admin/class-settings.php:169
+#: includes/admin/class-settings.php:178
 msgid "Admin bar notification"
 msgstr ""
 
-#: includes/admin/class-settings.php:170
+#: includes/admin/class-settings.php:179
 msgid ""
 "Show admin bar notification, if there is not enough serial number for any "
 "product"
 msgstr ""
 
-#: includes/admin/class-settings.php:178
+#: includes/admin/class-settings.php:187
 msgid "Set Limit"
 msgstr ""
 
-#: includes/admin/class-settings.php:180
+#: includes/admin/class-settings.php:189
 msgid ""
 "Show notifications in the admin panel when, Number of available serial "
 "numbers for license able products is under the given number"
 msgstr ""
 
-#: includes/admin/class-settings.php:188
+#: includes/admin/class-settings.php:197
 msgid "Send Email"
 msgstr ""
 
-#: includes/admin/class-settings.php:189
+#: includes/admin/class-settings.php:198
 msgid ""
 "Also receive email notification, if there is not enough serial number for "
 "any product"
 msgstr ""
 
-#: includes/admin/class-settings.php:198
+#: includes/admin/class-settings.php:207
 msgid "Email Address"
 msgstr ""
 
-#: includes/admin/class-settings.php:200
+#: includes/admin/class-settings.php:209
 msgid "The email address to be used for sending the email notification"
 msgstr ""
 
-#: includes/admin/class-settings.php:212
+#: includes/admin/class-settings.php:221
 msgid "Auto Complete Order"
 msgstr ""
 
-#: includes/admin/class-settings.php:213
+#: includes/admin/class-settings.php:222
 msgid "Whether the Order will be auto completed after purchasing."
 msgstr ""
 
-#: includes/admin/class-settings.php:217 includes/admin/class-settings.php:242
+#: includes/admin/class-settings.php:226 includes/admin/class-settings.php:251
 msgid "Yes"
 msgstr ""
 
-#: includes/admin/class-settings.php:218 includes/admin/class-settings.php:241
+#: includes/admin/class-settings.php:227 includes/admin/class-settings.php:250
 msgid "No"
 msgstr ""
 
-#: includes/admin/class-settings.php:224
+#: includes/admin/class-settings.php:233
 msgid "Revoke serial number on"
 msgstr ""
 
-#: includes/admin/class-settings.php:225
+#: includes/admin/class-settings.php:234
 msgid ""
 "Choose order status, when the serial number to be removed from the order "
 "details"
 msgstr ""
 
-#: includes/admin/class-settings.php:229
+#: includes/admin/class-settings.php:238
 msgid "Cancelled"
 msgstr ""
 
-#: includes/admin/class-settings.php:230 includes/core-functions.php:145
+#: includes/admin/class-settings.php:239 includes/core-functions.php:145
 msgid "Refunded"
 msgstr ""
 
-#: includes/admin/class-settings.php:231
+#: includes/admin/class-settings.php:240
 msgid "Failed"
 msgstr ""
 
-#: includes/admin/class-settings.php:236
+#: includes/admin/class-settings.php:245
 msgid "Reuse Serial Number"
 msgstr ""
 
-#: includes/admin/class-settings.php:237
+#: includes/admin/class-settings.php:246
 msgid "Enable Serial number reuse, recovered from failed/refunded orders"
 msgstr ""
 
-#: includes/admin/class-settings.php:262
+#: includes/admin/class-settings.php:271
 msgid "WC Serial Numbers Settings"
 msgstr ""
 
@@ -524,6 +536,10 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+#: includes/admin/tables/class-serial-numbers-list-table.php:96
+msgid "Show"
+msgstr ""
+
 #: includes/admin/tables/class-serial-numbers-list-table.php:101
 #: includes/admin/tables/class-serial-numbers-list-table.php:128
 msgid "Delete"
@@ -666,64 +682,64 @@ msgstr ""
 msgid "The product id provided is invalid"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:49
+#: includes/class-serial-numbers-api.php:54
 msgid "No matching serial key exists"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:62
+#: includes/class-serial-numbers-api.php:67
 msgid "The order related to the data is not available."
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:66
+#: includes/class-serial-numbers-api.php:71
 msgid "The purchase matching this product is not complete"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:75
-#: includes/class-serial-numbers-api.php:92
+#: includes/class-serial-numbers-api.php:86
+#: includes/class-serial-numbers-api.php:103
 msgid "Invalid request type"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:149
-msgid "Remaining activations is equal to zero"
+#: includes/class-serial-numbers-api.php:158
+msgid "Activation limit reached"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:159
+#: includes/class-serial-numbers-api.php:168
 msgid "%s out of %s activations remaining"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:178
+#: includes/class-serial-numbers-api.php:187
 msgid "Could not find any active instance of the serial"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:222
+#: includes/class-serial-numbers-api.php:231
 msgid "Invalid Serial Key"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:225
+#: includes/class-serial-numbers-api.php:235
 msgid "Serial number has been deactivated"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:228
+#: includes/class-serial-numbers-api.php:241
 msgid "Exceeded maximum number of activations"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:231
+#: includes/class-serial-numbers-api.php:246
 msgid "Invalid Instance ID"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:234
+#: includes/class-serial-numbers-api.php:249
 msgid "Invalid security key"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:237
+#: includes/class-serial-numbers-api.php:253
 msgid "Matching serial number is not active yet."
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:240
+#: includes/class-serial-numbers-api.php:258
 msgid "Forbidden"
 msgstr ""
 
-#: includes/class-serial-numbers-api.php:243
+#: includes/class-serial-numbers-api.php:261
 msgid "Invalid Request"
 msgstr ""
 
@@ -820,7 +836,7 @@ msgstr ""
 msgid "Dedicated customer support."
 msgstr ""
 
-#: includes/core-functions.php:346
+#: includes/core-functions.php:349
 msgid "Never Expire"
 msgstr ""
 
@@ -840,7 +856,7 @@ msgstr ""
 msgid "Upgrade to PRO"
 msgstr ""
 
-#: wc-serial-numbers.php:337
+#: wc-serial-numbers.php:338
 msgid "Once a Minute"
 msgstr ""
 
@@ -854,7 +870,7 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"The best WordPress Plugin to sell license keys, redeem cards and other "
+"The best WooCommerce Plugin to sell license keys, redeem cards and other "
 "secret numbers!"
 msgstr ""
 
