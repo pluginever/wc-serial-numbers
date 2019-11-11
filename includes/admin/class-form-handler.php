@@ -59,6 +59,17 @@ class WCSN_Form_Handler {
 			exit();
 		}
 
+		$exists = wcsn_get_serial_numbers( [
+			'serial_key' => $posted['serial_key'],
+			'product_id' => $posted['product_id'],
+			'number'     => 1
+		] );
+
+		if ( ! empty( $exists ) && current( $exists )->id != $id ) {
+			wc_serial_numbers()->add_notice( 'error', sprintf( __( 'This Serial key already exists with this product %s', 'wc-serial-numbers' ), get_the_title( $posted['product_id'] ) ) );
+			wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
+			exit();
+		}
 
 		if ( empty( $id ) ) {
 			$inserted = wc_serial_numbers()->serial_number->insert( $posted );
@@ -150,7 +161,7 @@ class WCSN_Form_Handler {
 			wc_serial_numbers()->add_notice( 'success', __( 'Serial Number successfully Unlinked from the order', 'wc-serial-numbers' ) );
 		}
 
-		do_action( 'wcsn_serial_number_unlinked', $serial_id, $product_id);
+		do_action( 'wcsn_serial_number_unlinked', $serial_id, $product_id );
 
 		wp_safe_redirect( site_url( $_REQUEST['_wp_http_referer'] ) );
 	}

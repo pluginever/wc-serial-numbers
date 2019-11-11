@@ -95,10 +95,13 @@ class WC_Serial_Numbers_Install {
 			activation_email varchar(200) DEFAULT NULL,
 			status varchar(50) DEFAULT 'available',
 			validity varchar(200) DEFAULT NULL,
-			expire_date DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			order_date DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			expire_date DATETIME NULL DEFAULT NULL,
+			order_date DATETIME NULL DEFAULT NULL,
 			created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-			PRIMARY KEY  (id)
+			PRIMARY KEY  (id),
+			key product_id (product_id),
+			key order_id (order_id),
+			key status (status)
 			) $collate;",
 			"CREATE TABLE {$wpdb->prefix}wcsn_activations (
 			  id bigint(20) NOT NULL auto_increment,
@@ -107,7 +110,8 @@ class WC_Serial_Numbers_Install {
 			  active int(1) NOT NULL DEFAULT 1,
 			  platform varchar(200) NULL,
 			  activation_time DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			  PRIMARY KEY  (id)
+			  PRIMARY KEY  (id),
+			  key serial_id (serial_id)
 			) $collate;"
 		];
 
@@ -116,6 +120,7 @@ class WC_Serial_Numbers_Install {
 		foreach ( $tables as $table ) {
 			dbDelta( $table );
 		}
+
 	}
 
 	/**
@@ -150,3 +155,5 @@ class WC_Serial_Numbers_Install {
 }
 
 new WC_Serial_Numbers_Install();
+
+

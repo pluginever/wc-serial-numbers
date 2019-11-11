@@ -15,6 +15,7 @@ class WCSN_Updates {
 		'1.0.1' => 'updates/update-1.0.1.php',
 		'1.0.6' => 'updates/update-1.0.6.php',
 		'1.0.8' => 'updates/update-1.0.8.php',
+		'1.1.2' => 'updates/update-1.1.2.php',
 	);
 
 	public function get_key() {

@@ -78,6 +78,15 @@ class WCSN_Settings {
 					'type'    => 'checkbox',
 					'checked' => '',
 				),
+				array(
+					'name'    => 'wsn_hide_serial_key',
+					'label'   => __( 'Hide serial key', 'wc-serial-numbers' ),
+					'desc'    => __( 'Hide serial key in admin dashboard table', 'wc-serial-numbers' ),
+					'default' => 'on',
+					'class'   => 'ever-field-inline',
+					'type'    => 'checkbox',
+					'checked' => '',
+				),
 
 			),
 
