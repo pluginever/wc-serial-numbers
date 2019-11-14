@@ -56,6 +56,10 @@ class WC_Serial_Numbers_API {
 
 		$data = array_pop( $data );
 
+		if ( 'expired' == $data->status ) {
+			$this->send_result( $this->error( '107' ) );
+		}
+
 		if ( 'active' !== $data->status ) {
 			$this->send_result( $this->error( '106' ) );
 		}
@@ -252,6 +256,12 @@ class WC_Serial_Numbers_API {
 				$error = array(
 					'error' => __( 'Matching serial number is not active yet.', 'wc-serial-numbers' ),
 					'code'  => '106'
+				);
+				break;
+			case '107' :
+				$error = array(
+					'error' => __( 'This license is expired', 'wc-serial-numbers' ),
+					'code'  => '107'
 				);
 				break;
 			case '403' :
