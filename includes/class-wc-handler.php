@@ -182,7 +182,7 @@ class WCSN_WC_Handler {
 	 * @param $instance
 	 */
 	public function revoke_serial_numbers( $order_id, $from_status, $to_status, $instance ) {
-		$serial_numbers = wcsn_get_serial_numbers( array( 'order_id' => $order_id ) );
+		$serial_numbers = wcsn_get_serial_numbers( array( 'order_id' => $order_id, 'number' => - 1 ) );
 		if ( empty( $serial_numbers ) ) {
 			return;
 		}
