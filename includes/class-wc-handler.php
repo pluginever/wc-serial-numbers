@@ -66,14 +66,24 @@ class WCSN_WC_Handler {
 
 	function order_process( $order_id ) {
 
-		$order = wc_get_order( $order_id );
-		$items = $order->get_items();
-
-		foreach ( $items as $item_id => $item_data ) {
-
+		$order     = wc_get_order( $order_id );
+		$items     = $order->get_items();
+		$order_arr = array();
+		foreach ( $items as $item_data ) {
 			$product    = $item_data->get_product();
 			$product_id = $product->get_id();
-			$quantity   = $item_data->get_quantity();
+			if ( array_key_exists( $product_id, $order_arr ) ) {
+				$order_arr[ $product_id ]['quantity'] += $item_data->get_quantity();
+			} else {
+				$order_arr[ $product_id ]['product']    = $product;
+				$order_arr[ $product_id ]['product_id'] = $product_id;
+				$order_arr[ $product_id ]['quantity']   = $item_data->get_quantity();
+			}
+		}
+
+		foreach ( $order_arr as $product_id => $order_item ) {
+
+			$quantity    = $order_item['quantity'];
 
 			$is_serial_number_enabled = get_post_meta( $product_id, '_is_serial_number', true ); //Check if the serial number enabled for this product.
 
@@ -182,7 +192,7 @@ class WCSN_WC_Handler {
 	 * @param $instance
 	 */
 	public function revoke_serial_numbers( $order_id, $from_status, $to_status, $instance ) {
-		$serial_numbers = wcsn_get_serial_numbers( array( 'order_id' => $order_id ) );
+		$serial_numbers = wcsn_get_serial_numbers( array( 'order_id' => $order_id, 'number' => - 1 ) );
 		if ( empty( $serial_numbers ) ) {
 			return;
 		}
