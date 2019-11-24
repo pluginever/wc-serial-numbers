@@ -82,6 +82,11 @@ class WCSN_Form_Handler {
 				exit();
 			}
 		} else {
+			$exists = current( $exists );
+			$current_time = current_time( 'timestamp' );
+			if ( strtotime( $posted['expire_date'] ) > $current_time && $exists->status == 'expired' ) {
+				$posted['status'] = $exists->order_id > 1?'active':'new';
+			}
 			wc_serial_numbers()->serial_number->update( $id, $posted );
 			wc_serial_numbers()->add_notice( 'success', __( 'Serial Number updated successfully', 'wc-serial-numbers' ) );
 		}
