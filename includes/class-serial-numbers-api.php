@@ -43,18 +43,26 @@ class WC_Serial_Numbers_API {
 			$this->send_result( $this->error( '100', __( 'The product id provided is invalid', 'wc-serial-numbers' ) ) );
 		}
 
+		$post_type = get_post_type( $product_id );
+		if ( 'product' !== $post_type ) {
+			$this->send_result( $this->error( '108', __( 'There is no product with this ID', 'wc-serial-numbers' ) ) );
+		}
 		$data = wcsn_get_serial_numbers( [
 			'serial_key'       => wcsn_encrypt( $serial_key ),
-			'activation_email' => $email,
+			//'activation_email' => $email,
 			'product_id'       => $product_id,
 			'expire_date'      => ''
 		] );
 
 		if ( empty( $data ) ) {
-			$this->send_result( $this->error( '101', __( 'No matching serial key exists', 'wc-serial-numbers' ) ) );
+			$this->send_result( $this->error( '101', __( 'No serial key found', 'wc-serial-numbers' ) ) );
 		}
 
 		$data = array_pop( $data );
+
+		if ( $data->activation_email !== $email ) {
+			$this->send_result( $this->error( '109', __( 'This email address is not associated with any serial key', 'wc-serial-numbers' ) ) );
+		}
 
 		if ( 'expired' == $data->status ) {
 			$this->send_result( $this->error( '107' ) );
@@ -263,6 +271,12 @@ class WC_Serial_Numbers_API {
 					'error' => __( 'This license is expired', 'wc-serial-numbers' ),
 					'code'  => '107'
 				);
+				break;
+			case '108' :
+				$error = array( 'error' => __( 'Invalid Product ID', 'wc-serial-numbers' ), 'code' => '108' );
+				break;
+			case '109' :
+				$error = array( 'error' => __( 'Unknown Email Address', 'wc-serial-numbers' ), 'code' => '109' );
 				break;
 			case '403' :
 				$error = array( 'error' => __( 'Forbidden', 'wc-serial-numbers' ), 'code' => '403' );
