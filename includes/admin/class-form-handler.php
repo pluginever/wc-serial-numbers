@@ -64,8 +64,8 @@ class WCSN_Form_Handler {
 			'product_id' => $posted['product_id'],
 			'number'     => 1
 		] );
-
-		if ( ! empty( $exists ) && current( $exists )->id != $id ) {
+		$allow = apply_filters( 'allow_product_duplicate_serial_key', true );
+		if ( ! empty( $exists ) && current( $exists )->id != $id && $allow ) {
 			wc_serial_numbers()->add_notice( 'error', sprintf( __( 'This Serial key already exists with this product %s', 'wc-serial-numbers' ), get_the_title( $posted['product_id'] ) ) );
 			wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'admin.php' ) ) );
 			exit();
@@ -82,10 +82,10 @@ class WCSN_Form_Handler {
 				exit();
 			}
 		} else {
-			$exists = current( $exists );
+			$exists       = current( $exists );
 			$current_time = current_time( 'timestamp' );
 			if ( strtotime( $posted['expire_date'] ) > $current_time && $exists->status == 'expired' ) {
-				$posted['status'] = $exists->order_id > 1?'active':'new';
+				$posted['status'] = $exists->order_id > 1 ? 'active' : 'new';
 			}
 			wc_serial_numbers()->serial_number->update( $id, $posted );
 			wc_serial_numbers()->add_notice( 'success', __( 'Serial Number updated successfully', 'wc-serial-numbers' ) );
