@@ -305,6 +305,8 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-numbers-api.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
 
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-wcsn-activation.php' );
+
 		//admin
 		if ( ! $this->is_pro_installed() ) {
 			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-promotion.php' );
