@@ -20,6 +20,10 @@ class WC_Serial_Numbers_Admin_Menus {
 	}
 
 
+	public function serial_numbers_page(){
+		wcsn_get_views('serial-numbers-page.php');
+	}
+
 
 }
 
