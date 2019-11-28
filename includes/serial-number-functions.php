@@ -158,11 +158,11 @@ function wcsn_delete_serial_number( $id ) {
 /**
  * Get serial numbers
  *
- * @since 1.0.0
  * @param array $args
  * @param bool $count
  *
  * @return array|object|string|null
+ * @since 1.0.0
  */
 function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 	global $wpdb;
@@ -186,29 +186,31 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 		'expire_date'    => current_time( 'mysql' ),
 	);
 
-	if ( $args['per_page'] < 1 ) {
-		$args['per_page'] = 999999999;
-	}
+
 
 	$args        = wp_parse_args( $args, $default );
 	$query_from  = "FROM $wpdb->wcsn_serials_numbers";
 	$query_where = 'WHERE 1=1';
 
+	if ( $args['per_page'] < 1 ) {
+		$args['per_page'] = 999999999;
+	}
+
 	//id
 	if ( ! empty( $args['id'] ) ) {
-		$ids         = wp_parse_id_list( $args['id'] );
+		$ids         = implode( ',', wp_parse_id_list( $args['id'] ) );
 		$query_where .= " AND `id` IN( {$ids} ) ";
 	}
 
 	//order_id
 	if ( ! empty( $args['order_id'] ) ) {
-		$order_ids   = wp_parse_id_list( $args['order_id'] );
+		$order_ids   = implode( ',', wp_parse_id_list( $args['order_id'] ));
 		$query_where .= " AND `order_id` IN( {$order_ids} ) ";
 	}
 
 	//product_id
 	if ( ! empty( $args['product_id'] ) ) {
-		$product_ids = wp_parse_id_list( $args['product_id'] );
+		$product_ids = implode( ',',wp_parse_id_list( $args['product_id'] ));
 		$query_where .= " AND `product_id` IN( {$product_ids} ) ";
 	}
 
@@ -228,6 +230,22 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 
 		$status      = sanitize_key( $args['status'] );
 		$query_where .= " AND `status` = '{$status}' ";
+	}
+
+	//fields
+	if ( is_array( $args['fields'] ) ) {
+		$args['fields'] = array_unique( $args['fields'] );
+
+		$query_fields = array();
+		foreach ( $args['fields'] as $field ) {
+			$field          = 'id' === $field ? 'id' : sanitize_key( $field );
+			$query_fields[] = "$wpdb->wcsn_serials_numbers.$field";
+		}
+		$query_fields = implode( ',', $query_fields );
+	} elseif ( 'all' == $args['fields'] ) {
+		$query_fields = "$wpdb->wcsn_serials_numbers.*";
+	} else {
+		$query_fields = "$wpdb->wcsn_serials_numbers.id";
 	}
 
 	//include
