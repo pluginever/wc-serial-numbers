@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin{
+class WC_Serial_Numbers_Admin {
 	/**
 	 * The single instance of the class.
 	 *
@@ -30,6 +30,7 @@ class WC_Serial_Numbers_Admin{
 	 * EAccounting_Admin constructor.
 	 */
 	public function __construct() {
+		$this->define_constants();
 		add_action( 'init', array( $this, 'includes' ) );
 		add_action( 'admin_init', array( $this, 'buffer' ), 1 );
 		add_action( 'admin_init', array( $this, 'set_actions' ) );
@@ -37,13 +38,29 @@ class WC_Serial_Numbers_Admin{
 	}
 
 	/**
+	 * define all required constants
+	 *
+	 * since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function define_constants() {
+		define( 'WC_SERIAL_NUMBERS_ADMIN_ABSPATH', dirname( __FILE__ ) );
+	}
+
+
+	/**
 	 * Include any classes we need within admin.
 	 */
 	public function includes() {
-		require_once ( dirname( __FILE__ ) . '/class-metabox.php' );
-		require_once ( dirname( __FILE__ ) . '/class-serial-admin-menus.php' );
-		require_once ( dirname( __FILE__ ) . '/class-settings-api.php' );
-		require_once ( dirname( __FILE__ ) . '/class-settings.php' );
+
+		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/admin-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/class-serial-admin-menus.php' );
+		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/class-metabox.php' );
+		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/class-serial-admin-notices.php' );
+		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/class-settings-api.php' );
+		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/class-settings.php' );
+
 
 	}
 
@@ -61,16 +78,16 @@ class WC_Serial_Numbers_Admin{
 	 */
 	public function set_actions() {
 
-		$key = ! empty( $_GET['wc_serial_numbers-action'] ) ? sanitize_key( $_GET['wc_serial_numbers-action'] ) : false;
+		$key = ! empty( $_GET['wcsn-action'] ) ? sanitize_key( $_GET['wcsn-action'] ) : false;
 
 		if ( ! empty( $key ) ) {
-			do_action( 'wc_serial_numbers_admin_get_' . $key, $_GET );
+			do_action( 'wcsn_admin_get_' . $key, $_GET );
 		}
 
-		$key = ! empty( $_POST['wc_serial_numbers-action'] ) ? sanitize_key( $_POST['wc_serial_numbers-action'] ) : false;
+		$key = ! empty( $_POST['wcsn-action'] ) ? sanitize_key( $_POST['wcsn-action'] ) : false;
 
 		if ( ! empty( $key ) ) {
-			do_action( 'wc_serial_numbers_admin_post_' . $key, $_POST );
+			do_action( 'wcsn_admin_post_' . $key, $_POST );
 		}
 	}
 
@@ -86,7 +103,6 @@ class WC_Serial_Numbers_Admin{
 //		if ( ! preg_match( '/accounting/', $hook ) ) {
 //			return;
 //		}
-
 
 
 	}

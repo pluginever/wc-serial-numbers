@@ -8,7 +8,16 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-class WC_Serial_Numbers_List_Table extends \WP_List_Table {
+class WC_Serial_Numbers_List_Table extends WP_List_Table {
+
+	/**
+	 * Number of results to show per page
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $per_page = 20;
+
 	public function __construct() {
 		parent::__construct( array(
 			'singular' => __( 'Serial Number', 'wc-serial-numbers' ),
@@ -86,7 +95,7 @@ class WC_Serial_Numbers_List_Table extends \WP_List_Table {
 	function column_serial_key( $item ) {
 		$hide_serial_key = wcsn_get_settings( 'wsn_hide_serial_key', 'on', 'wsn_general_settings' );
 
-		$actions         = array(
+		$actions = array(
 
 			'edit'   => '<a href="' . add_query_arg( array(
 					'page'        => 'wc-serial-numbers',

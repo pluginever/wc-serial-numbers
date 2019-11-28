@@ -28,12 +28,12 @@ class WC_Serial_Numbers_Admin_Menus {
 		) );
 	}
 
-	public function serial_numbers_page() {
-		serial_numbers_get_views( 'serial-number-page.php' );
+	public function api_doc_page() {
+		wcsn_get_views( 'api-doc-page.php' );
 	}
 
-	public function api_doc_page() {
-		serial_numbers_get_views( 'api-doc-page.php' );
+	public function serial_numbers_page(){
+		wcsn_get_views('serial-numbers-page.php');
 	}
 
 
