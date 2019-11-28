@@ -41,6 +41,10 @@ class WC_Serial_Numbers_Admin{
 	 */
 	public function includes() {
 		require_once ( dirname( __FILE__ ) . '/class-metabox.php' );
+		require_once ( dirname( __FILE__ ) . '/class-serial-admin-menus.php' );
+		require_once ( dirname( __FILE__ ) . '/class-settings-api.php' );
+		require_once ( dirname( __FILE__ ) . '/class-settings.php' );
+
 	}
 
 	/**

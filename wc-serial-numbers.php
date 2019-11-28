@@ -52,6 +52,11 @@ final class WCSerialNumbers {
 	public $version = '1.1.3';
 
 	/**
+	 * @var CryptoLib
+	 */
+	public $encryption;
+
+	/**
 	 * The single instance of the class.
 	 *
 	 * @var WCSerialNumbers
@@ -134,6 +139,8 @@ final class WCSerialNumbers {
 		$this->define_constants();
 		$this->define_tables();
 		$this->includes();
+
+
 		$this->init_hooks();
 	}
 
@@ -155,15 +162,20 @@ final class WCSerialNumbers {
 	 * Include required core files used in admin and on the frontend.
 	 */
 	public function includes() {
+
+
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/admin-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-install.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/serial-number-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
+		//require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-encryption.php' );
 
 		if ( is_admin() ) {
 			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-serial-admin.php' );
 		}
 
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
 
 	}
 

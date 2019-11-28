@@ -19,6 +19,10 @@ class WC_Serial_Numbers_Admin_Menus {
 		add_submenu_page( 'wc-serial-numbers', __( 'API Doc', 'wc-serial-numbers' ), __( 'API Doc', 'wc-serial-numbers' ), 'manage_woocommerce', 'wcsn-api-doc', array( $this, 'api_doc_page' ) );
 	}
 
+	public function serial_numbers_page(){
+		serial_numbers_get_views('serial-number-page.php');
+	}
+
 
 
 }

@@ -13,8 +13,8 @@ function serial_numbers_get_views( $template_name, $args = [] ) {
 		extract( $args );
 	}
 
-	if ( file_exists( dirname( __DIR__ ) . '/views/' . $template_name ) ) {
-		include dirname( __DIR__ ) . '/views/' . $template_name;
+	if ( file_exists( WC_SERIAL_NUMBERS_INCLUDES. '/admin/views/' . $template_name ) ) {
+		include WC_SERIAL_NUMBERS_INCLUDES . '/admin/views/' . $template_name;
 	}
 }
 
