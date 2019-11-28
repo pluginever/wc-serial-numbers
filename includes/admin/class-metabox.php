@@ -79,6 +79,34 @@ class WC_Serial_Numbers_MetaBox {
 
 			woocommerce_wp_text_input(
 				array(
+					'id'          => '_serial_number_key_prefix',
+					'label'       => __( 'Serial key prefix', 'wc-serial-numbers' ),
+					'description' => __( 'Optional prefix for generated serial number.', 'wc-serial-numbers' ),
+					'placeholder' => __( 'N/A', 'wc-serial-numbers' ),
+					'desc_tip'    => true,
+				)
+			);
+			woocommerce_wp_text_input(
+				array(
+					'id'          => '_activation_limit',
+					'label'       => __( 'Activation limit', 'wc-serial-numbers' ),
+					'description' => __( 'Amount of activations possible per serial number. 0 means unlimited. If its not a software product ignore this.', 'wc-serial-numbers' ),
+					'placeholder' => __( '0', 'wc-serial-numbers' ),
+					'desc_tip'    => true,
+				)
+			);
+			woocommerce_wp_text_input(
+				array(
+					'id'          => '_validity',
+					'label'       => __( 'Validity', 'wc-serial-numbers' ),
+					'description' => __( 'The number validity in days.', 'wc-serial-numbers' ),
+					'placeholder' => __( '0', 'wc-serial-numbers' ),
+					'desc_tip'    => true,
+				)
+			);
+
+			woocommerce_wp_text_input(
+				array(
 					'id'          => '_quantity_serial_number',
 					'label'       => __( 'Quantity of serial number', 'wc-serial-numbers' ),
 					'description' => __( 'the amount of serial number to be delivered each purchase.', 'wc-serial-numbers' ),
@@ -86,7 +114,17 @@ class WC_Serial_Numbers_MetaBox {
 					'desc_tip'    => true,
 				)
 			);
-			error_log($post->ID);
+
+			woocommerce_wp_text_input(
+				array(
+					'id'          => '_software_version',
+					'label'       => __( 'Software Version', 'wc-serial-numbers' ),
+					'description' => __( 'Version number for the software. If its not a software product ignore this.', 'wc-serial-numbers' ),
+					'placeholder' => __( 'e.g. 1.0', 'wc-serial-numbers' ),
+					'desc_tip'    => true,
+				)
+			);
+
 			echo sprintf(
 				'<p class="form-field"><label>%s</label><span class="description">%d %s</span></p>',
 				__('Available', 'wc-serial-numbers'),

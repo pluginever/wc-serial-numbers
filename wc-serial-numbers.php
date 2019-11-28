@@ -163,6 +163,8 @@ final class WCSerialNumbers {
 			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-serial-admin.php' );
 		}
 
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
+
 	}
 
 	/**

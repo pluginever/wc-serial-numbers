@@ -114,6 +114,7 @@ function wcsn_product_write_panel() {
 				'desc_tip'    => true,
 			)
 		);
+
 		woocommerce_wp_text_input(
 			array(
 				'id'          => '_software_version',
