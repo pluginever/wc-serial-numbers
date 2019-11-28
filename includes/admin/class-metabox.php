@@ -147,7 +147,11 @@ class WC_Serial_Numbers_MetaBox {
 
 
 		update_post_meta( $post->ID, '_quantity_serial_number', ! empty( $_POST['_quantity_serial_number'] ) ? intval( $_POST['_quantity_serial_number'] ) : 1 );
-
+		update_post_meta( $post->ID, '_serial_key_source', ! empty( $_POST['_serial_key_source'] ) ? sanitize_key( $_POST['_serial_key_source'] ) : 'custom_source' );
+		update_post_meta( $post->ID, '_serial_number_key_prefix', ! empty( $_POST['_serial_number_key_prefix'] ) ? sanitize_text_field( $_POST['_serial_number_key_prefix'] ) : '' );
+		update_post_meta( $post->ID, '_activation_limit', ! empty( $_POST['_activation_limit'] ) ? intval( $_POST['_activation_limit'] ) : '0' );
+		update_post_meta( $post->ID, '_validity', ! empty( $_POST['_validity'] ) ? intval( $_POST['_validity'] ) : '0' );
+		update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
 		do_action( 'wc_serial_numbers_save_simple_product_meta', $post );
 	}
 

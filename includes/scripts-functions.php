@@ -17,12 +17,13 @@ function wc_serial_numbers_load_admin_scripts( $hook ) {
 	);
 
 	if ( ! in_array( $hook, $hooks ) ) {
+
 		return;
 	}
 
-	if('post.php' == $hook && 'shop_order' != get_post_type()){
-		return;
-	}
+//	if('post.php' == $hook && 'shop_order' != get_post_type()){
+//		return;
+//	}
 
 
 	$js_dir     = WC_SERIAL_NUMBERS_ASSETS_URL . '/js/';
