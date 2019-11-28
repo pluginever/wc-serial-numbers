@@ -76,10 +76,8 @@ class WC_Serial_Number_Activation {
 			return false;
 		}
 		global $wpdb;
-
-		if ( $activation = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcsn_activation WHRE id=%d", $id ) ) ) {
+		if ( $activation = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcsn_activations WHERE id=%d", $id ) ) ) {
 			$this->populate( $activation );
-
 			return true;
 		}
 
@@ -94,7 +92,6 @@ class WC_Serial_Number_Activation {
 	 */
 	public function populate( $activation ) {
 		$this->id      = $activation->id;
-		$this->user_id = $activation->user_id;
 		foreach ( $activation as $key => $value ) {
 			$this->$key = $value;
 		}
