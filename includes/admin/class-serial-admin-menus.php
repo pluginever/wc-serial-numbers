@@ -22,16 +22,24 @@ class WC_Serial_Numbers_Admin_Menus {
 			$this,
 			'serial_numbers_page'
 		) );
-		add_submenu_page( 'wc-serial-numbers', __( 'API Doc', 'wc-serial-numbers' ), __( 'API Doc', 'wc-serial-numbers' ), 'manage_woocommerce', 'wcsn-api-doc', array(
+		add_submenu_page( 'wc-serial-numbers', __( 'Activations', 'wc-serial-numbers' ), __( 'Activations', 'wc-serial-numbers' ), 'manage_woocommerce', 'wcsn-activations', array(
 			$this,
-			'api_doc_page'
+			'activations_page'
 		) );
 	}
 
-	public function api_doc_page() {
-		wcsn_get_views( 'api-doc-page.php' );
+	/**
+	 * Api doc page
+	 * since 1.0.0
+	 */
+	public function activations_page() {
+		//wcsn_get_views( 'api-doc-page.php' );
 	}
 
+	/**
+	 * Serial number page
+	 * since 1.0.0
+	 */
 	public function serial_numbers_page(){
 		wcsn_get_views('serial-numbers-page.php');
 	}

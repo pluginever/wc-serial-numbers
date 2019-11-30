@@ -9,13 +9,21 @@ defined( 'ABSPATH' ) || exit();
  * @return array
  */
 function wcsn_get_serial_statuses() {
+//	return array(
+//		'new'      => __( 'New', 'wc-serial-numbers' ),
+//		'pending'  => __( 'Pending', 'wc-serial-numbers' ),
+//		'refunded' => __( 'Refunded', 'wc-serial-numbers' ),
+//		'rejected' => __( 'Rejected', 'wc-serial-numbers' ),
+//		'expired'  => __( 'Expired', 'wc-serial-numbers' ),
+//		'active'   => __( 'Active', 'wc-serial-numbers' ),
+//	);
 	return array(
-		'new'      => __( 'New', 'wc-serial-numbers' ),
-		'pending'  => __( 'Pending', 'wc-serial-numbers' ),
-		'refunded' => __( 'Refunded', 'wc-serial-numbers' ),
-		'rejected' => __( 'Rejected', 'wc-serial-numbers' ),
-		'expired'  => __( 'Expired', 'wc-serial-numbers' ),
-		'active'   => __( 'Active', 'wc-serial-numbers' ),
+		'available' => __( 'Available', 'wc-serial-numbers' ),
+		'inactive'  => __( 'Inactive', 'wc-serial-numbers' ),
+		'sold'      => __( 'Sold', 'wc-serial-numbers' ),
+		'refunded'  => __( 'Refunded', 'wc-serial-numbers' ),
+		'cancelled' => __( 'Cancelled', 'wc-serial-numbers' ),
+		'expired'   => __( 'Expired', 'wc-serial-numbers' ),
 	);
 }
 
@@ -54,11 +62,10 @@ function wcsn_insert_serial_number( $args ) {
 		'activation_email' => isset( $args['activation_email'] ) ? sanitize_email( $args['activation_email'] ) : null,
 		'status'           => isset( $args['status'] ) && array_key_exists( $args['status'], $statuses ) ? sanitize_key( $args['status'] ) : 'new',
 		'validity'         => isset( $args['validity'] ) ? absint( $args['validity'] ) : '365',
-		'expire_date'      => ! empty( $args['expire_date'] ) ? date( 'Y-m-d H:i:s', $args['expire_date'] ) : null,
-		'order_date'       => ! empty( $args['order_date'] ) ? date( 'Y-m-d H:i:s', $args['order_date'] ) : null,
+		'expire_date'      => ! empty( $args['expire_date'] ) || '0000-00-00 00:00:00' != $args['expire_date'] ? $args['expire_date'] : null,
+		'order_date'       => ! empty( $args['order_date'] ) || '0000-00-00 00:00:00' != $args['order_date'] ? $args['order_date'] : null,
 		'created'          => date( 'Y-m-d H:i:s' ),
 	);
-
 
 	if ( empty( $data['product_id'] ) ) {
 		return new WP_Error( 'empty_content', __( 'You must select a product to add serial number.', 'wc-serial-numbers' ) );
@@ -187,7 +194,6 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 	);
 
 
-
 	$args        = wp_parse_args( $args, $default );
 	$query_from  = "FROM $wpdb->wcsn_serials_numbers";
 	$query_where = 'WHERE 1=1';
@@ -199,19 +205,19 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 	//id
 	if ( ! empty( $args['id'] ) ) {
 		$ids         = implode( ',', wp_parse_id_list( $args['id'] ) );
-		$query_where .= " AND `id` IN( {$ids} ) ";
+		$query_where .= " AND id IN( {$ids} ) ";
 	}
 
 	//order_id
 	if ( ! empty( $args['order_id'] ) ) {
-		$order_ids   = implode( ',', wp_parse_id_list( $args['order_id'] ));
-		$query_where .= " AND `order_id` IN( {$order_ids} ) ";
+		$order_ids   = implode( ',', wp_parse_id_list( $args['order_id'] ) );
+		$query_where .= " AND order_id IN( {$order_ids} ) ";
 	}
 
 	//product_id
 	if ( ! empty( $args['product_id'] ) ) {
-		$product_ids = implode( ',',wp_parse_id_list( $args['product_id'] ));
-		$query_where .= " AND `product_id` IN( {$product_ids} ) ";
+		$product_ids = implode( ',', wp_parse_id_list( $args['product_id'] ) );
+		$query_where .= " AND product_id IN( {$product_ids} ) ";
 	}
 
 	//activation_email
@@ -260,7 +266,7 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 		$query_where .= " AND id IN ($ids)";
 	} elseif ( ! empty( $args['exclude'] ) ) {
 		$ids         = implode( ',', wp_parse_id_list( $args['exclude'] ) );
-		$query_where .= " AND NOT IN ($ids)";
+		$query_where .= " AND id NOT IN ($ids)";
 	}
 
 	//search

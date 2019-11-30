@@ -1,12 +1,12 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 ?>
-<div class="wrap ea-wrapper">
+<div class="wrap wcsn-wrapper">
 	<?php
 	if ( isset( $_GET['wcsn-action'] ) && $_GET['wcsn-action'] == 'add_serial_number' ) {
-		wcsn_get_views( 'edit-revenue.php' );
+		wcsn_get_views( 'edit-serial-number.php' );
 	} elseif ( isset( $_GET['wcsn-action'] ) && $_GET['wcsn-action'] == 'edit_serial_number' ) {
-		wcsn_get_views( 'edit-revenue.php' );
+		wcsn_get_views( 'edit-serial-number.php' );
 	} else {
 		require_once WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/tables/class-serial-numbers-list-table.php';
 		$list_table = new WC_Serial_Numbers_List_Table();
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit();
 		</a>
 		<?php do_action( 'edit_serial_number_page_top' ); ?>
 		<form method="get" action="<?php echo esc_url( $base_url ); ?>">
-			<div class="ea-list-table">
+			<div class="wcsn-list-table">
 				<?php $list_table->search_box( __( 'Search', 'wc-serial-numbers' ), 'serial-number' ); ?>
 				<input type="hidden" name="page" value="wc-serial-numbers"/>
 				<?php $list_table->views() ?>

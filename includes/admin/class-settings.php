@@ -31,17 +31,17 @@ class WCSN_Settings {
 
 			array(
 				'id'    => 'wsn_general_settings',
-				'title' => __( 'General Settings', 'wc-serial-numbers' )
+				'title' => __( 'WC Serial Numbers Settings', 'wc-serial-numbers' )
 			),
-
-			array(
-				'id'    => 'wsn_notification_settings',
-				'title' => __( 'Notifications', 'wc-serial-numbers' )
-			),
-			array(
-				'id'    => 'wsn_delivery_settings',
-				'title' => __( 'Delivery Settings', 'wc-serial-numbers' )
-			),
+//
+//			array(
+//				'id'    => 'wsn_notification_settings',
+//				'title' => __( 'Notifications', 'wc-serial-numbers' )
+//			),
+//			array(
+//				'id'    => 'wsn_delivery_settings',
+//				'title' => __( 'Delivery Settings', 'wc-serial-numbers' )
+//			),
 		);
 
 		return apply_filters( 'wc_serial_numbers_settings_sections', $sections );
@@ -58,28 +58,35 @@ class WCSN_Settings {
 		$settings_fields = array(
 
 			'wsn_general_settings' => array(
-
 				array(
-					'name'    => 'wsn_rows_per_page',
-					'label'   => __( 'Numbers of rows per page', 'wc-serial-numbers' ),
-					'desc'    => __( 'Display the serial numbers in the serial table list', 'wc-serial-numbers' ),
-					'class'   => 'ever-field-inline',
-					'default' => 10,
-					'type'    => 'number',
-					'min'     => 1,
-				),
-
-				array(
-					'name'    => 'wsn_allow_checkout',
-					'label'   => __( 'Allow to checkout, Even there is no serial number', 'wc-serial-numbers' ),
-					'desc'    => __( 'Allow Customers to checkout, Even there is no serial number for a serial activated product', 'wc-serial-numbers' ),
-					'default' => 10,
+					'name'    => 'enable_api',
+					'label'   => __( 'Disable API', 'wc-serial-numbers' ),
+					'desc'    => __( 'Will eliminate all features related to API', 'wc-serial-numbers' ),
+					'default' => 'on',
 					'class'   => 'ever-field-inline',
 					'type'    => 'checkbox',
 					'checked' => '',
 				),
 				array(
-					'name'    => 'wsn_hide_serial_key',
+					'name'    => 'disable_automatic_delivery',
+					'label'   => __( 'Disable Automatic delivery', 'wc-serial-numbers' ),
+					'desc'    => __( 'Disable Automatically send license keys when an order is set to Complete', 'wc-serial-numbers' ),
+					'default' => '',
+					'class'   => 'ever-field-inline',
+					'type'    => 'checkbox',
+					'checked' => '',
+				),
+				array(
+					'name'    => 'reuse_serial_numbers',
+					'label'   => __( 'Reuse Serial Numbers', 'wc-serial-numbers' ),
+					'desc'    => __( 'If an order is cancelled serials will be reused', 'wc-serial-numbers' ),
+					'default' => 'on',
+					'class'   => 'ever-field-inline',
+					'type'    => 'checkbox',
+					'checked' => '',
+				),
+				array(
+					'name'    => 'hide_serial_number',
 					'label'   => __( 'Hide serial key', 'wc-serial-numbers' ),
 					'desc'    => __( 'Hide serial key in admin dashboard table', 'wc-serial-numbers' ),
 					'default' => 'on',
@@ -268,7 +275,6 @@ class WCSN_Settings {
 	function settings_page() {
 
 		echo '<div class="wrap">';
-		echo sprintf( "<h2>%s</h2>", __( 'WC Serial Numbers Settings', 'wc-serial-numbers' ) );
 		$this->settings_api->show_settings();
 		echo '</div>';
 

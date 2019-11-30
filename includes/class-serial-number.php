@@ -136,7 +136,7 @@ class WC_Serial_Number {
 	 *
 	 * @since 1.0.0
 	 */
-	public function assign( $order_id ) {
+	public function assign_order( $order_id ) {
 		if ( ! empty( $order_id ) && class_exists( 'WC_Order' ) ) {
 			$this->order = new WC_Order( $order_id );
 

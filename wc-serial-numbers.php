@@ -117,6 +117,8 @@ final class WCSerialNumbers {
 	 *
 	 */
 	public function is_pro_active() {
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
 		return is_plugin_active( 'wc-serial-numbers-pro/wc-serial-numbers-pro.php' ) == true;
 	}
 
@@ -128,6 +130,8 @@ final class WCSerialNumbers {
 	 *
 	 */
 	public function is_wc_active() {
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
 		return is_plugin_active( 'woocommerce/woocommerce.php' ) == true;
 	}
 
@@ -163,14 +167,18 @@ final class WCSerialNumbers {
 	 */
 	public function includes() {
 
-
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/admin-functions.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-install.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/serial-number-functions.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
+//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
+//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-install.php' );
+//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
 		//require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-encryption.php' );
+
+		if ( $this->is_wc_active() ) {
+			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/wc/class-serial-checkout.php' );
+			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/wc/wc-functions.php' );
+		}
 
 		if ( is_admin() ) {
 			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-serial-admin.php' );
@@ -265,6 +273,54 @@ final class WCSerialNumbers {
 	public function plugin_path() {
 		return untrailingslashit( plugin_dir_path( WC_SERIAL_NUMBERS_FILE ) );
 	}
+
+	/**
+	 * since 1.0.0
+	 *
+	 * @param bool $plural
+	 *
+	 * @return mixed|void
+	 */
+	public function get_serial_number_label( $plural = false ) {
+		$label = $plural ? 'Serial Numbers' : 'Serial Number';
+
+		return apply_filters( 'wc_serial_number_label', $label, $plural );
+	}
+
+	/**
+	 * Get all the serial numbers product and quantity from order
+	 * since 1.0.0
+	 *
+	 * @param $order_id
+	 */
+	public function order_get_products( $order_id ) {
+
+	}
+
+	/**
+	 * Assign serial numbers
+	 *
+	 * since 1.2.0
+	 *
+	 * @param $order_id
+	 * @param $product_id
+	 * @param int $quantity
+	 */
+	public function order_add_serial_numbers( $order_id, $product_id, $quantity = 1 ) {
+
+	}
+
+	/**
+	 * Remove serial numbers
+	 * since 1.2.0
+	 *
+	 * @param $order_id
+	 * @param $product_id
+	 */
+	public function order_remove_serial_numbers( $order_id, $product_id ) {
+
+	}
+
 
 }
 

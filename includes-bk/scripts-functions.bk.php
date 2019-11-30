@@ -48,11 +48,7 @@ function wc_serial_numbers_load_admin_scripts( $hook ) {
 
 	//scripts
 	wp_enqueue_script( 'jquery-ui-datepicker' );
-	wp_enqueue_script( 'wc-serial-numbers', $js_dir . "/admin.js", [
-		'jquery',
-		'wp-util',
-		'select2',
-	], WC_SERIAL_NUMBERS_VERSION, true );
+	wp_enqueue_script( 'wc-serial-numbers', $js_dir . "/admin.js", [ 'jquery', 'wp-util', 'select2', ], WC_SERIAL_NUMBERS_VERSION, true );
 }
 
 add_action( 'admin_enqueue_scripts', 'wc_serial_numbers_load_admin_scripts', 100 );

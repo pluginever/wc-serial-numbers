@@ -1,0 +1,147 @@
+@import "variables";
+@import "components/grid";
+@import "components/form";
+.wcsn-card{
+	max-width: 75rem;
+	margin: 0 auto;
+}
+.serial-number-key {
+	display: inline-block;
+	font-family: Consolas, monospace;
+	font-weight: 400;
+	min-width: 170px;
+	min-height: 20px;
+	text-align: center;
+	position: relative;
+	line-height: 20px;
+	padding: 3px 10px 2px;
+	margin-left: 25px;
+	border-radius: 3px;
+	cursor: pointer;
+
+	&::before {
+		font-family: 'dashicons';
+		content: "\f112";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: -25px;
+		width: 25px;
+		background-color: #c0c0c0;
+		color: #ffffff;
+		line-height: 25px;
+		border-top-left-radius: 3px;
+		border-bottom-left-radius: 3px;
+	}
+
+	&.encrypted::after{
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		content: 'SERIAL-XXXX-XXXX-XXXX';
+		color: rgba(0,0,0,.4);
+		line-height: 25px;
+	}
+}
+
+.wcsn-key-status{
+	color: #fff;
+	padding: 3px 10px;
+	font-size: 14px;
+	white-space: nowrap;
+	background-color: silver;
+	border-radius: 3px;
+	line-height: 1;
+	border: 1px solid transparent;
+
+	&.available{
+		background: #cce5ff;
+		color: #004085;
+		border-color: #b8daff;
+	}
+
+	&.inactive{
+		color: #1b1e21;
+		background-color: #d6d8d9;
+		border-color: #c6c8ca;
+	}
+
+	&.sold{
+		color: #155724;
+		background-color: #d4edda;
+		border-color: #c3e6cb;
+	}
+
+	&.expired{
+		color: #721c24;
+		background-color: #f8d7da;
+		border-color: #f5c6cb;
+	}
+	&.cancelled{
+		color: #856404;
+		background-color: #fff3cd;
+		border-color: #ffeeba;
+	}
+
+	&.refunded{
+		color: #383d41;
+		background-color: #e2e3e5;
+		border-color: #d6d8db;
+	}
+}
+
+.wp-list-table.serialnumbers{
+	.column-status, .column-date, .column-validity, .column-activation_limit, .column-order{
+		width: 150px;
+	}
+	.column-activation_limit{
+		text-align: center;
+	}
+	.column-serial_key{
+		min-width: 350px !important;
+	}
+	.column-activation_email{
+		width: 250px;
+	}
+}
+
+/*CARD*/
+.wcsn-card {
+	border: none;
+	border-top: 3px solid #3211c1;
+	display: block;
+	position: relative;
+	//margin: 20px auto 20px;
+	//padding: 16px;
+	box-sizing: border-box;
+	background: #fff;
+	box-shadow: 0 0 0 1px #e1e2e2;
+	width: 100%;
+	max-width: none;
+	min-width: auto;
+	margin-bottom: 20px;
+	margin-top: 20px;
+
+	&-header {
+		padding: 10px 20px;
+		border-bottom: 1px solid #f4f4f4;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	&-title {
+		padding: 0;
+		margin: 0;
+		line-height: 1;
+		font-size: 16px;
+	}
+
+	&-body {
+		padding: 20px 20px;
+	}
+
+}

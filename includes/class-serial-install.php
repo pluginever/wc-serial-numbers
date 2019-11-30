@@ -51,7 +51,7 @@ class WC_Serial_Numbers_Install {
 			key status (status)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
 
-			"CREATE TABLE {$wpdb->prefix}wcsn_activations(
+			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wcsn_activations(
 			  id bigint(20) NOT NULL auto_increment,
 			  serial_id bigint(20) NOT NULL,
 			  instance varchar(200) NOT NULL,

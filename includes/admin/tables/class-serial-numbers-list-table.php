@@ -18,36 +18,108 @@ class WC_Serial_Numbers_List_Table extends WP_List_Table {
 	 */
 	public $per_page = 20;
 
+	/**
+	 *
+	 * Total number
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $total_count;
+
+	/**
+	 * Sold number
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $sold_count;
+
+	/**
+	 * Refunded number
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $refunded_count;
+
+	/**
+	 * Expired number
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $expired_count;
+
+	/**
+	 * Cancelled number
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $cancelled_count;
+
+	/**
+	 * Available number
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $available_count;
+
+	/**
+	 * Inactive number
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $inactive_count;
+
+
+	/**
+	 * WC_Serial_Numbers_List_Table constructor.
+	 */
 	public function __construct() {
 		parent::__construct( array(
-			'singular' => __( 'Serial Number', 'wc-serial-numbers' ),
-			'plural'   => __( 'Serial Numbers', 'wc-serial-numbers' ),
+			'singular' => wc_serial_numbers()->get_serial_number_label(),
+			'plural'   => wc_serial_numbers()->get_serial_number_label( true ),
 			'ajax'     => false,
 		) );
+		$this->process_bulk_action();
 	}
 
+	/**
+	 * since 1.0.0
+	 */
 	function no_items() {
-		_e( 'No serial number found.', 'wc-serial-numbers' );
+		echo sprintf( __( 'No %s found.', 'wc-serial-numbers' ), wc_serial_numbers()->get_serial_number_label() );
 	}
 
+	/**
+	 * since 1.0.0
+	 * @return array
+	 */
 	function get_columns() {
 		$columns = array(
 			'cb'               => '<input type="checkbox" />',
-			'serial_key'       => __( 'Serial Key', 'wc-serial-numbers' ),
+			'serial_key'       => wc_serial_numbers()->get_serial_number_label(),
 			'product'          => __( 'Product', 'wc-serial-numbers' ),
 			'order'            => __( 'Order', 'wc-serial-numbers' ),
 			'activation_email' => __( 'Customer Email', 'wc-serial-numbers' ),
 			'activation_limit' => __( 'Activation Limit', 'wc-serial-numbers' ),
 			'validity'         => __( 'Validity', 'wc-serial-numbers' ),
-			'status'           => __( 'Status', 'wc-serial-numbers' ),
 			'date'             => __( 'Order Date', 'wc-serial-numbers' ),
+			'status'           => __( 'Status', 'wc-serial-numbers' ),
 		);
 
-		return $columns;
+		return apply_filters( 'wcsn_serial_numbers_table_columns', $columns );
 	}
 
+	/**
+	 * since 1.0.0
+	 * @return array
+	 */
 	function get_sortable_columns() {
-		return $sortable_columns = array(
+		$sortable_columns = array(
 			'serial_key'       => array( 'serial_key', false ),
 			'product'          => array( 'product_id', false ),
 			'activation_email' => array( 'activation_email', false ),
@@ -56,74 +128,97 @@ class WC_Serial_Numbers_List_Table extends WP_List_Table {
 			'status'           => array( 'status', false ),
 			'date'             => array( 'order_date', false ),
 		);
+
+		return apply_filters( 'wcsn_serial_numbers_table_sortable_columns', $sortable_columns );
 	}
 
-	function column_default( $item, $column_name ) {
+	/**
+	 * since 1.0.0
+	 *
+	 * @param object $item
+	 *
+	 * @return string|void
+	 */
+	protected function column_cb( $item ) {
+		return "<input type='checkbox' name='id[]' id='id_{$item->id}' value='{$item->id}' />";
+	}
 
+	/**
+	 * Get serial Key
+	 *
+	 * since 1.0.0
+	 *
+	 * @param $item
+	 *
+	 * @return string
+	 */
+	function column_serial_key( $item ) {
+		$actions             = array();
+		$base_url            = add_query_arg( array( 'serial' => $item->id ), admin_url( 'admin.php?page=wc-serial-numbers' ) );
+		$edit_url            = wp_nonce_url( add_query_arg( [ 'wcsn-action' => 'edit_serial_number' ], $base_url ), 'serial_number_nonce' );
+		$activate_url        = wp_nonce_url( add_query_arg( [ 'wcsn-action' => 'activate_serial_number' ], $base_url ), 'serial_number_nonce' );
+		$deactivate_url      = wp_nonce_url( add_query_arg( [ 'wcsn-action' => 'deactivate_serial_number' ], $base_url ), 'serial_number_nonce' );
+		$delete_url          = wp_nonce_url( add_query_arg( [ 'wcsn-action' => 'delete_serial_number' ], $base_url ), 'serial_number_nonce' );
+		$row_actions['id']   = sprintf( __( 'ID: %d', 'wp-serial-numbers' ), $item->id );
+		$row_actions['show'] = sprintf( '<a data-serial-id="%d" data-nonce="%s" class="wsn-show-serial-key"   href="#"> %s</a>', $item->id, wp_create_nonce( 'wcsn_show_serial_key' ), __( 'Show', 'wc-serial-numbers' ) );
+		$row_actions['edit'] = sprintf( '<a href="%1$s">%2$s</a>', $edit_url, __( 'Edit', 'wp-serial-numbers' ) );
+
+		if ( $item->status == 'inactive' ) {
+			$row_actions['activate'] = sprintf( '<a href="%1$s">%2$s</a>', $activate_url, __( 'Activate', 'wp-serial-numbers' ) );
+		}
+		if ( $item->status !== 'inactive' ) {
+			$row_actions['inactivate'] = sprintf( '<a href="%1$s">%2$s</a>', $deactivate_url, __( 'Inactivate', 'wp-serial-numbers' ) );
+		}
+
+		$row_actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', $delete_url, __( 'Delete', 'wp-serial-numbers' ) );
+
+		$nonce   = wp_create_nonce( 'serial_number_toggle_visibility' );
+		$row_actions = apply_filters( 'eaccounting_accounts_row_actions', $row_actions, $item );
+
+		$spinner = sprintf( '<img class="wcsn-spinner" style="display: none;" src="%s"/>', admin_url( 'images/loading.gif' ) );
+
+		return sprintf( '<code class="serial-number-key encrypted" id="serial-number-key-%1$d" data-serail_id="%1$s" data-nonce="%2$s"></code> %3$s%4$s', $item->id, $nonce, $spinner, $this->row_actions($row_actions) );
+	}
+
+	/**
+	 * since 1.0.0
+	 *
+	 * @param object $item
+	 * @param string $column_name
+	 *
+	 * @return string|void
+	 */
+	function column_default( $item, $column_name ) {
+		$column = '';
 		switch ( $column_name ) {
 			case 'product':
 				$post       = get_post( $item->product_id );
 				$product_id = $post->post_parent ? $post->post_parent : $item->product_id;
-				$line       = ! empty( $item->product_id ) ? get_the_title( $item->product_id ) : '&#45;';
-				echo ! empty( $item->product_id ) ? '<a href="' . get_edit_post_link( $product_id ) . '">' . $line . '</a>' : $line;
+				$column     = empty( $item->product_id ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', get_edit_post_link( $product_id ), $product_id, get_the_title( $item->product_id ) );
 				break;
 			case 'order':
-				$line = ! empty( $item->order_id ) ? '#' . $item->order_id : '&#45;';
-				echo ! empty( $item->product_id ) ? '<strong><a href="' . get_edit_post_link( $item->order_id ) . '">' . $line . '</a></strong>' : $line;
+				$line   = ! empty( $item->order_id ) ? '#' . $item->order_id : '&mdash;';
+				$column = ! empty( $item->product_id ) ? '<strong><a href="' . get_edit_post_link( $item->order_id ) . '" target="_blank">' . $line . '</a></strong>' : $line;
 				break;
 			case 'activation_email':
-				echo ! empty( $item->activation_email ) ? $item->activation_email : '&#45;';
+				$column = ! empty( $item->activation_email ) ? $item->activation_email : '&mdash;';
 				break;
 			case 'activation_limit':
-				echo ! empty( $item->activation_limit ) ? $item->activation_limit : __( 'Unlimited', 'wc-serial-numbers' );
-				echo '<br>';
-				echo '<span class="wcsn-remaining-activation" style="color: #999;font-size: 11px;">' . __( 'Remaining', 'wc-serial-numbers' ) . ': ' . wcsn_get_remaining_activation( $item->id, 'view' ) . '</span>';
+				$column = ! empty( $item->activation_limit ) ? $item->activation_limit : __( 'Unlimited', 'wc-serial-numbers' );
 				break;
 			case 'validity':
-				echo ! empty( $item->validity ) ? sprintf( _n( '%s Day', '%s Days', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
+				$column = ! empty( $item->validity ) ? sprintf( _n( '%s Day', '%s Days', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
 				break;
 			case 'status':
 				$statues = wcsn_get_serial_statuses();
-				echo ! empty( $item->status ) && array_key_exists( $item->status, $statues ) ? "<span class='wcsn-status-{$item->status}'>{$statues[$item->status]}</span>" : '&#45;';
+				$column  = ! empty( $item->status ) && array_key_exists( $item->status, $statues ) ? "<span class='wcsn-key-status {$item->status}'>{$statues[$item->status]}</span>" : '&mdash;';
 				break;
 			case 'date':
-				echo ! empty( $item->order_date ) && '0000-00-00 00:00:00' != $item->order_date ? date( get_option( 'date_format' ), strtotime( $item->order_date ) ) : '&#45;';
+				$column = ! empty( $item->order_date ) && ( '0000-00-00 00:00:00' != $item->order_date ) ? date( get_option( 'date_format' ), strtotime( $item->order_date ) ) : '&mdash;';
 				break;
 		}
-	}
 
-	function column_serial_key( $item ) {
-		$hide_serial_key = wcsn_get_settings( 'wsn_hide_serial_key', 'on', 'wsn_general_settings' );
-
-		$actions = array(
-
-			'edit'   => '<a href="' . add_query_arg( array(
-					'page'        => 'wc-serial-numbers',
-					'action_type' => 'add_serial_number',
-					'row_action'  => 'edit',
-					'serial_id'   => $item->id,
-				), admin_url( 'admin.php' ) ) . '">' . __( 'Edit', 'wc-serial-numbers' ) . '</a>',
-			'show'   => sprintf( '<a data-serial-id="%d" data-nonce="%s" class="wsn-show-serial-key"   href="#"> %s</a>', $item->id, wp_create_nonce( 'wcsn_show_serial_key' ), __( 'Show', 'wc-serial-numbers' ) ),
-			'delete' => '<a href="' . add_query_arg( array(
-					'action'    => 'delete_wc_serial_number',
-					'nonce'     => wp_create_nonce( 'delete_wc_serial_number' ),
-					'serial_id' => $item->id,
-				), admin_url( 'admin-post.php' ) ) . '">' . __( 'Delete', 'wc-serial-numbers' ) . '</a>',
-
-		);
-
-		$serial_key = 'XXXXXXXXXXXXX';
-
-		if ( ( $hide_serial_key != 'on' ) && ! empty( $item->serial_key ) ) {
-			$serial_key = wcsn_decrypt( $item->serial_key );
-		}
-
-		return sprintf( '<span class="wsn-admin-serial-key" id="wsn-admin-serial-key-%1$d">%2$s</span> %3$s', $item->id, $serial_key, $this->row_actions( $actions ) );
-	}
-
-
-	protected function column_cb( $item ) {
-		return "<input type='checkbox' name='id[]' id='id_{$item->id}' value='{$item->id}' />";
+		return apply_filters( 'wcsn_serial_number_table_column_content', $column, $item, $column_name );
 	}
 
 	/**
@@ -135,68 +230,32 @@ class WC_Serial_Numbers_List_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		$actions = array(
-			'delete' => __( 'Delete', 'wc-serial-numbers' )
+			'delete'          => __( 'Delete', 'wc-serial-numbers' ),
+			'mark_available'  => __( 'Mark available', 'wc-serial-numbers' ),
+			'mark_inactivate' => __( 'Mark inactive', 'wc-serial-numbers' ),
 		);
 
 		return $actions;
 	}
 
 	/**
-	 * Process bulk actions
+	 * since 1.0.0
+	 *
+	 * @param string $which
 	 */
-	function process_bulk_action() {
-		global $wpdb;
-		if ( ! isset( $_REQUEST['id'] ) ) {
-			return;
-		}
-
-		$items = array_map( 'intval', $_REQUEST['id'] );
-
-		//Detect when a bulk action is being triggered…
-		if ( 'delete' === $this->current_action() ) {
-
-			if ( $items ) {
-				foreach ( $items as $id ) {
-					if ( ! $id ) {
-						continue;
-					}
-
-					$id = (int) $id;
-
-					$wpdb->query( "DELETE FROM {$wpdb->prefix}wcsn_serial_numbers WHERE id = {$id}" );
-					$wpdb->query( "DELETE FROM {$wpdb->prefix}wcsn_activations WHERE serial_id = {$id}" );
-				}
-			}
-
-			echo '<div class="updated"><p>' . __( 'Serial Number Deleted', 'wc-serial-numbers' ) . '</p></div>';
-
-		}
-
-	}
-
 	function extra_tablenav( $which ) {
 		if ( $which == "top" ) {
-			$products     = wcsn_get_product_list();
-			$statuses     = wcsn_get_serial_statuses();
-			$s_product_id = empty( $_REQUEST['product_id'] ) ? '' : intval( $_REQUEST['product_id'] );
-			$s_status     = empty( $_REQUEST['status'] ) ? '' : sanitize_text_field( $_REQUEST['status'] );
+			$statuses = wcsn_get_serial_statuses();
+			$s_status = empty( $_REQUEST['status'] ) ? '' : sanitize_text_field( $_REQUEST['status'] );
 			?>
 			<div class="alignleft actions bulkactions">
-				<select name="product_id" id="product_id" class="product_id">
-					<option value=""><?php _e( 'Filter by Product', 'wc-serial-numbers' ); ?></option>
-					<?php foreach ( $products as $product_id => $product_title ) {
-						echo '<option value="' . $product_id . '" ' . selected( $product_id, $s_product_id ) . '>' . esc_html( $product_title ) . '</option>';
-					} ?>
-				</select>
-
 				<select name="status" id="status">
-					<option value=""><?php _e( 'Filter by status', 'wc-serial-numbers' ); ?></option>
-					<?php foreach ( $statuses as $status_key => $status_label ) {
-						echo '<option value="' . $status_key . '" ' . selected( $status_key, $s_status ) . '>' . esc_html( $status_label ) . '</option>';
+					<?php echo sprintf( '<option value="%s" %s>%s</option>', '', selected( '', $s_status, false ), __( 'Status', 'wc-serial-numbers' ) ); ?>
+					<?php foreach ( $statuses as $key => $val ) {
+						echo sprintf( '<option value="%s" %s>%s</option>', $key, selected( $key, $s_status, false ), $val );
 					} ?>
-
 				</select>
-				<button type="submit" class="button-secondary">Submit</button>
+				<button type="submit" class="button-secondary"><?php _e( 'Submit', 'wc-serial-numbers' ); ?></button>
 			</div>
 			<?php
 		}
@@ -206,39 +265,190 @@ class WC_Serial_Numbers_List_Table extends WP_List_Table {
 		}
 	}
 
-	function prepare_items() {
+	/**
+	 * Retrieve the view types
+	 *
+	 * @return array $views All the views available
+	 * @since 1.0.0
+	 */
+	public function get_views() {
+		$base_url        = admin_url( 'admin.php?page=wc-serial-numbers' );
+		$current         = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
+		$available_count = '&nbsp;<span class="count">(' . $this->available_count . ')</span>';
+		$total_count     = '&nbsp;<span class="count">(' . $this->total_count . ')</span>';
+		$sold_count      = '&nbsp;<span class="count">(' . $this->sold_count . ')</span>';
+		$refunded_count  = '&nbsp;<span class="count">(' . $this->refunded_count . ')</span>';
+		$cancelled_count = '&nbsp;<span class="count">(' . $this->cancelled_count . ')</span>';
+		$expired_count   = '&nbsp;<span class="count">(' . $this->expired_count . ')</span>';
+		$inactive_count  = '&nbsp;<span class="count">(' . $this->inactive_count . ')</span>';
+
+		$views = array(
+			'all'       => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base_url ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
+			'available' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'available', $base_url ), $current === 'available' ? ' class="current"' : '', __( 'Available', 'wc-serial-numbers' ) . $available_count ),
+			'sold'      => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'sold', $base_url ), $current === 'sold' ? ' class="current"' : '', __( 'Sold', 'wc-serial-numbers' ) . $sold_count ),
+			'refunded'  => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'refunded', $base_url ), $current === 'refunded' ? ' class="current"' : '', __( 'Refunded', 'wc-serial-numbers' ) . $refunded_count ),
+			'cancelled' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'cancelled', $base_url ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'wc-serial-numbers' ) . $cancelled_count ),
+			'expired'   => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'expired', $base_url ), $current === 'expired' ? ' class="current"' : '', __( 'Expired', 'wc-serial-numbers' ) . $expired_count ),
+			'inactive'  => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inactive', $base_url ), $current === 'inactive' ? ' class="current"' : '', __( 'Inactive', 'wc-serial-numbers' ) . $inactive_count ),
+		);
+
+		return $views;
+	}
+
+
+	/**
+	 * since 1.0.0
+	 */
+	function process_bulk_action() {
 		global $wpdb;
-		$per_page              = wcsn_get_settings( 'wsn_rows_per_page', 20, 'wsn_general_settings' );
+		if ( ! isset( $_REQUEST['id'] ) ) {
+			return;
+		}
+
+		$items = array_map( 'intval', $_REQUEST['id'] );
+
+		if ( 'delete' === $this->current_action() ) {
+
+			if ( $items ) {
+				foreach ( $items as $id ) {
+					if ( ! $id ) {
+						continue;
+					}
+
+					$id = (int) $id;
+					wcsn_delete_serial_number( $id );
+				}
+			}
+		} else if ( 'mark_available' === $this->current_action() ) {
+
+			if ( $items ) {
+				foreach ( $items as $id ) {
+					if ( ! $id ) {
+						continue;
+					}
+
+					$id = (int) $id;
+					wcsn_insert_serial_number( [
+						'id'     => $id,
+						'status' => 'available'
+					] );
+				}
+			}
+		} else if ( 'mark_inactivate' === $this->current_action() ) {
+
+			if ( $items ) {
+				foreach ( $items as $id ) {
+					if ( ! $id ) {
+						continue;
+					}
+
+					$id = (int) $id;
+					wcsn_insert_serial_number( [
+						'id'     => $id,
+						'status' => 'inactive'
+					] );
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Retrieve all the data for all the discount codes
+	 *
+	 * @return array $get_results Array of all the data for the discount codes
+	 * @since 1.0.0
+	 */
+	public function get_results() {
+		$per_page = $this->per_page;
+
+		$orderby    = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'order_date';
+		$order      = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'desc';
+		$status     = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
+		$search     = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
+		$product_id = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
+		$order_id   = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
+
+
+		$args = array(
+			'per_page'   => $per_page,
+			'page'       => isset( $_GET['paged'] ) ? $_GET['paged'] : 1,
+			'orderby'    => $orderby,
+			'order'      => $order,
+			'status'     => $status,
+			'product_id' => $product_id,
+			'order_id'   => $order_id,
+			'search'     => $search
+		);
+
+		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' != $orderby ) {
+			$args['orderby'] = $orderby;
+		}
+
+		$this->total_count     = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => '' ) ), true );
+		$this->available_count = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'available' ) ), true );
+		$this->sold_count      = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'sold' ) ), true );
+		$this->refunded_count  = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'refunded' ) ), true );
+		$this->cancelled_count = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
+		$this->expired_count   = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'expired' ) ), true );
+		$this->inactive_count  = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'inactive' ) ), true );
+
+		$results = wcsn_get_serial_numbers( $args );
+
+		return $results;
+	}
+
+	/**
+	 * Setup the final data for the table
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 */
+	function prepare_items() {
+		$per_page              = $this->per_page;
 		$columns               = $this->get_columns();
 		$hidden                = [];
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
-		$current_page = $this->get_pagenum();
-
-		$this->set_pagination_args( [
-			'number'     => $per_page,
-			'offset'     => ( $current_page - 1 ) * $per_page,
-			'orderby'    => ! empty( $_REQUEST['orderby'] ) && '' != $_REQUEST['orderby'] ? $_REQUEST['orderby'] : 'id',
-			'order'      => ! empty( $_REQUEST['order'] ) && '' != $_REQUEST['order'] ? $_REQUEST['order'] : 'desc',
-			'search'     => ! empty( $_REQUEST['s'] ) && '' != $_REQUEST['s'] ? $_REQUEST['s'] : '',
-			'status'     => ! empty( $_REQUEST['status'] ) && '' != $_REQUEST['status'] ? sanitize_text_field( $_REQUEST['status'] ) : '',
-			'product_id' => ! empty( $_REQUEST['product_id'] ) && '' != $_REQUEST['product_id'] ? intval( $_REQUEST['product_id'] ) : '',
-		] );
-
 		$this->process_bulk_action();
 
-		$total_items = wcsn_get_serial_numbers( $this->_pagination_args, true );
+		$data = $this->get_results();
 
-		$this->items = wcsn_get_serial_numbers( $this->_pagination_args );
+		$status = isset( $_GET['status'] ) ? $_GET['status'] : 'any';
 
-		$this->set_pagination_args(
-			array(
+		switch ( $status ) {
+			case 'available':
+				$total_items = $this->available_count;
+				break;
+			case 'sold':
+				$total_items = $this->sold_count;
+				break;
+			case 'refunded':
+				$total_items = $this->refunded_count;
+				break;
+			case 'cancelled':
+				$total_items = $this->cancelled_count;
+				break;
+			case 'expired':
+				$total_items = $this->expired_count;
+				break;
+			case 'inactive':
+				$total_items = $this->inactive_count;
+				break;
+			case 'any':
+			default:
+				$total_items = $this->total_count;
+				break;
+		}
 
+		$this->items = $data;
+
+
+		$this->set_pagination_args( array(
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
-				'orderby'     => ! empty( $_REQUEST['orderby'] ) && '' != $_REQUEST['orderby'] ? $_REQUEST['orderby'] : 'id',
-				'order'       => ! empty( $_REQUEST['order'] ) && '' != $_REQUEST['order'] ? $_REQUEST['order'] : 'asc'
+				'total_pages' => ceil( $total_items / $per_page ),
 			)
 		);
 	}
