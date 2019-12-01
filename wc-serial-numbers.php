@@ -170,6 +170,8 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/admin-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/serial-number-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-encryption.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-ajax.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/scripts-functions.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-install.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
@@ -220,6 +222,7 @@ final class WCSerialNumbers {
 	 */
 	public function on_plugins_loaded() {
 		do_action( 'wc_serial_numbers_loaded' );
+		$this->encryption = WC_Serial_Numbers_Encryption::instance();
 	}
 
 

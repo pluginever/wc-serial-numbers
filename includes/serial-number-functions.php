@@ -313,3 +313,47 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 
 	return $wpdb->get_col( $request );
 }
+
+
+function wcsn_edit_serial_number( $data ) {
+	if ( ! isset( $data['_wpnonce'] ) || ! wp_verify_nonce( $data['_wpnonce'], 'wcsn_edit_serial_number' ) ) {
+		wp_die( __( 'Trying to cheat or something?', 'wc-serial-numbers' ), __( 'Error', 'wc-serial-numbers' ), array( 'response' => 403 ) );
+	}
+
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( __( 'You do not have permission to update account', 'wc-serial-numbers' ), __( 'Error', 'wc-serial-numbers' ), array( 'response' => 403 ) );
+	}
+	$id               = empty( $data['id'] ) ? '' : absint( $data['id'] );
+	$product_id       = empty( $data['product_id'] ) ? '' : absint( $data['product_id'] );
+	$serial_key       = empty( $data['serial_key'] ) ? '' : sanitize_textarea_field( $data['serial_key'] );
+	$activation_limit = empty( $data['activation_limit'] ) ? '' : absint( $data['activation_limit'] );
+	$expire_date      = empty( $data['expire_date'] ) ? '' : sanitize_text_field( $data['expire_date'] );
+	$serial_id        = wcsn_insert_serial_number( [
+		'id'               => $id,
+		'product_id'       => $product_id,
+		'serial_key'       => wcsn_encrypt( $serial_key ),
+		'activation_limit' => $activation_limit,
+		'expire_date'      => $expire_date,
+	] );
+
+	if ( is_wp_error( $serial_id ) ) {
+		wcsn_admin_notice( $serial_id->get_error_message(), 'error' );
+		wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers&wcsn-action=add_serial_number' ) );
+		exit();
+	}
+
+	$message = '';
+	if ( $id == $serial_id ) {
+		$message = __( 'Serial Number has updated successfully' );
+	} else {
+		$message = __( 'Serial Number has inserted successfully' );
+	}
+	wcsn_admin_notice( $message );
+	wp_redirect( add_query_arg( [
+		'wcsn-action' => 'edit_serial_number',
+		'serial'      => $serial_id,
+	], admin_url( 'admin.php?page=wc-serial-numbers' ) ) );
+	exit();
+}
+
+add_action( 'wcsn_admin_post_edit_serial_number', 'wcsn_edit_serial_number' );

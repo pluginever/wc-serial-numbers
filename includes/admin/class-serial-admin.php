@@ -101,12 +101,17 @@ class WC_Serial_Numbers_Admin {
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts( $hook ) {
-		wp_enqueue_style( 'wc-serial-numbers-admin', WC_SERIAL_NUMBERS_ASSETS_URL . '/css/wc-serial-numbers-admin.css', array(), wc_serial_numbers()->version );
-		wp_enqueue_style( 'wc-serial-numbers-fontawesome', WC_SERIAL_NUMBERS_ASSETS_URL. '/vendor/font-awesome/css/font-awesome.css', [], time() );
 		wp_enqueue_style( 'jquery-ui-style' );
+		wp_enqueue_style( 'select2' );
+		wp_enqueue_style( 'wc-serial-numbers-fontawesome', WC_SERIAL_NUMBERS_ASSETS_URL. '/vendor/font-awesome/css/font-awesome.css', [], time() );
+		wp_enqueue_style( 'wc-serial-numbers-admin', WC_SERIAL_NUMBERS_ASSETS_URL . '/css/wc-serial-numbers-admin.css', array('jquery-ui-style', 'woocommerce_admin_styles'), wc_serial_numbers()->version );
 
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_script( 'wc-serial-numbers', WC_SERIAL_NUMBERS_ASSETS_URL . '/js/wc-serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2', ], WC_SERIAL_NUMBERS_VERSION, true );
+		wp_enqueue_script( 'wc-serial-numbers', WC_SERIAL_NUMBERS_ASSETS_URL . '/js/wc-serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2', ], time(), true );
+		wp_localize_script('wc-serial-numbers', 'WCSerialNumbers', array(
+			'dropDownNonce' => wp_create_nonce('wcsn_search_dropdown'),
+			'placeholderSearchProducts' => __('Search by product name', 'wc-serial-numbers'),
+		));
 	}
 
 

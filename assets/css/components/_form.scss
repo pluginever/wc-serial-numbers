@@ -243,7 +243,7 @@ textarea {
 	position: relative;
 	display: table;
 	border-collapse: separate;
-	margin-bottom: 15px;
+	margin-bottom: 0;
 
 	.wcsn-input-group-addon {
 		border-radius: 0;
@@ -303,8 +303,11 @@ textarea {
 			border-radius: 0;
 			padding: 6px 12px;
 			height: 34px;
+			margin: 0 !important;
 		}
 	}
+
+
 
 	.select2-container--default.select2-container--open {
 		border-color: #3c8dbc;
@@ -428,4 +431,3 @@ p.wcsn-description {
 	color: #666;
 	font-size: 13px;
 }
-

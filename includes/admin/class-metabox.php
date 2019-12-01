@@ -54,46 +54,46 @@ class WC_Serial_Numbers_MetaBox {
 //		$serial_numbers = wcsn_get_order_serial_numbers( $order->ID );
 //
 //		if ( ! empty( $serial_numbers ) ):?>
-<!--			<table class="widefat fixed" cellspacing="0">-->
-<!--				<thead>-->
-<!--				<tr>-->
-<!--					<th>--><?php //esc_html_e( 'Serial Key', 'wc-serial-numbers' ); ?><!--</th>-->
-<!--					<th>--><?php //esc_html_e( 'Product', 'wc-serial-numbers' ); ?><!--</th>-->
-<!--					<th>--><?php //esc_html_e( 'Status', 'wc-serial-numbers' ); ?><!--</th>-->
-<!--					<th>--><?php //esc_html_e( 'Validity', 'wc-serial-numbers' ); ?><!--</th>-->
-<!--				</tr>-->
-<!--				</thead>-->
-<!---->
-<!--				<tbody>-->
-<!--				--><?php
+		<!--			<table class="widefat fixed" cellspacing="0">-->
+		<!--				<thead>-->
+		<!--				<tr>-->
+		<!--					<th>--><?php //esc_html_e( 'Serial Key', 'wc-serial-numbers' ); ?><!--</th>-->
+		<!--					<th>--><?php //esc_html_e( 'Product', 'wc-serial-numbers' ); ?><!--</th>-->
+		<!--					<th>--><?php //esc_html_e( 'Status', 'wc-serial-numbers' ); ?><!--</th>-->
+		<!--					<th>--><?php //esc_html_e( 'Validity', 'wc-serial-numbers' ); ?><!--</th>-->
+		<!--				</tr>-->
+		<!--				</thead>-->
+		<!---->
+		<!--				<tbody>-->
+		<!--				--><?php
 //				$i = 0;
 //				foreach ( $serial_numbers as $serial_number ) : ?>
-<!--					<tr class="--><?php //if ( $i % 2 == 0 ) {
+		<!--					<tr class="--><?php //if ( $i % 2 == 0 ) {
 //						echo 'alternate';
 //					} ?><!--">-->
-<!--						<td class="price column-key">-->
-<!--							--><?php //echo $serial_number->serial_key; ?>
-<!--						</td>-->
-<!---->
-<!--						<td class="name column-name">-->
-<!--							--><?php
+		<!--						<td class="price column-key">-->
+		<!--							--><?php //echo $serial_number->serial_key; ?>
+		<!--						</td>-->
+		<!---->
+		<!--						<td class="name column-name">-->
+		<!--							--><?php
 //							echo sprintf( '<a href="%s" target="_blank">#%d - %s</a>', get_edit_post_link( $serial_number->product_id ), $serial_number->product_id, get_the_title( $serial_number->product_id ) );
 //							?>
-<!--						</td>-->
-<!--						<td class="price column-key">-->
-<!--							--><?php //echo $serial_number->status; ?>
-<!--						</td>-->
-<!--						<td class="price column-key">-->
-<!--							--><?php //echo $serial_number->validity; ?>
-<!--						</td>-->
-<!--					</tr>-->
-<!--					--><?php
+		<!--						</td>-->
+		<!--						<td class="price column-key">-->
+		<!--							--><?php //echo $serial_number->status; ?>
+		<!--						</td>-->
+		<!--						<td class="price column-key">-->
+		<!--							--><?php //echo $serial_number->validity; ?>
+		<!--						</td>-->
+		<!--					</tr>-->
+		<!--					--><?php
 //					$i ++;
 //				endforeach;
 //				?>
-<!--				</tbody>-->
-<!--			</table>-->
-<!--		--><?php //endif;
+		<!--				</tbody>-->
+		<!--			</table>-->
+		<!--		--><?php //endif;
 	}
 
 
@@ -127,6 +127,18 @@ class WC_Serial_Numbers_MetaBox {
 					'label'       => __( 'Serial Number', 'wc-serial-numbers' ),
 					'description' => __( 'Enable this if you are selling Sell serial number for this product.', 'wc-serial-numbers' ),
 					'value'       => get_post_meta( $post->ID, '_is_serial_number', true ),
+					'desc_tip'    => true,
+				)
+			);
+
+			$_delivery_quantity = get_post_meta( $post->ID, '_delivery_quantity', true );
+			woocommerce_wp_text_input(
+				array(
+					'id'          => '_delivery_quantity ',
+					'label'       => __( 'Delivery quantity', 'wc-serial-numbers' ),
+					'description' => __( 'The amount of serial key will be delivered upon purchase', 'wc-serial-numbers' ),
+					'value'       => empty( $_delivery_quantity ) ? 1 : $_delivery_quantity,
+					'type'        => 'number',
 					'desc_tip'    => true,
 				)
 			);
@@ -170,6 +182,7 @@ class WC_Serial_Numbers_MetaBox {
 			update_post_meta( $post->ID, '_is_serial_number', 'no' );
 		}
 
+		update_post_meta( $post->ID, '_delivery_quantity', ! empty( $_POST['_delivery_quantity'] ) ? intval( $_POST['_delivery_quantity'] ) : '1' );
 		update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
 		do_action( 'wc_serial_numbers_save_simple_product_meta', $post );
 	}

@@ -12,31 +12,49 @@ $title        = $serial_id ? sprintf( __( 'Update %s', 'wc-serial-numbers' ), $l
 
 echo sprintf( '<h1 class="wp-heading-inline">%s</h1>', $title );
 echo sprintf( '<a href="%s" class="page-title-action">%s</a>', $base_url, sprintf( __( 'All %s', 'wc-serial-numbers' ), $label_plural ) );
-
 ?>
+<hr class="wp-header-end">
 <div class="wcsn-row">
 	<div class="wcsn-col-md-6">
 		<div class="wcsn-card">
 			<div class="wcsn-card-body">
 				<form id="wcsn-add-serial-number" action="" method="post">
 					<?php
+					$selected_options = [];
+					$selected_product = '';
+					if ( ! empty( $serial->product_id ) ) {
+						$product = wc_get_product( $serial->product_id );
+						if ( $product ) {
+							$selected_product = $product->get_id();
+							$selected_options = [
+								$product->get_id() => sprintf(
+									'(#%1$s) %2$s',
+									$product->get_id(),
+									$product->get_formatted_name() ),
+							];
+						}
+					}
 
 					echo WC_Serial_Numbers_Form::product_dropdown( [
-						'label'    => __( 'Product', 'wc-serial-numbers' ),
-						'name'     => 'product_id',
-						'icon'     => 'fa fa-cube',
-						'class'    => 'wcsn-product-select',
-						'required' => true,
+						'label'       => __( 'Product', 'wc-serial-numbers' ),
+						'name'        => 'product_id',
+						'icon'        => 'fa fa-cube',
+						'options'     => $selected_options,
+						'selected'    => $selected_product,
+						'class'       => 'wcsn-product-select',
+						'description' => ! wc_serial_numbers()->is_pro_active() ? __( 'Upgrade to <a href="https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generate_serial_page&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro%20Now">PRO</a> for adding serial numbers for variable products.', 'wc-serial-numbers' ) : '',
+						'required'    => true,
 					] );
 
 
-					echo WC_Serial_Numbers_Form::input_control( [
+					echo WC_Serial_Numbers_Form::textarea_control( [
 						'label'       => __( 'Serial Number', 'wc-serial-numbers' ),
 						'name'        => 'serial_key',
-						'value'       => ! empty( $serial->serial_key ) ? $serial->serial_key : '',
+						'value'       => ! empty( $serial->serial_key ) ? wcsn_decrypt($serial->serial_key) : '',
 						'icon'        => 'fa fa-key',
 						'placeholder' => 'd555b5ae-d9a6-41cb-ae54-361427357382',
 						'required'    => true,
+						'description' => __( 'Your secret number, supports multiline.', 'wc-serial-numbers' ) . '<br><strong>Example: d555b5ae-d9a6-41cb-ae54-361427357382',
 					] );
 
 					echo WC_Serial_Numbers_Form::input_control( [
@@ -59,7 +77,7 @@ echo sprintf( '<a href="%s" class="page-title-action">%s</a>', $base_url, sprint
 						'value'       => ! empty( $serial->validity ) ? $serial->validity : '0',
 						'required'    => false,
 						'icon'        => 'fa fa-calendar-check-o',
-						'description' => __( 'The number validity in days.', 'wc-serial-numbers' ),
+						'description' => __( 'The number of days after purchase the key will be valid', 'wc-serial-numbers' ),
 						'attrs'       => array(
 							'min' => '1',
 						)
