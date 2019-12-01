@@ -96,6 +96,8 @@ class MetaBoxes {
 				)
 			);
 
+			do_action('serial_numbers_product_metabox', $post);
+
 			if ( ! wc_serial_numbers()->is_pro_active() ) {
 				echo sprintf( '<p>%s <a href="%s" target="_blank">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order? Upgrade to Pro', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 			}
