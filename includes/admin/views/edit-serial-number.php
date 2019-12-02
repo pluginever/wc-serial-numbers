@@ -6,11 +6,11 @@ $serial_id     = empty( $_GET['serial'] ) ? false : absint( $_GET['serial'] );
 $serial_number = new StdClass();
 
 if ( $serial_id ) {
-	$serial_number = Pluginever\SerialNumbers\SerialNumber::get( $serial_id );
+	$serial_number = wc_serial_numbers_get_serial_number( $serial_id );
 }
 
-$label        = Pluginever\SerialNumbers\SerialNumber::label();
-$label_plural = Pluginever\SerialNumbers\SerialNumber::label( true );
+$label        = wc_serial_numbers_labels( 'serial_number' );
+$label_plural = wc_serial_numbers_labels( 'serial_number', true );
 $title        = $serial_id ? sprintf( __( 'Update %s', 'wc-serial-numbers' ), $label ) : sprintf( __( 'Add %s', 'wc-serial-numbers' ), $label );
 echo sprintf( '<h1 class="wp-heading-inline">%s</h1>', $title );
 echo sprintf( '<a href="%s" class="page-title-action">%s</a>', $base_url, sprintf( __( 'All %s', 'wc-serial-numbers' ), $label_plural ) );
@@ -38,7 +38,7 @@ echo sprintf( '<a href="%s" class="page-title-action">%s</a>', $base_url, sprint
 							}
 						}
 
-						echo \Pluginever\SerialNumbers\Form::product_dropdown( [
+						echo WC_Serial_Numbers_Form::product_dropdown( [
 							'label'       => __( 'Product', 'wc-serial-numbers' ),
 							'name'        => 'product_id',
 							'icon'        => 'dashicons dashicons-image-filter',
@@ -49,17 +49,17 @@ echo sprintf( '<a href="%s" class="page-title-action">%s</a>', $base_url, sprint
 							'required'    => true,
 						] );
 
-						echo \Pluginever\SerialNumbers\Form::textarea_control( [
+						echo WC_Serial_Numbers_Form::textarea_control( [
 							'label'       => __( 'Serial Number', 'wc-serial-numbers' ),
 							'name'        => 'serial_key',
-							//'value'       => ! empty( $serial_number->serial_key ) ? serial_number_decrypt($serial_number->serial_key) : '',
+							'value'       => ! empty( $serial_number->serial_key ) ? wc_serial_numbers_decrypt_serial_number( $serial_number->serial_key ) : '',
 							'icon'        => 'dashicons dashicons-admin-network',
 							'placeholder' => 'd555b5ae-d9a6-41cb-ae54-361427357382',
 							'required'    => true,
 							'description' => __( 'Your secret number, supports multiline.', 'wc-serial-numbers' ) . '<br><strong>Example: d555b5ae-d9a6-41cb-ae54-361427357382',
 						] );
 
-						echo \Pluginever\SerialNumbers\Form::input_control( [
+						echo WC_Serial_Numbers_Form::input_control( [
 							'label'       => __( 'Activation Limit', 'wc-serial-numbers' ),
 							'name'        => 'activation_limit',
 							'type'        => 'number',
@@ -72,7 +72,7 @@ echo sprintf( '<a href="%s" class="page-title-action">%s</a>', $base_url, sprint
 							)
 						] );
 
-						echo \Pluginever\SerialNumbers\Form::input_control( [
+						echo WC_Serial_Numbers_Form::input_control( [
 							'label'       => __( 'Validity', 'wc-serial-numbers' ),
 							'name'        => 'validity',
 							'type'        => 'number',
@@ -85,7 +85,7 @@ echo sprintf( '<a href="%s" class="page-title-action">%s</a>', $base_url, sprint
 							)
 						] );
 
-						echo \Pluginever\SerialNumbers\Form::input_control( [
+						echo WC_Serial_Numbers_Form::input_control( [
 							'label'       => __( 'Expire Date', 'wc-serial-numbers' ),
 							'name'        => 'expire_date',
 							'type'        => 'text',
@@ -101,7 +101,8 @@ echo sprintf( '<a href="%s" class="page-title-action">%s</a>', $base_url, sprint
 							<input type="hidden" name="id" value="<?php echo $serial_id; ?>">
 							<input type="hidden" name="serial_numbers_action" value="edit_serial_number">
 							<?php wp_nonce_field( 'wcsn_edit_serial_number' ); ?>
-							<input class="button button-primary " type="submit" value="<?php _e( 'Submit', 'wc-serial-numbers' ); ?>">
+							<input class="button button-primary " type="submit"
+							       value="<?php _e( 'Submit', 'wc-serial-numbers' ); ?>">
 						</p>
 
 					</form>

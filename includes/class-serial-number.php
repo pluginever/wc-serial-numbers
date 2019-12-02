@@ -1,9 +1,4 @@
 <?php
-
-namespace Pluginever\SerialNumbers;
-
-use WP_Error;
-
 defined( 'ABSPATH' ) || exit();
 
 class SerialNumber {

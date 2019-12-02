@@ -1,10 +1,7 @@
 <?php
-
-namespace Pluginever\SerialNumbers\Admin;
-
 defined( 'ABSPATH' ) || exit();
 
-class Admin {
+class WC_Serial_Numbers_Admin {
 	/**
 	 * The single instance of the class.
 	 *
@@ -60,6 +57,7 @@ class Admin {
 		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/class-settings.php' );
 		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/class-metabox.php' );
 		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/class-admin-notice.php' );
+		require_once( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/actions-functions.php' );
 	}
 
 	/**
@@ -79,13 +77,13 @@ class Admin {
 		$key = ! empty( $_GET['serial_numbers_action'] ) ? sanitize_key( $_GET['serial_numbers_action'] ) : false;
 
 		if ( ! empty( $key ) ) {
-			do_action( 'serial_numbers_admin_get_' . $key, $_GET );
+			do_action( 'wc_serial_numbers_admin_get_' . $key, $_GET );
 		}
 
 		$key = ! empty( $_POST['serial_numbers_action'] ) ? sanitize_key( $_POST['serial_numbers_action'] ) : false;
 
 		if ( ! empty( $key ) ) {
-			do_action( 'serial_numbers_admin_post_' . $key, $_POST );
+			do_action( 'wc_serial_numbers_admin_post_' . $key, $_POST );
 		}
 	}
 
@@ -101,16 +99,23 @@ class Admin {
 		$plugin_url = wc_serial_numbers()->plugin_url();
 		wp_enqueue_style( 'jquery-ui-style' );
 		wp_enqueue_style( 'select2' );
-		wp_enqueue_style( 'wc-serial-numbers-admin', $plugin_url . '/assets/css/serial-numbers-admin.css', array('jquery-ui-style', 'woocommerce_admin_styles'), wc_serial_numbers()->version );
+		wp_enqueue_style( 'wc-serial-numbers-admin', $plugin_url . '/assets/css/serial-numbers-admin.css', array(
+			'jquery-ui-style',
+			'woocommerce_admin_styles'
+		), wc_serial_numbers()->version );
 
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_script( 'wc-serial-numbers', $plugin_url . '/assets/js/serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2', ], time(), true );
-		wp_localize_script('wc-serial-numbers', 'WCSerialNumbers', array(
-			'dropDownNonce' => wp_create_nonce('serial_numbers_search_dropdown'),
-			'placeholderSearchProducts' => __('Search by product name', 'wc-serial-numbers'),
-		));
+		wp_enqueue_script( 'wc-serial-numbers', $plugin_url . '/assets/js/serial-numbers-admin.js', [
+			'jquery',
+			'wp-util',
+			'select2',
+		], time(), true );
+		wp_localize_script( 'wc-serial-numbers', 'WCSerialNumbers', array(
+			'dropDownNonce' => wp_create_nonce( 'serial_numbers_search_dropdown' ),
+			'placeholderSearchProducts' => __( 'Search by product name', 'wc-serial-numbers' ),
+		) );
 	}
 
 }
 
-Admin::instance();
+WC_Serial_Numbers_Admin::instance();

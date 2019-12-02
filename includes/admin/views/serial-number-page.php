@@ -4,12 +4,12 @@ defined( 'ABSPATH' ) || exit();
 	<div class="wrap wcsn-wrapper">
 		<?php
 		if ( isset( $_GET['serial_numbers_action'] ) && $_GET['serial_numbers_action'] == 'add_serial_number' ) {
-			serial_numbers_get_views( 'edit-serial-number.php' );
+			wc_serial_numbers_get_views( 'edit-serial-number.php' );
 		} elseif ( isset( $_GET['serial_numbers_action'] ) && $_GET['serial_numbers_action'] == 'edit_serial_number' ) {
-			serial_numbers_get_views( 'edit-serial-number.php' );
+			wc_serial_numbers_get_views( 'edit-serial-number.php' );
 		} else {
-			require_once WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/tables/class-serial-number-list-table.php';
-			$list_table = new \Pluginever\SerialNumbers\Admin\ListTable\SerialNumberTable();
+			require_once WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/tables/class-serial-numbers-list-table.php';
+			$list_table = new WC_Serial_Numbers_Serial_Numbers_List_Table();
 			$list_table->prepare_items();
 			$base_url = admin_url( 'admin.php?page=wc-serial-numbers' );
 			?>

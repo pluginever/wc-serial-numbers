@@ -159,17 +159,23 @@ final class WCSerialNumbers {
 	 * Include required core files used in admin and on the frontend.
 	 */
 	public function includes() {
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/core-functions.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-update.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-activations.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-form.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-product.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-ajax.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/serial-numbers-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/activation-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/product-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/checkout-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/order-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/misc-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/formatting-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-encryption.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-ajax.php' );
+//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
+//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-activations.php' );
+//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-product.php' );
+//		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
 
 		if ( is_admin() ) {
+			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-form.php' );
 			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/admin/class-admin.php' );
 		}
 	}
@@ -244,9 +250,13 @@ final class WCSerialNumbers {
 
 	}
 
+	/**
+	 * Run Update
+	 * since 1.0.0
+	 */
 	public function init_update() {
-		if ( class_exists( 'Pluginever\SerialNumbers\Update' ) ) {
-			$updater = new \Pluginever\SerialNumbers\Update();
+		if ( class_exists( 'WC_Serial_Numbers_Update' ) && current_user_can( 'manage_options' ) ) {
+			$updater = new WC_Serial_Numbers_Update();
 			if ( $updater->needs_update() ) {
 				$updater->perform_updates();
 			}

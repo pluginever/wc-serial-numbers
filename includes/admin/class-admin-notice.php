@@ -1,10 +1,7 @@
 <?php
-
-namespace Pluginever\SerialNumbers\Admin;
-
 defined( 'ABSPATH' ) || exit();
 
-class AdminNotice{
+class WC_Serial_Numbers_Admin_Notice{
 	/**
 	 * @var
 	 */
@@ -18,7 +15,7 @@ class AdminNotice{
 	/**
 	 * The single instance of the class.
 	 *
-	 * @var AdminNotice
+	 * @var WC_Serial_Numbers_Admin_Notice
 	 * @since 1.0.0
 	 */
 	protected static $_instance = null;
@@ -28,7 +25,7 @@ class AdminNotice{
 	 *
 	 * Ensures only one instance of EverAccounting is loaded or can be loaded.
 	 *
-	 * @return AdminNotice - Main instance.
+	 * @return WC_Serial_Numbers_Admin_Notice - Main instance.
 	 * @since 1.0.0
 	 * @static
 	 */
@@ -103,4 +100,4 @@ class AdminNotice{
 	}
 }
 
-AdminNotice::instance();
+WC_Serial_Numbers_Admin_Notice::instance();

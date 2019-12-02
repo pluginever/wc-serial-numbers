@@ -1,12 +1,8 @@
 <?php
 
-namespace Pluginever\SerialNumbers\Admin;
-
-use Pluginever\SerialNumbers\SerialNumber;
-
 defined( 'ABSPATH' ) || exit();
 
-class MetaBoxes {
+class WC_Serial_Numbers_MetaBoxes {
 	/**
 	 * The single instance of the class.
 	 *
@@ -47,7 +43,10 @@ class MetaBoxes {
 	 * since 1.2.0
 	 */
 	public function register_metaboxes() {
-
+		add_meta_box( 'wcsn-ordered-serial-numbers', __( 'Serial Numbers', 'wc-serial-numbers' ), array(
+			__CLASS__,
+			'ordered_serials'
+		), 'shop_order', 'normal', 'default' );
 	}
 
 	/**
@@ -96,7 +95,7 @@ class MetaBoxes {
 				)
 			);
 
-			do_action('serial_numbers_product_metabox', $post);
+			do_action( 'serial_numbers_product_metabox', $post );
 
 			if ( ! wc_serial_numbers()->is_pro_active() ) {
 				echo sprintf( '<p>%s <a href="%s" target="_blank">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order? Upgrade to Pro', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
@@ -140,6 +139,23 @@ class MetaBoxes {
 		do_action( 'wc_serial_numbers_save_simple_product_meta', $post );
 	}
 
+	/**
+	 * since 1.0.0
+	 *
+	 * @param $order
+	 *
+	 * @return bool
+	 */
+	public static function ordered_serials( $order ) {
+		$serial_numbers = get_post_meta( $order->ID, 'wc_serial_numbers_products', true );
+		if ( false == $serial_numbers || empty( $serial_numbers ) ) {
+			_e( 'No serial number enabled products associated with the order', 'wc-serial-numbers' );
+
+			return false;
+		}
+		wc_serial_numbers_get_views('ordered-serial-numbers.php', ['serial_numbers' => $serial_numbers,'order_id' => $order->ID]);
+	}
+
 
 	public static function print_style() {
 		echo sprintf(
@@ -150,4 +166,4 @@ class MetaBoxes {
 	}
 }
 
-MetaBoxes::instance();
+WC_Serial_Numbers_MetaBoxes::instance();

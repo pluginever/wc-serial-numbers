@@ -1,10 +1,7 @@
 <?php
-
-namespace Pluginever\SerialNumbers;
-
 defined( 'ABSPATH' ) || exit();
 
-class Form{
+class WC_Serial_Numbers_Form{
 	/**
 	 * Input Control
 	 *

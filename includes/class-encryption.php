@@ -1,13 +1,14 @@
 <?php
-namespace Pluginever\SerialNumbers;
-
 defined( 'ABSPATH' ) || exit();
 
-class Encryption {
+/**
+ * Class WC_Serial_Numbers_Encryption
+ */
+class WC_Serial_Numbers_Encryption {
 	/**
 	 * The single instance of the class.
 	 *
-	 * @var Encryption
+	 * @var WC_Serial_Numbers_Encryption
 	 * @since 1.0.0
 	 */
 	protected static $instance = null;
@@ -49,7 +50,7 @@ class Encryption {
 	/**
 	 * Returns the plugin loader main instance.
 	 *
-	 * @return Encryption
+	 * @return WC_Serial_Numbers_Encryption
 	 * @since 1.0.0
 	 */
 	public static function instance() {

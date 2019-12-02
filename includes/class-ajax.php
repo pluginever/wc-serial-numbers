@@ -1,9 +1,7 @@
 <?php
-namespace Pluginever\SerialNumbers;
-
 defined( 'ABSPATH' ) || exit();
 
-class Ajax {
+class WC_Serial_Numbers_Ajax {
 	/**
 	 * WC_Serial_Numbers_Ajax constructor.
 	 */
@@ -19,18 +17,29 @@ class Ajax {
 		$this->check_permission();
 		$search   = isset( $_REQUEST['search'] ) ? sanitize_text_field( $_REQUEST['search'] ) : '';
 		$page     = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
-		$products = Product::query( [
+		$products = wc_serial_numbers_get_products( [
 			'page'   => $page,
 			'search' => $search,
 			'fields' => 'id',
 		] );
+		$total    = wc_serial_numbers_get_products( [
+			'page'   => $page,
+			'search' => $search,
+			'fields' => 'id',
+		], true );
+
+		$more = false;
+		if ( $total > ( 20 * $page ) ) {
+			$more = true;
+		}
+
 
 		$results = array();
-		foreach ($products as $product_id) {
-			/** @var \WC_Product  $product */
-			$product = wc_get_product($product_id);
+		foreach ( $products as $product_id ) {
+			/** @var \WC_Product $product */
+			$product = wc_get_product( $product_id );
 
-			if (!$product) {
+			if ( ! $product ) {
 				continue;
 			}
 
@@ -41,7 +50,7 @@ class Ajax {
 			);
 
 			$results[] = array(
-				'id' => $product->get_id(),
+				'id'   => $product->get_id(),
 				'text' => $text
 			);
 
@@ -52,7 +61,7 @@ class Ajax {
 				'page'       => $page,
 				'results'    => $results,
 				'pagination' => array(
-					'more' => false
+					'more' => $more
 				)
 			)
 		);
@@ -104,4 +113,4 @@ class Ajax {
 	}
 }
 
-new Ajax();
+new WC_Serial_Numbers_Ajax();

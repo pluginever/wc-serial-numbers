@@ -1,9 +1,4 @@
 <?php
-
-namespace Pluginever\SerialNumbers\Admin\ListTable;
-
-use Pluginever\SerialNumbers\SerialNumber;
-
 defined( 'ABSPATH' ) || exit();
 
 // WP_List_Table is not loaded automatically so we need to load it in our application
@@ -11,7 +6,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-class SerialNumberTable extends \WP_List_Table {
+class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	/**
 	 * Number of results to show per page
 	 *
@@ -86,8 +81,8 @@ class SerialNumberTable extends \WP_List_Table {
 
 	public function __construct() {
 		parent::__construct( array(
-			'singular' => SerialNumber::label(),
-			'plural'   => SerialNumber::label( true ),
+			'singular' => __('Serial Number', 'wc-serial-number'),
+			'plural'   => __('Serial Numbers', 'wc-serial-number'),
 			'ajax'     => false,
 		) );
 		$this->base_url = admin_url( 'admin.php?page=wc-serial-numbers' );
@@ -370,8 +365,8 @@ class SerialNumberTable extends \WP_List_Table {
 				$column = ! empty( $item->validity ) ? sprintf( _n( '%s Day', '%s Days', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
 				break;
 			case 'status':
-				$statues = SerialNumber::statuses();
-				$column  = ! empty( $item->status ) && array_key_exists( $item->status, $statues ) ? "<span class='wcsn-key-status {$item->status}'>{$statues[$item->status]}</span>" : '&mdash;';
+				$status = wc_serial_numbers_get_serial_number_status($item, 'view');
+				$column  = "<span class='wcsn-key-status {$item->status}'>{$status}</span>";
 				break;
 			case 'expire_date':
 				$column = ! empty( $item->expire_date ) && ( '0000-00-00 00:00:00' != $item->expire_date ) ? date( get_option( 'date_format' ), strtotime( $item->expire_date ) ) : '&mdash;';
@@ -404,11 +399,11 @@ class SerialNumberTable extends \WP_List_Table {
 
 				$id = (int) $id;
 				if ( 'delete' === $this->current_action() ) {
-					SerialNumber::delete( $id );
+					wc_serial_numbers_delete_serial_number( $id );
 				} else if ( 'mark_available' === $this->current_action() ) {
-					SerialNumber::mark_available( $id );
+					wc_serial_numbers_change_serial_number_status( $id, 'available' );
 				} else if ( 'mark_inactivate' === $this->current_action() ) {
-					SerialNumber::mark_inactive( $id );
+					wc_serial_numbers_change_serial_number_status( $id, 'inactive' );
 				}
 
 			}
@@ -447,15 +442,15 @@ class SerialNumberTable extends \WP_List_Table {
 			$args['orderby'] = $orderby;
 		}
 
-		$this->total_count     = SerialNumber::query( array_merge( $args, array( 'status' => '' ) ), true );
-		$this->available_count = SerialNumber::query( array_merge( $args, array( 'status' => 'available' ) ), true );
-		$this->sold_count      = SerialNumber::query( array_merge( $args, array( 'status' => 'sold' ) ), true );
-		$this->refunded_count  = SerialNumber::query( array_merge( $args, array( 'status' => 'refunded' ) ), true );
-		$this->cancelled_count = SerialNumber::query( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
-		$this->expired_count   = SerialNumber::query( array_merge( $args, array( 'status' => 'expired' ) ), true );
-		$this->inactive_count  = SerialNumber::query( array_merge( $args, array( 'status' => 'inactive' ) ), true );
+		$this->total_count     = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => '' ) ), true );
+		$this->available_count = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'available' ) ), true );
+		$this->sold_count      = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'sold' ) ), true );
+		$this->refunded_count  = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'refunded' ) ), true );
+		$this->cancelled_count = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
+		$this->expired_count   = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'expired' ) ), true );
+		$this->inactive_count  = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'inactive' ) ), true );
 
-		$results = SerialNumber::query( $args );
+		$results = wc_serial_numbers_get_serial_numbers( $args );
 
 		return $results;
 	}

@@ -1,11 +1,8 @@
 <?php
-
-namespace Pluginever\SerialNumbers\Admin;
-
 defined( 'ABSPATH' ) || exit();
 
-if ( ! class_exists( 'Pluginever\SerialNumbers\Admin\Settings_API' ) ):
-    class Settings_API {
+if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
+    class WC_Serial_Numbers_Settings_API {
         /**
          * settings sections array
          *

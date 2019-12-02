@@ -1,10 +1,7 @@
 <?php
-
-namespace Pluginever\SerialNumbers;
-
 defined( 'ABSPATH' ) || exit();
 
-class Update {
+class WC_Serial_Numbers_Update {
 	/**
 	 * The upgrades
 	 *

@@ -1,10 +1,7 @@
 <?php
-
-namespace Pluginever\SerialNumbers\Admin;
-
 defined( 'ABSPATH' ) || exit();
 
-class AdminMenu {
+class WC_Serial_Numbers_Admin_Menu {
 	/**
 	 * AdminMenu constructor.
 	 */
@@ -22,12 +19,12 @@ class AdminMenu {
 	}
 
 	public function serial_numbers_page() {
-		serial_numbers_get_views('serial-number-page.php');
+		wc_serial_numbers_get_views('serial-number-page.php');
 	}
 
 	public function activations_page() {
-		serial_numbers_get_views('activations-page.php');
+		wc_serial_numbers_get_views('activations-page.php');
 	}
 }
 
-new AdminMenu();
+new WC_Serial_Numbers_Admin_Menu();

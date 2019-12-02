@@ -1,16 +1,13 @@
 <?php
-
-namespace Pluginever\SerialNumbers\Admin;
-
 defined( 'ABSPATH' ) || exit();
 
-class Settings {
+class WC_Serial_Numbers_Settings {
 
 	private $settings_api;
 
 	function __construct() {
 
-		$this->settings_api = new Settings_API();
+		$this->settings_api = new WC_Serial_Numbers_Settings_API();
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 99 );
 
@@ -273,4 +270,4 @@ class Settings {
 
 }
 
-new Settings();
+new WC_Serial_Numbers_Settings();
