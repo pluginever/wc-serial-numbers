@@ -137,3 +137,11 @@ function wc_serial_numbers_is_encrypted_string( $string ) {
 
 	return false;
 }
+
+/**
+ * since 1.0.0
+ * @return mixed|void
+ */
+function wc_serial_numbers_is_allowed_duplicate_serial_numbers(){
+	return apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', false );
+}

@@ -67,8 +67,9 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		return new WP_Error( 'empty_content', __( 'The Serial Number is empty. Please enter a serial number and try again', 'wc-serial-numbers' ) );
 	}
 
-	$allow = apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', false );
-	if ( ! $allow ) {
+	$allow_duplicate = wc_serial_numbers_is_allowed_duplicate_serial_numbers();
+
+	if ( ! $allow_duplicate ) {
 		$exists = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->wcsn_serials_numbers WHERE serial_key=%s AND product_id=%d", $args['serial_key'], $args['product_id'] ) );
 		if ( ! empty( $exists ) && $exists->id != $id ) {
 			return new WP_Error( 'duplicate_key', __( 'Duplicate key is not allowed', 'wc-serial-numbers' ) );
