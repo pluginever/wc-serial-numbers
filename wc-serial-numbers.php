@@ -169,6 +169,7 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/formatting-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-encryption.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-ajax.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/deprecated/deprecated-functions.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-activations.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-product.php' );
