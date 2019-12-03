@@ -102,10 +102,6 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-
-
-
-
 	}
 
 

@@ -50,7 +50,7 @@ function wc_serial_numbers_order_product_assign_serial_numbers_handler( $product
 
 	foreach ( $serial_numbers as $serial_number_id ) {
 
-		$error = wc_serial_numbers_insert_serial_number( array(
+		wc_serial_numbers_insert_serial_number( array(
 			'id'               => $serial_number_id,
 			'order_id'         => $order_id,
 			'activation_email' => $order->get_billing_email( 'edit' ),
