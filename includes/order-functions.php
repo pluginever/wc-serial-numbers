@@ -94,11 +94,37 @@ function wc_serial_numbers_order_complete_handler( $order_id ) {
 add_action( 'woocommerce_order_status_completed', 'wc_serial_numbers_order_complete_handler', 10 );
 
 function wc_serial_numbers_revoke_order_serial_numbers( $order_id, $status_from, $status_to ) {
+	$serial_numbers = wc_serial_numbers_get_serial_numbers( array(
+		'order_id' => $order_id,
+		'number'   => - 1,
+		'fields'   => 'id'
+	) );
 
+	if ( empty( $serial_numbers ) ) {
+		return;
+	}
+
+	$reuse = wc_serial_numbers_is_reuse_serial_numbers();
+
+	if ( in_array( $status_to, array( 'refunded', 'failed', 'cancelled' ) ) ) {
+		foreach ( $serial_numbers as $serial_number_id ) {
+			$args = array(
+				'id'     => $serial_number_id,
+				'status' => 'inactive',
+			);
+
+			if ( $reuse ) {
+				$args = array_merge( $args, array(
+					'status'           => 'available',
+					'order_id'         => '',
+					'activation_email' => '',
+					'order_date'       => '',
+				) );
+			}
+
+			wc_serial_numbers_insert_serial_number( $args );
+		}
+	}
 }
 
 add_action( 'woocommerce_order_status_changed', 'wc_serial_numbers_revoke_order_serial_numbers', 10, 3 );
-//add_action( 'wcsn_process_serial_number', array( $this, 'process_serial_number' ), 10, 4 );
-//add_action( 'woocommerce_order_status_completed', array( $this, 'mark_serial_numbers_as_used' ) );
-//add_action( 'woocommerce_order_status_changed', array( $this, 'revoke_serial_numbers' ), 10, 4 );
-//add_action( 'woocommerce_email_after_order_table', array( $this, 'email_keys' ) );

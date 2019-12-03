@@ -31,6 +31,7 @@ class WC_Serial_Numbers_API {
 	 */
 	public function __construct() {
 		add_action( 'woocommerce_api_serial-numbers-api', array( $this, 'handle_api_request' ) );
+		add_action( 'wc_serial_numbers_api_action_check', array( $this, 'check_license' ) );
 	}
 
 	/**
@@ -48,7 +49,7 @@ class WC_Serial_Numbers_API {
 		$activation_id = ! empty( $_REQUEST['activation_id'] ) ? sanitize_key( $_REQUEST['activation_id'] ) : null;
 
 		$allow_duplicate = wc_serial_numbers_is_allowed_duplicate_serial_numbers();
-		if ( ! $allow_duplicate && ! is_email( $email ) ) {
+		if ( $allow_duplicate && ! is_email( $email ) ) {
 			$this->send_error( [
 				'error' => __( 'Email is required', 'wc-serial-numbers' ),
 				'code'  => 403
@@ -80,7 +81,7 @@ class WC_Serial_Numbers_API {
 		global $wpdb;
 
 		$query_where = 'WHERE 1=1';
-		if ( ! $allow_duplicate ) {
+		if ( $allow_duplicate ) {
 			$query_where .= $wpdb->prepare( " AND activation_email=%s", $email );
 		}
 
@@ -88,6 +89,7 @@ class WC_Serial_Numbers_API {
 		$query_where .= $wpdb->prepare( " AND product_id=%d", $product_id );
 
 		$serial_number = $wpdb->get_row( "SELECT * FROM $wpdb->wcsn_serials_numbers $query_where" );
+
 		if ( ! $serial_number ) {
 			$this->send_error( [
 				'error' => sprintf( __( 'Invalid %s', 'wc-serial-numbers' ), wc_serial_numbers_labels( 'serial_numbers' ) ),
@@ -95,12 +97,34 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		if ( ! $allow_duplicate && $serial_number->activation_email !== $email ) {
+		if ( $allow_duplicate && $serial_number->activation_email !== $email ) {
 			$this->send_error( [
 				'error' => __( 'This email address is not associated with any serial key', 'wc-serial-numbers' ),
 				'code'  => 403
 			] );
 		}
+
+
+		$request = empty( $_REQUEST['request'] ) ? '' : sanitize_key( $_REQUEST['request'] );
+		if ( empty( $request ) || ! in_array( $request, array(
+				'check',
+				'activate',
+				'deactivate',
+				'deactivate',
+				'version_check'
+			) ) ) {
+			$this->send_error( [
+				'error' => __( 'Invalid request type', 'wc-serial-numbers' ),
+				'code'  => 403
+			] );
+		}
+
+		do_action( 'wc_serial_numbers_api_action', $serial_number );
+		do_action( "wc_serial_numbers_api_action_{$request}", $serial_number );
+	}
+
+
+	public function check_license( $serial_number ) {
 
 	}
 
