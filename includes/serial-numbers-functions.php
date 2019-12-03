@@ -3,7 +3,7 @@ defined( 'ABSPATH' ) || exit();
 
 /**
  * Get serial number's statuses
- * since 1.0.0
+ * since 1.2.0
  * @return array
  */
 function wc_serial_numbers_get_serial_number_statuses() {
@@ -19,7 +19,7 @@ function wc_serial_numbers_get_serial_number_statuses() {
 
 /**
  *
- * since 1.0.0
+ * since 1.2.0
  *
  * @param $args
  *
@@ -101,7 +101,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 /**
  * Delete serial number
  *
- * since 1.0.0
+ * since 1.2.0
  *
  * @param $id
  *

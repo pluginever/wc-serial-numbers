@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit();
 
 /**
- * since 1.0.0
+ * since 1.2.0
  *
  * @param array $args
  * @param bool $count

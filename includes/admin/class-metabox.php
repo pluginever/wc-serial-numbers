@@ -114,7 +114,7 @@ class WC_Serial_Numbers_MetaBoxes {
 			echo sprintf(
 				'<p class="form-field"><label>%s</label><span class="description">%d %s</span></p>',
 				__( 'Available', 'wc-serial-numbers' ),
-				SerialNumber::query( [ 'product_id' => $post->ID, 'status' => 'new' ], true ),
+				wc_serial_numbers_get_serial_numbers( [ 'product_id' => $post->ID, 'status' => 'available' ], true ),
 				__( 'Serial Number available for sale', 'wc-serial-numbers' )
 			);
 			?>
