@@ -23,10 +23,11 @@ function wc_serial_numbers_order_assign_serial_numbers( $order_id ) {
 		'order_id' => $order_id,
 	), true );
 
-	update_post_meta($order_id, 'wc_serial_numbers_assigned_serial_numbers', $assigned_serial_numbers_count);
+	update_post_meta( $order_id, 'wc_serial_numbers_assigned_serial_numbers', $assigned_serial_numbers_count );
 
 	if ( $assigned_serial_numbers_count == $total_quantity ) {
 		do_action( 'wc_serial_number_order_assigned_serial_numbers', $order_id, $assigned_serial_numbers_count, $total_quantity );
+
 		return true;
 	}
 
@@ -48,6 +49,12 @@ function wc_serial_numbers_order_product_assign_serial_numbers_handler( $product
 	) );
 	$order          = new WC_Order( $order_id );
 
+	if ( $serial_numbers < $quantity ) {
+		do_action( 'wc_serial_numbers_order_product_assign_serial_numbers_failed', $product_id, $order_id, $serial_numbers, $quantity );
+
+		return;
+	}
+
 	foreach ( $serial_numbers as $serial_number_id ) {
 
 		wc_serial_numbers_insert_serial_number( array(
@@ -61,3 +68,37 @@ function wc_serial_numbers_order_product_assign_serial_numbers_handler( $product
 }
 
 add_action( 'wc_serial_numbers_order_product_assign_serial_numbers', 'wc_serial_numbers_order_product_assign_serial_numbers_handler', 10, 3 );
+
+/**
+ * Automatically assign serial number when order is complete
+ *
+ * @param $order_id
+ *
+ * @since 1.0.0
+ */
+function wc_serial_numbers_order_complete_handler( $order_id ) {
+	$order = wc_get_order( $order_id );
+
+	if ( ! $order ) {
+		return;
+	}
+
+	if ( ! wc_serial_numbers_is_order_automatically_assign_serial_numbers() ) {
+		return;
+	}
+
+	wc_serial_numbers_order_assign_serial_numbers( $order_id );
+
+}
+
+add_action( 'woocommerce_order_status_completed', 'wc_serial_numbers_order_complete_handler', 10 );
+
+function wc_serial_numbers_revoke_order_serial_numbers( $order_id, $status_from, $status_to ) {
+
+}
+
+add_action( 'woocommerce_order_status_changed', 'wc_serial_numbers_revoke_order_serial_numbers', 10, 3 );
+//add_action( 'wcsn_process_serial_number', array( $this, 'process_serial_number' ), 10, 4 );
+//add_action( 'woocommerce_order_status_completed', array( $this, 'mark_serial_numbers_as_used' ) );
+//add_action( 'woocommerce_order_status_changed', array( $this, 'revoke_serial_numbers' ), 10, 4 );
+//add_action( 'woocommerce_email_after_order_table', array( $this, 'email_keys' ) );
