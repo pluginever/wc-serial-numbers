@@ -10,10 +10,11 @@ function wc_serial_numbers_get_serial_number_statuses() {
 	return array(
 		'available' => __( 'Available', 'wc-serial-numbers' ),
 		'inactive'  => __( 'Inactive', 'wc-serial-numbers' ),
-		'sold'      => __( 'Sold', 'wc-serial-numbers' ),
+		'active'    => __( 'Active', 'wc-serial-numbers' ),
 		'refunded'  => __( 'Refunded', 'wc-serial-numbers' ),
 		'cancelled' => __( 'Cancelled', 'wc-serial-numbers' ),
 		'expired'   => __( 'Expired', 'wc-serial-numbers' ),
+		'failed'    => __( 'Failed', 'wc-serial-numbers' ),
 	);
 }
 
@@ -30,7 +31,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 	$update = false;
 	$id     = null;
 
-	$args = (array) apply_filters( 'wcsn_insert_serial_number', $args );
+	$args = (array) apply_filters( 'wc_serial_numbers_insert_serial_number', $args );
 	if ( isset( $args['id'] ) && ! empty( trim( $args['id'] ) ) ) {
 		$id          = (int) $args['id'];
 		$update      = true;
@@ -94,6 +95,8 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		$id = (int) $wpdb->insert_id;
 		do_action( 'wc_serial_numbers_serial_number_insert', $id, $data );
 	}
+
+	update_post_meta( $data['product_id'], '_is_serial_number', true );
 
 	return $id;
 }
@@ -220,6 +223,8 @@ function wc_serial_numbers_get_serial_numbers( $args = array(), $count = false )
 		$serial_key  = sanitize_textarea_field( $args['serial_key'] );
 		$query_where .= " AND `serial_key` = '{$serial_key}' ";
 	}
+
+
 	//status
 	if ( ! empty( $args['status'] ) ) {
 
@@ -317,7 +322,7 @@ function wc_serial_numbers_change_serial_number_status( $id, $status ) {
 	if ( empty( $id = absint( $id ) ) ) {
 		return false;
 	}
-	if ( empty( $status ) || ! in_array( $status, wc_serial_numbers_get_serial_number_statuses() ) ) {
+	if ( empty( $status ) || ! in_array( $status, array_keys( wc_serial_numbers_get_serial_number_statuses() ) ) ) {
 		return false;
 	}
 

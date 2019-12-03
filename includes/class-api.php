@@ -32,6 +32,7 @@ class WC_Serial_Numbers_API {
 	public function __construct() {
 		add_action( 'woocommerce_api_serial-numbers-api', array( $this, 'handle_api_request' ) );
 		add_action( 'wc_serial_numbers_api_action_check', array( $this, 'check_license' ) );
+		add_action( 'wc_serial_numbers_api_action_activate', array( $this, 'activate_license' ) );
 	}
 
 	/**
@@ -44,8 +45,6 @@ class WC_Serial_Numbers_API {
 		$email         = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
 		$serial_key    = ! empty( $_REQUEST['serial_key'] ) ? esc_attr( $_REQUEST['serial_key'] ) : '';
 		$product_id    = ! empty( $_REQUEST['product_id'] ) ? absint( $_REQUEST['product_id'] ) : '';
-		$instance      = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : time();
-		$platform      = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : null;
 		$activation_id = ! empty( $_REQUEST['activation_id'] ) ? sanitize_key( $_REQUEST['activation_id'] ) : null;
 
 		$allow_duplicate = wc_serial_numbers_is_allowed_duplicate_serial_numbers();
@@ -104,6 +103,13 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
+		if ( $serial_number->status !== 'active' ) {
+			$this->send_error( [
+				'error' => sprintf( __( '%s is not active', 'wc-serial-numbers' ), wc_serial_numbers_labels( 'serial_numbers' ) ),
+				'code'  => 403
+			] );
+		}
+
 
 		$request = empty( $_REQUEST['request'] ) ? '' : sanitize_key( $_REQUEST['request'] );
 		if ( empty( $request ) || ! in_array( $request, array(
@@ -124,8 +130,118 @@ class WC_Serial_Numbers_API {
 	}
 
 
+	/**
+	 * since 1.0.0
+	 *
+	 * @param $serial_number
+	 */
 	public function check_license( $serial_number ) {
+		$activations = wc_serial_numbers_get_activations( [
+			'serial_id' => $serial_number->id,
+		] );
+		$remaining   = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
+		$this->send_success( apply_filters( 'wc_serial_numbers_check_license_response', [
+			'expire_date' => $serial_number->expire_date,
+			'remaining'   => $remaining,
+			'status'      => $serial_number->status,
+			'activations' => $this->get_activations_response($activations),
+		], $serial_number ) );
 
+	}
+
+	/**
+	 * since 1.0.0
+	 *
+	 * @param $serial_number
+	 */
+	public function activate_license( $serial_number ) {
+		$instance    = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : time();
+		$platform    = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : null;
+		$activations = wc_serial_numbers_get_activations( [
+			'serial_id' => $serial_number->id,
+			'status'    => 'active',
+			'instance'  => $instance,
+			'platform'  => $platform,
+		] );
+
+		$remaining = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
+
+		if ( empty( $activations ) && $remaining < 1 ) {
+			$activations          = wc_serial_numbers_get_activations( [
+				'serial_id' => $serial_number->id,
+			] );
+			$activations_response = [];
+			foreach ( $activations as $activation ) {
+				$activations_response[] = array(
+					'instance'        => $activation->instance,
+					'status'          => $activation->active ? 'active' : 'inactive',
+					'platform'        => $activation->platform,
+					'activation_time' => $activation->activation_time,
+				);
+			}
+			$this->send_error( [
+				'error'       => __( 'Activation limit reached', 'wc-serial-numbers' ),
+				'activations' => $activations_response,
+				'code'        => 403
+			] );
+		}
+
+		$activation_id = wc_serial_numbers_activate_serial_number( $serial_number->id, $instance, $platform );
+
+		if ( ! $activation_id ) {
+			$this->send_error( [
+				'error'       => __( 'Activation was failed', 'wc-serial-numbers' ),
+				'activations' => $activations,
+				'code'        => 403
+			] );
+		}
+
+		$remaining = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
+
+		$activations          = wc_serial_numbers_get_activations( [
+			'serial_id' => $serial_number->id,
+			'status'    => 'active'
+		] );
+		$activations_response = [];
+		foreach ( $activations as $activation ) {
+			$activations_response[] = array(
+				'instance'        => $activation->instance,
+				'status'          => $activation->active ? 'active' : 'inactive',
+				'platform'        => $activation->platform,
+				'activation_time' => $activation->activation_time,
+			);
+		}
+
+
+		$response = apply_filters( 'wc_serial_numbers_activate_license_response', array(
+			'activated'   => true,
+			'activations' => $activations_response,
+			'remaining'   => $remaining,
+			'message'     => sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
+		) );
+
+		$this->send_success( $response );
+
+	}
+
+	/**
+	 * since 1.0.0
+	 * @param $activations
+	 *
+	 * @return array
+	 */
+	public function get_activations_response( $activations ) {
+		$activations_response = [];
+		foreach ( $activations as $activation ) {
+			$activations_response[] = array(
+				'instance'        => $activation->instance,
+				'status'          => $activation->active ? 'active' : 'inactive',
+				'platform'        => $activation->platform,
+				'activation_time' => $activation->activation_time,
+			);
+		}
+
+		return $activations_response;
 	}
 
 
@@ -148,7 +264,7 @@ class WC_Serial_Numbers_API {
 	public function send_success( $result ) {
 		nocache_headers();
 		$result['timestamp'] = time();
-		wp_send_json_error( $result );
+		wp_send_json_success( $result );
 	}
 
 }

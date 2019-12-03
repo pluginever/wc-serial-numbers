@@ -159,6 +159,7 @@ final class WCSerialNumbers {
 	 * Include required core files used in admin and on the frontend.
 	 */
 	public function includes() {
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-install.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-update.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/serial-numbers-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/activation-functions.php' );

@@ -24,12 +24,12 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	public $total_count;
 
 	/**
-	 * Sold number
+	 * active number
 	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
-	public $sold_count;
+	public $active_count;
 
 	/**
 	 * Refunded number
@@ -81,23 +81,12 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 
 	public function __construct() {
 		parent::__construct( array(
-			'singular' => __('Serial Number', 'wc-serial-number'),
-			'plural'   => __('Serial Numbers', 'wc-serial-number'),
+			'singular' => __( 'Serial Number', 'wc-serial-number' ),
+			'plural'   => __( 'Serial Numbers', 'wc-serial-number' ),
 			'ajax'     => false,
 		) );
 		$this->base_url = admin_url( 'admin.php?page=wc-serial-numbers' );
 		$this->process_bulk_action();
-	}
-
-	/**
-	 * Get a list of CSS classes for the WP_List_Table table tag.
-	 *
-	 * @return array List of CSS classes for the table tag.
-	 * @since 3.1.0
-	 *
-	 */
-	protected function get_table_classes() {
-		return array( 'widefat', 'striped', $this->_args['plural'] );
 	}
 
 	/**
@@ -123,8 +112,8 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			case 'available':
 				$total_items = $this->available_count;
 				break;
-			case 'sold':
-				$total_items = $this->sold_count;
+			case 'active':
+				$total_items = $this->active_count;
 				break;
 			case 'refunded':
 				$total_items = $this->refunded_count;
@@ -198,7 +187,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 		$current         = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
 		$available_count = '&nbsp;<span class="count">(' . $this->available_count . ')</span>';
 		$total_count     = '&nbsp;<span class="count">(' . $this->total_count . ')</span>';
-		$sold_count      = '&nbsp;<span class="count">(' . $this->sold_count . ')</span>';
+		$active_count    = '&nbsp;<span class="count">(' . $this->active_count . ')</span>';
 		$refunded_count  = '&nbsp;<span class="count">(' . $this->refunded_count . ')</span>';
 		$cancelled_count = '&nbsp;<span class="count">(' . $this->cancelled_count . ')</span>';
 		$expired_count   = '&nbsp;<span class="count">(' . $this->expired_count . ')</span>';
@@ -207,7 +196,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 		$views = array(
 			'all'       => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $this->base_url ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
 			'available' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'available', $this->base_url ), $current === 'available' ? ' class="current"' : '', __( 'Available', 'wc-serial-numbers' ) . $available_count ),
-			'sold'      => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'sold', $this->base_url ), $current === 'sold' ? ' class="current"' : '', __( 'Sold', 'wc-serial-numbers' ) . $sold_count ),
+			'active'    => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $this->base_url ), $current === 'active' ? ' class="current"' : '', __( 'Active', 'wc-serial-numbers' ) . $active_count ),
 			'refunded'  => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'refunded', $this->base_url ), $current === 'refunded' ? ' class="current"' : '', __( 'Refunded', 'wc-serial-numbers' ) . $refunded_count ),
 			'cancelled' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'cancelled', $this->base_url ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'wc-serial-numbers' ) . $cancelled_count ),
 			'expired'   => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'expired', $this->base_url ), $current === 'expired' ? ' class="current"' : '', __( 'Expired', 'wc-serial-numbers' ) . $expired_count ),
@@ -241,10 +230,11 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	function get_columns() {
 		$columns = array(
 			'cb'               => '<input type="checkbox" />',
-			'serial_key'       => $this->_args['singular'],
+			'serial_key'       => wc_serial_numbers_labels( 'serial_numbers' ),
 			'product'          => __( 'Product', 'wc-serial-numbers' ),
 			'order'            => __( 'Order', 'wc-serial-numbers' ),
 			'activation_limit' => __( 'Activation Limit', 'wc-serial-numbers' ),
+			'activation_count' => __( 'Activation Count', 'wc-serial-numbers' ),
 			'expire_date'      => __( 'Expire Date', 'wc-serial-numbers' ),
 			'validity'         => __( 'Validity', 'wc-serial-numbers' ),
 			'date'             => __( 'Order Date', 'wc-serial-numbers' ),
@@ -326,12 +316,12 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		$row_actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', $delete_url, __( 'Delete', 'wp-serial-numbers' ) );
 
-		$nonce       = wp_create_nonce( 'serial_number_toggle_visibility' );
+
 		$row_actions = apply_filters( 'serial_numbers_serial_number_table_row_actions', $row_actions, $item );
 
 		$spinner = sprintf( '<img class="wcsn-spinner" style="display: none;" src="%s"/>', admin_url( 'images/loading.gif' ) );
 
-		return sprintf( '<code class="serial-number-key encrypted" id="serial-number-key-%1$d" data-serail_id="%1$s" data-nonce="%2$s"></code> %3$s%4$s', $item->id, $nonce, $spinner, $this->row_actions( $row_actions ) );
+		return sprintf( '<code class="serial-number-key encrypted"></code> %1$s%2$s', $spinner, $this->row_actions( $row_actions ) );
 	}
 
 
@@ -361,12 +351,20 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			case 'activation_limit':
 				$column = ! empty( $item->activation_limit ) ? $item->activation_limit : __( 'Unlimited', 'wc-serial-numbers' );
 				break;
+			case 'activation_count':
+				$link   = add_query_arg( [
+					'serial_id' => $item->id,
+					'page'      => 'wc-serial-numbers-activations',
+				], admin_url( 'admin.php' ) );
+				$activation_count =  wc_serial_numbers_get_activations_count( $item->id );
+				$column = sprintf('<a href="%s" target="_blank">%s</a>', $link, $activation_count);
+				break;
 			case 'validity':
 				$column = ! empty( $item->validity ) ? sprintf( _n( '%s Day', '%s Days', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
 				break;
 			case 'status':
-				$status = wc_serial_numbers_get_serial_number_status($item, 'view');
-				$column  = "<span class='wcsn-key-status {$item->status}'>{$status}</span>";
+				$status = wc_serial_numbers_get_serial_number_status( $item, 'view' );
+				$column = "<span class='wcsn-key-status {$item->status}'>{$status}</span>";
 				break;
 			case 'expire_date':
 				$column = ! empty( $item->expire_date ) && ( '0000-00-00 00:00:00' != $item->expire_date ) ? date( get_option( 'date_format' ), strtotime( $item->expire_date ) ) : '&mdash;';
@@ -425,6 +423,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 		$search     = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
 		$product_id = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
 		$order_id   = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
+		$serial_id  = isset( $_GET['serial_id'] ) ? absint( $_GET['serial_id'] ) : '';
 
 
 		$args = array(
@@ -435,6 +434,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			'status'     => $status,
 			'product_id' => $product_id,
 			'order_id'   => $order_id,
+			'include'    => $serial_id,
 			'search'     => $search
 		);
 
@@ -444,7 +444,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		$this->total_count     = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => '' ) ), true );
 		$this->available_count = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'available' ) ), true );
-		$this->sold_count      = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'sold' ) ), true );
+		$this->active_count    = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'active' ) ), true );
 		$this->refunded_count  = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'refunded' ) ), true );
 		$this->cancelled_count = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
 		$this->expired_count   = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'expired' ) ), true );

@@ -62,7 +62,7 @@ function wc_serial_numbers_order_product_assign_serial_numbers_handler( $product
 			'order_id'         => $order_id,
 			'activation_email' => $order->get_billing_email( 'edit' ),
 			'order_date'       => current_time( 'mysql' ),
-			'status'           => 'sold'
+			'status'           => 'active'
 		) );
 	}
 }
@@ -110,7 +110,7 @@ function wc_serial_numbers_revoke_order_serial_numbers( $order_id, $status_from,
 		foreach ( $serial_numbers as $serial_number_id ) {
 			$args = array(
 				'id'     => $serial_number_id,
-				'status' => 'inactive',
+				'status' => $status_to,
 			);
 
 			if ( $reuse ) {

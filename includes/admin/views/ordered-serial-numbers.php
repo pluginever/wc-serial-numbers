@@ -6,8 +6,8 @@ $total_qty = 0;
 	<thead>
 	<tr>
 		<th><?php _e( 'Product', 'wc-serial-numbers' ); ?></th>
-		<th><?php _e( 'Quantity', 'wc-serial-numbers' ); ?></th>
-		<th><?php _e( 'Assigned', 'wc-serial-numbers' ); ?></th>
+		<th><?php _e( 'Quantity Ordered', 'wc-serial-numbers' ); ?></th>
+		<th><?php _e( 'Assigned Quantity', 'wc-serial-numbers' ); ?></th>
 	</tr>
 	</thead>
 	<tbody>

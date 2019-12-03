@@ -43,4 +43,48 @@ jQuery(document).ready(function ($) {
 		allowClear: true
 	});
 
+	//show decrypted value
+	$(document).on('click', '.wsn-show-serial-key', function (e) {
+		console.log('wsn-show-serial-key');
+		e.preventDefault();
+		var self = $(this);
+		var id = self.data('serial-id');
+		var nonce = self.data('nonce') || null;
+		var td = self.closest('td');
+		var code = td.find('.serial-number-key');
+		var spinner = td.find('.wcsn-spinner');
+		spinner.show();
+		if(!code.hasClass('encrypted')){
+			code.addClass('encrypted');
+			spinner.hide();
+			code.text('');
+			self.text(WCSerialNumbers.show);
+			return false;
+		}
+
+		wp.ajax.send('serial_numbers_get_decrypted_key', {
+			data: {
+				serial_id: id,
+				nonce: nonce
+			},
+			success: function (res) {
+				code.text(res.key);
+				spinner.hide();
+				code.removeClass('encrypted');
+				self.text(WCSerialNumbers.hide);
+			},
+			error: function () {
+				spinner.hide();
+				code.text('');
+				code.addClass('encrypted');
+				self.text(WCSerialNumbers.show);
+				alert('Decrypting key failed');
+			}
+		});
+
+		return false;
+	});
+
+
 });
+

@@ -47,38 +47,134 @@ function wc_serial_numbers_edit_serial_number( $data ) {
 		$message = __( 'Serial Number has inserted successfully' );
 	}
 	wc_serial_numbers_add_admin_notice( $message );
-	wp_redirect( add_query_arg( [
-		'wcsn-action' => 'edit_serial_number',
-		'serial'      => $serial_id,
-	], admin_url( 'admin.php?page=wc-serial-numbers' ) ) );
+	wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers' ) );
 	exit();
 }
 
 add_action( 'wc_serial_numbers_admin_post_edit_serial_number', 'wc_serial_numbers_edit_serial_number' );
 
-function wc_serial_numbers_order_assign_serial_number_handler(){
-	if(!wp_verify_nonce($_REQUEST['nonce'], 'assign_serial_numbers')){
-		wp_die('cheatin??');
+function wc_serial_numbers_order_assign_serial_number_handler() {
+	if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'assign_serial_numbers' ) ) {
+		wp_die( 'cheatin??' );
 	}
-	if(!current_user_can('manage_woocommerce')){
-		wp_die('You are not allowed to do this');
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( 'You are not allowed to do this' );
 	}
-	$order_id = absint($_REQUEST['order_id']);
-	$redirect = remove_query_arg([
-		'order_id', 'nonce', 'serial_numbers_action'
-	]);
+	$order_id = absint( $_REQUEST['order_id'] );
+	$redirect = remove_query_arg( [
+		'order_id',
+		'nonce',
+		'serial_numbers_action'
+	] );
 
-	if(empty($order_id)){
-		wp_redirect($redirect);
+	if ( empty( $order_id ) ) {
+		wp_redirect( $redirect );
 		exit();
 	}
 
-	$assigned = wc_serial_numbers_order_assign_serial_numbers($order_id);
-	if($assigned){
-		wc_serial_numbers_add_admin_notice(__('Serial numbers has been assigned for the order.', 'wc-serial-number'));
+	$assigned = wc_serial_numbers_order_assign_serial_numbers( $order_id );
+	if ( $assigned ) {
+		wc_serial_numbers_add_admin_notice( __( 'Serial numbers has been assigned for the order.', 'wc-serial-number' ) );
 	}
 
-	wp_redirect($redirect);
+	wp_redirect( $redirect );
 	exit();
 }
-add_action('wc_serial_numbers_admin_get_order_assign_serial_numbers', 'wc_serial_numbers_order_assign_serial_number_handler');
+
+add_action( 'wc_serial_numbers_admin_get_order_assign_serial_numbers', 'wc_serial_numbers_order_assign_serial_number_handler' );
+
+/**
+ * Change status
+ * since 1.0.0
+ * @param $data
+ */
+function wc_serial_numbers_inactive_serial_number_handler( $data ) {
+	if ( ! wp_verify_nonce( $data['_wpnonce'], 'serial_number_nonce' ) ) {
+		wp_die( 'cheatin??' );
+	}
+
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( 'You are not allowed to do this' );
+	}
+
+	$id = absint( $data['serial'] );
+
+	wc_serial_numbers_change_serial_number_status( $id, 'inactive' );
+	wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers' ) );
+	exit();
+}
+
+add_action( 'wc_serial_numbers_admin_get_inactive_serial_number', 'wc_serial_numbers_inactive_serial_number_handler' );
+
+
+/**
+ * Change status
+ * since 1.0.0
+ * @param $data
+ */
+function wc_serial_numbers_activate_serial_number_handler( $data ) {
+	if ( ! wp_verify_nonce( $data['_wpnonce'], 'serial_number_nonce' ) ) {
+		wp_die( 'cheatin??' );
+	}
+
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( 'You are not allowed to do this' );
+	}
+
+	$id = absint( $data['serial'] );
+
+	wc_serial_numbers_change_serial_number_status( $id, 'active' );
+	wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers' ) );
+	exit();
+}
+
+add_action( 'wc_serial_numbers_admin_get_activate_serial_number', 'wc_serial_numbers_activate_serial_number_handler' );
+
+
+
+/**
+ * Change status
+ * since 1.0.0
+ * @param $data
+ */
+function wc_serial_numbers_activate_activation_handler( $data ) {
+	if ( ! wp_verify_nonce( $data['_wpnonce'], 'wcsn_activation_nonce' ) ) {
+		wp_die( 'cheatin??' );
+	}
+
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( 'You are not allowed to do this' );
+	}
+
+	$id = absint( $data['activation'] );
+	global $wpdb;
+	$wpdb->query($wpdb->prepare("UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 1, $id));
+	wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers-activations' ) );
+	exit();
+}
+
+add_action( 'wc_serial_numbers_admin_get_activate_activation', 'wc_serial_numbers_activate_activation_handler' );
+
+/**
+ * Change status
+ * since 1.0.0
+ * @param $data
+ */
+function wc_serial_numbers_inactivate_activation_handler( $data ) {
+	if ( ! wp_verify_nonce( $data['_wpnonce'], 'wcsn_activation_nonce' ) ) {
+		wp_die( 'cheatin??' );
+	}
+
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( 'You are not allowed to do this' );
+	}
+
+	$id = absint( $data['activation'] );
+	global $wpdb;
+
+	$wpdb->query($wpdb->prepare("UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 0, $id));
+	wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers-activations' ) );
+	exit();
+}
+
+add_action( 'wc_serial_numbers_admin_get_inactivate_activation', 'wc_serial_numbers_inactivate_activation_handler' );

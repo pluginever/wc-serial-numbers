@@ -1,4 +1,4 @@
-.wp-list-table.serialnumbers{
+.wp-list-table.serialnumbers {
 	.serial-number-key {
 		display: inline-block;
 		font-family: Consolas, monospace;
@@ -28,19 +28,19 @@
 			border-bottom-left-radius: 3px;
 		}
 
-		&.encrypted::after{
+		&.encrypted::after {
 			position: absolute;
 			top: 0;
 			right: 0;
 			bottom: 0;
 			left: 0;
 			content: 'SERIAL-XXXX-XXXX-XXXX';
-			color: rgba(0,0,0,.4);
+			color: rgba(0, 0, 0, .4);
 			line-height: 25px;
 		}
 	}
 
-	.wcsn-key-status{
+	.wcsn-key-status {
 		color: #fff;
 		padding: 3px 10px;
 		font-size: 14px;
@@ -50,36 +50,37 @@
 		line-height: 1;
 		border: 1px solid transparent;
 
-		&.available{
+		&.available {
 			background: #cce5ff;
 			color: #004085;
 			border-color: #b8daff;
 		}
 
-		&.inactive{
+		&.inactive {
 			color: #1b1e21;
 			background-color: #d6d8d9;
 			border-color: #c6c8ca;
 		}
 
-		&.sold{
+		&.active {
 			color: #155724;
 			background-color: #d4edda;
 			border-color: #c3e6cb;
 		}
 
-		&.expired{
+		&.expired {
 			color: #721c24;
 			background-color: #f8d7da;
 			border-color: #f5c6cb;
 		}
-		&.cancelled{
+
+		&.cancelled {
 			color: #856404;
 			background-color: #fff3cd;
 			border-color: #ffeeba;
 		}
 
-		&.refunded{
+		&.refunded {
 			color: #383d41;
 			background-color: #e2e3e5;
 			border-color: #d6d8db;
@@ -99,5 +100,8 @@
 	//	width: 250px;
 	//}
 
+	.column-serial_key {
+		width: 22%;
+	}
 
 }

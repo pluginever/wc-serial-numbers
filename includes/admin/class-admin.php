@@ -111,8 +111,10 @@ class WC_Serial_Numbers_Admin {
 			'select2',
 		], time(), true );
 		wp_localize_script( 'wc-serial-numbers', 'WCSerialNumbers', array(
-			'dropDownNonce' => wp_create_nonce( 'serial_numbers_search_dropdown' ),
+			'dropDownNonce'             => wp_create_nonce( 'serial_numbers_search_dropdown' ),
 			'placeholderSearchProducts' => __( 'Search by product name', 'wc-serial-numbers' ),
+			'show'                      => __( 'Show', 'wc-serial-numbers' ),
+			'hide'                      => __( 'Hide', 'wc-serial-numbers' ),
 		) );
 	}
 

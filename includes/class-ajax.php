@@ -7,6 +7,7 @@ class WC_Serial_Numbers_Ajax {
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_serial_numbers_product_search', array( $this, 'search_product' ) );
+		add_action( 'wp_ajax_serial_numbers_get_decrypted_key', array( $this, 'decrypted_key' ) );
 	}
 
 	/**
@@ -66,6 +67,23 @@ class WC_Serial_Numbers_Ajax {
 			)
 		);
 
+	}
+
+	public function decrypted_key(){
+		$this->verify_nonce( 'wcsn_show_serial_key', 'nonce' );
+		$this->check_permission();
+		$serial_id   = isset( $_REQUEST['serial_id'] ) ? sanitize_text_field( $_REQUEST['serial_id'] ) : '';
+		if(empty($serial_id)){
+			wp_send_json_error([]);
+		}
+
+		$serial_number = wc_serial_numbers_get_serial_number($serial_id);
+		if(empty($serial_number)){
+			wp_send_json_error([]);
+		}
+		wp_send_json_success([
+			'key' => wc_serial_numbers_decrypt_serial_number($serial_number->serial_key)
+		]);
 	}
 
 

@@ -5,3 +5,5 @@
 //check for any ref ea, eaccounting
 //add insight
 //add promotion
+//add user id customer id
+//alter platform default value
