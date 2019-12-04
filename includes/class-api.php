@@ -33,6 +33,8 @@ class WC_Serial_Numbers_API {
 		add_action( 'woocommerce_api_serial-numbers-api', array( $this, 'handle_api_request' ) );
 		add_action( 'wc_serial_numbers_api_action_check', array( $this, 'check_license' ) );
 		add_action( 'wc_serial_numbers_api_action_activate', array( $this, 'activate_license' ) );
+		add_action( 'wc_serial_numbers_api_action_deactivate', array( $this, 'deactivate_license' ) );
+		add_action( 'wc_serial_numbers_api_action_version_check', array( $this, 'version_check' ) );
 	}
 
 	/**
@@ -144,7 +146,9 @@ class WC_Serial_Numbers_API {
 			'expire_date' => $serial_number->expire_date,
 			'remaining'   => $remaining,
 			'status'      => $serial_number->status,
-			'activations' => $this->get_activations_response($activations),
+			'activations' => $this->get_activations_response( $activations ),
+			'product_id' => $serial_number->product_id,
+			'product'    => get_the_title( $serial_number->product_id ),
 		], $serial_number ) );
 
 	}
@@ -155,8 +159,9 @@ class WC_Serial_Numbers_API {
 	 * @param $serial_number
 	 */
 	public function activate_license( $serial_number ) {
-		$instance    = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : time();
-		$platform    = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : null;
+		$user_agent  = empty( $_SERVER['HTTP_USER_AGENT'] ) ? md5( time() ) : md5( $_SERVER['HTTP_USER_AGENT'] . time() );
+		$instance    = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : $user_agent;
+		$platform    = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : self::get_os();
 		$activations = wc_serial_numbers_get_activations( [
 			'serial_id' => $serial_number->id,
 			'status'    => 'active',
@@ -167,22 +172,17 @@ class WC_Serial_Numbers_API {
 		$remaining = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
 
 		if ( empty( $activations ) && $remaining < 1 ) {
-			$activations          = wc_serial_numbers_get_activations( [
+			$activations = wc_serial_numbers_get_activations( [
 				'serial_id' => $serial_number->id,
+				'status'    => 'active',
 			] );
-			$activations_response = [];
-			foreach ( $activations as $activation ) {
-				$activations_response[] = array(
-					'instance'        => $activation->instance,
-					'status'          => $activation->active ? 'active' : 'inactive',
-					'platform'        => $activation->platform,
-					'activation_time' => $activation->activation_time,
-				);
-			}
+
 			$this->send_error( [
-				'error'       => __( 'Activation limit reached', 'wc-serial-numbers' ),
-				'activations' => $activations_response,
-				'code'        => 403
+				'error'            => __( 'Activation limit reached', 'wc-serial-numbers' ),
+				'activations'      => $this->get_activations_response( $activations ),
+				'activation_limit' => intval( $serial_number->activation_limit ),
+				'remaining'        => $remaining,
+				'code'             => 403
 			] );
 		}
 
@@ -198,34 +198,86 @@ class WC_Serial_Numbers_API {
 
 		$remaining = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
 
-		$activations          = wc_serial_numbers_get_activations( [
+		$new_activations = wc_serial_numbers_get_activations( [
 			'serial_id' => $serial_number->id,
 			'status'    => 'active'
 		] );
-		$activations_response = [];
-		foreach ( $activations as $activation ) {
-			$activations_response[] = array(
-				'instance'        => $activation->instance,
-				'status'          => $activation->active ? 'active' : 'inactive',
-				'platform'        => $activation->platform,
-				'activation_time' => $activation->activation_time,
-			);
-		}
 
+		$new_activation = wc_serial_numbers_get_activation( $activation_id );
+
+		$new_activations_response = $this->get_activations_response( $new_activations );
 
 		$response = apply_filters( 'wc_serial_numbers_activate_license_response', array(
-			'activated'   => true,
-			'activations' => $activations_response,
-			'remaining'   => $remaining,
-			'message'     => sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
+			'activated'        => true,
+			'activations'      => $new_activations_response,
+			'remaining'        => $remaining,
+			'activation_limit' => intval( $serial_number->activation_limit ),
+			'instance'         => $new_activation->instance,
+			'product_id' => $serial_number->product_id,
+			'product'    => get_the_title( $serial_number->product_id ),
+			'message'          => sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
 		) );
 
 		$this->send_success( $response );
 
 	}
 
+
+	public function deactivate_license( $serial_number ) {
+		$instance = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : '';
+
+		if ( empty( $instance ) ) {
+			$this->send_error( [
+				'error' => __( 'Instance is  missing, You must provide an instance to deactivate license', 'wc-serial-numbers' ),
+				'code'  => 403
+			] );
+		}
+
+		$activations = wc_serial_numbers_get_activations( [
+			'serial_id' => $serial_number->id,
+			'instance'  => $instance,
+			'status'    => 'active',
+		] );
+
+		if ( empty( $activations ) ) {
+			$this->send_error( [
+				'error' => __( 'Could not find any related instance to deactivate ', 'wc-serial-numbers' ),
+				'code'  => 403
+			] );
+		}
+
+		foreach ( $activations as $activation ) {
+			$deactivated = wc_serial_numbers_deactivate_activation( $activation->id );
+		}
+
+		$remaining = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
+
+		$response = apply_filters( 'wc_serial_numbers_deactivate_license_response', array(
+			'deactivated'      => true,
+			'remaining'        => $remaining,
+			'activation_limit' => intval( $serial_number->activation_limit ),
+			'message'          => sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
+		) );
+
+		$this->send_success( $response );
+	}
+
+	/**
+	 * @param $serial
+	 *
+	 * @since 1.0.0
+	 */
+	public function version_check( $serial ) {
+		$this->send_success( array(
+			'product_id' => $serial->product_id,
+			'product'    => get_the_title( $serial->product_id ),
+			'version'    => get_post_meta( $serial->product_id, '_software_version', true ),
+		) );
+	}
+
 	/**
 	 * since 1.0.0
+	 *
 	 * @param $activations
 	 *
 	 * @return array
@@ -242,6 +294,51 @@ class WC_Serial_Numbers_API {
 		}
 
 		return $activations_response;
+	}
+
+	/**
+	 * @return mixed|string
+	 * @since 1.0.0
+	 */
+	public static function get_os() {
+		$user_agent = @$_SERVER['HTTP_USER_AGENT'];
+
+		$os_platform = "Unknown OS Platform";
+
+		$os_array = array(
+			'/windows nt 10/i'      => 'Windows 10',
+			'/windows nt 6.3/i'     => 'Windows 8.1',
+			'/windows nt 6.2/i'     => 'Windows 8',
+			'/windows nt 6.1/i'     => 'Windows 7',
+			'/windows nt 6.0/i'     => 'Windows Vista',
+			'/windows nt 5.2/i'     => 'Windows Server 2003/XP x64',
+			'/windows nt 5.1/i'     => 'Windows XP',
+			'/windows xp/i'         => 'Windows XP',
+			'/windows nt 5.0/i'     => 'Windows 2000',
+			'/windows me/i'         => 'Windows ME',
+			'/win98/i'              => 'Windows 98',
+			'/win95/i'              => 'Windows 95',
+			'/win16/i'              => 'Windows 3.11',
+			'/macintosh|mac os x/i' => 'Mac OS X',
+			'/mac_powerpc/i'        => 'Mac OS 9',
+			'/linux/i'              => 'Linux',
+			'/ubuntu/i'             => 'Ubuntu',
+			'/iphone/i'             => 'iPhone',
+			'/ipod/i'               => 'iPod',
+			'/ipad/i'               => 'iPad',
+			'/android/i'            => 'Android',
+			'/blackberry/i'         => 'BlackBerry',
+			'/webos/i'              => 'Mobile'
+		);
+
+		foreach ( $os_array as $regex => $value ) {
+
+			if ( preg_match( $regex, $user_agent ) ) {
+				$os_platform = $value;
+			}
+		}
+
+		return $os_platform;
 	}
 
 

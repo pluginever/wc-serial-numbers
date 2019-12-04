@@ -86,6 +86,7 @@ add_action( 'wc_serial_numbers_admin_get_order_assign_serial_numbers', 'wc_seria
 /**
  * Change status
  * since 1.0.0
+ *
  * @param $data
  */
 function wc_serial_numbers_inactive_serial_number_handler( $data ) {
@@ -110,6 +111,7 @@ add_action( 'wc_serial_numbers_admin_get_inactive_serial_number', 'wc_serial_num
 /**
  * Change status
  * since 1.0.0
+ *
  * @param $data
  */
 function wc_serial_numbers_activate_serial_number_handler( $data ) {
@@ -130,11 +132,33 @@ function wc_serial_numbers_activate_serial_number_handler( $data ) {
 
 add_action( 'wc_serial_numbers_admin_get_activate_serial_number', 'wc_serial_numbers_activate_serial_number_handler' );
 
+/**
+ * @since 1.0.0
+ * @param $data
+ */
+function wc_serial_numbers_delete_serial_number_handler( $data ) {
+	if ( ! wp_verify_nonce( $data['_wpnonce'], 'serial_number_nonce' ) ) {
+		wp_die( 'cheatin??' );
+	}
+
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( 'You are not allowed to do this' );
+	}
+
+	$id = absint( $data['serial'] );
+
+	wc_serial_numbers_delete_serial_number( $id );
+	wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers' ) );
+	exit();
+}
+
+add_action( 'wc_serial_numbers_admin_get_delete_serial_number', 'wc_serial_numbers_delete_serial_number_handler' );
 
 
 /**
  * Change status
  * since 1.0.0
+ *
  * @param $data
  */
 function wc_serial_numbers_activate_activation_handler( $data ) {
@@ -148,7 +172,7 @@ function wc_serial_numbers_activate_activation_handler( $data ) {
 
 	$id = absint( $data['activation'] );
 	global $wpdb;
-	$wpdb->query($wpdb->prepare("UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 1, $id));
+	$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 1, $id ) );
 	wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers-activations' ) );
 	exit();
 }
@@ -158,6 +182,7 @@ add_action( 'wc_serial_numbers_admin_get_activate_activation', 'wc_serial_number
 /**
  * Change status
  * since 1.0.0
+ *
  * @param $data
  */
 function wc_serial_numbers_inactivate_activation_handler( $data ) {
@@ -172,9 +197,27 @@ function wc_serial_numbers_inactivate_activation_handler( $data ) {
 	$id = absint( $data['activation'] );
 	global $wpdb;
 
-	$wpdb->query($wpdb->prepare("UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 0, $id));
+	$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 0, $id ) );
 	wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers-activations' ) );
 	exit();
 }
 
 add_action( 'wc_serial_numbers_admin_get_inactivate_activation', 'wc_serial_numbers_inactivate_activation_handler' );
+
+function wc_serial_numbers_delete_activation_handler($data){
+	if ( ! wp_verify_nonce( $data['_wpnonce'], 'wcsn_activation_nonce' ) ) {
+		wp_die( 'cheatin??' );
+	}
+
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( 'You are not allowed to do this' );
+	}
+
+	$id = absint( $data['activation'] );
+	global $wpdb;
+
+	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->wcsn_activations WHERE id=%d", $id ) );
+	wp_redirect( admin_url( 'admin.php?page=wc-serial-numbers-activations' ) );
+	exit();
+}
+add_action( 'wc_serial_numbers_admin_get_delete_activation', 'wc_serial_numbers_delete_activation_handler' );

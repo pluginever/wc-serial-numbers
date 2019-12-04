@@ -96,7 +96,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		do_action( 'wc_serial_numbers_serial_number_insert', $id, $data );
 	}
 
-	update_post_meta( $data['product_id'], '_is_serial_number', true );
+	update_post_meta( $data['product_id'], '_is_serial_number', 'yes' );
 
 	return $id;
 }

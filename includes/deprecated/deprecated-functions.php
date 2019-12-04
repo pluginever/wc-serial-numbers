@@ -118,7 +118,7 @@ function wcsn_get_products( $args = array(), $count = false ) {
 function wcsn_product_enable_serial_number( $product_id ) {
 	_deprecated_function( __FUNCTION__, '1.2.0', 'wc_serial_numbers_product_enable_serial_number' );
 
-	return wc_serial_numbers_product_enable_serial_number( $product_id );
+	wc_serial_numbers_product_enable_serial_number( $product_id );
 }
 
 /**

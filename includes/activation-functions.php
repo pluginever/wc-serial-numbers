@@ -168,7 +168,7 @@ function wc_serial_numbers_get_activations( $args = array(), $count = false ) {
 	}
 
 
-	$request = "SELECT $wpdb->wcsn_activations.*,$wpdb->wcsn_serials_numbers.product_id, $wpdb->wcsn_serials_numbers.order_id, $wpdb->wcsn_serials_numbers.expire_date  $query_fields $query_from $query_where $query_orderby $query_limit";
+	$request = "SELECT $wpdb->wcsn_activations.*,$wpdb->wcsn_serials_numbers.product_id, $wpdb->wcsn_serials_numbers.order_id, $wpdb->wcsn_serials_numbers.expire_date, $wpdb->wcsn_serials_numbers.expire_date  $query_fields $query_from $query_where $query_orderby $query_limit";
 
 	if ( is_array( $args['fields'] ) || 'all' == $args['fields'] ) {
 		return $wpdb->get_results( $request );
@@ -229,6 +229,17 @@ function wc_serial_numbers_get_activations_count( $serial_number_id ) {
 	return $wpdb->get_var( $wpdb->prepare( "SELECT count(id) from $wpdb->wcsn_activations WHERE serial_id=%d AND active='1'", $serial_number_id ) );
 }
 
-function wc_serial_numbers_deactivate_serial_number( $serial_number_id, $instance ) {
+/**
+ * @since 1.0.0
+ * @param $activation_id
+ *
+ * @return bool
+ */
+function wc_serial_numbers_deactivate_activation( $activation_id ) {
+	global $wpdb;
+	if ( false != $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 0, $activation_id ) ) ) {
+		return true;
+	};
 
+	return false;
 }
