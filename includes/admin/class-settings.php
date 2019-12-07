@@ -82,172 +82,43 @@ class WC_Serial_Numbers_Settings {
 					'type'    => 'checkbox',
 					'checked' => '',
 				),
-
-			),
-
-			'wsn_serial_generator_settings' => array(
-
 				array(
-					'name'        => 'wsn_generator_prefix',
-					'label'       => __( 'Prefix', 'wc-serial-numbers' ),
-					'placeholder' => __( 'sl-', 'wc-serial-numbers' ),
-					'desc'        => __( 'Prefix to added before the serial number.', 'wc-serial-numbers' ) . '<br><strong>ex: <em>sl-xxxx-xxxx-xxxx-xxxx</em></strong>',
-					'class'       => 'ever-field-inline',
-					'default'     => '',
-					'type'        => 'text',
-				),
-
-				array(
-					'name'        => 'wsn_generator_chunks_number',
-					'label'       => __( 'Chunks Number', 'wc-serial-numbers' ),
-					'placeholder' => __( '4', 'wc-serial-numbers' ),
-					'desc'        => __( 'The number of chunks for the serial number.', 'wc-serial-numbers' ) . '<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>',
-					'class'       => 'ever-field-inline',
-					'default'     => 4,
-					'type'        => 'number',
-				),
-
-				array(
-					'name'        => 'wsn_generator_chunks_length',
-					'label'       => __( 'Chunks Length', 'wc-serial-numbers' ),
-					'placeholder' => __( '4', 'wc-serial-numbers' ),
-					'desc'        => __( 'The number of chunks length for the serial number.', 'wc-serial-numbers' ) . '<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx</em></strong>',
-					'class'       => 'ever-field-inline',
-					'default'     => 4,
-					'type'        => 'number',
-				),
-
-				array(
-					'name'        => 'wsn_generator_suffix',
-					'label'       => __( 'Suffix', 'wc-serial-numbers' ),
-					'placeholder' => __( '-suffix', 'wc-serial-numbers' ),
-					'desc'        => __( 'Suffix to added after the serial number.', 'wc-serial-numbers' ) . '<br><strong>ex: <em>xxxx-xxxx-xxxx-xxxx-suffix</em></strong>',
-					'class'       => 'ever-field-inline',
-					'default'     => '',
-					'type'        => 'text',
-				),
-
-				array(
-					'name'    => 'wsn_generator_deliver_times',
-					'label'   => __( 'Max. Deliver Times', 'wc-serial-numbers' ),
-					'desc'    => __( 'The maximum number, the serial number can be delivered..', 'wc-serial-numbers' ),
-					'class'   => 'ever-field-inline',
-					'default' => 1,
-					'type'    => 'number',
-				),
-
-				array(
-					'name'    => 'wsn_generator_instance',
-					'label'   => __( 'Instance Number', 'wc-serial-numbers' ),
-					'desc'    => __( 'Maximum instance for the serial number.', 'wc-serial-numbers' ),
-					'class'   => 'ever-field-inline',
-					'default' => 1,
-					'type'    => 'number',
-				),
-
-				array(
-					'name'    => 'wsn_generator_validity',
-					'label'   => __( 'Validity', 'wc-serial-numbers' ),
-					'desc'    => __( 'Validity days for the serial number. Keep it 0, if the serial number doesn\'t expire', 'wc-serial-numbers' ),
-					'class'   => 'ever-field-inline',
-					'default' => 1,
-					'type'    => 'number',
-				),
-
-
-				array(
-					'name'    => 'wsn_generate_number',
-					'label'   => __( 'Generate Number', 'wc-serial-numbers' ),
-					'desc'    => __( 'The default generate number for generating serial number automatically.', 'wc-serial-numbers' ),
-					'class'   => 'ever-field-inline',
-					'default' => 5,
-					'type'    => 'number',
-				),
-
-			),
-
-			'wsn_notification_settings' => array(
-
-				array(
-					'name'    => 'wsn_admin_bar_notification',
-					'label'   => __( 'Admin bar notification', 'wc-serial-numbers' ),
-					'desc'    => '<p class="description">' . __( 'Show admin bar notification, if there is not enough serial number for any product', 'wc-serial-numbers' ) . '</p>',
+					'name'    => 'auto_complete',
+					'label'   => __( 'Autocomplete Order', 'wc-serial-numbers' ),
+					'desc'    => __( 'Order will be automatically complete', 'wc-serial-numbers' ),
 					'default' => '',
 					'class'   => 'ever-field-inline',
 					'type'    => 'checkbox',
 					'checked' => '',
 				),
 				array(
-					'name'        => 'wsn_admin_bar_notification_number',
-					'label'       => __( 'Set Limit', 'wc-serial-numbers' ),
-					'placeholder' => __( '2', 'wc-serial-numbers' ),
-					'desc'        => __( 'Show notifications in the admin panel when, Number of available serial numbers for license able products is under the given number', 'wc-serial-numbers' ),
-					'class'       => 'ever-field-inline',
-					'default'     => 5,
-					'type'        => 'number',
-				),
-
-				array(
-					'name'    => 'wsn_admin_bar_notification_send_email',
-					'label'   => __( 'Send Email', 'wc-serial-numbers' ),
-					'desc'    => '<p class="description">' . __( 'Also receive email notification, if there is not enough serial number for any product', 'wc-serial-numbers' ) . '</p>',
+					'name'    => 'low_stock_notification',
+					'label'   => __( 'Low Stock Notification', 'wc-serial-numbers' ),
+					'desc'    => __( 'Enable/disable low stock notification ', 'wc-serial-numbers' ),
 					'default' => '',
 					'class'   => 'ever-field-inline',
 					'type'    => 'checkbox',
 					'checked' => '',
 				),
-
 				array(
-					'name'        => 'wsn_admin_bar_notification_email',
-					'label'       => __( 'Email Address', 'wc-serial-numbers' ),
-					'placeholder' => __( '', 'wc-serial-numbers' ),
-					'desc'        => __( 'The email address to be used for sending the email notification', 'wc-serial-numbers' ),
-					'class'       => 'ever-field-inline',
-					'default'     => '',
-					'type'        => 'text',
+					'name'    => 'low_stock_threshold',
+					'label'   => __( 'Low Stock Threshold', 'wc-serial-numbers' ),
+					'desc'    => __( 'Below the above number will trigger low stock email notification', 'wc-serial-numbers' ),
+					'default' => '5',
+					'class'   => 'ever-field-inline',
+					'type'    => 'number',
 				),
-
+				array(
+					'name'     => 'low_stock_notification_email',
+					'label'    => __( 'Low Stock Email', 'wc-serial-numbers' ),
+					'desc'     => __( 'The email address to be used for sending the low stock email notification', 'wc-serial-numbers' ),
+					'default'  => get_option( 'admin_email' ),
+					'class'    => 'ever-field-inline',
+					'type'     => 'text',
+					'sanitize' => 'sanitize_email',
+				),
 
 			),
-			'wsn_delivery_settings'     => array(
-
-				array(
-					'name'    => 'wsn_auto_complete_order',
-					'label'   => __( 'Auto Complete Order', 'wc-serial-numbers' ),
-					'desc'    => '<p class="description">' . __( 'Whether the Order will be auto completed after purchasing.', 'wc-serial-numbers' ) . '</p>',
-					'class'   => 'ever-field-inline',
-					'type'    => 'select',
-					'options' => array(
-						'yes' => __( 'Yes', 'wc-serial-numbers' ),
-						'no'  => __( 'No', 'wc-serial-numbers' ),
-					),
-				),
-
-				array(
-					'name'    => 'wsn_revoke_serial_number',
-					'label'   => __( 'Revoke serial number on', 'wc-serial-numbers' ),
-					'desc'    => '<p class="description">' . __( 'Choose order status, when the serial number to be removed from the order details', 'wc-serial-numbers' ) . '</p>',
-					'class'   => 'ever-field-inline',
-					'type'    => 'multicheck',
-					'options' => array(
-						'cancelled' => __( 'Cancelled', 'wc-serial-numbers' ),
-						'refunded'  => __( 'Refunded', 'wc-serial-numbers' ),
-						'failed'    => __( 'Failed', 'wc-serial-numbers' ),
-					),
-				),
-				array(
-					'name'    => 'wsn_re_use_serial',
-					'label'   => __( 'Reuse Serial Number', 'wc-serial-numbers' ),
-					'desc'    => '<p class="description">' . __( 'Enable Serial number reuse, recovered from failed/refunded orders', 'wc-serial-numbers' ) . '</p>',
-					'class'   => 'ever-field-inline',
-					'type'    => 'select',
-					'options' => array(
-						'no'  => __( 'No', 'wc-serial-numbers' ),
-						'yes' => __( 'Yes', 'wc-serial-numbers' )
-					),
-				),
-
-			)
 		);
 
 		return apply_filters( 'wc_serial_numbers_settings_fields', $settings_fields );
