@@ -128,3 +128,57 @@ function wc_serial_numbers_revoke_order_serial_numbers( $order_id, $status_from,
 }
 
 add_action( 'woocommerce_order_status_changed', 'wc_serial_numbers_revoke_order_serial_numbers', 10, 3 );
+
+
+/**
+ * Auto Complete Order
+ *
+ * @param $order
+ *
+ * @since 1.0.0
+ *
+ */
+function wc_serial_numbers_auto_complete_order_handler( $order_id ) {
+	if ( 'on' !== wc_serial_numbers_get_settings( 'auto_complete' ) ) {
+		return;
+	}
+	$order          = wc_get_order( $order_id );
+	$current_status = $order->get_status();
+	// We only want to update the status to 'completed' if it's coming from one of the following statuses:
+	//$allowed_current_statuses = array( 'on-hold', 'pending', 'failed' );
+	if ( 'processing' == $current_status ) {
+		$items = $order->get_items();
+		foreach ( $items as $item_data ) {
+			/** @var WC_Product $product */
+			$product                  = $item_data->get_product();
+			$product_id               = $product->get_id();
+			$is_serial_number_enabled = get_post_meta( $product_id, '_is_serial_number', true ); //Check if the serial number enabled for this product.
+			if ( 'yes' == $is_serial_number_enabled ) {
+				$order->update_status( 'completed' );
+				return;
+			}
+		}
+	}
+
+}
+
+add_action( 'woocommerce_thankyou', 'wc_serial_numbers_auto_complete_order_handler', 99, 1 );
+
+
+function wc_serial_numbers_set_stock_for_serial_number( $value, $product ) {
+//	if ( $product->managing_stock() && wc_st( $product->get_id() ) && ! wc_serial_numbers_is_key_source_automatic( $product->get_id() ) ) {
+//		$total_serials = wc_serial_numbers_get_serial_numbers( array(
+//			'product_id' => $product->get_id(),
+//			'number'     => - 1,
+//			'status'     => 'new',
+//		), true );
+//
+//		$total_serials = intval( $total_serials );
+//
+//		return $total_serials;
+//	}
+//
+//	return $value;
+}
+
+add_filter( 'woocommerce_product_get_stock_quantity', 'wc_serial_numbers_set_stock_for_serial_number', 10, 2 );

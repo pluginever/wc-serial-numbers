@@ -23,6 +23,13 @@ class WC_Serial_Numbers_Admin_Menu {
 			) );
 		}
 	}
+	public function serial_numbers_page() {
+		wc_serial_numbers_get_views('serial-number-page.php');
+	}
+
+	public function activations_page() {
+		wc_serial_numbers_get_views('activations-page.php');
+	}
 
 	/**
 	 * add admin bar menu item
@@ -32,9 +39,11 @@ class WC_Serial_Numbers_Admin_Menu {
 	function admin_bar_menu() {
 		global $wp_admin_bar;
 
+		$title = __( 'WC Serial Numbers', 'wc-serial-numbers' );
+
 		$wp_admin_bar->add_menu( array(
 			'id'    => 'wsn-wc-serial-numbers',
-			'title' => __( 'WC Serial Numbers', 'wc-serial-numbers' ) . apply_filters( 'wcsn_admin_bar_notification_label', false ),
+			'title' => sprintf("$title %", $this->get_notification_bubble()),
 			'href'  => admin_url( 'admin.php?page=wc-serial-numbers' ),
 			'meta'  => array(
 				'html' => apply_filters( 'wcsn_admin_bar_notification_list', '' ),
@@ -55,15 +64,15 @@ class WC_Serial_Numbers_Admin_Menu {
 			'href'   => admin_url( 'admin.php?page=wc-serial-numbers&serial_numbers_action=add_serial_number' ),
 			'parent' => 'wsn-wc-serial-numbers',
 		) );
+
 	}
 
-	public function serial_numbers_page() {
-		wc_serial_numbers_get_views('serial-number-page.php');
+
+	public function get_notification_bubble(){
+		return '<span class="wsn_admin_bar_notification"></span>';
 	}
 
-	public function activations_page() {
-		wc_serial_numbers_get_views('activations-page.php');
-	}
+
 }
 
 new WC_Serial_Numbers_Admin_Menu();

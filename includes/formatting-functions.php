@@ -22,3 +22,20 @@ function wc_serial_numbers_get_serial_number_status( $serial_number, $context = 
 
 	return 'edit' === $context ? $status : $statues[ $status ];
 }
+
+/**
+ * get expiration date
+ *
+ * since 1.0.0
+ *
+ * @param $serial
+ *
+ * @return string
+ */
+function wc_serial_numbers_get_serial_expiration_date( $serial ) {
+	if ( empty( $serial->validity ) ) {
+		return __( 'Never Expire', 'wc-serial-numbers' );
+	}
+
+	return date( 'Y-m-d', strtotime( $serial->order_date . ' + ' . $serial->validity . ' Day ' ) );
+}

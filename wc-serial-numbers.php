@@ -169,6 +169,7 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/order-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/misc-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/formatting-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/notification-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-encryption.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-ajax.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/deprecated/deprecated-functions.php' );
@@ -207,6 +208,7 @@ final class WCSerialNumbers {
 		add_action( 'activated_plugin', array( $this, 'activated_plugin' ) );
 		add_action( 'deactivated_plugin', array( $this, 'deactivated_plugin' ) );
 		add_action( 'admin_init', array( $this, 'deactivated_plugin' ) );
+		add_action( 'wcsn_hourly_event', array( $this, 'check_expired_serial_numbers' ) );
 	}
 
 
@@ -287,6 +289,33 @@ final class WCSerialNumbers {
 		return untrailingslashit( plugin_dir_path( WC_SERIAL_NUMBERS_FILE ) );
 	}
 
+	/**
+	 * Add custom cron schedule
+	 *
+	 * @param $schedules
+	 *
+	 * @return mixed
+	 */
+	public function custom_cron_schedules( $schedules ) {
+		$schedules ['once_a_minute'] = array(
+			'interval' => 60,
+			'display'  => __( 'Once a Minute', 'wc-serial-numbers' )
+		);
+
+		return $schedules;
+	}
+
+	/**
+	 * Disable all expired serial numbers
+	 *
+	 * since 1.0.0
+	 */
+	public function check_expired_serial_numbers() {
+		global $wpdb;
+		$wpdb->query( "update $wpdb->wcsn_serial_numbers set status='expired' where expire_date != '0000-00-00 00:00:00' AND expire_date < NOW()" );
+		$wpdb->query( "update $wpdb->wcsn_serial_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
+	}
+
 }
 
 function wc_serial_numbers() {
@@ -295,4 +324,3 @@ function wc_serial_numbers() {
 
 //fire off the plugin
 wc_serial_numbers();
-
