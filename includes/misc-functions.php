@@ -143,7 +143,8 @@ function wc_serial_numbers_is_encrypted_string( $string ) {
  * @return mixed|void
  */
 function wc_serial_numbers_is_allowed_duplicate_serial_numbers(){
-	return apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', false );
+	$allow_duplicate = 'on' == wc_serial_numbers_get_settings('allow_duplicate', '' );
+	return apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', $allow_duplicate );
 }
 
 /**
@@ -151,7 +152,9 @@ function wc_serial_numbers_is_allowed_duplicate_serial_numbers(){
  * @return mixed|void
  */
 function wc_serial_numbers_is_order_automatically_assign_serial_numbers(){
-	return apply_filters( 'wc_serial_numbers_order_automatically_assign_serial_numbers', true );
+	$automatic_delivery = 'on' == wc_serial_numbers_get_settings('automatic_delivery', '' );
+
+	return apply_filters( 'wc_serial_numbers_order_automatically_assign_serial_numbers', $automatic_delivery );
 }
 
 /**
@@ -159,5 +162,21 @@ function wc_serial_numbers_is_order_automatically_assign_serial_numbers(){
  * @return mixed|void
  */
 function wc_serial_numbers_is_reuse_serial_numbers(){
-	return apply_filters( 'wc_serial_numbers_reuse_serial_numbers', true );
+	$reuse = 'on' == wc_serial_numbers_get_settings('reuse_serial_numbers', '' );
+	return apply_filters( 'wc_serial_numbers_reuse_serial_numbers', $reuse );
+}
+
+
+/**
+ * @since 1.0.0
+ * @return mixed|void
+ */
+function wc_serial_numbers_auto_complete_order(){
+	$auto_complete_order = 'on' == wc_serial_numbers_get_settings('auto_complete_order', '' );
+	return apply_filters( 'wc_serial_numbers_auto_complete_order', $auto_complete_order );
+}
+
+function wc_serial_numbers_software_disabled(){
+	$disable_software = 'on' == wc_serial_numbers_get_settings('disable_software', '' );
+	return apply_filters( 'wc_serial_numbers_software_disabled', $disable_software );
 }

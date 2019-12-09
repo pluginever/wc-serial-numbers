@@ -7,6 +7,7 @@ class WC_Serial_Numbers_Admin_Menu {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 999 );
 	}
 
 	/**
@@ -15,7 +16,45 @@ class WC_Serial_Numbers_Admin_Menu {
 	function admin_menu() {
 		add_menu_page( __( 'Serial Numbers', 'wc-serial-numbers' ), __( 'Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers', array( $this, 'serial_numbers_page'  ), 'dashicons-admin-network', '55.9' );
 		add_submenu_page( 'wc-serial-numbers', __( 'Serial Numbers', 'wc-serial-numbers' ), __( 'Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers', array( $this, 'serial_numbers_page' ) );
-		add_submenu_page( 'wc-serial-numbers', __( 'Activations', 'wc-serial-numbers' ), __( 'Activations', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers-activations', array( $this, 'activations_page' ) );
+		if ( ! wc_serial_numbers_software_disabled() ) {
+			add_submenu_page( 'wc-serial-numbers', __( 'Activations', 'wc-serial-numbers' ), __( 'Activations', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers-activations', array(
+				$this,
+				'activations_page'
+			) );
+		}
+	}
+
+	/**
+	 * add admin bar menu item
+	 *
+	 * @since 1.0.0
+	 */
+	function admin_bar_menu() {
+		global $wp_admin_bar;
+
+		$wp_admin_bar->add_menu( array(
+			'id'    => 'wsn-wc-serial-numbers',
+			'title' => __( 'WC Serial Numbers', 'wc-serial-numbers' ) . apply_filters( 'wcsn_admin_bar_notification_label', false ),
+			'href'  => admin_url( 'admin.php?page=wc-serial-numbers' ),
+			'meta'  => array(
+				'html' => apply_filters( 'wcsn_admin_bar_notification_list', '' ),
+			),
+		) );
+
+		$wp_admin_bar->add_menu( array(
+			'id'     => 'wsn-serial-numbers',
+			'title'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
+			'href'   => admin_url( 'admin.php?page=wc-serial-numbers' ),
+			'parent' => 'wsn-wc-serial-numbers',
+
+		) );
+
+		$wp_admin_bar->add_menu( array(
+			'id'     => 'wsn-add-serial-number',
+			'title'  => __( 'Add Serial Number', 'wc-serial-numbers' ),
+			'href'   => admin_url( 'admin.php?page=wc-serial-numbers&serial_numbers_action=add_serial_number' ),
+			'parent' => 'wsn-wc-serial-numbers',
+		) );
 	}
 
 	public function serial_numbers_page() {

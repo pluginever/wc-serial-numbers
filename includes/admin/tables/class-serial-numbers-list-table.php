@@ -337,9 +337,10 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 		$column = '';
 		switch ( $column_name ) {
 			case 'product':
-				$post       = get_post( $item->product_id );
-				$product_id = $post->post_parent ? $post->post_parent : $item->product_id;
-				$column     = empty( $item->product_id ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', get_edit_post_link( $product_id ), $product_id, get_the_title( $item->product_id ) );
+				$product = wc_get_product( $item->product_id );
+				$post_parent = wp_get_post_parent_id($item->product_id);
+				$post_id = $post_parent? $post_parent : $item->product_id;
+				$column     = empty( $item->product_id ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', get_edit_post_link( $post_id ), $product->get_id(), $product->get_formatted_name() );
 				break;
 			case 'order':
 				$line   = ! empty( $item->order_id ) ? '#' . $item->order_id : '&mdash;';

@@ -100,16 +100,17 @@ class WC_Serial_Numbers_MetaBoxes {
 			if ( ! wc_serial_numbers()->is_pro_active() ) {
 				echo sprintf( '<p>%s <a href="%s" target="_blank">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order? Upgrade to Pro', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 			}
-
-			woocommerce_wp_text_input(
-				array(
-					'id'          => '_software_version',
-					'label'       => __( 'Software Version', 'wc-serial-numbers' ),
-					'description' => __( 'Version number for the software. If its not a software product ignore this.', 'wc-serial-numbers' ),
-					'placeholder' => __( 'e.g. 1.0', 'wc-serial-numbers' ),
-					'desc_tip'    => true,
-				)
-			);
+			if ( ! wc_serial_numbers_software_disabled() ) {
+				woocommerce_wp_text_input(
+					array(
+						'id'          => '_software_version',
+						'label'       => __( 'Software Version', 'wc-serial-numbers' ),
+						'description' => __( 'Version number for the software. If its not a software product ignore this.', 'wc-serial-numbers' ),
+						'placeholder' => __( 'e.g. 1.0', 'wc-serial-numbers' ),
+						'desc_tip'    => true,
+					)
+				);
+			}
 
 			echo sprintf(
 				'<p class="form-field"><label>%s</label><span class="description">%d %s</span></p>',
@@ -135,7 +136,9 @@ class WC_Serial_Numbers_MetaBoxes {
 		}
 
 		update_post_meta( $post->ID, '_delivery_quantity', ! empty( $_POST['_delivery_quantity'] ) ? intval( $_POST['_delivery_quantity'] ) : '1' );
-		update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
+		if ( ! wc_serial_numbers_software_disabled() ) {
+			update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
+		}
 		do_action( 'wc_serial_numbers_save_simple_product_meta', $post );
 	}
 
@@ -153,9 +156,11 @@ class WC_Serial_Numbers_MetaBoxes {
 
 			return false;
 		}
-		wc_serial_numbers_get_views('ordered-serial-numbers.php', ['serial_numbers' => $serial_numbers,'order_id' => $order->ID]);
+		wc_serial_numbers_get_views( 'ordered-serial-numbers.php', [
+			'serial_numbers' => $serial_numbers,
+			'order_id'       => $order->ID
+		] );
 	}
-
 
 	public static function print_style() {
 		echo sprintf(

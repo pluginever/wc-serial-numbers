@@ -56,9 +56,9 @@ class WC_Serial_Numbers_Settings {
 					'checked' => '',
 				),
 				array(
-					'name'    => 'disable_automatic_delivery',
-					'label'   => __( 'Disable Automatic delivery', 'wc-serial-numbers' ),
-					'desc'    => __( 'Disable automatically sending serial numbers when an order is set to Complete', 'wc-serial-numbers' ),
+					'name'    => 'automatic_delivery',
+					'label'   => __( 'Automatic delivery', 'wc-serial-numbers' ),
+					'desc'    => __( 'Automatically assign serial numbers with completed order', 'wc-serial-numbers' ),
 					'default' => '',
 					'class'   => 'ever-field-inline',
 					'type'    => 'checkbox',
@@ -74,15 +74,32 @@ class WC_Serial_Numbers_Settings {
 					'checked' => '',
 				),
 				array(
-					'name'    => 'hide_serial_number',
-					'label'   => __( 'Hide serial key', 'wc-serial-numbers' ),
-					'desc'    => __( 'Hide serial key in admin dashboard table', 'wc-serial-numbers' ),
-					'default' => 'on',
+					'name'    => 'allow_duplicate',
+					'label'   => __( 'Allow Duplicate', 'wc-serial-numbers' ),
+					'desc'    => __( 'will create duplicate serial numbers for each products', 'wc-serial-numbers' ),
+					'default' => '',
 					'class'   => 'ever-field-inline',
 					'type'    => 'checkbox',
 					'checked' => '',
 				),
-
+				array(
+					'name'    => 'autocomplete_order',
+					'label'   => __( 'Autocomplete Order', 'wc-serial-numbers' ),
+					'desc'    => __( 'will automatically complete order upon successful payment', 'wc-serial-numbers' ),
+					'default' => '',
+					'class'   => 'ever-field-inline',
+					'type'    => 'checkbox',
+					'checked' => '',
+				),
+				array(
+					'name'    => 'disable_software',
+					'label'   => __( 'Disable Software', 'wc-serial-numbers' ),
+					'desc'    => __( 'will disable all the features related to software API', 'wc-serial-numbers' ),
+					'default' => '',
+					'class'   => 'ever-field-inline',
+					'type'    => 'checkbox',
+					'checked' => '',
+				)
 			),
 
 			'wsn_serial_generator_settings' => array(

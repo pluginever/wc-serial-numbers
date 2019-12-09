@@ -162,6 +162,7 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-install.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-update.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/serial-numbers-functions.php' );
+		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/activation-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/product-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/checkout-functions.php' );
@@ -170,12 +171,14 @@ final class WCSerialNumbers {
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/formatting-functions.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-encryption.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-ajax.php' );
-		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-api.php' );
 		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/deprecated/deprecated-functions.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-serial-number.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-activations.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-product.php' );
 //		require_once( WC_SERIAL_NUMBERS_INCLUDES . '/hook-functions.php' );
+		if ( ! wc_serial_numbers_software_disabled() ) {
+			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-api.php' );
+		}
 
 		if ( is_admin() ) {
 			require_once( WC_SERIAL_NUMBERS_INCLUDES . '/class-form.php' );

@@ -47,7 +47,7 @@ class WC_Serial_Numbers_Ajax {
 			$text = sprintf(
 				'(#%1$s) %2$s',
 				$product->get_id(),
-				$product->get_formatted_name()
+				html_entity_decode($product->get_formatted_name())
 			);
 
 			$results[] = array(

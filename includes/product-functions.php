@@ -44,6 +44,9 @@ function wc_serial_numbers_get_products( $args = array(), $count = false ) {
 	$post_types  = implode( "','", $post_types );
 	$query_where .= " AND $wpdb->posts.post_type IN ('$post_types')";
 
+	$query_where .= " AND $wpdb->posts.ID NOT IN (SELECT post_parent FROM $wpdb->posts WHERE post_type='product_variation') ";
+
+
 	//if serial_number
 	if ( $args['serial_number'] ) {
 		$query_where .= " AND $wpdb->posts.ID IN ( SELECT post_id from $wpdb->postsmeta WHERE meta_key='_is_serial_number' AND meta_value='yes') ";

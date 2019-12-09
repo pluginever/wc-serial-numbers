@@ -58,33 +58,33 @@ echo sprintf( '<a href="%s" class="page-title-action">%s</a>', $base_url, sprint
 							'required'    => true,
 							'description' => __( 'Your secret number, supports multiline.', 'wc-serial-numbers' ) . '<br><strong>Example: d555b5ae-d9a6-41cb-ae54-361427357382',
 						] );
+						if ( ! wc_serial_numbers_software_disabled() ) {
+							echo WC_Serial_Numbers_Form::input_control( [
+								'label'       => __( 'Activation Limit', 'wc-serial-numbers' ),
+								'name'        => 'activation_limit',
+								'type'        => 'number',
+								'value'       => ! empty( $serial_number->activation_limit ) ? $serial_number->activation_limit : '0',
+								'required'    => false,
+								'icon'        => 'dashicons dashicons-lock',
+								'description' => __( 'Maximum number of times the key can be used to activate specially software. If the product is not software keep blank.', 'wc-serial-numbers' ),
+								'attrs'       => array(
+									'min' => '1',
+								)
+							] );
 
-						echo WC_Serial_Numbers_Form::input_control( [
-							'label'       => __( 'Activation Limit', 'wc-serial-numbers' ),
-							'name'        => 'activation_limit',
-							'type'        => 'number',
-							'value'       => ! empty( $serial_number->activation_limit ) ? $serial_number->activation_limit : '0',
-							'required'    => false,
-							'icon'        => 'dashicons dashicons-lock',
-							'description' => __( 'Maximum number of times the key can be used to activate specially software. If the product is not software keep blank.', 'wc-serial-numbers' ),
-							'attrs'       => array(
-								'min' => '1',
-							)
-						] );
-
-						echo WC_Serial_Numbers_Form::input_control( [
-							'label'       => __( 'Validity', 'wc-serial-numbers' ),
-							'name'        => 'validity',
-							'type'        => 'number',
-							'value'       => ! empty( $serial_number->validity ) ? $serial_number->validity : '0',
-							'required'    => false,
-							'icon'        => 'dashicons dashicons-clock',
-							'description' => __( 'The number of days after purchase the key will be valid', 'wc-serial-numbers' ),
-							'attrs'       => array(
-								'min' => '1',
-							)
-						] );
-
+							echo WC_Serial_Numbers_Form::input_control( [
+								'label'       => __( 'Validity', 'wc-serial-numbers' ),
+								'name'        => 'validity',
+								'type'        => 'number',
+								'value'       => ! empty( $serial_number->validity ) ? $serial_number->validity : '0',
+								'required'    => false,
+								'icon'        => 'dashicons dashicons-clock',
+								'description' => __( 'The number of days after purchase the key will be valid', 'wc-serial-numbers' ),
+								'attrs'       => array(
+									'min' => '1',
+								)
+							] );
+						}
 						echo WC_Serial_Numbers_Form::input_control( [
 							'label'       => __( 'Expire Date', 'wc-serial-numbers' ),
 							'name'        => 'expire_date',

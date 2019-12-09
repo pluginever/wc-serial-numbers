@@ -277,15 +277,16 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 					'serial_id' => $item->serial_id,
 					'page'      => 'wc-serial-numbers',
 				], admin_url( 'admin.php' ) );
-				$column = empty( $item->instance ) ? '&mdash;' : sprintf('<strong><a href="%1$s" target="_blank">#%2$s</a></strong>',$serial_number_url, $item->serial_id );
+				$column            = empty( $item->instance ) ? '&mdash;' : sprintf( '<strong><a href="%1$s" target="_blank">#%2$s</a></strong>', $serial_number_url, $item->serial_id );
 				break;
 			case 'platform':
 				$column = empty( $item->platform ) ? '&mdash;' : $item->platform;
 				break;
 			case 'product':
-				$post       = get_post( $item->product_id );
-				$product_id = $post->post_parent ? $post->post_parent : $item->product_id;
-				$column     = empty( $item->product_id ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', get_edit_post_link( $product_id ), $product_id, get_the_title( $item->product_id ) );
+				$product     = wc_get_product( $item->product_id );
+				$post_parent = wp_get_post_parent_id( $item->product_id );
+				$post_id     = $post_parent ? $post_parent : $item->product_id;
+				$column      = empty( $item->product_id ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', get_edit_post_link( $post_id ), $product->get_id(), $product->get_formatted_name() );
 				break;
 			case 'order':
 				$line   = ! empty( $item->order_id ) ? '#' . $item->order_id : '&mdash;';
@@ -330,9 +331,9 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 				if ( 'delete' === $this->current_action() ) {
 					$wpdb->delete( $wpdb->wcsn_activations, $where );
 				} else if ( 'activate' === $this->current_action() ) {
-					$wpdb->query($wpdb->prepare("UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 1, $id));
+					$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 1, $id ) );
 				} else if ( 'deactivate' === $this->current_action() ) {
-					$wpdb->query($wpdb->prepare("UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 0, $id));
+					$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 0, $id ) );
 				}
 
 			}
