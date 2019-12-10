@@ -39,3 +39,17 @@ function wc_serial_numbers_get_serial_expiration_date( $serial ) {
 
 	return date( 'Y-m-d', strtotime( $serial->order_date . ' + ' . $serial->validity . ' Day ' ) );
 }
+
+/**
+ * since 1.0.0
+ * @param $serial
+ *
+ * @return string|void
+ */
+function wc_serial_numbers_get_serial_activation_limit($serial){
+	if ( empty( $serial->activation_limit ) ) {
+		return __( 'Unlimited', 'wc-serial-numbers' );
+	}
+
+	return $serial->activation_limit;
+}

@@ -35,6 +35,10 @@ function wc_serial_numbers_labels( $key = 'serial_number', $plural = false ) {
 			'singular' => __( 'Activation', 'wc-serial-numbers' ),
 			'plural'   => __( 'Activations', 'wc-serial-numbers' ),
 		),
+		'serial_key'    => array(
+			'singular' => __( 'Activation', 'wc-serial-numbers' ),
+			'plural'   => __( 'Activations', 'wc-serial-numbers' ),
+		),
 	) );
 
 	$label_group = array_key_exists( $key, $labels ) ? $labels[ $key ] : $labels['serial_number'];

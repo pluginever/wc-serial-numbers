@@ -182,3 +182,52 @@ function wc_serial_numbers_set_stock_for_serial_number( $value, $product ) {
 }
 
 add_filter( 'woocommerce_product_get_stock_quantity', 'wc_serial_numbers_set_stock_for_serial_number', 10, 2 );
+
+/**
+ * since 1.0.0
+ * @param $order
+ */
+function wc_serial_numbers_customer_send_serial_numbers($order){
+
+	$order_id = version_compare( WC_VERSION, '3.0', '<' ) ? $order->id : $order->get_id();
+
+	$order    = wc_get_order( $order_id );
+	if ( 'completed' !== $order->get_status( 'edit' ) ) {
+		return;
+	}
+
+	$serial_numbers = wc_serial_numbers_get_serial_numbers([
+		'order_id' => $order_id,
+		'number' => - 1
+	]);
+
+	if ( empty( $serial_numbers ) ) {
+		return;
+	}
+
+	wc_serial_numbers_get_views( 'order-serial-numbers-table.php', array( 'serial_numbers' => $serial_numbers ));
+}
+
+add_action( 'woocommerce_email_after_order_table', 'wc_serial_numbers_customer_send_serial_numbers');
+
+
+function wc_serial_numbers_order_table_serial_number_details($order){
+	$order_id = version_compare( WC_VERSION, '3.0', '<' ) ? $order->id : $order->get_id();
+
+	$order    = wc_get_order( $order_id );
+	if ( 'completed' !== $order->get_status( 'edit' ) ) {
+		return;
+	}
+
+	$serial_numbers = wc_serial_numbers_get_serial_numbers([
+		'order_id' => $order_id,
+		'number' => - 1
+	]);
+
+	if ( empty( $serial_numbers ) ) {
+		return;
+	}
+
+	wc_serial_numbers_get_views( 'order-serial-numbers-table.php', array( 'serial_numbers' => $serial_numbers ));
+}
+add_action( 'woocommerce_order_details_after_order_table', 'wc_serial_numbers_order_table_serial_number_details' );

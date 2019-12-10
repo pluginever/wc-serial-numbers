@@ -145,3 +145,6 @@ function wc_serial_numbers_send_stock_email_notification() {
 }
 
 add_action( 'wc_serial_numbers_daily_event', 'wc_serial_numbers_send_stock_email_notification' );
+
+
+
