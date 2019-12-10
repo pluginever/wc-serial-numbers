@@ -7,3 +7,5 @@
 //add promotion
 //add user id customer id
 //alter platform default value
+//remove unused cron
+//remove cron wcsn_per_minute_event

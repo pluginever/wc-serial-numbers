@@ -56,8 +56,9 @@ function wc_serial_numbers_get_views( $template_name, $args = [] ) {
 	if ( $args && is_array( $args ) ) {
 		extract( $args );
 	}
-	if ( file_exists( WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/views/' . $template_name ) ) {
-		include apply_filters( 'wc_serial_numbers_views', WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/views/' . $template_name, $template_name );
+
+	if ( file_exists( WC_SERIAL_NUMBERS_PATH . '/includes/admin/views/' . $template_name ) ) {
+		include apply_filters( 'wc_serial_numbers_views', WC_SERIAL_NUMBERS_PATH . '/includes/admin/views/' . $template_name, $template_name );
 	}
 }
 

@@ -38,15 +38,17 @@ class WC_Serial_Numbers_Admin_Menu {
 	 */
 	function admin_bar_menu() {
 		global $wp_admin_bar;
-
 		$title = __( 'WC Serial Numbers', 'wc-serial-numbers' );
+		if('on' == wc_serial_numbers_get_settings('low_stock_alert') && current_user_can('manage_woocommerce')){
+			$title .= '<span class="wsn_admin_bar_notification"></span>';
+		}
 
 		$wp_admin_bar->add_menu( array(
-			'id'    => 'wsn-wc-serial-numbers',
-			'title' => sprintf("$title %", $this->get_notification_bubble()),
+			'id'    => 'wc-serial-numbers',
+			'title' => $title,
 			'href'  => admin_url( 'admin.php?page=wc-serial-numbers' ),
 			'meta'  => array(
-				'html' => apply_filters( 'wcsn_admin_bar_notification_list', '' ),
+				'html' => $this->get_low_stock_list(),
 			),
 		) );
 
@@ -54,7 +56,7 @@ class WC_Serial_Numbers_Admin_Menu {
 			'id'     => 'wsn-serial-numbers',
 			'title'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
 			'href'   => admin_url( 'admin.php?page=wc-serial-numbers' ),
-			'parent' => 'wsn-wc-serial-numbers',
+			'parent' => 'wc-serial-numbers',
 
 		) );
 
@@ -62,14 +64,25 @@ class WC_Serial_Numbers_Admin_Menu {
 			'id'     => 'wsn-add-serial-number',
 			'title'  => __( 'Add Serial Number', 'wc-serial-numbers' ),
 			'href'   => admin_url( 'admin.php?page=wc-serial-numbers&serial_numbers_action=add_serial_number' ),
-			'parent' => 'wsn-wc-serial-numbers',
+			'parent' => 'wc-serial-numbers',
 		) );
 
 	}
 
+	public function get_low_stock_list(){
+		if('on' !== wc_serial_numbers_get_settings('low_stock_alert')){
+			return '';
+		}
 
-	public function get_notification_bubble(){
-		return '<span class="wsn_admin_bar_notification"></span>';
+		$low_stock_products = wc_serial_numbers_get_low_stocked_products();
+		if(empty($low_stock_products)){
+			return '';
+		}
+		ob_start();
+		wc_serial_numbers_get_views('notification-list.php', compact('low_stock_products'));
+		$html = ob_get_contents();
+		ob_get_clean();
+		return $html;
 	}
 
 

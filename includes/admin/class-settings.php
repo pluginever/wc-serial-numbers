@@ -46,15 +46,6 @@ class WC_Serial_Numbers_Settings {
 		$settings_fields = array(
 			'wc_serial_numbers_settings' => array(
 				array(
-					'name'    => 'enable_api',
-					'label'   => __( 'Disable API', 'wc-serial-numbers' ),
-					'desc'    => __( 'Will eliminate all features related to API', 'wc-serial-numbers' ),
-					'default' => 'on',
-					'class'   => 'ever-field-inline',
-					'type'    => 'checkbox',
-					'checked' => '',
-				),
-				array(
 					'name'    => 'automatic_delivery',
 					'label'   => __( 'Automatic delivery', 'wc-serial-numbers' ),
 					'desc'    => __( 'Automatically assign serial numbers with completed order', 'wc-serial-numbers' ),
@@ -109,9 +100,18 @@ class WC_Serial_Numbers_Settings {
 					'checked' => '',
 				),
 				array(
+					'name'    => 'low_stock_alert',
+					'label'   => __( 'Low Stock Alert', 'wc-serial-numbers' ),
+					'desc'    => __( 'Enable low stock admin alert ', 'wc-serial-numbers' ),
+					'default' => '',
+					'class'   => 'ever-field-inline',
+					'type'    => 'checkbox',
+					'checked' => '',
+				),
+				array(
 					'name'    => 'low_stock_notification',
 					'label'   => __( 'Low Stock Notification', 'wc-serial-numbers' ),
-					'desc'    => __( 'Enable/disable low stock notification ', 'wc-serial-numbers' ),
+					'desc'    => __( 'Enable low stock email notification ', 'wc-serial-numbers' ),
 					'default' => '',
 					'class'   => 'ever-field-inline',
 					'type'    => 'checkbox',

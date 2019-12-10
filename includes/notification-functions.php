@@ -7,17 +7,17 @@ function wc_serial_numbers_admin_bar_notification_styles() {
 	}
 	?>
 	<style>
-		#wp-admin-bar-wsn-wc-serial-numbers .wsn_admin_bar_notification {
+		#wp-admin-bar-wc-serial-numbers .wsn_admin_bar_notification {
 			padding-right: 25px
 		}
 
-		#wp-admin-bar-wsn-wc-serial-numbers .ever-notification {
+		#wp-admin-bar-wc-serial-numbers .ever-notification {
 			position: absolute;
 			right: 3px;
 			top: 0
 		}
 
-		#wp-admin-bar-wsn-wc-serial-numbers .ever-notification > .alert {
+		#wp-admin-bar-wc-serial-numbers .ever-notification > .alert {
 			background: #fff;
 			padding: 0 5px 0 3px;
 			border-radius: 5px;
@@ -25,13 +25,13 @@ function wc_serial_numbers_admin_bar_notification_styles() {
 			cursor: pointer
 		}
 
-		#wp-admin-bar-wsn-wc-serial-numbers .ever-notification:hover + .ever-notification-list {
+		#wp-admin-bar-wc-serial-numbers .ever-notification:hover + .ever-notification-list {
 			display: -webkit-box;
 			display: -webkit-flex;
 			display: flex
 		}
 
-		#wp-admin-bar-wsn-wc-serial-numbers .ever-notification-list {
+		#wp-admin-bar-wc-serial-numbers .ever-notification-list {
 			position: fixed;
 			color: #f0fafe;
 			background: #333;
@@ -46,23 +46,25 @@ function wc_serial_numbers_admin_bar_notification_styles() {
 			overflow-y: scroll
 		}
 
-		#wp-admin-bar-wsn-wc-serial-numbers .ever-notification-list:hover {
+		#wp-admin-bar-wc-serial-numbers .ever-notification-list:hover {
 			display: -webkit-box;
 			display: -webkit-flex;
 			display: flex
 		}
 
-		#wp-admin-bar-wsn-wc-serial-numbers .ever-notification-list.alert > li {
+		#wp-admin-bar-wc-serial-numbers .ever-notification-list.alert > li {
 			border-left: 5px solid red;
 			padding: 0 15px 0 10px;
-			margin: 5px 0;
+			margin: 2px 0;
 			font-size: 14px
 		}
 
-		#wp-admin-bar-wsn-wc-serial-numbers .ever-notification-list.alert > li > a {
+		#wp-admin-bar-wc-serial-numbers .ever-notification-list.alert > li > a {
 			display: inline;
-			padding: 0
+			padding: 0;
+			color: #ffffff !important;
 		}
+
 	</style>
 
 <?php }
@@ -87,7 +89,7 @@ function wc_serial_numbers_get_low_stocked_products( $force = false, $stock = 10
 		$serial_counts = wp_list_pluck( $serial_counts, 'count', 'product_id' );
 		$product_ids   = wp_list_pluck( $product_ids, 'count', 'product_id' );
 		$low_stocks    = array_replace( $product_ids, $serial_counts );
-		set_transient( $transient, $low_stocks, time() + 60 * 60 );
+		set_transient( $transient, $low_stocks, time() + 60 * 20 );
 	}
 
 	return $low_stocks;
@@ -104,10 +106,42 @@ function wc_serial_numbers_send_low_stock_notification() {
 	if ( empty( $low_stocked_products ) ) {
 		return false;
 	}
-
-
-
-
 }
 
 add_action( 'wcsn_hourly_event', 'wc_serial_numbers_send_low_stock_notification' );
+
+function wc_serial_numbers_send_stock_email_notification() {
+	$notification = wc_serial_numbers_get_settings( 'low_stock_notification', false );
+	if ( ! $notification ) {
+		return false;
+	}
+
+	$stock_threshold    = wc_serial_numbers_get_settings( 'low_stock_threshold', 10 );
+	$to = wc_serial_numbers_get_settings( 'low_stock_notification_email', '' );
+	if ( empty( $to ) ) {
+		return false;
+	}
+
+	$low_stock_products = wc_serial_numbers_get_low_stocked_products( $stock_threshold, true );
+	if ( empty( $low_stock_products ) ) {
+		return false;
+	}
+
+	$subject = __( 'Serial Numbers stock running low', 'wc-serial-numbers' );
+	/** $woocommerce WooCommerce */
+	global $woocommerce;
+	$mailer = $woocommerce->mailer();
+
+	ob_start();
+	wc_serial_numbers_get_views('email-notification-body.php', compact('low_stock_products'));
+	$message = ob_get_contents();
+	ob_get_clean();
+
+	$message = $mailer->wrap_message( $subject, $message );
+	$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message' );
+	$mailer->send( $to, $subject, $message, $headers, array() );
+
+	exit();
+}
+
+add_action( 'wc_serial_numbers_daily_event', 'wc_serial_numbers_send_stock_email_notification' );
