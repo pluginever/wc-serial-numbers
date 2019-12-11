@@ -60,6 +60,7 @@ function wc_serial_numbers_order_product_assign_serial_numbers_handler( $product
 		wc_serial_numbers_insert_serial_number( array(
 			'id'               => $serial_number_id,
 			'order_id'         => $order_id,
+			'customer_id'      => get_post_meta( $order_id, '_customer_user', true ),
 			'activation_email' => $order->get_billing_email( 'edit' ),
 			'order_date'       => current_time( 'mysql' ),
 			'status'           => 'active'
@@ -116,6 +117,7 @@ function wc_serial_numbers_revoke_order_serial_numbers( $order_id, $status_from,
 			if ( $reuse ) {
 				$args = array_merge( $args, array(
 					'status'           => 'available',
+					'customer_id'      => '',
 					'order_id'         => '',
 					'activation_email' => '',
 					'order_date'       => '',
@@ -155,6 +157,7 @@ function wc_serial_numbers_auto_complete_order_handler( $order_id ) {
 			$is_serial_number_enabled = get_post_meta( $product_id, '_is_serial_number', true ); //Check if the serial number enabled for this product.
 			if ( 'yes' == $is_serial_number_enabled ) {
 				$order->update_status( 'completed' );
+
 				return;
 			}
 		}
@@ -185,49 +188,51 @@ add_filter( 'woocommerce_product_get_stock_quantity', 'wc_serial_numbers_set_sto
 
 /**
  * since 1.0.0
+ *
  * @param $order
  */
-function wc_serial_numbers_customer_send_serial_numbers($order){
+function wc_serial_numbers_customer_send_serial_numbers( $order ) {
 
 	$order_id = version_compare( WC_VERSION, '3.0', '<' ) ? $order->id : $order->get_id();
 
-	$order    = wc_get_order( $order_id );
+	$order = wc_get_order( $order_id );
 	if ( 'completed' !== $order->get_status( 'edit' ) ) {
 		return;
 	}
 
-	$serial_numbers = wc_serial_numbers_get_serial_numbers([
+	$serial_numbers = wc_serial_numbers_get_serial_numbers( [
 		'order_id' => $order_id,
-		'number' => - 1
-	]);
+		'number'   => - 1
+	] );
 
 	if ( empty( $serial_numbers ) ) {
 		return;
 	}
 
-	wc_serial_numbers_get_views( 'order-serial-numbers-table.php', array( 'serial_numbers' => $serial_numbers ));
+	wc_serial_numbers_get_views( 'order-serial-numbers-table.php', array( 'serial_numbers' => $serial_numbers ) );
 }
 
-add_action( 'woocommerce_email_after_order_table', 'wc_serial_numbers_customer_send_serial_numbers');
+add_action( 'woocommerce_email_after_order_table', 'wc_serial_numbers_customer_send_serial_numbers' );
 
 
-function wc_serial_numbers_order_table_serial_number_details($order){
+function wc_serial_numbers_order_table_serial_number_details( $order ) {
 	$order_id = version_compare( WC_VERSION, '3.0', '<' ) ? $order->id : $order->get_id();
 
-	$order    = wc_get_order( $order_id );
+	$order = wc_get_order( $order_id );
 	if ( 'completed' !== $order->get_status( 'edit' ) ) {
 		return;
 	}
 
-	$serial_numbers = wc_serial_numbers_get_serial_numbers([
+	$serial_numbers = wc_serial_numbers_get_serial_numbers( [
 		'order_id' => $order_id,
-		'number' => - 1
-	]);
+		'number'   => - 1
+	] );
 
 	if ( empty( $serial_numbers ) ) {
 		return;
 	}
 
-	wc_serial_numbers_get_views( 'order-serial-numbers-table.php', array( 'serial_numbers' => $serial_numbers ));
+	wc_serial_numbers_get_views( 'order-serial-numbers-table.php', array( 'serial_numbers' => $serial_numbers ) );
 }
+
 add_action( 'woocommerce_order_details_after_order_table', 'wc_serial_numbers_order_table_serial_number_details' );

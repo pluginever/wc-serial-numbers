@@ -77,6 +77,11 @@ function wcsn_update_1_2_0() {
 
 	$order = $wpdb->get_col( "SELECT distinct  order_id from $wpdb->wcsn_serials_numbers WHERE order_id !='' AND order_id !='0'" );
 	foreach ( $order as $order_id ) {
+		$customer_id = get_post_meta($order_id, '_customer_user', true );
+		if(!empty($customer_id)){
+			$wpdb->query($wpdb->prepare("UPDATE $wpdb->wcsn_serials_numbers SET customer_id=%d WHERE order_id=%d", $customer_id, $order_id));
+		}
+
 		$result  = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) total from $wpdb->wcsn_serials_numbers WHERE order_id=%d AND status !='active'", $order_id ) );
 		$serials = wp_list_pluck( $result, 'total', 'product_id' );
 		$meta    = array_filter( $serials);
@@ -85,6 +90,7 @@ function wcsn_update_1_2_0() {
 		}
 
 		update_post_meta($order_id, 'wc_serial_numbers_products', $meta);
+
 	}
 
 }

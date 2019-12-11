@@ -44,7 +44,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 	}
 
 	$statuses = wc_serial_numbers_get_serial_number_statuses();
-
+	$default_vendor = get_user_by('email', get_option('admin_email'));
 	$data = array(
 		'id'               => empty( $args['id'] ) ? null : absint( $args['id'] ),
 		'serial_key'       => isset( $args['serial_key'] ) ? sanitize_textarea_field( $args['serial_key'] ) : '',
@@ -52,6 +52,8 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		'product_id'       => isset( $args['product_id'] ) ? absint( $args['product_id'] ) : null,
 		'activation_limit' => isset( $args['activation_limit'] ) ? absint( $args['activation_limit'] ) : '1',
 		'order_id'         => isset( $args['order_id'] ) ? absint( $args['order_id'] ) : '',
+		'customer_id'      => isset( $args['customer_id'] ) ? absint( $args['customer_id'] ) : '',
+		'vendor_id'        => isset( $args['vendor_id'] ) ? absint( $args['vendor_id'] ) : $default_vendor->ID,
 		'activation_email' => isset( $args['activation_email'] ) ? sanitize_email( $args['activation_email'] ) : null,
 		'status'           => isset( $args['status'] ) && array_key_exists( $args['status'], $statuses ) ? sanitize_key( $args['status'] ) : 'new',
 		'validity'         => isset( $args['validity'] ) ? absint( $args['validity'] ) : '',
