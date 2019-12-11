@@ -355,6 +355,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		$search     = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
 		$product_id = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
 		$order_id   = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
+		$serial_id   = isset( $_GET['serial_id'] ) ? absint( $_GET['serial_id'] ) : '';
 
 
 		$args = array(
@@ -364,6 +365,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			'order'      => $order,
 			'status'     => $status,
 			'product_id' => $product_id,
+			'serial_id' => $serial_id,
 			'order_id'   => $order_id,
 			'search'     => $search
 		);

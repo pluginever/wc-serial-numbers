@@ -177,7 +177,7 @@ function wc_serial_numbers_is_reuse_serial_numbers(){
  * @return mixed|void
  */
 function wc_serial_numbers_auto_complete_order(){
-	$auto_complete_order = 'on' == wc_serial_numbers_get_settings('auto_complete_order', '' );
+	$auto_complete_order = 'on' == wc_serial_numbers_get_settings('autocomplete_order', '' );
 	return apply_filters( 'wc_serial_numbers_auto_complete_order', $auto_complete_order );
 }
 

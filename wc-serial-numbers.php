@@ -208,7 +208,7 @@ final class WCSerialNumbers {
 		add_action( 'activated_plugin', array( $this, 'activated_plugin' ) );
 		add_action( 'deactivated_plugin', array( $this, 'deactivated_plugin' ) );
 		add_action( 'admin_init', array( $this, 'deactivated_plugin' ) );
-		add_action( 'wcsn_hourly_event', array( $this, 'check_expired_serial_numbers' ) );
+		add_action( 'wc_serial_numbers_hourly_event', array( $this, 'check_expired_serial_numbers' ) );
 	}
 
 
@@ -312,8 +312,8 @@ final class WCSerialNumbers {
 	 */
 	public function check_expired_serial_numbers() {
 		global $wpdb;
-		$wpdb->query( "update $wpdb->wcsn_serial_numbers set status='expired' where expire_date != '0000-00-00 00:00:00' AND expire_date < NOW()" );
-		$wpdb->query( "update $wpdb->wcsn_serial_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
+		$wpdb->query( "update $wpdb->wcsn_serials_numbers set status='expired' where expire_date != '0000-00-00 00:00:00' AND expire_date < NOW()" );
+		$wpdb->query( "update $wpdb->wcsn_serials_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
 	}
 
 }

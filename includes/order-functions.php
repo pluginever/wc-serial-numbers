@@ -139,7 +139,7 @@ add_action( 'woocommerce_order_status_changed', 'wc_serial_numbers_revoke_order_
  *
  */
 function wc_serial_numbers_auto_complete_order_handler( $order_id ) {
-	if ( 'on' !== wc_serial_numbers_get_settings( 'auto_complete' ) ) {
+	if ( 'on' !== wc_serial_numbers_get_settings( 'autocomplete_order' ) ) {
 		return;
 	}
 	$order          = wc_get_order( $order_id );

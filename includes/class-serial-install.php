@@ -40,7 +40,7 @@ class WC_Serial_Numbers_Install {
 			activation_limit int(9) NULL,
 			order_id bigint(20) NOT NULL DEFAULT 0,
 			customer_id bigint(20) NOT NULL DEFAULT 0,
-			user_id bigint(20) NOT NULL DEFAULT 0,
+			vendor_id bigint(20) NOT NULL DEFAULT 0,
 			activation_email varchar(200) DEFAULT NULL,
 			status varchar(50) DEFAULT 'available',
 			validity varchar(200) DEFAULT NULL,
@@ -50,6 +50,9 @@ class WC_Serial_Numbers_Install {
 			PRIMARY KEY  (id),
 			key product_id (product_id),
 			key order_id (order_id),
+			key customer_id (customer_id),
+			key vendor_id (vendor_id),
+			key activation_limit (activation_limit),
 			key status (status)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
 
@@ -61,7 +64,8 @@ class WC_Serial_Numbers_Install {
 			  platform varchar(200) DEFAULT NULL,
 			  activation_time DATETIME NULL DEFAULT NULL,
 			  PRIMARY KEY  (id),
-			  key serial_id (serial_id)
+			  key serial_id (serial_id),
+			  key active (active)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
 		];
 
@@ -73,7 +77,7 @@ class WC_Serial_Numbers_Install {
 	/**
 	 * @since 1.2.0
 	 */
-	public static function create_default_data(){
+	public static function create_default_data() {
 		$key     = sanitize_key( wc_serial_numbers()->plugin_name );
 		$version = get_option( $key . '_version', '0' );
 		if ( empty( $version ) ) {
@@ -85,43 +89,25 @@ class WC_Serial_Numbers_Install {
 			update_option( $key . '_install_time', current_time( 'timestamp' ) );
 		}
 
-		$general_settings = array(
-			'wsn_rows_per_page'  => '20',
-			'wsn_allow_checkout' => 'no',
-		);
-
-		$saved_general_settings = get_option( 'wsn_general_settings' );
-		if ( empty( $saved_general_settings ) ) {
-			update_option( 'wsn_general_settings', $general_settings );
+		$saved_notification_settings = get_option( 'wc_serial_numbers_settings' );
+		if ( !empty( $saved_notification_settings ) ) {
+			return ;
 		}
 
-		$delivery_settings = array(
-			'wsn_auto_complete_order'  => 'no',
-			'wsn_re_use_serial'        => 'no',
-			'wsn_send_serial_number'   => 'completed',
-			'wsn_revoke_serial_number' => array(
-				'cancelled' => 'cancelled',
-				'refunded'  => 'refunded',
-				'failed'    => 'failed',
-			),
+		$settings = array(
+			'automatic_delivery'           => 'on',
+			'reuse_serial_numbers'         => 'off',
+			'allow_duplicate'              => 'off',
+			'autocomplete_order'           => 'on',
+			'disable_software'             => 'off',
+			'low_stock_alert'              => 'on',
+			'low_stock_notification'       => 'on',
+			'low_stock_threshold'          => '10',
+			'low_stock_notification_email' => get_option( 'admin_email' ),
 		);
 
-		$saved_delivery_settings = get_option( 'wsn_delivery_settings' );
-		if ( empty( $saved_delivery_settings ) ) {
-			update_option( 'wsn_delivery_settings', $delivery_settings );
-		}
+		update_option('wc_serial_numbers_settings', $settings);
 
-		$notification_settings = array(
-			'wsn_admin_bar_notification'            => 'on',
-			'wsn_admin_bar_notification_number'     => '5',
-			'wsn_admin_bar_notification_send_email' => 'on',
-			'wsn_admin_bar_notification_email'      => get_option( 'admin_email' ),
-		);
-
-		$saved_notification_settings = get_option( 'wsn_notification_settings' );
-		if ( empty( $saved_notification_settings ) ) {
-			update_option( 'wsn_notification_settings', $notification_settings );
-		}
 	}
 
 	/**
@@ -130,12 +116,9 @@ class WC_Serial_Numbers_Install {
 	 * @since 1.0.0
 	 */
 	public static function create_cron() {
-		if ( ! wp_next_scheduled( 'wcsn_per_minute_event' ) ) {
-			wp_schedule_event( time(), 'once_a_minute', 'wcsn_per_minute_event' );
-		}
 
-		if ( ! wp_next_scheduled( 'wcsn_hourly_event' ) ) {
-			wp_schedule_event( time(), 'hourly', 'wcsn_hourly_event' );
+		if ( ! wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
+			wp_schedule_event( time(), 'hourly', 'wc_serial_numbers_hourly_event' );
 		}
 
 		if ( ! wp_next_scheduled( 'wc_serial_numbers_daily_event' ) ) {

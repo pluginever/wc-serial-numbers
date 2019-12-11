@@ -95,21 +95,6 @@ function wc_serial_numbers_get_low_stocked_products( $force = false, $stock = 10
 	return $low_stocks;
 }
 
-function wc_serial_numbers_send_low_stock_notification() {
-	$notification = wc_serial_numbers_get_settings( 'low_stock_notification', false );
-	if ( ! $notification ) {
-		return false;
-	}
-	$stock_threshold = wc_serial_numbers_get_settings( 'low_stock_threshold', 10 );
-
-	$low_stocked_products = wc_serial_numbers_get_low_stocked_products( $stock_threshold );
-	if ( empty( $low_stocked_products ) ) {
-		return false;
-	}
-}
-
-add_action( 'wcsn_hourly_event', 'wc_serial_numbers_send_low_stock_notification' );
-
 function wc_serial_numbers_send_stock_email_notification() {
 	$notification = wc_serial_numbers_get_settings( 'low_stock_notification', false );
 	if ( ! $notification ) {

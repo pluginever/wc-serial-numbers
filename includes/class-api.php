@@ -47,6 +47,7 @@ class WC_Serial_Numbers_API {
 		$email         = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
 		$serial_key    = ! empty( $_REQUEST['serial_key'] ) ? esc_attr( $_REQUEST['serial_key'] ) : '';
 		$product_id    = ! empty( $_REQUEST['product_id'] ) ? absint( $_REQUEST['product_id'] ) : '';
+		$order_id    = ! empty( $_REQUEST['order_id'] ) ? absint( $_REQUEST['order_id'] ) : '';
 		$activation_id = ! empty( $_REQUEST['activation_id'] ) ? sanitize_key( $_REQUEST['activation_id'] ) : null;
 
 		$allow_duplicate = wc_serial_numbers_is_allowed_duplicate_serial_numbers();
@@ -84,6 +85,7 @@ class WC_Serial_Numbers_API {
 		$query_where = 'WHERE 1=1';
 		if ( $allow_duplicate ) {
 			$query_where .= $wpdb->prepare( " AND activation_email=%s", $email );
+			$query_where .= $wpdb->prepare( " AND order_id=%s", $order_id );
 		}
 
 		$query_where .= $wpdb->prepare( " AND serial_key=%s", wc_serial_numbers_encrypt_serial_number( $serial_key ) );
@@ -138,10 +140,12 @@ class WC_Serial_Numbers_API {
 	 * @param $serial_number
 	 */
 	public function check_license( $serial_number ) {
+
 		$activations = wc_serial_numbers_get_activations( [
 			'serial_id' => $serial_number->id,
 		] );
-		$remaining   = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
+		$activation_limit = empty($serial_number->activation_limit)? 99999 : intval($serial_number->activation_limit);
+		$remaining   = $activation_limit - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
 		$this->send_success( apply_filters( 'wc_serial_numbers_check_license_response', [
 			'expire_date' => $serial_number->expire_date,
 			'remaining'   => $remaining,

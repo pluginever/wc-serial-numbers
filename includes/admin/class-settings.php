@@ -91,15 +91,6 @@ class WC_Serial_Numbers_Settings {
 					'checked' => '',
 				),
 				array(
-					'name'    => 'auto_complete',
-					'label'   => __( 'Autocomplete Order', 'wc-serial-numbers' ),
-					'desc'    => __( 'Order will be automatically complete', 'wc-serial-numbers' ),
-					'default' => '',
-					'class'   => 'ever-field-inline',
-					'type'    => 'checkbox',
-					'checked' => '',
-				),
-				array(
 					'name'    => 'low_stock_alert',
 					'label'   => __( 'Low Stock Alert', 'wc-serial-numbers' ),
 					'desc'    => __( 'Enable low stock admin alert ', 'wc-serial-numbers' ),
