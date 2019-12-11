@@ -54,7 +54,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		'order_id'         => isset( $args['order_id'] ) ? absint( $args['order_id'] ) : '',
 		'activation_email' => isset( $args['activation_email'] ) ? sanitize_email( $args['activation_email'] ) : null,
 		'status'           => isset( $args['status'] ) && array_key_exists( $args['status'], $statuses ) ? sanitize_key( $args['status'] ) : 'new',
-		'validity'         => isset( $args['validity'] ) ? absint( $args['validity'] ) : '365',
+		'validity'         => isset( $args['validity'] ) ? absint( $args['validity'] ) : '',
 		'expire_date'      => empty( $args['expire_date'] ) || ( '0000-00-00 00:00:00' == $args['expire_date'] ) ? null : $args['expire_date'],
 		'order_date'       => empty( $args['order_date'] ) || ( '0000-00-00 00:00:00' == $args['order_date'] ) ? null : $args['order_date'],
 		'created'          => date( 'Y-m-d H:i:s' ),
