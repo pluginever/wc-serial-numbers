@@ -156,6 +156,7 @@ class WC_Serial_Numbers_MetaBoxes {
 
 			return false;
 		}
+
 		wc_serial_numbers_get_views( 'ordered-serial-numbers.php', [
 			'serial_numbers' => $serial_numbers,
 			'order_id'       => $order->ID

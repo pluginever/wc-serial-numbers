@@ -143,6 +143,7 @@ class WC_Serial_Numbers_API {
 
 		$activations = wc_serial_numbers_get_activations( [
 			'serial_id' => $serial_number->id,
+			'status' => 'active'
 		] );
 		$activation_limit = empty($serial_number->activation_limit)? 99999 : intval($serial_number->activation_limit);
 		$remaining   = $activation_limit - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );

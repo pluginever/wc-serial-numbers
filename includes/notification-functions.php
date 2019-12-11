@@ -87,6 +87,7 @@ function wc_serial_numbers_get_low_stocked_products( $force = false, $stock = 10
 		$serial_counts = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) as count FROM $wpdb->wcsn_serials_numbers where status='available' AND product_id IN (select post_id from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes') 
 																group by product_id having count < %d order by count asc", $stock ) );
 		$serial_counts = wp_list_pluck( $serial_counts, 'count', 'product_id' );
+
 		$product_ids   = wp_list_pluck( $product_ids, 'count', 'product_id' );
 		$low_stocks    = array_replace( $product_ids, $serial_counts );
 		set_transient( $transient, $low_stocks, time() + 60 * 20 );

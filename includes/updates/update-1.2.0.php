@@ -1,15 +1,4 @@
 <?php
-//update settings
-//update variable products entry to main products
-//serialnumberstatus update
-//check for any ref ea, eaccounting
-//add insight
-//add promotion
-//add user id customer id
-//alter platform default value
-//remove unused cron
-//remove cron wcsn_per_minute_event
-
 
 function wcsn_update_1_2_0() {
 
@@ -40,8 +29,8 @@ function wcsn_update_1_2_0() {
 
 	//status update
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'available', 'new' ) );
-	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'rejected', 'cancelled' ) );
-	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'failed', 'pending' ) );
+//	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'rejected', 'cancelled' ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'cancelled', 'pending' ) );
 
 
 	//settings update
@@ -85,6 +74,18 @@ function wcsn_update_1_2_0() {
 	), $updated_settings );
 
 	update_option( 'wc_serial_numbers_settings', $updated_settings );
+
+	$order = $wpdb->get_col( "SELECT distinct  order_id from $wpdb->wcsn_serials_numbers WHERE order_id !='' AND order_id !='0'" );
+	foreach ( $order as $order_id ) {
+		$result  = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) total from $wpdb->wcsn_serials_numbers WHERE order_id=%d AND status !='active'", $order_id ) );
+		$serials = wp_list_pluck( $result, 'total', 'product_id' );
+		$meta    = array_filter( $serials);
+		if(empty($meta)){
+			continue;
+		}
+
+		update_post_meta($order_id, 'wc_serial_numbers_products', $meta);
+	}
 
 }
 
