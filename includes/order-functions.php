@@ -46,6 +46,8 @@ function wc_serial_numbers_order_product_assign_serial_numbers_handler( $product
 		'fields'     => 'id',
 		'product_id' => $product_id,
 		'per_page'   => $quantity,
+		'status'     => 'available',
+		'order'      => 'asc',
 	) );
 	$order          = new WC_Order( $order_id );
 
