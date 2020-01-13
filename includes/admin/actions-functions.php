@@ -23,7 +23,7 @@ function wc_serial_numbers_edit_serial_number( $data ) {
 	$expire_date      = empty( $data['expire_date'] ) ? '' : sanitize_text_field( $data['expire_date'] );
 	$order_date       = empty( $data['order_date'] ) ? '' : sanitize_text_field( $data['order_date'] );
 	$status           = empty( $data['status'] ) ? 'available' : sanitize_key( $data['status'] );
-	$serial_id        = wc_serial_numbers_insert_serial_number( [
+	$serial_id        = wcsn_insert_serial_number( [
 		'id'               => $id,
 		'product_id'       => $product_id,
 		'serial_key'       => wc_serial_numbers_encrypt_serial_number( $serial_key ),

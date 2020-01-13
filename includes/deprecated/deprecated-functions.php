@@ -22,12 +22,12 @@ function wcsn_get_serial_numbers( $args = array(), $count = false ) {
  * @param $args
  *
  * @return int|WP_Error|null
- * @deprecated 1.2.0 Use wc_serial_numbers_insert_serial_number()
+ * @deprecated 1.2.0 Use wcsn_insert_serial_number()
  */
 function wcsn_insert_serial_number($args) {
-	_deprecated_function( __FUNCTION__, '1.2.0', 'wc_serial_numbers_insert_serial_number' );
+	_deprecated_function( __FUNCTION__, '1.2.0', 'wcsn_insert_serial_number' );
 
-	return wc_serial_numbers_insert_serial_number($args);
+	return wcsn_insert_serial_number($args);
 }
 
 /**

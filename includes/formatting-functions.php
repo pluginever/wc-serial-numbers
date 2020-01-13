@@ -12,7 +12,7 @@ function wc_serial_numbers_get_serial_number_status( $serial_number, $context = 
 	if ( ! isset( $serial_number->status ) && is_numeric( $serial_number ) ) {
 		$serial_number = wc_serial_numbers_get_serial_number( $serial_number );
 	}
-	$statues = wc_serial_numbers_get_serial_number_statuses();
+	$statues = wcsn_get_serial_number_statuses();
 	$status  = 'inactive';
 
 	if ( array_key_exists( $serial_number->status, $statues ) ) {

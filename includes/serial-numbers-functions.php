@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit();
  * since 1.2.0
  * @return array
  */
-function wc_serial_numbers_get_serial_number_statuses() {
+function wcsn_get_serial_number_statuses() {
 	return array(
 		'available' => __( 'Available', 'wc-serial-numbers' ),
 		'inactive'  => __( 'Inactive', 'wc-serial-numbers' ),
@@ -26,12 +26,12 @@ function wc_serial_numbers_get_serial_number_statuses() {
  *
  * @return int|WP_Error|null
  */
-function wc_serial_numbers_insert_serial_number( $args ) {
+function wcsn_insert_serial_number( $args ) {
 	global $wpdb;
 	$update = false;
 	$id     = null;
 
-	$args = (array) apply_filters( 'wc_serial_numbers_insert_serial_number', $args );
+	$args = (array) apply_filters( 'wcsn_insert_serial_number', $args );
 	if ( isset( $args['id'] ) && ! empty( trim( $args['id'] ) ) ) {
 		$id          = (int) $args['id'];
 		$update      = true;
@@ -43,7 +43,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		$args = array_merge( $item_before, $args );
 	}
 
-	$statuses = wc_serial_numbers_get_serial_number_statuses();
+	$statuses = wcsn_get_serial_number_statuses();
 	$default_vendor = get_user_by('email', get_option('admin_email'));
 	$data = array(
 		'id'               => empty( $args['id'] ) ? null : absint( $args['id'] ),
@@ -324,11 +324,11 @@ function wc_serial_numbers_change_serial_number_status( $id, $status ) {
 	if ( empty( $id = absint( $id ) ) ) {
 		return false;
 	}
-	if ( empty( $status ) || ! in_array( $status, array_keys( wc_serial_numbers_get_serial_number_statuses() ) ) ) {
+	if ( empty( $status ) || ! in_array( $status, array_keys( wcsn_get_serial_number_statuses() ) ) ) {
 		return false;
 	}
 
-	return wc_serial_numbers_insert_serial_number( array(
+	return wcsn_insert_serial_number( array(
 		'id'     => $id,
 		'status' => $status
 	) );
