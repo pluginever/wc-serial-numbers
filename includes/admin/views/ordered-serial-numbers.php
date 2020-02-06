@@ -18,7 +18,7 @@ $total_qty = 0;
 		$title = get_the_title( $post );
 		$link  = get_edit_post_link( empty($post->post_parent)? $post->ID : $post->post_parent );
 		$cols  = sprintf( '<td><a href="%s" target="_blank">%s</a></td><td>%d</td>', $link, $title, $quantity );
-		$assigned_qty = wc_serial_numbers_get_serial_numbers([
+		$assigned_qty = wcsn_get_serial_numbers([
 			'order_id' => $order_id,
 			'product_id' => $product_id,
 		], true );

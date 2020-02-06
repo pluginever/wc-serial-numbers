@@ -2,13 +2,13 @@
 
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_MetaBoxes {
+class WCSN_MetaBoxes {
 	/**
 	 * The single instance of the class.
 	 *
 	 * @var self
 	 * @since  1.0.0
-	 */
+	*/
 	private static $instance = null;
 
 	/**
@@ -17,7 +17,7 @@ class WC_Serial_Numbers_MetaBoxes {
 	 * @return self Main instance.
 	 * @since  1.0.0
 	 * @static
-	 */
+	*/
 	public static function instance() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
@@ -27,7 +27,7 @@ class WC_Serial_Numbers_MetaBoxes {
 	}
 
 	/**
-	 * WC_Serial_Numbers_MetaBox constructor.
+	 * WCSN_MetaBox constructor.
 	 */
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'register_metaboxes' ) );
@@ -50,9 +50,9 @@ class WC_Serial_Numbers_MetaBoxes {
 	}
 
 	/**
-	 * product
-	 * since 1.0.0
-	 */
+	* product
+	* since 1.0.0
+	*/
 	public static function product_data_tab( $tabs ) {
 		$tabs['wc_serial_numbers'] = array(
 			'label'    => __( 'Serial Numbers', 'wc-serial-numbers' ),
@@ -70,8 +70,7 @@ class WC_Serial_Numbers_MetaBoxes {
 	public static function product_write_panel() {
 		global $post, $woocommerce;
 		?>
-		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
-		     style="padding-bottom: 50px;display: none;">
+		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple" style="padding-bottom: 50px;display: none;">
 			<?php
 			woocommerce_wp_checkbox(
 				array(
@@ -97,10 +96,10 @@ class WC_Serial_Numbers_MetaBoxes {
 
 			do_action( 'serial_numbers_product_metabox', $post );
 
-			if ( ! wc_serial_numbers()->is_pro_active() ) {
+			if ( ! wcsn()->is_pro_active() ) {
 				echo sprintf( '<p>%s <a href="%s" target="_blank">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order? Upgrade to Pro', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 			}
-			if ( ! wc_serial_numbers_software_disabled() ) {
+			if ( ! wcsn_software_disabled() ) {
 				woocommerce_wp_text_input(
 					array(
 						'id'          => '_software_version',
@@ -115,7 +114,7 @@ class WC_Serial_Numbers_MetaBoxes {
 			echo sprintf(
 				'<p class="form-field"><label>%s</label><span class="description">%d %s</span></p>',
 				__( 'Available', 'wc-serial-numbers' ),
-				wc_serial_numbers_get_serial_numbers( [ 'product_id' => $post->ID, 'status' => 'available' ], true ),
+				wcsn_get_serial_numbers( [ 'product_id' => $post->ID, 'status' => 'available' ], true ),
 				__( 'Serial Number available for sale', 'wc-serial-numbers' )
 			);
 			?>
@@ -139,7 +138,7 @@ class WC_Serial_Numbers_MetaBoxes {
 		if ( ! wc_serial_numbers_software_disabled() ) {
 			update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
 		}
-		do_action( 'wc_serial_numbers_save_simple_product_meta', $post );
+		do_action( 'wcsn_save_simple_product_meta', $post );
 	}
 
 	/**
@@ -157,7 +156,7 @@ class WC_Serial_Numbers_MetaBoxes {
 			return false;
 		}
 
-		wc_serial_numbers_get_views( 'ordered-serial-numbers.php', [
+		wcsn_get_views( 'ordered-serial-numbers.php', [
 			'serial_numbers' => $serial_numbers,
 			'order_id'       => $order->ID
 		] );
@@ -172,4 +171,4 @@ class WC_Serial_Numbers_MetaBoxes {
 	}
 }
 
-WC_Serial_Numbers_MetaBoxes::instance();
+WCSN_MetaBoxes::instance();

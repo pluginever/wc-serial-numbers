@@ -9,8 +9,8 @@ defined( 'ABSPATH' ) || exit();
  *
  * @return array|object|void|null
  * @since 1.0.0
- */
-function wc_serial_numbers_get_activation( $id, $by = 'id' ) {
+*/
+function wcsn_get_activation( $id, $by = 'id' ) {
 	global $wpdb;
 	switch ( $by ) {
 		case 'serial_id':
@@ -27,7 +27,6 @@ function wc_serial_numbers_get_activation( $id, $by = 'id' ) {
 	return $wpdb->get_row( $sql );
 }
 
-
 /**
  * Get activations
  *
@@ -36,8 +35,8 @@ function wc_serial_numbers_get_activation( $id, $by = 'id' ) {
  *
  * @return array|object|string|null
  * @since 1.0.0
- */
-function wc_serial_numbers_get_activations( $args = array(), $count = false ) {
+*/
+function wcsn_get_activations( $args = array(), $count = false ) {
 	global $wpdb;
 	global $wpdb;
 	$query_fields  = '';
@@ -153,7 +152,6 @@ function wc_serial_numbers_get_activations( $args = array(), $count = false ) {
 		$query_where .= ' AND (' . implode( ' OR ', $searches ) . ')';
 	}
 
-
 	// limit
 	if ( isset( $args['per_page'] ) && $args['per_page'] > 0 ) {
 		if ( $args['offset'] ) {
@@ -186,8 +184,8 @@ function wc_serial_numbers_get_activations( $args = array(), $count = false ) {
  * @param string $platform
  *
  * @return bool|int
- */
-function wc_serial_numbers_activate_serial_number( $serial_number_id, $instance, $platform = '' ) {
+*/
+function wcsn_activate_serial_number( $serial_number_id, $instance, $platform = '' ) {
 	global $wpdb;
 	$where = $wpdb->prepare( " WHERE serial_id=%d", $serial_number_id );
 	$where .= $wpdb->prepare( " AND instance=%s", $instance );
@@ -223,7 +221,7 @@ function wc_serial_numbers_activate_serial_number( $serial_number_id, $instance,
  *
  * @return string|null
  */
-function wc_serial_numbers_get_activations_count( $serial_number_id ) {
+function wcsn_get_activations_count( $serial_number_id ) {
 	global $wpdb;
 
 	return $wpdb->get_var( $wpdb->prepare( "SELECT count(id) from $wpdb->wcsn_activations WHERE serial_id=%d AND active='1'", $serial_number_id ) );
@@ -235,7 +233,7 @@ function wc_serial_numbers_get_activations_count( $serial_number_id ) {
  *
  * @return bool
  */
-function wc_serial_numbers_deactivate_activation( $activation_id ) {
+function wcsn_deactivate_activation( $activation_id ) {
 	global $wpdb;
 	if ( false != $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 0, $activation_id ) ) ) {
 		return true;

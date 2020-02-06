@@ -9,10 +9,9 @@ defined('ABSPATH') || exit();
  *
  * @return string
  * @since 1.1.1
- *
- */
+*/
 function wcsn_woocommerce_invoice( $headers, $order_id ) {
-	$serial_numbers = wc_serial_numbers_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
+	$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
 	if ( empty( $serial_numbers ) ) {
 		return $headers;
 	}
@@ -34,9 +33,9 @@ function wcsn_woocommerce_invoice( $headers, $order_id ) {
 		<?php foreach ( $serial_numbers as $serial_number ): ?>
 			<tr>
 				<td><?php echo get_the_title( $serial_number->product_id ); ?></td>
-				<td><?php echo wc_serial_numbers_decrypt_serial_number( $serial_number->serial_key ); ?></td>
+				<td><?php echo wcsn_decrypt_serial_number( $serial_number->serial_key ); ?></td>
 				<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
-				<td><?php echo wc_serial_numbers_get_serial_expiration_date( $serial_number ); ?></td>
+				<td><?php echo wcsn_get_serial_expiration_date( $serial_number ); ?></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
@@ -48,7 +47,6 @@ function wcsn_woocommerce_invoice( $headers, $order_id ) {
 }
 
 add_filter( 'pdf_template_table_headings', 'wcsn_woocommerce_invoice', 10, 2 );
-
 
 /**
  * Support WooCommerce PDF Invoices, Packing Slips, Delivery Notes & Shipping Labels plugin
@@ -63,12 +61,13 @@ add_filter( 'pdf_template_table_headings', 'wcsn_woocommerce_invoice', 10, 2 );
  * @return array
  * @since 1.1.1
  *
- */
-function wc_serial_numbers_wf_module_add_serial_number_list( $find_replace, $html, $template_type, $order, $box_packing, $order_package ) {
+*/
+
+function wcsn_wf_module_add_serial_number_list( $find_replace, $html, $template_type, $order, $box_packing, $order_package ) {
 	if ( isset( $find_replace['[wfte_product_table_start]'] ) ) {
 		global $post;
 		$order_id       = $order->id;
-		$serial_numbers = wc_serial_numbers_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
+		$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
 		if ( empty( $serial_numbers ) ) {
 			return $find_replace;
 		}
@@ -87,9 +86,9 @@ function wc_serial_numbers_wf_module_add_serial_number_list( $find_replace, $htm
 			<?php foreach ( $serial_numbers as $serial_number ): ?>
 				<tr>
 					<td><?php echo get_the_title( $serial_number->product_id ); ?></td>
-					<td><?php echo wc_serial_numbers_decrypt_serial_number( $serial_number->serial_key ); ?></td>
+					<td><?php echo wcsn_decrypt_serial_number( $serial_number->serial_key ); ?></td>
 					<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
-					<td><?php echo wc_serial_numbers_get_serial_expiration_date( $serial_number ); ?></td>
+					<td><?php echo wcsn_get_serial_expiration_date( $serial_number ); ?></td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
@@ -103,12 +102,10 @@ function wc_serial_numbers_wf_module_add_serial_number_list( $find_replace, $htm
 		$find_replace['[wfte_product_table_start]'] = ob_get_clean();
 	}
 
-	return $find_replace;
+return $find_replace;
 }
 
-add_filter( 'wf_module_generate_template_html', 'wc_serial_numbers_wf_module_add_serial_number_list', 10, 6 );
-
-
+add_filter( 'wf_module_generate_template_html', 'wcsn_wf_module_add_serial_number_list', 10, 6 );
 
 /**
  * Support WooCommerce PDF Invoices & Packing Slips plugin
@@ -119,11 +116,12 @@ add_filter( 'wf_module_generate_template_html', 'wc_serial_numbers_wf_module_add
  * @return string
  * @since 1.1.1
  *
- */
-function wc_serial_numbers_add_serial_number_list( $type, $order ) {
+*/
+
+function wcsn_add_serial_number_list( $type, $order ) {
 	global $post;
 	$order_id       = $order->get_id();
-	$serial_numbers = wc_serial_numbers_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
+	$serial_numbers = wcsn_get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
 	if ( empty( $serial_numbers ) ) {
 		return '';
 	}
@@ -141,14 +139,13 @@ function wc_serial_numbers_add_serial_number_list( $type, $order ) {
 		<?php foreach ( $serial_numbers as $serial_number ): ?>
 			<tr>
 				<td><?php echo get_the_title( $serial_number->product_id ); ?></td>
-				<td><?php echo wc_serial_numbers_decrypt_serial_number( $serial_number->serial_key ); ?></td>
+				<td><?php echo wcsn_decrypt_serial_number( $serial_number->serial_key ); ?></td>
 				<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
-				<td><?php echo wc_serial_numbers_get_serial_expiration_date( $serial_number ); ?></td>
+				<td><?php echo wcsn_get_serial_expiration_date( $serial_number ); ?></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
 	<?php
 }
-
-add_action( 'wpo_wcpdf_before_order_details', 'wc_serial_numbers_add_serial_number_list', 10, 2 );
+add_action( 'wpo_wcpdf_before_order_details', 'wcsn_add_serial_number_list', 10, 2 );

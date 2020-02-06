@@ -1,10 +1,10 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin_Notice{
+class WCSN_Admin_Notice{
 	/**
-	 * @var
-	 */
+	* @var
+	*/
 	private $transient;
 
 	/**
@@ -15,7 +15,7 @@ class WC_Serial_Numbers_Admin_Notice{
 	/**
 	 * The single instance of the class.
 	 *
-	 * @var WC_Serial_Numbers_Admin_Notice
+	 * @var WCSN_Admin_Notice
 	 * @since 1.0.0
 	 */
 	protected static $_instance = null;
@@ -25,7 +25,7 @@ class WC_Serial_Numbers_Admin_Notice{
 	 *
 	 * Ensures only one instance of EverAccounting is loaded or can be loaded.
 	 *
-	 * @return WC_Serial_Numbers_Admin_Notice - Main instance.
+	 * @return WCSN_Admin_Notice - Main instance.
 	 * @since 1.0.0
 	 * @static
 	 */
@@ -36,7 +36,6 @@ class WC_Serial_Numbers_Admin_Notice{
 
 		return self::$_instance;
 	}
-
 
 	/**
 	 * EAccounting_Notice constructor.
@@ -100,4 +99,4 @@ class WC_Serial_Numbers_Admin_Notice{
 	}
 }
 
-WC_Serial_Numbers_Admin_Notice::instance();
+WCSN_Admin_Notice::instance();

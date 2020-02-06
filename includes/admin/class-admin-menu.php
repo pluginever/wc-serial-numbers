@@ -1,10 +1,10 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin_Menu {
+class WCSN_Admin_Menu {
 	/**
 	 * AdminMenu constructor.
-	 */
+	*/
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 999 );
@@ -12,11 +12,11 @@ class WC_Serial_Numbers_Admin_Menu {
 
 	/**
 	 * Adds page to admin menu
-	 */
+	*/
 	function admin_menu() {
 		add_menu_page( __( 'Serial Numbers', 'wc-serial-numbers' ), __( 'Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers', array( $this, 'serial_numbers_page'  ), 'dashicons-admin-network', '55.9' );
 		add_submenu_page( 'wc-serial-numbers', __( 'Serial Numbers', 'wc-serial-numbers' ), __( 'Serial Numbers', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers', array( $this, 'serial_numbers_page' ) );
-		if ( ! wc_serial_numbers_software_disabled() ) {
+		if ( ! wcsn_software_disabled() ) {
 			add_submenu_page( 'wc-serial-numbers', __( 'Activations', 'wc-serial-numbers' ), __( 'Activations', 'wc-serial-numbers' ), 'manage_woocommerce', 'wc-serial-numbers-activations', array(
 				$this,
 				'activations_page'
@@ -24,22 +24,22 @@ class WC_Serial_Numbers_Admin_Menu {
 		}
 	}
 	public function serial_numbers_page() {
-		wc_serial_numbers_get_views('serial-number-page.php');
+		wcsn_get_views('serial-number-page.php');
 	}
 
 	public function activations_page() {
-		wc_serial_numbers_get_views('activations-page.php');
+		wcsn_get_views('activations-page.php');
 	}
 
 	/**
 	 * add admin bar menu item
 	 *
 	 * @since 1.0.0
-	 */
+	*/
 	function admin_bar_menu() {
 		global $wp_admin_bar;
 		$title = __( 'WC Serial Numbers', 'wc-serial-numbers' );
-		if('on' == wc_serial_numbers_get_settings('low_stock_alert') && current_user_can('manage_woocommerce')){
+		if('on' == wcsn_get_settings('low_stock_alert') && current_user_can('manage_woocommerce')){
 			$title .= '<span class="wsn_admin_bar_notification"></span>';
 		}
 
@@ -70,16 +70,19 @@ class WC_Serial_Numbers_Admin_Menu {
 	}
 
 	public function get_low_stock_list(){
-		if('on' !== wc_serial_numbers_get_settings('low_stock_alert')){
+
+		if('on' !== wcsn_get_settings('low_stock_alert')){
 			return '';
 		}
 
-		$low_stock_products = wc_serial_numbers_get_low_stocked_products();
+
+		$low_stock_products = wcsn_get_low_stocked_products();
 		if(empty($low_stock_products)){
 			return '';
 		}
+		
 		ob_start();
-		wc_serial_numbers_get_views('notification-list.php', compact('low_stock_products'));
+		wcsn_get_views('notification-list.php', compact('low_stock_products'));
 		$html = ob_get_contents();
 		ob_get_clean();
 		return $html;
@@ -88,4 +91,4 @@ class WC_Serial_Numbers_Admin_Menu {
 
 }
 
-new WC_Serial_Numbers_Admin_Menu();
+new WCSN_Admin_Menu();

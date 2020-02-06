@@ -1,12 +1,13 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Install {
+
+class WCSN_Install {
 	/**
 	 * Everything need to be done
 	 *
 	 * @since 1.0.0
-	 */
+	*/
 	public static function install() {
 		self::create_tables();
 		self::create_default_data();
@@ -17,7 +18,7 @@ class WC_Serial_Numbers_Install {
 	 * Delete all data
 	 *
 	 * @since 1.0.0
-	 */
+	*/
 	public static function uninstall() {
 
 	}
@@ -25,7 +26,7 @@ class WC_Serial_Numbers_Install {
 	/**
 	 * Creat tables
 	 * @since 1.0.0
-	 */
+	*/
 	public static function create_tables() {
 		global $wpdb;
 		$wpdb->hide_errors();
@@ -78,10 +79,10 @@ class WC_Serial_Numbers_Install {
 	 * @since 1.2.0
 	 */
 	public static function create_default_data() {
-		$key     = sanitize_key( wc_serial_numbers()->plugin_name );
+		$key     = sanitize_key( wcsn()->plugin_name );
 		$version = get_option( $key . '_version', '0' );
 		if ( empty( $version ) ) {
-			update_option( $key . '_version', wc_serial_numbers()->version );
+			update_option( $key . '_version', wcsn()->version );
 		}
 
 		$install_date = get_option( $key . '_install_time', '0' );
@@ -89,7 +90,7 @@ class WC_Serial_Numbers_Install {
 			update_option( $key . '_install_time', current_time( 'timestamp' ) );
 		}
 
-		$saved_notification_settings = get_option( 'wc_serial_numbers_settings' );
+		$saved_notification_settings = get_option( 'wcsn_settings' );
 		if ( !empty( $saved_notification_settings ) ) {
 			return ;
 		}
@@ -106,7 +107,7 @@ class WC_Serial_Numbers_Install {
 			'low_stock_notification_email' => get_option( 'admin_email' ),
 		);
 
-		update_option('wc_serial_numbers_settings', $settings);
+		update_option('wcsn_settings', $settings);
 
 	}
 
@@ -114,15 +115,15 @@ class WC_Serial_Numbers_Install {
 	 * create cron event
 	 *
 	 * @since 1.0.0
-	 */
+	*/
 	public static function create_cron() {
 
-		if ( ! wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
-			wp_schedule_event( time(), 'hourly', 'wc_serial_numbers_hourly_event' );
+		if ( ! wp_next_scheduled( 'wcsn_hourly_event' ) ) {
+			wp_schedule_event( time(), 'hourly', 'wcsn_hourly_event' );
 		}
 
-		if ( ! wp_next_scheduled( 'wc_serial_numbers_daily_event' ) ) {
-			wp_schedule_event( time(), 'daily', 'wc_serial_numbers_daily_event' );
+		if ( ! wp_next_scheduled( 'wcsn_daily_event' ) ) {
+			wp_schedule_event( time(), 'daily', 'wcsn_daily_event' );
 		}
 	}
 }

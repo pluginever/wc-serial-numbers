@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Update {
+class WCSN_Update {
 	/**
 	 * The upgrades
 	 *
@@ -15,7 +15,7 @@ class WC_Serial_Numbers_Update {
 	);
 
 	public function get_key() {
-		$key = sanitize_key( wc_serial_numbers()->plugin_name );
+		$key = sanitize_key( wcsn()->plugin_name );
 
 		return $key . '_version';
 	}
@@ -41,7 +41,7 @@ class WC_Serial_Numbers_Update {
 		if ( ! $this->get_version() ) {
 			return false;
 		}
-		if ( version_compare( $this->get_version(), wc_serial_numbers()->version, '<' ) ) {
+		if ( version_compare( $this->get_version(), wcsn()->version, '<' ) ) {
 			return true;
 		}
 
@@ -55,7 +55,7 @@ class WC_Serial_Numbers_Update {
 	 */
 	function perform_updates() {
 		$installed_version = $this->get_version();
-		$path              = trailingslashit( WC_SERIAL_NUMBERS_INCLUDES );
+		$path              = trailingslashit( WCSN_INCLUDES );
 		$key               = $this->get_key();
 		foreach ( self::$upgrades as $version => $file ) {
 			if ( version_compare( $installed_version, $version, '<' ) ) {
@@ -65,7 +65,7 @@ class WC_Serial_Numbers_Update {
 		}
 
 		delete_option( $key );
-		update_option( $key, wc_serial_numbers()->version );
+		update_option( $key, wcsn()->version );
 	}
 
 }

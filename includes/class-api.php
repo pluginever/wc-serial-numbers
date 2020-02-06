@@ -1,13 +1,13 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_API {
+class WCSN_API {
 	/**
 	 * The single instance of the class.
 	 *
 	 * @var self
 	 * @since  1.0.0
-	 */
+	*/
 	private static $instance = null;
 
 	/**
@@ -16,7 +16,7 @@ class WC_Serial_Numbers_API {
 	 * @return self Main instance.
 	 * @since  1.0.0
 	 * @static
-	 */
+	*/
 	public static function instance() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
@@ -25,16 +25,15 @@ class WC_Serial_Numbers_API {
 		return self::$instance;
 	}
 
-
 	/**
-	 * WC_Serial_Numbers_API constructor.
-	 */
+	 * WCSN_API constructor.
+	*/
 	public function __construct() {
 		add_action( 'woocommerce_api_serial-numbers-api', array( $this, 'handle_api_request' ) );
-		add_action( 'wc_serial_numbers_api_action_check', array( $this, 'check_license' ) );
-		add_action( 'wc_serial_numbers_api_action_activate', array( $this, 'activate_license' ) );
-		add_action( 'wc_serial_numbers_api_action_deactivate', array( $this, 'deactivate_license' ) );
-		add_action( 'wc_serial_numbers_api_action_version_check', array( $this, 'version_check' ) );
+		add_action( 'wcsn_api_action_check', array( $this, 'check_license' ) );
+		add_action( 'wcsn_api_action_activate', array( $this, 'activate_license' ) );
+		add_action( 'wcsn_api_action_deactivate', array( $this, 'deactivate_license' ) );
+		add_action( 'wcsn_api_action_version_check', array( $this, 'version_check' ) );
 	}
 
 	/**
@@ -42,7 +41,7 @@ class WC_Serial_Numbers_API {
 	 *
 	 * @return array
 	 * @since 1.0.0
-	 */
+	*/
 	public function handle_api_request() {
 		$email         = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
 		$serial_key    = ! empty( $_REQUEST['serial_key'] ) ? esc_attr( $_REQUEST['serial_key'] ) : '';
@@ -50,7 +49,7 @@ class WC_Serial_Numbers_API {
 		$order_id    = ! empty( $_REQUEST['order_id'] ) ? absint( $_REQUEST['order_id'] ) : '';
 		$activation_id = ! empty( $_REQUEST['activation_id'] ) ? sanitize_key( $_REQUEST['activation_id'] ) : null;
 
-		$allow_duplicate = wc_serial_numbers_is_allowed_duplicate_serial_numbers();
+		$allow_duplicate = wcsn_is_allowed_duplicate_serial_numbers();
 		if ( $allow_duplicate && ! is_email( $email ) ) {
 			$this->send_error( [
 				'error' => __( 'Email is required', 'wc-serial-numbers' ),
@@ -60,7 +59,7 @@ class WC_Serial_Numbers_API {
 
 		if ( empty( $serial_key ) ) {
 			$this->send_error( [
-				'error' => sprintf( __( '%s is required', 'wc-serial-numbers' ), wc_serial_numbers_labels( 'serial_numbers' ) ),
+				'error' => sprintf( __( '%s is required', 'wc-serial-numbers' ), wcsn_labels( 'serial_numbers' ) ),
 				'code'  => 403
 			] );
 		}
@@ -88,14 +87,14 @@ class WC_Serial_Numbers_API {
 			$query_where .= $wpdb->prepare( " AND order_id=%s", $order_id );
 		}
 
-		$query_where .= $wpdb->prepare( " AND serial_key=%s", wc_serial_numbers_encrypt_serial_number( $serial_key ) );
+		$query_where .= $wpdb->prepare( " AND serial_key=%s", wcsn_encrypt_serial_number( $serial_key ) );
 		$query_where .= $wpdb->prepare( " AND product_id=%d", $product_id );
 
 		$serial_number = $wpdb->get_row( "SELECT * FROM $wpdb->wcsn_serials_numbers $query_where" );
 
 		if ( ! $serial_number ) {
 			$this->send_error( [
-				'error' => sprintf( __( 'Invalid %s', 'wc-serial-numbers' ), wc_serial_numbers_labels( 'serial_numbers' ) ),
+				'error' => sprintf( __( 'Invalid %s', 'wc-serial-numbers' ), wcsn_labels( 'serial_numbers' ) ),
 				'code'  => 403
 			] );
 		}
@@ -109,7 +108,7 @@ class WC_Serial_Numbers_API {
 
 		if ( $serial_number->status !== 'active' ) {
 			$this->send_error( [
-				'error' => sprintf( __( '%s is not active', 'wc-serial-numbers' ), wc_serial_numbers_labels( 'serial_numbers' ) ),
+				'error' => sprintf( __( '%s is not active', 'wc-serial-numbers' ), wcsn_labels( 'serial_numbers' ) ),
 				'code'  => 403
 			] );
 		}
@@ -129,25 +128,24 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		do_action( 'wc_serial_numbers_api_action', $serial_number );
-		do_action( "wc_serial_numbers_api_action_{$request}", $serial_number );
+		do_action( 'wcsn_api_action', $serial_number );
+		do_action( "wcsn_api_action_{$request}", $serial_number );
 	}
-
 
 	/**
 	 * since 1.0.0
 	 *
 	 * @param $serial_number
-	 */
+	*/
 	public function check_license( $serial_number ) {
 
-		$activations = wc_serial_numbers_get_activations( [
+		$activations = wcsn_get_activations( [
 			'serial_id' => $serial_number->id,
 			'status' => 'active'
 		] );
 		$activation_limit = empty($serial_number->activation_limit)? 99999 : intval($serial_number->activation_limit);
-		$remaining   = $activation_limit - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
-		$this->send_success( apply_filters( 'wc_serial_numbers_check_license_response', [
+		$remaining   = $activation_limit - intval( wcsn_get_activations_count( $serial_number->id ) );
+		$this->send_success( apply_filters( 'wcsn_check_license_response', [
 			'expire_date' => $serial_number->expire_date,
 			'remaining'   => $remaining,
 			'status'      => $serial_number->status,
@@ -162,22 +160,22 @@ class WC_Serial_Numbers_API {
 	 * since 1.0.0
 	 *
 	 * @param $serial_number
-	 */
+	*/
 	public function activate_license( $serial_number ) {
 		$user_agent  = empty( $_SERVER['HTTP_USER_AGENT'] ) ? md5( time() ) : md5( $_SERVER['HTTP_USER_AGENT'] . time() );
 		$instance    = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : $user_agent;
 		$platform    = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : self::get_os();
-		$activations = wc_serial_numbers_get_activations( [
+		$activations = wcsn_get_activations( [
 			'serial_id' => $serial_number->id,
 			'status'    => 'active',
 			'instance'  => $instance,
 			'platform'  => $platform,
 		] );
 
-		$remaining = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
+		$remaining = intval( $serial_number->activation_limit ) - intval( wcsn_get_activations_count( $serial_number->id ) );
 
 		if ( empty( $activations ) && $remaining < 1 ) {
-			$activations = wc_serial_numbers_get_activations( [
+			$activations = wcsn_get_activations( [
 				'serial_id' => $serial_number->id,
 				'status'    => 'active',
 			] );
@@ -191,7 +189,7 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		$activation_id = wc_serial_numbers_activate_serial_number( $serial_number->id, $instance, $platform );
+		$activation_id = wcsn_activate_serial_number( $serial_number->id, $instance, $platform );
 
 		if ( ! $activation_id ) {
 			$this->send_error( [
@@ -201,18 +199,18 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		$remaining = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
+		$remaining = intval( $serial_number->activation_limit ) - intval( wcsn_get_activations_count( $serial_number->id ) );
 
-		$new_activations = wc_serial_numbers_get_activations( [
+		$new_activations = wcsn_get_activations( [
 			'serial_id' => $serial_number->id,
 			'status'    => 'active'
 		] );
 
-		$new_activation = wc_serial_numbers_get_activation( $activation_id );
+		$new_activation = wcsn_get_activation( $activation_id );
 
 		$new_activations_response = $this->get_activations_response( $new_activations );
 
-		$response = apply_filters( 'wc_serial_numbers_activate_license_response', array(
+		$response = apply_filters( 'wcsn_activate_license_response', array(
 			'activated'        => true,
 			'activations'      => $new_activations_response,
 			'remaining'        => $remaining,
@@ -227,7 +225,6 @@ class WC_Serial_Numbers_API {
 
 	}
 
-
 	public function deactivate_license( $serial_number ) {
 		$instance = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : '';
 
@@ -238,7 +235,7 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		$activations = wc_serial_numbers_get_activations( [
+		$activations = wcsn_get_activations( [
 			'serial_id' => $serial_number->id,
 			'instance'  => $instance,
 			'status'    => 'active',
@@ -252,12 +249,12 @@ class WC_Serial_Numbers_API {
 		}
 
 		foreach ( $activations as $activation ) {
-			$deactivated = wc_serial_numbers_deactivate_activation( $activation->id );
+			$deactivated = wcsn_deactivate_activation( $activation->id );
 		}
 
-		$remaining = intval( $serial_number->activation_limit ) - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
+		$remaining = intval( $serial_number->activation_limit ) - intval( wcsn_get_activations_count( $serial_number->id ) );
 
-		$response = apply_filters( 'wc_serial_numbers_deactivate_license_response', array(
+		$response = apply_filters( 'wcsn_deactivate_license_response', array(
 			'deactivated'      => true,
 			'remaining'        => $remaining,
 			'activation_limit' => intval( $serial_number->activation_limit ),
@@ -271,7 +268,7 @@ class WC_Serial_Numbers_API {
 	 * @param $serial
 	 *
 	 * @since 1.0.0
-	 */
+	*/
 	public function version_check( $serial ) {
 		$this->send_success( array(
 			'product_id' => $serial->product_id,
@@ -286,7 +283,7 @@ class WC_Serial_Numbers_API {
 	 * @param $activations
 	 *
 	 * @return array
-	 */
+	*/
 	public function get_activations_response( $activations ) {
 		$activations_response = [];
 		foreach ( $activations as $activation ) {
@@ -304,7 +301,7 @@ class WC_Serial_Numbers_API {
 	/**
 	 * @return mixed|string
 	 * @since 1.0.0
-	 */
+	*/
 	public static function get_os() {
 		$user_agent = @$_SERVER['HTTP_USER_AGENT'];
 
@@ -346,12 +343,11 @@ class WC_Serial_Numbers_API {
 		return $os_platform;
 	}
 
-
 	/**
 	 * since 1.0.0
 	 *
 	 * @param $result
-	 */
+	*/
 	public function send_error( $result ) {
 		nocache_headers();
 		$result['timestamp'] = time();
@@ -362,13 +358,12 @@ class WC_Serial_Numbers_API {
 	 * since 1.0.0
 	 *
 	 * @param $result
-	 */
+	*/
 	public function send_success( $result ) {
 		nocache_headers();
 		$result['timestamp'] = time();
 		wp_send_json_success( $result );
 	}
-
 }
 
-WC_Serial_Numbers_API::instance();
+WCSN_API::instance();

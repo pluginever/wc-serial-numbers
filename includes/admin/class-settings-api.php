@@ -1,8 +1,8 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
-    class WC_Serial_Numbers_Settings_API {
+if ( ! class_exists( 'WCSN_Settings_API' ) ):
+    class WCSN_Settings_API {
         /**
          * settings sections array
          *
@@ -21,8 +21,8 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
         }
 
         /**
-         * Enqueue scripts and styles
-         */
+        * Enqueue scripts and styles
+        */
         function admin_enqueue_scripts() {
             wp_enqueue_style( 'wp-color-picker' );
             wp_enqueue_media();
@@ -55,7 +55,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          *
          * @return $this
          *
-         */
+        */
         function add_section( $section ) {
             $this->settings_sections[] = $section;
 
@@ -71,7 +71,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          *
          * @return $this
          *
-         */
+        */
         function set_fields( $fields ) {
             $this->settings_fields = $fields;
 
@@ -88,7 +88,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          *
          * @return $this
          *
-         */
+        */
         function add_field( $section, $field ) {
             $defaults                            = array(
                 'name'  => '',
@@ -101,7 +101,6 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
 
             return $this;
         }
-
         /**
          * Initialize and registers the settings sections and fileds to WordPress
          *
@@ -126,6 +125,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
                 }
                 add_settings_section( $section['id'], $section['title'], $callback, $section['id'] );
             }
+
             //register settings fields
             foreach ( $this->settings_fields as $section => $field ) {
                 foreach ( $field as $option ) {
@@ -171,7 +171,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          *
          * @return string
          *
-         */
+        */
         public function get_field_description( $args ) {
             if ( ! empty( $args['desc'] ) ) {
                 $desc = sprintf( '<p class="description">%s</p>', $args['desc'] );
@@ -186,7 +186,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a text field for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_text( $args ) {
             $value       = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $size        = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
@@ -201,7 +201,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a url field for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_url( $args ) {
             $this->callback_text( $args );
         }
@@ -210,7 +210,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a number field for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_number( $args ) {
             $value       = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $size        = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
@@ -228,7 +228,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a number field for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_heading( $args ) {
             $value       = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $html        = sprintf( '<h2 class="ever-settings-heading">%1$s</h2>', $value);
@@ -236,11 +236,12 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
             echo $html;
         }
 
+
         /**
          * Displays a checkbox for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_checkbox( $args ) {
             $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $html  = '<fieldset>';
@@ -256,7 +257,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a multicheckbox for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_multicheck( $args ) {
             $value = $this->get_option( $args['id'], $args['section'], $args['std'] );
             $html  = '<fieldset>';
@@ -276,7 +277,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a radio button for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_radio( $args ) {
             $value = $this->get_option( $args['id'], $args['section'], $args['std'] );
             $html  = '<fieldset>';
@@ -294,7 +295,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a selectbox for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_select( $args ) {
             $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
@@ -311,7 +312,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a textarea for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_textarea( $args ) {
             $value       = esc_textarea( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $size        = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
@@ -327,7 +328,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * @param array $args settings field args
          *
          * @return string
-         */
+        */
         function callback_html( $args ) {
             echo $this->get_field_description( $args );
         }
@@ -336,7 +337,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a rich text textarea for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_wysiwyg( $args ) {
             $value = $this->get_option( $args['id'], $args['section'], $args['std'] );
             $size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : '500px';
@@ -358,7 +359,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a file upload field for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_file( $args ) {
             $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
@@ -374,7 +375,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a password field for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_password( $args ) {
             $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
@@ -387,7 +388,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a color picker field for a settings field
          *
          * @param array $args settings field args
-         */
+        */
         function callback_color( $args ) {
             $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
             $size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
@@ -400,7 +401,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Displays a select box for creating the pages select box
          *
          * @param array $args settings field args
-         */
+        */
         function callback_pages( $args ) {
             $dropdown_args = array(
                 'selected' => esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) ),
@@ -416,7 +417,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Sanitize callback for Settings API
          *
          * @return mixed
-         */
+        */
         function sanitize_options( $options ) {
             if ( ! $options ) {
                 return $options;
@@ -439,7 +440,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * @param string $slug option slug
          *
          * @return mixed string or bool false
-         */
+        */
         function get_sanitize_callback( $slug = '' ) {
             if ( empty( $slug ) ) {
                 return false;
@@ -467,7 +468,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * @param string $default default text if it's not found
          *
          * @return string
-         */
+        */
         function get_option( $option, $section, $default = '' ) {
             $options = get_option( $section );
             if ( isset( $options[ $option ] ) ) {
@@ -481,7 +482,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Show navigations as tab
          *
          * Shows all the settings section labels as tab
-         */
+        */
         function show_navigation() {
             $html  = '<div class="ever-settings-sidebar"><ul>';
             $count = count( $this->settings_sections );
@@ -500,7 +501,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Show the section settings forms
          *
          * This function displays every sections in a different form
-         */
+        */
         function show_forms() {
             $this->_style_fix();
             ?>
@@ -538,7 +539,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
          * Tabbable JavaScript codes & Initiate Color Picker
          *
          * This code uses localstorage for displaying active tabs
-         */
+        */
         function script() {
             ?>
             <script>
@@ -716,5 +717,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_API' ) ):
             </style>
             <?php
         }
+
+
     }
 endif;

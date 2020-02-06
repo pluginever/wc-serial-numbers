@@ -1,13 +1,13 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Settings {
+class WCSN_Settings {
 
 	private $settings_api;
 
 	function __construct() {
 
-		$this->settings_api = new WC_Serial_Numbers_Settings_API();
+		$this->settings_api = new WCSN_Settings_API();
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 99 );
 
@@ -27,24 +27,24 @@ class WC_Serial_Numbers_Settings {
 
 		$sections = array(
 			array(
-				'id'    => 'wc_serial_numbers_settings',
+				'id'    => 'wcsn_settings',
 				'title' => __( 'WC Serial Numbers Settings', 'wc-serial-numbers' )
 			),
 		);
 
-		return apply_filters( 'wc_serial_numbers_settings_sections', $sections );
+		return apply_filters( 'wcsn_settings_sections', $sections );
 	}
 
 	/**
 	 * Returns all the settings fields
 	 *
 	 * @return array settings fields
-	 */
+	*/
 
 	function get_settings_fields() {
 
 		$settings_fields = array(
-			'wc_serial_numbers_settings' => array(
+			'wcsn_settings' => array(
 				array(
 					'name'    => 'automatic_delivery',
 					'label'   => __( 'Automatic delivery', 'wc-serial-numbers' ),
@@ -129,9 +129,8 @@ class WC_Serial_Numbers_Settings {
 			),
 		);
 
-		return apply_filters( 'wc_serial_numbers_settings_fields', $settings_fields );
+		return apply_filters( 'wcsn_settings_fields', $settings_fields );
 	}
-
 	function admin_menu() {
 		add_submenu_page( 'wc-serial-numbers', 'WC Serial Numbers Settings', 'Settings', 'manage_woocommerce', 'wc-serial-numbers-settings', array(
 			$this,
@@ -149,4 +148,4 @@ class WC_Serial_Numbers_Settings {
 
 }
 
-new WC_Serial_Numbers_Settings();
+new WCSN_Settings();

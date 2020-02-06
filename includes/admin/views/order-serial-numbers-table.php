@@ -1,12 +1,12 @@
 <?php
 defined( 'ABSPATH' ) || exit();
-$heading_text         = apply_filters( 'wc_serial_numbers_customer_send_serial_numbers_heading', wc_serial_numbers_labels('serial_number', 'plural') );
-$table_column_heading = apply_filters( 'wc_serial_numbers_customer_send_serial_numbers_serial_column_heading', wc_serial_numbers_labels('serial_number') );
-$serial_key_label     = wc_serial_numbers_labels('serial_number');
+$heading_text         = apply_filters( 'wcsn_customer_send_serial_numbers_heading', wcsn_labels('serial_number', 'plural') );
+$table_column_heading = apply_filters( 'wcsn_customer_send_serial_numbers_serial_column_heading', wcsn_labels('serial_number') );
+$serial_key_label     = wcsn_labels('serial_number');
 $serial_email_label   = __( 'Email:', 'wc-serial-numbers' );
 
-$show_validity         = apply_filters( 'wc_serial_numbers_customer_email_show_validity', true );
-$show_activation_limit = apply_filters( 'wc_serial_numbers_customer_email_show_activation_limit', true );
+$show_validity         = apply_filters( 'wcsn_customer_email_show_validity', true );
+$show_activation_limit = apply_filters( 'wcsn_customer_email_show_activation_limit', true );
 ?>
 
 <h2 class="woocommerce-order-downloads__title"><?php echo esc_html( $heading_text ); ?></h2>
@@ -25,7 +25,7 @@ $show_activation_limit = apply_filters( 'wc_serial_numbers_customer_email_show_a
 				<a href="<?php echo esc_url( get_permalink( $serial_number->product_id ) ); ?>"><?php echo wp_kses_post( get_the_title( $serial_number->product_id ) ); ?></a>
 			</td>
 			<td class="td" style="text-align:text-align:left;">
-				<ul>
+			<ul>
 					<li><strong><?php echo esc_html( $serial_key_label ); ?></strong> <br><code><?php echo wc_serial_numbers_decrypt_serial_number( sanitize_textarea_field( $serial_number->serial_key ) ); ?></code></li>
 					<li><strong><?php echo esc_html( $serial_email_label ); ?></strong> <br><?php echo esc_html( $serial_number->activation_email ); ?></li>
 					<?php if ( $show_validity ): ?>
@@ -37,5 +37,6 @@ $show_activation_limit = apply_filters( 'wc_serial_numbers_customer_email_show_a
 				</ul>
 			</td>
 		</tr>
+
 	<?php endforeach; ?>
 </table>

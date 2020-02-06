@@ -1,10 +1,10 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Ajax {
+class WCSN_Ajax {
 	/**
-	 * WC_Serial_Numbers_Ajax constructor.
-	 */
+	 * WCSN_Ajax constructor.
+	*/
 	public function __construct() {
 		add_action( 'wp_ajax_serial_numbers_product_search', array( $this, 'search_product' ) );
 		add_action( 'wp_ajax_serial_numbers_get_decrypted_key', array( $this, 'decrypted_key' ) );
@@ -18,12 +18,12 @@ class WC_Serial_Numbers_Ajax {
 		$this->check_permission();
 		$search   = isset( $_REQUEST['search'] ) ? sanitize_text_field( $_REQUEST['search'] ) : '';
 		$page     = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
-		$products = wc_serial_numbers_get_products( [
+		$products = wcsn_get_products( [
 			'page'   => $page,
 			'search' => $search,
 			'fields' => 'id',
 		] );
-		$total    = wc_serial_numbers_get_products( [
+		$total    = wcsn_get_products( [
 			'page'   => $page,
 			'search' => $search,
 			'fields' => 'id',
@@ -77,15 +77,14 @@ class WC_Serial_Numbers_Ajax {
 			wp_send_json_error([]);
 		}
 
-		$serial_number = wc_serial_numbers_get_serial_number($serial_id);
+		$serial_number = wcsn_get_serial_number($serial_id);
 		if(empty($serial_number)){
 			wp_send_json_error([]);
 		}
 		wp_send_json_success([
-			'key' => wc_serial_numbers_decrypt_serial_number($serial_number->serial_key)
+			'key' => wcsn_decrypt_serial_number($serial_number->serial_key)
 		]);
 	}
-
 
 	/**
 	 * Check permission
@@ -129,6 +128,7 @@ class WC_Serial_Numbers_Ajax {
 	public function send_error( $data = null ) {
 		wp_send_json_error( $data );
 	}
-}
 
-new WC_Serial_Numbers_Ajax();
+
+}
+new WCSN_Ajax();
