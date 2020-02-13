@@ -10,8 +10,9 @@ defined( 'ABSPATH' ) || exit();
  * @param bool $count
  *
  * @return array|object|string|null
- */
-function wc_serial_numbers_get_products( $args = array(), $count = false ) {
+*/
+
+function wcsn_get_products( $args = array(), $count = false ) {
 	global $wpdb;
 	$query_fields  = '';
 	$query_from    = '';
@@ -45,7 +46,6 @@ function wc_serial_numbers_get_products( $args = array(), $count = false ) {
 	$query_where .= " AND $wpdb->posts.post_type IN ('$post_types')";
 
 	$query_where .= " AND $wpdb->posts.ID NOT IN (SELECT post_parent FROM $wpdb->posts WHERE post_type='product_variation') ";
-
 
 	//if serial_number
 	if ( $args['serial_number'] ) {
@@ -123,7 +123,7 @@ function wc_serial_numbers_get_products( $args = array(), $count = false ) {
 	} else {
 		$query_fields = "$wpdb->posts.ID";
 	}
-
+	
 	if ( $count ) {
 		return $wpdb->get_var( "SELECT count(id) $query_from $query_where" );
 	}
@@ -137,7 +137,7 @@ function wc_serial_numbers_get_products( $args = array(), $count = false ) {
  * since 1.0.0
  * @param $product_id
  */
-function wc_serial_numbers_product_enable_serial_number( $product_id ) {
+function wcsn_product_enable_serial_number( $product_id ) {
 	update_post_meta( $product_id, '_is_serial_number', 'true' );
 }
 
@@ -147,8 +147,6 @@ function wc_serial_numbers_product_enable_serial_number( $product_id ) {
  *
  * @return bool
  */
-function wc_serial_numbers_product_support_serial_number( $product_id ) {
+function wcsn_product_support_serial_number( $product_id ) {
 	return 'yes' == get_post_meta( $product_id, '_is_serial_number', true );
 }
-
-

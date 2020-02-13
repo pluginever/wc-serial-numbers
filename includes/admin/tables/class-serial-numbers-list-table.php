@@ -6,7 +6,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
+class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 	/**
 	 * Number of results to show per page
 	 *
@@ -70,7 +70,6 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	 * @since 1.0.0
 	 */
 	public $inactive_count;
-
 
 	/**
 	 * Base URL
@@ -143,7 +142,6 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			)
 		);
 	}
-
 
 	/**
 	 * Show the search field
@@ -230,7 +228,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	function get_columns() {
 		$columns = array(
 			'cb'               => '<input type="checkbox" />',
-			'serial_key'       => wc_serial_numbers_labels( 'serial_numbers' ),
+			'serial_key'       => wcsn_labels( 'serial_numbers' ),
 			'product'          => __( 'Product', 'wc-serial-numbers' ),
 			'order'            => __( 'Order', 'wc-serial-numbers' ),
 			'activation_limit' => __( 'Activation Limit', 'wc-serial-numbers' ),
@@ -262,7 +260,6 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		return apply_filters( 'serial_numbers_serials_table_sortable_columns', $sortable_columns );
 	}
-
 
 	/**
 	 * Gets the name of the primary column.
@@ -324,7 +321,6 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 		return sprintf( '<code class="serial-number-key encrypted"></code> %1$s%2$s', $spinner, $this->row_actions( $row_actions ) );
 	}
 
-
 	/**
 	 * since 1.0.0
 	 *
@@ -357,14 +353,14 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 					'serial_id' => $item->id,
 					'page'      => 'wc-serial-numbers-activations',
 				], admin_url( 'admin.php' ) );
-				$activation_count =  wc_serial_numbers_get_activations_count( $item->id );
+				$activation_count =  wcsn_get_activations_count( $item->id );
 				$column = sprintf('<a href="%s" target="_blank">%s</a>', $link, $activation_count);
 				break;
 			case 'validity':
 				$column = ! empty( $item->validity ) ? sprintf( _n( '%s Day', '%s Days', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
 				break;
 			case 'status':
-				$status = wc_serial_numbers_get_serial_number_status( $item, 'view' );
+				$status = wcsn_get_serial_number_status( $item, 'view' );
 				$column = "<span class='wcsn-key-status {$item->status}'>{$status}</span>";
 				break;
 			case 'expire_date':
@@ -377,7 +373,6 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		return apply_filters( 'serial_numbers_serials_table_column_content', $column, $item, $column_name );
 	}
-
 
 	/**
 	 * since 1.0.0
@@ -398,11 +393,11 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 
 				$id = (int) $id;
 				if ( 'delete' === $this->current_action() ) {
-					wc_serial_numbers_delete_serial_number( $id );
+					wcsn_delete_serial_number( $id );
 				} else if ( 'mark_available' === $this->current_action() ) {
-					wc_serial_numbers_change_serial_number_status( $id, 'available' );
+					wcsn_change_serial_number_status( $id, 'available' );
 				} else if ( 'mark_inactivate' === $this->current_action() ) {
-					wc_serial_numbers_change_serial_number_status( $id, 'inactive' );
+					wcsn_change_serial_number_status( $id, 'inactive' );
 				}
 
 			}
@@ -443,15 +438,15 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			$args['orderby'] = $orderby;
 		}
 
-		$this->total_count     = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => '' ) ), true );
-		$this->available_count = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'available' ) ), true );
-		$this->active_count    = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'active' ) ), true );
-		$this->refunded_count  = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'refunded' ) ), true );
-		$this->cancelled_count = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
-		$this->expired_count   = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'expired' ) ), true );
-		$this->inactive_count  = wc_serial_numbers_get_serial_numbers( array_merge( $args, array( 'status' => 'inactive' ) ), true );
+		$this->total_count     = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => '' ) ), true );
+		$this->available_count = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'available' ) ), true );
+		$this->active_count    = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'active' ) ), true );
+		$this->refunded_count  = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'refunded' ) ), true );
+		$this->cancelled_count = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
+		$this->expired_count   = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'expired' ) ), true );
+		$this->inactive_count  = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'inactive' ) ), true );
 
-		$results = wc_serial_numbers_get_serial_numbers( $args );
+		$results = wcsn_get_serial_numbers( $args );
 
 		return $results;
 	}

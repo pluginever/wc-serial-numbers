@@ -2,22 +2,23 @@
 defined( 'ABSPATH' ) || exit();
 
 /**
- * Class WC_Serial_Numbers_Encryption
- */
-class WC_Serial_Numbers_Encryption {
+ * Class WCSN_Encryption
+*/
+class WCSN_Encryption {
 	/**
 	 * The single instance of the class.
 	 *
-	 * @var WC_Serial_Numbers_Encryption
+	 * @var WCSN_Encryption
 	 * @since 1.0.0
-	 */
+	*/
 	protected static $instance = null;
 
 	/**
 	 * Default setting for generating hash
 	 *
 	 * @var array
-	 */
+	*/
+
 	private $_opts = [
 
 		/**
@@ -46,13 +47,13 @@ class WC_Serial_Numbers_Encryption {
 		'numberOfIterations' => 1,
 	];
 
-
 	/**
 	 * Returns the plugin loader main instance.
 	 *
-	 * @return WC_Serial_Numbers_Encryption
+	 * @return WCSN_Encryption
 	 * @since 1.0.0
-	 */
+	*/
+
 	public static function instance() {
 
 		if ( null === self::$instance ) {

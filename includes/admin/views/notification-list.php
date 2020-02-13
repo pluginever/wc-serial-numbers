@@ -1,6 +1,8 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 echo '<span class="ever-notification"><span class="alert">' . sprintf( '%02d', count( $low_stock_products ) ) . '</span></span><ul class="ever-notification-list alert">';
+
+
 foreach ($low_stock_products as $product_id => $stock){
 	$product_id = absint($product_id);
 	if(!$product_id){

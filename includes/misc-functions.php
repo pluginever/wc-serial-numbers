@@ -9,10 +9,10 @@ defined( 'ABSPATH' ) || exit();
  * @param string $default
  *
  * @return string
- */
-function wc_serial_numbers_get_settings( $key, $default = '') {
+*/
+function wcsn_get_settings( $key, $default = '') {
 
-	$option = get_option( 'wc_serial_numbers_settings', [] );
+	$option = get_option( 'wcsn_settings', [] );
 
 	return ! empty( $option[ $key ] ) ? $option[ $key ] : $default;
 }
@@ -24,9 +24,9 @@ function wc_serial_numbers_get_settings( $key, $default = '') {
  * @param bool $plural
  *
  * @return string
- */
-function wc_serial_numbers_labels( $key = 'serial_number', $plural = false ) {
-	$labels = apply_filters( 'wc_serial_numbers_labels', array(
+*/
+function wcsn_labels( $key = 'serial_number', $plural = false ) {
+	$labels = apply_filters( 'wcsn_labels', array(
 		'serial_number' => array(
 			'singular' => __( 'Serial Number', 'wc-serial-numbers' ),
 			'plural'   => __( 'Serial Numbers', 'wc-serial-numbers' ),
@@ -48,7 +48,6 @@ function wc_serial_numbers_labels( $key = 'serial_number', $plural = false ) {
 	return array_key_exists( $key, $label_group ) ? $label_group[ $key ] : $label_group['singular'];
 }
 
-
 /**
  * Get admin view
  * since 1.0.0
@@ -56,16 +55,15 @@ function wc_serial_numbers_labels( $key = 'serial_number', $plural = false ) {
  * @param $template_name
  * @param array $args
  */
-function wc_serial_numbers_get_views( $template_name, $args = [] ) {
+function wcsn_get_views( $template_name, $args = [] ) {
 	if ( $args && is_array( $args ) ) {
 		extract( $args );
 	}
 
-	if ( file_exists( WC_SERIAL_NUMBERS_PATH . '/includes/admin/views/' . $template_name ) ) {
-		include apply_filters( 'wc_serial_numbers_views', WC_SERIAL_NUMBERS_PATH . '/includes/admin/views/' . $template_name, $template_name );
+	if ( file_exists( WCSN_PATH . '/includes/admin/views/' . $template_name ) ) {
+		include apply_filters( 'wcsn_views', WCSN_PATH . '/includes/admin/views/' . $template_name, $template_name );
 	}
 }
-
 
 /**
  * Add admin notice
@@ -75,14 +73,12 @@ function wc_serial_numbers_get_views( $template_name, $args = [] ) {
  * @param string $type
  * @param bool $dismissible
  */
-function wc_serial_numbers_add_admin_notice( $notice, $type = 'success', $dismissible = true ) {
-	if(class_exists('WC_Serial_Numbers_Admin_Notice')){
-		$notices = WC_Serial_Numbers_Admin_Notice::instance();
+function wcsn_add_admin_notice( $notice, $type = 'success', $dismissible = true ) {
+	if(class_exists('WCSN_Admin_Notice')){
+		$notices = WCSN_Admin_Notice::instance();
 		$notices->add($notice, $type, $dismissible);
 	}
 }
-
-
 
 /**
  * Generate Random String
@@ -91,7 +87,7 @@ function wc_serial_numbers_add_admin_notice( $notice, $type = 'success', $dismis
  *
  * @return string
  */
-function wc_serial_numbers_generate_random_string( $length = 10 ) {
+function wcsn_generate_random_string( $length = 10 ) {
 	$chars         = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_@$#';
 	$chars_length  = strlen( $chars );
 	$random_string = '';
@@ -102,17 +98,16 @@ function wc_serial_numbers_generate_random_string( $length = 10 ) {
 	return $random_string;
 }
 
-
 /**
  * Get encrypt private key
  *
  * @return string
- */
-function wc_serial_numbers_get_encrypt_key() {
+*/
+function wcsn_get_encrypt_key() {
 	$p_key = get_option( 'wcsn_pkey', false );
 
 	if ( false === $p_key || '' === $p_key ) {
-		$salt     = wc_serial_numbers_generate_random_string();
+		$salt     = wcsn_generate_random_string();
 		$time     = time();
 		$home_url = get_home_url( '/' );
 		$salts    = array( $time, $home_url, $salt );
@@ -127,15 +122,14 @@ function wc_serial_numbers_get_encrypt_key() {
 	return $p_key;
 }
 
-
 /**
  * Is encrypted
  *
  * @param string $string
  *
  * @return bool
- */
-function wc_serial_numbers_is_encrypted_string( $string ) {
+*/
+function wcsn_is_encrypted_string( $string ) {
 	if ( preg_match( '/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/', $string ) ) {
 		return true;
 	}
@@ -146,42 +140,42 @@ function wc_serial_numbers_is_encrypted_string( $string ) {
 /**
  * since 1.0.0
  * @return mixed|void
- */
-function wc_serial_numbers_is_allowed_duplicate_serial_numbers(){
-	$allow_duplicate = 'on' == wc_serial_numbers_get_settings('allow_duplicate', '' );
-	return apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', $allow_duplicate );
+*/
+function wcsn_is_allowed_duplicate_serial_numbers(){
+	$allow_duplicate = 'on' == wcsn_get_settings('allow_duplicate', '' );
+	return apply_filters( 'wcsn_allow_duplicate_serial_number', $allow_duplicate );
+}
+
+/**
+ * @since 1.0.0
+ * @return mixed|void
+*/
+function wcsn_is_order_automatically_assign_serial_numbers(){
+	$automatic_delivery = 'on' == wcsn_get_settings('automatic_delivery', '' );
+
+	return apply_filters( 'wcsn_order_automatically_assign_serial_numbers', $automatic_delivery );
+}
+
+/**
+ * @since 1.0.0
+ * @return mixed|void
+*/
+function wcsn_is_reuse_serial_numbers(){
+	$reuse = 'on' == wcsn_get_settings('reuse_serial_numbers', '' );
+	return apply_filters( 'wcsn_reuse_serial_numbers', $reuse );
 }
 
 /**
  * @since 1.0.0
  * @return mixed|void
  */
-function wc_serial_numbers_is_order_automatically_assign_serial_numbers(){
-	$automatic_delivery = 'on' == wc_serial_numbers_get_settings('automatic_delivery', '' );
-
-	return apply_filters( 'wc_serial_numbers_order_automatically_assign_serial_numbers', $automatic_delivery );
+function wcsn_auto_complete_order(){
+	$auto_complete_order = 'on' == wcsn_get_settings('autocomplete_order', '' );
+	return apply_filters( 'wcsn_auto_complete_order', $auto_complete_order );
 }
 
-/**
- * @since 1.0.0
- * @return mixed|void
- */
-function wc_serial_numbers_is_reuse_serial_numbers(){
-	$reuse = 'on' == wc_serial_numbers_get_settings('reuse_serial_numbers', '' );
-	return apply_filters( 'wc_serial_numbers_reuse_serial_numbers', $reuse );
+function wcsn_software_disabled(){
+	$disable_software = 'on' == wcsn_get_settings('disable_software', '' );
+	return apply_filters( 'wcsn_software_disabled', $disable_software );
 }
 
-
-/**
- * @since 1.0.0
- * @return mixed|void
- */
-function wc_serial_numbers_auto_complete_order(){
-	$auto_complete_order = 'on' == wc_serial_numbers_get_settings('autocomplete_order', '' );
-	return apply_filters( 'wc_serial_numbers_auto_complete_order', $auto_complete_order );
-}
-
-function wc_serial_numbers_software_disabled(){
-	$disable_software = 'on' == wc_serial_numbers_get_settings('disable_software', '' );
-	return apply_filters( 'wc_serial_numbers_software_disabled', $disable_software );
-}

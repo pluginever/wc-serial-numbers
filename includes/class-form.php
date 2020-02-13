@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Form{
+class WCSN_Form{
 	/**
 	 * Input Control
 	 *
@@ -10,7 +10,8 @@ class WC_Serial_Numbers_Form{
 	 * @param $args
 	 *
 	 * @return string
-	 */
+	*/
+
 	public static function input_control( $args ) {
 		$args = wp_parse_args( $args, array(
 			'type'          => 'text',
@@ -71,14 +72,14 @@ class WC_Serial_Numbers_Form{
 		return $html;
 	}
 
-
 	/**
 	 * since 1.0.0
 	 *
 	 * @param $args
 	 *
 	 * @return string
-	 */
+	*/
+
 	public static function select_control( $args ) {
 		$args = wp_parse_args( $args, array(
 			'label'         => '',
@@ -160,7 +161,7 @@ class WC_Serial_Numbers_Form{
 	 * @param $args
 	 *
 	 * @return string
-	 */
+	*/
 	public static function textarea_control( $args ) {
 		$args = wp_parse_args( $args, array(
 			'label'         => '',
@@ -412,4 +413,5 @@ class WC_Serial_Numbers_Form{
 
 		return sprintf( '<p class="p-ever-description">%s</p>', $description );
 	}
+	
 }

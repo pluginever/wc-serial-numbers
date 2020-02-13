@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit();
 ?>
 	<div class="wrap wcsn-wrapper">
 		<?php
-		require_once WC_SERIAL_NUMBERS_ADMIN_ABSPATH . '/tables/class-activations-list-table.php';
-		$list_table = new WC_Serial_Numbers_Activations_List_Table();
+		require_once WCSN_ADMIN_ABSPATH . '/tables/class-activations-list-table.php';
+		$list_table = new WCSN_Activations_List_Table();
 		$list_table->prepare_items();
 		$base_url = admin_url( 'admin.php?page=wc-serial-numbers-activations' );
 		?>

@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-function wc_serial_numbers_admin_bar_notification_styles() {
+function wcsn_admin_bar_notification_styles() {
 	if ( ! current_user_can( 'manage_woocommerce' ) ) {
 		return;
 	}
@@ -69,9 +69,8 @@ function wc_serial_numbers_admin_bar_notification_styles() {
 
 <?php }
 
-add_action( 'admin_head', 'wc_serial_numbers_admin_bar_notification_styles' );
-add_action( 'wp_head', 'wc_serial_numbers_admin_bar_notification_styles' );
-
+add_action( 'admin_head', 'wcsn_admin_bar_notification_styles' );
+add_action( 'wp_head', 'wcsn_admin_bar_notification_styles' );
 
 /**
  * @param int $stock
@@ -79,19 +78,57 @@ add_action( 'wp_head', 'wc_serial_numbers_admin_bar_notification_styles' );
  * @return array
  * @since 1.0.0
  */
-function serial_numbers_get_low_stocked_products( $force = false, $stock = 10 ) {
+function wcsn_get_low_stocked_products( $force = false, $stock = 10 ) {
 	$transient = md5( 'wcsn_low_stocked_products' . $stock );
 	if ( $force || false == $low_stocks = get_transient( $transient ) ) {
 		global $wpdb;
-		$product_ids   = $wpdb->get_results( "select post_id product_id, 0 as count from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes'" );
-		$serial_counts = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) as count FROM $wpdb->wcsn_serials_numbers where status='available' AND product_id IN (select post_id from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes')
-																group by product_id having count < %d order by count asc", $stock ) );
+		$product_ids = $wpdb->get_results( "select post_id product_id, 0 as count from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes'" );
+
+		$serial_counts = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) as count FROM $wpdb->wcsn_serials_numbers where status='available' AND product_id IN (select post_id from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes') group by product_id having count < %d order by count asc", $stock ) );
+
 		$serial_counts = wp_list_pluck( $serial_counts, 'count', 'product_id' );
 
-		$product_ids   = wp_list_pluck( $product_ids, 'count', 'product_id' );
-		$low_stocks    = array_replace( $product_ids, $serial_counts );
+		$product_ids = wp_list_pluck( $product_ids, 'count', 'product_id' );
+		$low_stocks  = array_replace( $product_ids, $serial_counts );
 		set_transient( $transient, $low_stocks, time() + 60 * 20 );
 	}
 
 	return $low_stocks;
 }
+
+function wcsn_send_stock_email_notification() {
+	$notification = wcsn_get_settings( 'low_stock_notification', false );
+	if ( ! $notification ) {
+		return false;
+	}
+
+	$stock_threshold = wcsn_get_settings( 'low_stock_threshold', 10 );
+	$to              = wcsn_get_settings( 'low_stock_notification_email', '' );
+	if ( empty( $to ) ) {
+		return false;
+	}
+
+	$low_stock_products = wcsn_get_low_stocked_products( $stock_threshold, true );
+	if ( empty( $low_stock_products ) ) {
+		return false;
+	}
+
+	$subject = __( 'Serial Numbers stock running low', 'wc-serial-numbers' );
+	/** $woocommerce WooCommerce */
+	global $woocommerce;
+	$mailer = $woocommerce->mailer();
+
+	ob_start();
+	wcsn_get_views( 'email-notification-body.php', compact( 'low_stock_products' ) );
+	$message = ob_get_contents();
+	ob_get_clean();
+
+	$message = $mailer->wrap_message( $subject, $message );
+	$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message' );
+	$mailer->send( $to, $subject, $message, $headers, array() );
+
+	exit();
+}
+
+add_action( 'wcsn_daily_event', 'wcsn_send_stock_email_notification' );
+

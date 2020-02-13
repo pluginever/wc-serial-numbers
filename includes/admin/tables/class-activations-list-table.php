@@ -6,13 +6,13 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
-	/**
-	 * Number of results to show per page
-	 *
-	 * @var string
-	 * @since 1.0.0
-	 */
+class WCSN_Activations_List_Table extends \WP_List_Table {
+/**
+ * Number of results to show per page
+ *
+ * @var string
+ * @since 1.0.0
+ */
 	public $per_page = 20;
 
 	/**
@@ -36,7 +36,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	 *
 	 * @var string
 	 * @since 1.0.0
-	 */
+	*/
 	public $inactive_count;
 
 	/**
@@ -44,7 +44,6 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	 * @var string
 	 */
 	public $base_url;
-
 
 	public function __construct() {
 		parent::__construct( array(
@@ -54,6 +53,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		) );
 		$this->base_url = admin_url( 'admin.php?page=wc-serial-numbers' );
 		$this->process_bulk_action();
+
 	}
 
 	/**
@@ -187,7 +187,6 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		return apply_filters( 'serial_numbers_activation_table_columns', $columns );
 	}
 
-
 	/**
 	 * since 1.0.0
 	 * @return array
@@ -206,7 +205,6 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 
 		return apply_filters( 'serial_numbers_activation_table_sortable_columns', $sortable_columns );
 	}
-
 
 	/**
 	 * Gets the name of the primary column.
@@ -260,7 +258,6 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		return sprintf( '<strong>%1$s</strong>%2$s', $item->instance, $this->row_actions( $row_actions ) );
 	}
 
-
 	/**
 	 * since 1.0.0
 	 *
@@ -306,7 +303,6 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 
 		return apply_filters( 'serial_numbers_activations_table_column_content', $column, $item, $column_name );
 	}
-
 
 	/**
 	 * since 1.0.0
@@ -374,15 +370,15 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			$args['orderby'] = $orderby;
 		}
 
-		$this->total_count     = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => '' ) ), true );
-		$this->available_count = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'available' ) ), true );
-		$this->active_count    = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'active' ) ), true );
-		$this->refunded_count  = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'refunded' ) ), true );
-		$this->cancelled_count = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
-		$this->expired_count   = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'expired' ) ), true );
-		$this->inactive_count  = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'inactive' ) ), true );
+		$this->total_count     = wcsn_get_activations( array_merge( $args, array( 'status' => '' ) ), true );
+		$this->available_count = wcsn_get_activations( array_merge( $args, array( 'status' => 'available' ) ), true );
+		$this->active_count    = wcsn_get_activations( array_merge( $args, array( 'status' => 'active' ) ), true );
+		$this->refunded_count  = wcsn_get_activations( array_merge( $args, array( 'status' => 'refunded' ) ), true );
+		$this->cancelled_count = wcsn_get_activations( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
+		$this->expired_count   = wcsn_get_activations( array_merge( $args, array( 'status' => 'expired' ) ), true );
+		$this->inactive_count  = wcsn_get_activations( array_merge( $args, array( 'status' => 'inactive' ) ), true );
 
-		$results = wc_serial_numbers_get_activations( $args );
+		$results = wcsn_get_activations( $args );
 
 		return $results;
 	}

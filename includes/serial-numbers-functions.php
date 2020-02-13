@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit();
  * Get serial number's statuses
  * since 1.2.0
  * @return array
- */
+*/
 function wcsn_get_serial_number_statuses() {
 	return array(
 		'available' => __( 'Available', 'wc-serial-numbers' ),
@@ -35,7 +35,7 @@ function wcsn_insert_serial_number( $args ) {
 	if ( isset( $args['id'] ) && ! empty( trim( $args['id'] ) ) ) {
 		$id          = (int) $args['id'];
 		$update      = true;
-		$item_before = (array) wc_serial_numbers_get_serial_number( $id );
+		$item_before = (array) wcsn_get_serial_number( $id );
 		if ( is_null( $item_before ) ) {
 			return new \WP_Error( 'invalid_action', __( 'Could not find the item to  update', 'wc-serial-numbers' ) );
 		}
@@ -70,7 +70,7 @@ function wcsn_insert_serial_number( $args ) {
 		return new WP_Error( 'empty_content', __( 'The Serial Number is empty. Please enter a serial number and try again', 'wc-serial-numbers' ) );
 	}
 
-	$allow_duplicate = wc_serial_numbers_is_allowed_duplicate_serial_numbers();
+	$allow_duplicate = wcsn_is_allowed_duplicate_serial_numbers();
 
 	if ( ! $allow_duplicate ) {
 		$exists = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->wcsn_serials_numbers WHERE serial_key=%s AND product_id=%d", $args['serial_key'], $args['product_id'] ) );
@@ -83,19 +83,19 @@ function wcsn_insert_serial_number( $args ) {
 	$data  = wp_unslash( $data );
 
 	if ( $update ) {
-		do_action( 'wc_serial_numbers_pre_serial_number_update', $id, $data );
+		do_action( 'wcsn_pre_serial_number_update', $id, $data );
 		if ( false === $wpdb->update( $wpdb->wcsn_serials_numbers, $data, $where ) ) {
 			return new WP_Error( 'db_update_error', __( 'Could not update serial number in the database', 'wc-serial-numbers' ), $wpdb->last_error );
 		}
-		do_action( 'wc_serial_numbers_serial_number_update', $id, $data, $item_before );
+		do_action( 'wcsn_serial_number_update', $id, $data, $item_before );
 	} else {
-		do_action( 'wc_serial_numbers_pre_serial_number_insert', $id, $data );
+		do_action( 'wcsn_pre_serial_number_insert', $id, $data );
 		if ( false === $wpdb->insert( $wpdb->wcsn_serials_numbers, $data ) ) {
 
 			return new WP_Error( 'db_insert_error', __( 'Could not insert serial number into the database', 'wc-serial-numbers' ), $wpdb->last_error );
 		}
 		$id = (int) $wpdb->insert_id;
-		do_action( 'wc_serial_numbers_serial_number_insert', $id, $data );
+		do_action( 'wcsn_serial_number_insert', $id, $data );
 	}
 
 	update_post_meta( $data['product_id'], '_is_serial_number', 'yes' );
@@ -111,21 +111,21 @@ function wcsn_insert_serial_number( $args ) {
  * @param $id
  *
  * @return bool
- */
-function wc_serial_numbers_delete_serial_number( $id ) {
+*/
+function wcsn_delete_serial_number( $id ) {
 	global $wpdb;
 	$id = absint( $id );
 
-	$account = wc_serial_numbers_get_serial_number( $id );
+	$account = wcsn_get_serial_number( $id );
 	if ( is_null( $account ) ) {
 		return false;
 	}
 
-	do_action( 'wc_serial_numbers_pre_serial_number_delete', $id, $account );
+	do_action( 'wcsn_pre_serial_number_delete', $id, $account );
 	if ( false == $wpdb->delete( $wpdb->wcsn_serials_numbers, array( 'id' => $id ), array( '%d' ) ) ) {
 		return false;
 	}
-	do_action( 'wc_serial_numbers_serial_number_delete', $id, $account );
+	do_action( 'wcsn_serial_number_delete', $id, $account );
 
 	return true;
 }
@@ -138,7 +138,7 @@ function wc_serial_numbers_delete_serial_number( $id ) {
  *
  * @return array|object|void|null
  */
-function wc_serial_numbers_get_serial_number( $id, $by = 'id' ) {
+function wcsn_get_serial_number( $id, $by = 'id' ) {
 	global $wpdb;
 	switch ( $by ) {
 		case 'serial_key':
@@ -164,8 +164,8 @@ function wc_serial_numbers_get_serial_number( $id, $by = 'id' ) {
  * @param bool $count
  *
  * @return array|object|string|null
- */
-function wc_serial_numbers_get_serial_numbers( $args = array(), $count = false ) {
+*/
+function wcsn_get_serial_numbers( $args = array(), $count = false ) {
 	global $wpdb;
 	$query_fields  = '';
 	$query_from    = '';
@@ -186,7 +186,6 @@ function wc_serial_numbers_get_serial_numbers( $args = array(), $count = false )
 		'offset'         => 0,
 		'expire_date'    => current_time( 'mysql' ),
 	);
-
 
 	$args        = wp_parse_args( $args, $default );
 	$query_from  = "FROM $wpdb->wcsn_serials_numbers";
@@ -275,7 +274,7 @@ function wc_serial_numbers_get_serial_numbers( $args = array(), $count = false )
 		$searches = array();
 		$cols     = array_map( 'sanitize_key', $args['search_columns'] );
 		foreach ( $cols as $col ) {
-			$like       = '%' . $wpdb->esc_like( $col == 'serial_key' ? wc_serial_numbers_encrypt_serial_number( $search ) : $search ) . '%';
+			$like       = '%' . $wpdb->esc_like( $col == 'serial_key' ? wcsn_encrypt_serial_number( $search ) : $search ) . '%';
 			$searches[] = $wpdb->prepare( "$col LIKE %s", $like );
 		}
 
@@ -320,7 +319,7 @@ function wc_serial_numbers_get_serial_numbers( $args = array(), $count = false )
  *
  * @return bool|int|WP_Error|null
  */
-function wc_serial_numbers_change_serial_number_status( $id, $status ) {
+function wcsn_change_serial_number_status( $id, $status ) {
 	if ( empty( $id = absint( $id ) ) ) {
 		return false;
 	}
@@ -341,9 +340,9 @@ function wc_serial_numbers_change_serial_number_status( $id, $status ) {
  *
  * @return string|WP_Error
  */
-function wc_serial_numbers_encrypt_serial_number( $key ) {
-	$p_key      = wc_serial_numbers_get_encrypt_key();
-	$encryption = WC_Serial_Numbers_Encryption::instance();
+function wcsn_encrypt_serial_number( $key ) {
+	$p_key      = wcsn_get_encrypt_key();
+	$encryption = WCSN_Encryption::instance();
 	try {
 		return $string = $encryption->encrypt( $key, $p_key, 'kcv4tu0FSCB9oJyH' );
 	} catch ( Exception $exception ) {
@@ -358,10 +357,10 @@ function wc_serial_numbers_encrypt_serial_number( $key ) {
  *
  * @return string|WP_Error
  */
-function wc_serial_numbers_decrypt_serial_number( $key ) {
+function wcsn_decrypt_serial_number( $key ) {
 
-	$p_key      = wc_serial_numbers_get_encrypt_key();
-	$encryption = WC_Serial_Numbers_Encryption::instance();
+	$p_key      = wcsn_get_encrypt_key();
+	$encryption = WCSN_Encryption::instance();
 	try {
 		return $string = $encryption->decrypt( $key, $p_key, 'kcv4tu0FSCB9oJyH' );
 	} catch ( Exception $exception ) {

@@ -1,20 +1,18 @@
 <?php
 
 function wcsn_update_1_2_0() {
-
 	//cron update
 	wp_clear_scheduled_hook( 'wcsn_per_minute_event' );
 	wp_clear_scheduled_hook( 'wcsn_daily_event' );
 	wp_clear_scheduled_hook( 'wcsn_hourly_event' );
 
-	if ( ! wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
-		wp_schedule_event( time(), 'hourly', 'wc_serial_numbers_hourly_event' );
+	if ( ! wp_next_scheduled( 'wcsn_hourly_event' ) ) {
+		wp_schedule_event( time(), 'hourly', 'wcsn_hourly_event' );
 	}
 
-	if ( ! wp_next_scheduled( 'wc_serial_numbers_daily_event' ) ) {
-		wp_schedule_event( time(), 'daily', 'wc_serial_numbers_daily_event' );
+	if ( ! wp_next_scheduled( 'wcsn_daily_event' ) ) {
+		wp_schedule_event( time(), 'daily', 'wcsn_daily_event' );
 	}
-
 
 	global $wpdb;
 	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD customer_id bigint(20) NOT NULL DEFAULT 0" );
@@ -31,7 +29,6 @@ function wcsn_update_1_2_0() {
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'available', 'new' ) );
 //	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'rejected', 'cancelled' ) );
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'cancelled', 'pending' ) );
-
 
 	//settings update
 	$updated_settings = [];
@@ -73,7 +70,7 @@ function wcsn_update_1_2_0() {
 		'low_stock_notification_email' => get_option( 'admin_email' ),
 	), $updated_settings );
 
-	update_option( 'wc_serial_numbers_settings', $updated_settings );
+	update_option( 'wcsn_settings', $updated_settings );
 
 	$order = $wpdb->get_col( "SELECT distinct  order_id from $wpdb->wcsn_serials_numbers WHERE order_id !='' AND order_id !='0'" );
 	foreach ( $order as $order_id ) {
@@ -90,7 +87,6 @@ function wcsn_update_1_2_0() {
 		}
 
 		update_post_meta($order_id, 'wc_serial_numbers_products', $meta);
-
 	}
 
 }

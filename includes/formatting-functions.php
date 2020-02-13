@@ -7,10 +7,10 @@ defined( 'ABSPATH' ) || exit();
  * @param string $context
  *
  * @return string
- */
-function wc_serial_numbers_get_serial_number_status( $serial_number, $context = 'edit' ) {
+*/
+function wcsn_get_serial_number_status( $serial_number, $context = 'edit' ) {
 	if ( ! isset( $serial_number->status ) && is_numeric( $serial_number ) ) {
-		$serial_number = wc_serial_numbers_get_serial_number( $serial_number );
+		$serial_number = wcsn_get_serial_number( $serial_number );
 	}
 	$statues = wcsn_get_serial_number_statuses();
 	$status  = 'inactive';
@@ -31,8 +31,8 @@ function wc_serial_numbers_get_serial_number_status( $serial_number, $context = 
  * @param $serial
  *
  * @return string
- */
-function wc_serial_numbers_get_serial_expiration_date( $serial ) {
+*/
+function wcsn_get_serial_expiration_date( $serial ) {
 	if ( empty( $serial->validity ) ) {
 		return __( 'Never Expire', 'wc-serial-numbers' );
 	}
@@ -46,7 +46,7 @@ function wc_serial_numbers_get_serial_expiration_date( $serial ) {
  *
  * @return string|void
  */
-function wc_serial_numbers_get_serial_activation_limit($serial){
+function wcsn_get_serial_activation_limit($serial){
 	if ( empty( $serial->activation_limit ) ) {
 		return __( 'Unlimited', 'wc-serial-numbers' );
 	}
