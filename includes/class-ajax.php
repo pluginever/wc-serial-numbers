@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WCSN_Ajax {
+class WCSN_AJAX{
 	/**
 	 * WCSN_Ajax constructor.
 	*/
@@ -129,6 +129,4 @@ class WCSN_Ajax {
 		wp_send_json_error( $data );
 	}
 
-
 }
-new WCSN_Ajax();

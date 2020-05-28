@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Serial Numbers
  * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
  * Description: The best WooCommerce Plugin to sell license keys, redeem cards and other secret numbers!
- * Version:     1.1.3
+ * Version:     1.1.4
  * Author:      pluginever
  * Author URI:  http://pluginever.com
  * Donate link: https://pluginever.com/contact
@@ -13,7 +13,7 @@
  * Tested up to: 5.3
  * WC requires at least: 3.0.0
  * WC tested up to: 3.8.0
-*/
+ */
 
 /**
  * Copyright (c) 2019 pluginever (email : support@pluginever.com)
@@ -31,7 +31,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 
 // don't call the file directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -39,26 +39,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Main WCSerialNumbers Class.
+ * Main WC_Serial_Numbers Class.
  *
- * @class WCSerialNumbers
-*/
+ * @class WC_Serial_Numbers
+ */
+final class WC_Serial_Numbers {
 
-final class WCSerialNumbers {
 	/**
-	 * WCSerialNumbers version.
+	 * WC_Serial_Numbers version.
 	 *
 	 * @var string
-	*/
-	public $version = '1.1.3';
+	 */
+	public $version = '1.1.4';
 
 	/**
-	 * The single instance of the class.
-	 *
-	 * @var WCSerialNumbers
-	 * @since 1.0.0
+	 * @var WC_Serial_Numbers The one true WC_Serial_Numbers
+	 * @since 1.0
 	 */
-	protected static $instance = null;
+	private static $instance;
 
 	/**
 	 * @since 1.0.0
@@ -68,15 +66,19 @@ final class WCSerialNumbers {
 	public $plugin_name = 'WooCommerce Serial Numbers';
 
 	/**
-	 * Returns the plugin loader main instance.
+	 * Main WC_Serial_Numbers Instance
 	 *
-	 * @return \WCSerialNumbers
-	 * @since 1.0.0
-	*/
+	 * Insures that only one instance of WC_Serial_Numbers exists in memory at any one
+	 * time. Also prevents needing to define globals all over the place.
+	 *
+	 * @return WC_Serial_Numbers The one true WC_Serial_Numbers
+	 * @since 1.0
+	 * @static
+	 * @static var array $instance
+	 */
 	public static function instance() {
 
 		if ( null === self::$instance ) {
-
 			self::$instance = new self();
 		}
 
@@ -84,106 +86,58 @@ final class WCSerialNumbers {
 	}
 
 	/**
-	 * Cloning is forbidden.
+	 * Throw error on object clone
 	 *
+	 * The whole idea of the singleton design pattern is that there is a single
+	 * object therefore, we don't want the object to be cloned.
+	 *
+	 * @access protected
 	 * @return void
-	 * @since 1.0.0
-	*/
+	 */
+
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'wc-serial-numbers' ), '1.0.0' );
+		// Cloning instances of the class is forbidden
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wc-serial-numbers' ), WCSN_VERSION );
 	}
 
 	/**
-	 * Universalizing instances of this class is forbidden.
+	 * Disable unserializing of the class
 	 *
+	 * @access protected
 	 * @return void
-	 * @since 1.0.0
-	*/
+	 */
+
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'wc-serial-numbers' ), '1.0.0' );
+		// Unserializing instances of the class is forbidden
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wc-serial-numbers' ), WCSN_VERSION );
 	}
 
-	/**
-	 * Determines if the pro version active.
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 *
-	*/
-	public function is_pro_active() {
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-		return is_plugin_active( 'wc-serial-numbers-pro/wc-serial-numbers-pro.php' ) == true;
-	}
 
 	/**
-	 * Determines if the wc active.
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 *
-	*/
-	public function is_wc_active() {
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-		return is_plugin_active( 'woocommerce/woocommerce.php' ) == true;
-	}
-
-	/**
-	 *  WCSerialNumbers Constructor.
-	*/
-	public function __construct() {
-		$this->define_constants();
+	 * WC_Serial_Numbers constructor.
+	 */
+	protected function __construct() {
+		$this->setup_constants();
 		$this->define_tables();
 		$this->includes();
 		$this->init_hooks();
 	}
 
 	/**
-	 * define plugin constants
+	 * Setup plugin constants
 	 *
-	 * since 1.0.0
-	*/
-	private function define_constants() {
-		define( 'WCSN_VERSION', $this->version );
-		define( 'WCSN_FILE', __FILE__ );
-		define( 'WCSN_PATH', dirname( WCSN_FILE ) );
-		define( 'WCSN_INCLUDES', WCSN_PATH . '/includes' );
-		define( 'WCSN_URL', plugins_url( '', WCSN_FILE ) );
-		define( 'WCSN_ASSETS_URL', WCSN_URL . '/assets' );
-	}
-
-	/**
-	 * Include required core files used in admin and on the frontend.
+	 * @access private
+	 * @return void
 	 */
-	public function includes() {
-		require_once( WCSN_INCLUDES . '/class-serial-install.php' );
-		require_once( WCSN_INCLUDES . '/class-update.php' );
-		require_once( WCSN_INCLUDES . '/serial-numbers-functions.php' );
-		require_once( WCSN_INCLUDES . '/hook-functions.php' );
-		require_once( WCSN_INCLUDES . '/activation-functions.php' );
-		require_once( WCSN_INCLUDES . '/product-functions.php' );
-		require_once( WCSN_INCLUDES . '/checkout-functions.php' );
-		require_once( WCSN_INCLUDES . '/order-functions.php' );
-		require_once( WCSN_INCLUDES . '/misc-functions.php' );
-		require_once( WCSN_INCLUDES . '/formatting-functions.php' );
-		require_once( WCSN_INCLUDES . '/notification-functions.php' );
-		require_once( WCSN_INCLUDES . '/class-encryption.php' );
-		require_once( WCSN_INCLUDES . '/class-ajax.php' );
-		//include_once( WCSN_INCLUDES . '/deprecated/deprecated-functions.php' );
-//		require_once( WCSN_INCLUDES . '/class-serial-number.php' );
-//		require_once( WCSN_INCLUDES . '/class-activations.php' );
-//		require_once( WCSN_INCLUDES . '/class-product.php' );
-//		require_once( WCSN_INCLUDES . '/hook-functions.php' );
-		if ( ! wcsn_software_disabled() ) {
-			require_once( WCSN_INCLUDES . '/class-api.php' );
-		}
 
-		if ( is_admin() ) {
-			require_once( WCSN_INCLUDES . '/class-form.php' );
-			require_once( WCSN_INCLUDES . '/admin/class-admin.php' );
-		}
+	private function setup_constants() {
+		define( 'WCSN_VERSION', $this->version );
+		define( 'WCSN_MIN_PHP_VERSION', '5.6' );
+		define( 'WCSN_PLUGIN_FILE', __FILE__ );
+		define( 'WCSN_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+		define( 'WCSN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 	}
+
 
 	/**
 	 * Register custom tables within $wpdb object.
@@ -194,19 +148,35 @@ final class WCSerialNumbers {
 		$wpdb->wcsn_activations     = $wpdb->prefix . 'wcsn_activations';
 	}
 
+
+	/**
+	 * Include required core files used in admin and on the frontend.
+	 */
+	public function includes() {
+		require_once dirname( __FILE__ ) . '/includes/class-wcsn-install.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wcsn-cron-handler.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wcsn-serial-number.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wcsn-product.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wcsn-encryption.php';
+
+		if(is_admin()){
+			require_once dirname( __FILE__ ) . '/includes/admin/class-wcsn-admin.php';
+		}
+	}
+
 	/**
 	 * Hook into actions and filters.
 	 *
 	 * @since 1.0.0
-	*/
+	 */
 	private function init_hooks() {
-		register_activation_hook( WCSN_FILE, array( 'WCSN_Install', 'install' ) );
+		register_activation_hook( __FILE__, array( 'WCSN_Install', 'activate' ) );
 		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), - 1 );
-		add_action( 'init', array( $this, 'localization_setup' ) );
-		add_action( 'activated_plugin', array( $this, 'activated_plugin' ) );
-		add_action( 'deactivated_plugin', array( $this, 'deactivated_plugin' ) );
-		add_action( 'admin_init', array( $this, 'deactivated_plugin' ) );
-		add_action( 'wcsn_hourly_event', array( $this, 'check_expired_serial_numbers' ) );
+		add_action( 'plugins_loaded', array( $this, 'localization_setup' ) );
+		add_action( 'init', array( $this, 'init_update' ) );
+
+		add_filter( 'cron_schedules', array( $this, 'custom_cron_schedules' ), 20 );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
 	}
 
 	/**
@@ -216,9 +186,9 @@ final class WCSerialNumbers {
 	 * are loaded, to avoid issues caused by plugin directory naming changing
 	 *
 	 * @since 1.0.0
-	*/
+	 */
 	public function on_plugins_loaded() {
-		do_action( 'wcsn_loaded' );
+		do_action( 'wc_serial_numbers_loaded' );
 	}
 
 	/**
@@ -227,37 +197,16 @@ final class WCSerialNumbers {
 	 * @return void
 	 * @since 1.0.0
 	 *
-	*/
+	 */
 	public function localization_setup() {
 		load_plugin_textdomain( 'wc-serial-numbers', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages/' );
 	}
 
-	/**
-	 * Ran when any plugin is activated.
-	 *
-	 * @param string $filename The filename of the activated plugin.
-	 *
-	 * @since 1.0.0
-	*/
-	public function activated_plugin( $filename ) {
-
-	}
-
-	/**
-	 * Ran when any plugin is deactivated.
-	 *
-	 * @param string $filename The filename of the deactivated plugin.
-	 *
-	 * @since 1.0.0
-	*/
-	public function deactivated_plugin( $filename ) {
-
-	}
 
 	/**
 	 * Run Update
 	 * since 1.0.0
-	*/
+	 */
 	public function init_update() {
 		if ( class_exists( 'WCSN_Update' ) && current_user_can( 'manage_options' ) ) {
 			$updater = new WCSN_Update();
@@ -268,30 +217,12 @@ final class WCSerialNumbers {
 	}
 
 	/**
-	 * Get the plugin url.
-	 *
-	 * @return string
-	*/
-	public function plugin_url() {
-		return untrailingslashit( plugins_url( '/', WCSN_FILE ) );
-	}
-
-	/**
-	 * Get the plugin path.
-	 *
-	 * @return string
-	*/
-	public function plugin_path() {
-		return untrailingslashit( plugin_dir_path( WCSN_FILE ) );
-	}
-
-		/**
 	 * Add custom cron schedule
 	 *
 	 * @param $schedules
 	 *
 	 * @return mixed
-	*/
+	 */
 	public function custom_cron_schedules( $schedules ) {
 		$schedules ['once_a_minute'] = array(
 			'interval' => 60,
@@ -302,21 +233,77 @@ final class WCSerialNumbers {
 	}
 
 	/**
-	 * Disable all expired serial numbers
+	 * Plugin action links
 	 *
-	 * since 1.0.0
-	*/
-	public function check_expired_serial_numbers() {
-		global $wpdb;
-		$wpdb->query( "update $wpdb->wcsn_serials_numbers set status='expired' where expire_date != '0000-00-00 00:00:00' AND expire_date < NOW()" );
-		$wpdb->query( "update $wpdb->wcsn_serials_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
+	 * @param array $links
+	 *
+	 * @return array
+	 */
+	public function plugin_action_links( $links ) {
+		$links[] = '<a href="https://www.pluginever.com/docs/woocommerce-serial-numbers/">' . __( 'Documentation', 'wc-serial-numbers' ) . '</a>';
+		if ( ! $this->is_pro_active() ) {
+			$links[] = '<a href="https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=plugin_action_link&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro" style="color: red;font-weight: bold;" target="_blank">' . __( 'Upgrade to PRO', 'wc-serial-numbers' ) . '</a>';
+		}
+
+		return $links;
 	}
 
+	/**
+	 * Determines if the wc active.
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 *
+	 */
+	public function is_wc_active() {
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+		return is_plugin_active( 'woocommerce/woocommerce.php' ) == true;
+	}
+
+	/**
+	 * Determines if the pro version active.
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 *
+	 */
+	public function is_pro_active() {
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+		return is_plugin_active( 'wc-serial-numbers-pro/wc-serial-numbers-pro.php' ) == true;
+	}
+
+	/**
+	 * Returns error message and deactivates plugin when wc not installed.
+	 *
+	 * @since 1.0.0
+	 */
+	public function wc_required_notice() {
+		if ( current_user_can( 'manage_options' ) ) {
+			$message = sprintf( __( '<strong>WooCommerce Serial Numbers</strong> requires <strong>WooCommerce</strong> installed and activated. Please Install %s WooCommerce. %s', 'wc-serial-numbers' ),
+				'<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' );
+			echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', $message );
+		}
+	}
 }
 
-function wcsn() {
-	return WCSerialNumbers::instance();
-}
 
-//fire off the plugin
-wcsn();
+if ( ! function_exists( 'wc_serial_numbers' ) ) {
+	/**
+	 * The main function responsible for returning the one true WC Serial Numbers
+	 * Instance to functions everywhere.
+	 *
+	 * Use this function like you would a global variable, except without needing
+	 * to declare the global.
+	 *
+	 * @return WC_Serial_Numbers
+	 * @since 1.0.0
+	 */
+	function wc_serial_numbers() {
+		return WC_Serial_Numbers::instance();
+	}
+
+	// Get WC Serial Numbers Running
+	wc_serial_numbers();
+}

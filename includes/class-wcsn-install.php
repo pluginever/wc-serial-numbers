@@ -19,7 +19,7 @@ class WCSN_Install {
 	 *
 	 * @since 1.0.0
 	*/
-	public static function uninstall() {
+	public static function deactivate() {
 
 	}
 
@@ -79,10 +79,10 @@ class WCSN_Install {
 	 * @since 1.2.0
 	 */
 	public static function create_default_data() {
-		$key     = sanitize_key( wcsn()->plugin_name );
+		$key     = sanitize_key( wc_serial_numbers()->plugin_name );
 		$version = get_option( $key . '_version', '0' );
 		if ( empty( $version ) ) {
-			update_option( $key . '_version', wcsn()->version );
+			update_option( $key . '_version', wc_serial_numbers()->version );
 		}
 
 		$install_date = get_option( $key . '_install_time', '0' );

@@ -1,10 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-/**
- * Class Serial_Numbers_Ajax
- */
-class Serial_Numbers_Ajax{
+class WCSN_API {
 	/**
 	 * The single instance of the class.
 	 *
@@ -27,6 +24,21 @@ class Serial_Numbers_Ajax{
 
 		return self::$instance;
 	}
+
+
+	/**
+	 * WCSN_API constructor.
+	 */
+	public function __construct() {
+
+	}
+
+
+	public static function is_enabled() {
+
+	}
+
+
 }
 
-Serial_Numbers_Ajax::instance();
+WCSN_API::instance();

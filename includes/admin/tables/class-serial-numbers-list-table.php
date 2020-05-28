@@ -228,7 +228,7 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 	function get_columns() {
 		$columns = array(
 			'cb'               => '<input type="checkbox" />',
-			'serial_key'       => wcsn_labels( 'serial_numbers' ),
+			'serial_key'       => __( 'Serial Number', 'wc-serial-numbers' ),
 			'product'          => __( 'Product', 'wc-serial-numbers' ),
 			'order'            => __( 'Order', 'wc-serial-numbers' ),
 			'activation_limit' => __( 'Activation Limit', 'wc-serial-numbers' ),
@@ -393,11 +393,11 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 
 				$id = (int) $id;
 				if ( 'delete' === $this->current_action() ) {
-					wcsn_delete_serial_number( $id );
+					WCSN_Serial_Number::delete( $id );
 				} else if ( 'mark_available' === $this->current_action() ) {
-					wcsn_change_serial_number_status( $id, 'available' );
+					WCSN_Serial_Number::update_status( $id, 'available' );
 				} else if ( 'mark_inactivate' === $this->current_action() ) {
-					wcsn_change_serial_number_status( $id, 'inactive' );
+					WCSN_Serial_Number::update_status( $id, 'inactive' );
 				}
 
 			}
@@ -438,15 +438,15 @@ class WCSN_Serial_Numbers_List_Table extends \WP_List_Table {
 			$args['orderby'] = $orderby;
 		}
 
-		$this->total_count     = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => '' ) ), true );
-		$this->available_count = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'available' ) ), true );
-		$this->active_count    = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'active' ) ), true );
-		$this->refunded_count  = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'refunded' ) ), true );
-		$this->cancelled_count = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
-		$this->expired_count   = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'expired' ) ), true );
-		$this->inactive_count  = wcsn_get_serial_numbers( array_merge( $args, array( 'status' => 'inactive' ) ), true );
+		$this->total_count     = WCSN_Serial_Number::query( array_merge( $args, array( 'status' => '' ) ), true );
+		$this->available_count = WCSN_Serial_Number::query( array_merge( $args, array( 'status' => 'available' ) ), true );
+		$this->active_count    = WCSN_Serial_Number::query( array_merge( $args, array( 'status' => 'active' ) ), true );
+		$this->refunded_count  = WCSN_Serial_Number::query( array_merge( $args, array( 'status' => 'refunded' ) ), true );
+		$this->cancelled_count = WCSN_Serial_Number::query( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
+		$this->expired_count   = WCSN_Serial_Number::query( array_merge( $args, array( 'status' => 'expired' ) ), true );
+		$this->inactive_count  = WCSN_Serial_Number::query( array_merge( $args, array( 'status' => 'inactive' ) ), true );
 
-		$results = wcsn_get_serial_numbers( $args );
+		$results = WCSN_Serial_Number::query( $args );
 
 		return $results;
 	}
