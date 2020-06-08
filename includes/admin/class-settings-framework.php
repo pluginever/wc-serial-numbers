@@ -326,7 +326,8 @@ if ( ! class_exists( 'Ever_Settings_Framework' ) ):
 			$value       = esc_textarea( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 			$size        = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 			$placeholder = empty( $args['placeholder'] ) ? '' : ' placeholder="' . $args['placeholder'] . '"';
-			$html        = sprintf( '<textarea rows="5" cols="55" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]"%4$s>%5$s</textarea>', $size, $args['section'], $args['id'], $placeholder, $value );
+			$disabled    = isset( $args['disabled'] ) ? $args['disabled'] : '';
+			$html        = sprintf( '<textarea rows="5" cols="55" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]"%4$s%5$s>%6$s</textarea>', $size, $args['section'], $args['id'], $placeholder, $disabled, $value );
 			$html        .= $this->get_field_description( $args );
 			echo $html;
 		}
@@ -432,6 +433,7 @@ if ( ! class_exists( 'Ever_Settings_Framework' ) ):
 			if ( ! $options ) {
 				return $options;
 			}
+
 			foreach ( $options as $option_slug => $option_value ) {
 				$sanitize_callback = $this->get_sanitize_callback( $option_slug );
 				// If callback is set, call it
@@ -520,10 +522,10 @@ if ( ! class_exists( 'Ever_Settings_Framework' ) ):
 					<div id="<?php echo $form['id']; ?>" class="group" style="display: none;">
 						<form method="post" action="options.php">
 							<?php
-							do_action( 'wsa_form_top_' . $form['id'], $form );
+							do_action( 'wp_ever_settings_form_top_' . $form['id'], $form );
 							settings_fields( $form['id'] );
 							do_settings_sections( $form['id'] );
-							do_action( 'wsa_form_bottom_' . $form['id'], $form );
+							do_action( 'wp_ever_settings_form_bottom_' . $form['id'], $form );
 							if ( isset( $this->settings_fields[ $form['id'] ] ) ):
 								?>
 								<div style="padding-left: 10px">
@@ -569,7 +571,7 @@ if ( ! class_exists( 'Ever_Settings_Framework' ) ):
 							localStorage.setItem("activetab", activetab);
 						}
 					}
-					if (activetab != '' && $(activetab).length) {
+					if (activetab !== '' && $(activetab).length) {
 						$(activetab).fadeIn();
 					} else {
 						$('.group:first').fadeIn();
@@ -585,7 +587,7 @@ if ( ! class_exists( 'Ever_Settings_Framework' ) ):
 							});
 					});
 
-					if (activetab != '' && $(activetab + '-tab').length) {
+					if (activetab !== '' && $(activetab + '-tab').length) {
 						$(activetab + '-tab').closest('li').addClass('active');
 					} else {
 						$('.ever-settings-sidebar  li:first').addClass('active');

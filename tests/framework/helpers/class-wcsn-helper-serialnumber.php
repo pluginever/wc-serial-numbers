@@ -25,12 +25,12 @@ class WCSN_Helper_SerialNumber {
 			'customer_id'      => '',
 			'vendor_id'        => '',
 			'activation_email' => '',
-			'status'           => '',
+			'status'           => 'available',
 			'validity'         => '',
 			'expire_date'      => '',
 			'order_date'       => '',
 		);
 
-		return WCSN_Serial_Number::insert( $data );
+		return WC_Serial_Numbers_Manager::insert_serial_number( $data );
 	}
 }

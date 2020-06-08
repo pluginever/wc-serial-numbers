@@ -87,7 +87,6 @@ class WCSN_Unit_Tests_Bootstrap {
 		include $this->woocommerce_plugin_dir . '/uninstall.php';
 
 		WC_Install::install();
-		WCSN_Install::install();
 
 		// Initialize the WC API extensions.
 		\Automattic\WooCommerce\Admin\Install::create_tables();
