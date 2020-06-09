@@ -113,11 +113,11 @@ class WC_Serial_Numbers_Install {
 		}
 
 		//setup transient actions
-		if ( false === wp_next_scheduled( 'wcsn_hourly_event' ) ) {
+		if ( false === wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
 			wp_schedule_event( time(), 'hourly', 'wcsn_hourly_event' );
 		}
 
-		if ( false === wp_next_scheduled( 'wcsn_daily_event' ) ) {
+		if ( false === wp_next_scheduled( 'wc_serial_numbers_daily_event' ) ) {
 			wp_schedule_event( time(), 'daily', 'wcsn_daily_event' );
 		}
 

@@ -6,12 +6,12 @@ function wcsn_update_1_2_0() {
 	wp_clear_scheduled_hook( 'wcsn_daily_event' );
 	wp_clear_scheduled_hook( 'wcsn_hourly_event' );
 
-	if ( ! wp_next_scheduled( 'wcsn_hourly_event' ) ) {
-		wp_schedule_event( time(), 'hourly', 'wcsn_hourly_event' );
+	if ( ! wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
+		wp_schedule_event( time(), 'hourly', 'wc_serial_numbers_hourly_event' );
 	}
 
-	if ( ! wp_next_scheduled( 'wcsn_daily_event' ) ) {
-		wp_schedule_event( time(), 'daily', 'wcsn_daily_event' );
+	if ( ! wp_next_scheduled( 'wc_serial_numbers_daily_event' ) ) {
+		wp_schedule_event( time(), 'daily', 'wc_serial_numbers_daily_event' );
 	}
 
 	global $wpdb;

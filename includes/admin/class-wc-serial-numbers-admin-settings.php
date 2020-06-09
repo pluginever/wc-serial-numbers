@@ -7,22 +7,8 @@ class WC_Serial_Numbers_Admin_Settings {
 	 * WC_Serial_Numbers_MetaBoxes constructor.
 	 */
 	public static function init() {
-		add_action( 'updated_option', array( __CLASS__, 'save_view_template' ) );
 		add_filter( 'wcsn_setting_sections', array( __CLASS__, 'get_setting_sections' ) );
 		add_filter( 'wcsn_setting_fields', array( __CLASS__, 'get_setting_fields' ) );
-	}
-
-	public static function save_view_template() {
-		if ( ! isset( $_REQUEST['option_page'] ) ) {
-			return;
-		}
-
-		update_option( 'wcsn_tmpl_heading', isset( $_REQUEST['wcsn_tmpl_heading'] ) ? sanitize_text_field( $_REQUEST['wcsn_tmpl_heading'] ) : '' );
-		update_option( 'wcsn_tmpl_product_col_heading', isset( $_REQUEST['wcsn_tmpl_product_col_heading'] ) ? sanitize_text_field( $_REQUEST['wcsn_tmpl_product_col_heading'] ) : '' );
-		update_option( 'wcsn_tmpl_serial_col_heading', isset( $_REQUEST['wcsn_tmpl_serial_col_heading'] ) ? sanitize_text_field( $_REQUEST['wcsn_tmpl_serial_col_heading'] ) : '' );
-		update_option( 'wcsn_tmpl_product_col_content', isset( $_REQUEST['wcsn_tmpl_product_col_content'] ) ? sanitize_textarea_field( $_REQUEST['wcsn_tmpl_product_col_content'] ) : '' );
-		update_option( 'wcsn_tmpl_serial_col_content', isset( $_REQUEST['wcsn_tmpl_serial_col_content'] ) ? sanitize_textarea_field( $_REQUEST['wcsn_tmpl_serial_col_content'] ) : '' );
-
 	}
 
 	public static function get_setting_sections( $sections ) {

@@ -49,7 +49,7 @@ final class WC_Serial_Numbers {
 	 * @var string
 	 * @since 1.1.6
 	 */
-	public $version = '1.1.6';
+	public $version = '1.1.5';
 
 	/**
 	 * This plugin's instance
@@ -239,7 +239,8 @@ final class WC_Serial_Numbers {
 		add_action( 'plugins_loaded', array( $this, 'localization_setup' ) );
 		add_action( 'admin_notice', array( $this, 'wc_required_notice' ) );
 		add_filter( 'wc_serial_numbers_pre_insert_key', 'wc_serial_numbers_encrypt_key');
-		add_action( 'wcsn_hourly_event', array( $this, 'expire_outdated_serials' ) );
+		add_action( 'wc_serial_numbers_hourly_event', array( $this, 'expire_outdated_serials' ) );
+		add_action('wc_serial_numbers_daily_event', $this, 'send_stock_alert_email');
 	}
 
 	/**
@@ -287,6 +288,47 @@ final class WC_Serial_Numbers {
 		global $wpdb;
 		$wpdb->query( "update {$wpdb->prefix}wc_serial_numbers set status='expired' where expire_date != '0000-00-00 00:00:00' AND expire_date < NOW()" );
 		$wpdb->query( "update {$wpdb->prefix}wc_serial_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
+	}
+
+
+	/**
+	 * Send low stock email notification.
+	 *
+	 * @since 1.2.0
+	 * @return bool
+	 */
+	public function send_stock_alert_email(){
+		$notification = 'on' == $this->get_settings( 'stock_notification', 'on', 'wcsn_notification_settings' );
+		if ( ! $notification ) {
+			return false;
+		}
+
+		$stock_threshold    = $this->get_settings( 'stock_threshold', '5', 'wcsn_notification_settings' );
+		$to = $this->get_settings( 'notification_recipient', '', 'wcsn_notification_settings' );
+		if ( empty( $to ) ) {
+			return false;
+		}
+
+		$low_stock_products = serial_numbers_get_low_stocked_products( $stock_threshold, true );
+		if ( empty( $low_stock_products ) ) {
+			return false;
+		}
+
+		$subject = __( 'Serial Numbers stock running low', 'wc-serial-numbers' );
+		/** $woocommerce WooCommerce */
+		global $woocommerce;
+		$mailer = $woocommerce->mailer();
+
+		ob_start();
+		include dirname( __FILE__ ) . '/includes/admin/views/email-notification-body.php';
+		$message = ob_get_contents();
+		ob_get_clean();
+
+		$message = $mailer->wrap_message( $subject, $message );
+		$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message' );
+		$mailer->send( $to, $subject, $message, $headers, array() );
+
+		exit();
 	}
 
 	/**
