@@ -724,7 +724,7 @@ function wc_serial_numbers_get_activations( $args = array(), $count = false ) {
 		$cols     = array_map( 'sanitize_key', $args['search_columns'] );
 		$like     = '%' . $wpdb->esc_like( $search ) . '%';
 		foreach ( $cols as $col ) {
-			$searches[] = $wpdb->prepare( "{{$wpdb->prefix}wc_serial_numbers_activations}.{$col} LIKE %s", $like );
+			$searches[] = $wpdb->prepare( "{$wpdb->prefix}wc_serial_numbers_activations.{$col} LIKE %s", $like );
 		}
 
 		$query_where .= ' AND (' . implode( ' OR ', $searches ) . ')';
