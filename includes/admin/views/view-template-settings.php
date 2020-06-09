@@ -36,7 +36,7 @@
 		</td>
 		<td>
 			<label for="wcsn_tmpl_serial_col_content">Serial Number Column Content</label>
-			<textarea class="large-text code" name="wcsn_tmpl_serial_col_content" id="wcsn_tmpl_serial_col_content" rows="10" disabled="disabled"><strong>Serial Numbers:</strong>{serial_numbers}<br/><strong>Activation Email:</strong>{activation_email}<br/><strong>Expire At:</strong>{expired_at}<br/><strong>Activation Limit:</strong>{activation_limit}</textarea>
+			<textarea class="large-text code" name="wcsn_tmpl_serial_col_content" id="wcsn_tmpl_serial_col_content" rows="10" disabled="disabled"><strong>Serial Numbers:</strong>{serial_number}<br/><strong>Activation Email:</strong>{activation_email}<br/><strong>Expire At:</strong>{expired_at}<br/><strong>Activation Limit:</strong>{activation_limit}</textarea>
 			<p class="description">The content will show for each serial number ordered.</p>
 		</td>
 	</tr>

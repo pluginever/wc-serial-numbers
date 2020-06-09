@@ -15,78 +15,65 @@ function wcsn_update_1_2_0() {
 	}
 
 	global $wpdb;
-	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD customer_id bigint(20) NOT NULL DEFAULT 0" );
-	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD vendor_id bigint(20) NOT NULL DEFAULT 0" );
-	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD KEY customer_id(`customer_id`)" );
-	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD KEY vendor_id(`vendor_id`)" );
-	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_activations CHANGE platform platform varchar(200) DEFAULT NULL" );
-	global $current_user;
-	if ( ! empty( $current_user->ID ) && current_user_can( 'manage_options' ) ) {
-		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set vendor_id=%d", $current_user->ID ) );
-	}
+	$prefix = $wpdb->prefix;
+	$wpdb->query( "RENAME TABLE `{$prefix}wcsn_serial_numbers` TO `{$prefix}wc_serial_numbers`" );
+	$wpdb->query( "RENAME TABLE `{$prefix}wcsn_activations` TO `{$prefix}wc_serial_numbers_activations`" );
+	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers DROP COLUMN `serial_image`;" );
+	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers DROP COLUMN `activation_email`;" );
+	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers CHANGE `created` `created_date` DATETIME NULL DEFAULT NULL;" );
+	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers ADD vendor_id bigint(20) NOT NULL DEFAULT 0" );
+	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers ADD activation_count int(9) NOT NULL  DEFAULT 0" );
+	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers ADD KEY vendor_id(`vendor_id`)" );
+	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers_activations CHANGE platform platform varchar(200) DEFAULT NULL" );
 
 	//status update
-	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'available', 'new' ) );
-//	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'rejected', 'cancelled' ) );
-	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wcsn_serial_numbers set status=%s WHERE status=%s", 'cancelled', 'pending' ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s AND order_id=0", 'available', 'new' ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s AND order_id != 0", 'sold', 'active' ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s", 'cancelled', 'pending' ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s", 'cancelled', 'rejected' ) );
+	global $current_user;
+	if ( ! empty( $current_user->ID ) && current_user_can( 'manage_options' ) ) {
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wc_serial_numbers set vendor_id=%d", $current_user->ID ) );
+	}
+
 
 	//settings update
-	$updated_settings = [];
-	$settings         = get_option( 'wsn_delivery_settings' );
-	if ( isset( $settings['wsn_auto_complete_order'] ) ) {
-		$updated_settings['autocomplete_order'] = $settings['wsn_auto_complete_order'];
+
+	$updated_general_settings = array(
+		'autocomplete_order'       => 'yes' == wc_serial_numbers()->get_settings( 'wsn_auto_complete_order', 'no', 'wsn_delivery_settings' ) ? 'on' : 'off',
+		'reuse_serial_number'      => 'yes' == wc_serial_numbers()->get_settings( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ) ? 'on' : 'off',
+		'disable_software_support' => 'off',
+		'revoke_statuses'          => wc_serial_numbers()->get_settings( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ),
+		'enable_backorder'         => wc_serial_numbers()->get_settings( 'wsn_allow_checkout', 'off', 'wsn_general_settings' ),
+		'allow_duplicate'          => 'off',
+		'manual_delivery'          => 'off',
+		'hide_serial_number'       => wc_serial_numbers()->get_settings( 'wsn_hide_serial_key', 'on', 'wsn_general_settings' ),
+	);
+	update_option('wsn_general_settings', $updated_general_settings);
+	$heading_text          = wc_serial_numbers()->get_settings( 'heading_text', 'Serial Numbers', 'wsn_delivery_settings' );
+	$serial_col_heading    = wc_serial_numbers()->get_settings( 'table_column_heading', 'Serial Number', 'wsn_delivery_settings' );
+	$serial_key_label      = wc_serial_numbers()->get_settings( 'serial_key_label', 'Serial Key', 'wsn_delivery_settings' );
+	$serial_email_label    = wc_serial_numbers()->get_settings( 'serial_email_label', 'Activation Email', 'wsn_delivery_settings' );
+	$show_validity         = 'yes' == wc_serial_numbers()->get_settings( 'show_validity', 'yes', 'wsn_delivery_settings' );
+	$show_activation_limit = 'yes' == wc_serial_numbers()->get_settings( 'show_activation_limit', 'yes', 'wsn_delivery_settings' );
+	update_option( 'wcsn_tmpl_heading', $heading_text );
+	update_option( 'wcsn_tmpl_serial_col_heading', $serial_col_heading );
+	$serial_col_content = sprintf( '<strong>%s:</strong>{serial_number}<br/>', $serial_key_label );
+	$serial_col_content .= sprintf( '<strong>%s:</strong>{activation_email}<br/>', $serial_email_label );
+	if ( $show_validity ) {
+		$serial_col_content .= '<strong>Expire At:</strong>{expired_at}<br/>';
 	}
-	if ( isset( $settings['wsn_re_use_serial'] ) ) {
-		$updated_settings['reuse_serial_numbers'] = $settings['wsn_re_use_serial'];
-	}
-	if ( isset( $settings['wsn_re_use_serial'] ) ) {
-		$updated_settings['reuse_serial_numbers'] = $settings['wsn_re_use_serial'];
+	if ( $show_activation_limit ) {
+		$serial_col_content .= '<strong>Activation Limit:</strong>{activation_limit}';
 	}
 
-	$noty_settings = get_option( 'wsn_notification_settings' );
+	update_option('wcsn_tmpl_serial_col_content', $serial_col_content);
 
-	if ( isset( $noty_settings['wsn_admin_bar_notification'] ) ) {
-		$updated_settings['low_stock_alert'] = $noty_settings['wsn_admin_bar_notification'];
-	}
-	if ( isset( $noty_settings['wsn_admin_bar_notification_number'] ) ) {
-		$updated_settings['low_stock_threshold'] = empty( intval( $noty_settings['wsn_admin_bar_notification'] ) ) ? 10 : intval( $noty_settings['wsn_admin_bar_notification'] );
-	}
-	if ( isset( $noty_settings['wsn_admin_bar_notification_send_email'] ) ) {
-		$updated_settings['low_stock_notification'] = $noty_settings['wsn_admin_bar_notification_send_email'];
-	}
-	if ( isset( $noty_settings['wsn_admin_bar_notification_email'] ) ) {
-		$updated_settings['low_stock_notification_email'] = $noty_settings['wsn_admin_bar_notification_email'];
-	}
 
-	$updated_settings = array_merge( array(
-		'automatic_delivery'           => 'on',
-		'reuse_serial_numbers'         => 'no',
-		'allow_duplicate'              => 'no',
-		'autocomplete_order'           => 'on',
-		'disable_software'             => 'no',
-		'low_stock_alert'              => 'on',
-		'low_stock_notification'       => 'on',
-		'low_stock_threshold'          => '10',
-		'low_stock_notification_email' => get_option( 'admin_email' ),
-	), $updated_settings );
-
-	update_option( 'wcsn_settings', $updated_settings );
-
-	$order = $wpdb->get_col( "SELECT distinct  order_id from {$wpdb->prefix}wc_serial_numbers WHERE order_id !='' AND order_id !='0'" );
-	foreach ( $order as $order_id ) {
-		$customer_id = get_post_meta($order_id, '_customer_user', true );
-		if(!empty($customer_id)){
-			$wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}wc_serial_numbers SET customer_id=%d WHERE order_id=%d", $customer_id, $order_id));
-		}
-
-		$result  = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) total from {$wpdb->prefix}wc_serial_numbers WHERE order_id=%d AND status !='active'", $order_id ) );
-		$serials = wp_list_pluck( $result, 'total', 'product_id' );
-		$meta    = array_filter( $serials);
-		if(empty($meta)){
-			continue;
-		}
-
-		update_post_meta($order_id, 'wc_serial_numbers_products', $meta);
+	$activations = $wpdb->get_col( "select serial_id, count(id) as active_count from  {$wpdb->prefix}wc_serial_numbers_activations where active='1' GROUP BY serial_id" );
+	foreach ( $activations as $activation ) {
+		global $wpdb;
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wc_serial_numbers SET activation_count = %d WHERE id=%d", intval( $activation->active_count ), intval( $activation->serial_id ) ) );
 	}
 
 }

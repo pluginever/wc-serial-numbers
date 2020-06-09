@@ -46,7 +46,7 @@ class WC_Serial_Numbers_Admin_Settings {
 
 
 	public static function get_setting_fields( $fields ) {
-		$email_body = '<strong>Serial Numbers:</strong>{serial_numbers}<br/><strong>Activation Email:</strong>{activation_email}<br/><strong>Expire At:</strong>{expired_at}<br/><strong>Activation Limit:</strong>{activation_limit}<br/>';
+		$email_body = '<strong>Serial Numbers:</strong>{serial_number}<br/><strong>Activation Email:</strong>{activation_email}<br/><strong>Expire At:</strong>{expired_at}<br/><strong>Activation Limit:</strong>{activation_limit}<br/>';
 
 
 		$new_fields = array(

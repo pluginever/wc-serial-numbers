@@ -49,7 +49,7 @@ final class WC_Serial_Numbers {
 	 * @var string
 	 * @since 1.1.6
 	 */
-	public $version = '1.1.5';
+	public $version = '1.1.6';
 
 	/**
 	 * This plugin's instance
@@ -58,6 +58,13 @@ final class WC_Serial_Numbers {
 	 * @since 1.0
 	 */
 	private static $instance;
+
+	/**
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	public $plugin_name = 'WooCommerce Serial Numbers';
 
 	/**
 	 * Main WC_Serial_Numbers Instance

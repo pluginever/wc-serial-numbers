@@ -14,7 +14,12 @@ class WC_Serial_Numbers_Install {
 	 * @var array
 	 * @since 1.5.6
 	 */
-	private static $updates = array();
+	private static $updates = array(
+		'1.0.1' => 'updates/update-1.0.1.php',
+		'1.0.6' => 'updates/update-1.0.6.php',
+		'1.0.8' => 'updates/update-1.0.8.php',
+		'1.1.2' => 'updates/update-1.1.2.php',
+	);
 
 	/**
 	 * Current plugin version.
@@ -36,7 +41,7 @@ class WC_Serial_Numbers_Install {
 		// Installation and DB updates handling.
 		add_action( 'init', array( __CLASS__, 'maybe_install' ) );
 		register_activation_hook( WCSN_PLUGIN_FILE, array( __CLASS__, 'install' ) );
-		//add_action( 'admin_init', array( __CLASS__, 'maybe_update' ) );
+		add_action( 'admin_init', array( __CLASS__, 'maybe_update' ) );
 
 		// Show row meta on the plugin screen.
 		add_filter( 'plugin_row_meta', array( __CLASS__, 'plugin_row_meta' ), 10, 2 );
@@ -150,7 +155,7 @@ class WC_Serial_Numbers_Install {
 			serial_key longtext DEFAULT NULL,
 			product_id bigint(20) NOT NULL,
 			activation_limit int(9) NOT NULL DEFAULT 0,
-			activation_count UNSIGNED int(9) NOT NULL  DEFAULT 0,
+			activation_count int(9) NOT NULL  DEFAULT 0,
 			order_id bigint(20) DEFAULT NULL,
 			vendor_id bigint(20) DEFAULT NULL,
 			status varchar(50) DEFAULT 'available',
@@ -173,7 +178,7 @@ class WC_Serial_Numbers_Install {
 			  platform varchar(200) DEFAULT NULL,
 			  activation_time DATETIME NULL DEFAULT NULL,
 			  PRIMARY KEY  (id),
-			  key key_id (key_id),
+			  key serial_id (serial_id),
 			  key active (active)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
 		];
@@ -215,6 +220,38 @@ class WC_Serial_Numbers_Install {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Perform all the necessary upgrade routines.
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
+	public static function maybe_update() {
+		$key               = sanitize_key( wc_serial_numbers()->plugin_name ) . '_version';;
+		$installed_version = get_option( $key );
+
+		// may be it's the first install
+		if ( ! $installed_version ) {
+			return false;
+		}
+
+		if ( version_compare( $installed_version, wc_serial_numbers()->get_version(), '<' ) ) {
+			$path = trailingslashit( dirname( __FILE__ ) . '/updates' );
+
+			foreach ( self::$updates as $version => $file ) {
+				if ( version_compare( $installed_version, $version, '<' ) ) {
+					include $path . $file;
+					update_option( $key, $version );
+				}
+			}
+
+			delete_option( $key );
+			update_option( $key, wc_serial_numbers()->get_version() );
+		}
+
+		return true;
 	}
 
 	/**
