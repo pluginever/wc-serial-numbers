@@ -150,7 +150,7 @@ class WC_Serial_Numbers_Install {
 			serial_key longtext DEFAULT NULL,
 			product_id bigint(20) NOT NULL,
 			activation_limit int(9) NOT NULL DEFAULT 0,
-			activation_count int(9) NOT NULL  DEFAULT 0,
+			activation_count UNSIGNED int(9) NOT NULL  DEFAULT 0,
 			order_id bigint(20) DEFAULT NULL,
 			vendor_id bigint(20) DEFAULT NULL,
 			status varchar(50) DEFAULT 'available',
@@ -167,7 +167,7 @@ class WC_Serial_Numbers_Install {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ",
 			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wc_serial_numbers_activations(
 			  id bigint(20) NOT NULL auto_increment,
-			  key_id bigint(20) NOT NULL,
+			  serial_id bigint(20) NOT NULL,
 			  instance varchar(200) NOT NULL,
 			  active int(1) NOT NULL DEFAULT 1,
 			  platform varchar(200) DEFAULT NULL,

@@ -7,7 +7,7 @@
 * Set expire date - if you do not sell any specific serial number after that date.
 * Set Activation limit - The number of time the serial number can be activated through API.
 * Encryption - The serial numbers will be encrypted in the database
-* Reuse serial numbers - If you want to recover serial numbers on failed order or at revoking order.
+* Reuse serial numbers - This will recover failed, refunded serial number for selling again.
 * Low stock notification - You can set custom "Stock Threshold" to send you notification when the stock goes below that.
 * Autocomplete Order - If any serial number item exist in the order items the order will be automatically completed.
 * Hide serial numbers - You can hide serial numbers so nobody can see accidentally. 

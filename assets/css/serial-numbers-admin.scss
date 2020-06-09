@@ -118,7 +118,7 @@
 		line-height: 1;
 		border: 1px solid transparent;
 
-		&.sellable {
+		&.sold {
 			background: #cce5ff;
 			color: #004085;
 			border-color: #b8daff;
@@ -130,7 +130,7 @@
 			border-color: #c6c8ca;
 		}
 
-		&.sold {
+		&.available {
 			color: #155724;
 			background-color: #d4edda;
 			border-color: #c3e6cb;
@@ -146,6 +146,12 @@
 			color: #856404;
 			background-color: #fff3cd;
 			border-color: #ffeeba;
+		}
+
+		&.failed {
+			color: darken(#721c24, 5);
+			background-color: darken(#f8d7da, 5);
+			border-color: darken(#f5c6cb, 5);
 		}
 
 		&.refunded {

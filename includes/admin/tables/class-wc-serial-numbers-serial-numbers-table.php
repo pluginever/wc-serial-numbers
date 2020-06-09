@@ -242,12 +242,15 @@ class WC_Serial_Numbers_List_Table extends \WP_List_Table {
 			'product'     => __( 'Product', 'wc-serial-numbers' ),
 			'order'       => __( 'Order', 'wc-serial-numbers' ),
 			'customer'    => __( 'Customer', 'wc-serial-numbers' ),
-			'activation'  => __( 'Activation', 'wc-serial-numbers' ),
 			'expire_date' => __( 'Expire Date', 'wc-serial-numbers' ),
-			'validity'    => __( 'Validity', 'wc-serial-numbers' ),
 			'order_date'  => __( 'Order Date', 'wc-serial-numbers' ),
 			'status'      => __( 'Status', 'wc-serial-numbers' ),
 		);
+
+		if ( wc_serial_numbers()->is_software_support_enabled() ) {
+			$columns['activation'] = __( 'Activation', 'wc-serial-numbers' );
+			$columns['validity']   = __( 'Validity', 'wc-serial-numbers' );
+		}
 
 		return apply_filters( 'wc_serial_numbers_serials_table_columns', $columns );
 	}
@@ -319,10 +322,12 @@ class WC_Serial_Numbers_List_Table extends \WP_List_Table {
 		$spinner            = sprintf( '<img class="wcsn-spinner" style="display: none;" src="%s"/>', admin_url( 'images/loading.gif' ) );
 		$class              = 'encrypted';
 		$serial_key         = '';
-		$hide_serial_number = 'on' != wc_serial_numbers()->get_settings( 'hide_serial_number', 'on', 'wc_serial_numbers_general_settings' );
-		if ( $hide_serial_number ) {
+		$hide_serial_number = ( 'on' == wc_serial_numbers()->get_settings( 'hide_serial_number', '', 'wcsn_general_settings' ) );
+
+		if ( ! $hide_serial_number ) {
 			$class      = 'decrypted';
 			$serial_key = WC_Serial_Numbers_Encryption::decrypt( $item->serial_key );
+			unset( $row_actions['show'] );
 		}
 
 		return sprintf( '<code class="wcsn-serial-key %1$s">%2$s</code> %3$s%4$s', $class, $serial_key, $spinner, $this->row_actions( $row_actions ) );

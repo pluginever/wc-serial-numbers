@@ -24,13 +24,14 @@ if ( $doaction ) {
 					'id'         => $id,
 					'order_id'   => null,
 					'order_date' => null,
+					'status'     => 'available',
 				) );
 				break;
 			case 'deactivate':
-				WC_Serial_Numbers_Helper::update_serial_number_status( $id, 'inactive' );
-				break;
-			case 'export':
-				WC_Serial_Numbers_IO::export_csv();
+				wc_serial_numbers_insert_item( array(
+					'id'     => $id,
+					'status' => 'inactive',
+				) );
 				break;
 		}
 	}

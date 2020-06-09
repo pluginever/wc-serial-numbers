@@ -53,7 +53,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			woocommerce_wp_text_input( apply_filters( 'wc_serial_numbers_delivery_quantity_field_args', array(
 				'id'                => '_delivery_quantity',
 				'label'             => __( 'Delivery quantity', 'wc-serial-numbers' ),
-				'description'       => __( 'The amount of serial key will be delivered upon purchase', 'wc-serial-numbers' ),
+				'description'       => __( 'The amount of serial key will be delivered upon purchase. Available in PRO.', 'wc-serial-numbers' ),
 				'value'             => empty( $delivery_quantity ) ? 1 : $delivery_quantity,
 				'type'              => 'number',
 				'desc_tip'          => true,
@@ -68,7 +68,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 				echo sprintf( '<p>%s <a href="%s" target="_blank">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order? Upgrade to Pro', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 			}
 
-			if ( wc_serial_numbers()->api_enabled() ) {
+			if ( wc_serial_numbers()->is_software_support_enabled() ) {
 				woocommerce_wp_text_input(
 					array(
 						'id'          => '_software_version',
@@ -104,7 +104,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 		update_post_meta( $post->ID, '_delivery_quantity', empty( $_POST['_delivery_quantity'] ) ? 1 : intval( $_POST['_delivery_quantity'] ) );
 
 		//save only if software licensing enabled
-		if ( wc_serial_numbers()->api_enabled() ) {
+		if ( wc_serial_numbers()->is_software_support_enabled() ) {
 			update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
 		}
 

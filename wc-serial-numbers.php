@@ -232,6 +232,7 @@ final class WC_Serial_Numbers {
 		add_action( 'plugins_loaded', array( $this, 'localization_setup' ) );
 		add_action( 'admin_notice', array( $this, 'wc_required_notice' ) );
 		add_filter( 'wc_serial_numbers_pre_insert_key', 'wc_serial_numbers_encrypt_key');
+		add_action( 'wcsn_hourly_event', array( $this, 'expire_outdated_serials' ) );
 	}
 
 	/**
@@ -271,6 +272,17 @@ final class WC_Serial_Numbers {
 	}
 
 	/**
+	 * Disable all expired serial numbers
+	 *
+	 * since 1.0.0
+	 */
+	public function expire_outdated_serials() {
+		global $wpdb;
+		$wpdb->query( "update {$wpdb->prefix}wc_serial_numbers set status='expired' where expire_date != '0000-00-00 00:00:00' AND expire_date < NOW()" );
+		$wpdb->query( "update {$wpdb->prefix}wc_serial_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
+	}
+
+	/**
 	 * get settings options
 	 *
 	 * since 1.0.0
@@ -303,8 +315,8 @@ final class WC_Serial_Numbers {
 	 * @return bool
 	 * @since 1.5.5
 	 */
-	public function api_enabled() {
-		return $this->get_settings( 'disable_api', false, 'wcsn_general_settings' );
+	public function is_software_support_enabled() {
+		return 'on' != $this->get_settings( 'disable_software_support', 'on', 'wcsn_general_settings' );
 	}
 
 }

@@ -11,6 +11,7 @@ class WC_Serial_Numbers_Admin_Menus {
 	public function __construct() {
 		$this->settings = new Ever_Settings_Framework();
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 99 );
 		add_action( 'admin_init', array( $this, 'settings_init' ) );
 		add_action( 'wcsn_settings_tab_content_settings', array( $this, 'render_settings' ) );
 		add_filter( 'set-screen-option', array( $this, 'save_screen_options' ), 10, 3 );
@@ -48,7 +49,7 @@ class WC_Serial_Numbers_Admin_Menus {
 			array( $this, 'products_page' )
 		);
 
-		if ( wc_serial_numbers()->api_enabled() ) {
+		if ( wc_serial_numbers()->is_software_support_enabled() ) {
 			add_submenu_page(
 				'wc-serial-numbers',
 				__( 'Activations', 'wc-serial-numbers' ),
@@ -58,7 +59,11 @@ class WC_Serial_Numbers_Admin_Menus {
 				array( $this, 'activations_page' )
 			);
 		}
+		add_action( 'load-' . $serial_number_page, array( $this, 'load_serial_numbers_page' ) );
+	}
 
+	public function register_settings_page() {
+		$role = apply_filters( 'wc_serial_numbers_menu_visibility_role', 'manage_woocommerce' );
 		add_submenu_page(
 			'wc-serial-numbers',
 			__( 'WC Serial Numbers Settings', 'wc-serial-numbers' ),
@@ -68,7 +73,6 @@ class WC_Serial_Numbers_Admin_Menus {
 			array( $this, 'settings_page' )
 		);
 
-		add_action( 'load-' . $serial_number_page, array( $this, 'load_serial_numbers_page' ) );
 	}
 
 	/**
@@ -166,7 +170,7 @@ class WC_Serial_Numbers_Admin_Menus {
 	 * @since 1.1.5
 	 */
 	public function activations_page() {
-
+		include dirname( __FILE__ ) . '/views/activations-page.php';
 	}
 
 	/**

@@ -46,7 +46,7 @@
 			</tr>
 
 
-			<?php if ( wc_serial_numbers()->api_enabled() ): ?>
+			<?php if ( wc_serial_numbers()->is_software_support_enabled() ): ?>
 				<!-- Activation Limit -->
 				<tr scope="row">
 					<th scope="row">
@@ -60,21 +60,21 @@
 						<p class="description"><?php esc_html_e( 'Maximum number of times the key can be used to activate the software. If the product is not software keep blank.', 'wc-serial-numbers' ); ?></p>
 					</td>
 				</tr>
+
+				<!-- Valid for -->
+				<tr scope="row">
+					<th scope="row">
+						<label for="validity">
+							<?php esc_html_e( 'Validity (days)', 'wc-serial-numbers' ); ?>
+						</label>
+					</th>
+					<td>
+						<input name="validity" id="validity" class="regular-text" type="number" value="365">
+						<p class="description"><?php esc_html_e( 'The number of days the key will be valid for after the purchase date.', 'wc-serial-numbers' ); ?></p>
+					</td>
+				</tr>
 			<?php endif; ?>
 
-
-			<!-- Valid for -->
-			<tr scope="row">
-				<th scope="row">
-					<label for="validity">
-						<?php esc_html_e( 'Validity (days)', 'wc-serial-numbers' ); ?>
-					</label>
-				</th>
-				<td>
-					<input name="validity" id="validity" class="regular-text" type="number" value="365">
-					<p class="description"><?php esc_html_e( 'The number of days the key will be valid for after the purchase date.', 'wc-serial-numbers' ); ?></p>
-				</td>
-			</tr>
 
 			<!-- Expire Date -->
 			<tr scope="row">

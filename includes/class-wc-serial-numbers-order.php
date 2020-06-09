@@ -16,11 +16,12 @@ class WC_Serial_Numbers_Order {
 	public function __construct() {
 		//check if available serial numbers
 		add_action( 'woocommerce_check_cart_items', array( $this, 'validate_checkout' ) );
+		add_action( 'template_redirect', array( $this, 'maybe_autocomplete_order' ) );
 
+		add_action( 'woocommerce_checkout_order_processed', array( $this, 'maybe_assign_serial_numbers' ) );
 		add_action( 'woocommerce_order_status_completed', array( $this, 'maybe_assign_serial_numbers' ) );
 		add_action( 'woocommerce_order_status_processing', array( $this, 'maybe_assign_serial_numbers' ) );
 		add_action( 'woocommerce_order_status_on-hold', array( $this, 'maybe_assign_serial_numbers' ) );
-		add_action( 'woocommerce_checkout_order_processed', array( $this, 'maybe_assign_serial_numbers' ) );
 
 		// revoke ordered serial numbers
 		add_action( 'woocommerce_order_status_cancelled', array( $this, 'handle_cancelled_refunded_order' ) );
@@ -28,7 +29,6 @@ class WC_Serial_Numbers_Order {
 		add_action( 'woocommerce_order_status_failed', array( $this, 'handle_cancelled_refunded_order' ) );
 		add_action( 'woocommerce_order_partially_refunded', array( $this, 'handle_cancelled_refunded_order' ), 10, 2 );
 
-		add_action( 'template_redirect', array( $this, 'maybe_autocomplete_order' ) );
 	}
 
 	/**
@@ -46,11 +46,9 @@ class WC_Serial_Numbers_Order {
 			$product_id      = $product->get_id();
 			$quantity        = $cart_product['quantity'];
 			$is_enabled      = 'yes' == get_post_meta( $product_id, '_is_serial_number', true );
-			$sell_from_stock = 'on' == wc_serial_numbers()->get_settings( 'sell_from_stock', 'on', 'wcsn_general_settings' );
+			$allow_backorder = 'on' == wc_serial_numbers()->get_settings( 'enable_backorder', '', 'wcsn_general_settings' );
 
-			$allow_validation = apply_filters( 'wc_serial_numbers_allow_cart_validation', $sell_from_stock, $product_id, $car_products );
-
-			if ( $is_enabled && $allow_validation ) {
+			if ( $is_enabled && ! $allow_backorder ) {
 				$delivery_quantity = (int) get_post_meta( $product_id, '_delivery_quantity', true );
 				$needed_quantity   = $quantity * ( empty( $delivery_quantity ) ? 1 : absint( $delivery_quantity ) );
 
@@ -82,6 +80,36 @@ class WC_Serial_Numbers_Order {
 
 
 	/**
+	 * @return bool|WC_Order|WC_Order_Refund
+	 * @since 1.5.5
+	 */
+	public static function maybe_autocomplete_order() {
+		if ( is_checkout() && ! empty( is_wc_endpoint_url( 'order-received' ) ) && ! empty( get_query_var( 'order-received' ) ) ) {
+			$order_id = get_query_var( 'order-received' );
+			$order    = wc_get_order( $order_id );
+			if ( empty( $order ) ) {
+				return $order;
+			}
+			if ( 'complete' === $order->get_status() ) {
+				return false;
+			}
+
+			$keys = wc_serial_numbers_get_ordered_items_quantity( $order_id );
+			if ( empty( $keys ) ) {
+				return false;
+			}
+
+			$order->set_status( 'complete' );
+			$order->add_order_note( __( 'Order marked as complete by WC Serial Numbers', 'wc-serial-numbers' ) );
+
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
 	 * Conditionally add serial numbers.
 	 *
 	 * @param int $order_id
@@ -90,9 +118,10 @@ class WC_Serial_Numbers_Order {
 	 * @since 1.6.0
 	 */
 	public function maybe_assign_serial_numbers( $order_id ) {
-		$automatic_delivery = wc_serial_numbers()->get_settings( 'automatic_delivery' );
-
-		if ( 'on' == $automatic_delivery ) {
+		$manual_delivery = ( 'on' == wc_serial_numbers()->get_settings( 'manual_delivery', 'off' ) );
+		$order = wc_get_order($order_id);
+		$order->add_order_note($order->get_status());
+		if ( ! $manual_delivery ) {
 			wc_serial_numbers_order_add_items( $order_id );
 		}
 	}
@@ -123,36 +152,6 @@ class WC_Serial_Numbers_Order {
 		if ( array_key_exists( $order->get_status( 'edit' ), $remove_statuses ) ) {
 			wc_serial_numbers_order_remove_items( $order_id );
 		}
-	}
-
-
-	/**
-	 * @return bool|WC_Order|WC_Order_Refund
-	 * @since 1.5.5
-	 */
-	public static function maybe_autocomplete_order() {
-		if ( is_checkout() && ! empty( is_wc_endpoint_url( 'order-received' ) ) && ! empty( get_query_var( 'order-received' ) ) ) {
-			$order_id = get_query_var( 'order-received' );
-			$order    = wc_get_order( $order_id );
-			if ( empty( $order ) ) {
-				return $order;
-			}
-			if ( 'complete' === $order->get_status() ) {
-				return false;
-			}
-
-			$keys = wc_serial_numbers_get_ordered_items_quantity( $order_id );
-			if ( empty( $keys ) ) {
-				return false;
-			}
-
-			$order->set_status( 'complete' );
-			$order->add_order_note( __( 'Order marked as complete by WC Serial Numbers', 'wc-serial-numbers' ) );
-
-			return true;
-		}
-
-		return false;
 	}
 
 }

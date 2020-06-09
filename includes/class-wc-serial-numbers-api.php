@@ -12,6 +12,9 @@ class WC_Serial_Numbers_API {
 		add_action( 'wcsn_api_action_activate', array( __CLASS__, 'activate_license' ) );
 		add_action( 'wcsn_api_action_deactivate', array( __CLASS__, 'deactivate_license' ) );
 		add_action( 'wcsn_api_action_version_check', array( __CLASS__, 'version_check' ) );
+
+		add_action( 'wc_serial_numbers_activation_activated', array( __CLASS__, 'increment_activation' ) );
+		add_action( 'wc_serial_numbers_activation_deactivated', array( __CLASS__, 'decrement_activation' ) );
 	}
 
 	/**
@@ -22,10 +25,10 @@ class WC_Serial_Numbers_API {
 	 */
 	public static function handle_api_request() {
 		$email         = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
-		$serial_key    = ! empty( $_REQUEST['serial_key'] ) ? esc_attr( $_REQUEST['serial_key'] ) : '';
+		$serial_key    = ! empty( $_REQUEST['serial_key'] ) ? sanitize_text_field( $_REQUEST['serial_key'] ) : '';
 		$product_id    = ! empty( $_REQUEST['product_id'] ) ? absint( $_REQUEST['product_id'] ) : '';
 		$order_id      = ! empty( $_REQUEST['order_id'] ) ? absint( $_REQUEST['order_id'] ) : '';
-		$activation_id = ! empty( $_REQUEST['activation_id'] ) ? sanitize_key( $_REQUEST['activation_id'] ) : null;
+		$activation_id = ! empty( $_REQUEST['activation_id'] ) ? sanitize_text_field( $_REQUEST['activation_id'] ) : null;
 
 		$allow_duplicate = 'on' === wc_serial_numbers()->get_settings( 'allow_duplicate', 'off' );
 		if ( $allow_duplicate && ! is_email( $email ) ) {
@@ -65,10 +68,10 @@ class WC_Serial_Numbers_API {
 			$query_where .= $wpdb->prepare( " AND order_id=%s", $order_id );
 		}
 
-		$query_where .= $wpdb->prepare( " AND serial_key=%s", wc_serial_numbers_decrypt_key( $serial_key ) );
+		$query_where .= $wpdb->prepare( " AND serial_key=%s", wc_serial_numbers_encrypt_key( $serial_key ) );
 		$query_where .= $wpdb->prepare( " AND product_id=%d", $product_id );
 
-		$serial_number = $wpdb->get_row( "SELECT * FROM $wpdb->wcsn_serials_numbers $query_where" );
+		$serial_number = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}wc_serial_numbers $query_where" );
 
 		if ( ! $serial_number ) {
 			self::send_error( [
@@ -84,7 +87,7 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		if ( $serial_number->status !== 'active' ) {
+		if ( $serial_number->status !== 'sold' ) {
 			self::send_error( [
 				'error' => sprintf( __( '%s is not active', 'wc-serial-numbers' ), wc_serial_numbers()->get_label() ),
 				'code'  => 403
@@ -117,16 +120,17 @@ class WC_Serial_Numbers_API {
 	 */
 	public static function check_license( $serial_number ) {
 
-		$activations      = WC_Serial_Numbers_Activation::get_activations( [
+		$activations = wc_serial_numbers_get_activations( [
 			'serial_id' => $serial_number->id,
 			'status'    => 'active'
 		] );
+
 		$activation_limit = empty( $serial_number->activation_limit ) ? 99999 : intval( $serial_number->activation_limit );
-		$remaining        = $activation_limit - intval( WC_Serial_Numbers_Activation::get_activation_count( $serial_number->id ) );
+		$remaining        = $activation_limit - intval( wc_serial_numbers_get_activations_count( $serial_number->id ) );
 		self::send_success( apply_filters( 'wc_serial_numbers_check_license_response', [
-			'expire_date' => $serial_number->expire_date,
+			'expire_date' => self::calculate_expire_date( $serial_number ),
 			'remaining'   => $remaining,
-			'status'      => $serial_number->status,
+			'status'      => $serial_number->status === 'sold' ? 'active' : $serial_number->status,
 			'activations' => self::get_activations_response( $activations ),
 			'product_id'  => $serial_number->product_id,
 			'product'     => get_the_title( $serial_number->product_id ),
@@ -143,17 +147,17 @@ class WC_Serial_Numbers_API {
 		$user_agent  = empty( $_SERVER['HTTP_USER_AGENT'] ) ? md5( time() ) : md5( $_SERVER['HTTP_USER_AGENT'] . time() );
 		$instance    = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : $user_agent;
 		$platform    = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : self::get_os();
-		$activations = WC_Serial_Numbers_Activation::get_activations( [
+		$activations = wc_serial_numbers_get_activations( [
 			'serial_id' => $serial_number->id,
 			'status'    => 'active',
 			'instance'  => $instance,
 			'platform'  => $platform,
 		] );
 
-		$remaining = intval( $serial_number->activation_limit ) - intval( WC_Serial_Numbers_Activation::get_activation_count( $serial_number->id ) );
+		$remaining = intval( $serial_number->activation_limit ) - intval( $serial_number->activation_count );
 
 		if ( empty( $activations ) && $remaining < 1 ) {
-			$activations = WC_Serial_Numbers_Activation::get_activations( [
+			$activations = wc_serial_numbers_get_activations( [
 				'serial_id' => $serial_number->id,
 				'status'    => 'active',
 			] );
@@ -167,7 +171,7 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		$activation_id = WC_Serial_Numbers_Activation::activate( $serial_number->id, $instance, $platform );
+		$activation_id = wc_serial_numbers_activate_activation( $serial_number->id, $instance, $platform );
 
 		if ( ! $activation_id ) {
 			self::send_error( [
@@ -176,15 +180,16 @@ class WC_Serial_Numbers_API {
 				'code'        => 403
 			] );
 		}
+		//since activation count updated so get again
+		$serial_number = wc_serial_numbers_get_item($serial_number->id);
+		$remaining = intval( $serial_number->activation_limit ) - intval( $serial_number->activation_count );
 
-		$remaining = intval( $serial_number->activation_limit ) - intval( WC_Serial_Numbers_Activation::get_activation_count( $serial_number->id ) );
-
-		$new_activations = WC_Serial_Numbers_Activation::get_activations( [
+		$new_activations = wc_serial_numbers_get_activations( [
 			'serial_id' => $serial_number->id,
 			'status'    => 'active'
 		] );
 
-		$new_activation = WC_Serial_Numbers_Activation::get_activation( $activation_id );
+		$new_activation = wc_serial_numbers_get_activation( $activation_id );
 
 		$new_activations_response = self::get_activations_response( $new_activations );
 
@@ -213,7 +218,7 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		$activations = WC_Serial_Numbers_Activation::get_activations( [
+		$activations = wc_serial_numbers_get_activations( [
 			'serial_id' => $serial_number->id,
 			'instance'  => $instance,
 			'status'    => 'active',
@@ -227,10 +232,11 @@ class WC_Serial_Numbers_API {
 		}
 
 		foreach ( $activations as $activation ) {
-			$deactivated = WC_Serial_Numbers_Activation::get_activation( $activation->id );
+			$deactivated = wc_serial_numbers_deactivate_activation( $activation->id );
 		}
 
-		$remaining = intval( $serial_number->activation_limit ) - intval( WC_Serial_Numbers_Activation::get_activation_count( $serial_number->id ) );
+		$serial_number = wc_serial_numbers_get_item($serial_number->id);
+		$remaining = intval( $serial_number->activation_limit ) - intval( $serial_number->activation_count );
 
 		$response = apply_filters( 'wcsn_deactivate_license_response', array(
 			'deactivated'      => true,
@@ -322,6 +328,49 @@ class WC_Serial_Numbers_API {
 	}
 
 	/**
+	 * Calculate expire date
+	 *
+	 * @param $serial
+	 *
+	 * @return false|string
+	 * @since 1.1.6
+	 */
+	public static function calculate_expire_date( $serial ) {
+		if ( empty( $serial->validity ) ) {
+			return '';
+		}
+		if ( empty( $serial->order_date ) || $serial->order_date == '0000-00-00 00:00:00' ) {
+			return '';
+		}
+
+		return date( 'Y-m-d H:i:s', strtotime( "+$serial->validity day", strtotime( $serial->order_date ) ) );
+	}
+
+	/**
+	 * Increment activation.
+	 *
+	 * @param $serial_id
+	 *
+	 * @since 1.1.6
+	 */
+	public static function increment_activation( $serial_id ) {
+		global $wpdb;
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wc_serial_numbers SET activation_count = activation_count + 1 WHERE id=%d", intval( $serial_id ) ) );
+	}
+
+	/**
+	 * Decrement activation.
+	 *
+	 * @param $serial_id
+	 *
+	 * @since 1.1.6
+	 */
+	public static function decrement_activation( $serial_id ) {
+		global $wpdb;
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wc_serial_numbers SET activation_count = activation_count - 1 WHERE id=%d", intval( $serial_id ) ) );
+	}
+
+	/**
 	 * since 1.0.0
 	 *
 	 * @param $result
@@ -342,6 +391,7 @@ class WC_Serial_Numbers_API {
 		$result['timestamp'] = time();
 		wp_send_json_success( $result );
 	}
+
 }
 
 WC_Serial_Numbers_API::init();

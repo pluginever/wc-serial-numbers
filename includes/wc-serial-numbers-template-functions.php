@@ -40,7 +40,7 @@ function wc_serial_numbers_order_print_items( $order ){
 	$product_column_content = apply_filters( 'wc_serial_numbers_product_col_content', '{product_title}' );
 	$serial_column_content  = apply_filters( 'wc_serial_numbers_serial_col_content', '<strong>Serial Number:</strong> {serial_numbers}<br/><strong>Activation Email:</strong> {activation_email}<br/><strong>Expire At:</strong> {expired_at}<br/><strong>Activation Limit:</strong> {activation_limit}' );
 
-	include dirname( __FILE__ ) . '/admin/views/serial-number-thankyou.php';
+	include dirname( __FILE__ ) . '/admin/views/order-table.php';
 }
 
 

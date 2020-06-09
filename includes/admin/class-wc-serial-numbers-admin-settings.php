@@ -64,9 +64,9 @@ class WC_Serial_Numbers_Admin_Settings {
 					'type'  => 'checkbox',
 				),
 				array(
-					'name'  => 'disable_api',
-					'label' => __( 'Disable API Support', 'wc-serial-numbers' ),
-					'desc'  => __( 'This will disable API support & everything related to software licensing.', 'wc-serial-numbers' ),
+					'name'  => 'disable_software_support',
+					'label' => __( 'Disable Software Support', 'wc-serial-numbers' ),
+					'desc'  => __( 'This will disable Software Licensing support & API functionalities.', 'wc-serial-numbers' ),
 					'type'  => 'checkbox',
 				),
 				array(
@@ -87,7 +87,7 @@ class WC_Serial_Numbers_Admin_Settings {
 					'type'  => 'checkbox',
 				),
 				array(
-					'name'  => 'backorder',
+					'name'  => 'enable_backorder',
 					'label' => __( 'Backorder', 'wc-serial-numbers' ),
 					'desc'  => __( 'Sell serial numbers even when there no serials in the stock.', 'wc-serial-numbers' ),
 					'type'  => 'checkbox',
@@ -129,12 +129,6 @@ class WC_Serial_Numbers_Admin_Settings {
 				)
 			),
 			'wcsn_notification_settings' => array(
-				array(
-					'name'  => 'notification_bar',
-					'label' => __( 'Notification Bar', 'wc-serial-numbers' ),
-					'desc'  => __( 'This will show you update of your stock.', 'wc-serial-numbers' ),
-					'type'  => 'checkbox',
-				),
 				array(
 					'name'  => 'stock_notification',
 					'label' => __( 'Stock Notification Email', 'wc-serial-numbers' ),

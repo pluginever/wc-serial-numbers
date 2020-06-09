@@ -2,7 +2,7 @@
 <?php global $serial_numbers; ?>
 <?php echo sprintf( '<h2 class="woocommerce-order-downloads__title">%s</h2>', esc_html( $heading ) ); ?>
 
-<table class="td" cellspacing="0" cellpadding="6" style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 40px;" border="1">
+<table class="wcsn-order-table" cellspacing="0"  style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 40px;" border="1">
 	<thead>
 	<tr>
 		<?php echo sprintf( '<th class="td" scope="col" style="text-align:left;">%s</h2>', esc_html( $product_column ) ); ?>
