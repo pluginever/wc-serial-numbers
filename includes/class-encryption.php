@@ -1,11 +1,9 @@
 <?php
+
+namespace pluginever\SerialNumbers;
 defined( 'ABSPATH' ) || exit();
 
-/**
- * @since 1.5.5
- * Class WC_Serial_Numbers_Encryption
- */
-class WC_Serial_Numbers_Encryption {
+class Encryption {
 	/**
 	 * @var static
 	 */
@@ -41,6 +39,45 @@ class WC_Serial_Numbers_Encryption {
 	 */
 	const INITVECTOR = 'kcv4tu0FSCB9oJyH';
 
+	/**
+	 * @since 1.2.0
+	 */
+	public static function init() {
+		self::setEncryptionKey();
+		add_filter( 'wc_serial_numbers_maybe_encrypt', array( __CLASS__, 'maybeEncrypt' ) );
+		add_filter( 'wc_serial_numbers_maybe_decrypt', array( __CLASS__, 'maybeDecrypt' ) );
+	}
+
+	/**
+	 * Maybe encrypt key.
+	 *
+	 * @param $key
+	 *
+	 * @since 1.2.0
+	 */
+	public static function maybeEncrypt( $key ) {
+		if ( ! self::isEncrypted( $key ) ) {
+			return self::encrypt( $key );
+		}
+
+		return $key;
+	}
+
+	/**
+	 * May be decrypt key.
+	 *
+	 * @param $key
+	 *
+	 * @since 1.2.0
+	 */
+	public static function maybeDecrypt( $key ) {
+		if ( self::isEncrypted( $key ) ) {
+			return self::decrypt( $key );
+		}
+
+		return $key;
+	}
+
 
 	/**
 	 * Check if the key is encrypted.
@@ -48,7 +85,7 @@ class WC_Serial_Numbers_Encryption {
 	 * @param $string
 	 *
 	 * @return bool
-	 * @since 1.5.5
+	 * @since 1.2.0
 	 */
 	public static function isEncrypted( $string ) {
 		return false !== self::decrypt( $string );
@@ -85,7 +122,7 @@ class WC_Serial_Numbers_Encryption {
 
 	/**
 	 * @return bool|mixed|string|void
-	 * @since 1.1.5
+	 * @since 1.2.0
 	 */
 	public static function setEncryptionKey() {
 		$encryption_password = get_option( 'wcsn_pkey', false );
@@ -167,3 +204,5 @@ class WC_Serial_Numbers_Encryption {
 		);
 	}
 }
+
+Encryption::init();

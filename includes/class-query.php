@@ -1,7 +1,13 @@
 <?php
+
+namespace pluginever\SerialNumbers;
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Query {
+class Query {
+	/**
+	 * @var string
+	 */
+	protected $id;
 
 	/**
 	 * @var array
@@ -55,27 +61,11 @@ class WC_Serial_Numbers_Query {
 	 * @since 1.0.0
 	 *
 	 */
-	public static function init() {
-		$builder = new self();
+	public static function init( $id = null ) {
+		$builder     = new self();
+		$builder->id = ! empty( $id ) ? $id : uniqid();
 
 		return $builder;
-	}
-
-	/**
-	 * Static constructor.
-	 *
-	 * @param string $name
-	 * @param bool $add_prefix
-	 *
-	 * @since 1.0.0
-	 *
-	 */
-	public function table( $name, $add_prefix = true ) {
-		global $wpdb;
-		$table      = ( $add_prefix ? $wpdb->prefix : '' ) . $name;
-		$this->from = $table;
-
-		return $this;
 	}
 
 	/**
@@ -95,10 +85,28 @@ class WC_Serial_Numbers_Query {
 	/**
 	 * Adds from statement.
 	 *
+	 * @param string $name
+	 * @param bool $add_prefix
+	 *
+	 * @since 1.0.0
+	 *
+	 */
+	public function table( $name, $add_prefix = true ) {
+		global $wpdb;
+		$table      = ( $add_prefix ? $wpdb->prefix : '' ) . $name;
+		$this->from = $table;
+
+		return $this;
+	}
+
+
+	/**
+	 * Adds from statement.
+	 *
 	 * @param string $from
 	 * @param bool $add_prefix Should DB prefix be added.
 	 *
-	 * @return WC_Serial_Numbers_Query this for chaining.
+	 * @return Query this for chaining.
 	 * @global object $wpdb
 	 *
 	 * @since 1.0.0
@@ -116,16 +124,17 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param $search
 	 * @param $columns
+	 * @param $joint
 	 *
 	 * @since 1.0.0
 	 */
-	public function search( $search, $columns ) {
+	public function search( $search, $columns, $joint = 'AND' ) {
 		if ( ! empty( $search ) ) {
 			global $wpdb;
 			foreach ( explode( ' ', $search ) as $word ) {
 				$word          = '%' . $this->sanitize_value( true, $word ) . '%';
 				$this->where[] = [
-					'joint'     => 'AND',
+					'joint'     => $joint,
 					'condition' => '(' . implode( ' OR ', array_map( function ( $column ) use ( &$wpdb, &$word ) {
 							return $wpdb->prepare( $column . ' LIKE %s', $word );
 						}, $columns ) ) . ')',
@@ -151,7 +160,7 @@ class WC_Serial_Numbers_Query {
 	 * @param mixed $param2 The value if $param1 is an operator.
 	 * @param string $joint the where type ( and, or )
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function where( $column, $param1 = null, $param2 = null, $joint = 'and' ) {
 		global $wpdb;
@@ -162,7 +171,7 @@ class WC_Serial_Numbers_Query {
 		// when column is an array we assume to make a bulk and where.
 		if ( is_array( $column ) ) {
 			// create new query object
-			$subquery = new WC_Serial_Numbers_Query();
+			$subquery = new Query();
 			foreach ( $column as $key => $val ) {
 				$subquery->where( $key, $val, null, $joint );
 			}
@@ -174,7 +183,7 @@ class WC_Serial_Numbers_Query {
 
 		if ( is_object( $column ) && ( $column instanceof \Closure ) ) {
 			// create new query object
-			$subquery = new WC_Serial_Numbers_Query();
+			$subquery = new Query();
 
 			// run the closure callback on the sub query
 			call_user_func_array( $column, array( &$subquery ) );
@@ -252,7 +261,8 @@ class WC_Serial_Numbers_Query {
 		//If not column then use wpdb prepare
 		//if contains $prefix
 		$contain_join = preg_replace( '/^(\s?AND ?|\s?OR ?)|\s$/i', '', $param2 );
-		$param2       = is_array( $param2 ) ? ( '(' . implode( ',', $param2 ) . ')' ) : ( $param2 === null
+
+		$param2 = is_array( $param2 ) ? ( '("' . implode( '","', $param2 ) . '")' ) : ( $param2 === null
 			? 'null'
 			: ( strpos( $param2, '.' ) !== false || strpos( $param2, $wpdb->prefix ) !== false ? $param2 : $wpdb->prepare( is_numeric( $param2 ) ? '%d' : '%s', $param2 ) )
 		);
@@ -275,7 +285,7 @@ class WC_Serial_Numbers_Query {
 	 * @param mixed $param1
 	 * @param mixed $param2
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function orWhere( $column, $param1 = null, $param2 = null ) {
 		return $this->where( $column, $param1, $param2, 'or' );
@@ -290,7 +300,7 @@ class WC_Serial_Numbers_Query {
 	 * @param mixed $param1
 	 * @param mixed $param2
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function andWhere( $column, $param1 = null, $param2 = null ) {
 		return $this->where( $column, $param1, $param2, 'and' );
@@ -304,13 +314,14 @@ class WC_Serial_Numbers_Query {
 	 * @param string $column
 	 * @param array $options
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function whereIn( $column, array $options = array() ) {
 		// when the options are empty we skip
 		if ( empty( $options ) ) {
 			return $this;
 		}
+
 
 		return $this->where( $column, 'in', $options );
 	}
@@ -323,7 +334,7 @@ class WC_Serial_Numbers_Query {
 	 * @param string $column
 	 * @param array $options
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function whereNotIn( $column, array $options = array() ) {
 		// when the options are empty we skip
@@ -341,7 +352,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param string $column
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function whereNull( $column ) {
 		return $this->where( $column, 'is', null );
@@ -354,7 +365,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param string $column
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function whereNotNull( $column ) {
 		return $this->where( $column, 'is not', null );
@@ -367,7 +378,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param string $column
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function orWhereNull( $column ) {
 		return $this->orWhere( $column, 'is', null );
@@ -380,7 +391,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param string $column
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function orWhereNotNull( $column ) {
 		return $this->orWhere( $column, 'is not', null );
@@ -394,7 +405,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param string $column
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function whereBetween( $column, $min, $max ) {
 		return $this->where( $column, 'BETWEEN', array( $min, $max ) );
@@ -407,7 +418,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param string $column
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function whereNotBetween( $column, $min, $max ) {
 		return $this->where( $column, 'NOT BETWEEN', array( $min, $max ) );
@@ -420,7 +431,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param string $column
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function whereDateBetween( $column, $start, $end ) {
 		global $wpdb;
@@ -429,6 +440,7 @@ class WC_Serial_Numbers_Query {
 
 		return $this->where( $column, 'BETWEEN', array( $stat_date, $end_date ) );
 	}
+
 
 	/**
 	 *
@@ -460,7 +472,7 @@ class WC_Serial_Numbers_Query {
 	 * @param string $joint The join AND or Or
 	 * @param bool $add_prefix Add table prefix or not
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function join( $table, $localKey, $operator = null, $referenceKey = null, $type = 'left', $joint = 'AND', $add_prefix = true ) {
 		global $wpdb;
@@ -479,7 +491,7 @@ class WC_Serial_Numbers_Query {
 		// which will create a new query where you can add your nested where
 		if ( is_object( $localKey ) && ( $localKey instanceof \Closure ) ) {
 			//create new query object
-			$subquery = new WC_Serial_Numbers_Query();
+			$subquery = new Query();
 			// run the closure callback on the sub query
 			call_user_func_array( $localKey, array( &$subquery ) );
 
@@ -520,7 +532,7 @@ class WC_Serial_Numbers_Query {
 	 * @param string $operator The operator (=, !=, <, > etc.)
 	 * @param string $referenceKey
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function leftJoin( $table, $localKey, $operator = null, $referenceKey = null ) {
 		return $this->join( $table, $localKey, $operator, $referenceKey, 'left' );
@@ -534,7 +546,7 @@ class WC_Serial_Numbers_Query {
 	 * @param string $operator The operator (=, !=, <, > etc.)
 	 * @param string $referenceKey
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function rightJoin( $table, $localKey, $operator = null, $referenceKey = null ) {
 		return $this->join( $table, $localKey, $operator, $referenceKey, 'right' );
@@ -548,7 +560,7 @@ class WC_Serial_Numbers_Query {
 	 * @param string $operator The operator (=, !=, <, > etc.)
 	 * @param string $referenceKey
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function innerJoin( $table, $localKey, $operator = null, $referenceKey = null ) {
 		return $this->join( $table, $localKey, $operator, $referenceKey, 'inner' );
@@ -562,7 +574,7 @@ class WC_Serial_Numbers_Query {
 	 * @param string $operator The operator (=, !=, <, > etc.)
 	 * @param string $referenceKey
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function outerJoin( $table, $localKey, $operator = null, $referenceKey = null ) {
 		return $this->join( $table, $localKey, $operator, $referenceKey, 'outer' );
@@ -592,7 +604,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param string $field
 	 *
-	 * @return WC_Serial_Numbers_Query this for chaining.
+	 * @return Query this for chaining.
 	 * @since 1.0.0
 	 *
 	 */
@@ -620,7 +632,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param string $statement
 	 *
-	 * @return WC_Serial_Numbers_Query this for chaining.
+	 * @return Query this for chaining.
 	 * @since 1.0.0
 	 *
 	 */
@@ -641,7 +653,7 @@ class WC_Serial_Numbers_Query {
 	 * @param string $key
 	 * @param string $direction
 	 *
-	 * @return WC_Serial_Numbers_Query this for chaining.
+	 * @return Query this for chaining.
 	 * @throws Exception
 	 * @since 1.0.0
 	 *
@@ -670,7 +682,7 @@ class WC_Serial_Numbers_Query {
 	 * @param int $limit
 	 * @param int $limit2
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 */
 	public function limit( $limit, $limit2 = null ) {
 		if ( ! is_null( $limit2 ) ) {
@@ -690,7 +702,7 @@ class WC_Serial_Numbers_Query {
 	 *
 	 * @param int $offset
 	 *
-	 * @return WC_Serial_Numbers_Query this for chaining.
+	 * @return Query this for chaining.
 	 *
 	 */
 	public function offset( $offset ) {
@@ -708,7 +720,7 @@ class WC_Serial_Numbers_Query {
 	 * @param int $page
 	 * @param int $size
 	 *
-	 * @return WC_Serial_Numbers_Query The current query builder.
+	 * @return Query The current query builder.
 	 * @since 1.0.0
 	 */
 	public function page( $page, $size = 20 ) {
@@ -787,6 +799,8 @@ class WC_Serial_Numbers_Query {
 	 */
 	public function get( $output = OBJECT, $row_map = null, $calc_rows = false ) {
 		global $wpdb;
+		do_action( 'wp_query_builder_get_builder', $this );
+		do_action( 'wp_query_builder_get_builder_' . $this->id, $this );
 
 		$query = '';
 		$this->_query_select( $query, $calc_rows );
@@ -798,7 +812,10 @@ class WC_Serial_Numbers_Query {
 		$this->_query_order( $query );
 		$this->_query_limit( $query );
 		$this->_query_offset( $query );
+
 		// Process
+		$query = apply_filters( 'wp_query_builder_get_query', $query );
+		$query = apply_filters( 'wp_query_builder_get_query_' . $this->id, $query );
 
 		$results = $wpdb->get_results( $query, $output );
 		if ( $row_map ) {
@@ -819,6 +836,9 @@ class WC_Serial_Numbers_Query {
 	 */
 	public function one( $output = OBJECT ) {
 		global $wpdb;
+		do_action( 'wp_query_builder_one_builder', $this );
+		do_action( 'wp_query_builder_one_builder_' . $this->id, $this );
+
 		$this->_query_select( $query );
 		$this->_query_from( $query );
 		$this->_query_join( $query );
@@ -828,6 +848,9 @@ class WC_Serial_Numbers_Query {
 		$this->_query_order( $query );
 		$query .= ' LIMIT 1';
 		$this->_query_offset( $query );
+
+		$query = apply_filters( 'wp_query_builder_one_query', $query );
+		$query = apply_filters( 'wp_query_builder_one_query_' . $this->id, $query );
 
 		return $wpdb->get_row( $query, $output );
 	}
@@ -841,6 +864,9 @@ class WC_Serial_Numbers_Query {
 	 */
 	public function count( $column = 1 ) {
 		global $wpdb;
+		do_action( 'wp_query_builder_count_builder', $this );
+		do_action( 'wp_query_builder_count_builder_' . $this->id, $this );
+
 		$query = 'SELECT count(' . $column . ') as `count`';
 		$this->_query_from( $query );
 		$this->_query_join( $query );
@@ -854,13 +880,16 @@ class WC_Serial_Numbers_Query {
 	/**
 	 * Just get a single value from the result
 	 *
-	 * @param string $column The name of the column.
+	 * @param string $column The index of the column.
 	 * @param bool $calc_rows Flag that indicates to SQL if rows should be calculated or not.
 	 *
 	 * @return mixed The columns value
 	 */
-	public function column( $column, $calc_rows = false ) {
+	public function column( $column = 0, $calc_rows = false ) {
 		global $wpdb;
+		do_action( 'wp_query_builder_column_builder', $this );
+		do_action( 'wp_query_builder_column_builder_' . $this->id, $this );
+
 		$query = '';
 		$this->_query_select( $query, $calc_rows );
 		$this->_query_from( $query );
@@ -889,6 +918,9 @@ class WC_Serial_Numbers_Query {
 	 */
 	public function value( $x = 0, $y = 0 ) {
 		global $wpdb;
+		do_action( 'wp_query_builder_value_builder', $this );
+		do_action( 'wp_query_builder_value_builder_' . $this->id, $this );
+
 		// Build
 		// Query
 		$query = '';
@@ -904,7 +936,6 @@ class WC_Serial_Numbers_Query {
 
 		return $wpdb->get_var( $query, $x, $y );
 	}
-
 
 
 	/**
@@ -1068,15 +1099,36 @@ class WC_Serial_Numbers_Query {
 	}
 
 	/**
+	 * Returns found rows in last query, if SQL_CALC_FOUND_ROWS is used and is supported.
+	 * @return array
+	 * @global object $wpdb
+	 *
+	 * @since 1.0.0
+	 *
+	 */
+	public function rows_found() {
+		global $wpdb;
+		$query = 'SELECT FOUND_ROWS()';
+		// Process
+		$query = apply_filters( 'wp_query_builder_found_rows_query', $query );
+		$query = apply_filters( 'wp_query_builder_found_rows_query_' . $this->id, $query );
+
+		return $wpdb->get_var( $query );
+	}
+
+	/**
 	 * Returns flag indicating if delete query has been executed.
 	 * @return bool
 	 * @global object $wpdb
 	 *
-	 * @since 1.0.8
+	 * @since 1.0.0
 	 *
 	 */
 	public function delete() {
 		global $wpdb;
+		do_action( 'wp_query_builder_delete_builder', $this );
+		do_action( 'wp_query_builder_delete_builder_' . $this->id, $this );
+
 		$query = '';
 		$this->_query_delete( $query );
 		$this->_query_from( $query );
@@ -1091,7 +1143,7 @@ class WC_Serial_Numbers_Query {
 	 * @return bool
 	 * @global object $wpdb
 	 *
-	 * @since 1.0.8
+	 * @since 1.0.0
 	 *
 	 */
 	public function update( $data ) {
@@ -1111,10 +1163,10 @@ class WC_Serial_Numbers_Query {
 				continue;
 			}
 
-			$fields[] = "`$column` = " . $wpdb->prepare( is_numeric( $value ) ? '%d' : '%s', $value);
+			$fields[] = "`$column` = " . $wpdb->prepare( is_numeric( $value ) ? '%d' : '%s', $value );
 		}
 
-		$table = trim($this->from);
+		$table  = trim( $this->from );
 		$fields = implode( ', ', $fields );
 
 		$query = "UPDATE `$table` SET $fields  $conditions";
@@ -1134,11 +1186,21 @@ class WC_Serial_Numbers_Query {
 	public function insert( $data, $format = array() ) {
 		global $wpdb;
 
-		if ( false !== $wpdb->insert( trim($this->from), $data, $format ) ) {
+		if ( false !== $wpdb->insert( trim( $this->from ), $data, $format ) ) {
 			return $wpdb->insert_id;
 		};
 
 		return false;
+	}
+
+	/**
+	 * Return a cloned object from current builder.
+	 *
+	 * @return Query
+	 * @since 1.0.0
+	 */
+	public function copy() {
+		return clone( $this );
 	}
 
 	/**
@@ -1331,11 +1393,10 @@ class WC_Serial_Numbers_Query {
 	/**
 	 * @param $message
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since 1.0.0
 	 */
 	private function exception( $message ) {
 		throw new \Exception( $message );
 	}
-
 }

@@ -108,6 +108,8 @@ function wc_serial_numbers_insert_item( $args ) {
 
 	$default_vendor    = get_user_by( 'email', get_option( 'admin_email' ) );
 	$default_vendor_id = isset( $default_vendor->ID ) ? $default_vendor->ID : null;
+
+
 	$serial_key        = isset( $args['serial_key'] ) ? sanitize_textarea_field( $args['serial_key'] ) : '';
 	$product_id        = isset( $args['product_id'] ) ? intval( $args['product_id'] ) : '';
 	$activation_limit  = isset( $args['activation_limit'] ) ? intval( $args['activation_limit'] ) : '';
@@ -394,7 +396,7 @@ function wc_serial_numbers_get_products( $args = array(), $count = false ) {
 		'include'          => array(),
 		'exclude'          => array(),
 		'search'           => '',
-		'orderby'          => 'title',
+		'orderby'          => 'post_title',
 		'order'            => 'DESC',
 		'search_columns'   => array( 'post_title' ),
 		'post_type'        => array( 'product' ),
@@ -472,13 +474,13 @@ function wc_serial_numbers_get_ordered_items_quantity( $order_id ) {
 	$keys  = [];
 
 	foreach ( $items as $item ) {
-		$product_id = $item->get_product_id();
+		$product_id = empty( $item->get_variation_id() ) ? $item->get_product_id() : $item->get_variation_id();
 		$quantity   = $item->get_quantity();
 		if ( 'yes' != get_post_meta( $product_id, '_is_serial_number', true ) ) {
 			continue;
 		}
-		$delivery_quantity = (int) get_post_meta( $product_id, '_delivery_quantity', true );
-		$delivery_quantity = empty( $delivery_quantity ) ? 1 : absint( $delivery_quantity );
+
+		$delivery_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
 		$needed_quantity   = $quantity * $delivery_quantity;
 		if ( $needed_quantity ) {
 			$keys[ $product_id ] = $needed_quantity;
@@ -523,6 +525,7 @@ function wc_serial_numbers_order_add_items( $order_id ) {
 		] );
 
 		foreach ( $keys as $key ) {
+
 			$data = [
 				'id'         => $key->id,
 				'order_id'   => $order_id,
@@ -893,10 +896,33 @@ function serial_numbers_get_low_stock_products( $force = false, $stock = 10 ) {
 																group by product_id having count < %d order by count asc", $stock ) );
 		$serial_counts = wp_list_pluck( $serial_counts, 'count', 'product_id' );
 
-		$product_ids   = wp_list_pluck( $product_ids, 'count', 'product_id' );
-		$low_stocks    = array_replace( $product_ids, $serial_counts );
+		$product_ids = wp_list_pluck( $product_ids, 'count', 'product_id' );
+		$low_stocks  = array_replace( $product_ids, $serial_counts );
 		set_transient( $transient, $low_stocks, time() + 60 * 20 );
 	}
 
 	return $low_stocks;
+}
+
+/**
+ * Get product title.
+ *
+ * @param $product
+ *
+ * @return string
+ * @since 1.2.0
+ */
+function wc_serial_numbers_get_product_title( $product ) {
+	if ( ! empty( $product ) ) {
+		$product = wc_get_product( $product );
+	}
+	if ( $product && ! empty( $product->get_id() ) ) {
+		return sprintf(
+			'(#%1$s) %2$s',
+			$product->get_id(),
+			html_entity_decode( $product->get_formatted_name() )
+		);
+	}
+
+	return '';
 }

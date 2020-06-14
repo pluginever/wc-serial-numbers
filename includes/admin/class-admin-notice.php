@@ -1,13 +1,9 @@
 <?php
+
+namespace pluginever\SerialNumbers\Admin;
 defined( 'ABSPATH' ) || exit();
 
-/**
- * Handles everything related to admin notice
- *
- * @class    WC_Serial_Numbers_Admin_Notice
- * @version  1.1.6
- */
-class WC_Serial_Numbers_Admin_Notice {
+class Notice {
 	/**
 	 * Notices presisting on the next request.
 	 * @var array
@@ -36,7 +32,7 @@ class WC_Serial_Numbers_Admin_Notice {
 	public static function init() {
 		self::$dismissed_notices = get_user_meta( get_current_user_id(), 'wc_serial_numbers_dismissed_notices', true );
 		self::$dismissed_notices = empty( self::$dismissed_notices ) ? array() : self::$dismissed_notices;
-
+		self::welcome_notice();
 		// Show meta box notices.
 		add_action( 'admin_notices', array( __CLASS__, 'output_notices' ) );
 		// Save meta box notices.
@@ -137,18 +133,19 @@ class WC_Serial_Numbers_Admin_Notice {
 	 *
 	 */
 	public static function add_dismissible_notice( $text, $args ) {
-		if ( ! isset( $args['dismiss_class'] ) || ! self::is_dismissible_notice_dismissed( $args['dismiss_class'] ) ) {
+//		if ( ! isset( $args['dismiss_class'] ) || ! self::is_dismissible_notice_dismissed( $args['dismiss_class'] ) ) {
 			self::add_notice( $text, $args );
-		}
+//		}
 	}
 
 	/**
 	 * Checks if a dismissible notice has been dismissed in the past.
 	 *
+	 * @param string $notice_name
+	 *
+	 * @return boolean
 	 * @since  1.5.6
 	 *
-	 * @param  string  $notice_name
-	 * @return boolean
 	 */
 	public static function is_dismissible_notice_dismissed( $notice_name ) {
 		return in_array( $notice_name, self::$dismissed_notices );
@@ -167,6 +164,7 @@ class WC_Serial_Numbers_Admin_Notice {
 		if ( ! self::is_dismissible_notice_dismissed( $notice_name ) ) {
 			self::$dismissed_notices = array_merge( self::$dismissed_notices, array( $notice_name ) );
 			update_user_meta( get_current_user_id(), 'wc_serial_numbers_dismissed_notices', self::$dismissed_notices );
+
 			return true;
 		}
 
@@ -179,29 +177,33 @@ class WC_Serial_Numbers_Admin_Notice {
 	 * @since  1.5.6
 	 */
 	public static function welcome_notice() {
-
-		$screen          = get_current_screen();
-		$screen_id       = $screen ? $screen->id : '';
-		$show_on_screens = array(
-			'dashboard',
-			'plugins',
-		);
+//		global $current_screen;
+//		$screen_id       = $current_screen ? $current_screen->id : '';
+//		$show_on_screens = array(
+//			'dashboard',
+//			'plugins',
+//		);
 
 		// Onboarding notices should only show on the main dashboard, and on the plugins screen.
-		if ( ! in_array( $screen_id, $show_on_screens, true ) ) {
-			return;
-		}
+//		if ( ! in_array( $screen_id, $show_on_screens, true ) ) {
+//			return;
+//		}
 
 		ob_start();
 
 		?>
-		<div class="sw-welcome-icon"></div>
-		<h2 class="sw-welcome-title"><?php esc_attr_e( 'Ready to sell serial numbers?', 'wc-serial-numbers' ); ?></h2>
-		<p class="sw-welcome-text"><?php esc_attr_e( 'Thank you for installing WooCommerce Serial Numbers.', 'wc-serial-numbers' ); ?>
-			<br/><?php esc_attr_e( 'Let\'s get started by inserting your first serial number!', 'wc-serial-numbers' ); ?>
-		</p>
-		<a href="<?php echo admin_url( 'admin.php?page=wc-serial-numbers?action=add' ); ?>"
-		   class="sw-welcome-button button-primary"><?php esc_attr_e( 'Let\'s go!', 'wc-serial-numbers' ); ?></a>
+		<div class="notice-left">
+			<span class="dashicons dashicons-lock plugin-icon"></span>
+		</div>
+
+		<div class="notice-right">
+			<h2 class="serial-welcome-title"><?php esc_attr_e( 'Ready to sell serial numbers?', 'wc-serial-numbers' ); ?></h2>
+			<p class="serial-welcome-text"><?php esc_attr_e( 'Thank you for installing WooCommerce Serial Numbers.', 'wc-serial-numbers' ); ?>
+				<br/><?php esc_attr_e( 'Let\'s get started by inserting your first serial number!', 'wc-serial-numbers' ); ?>
+			</p>
+			<a href="<?php echo admin_url( 'admin.php?page=wc-serial-numbers?action=add' ); ?>"
+			   class="sw-welcome-button button-primary"><?php esc_attr_e( 'Let\'s go!', 'wc-serial-numbers' ); ?></a>
+		</div>
 		<?php
 
 		$notice = ob_get_clean();
@@ -209,4 +211,5 @@ class WC_Serial_Numbers_Admin_Notice {
 		self::add_dismissible_notice( $notice, array( 'type' => 'native', 'dismiss_class' => 'welcome' ) );
 	}
 }
-WC_Serial_Numbers_Admin_Notice::init();
+
+Notice::init();

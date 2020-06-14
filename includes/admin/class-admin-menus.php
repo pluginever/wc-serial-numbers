@@ -1,76 +1,86 @@
 <?php
+
+namespace pluginever\SerialNumbers\Admin;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin_Menus {
-
-	protected $settings;
+class Admin_Menus {
+	/**
+	 * @var string
+	 */
+	protected $role;
 
 	/**
-	 * WC_Serial_Numbers_Admin_Menus constructor.
+	 * Admin_Menus constructor.
 	 */
 	public function __construct() {
-		$this->settings = new Ever_Settings_Framework();
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'admin_menu', array( $this, 'low_priority_pages' ), 99 );
-		add_action( 'admin_init', array( $this, 'settings_init' ) );
+		$this->role = apply_filters( 'wc_serial_numbers_menu_visibility_role', 'manage_woocommerce' );
+		add_action( 'admin_menu', array( $this, 'register_pages' ) );
 		add_filter( 'set-screen-option', array( $this, 'save_screen_options' ), 10, 3 );
 	}
 
 	/**
 	 * Adds page to admin menu
 	 */
-	public function admin_menu() {
-		$role               = apply_filters( 'wc_serial_numbers_menu_visibility_role', 'manage_woocommerce' );
+	public function register_pages() {
 		$serial_number_page = add_menu_page(
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers',
+			$this->role,
+			'serial-numbers',
 			array( $this, 'serial_numbers_page' ),
-			'dashicons-admin-network',
+			'dashicons-lock',
 			'55.9'
 		);
 		add_submenu_page(
-			'wc-serial-numbers',
+			'serial-numbers',
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers',
+			$this->role,
+			'serial-numbers',
 			array( $this, 'serial_numbers_page' )
 		);
 
-		add_action( 'load-' . $serial_number_page, array( $this, 'load_serial_numbers_page' ) );
-	}
-
-	public function low_priority_pages() {
-		$role = apply_filters( 'wc_serial_numbers_menu_visibility_role', 'manage_woocommerce' );
-		if ( wc_serial_numbers()->is_software_support_enabled() ) {
+		if ( ! wc_serial_numbers()->get_settings('disable_software_support', false, true ) ) {
 			add_submenu_page(
-				'wc-serial-numbers',
+				'serial-numbers',
 				__( 'Activations', 'wc-serial-numbers' ),
 				__( 'Activations', 'wc-serial-numbers' ),
-				$role,
-				'wc-serial-numbers-activations',
+				$this->role,
+				'serial-numbers-activations',
 				array( $this, 'activations_page' )
 			);
 		}
 		add_submenu_page(
-			'wc-serial-numbers',
-			__( 'WC Serial Numbers Settings', 'wc-serial-numbers' ),
-			__( 'Settings', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers-settings',
-			array( $this, 'settings_page' )
+			'serial-numbers',
+			__( 'Insight', 'wc-serial-numbers' ),
+			__( 'Insight', 'wc-serial-numbers' ),
+			$this->role,
+			'serial-numbers-insight',
+			array( $this, 'serial_numbers_insight_page' )
 		);
 
+		add_submenu_page(
+			'serial-numbers',
+			__( 'Import', 'wc-serial-numbers' ),
+			__( 'Import', 'wc-serial-numbers' ),
+			$this->role,
+			'serial-numbers-import',
+			array( $this, 'serial_numbers_import_page' )
+		);
+
+		add_submenu_page(
+			'serial-numbers',
+			__( 'Export', 'wc-serial-numbers' ),
+			__( 'Export', 'wc-serial-numbers' ),
+			$this->role,
+			'serial-numbers-export',
+			array( $this, 'serial_numbers_export_page' )
+		);
+		add_action( 'load-' . $serial_number_page, array( $this, 'load_serial_numbers_page' ) );
 	}
 
-	/**
-	 * @since 1.1.5
-	 */
 	public function load_serial_numbers_page() {
-		//wp_enqueue_style('wc-serial-numbers-admin');
-
 		$args = array(
 			'label'   => __( 'Serials per page', 'wc-serial-numbers' ),
 			'default' => 20,
@@ -111,57 +121,26 @@ class WC_Serial_Numbers_Admin_Menus {
 		}
 	}
 
-	/**
-	 * Setup settings fields
-	 *
-	 * @since 1.1.5
-	 */
-	public function settings_init() {
-		//set the settings
-		$this->settings->set_sections( apply_filters( 'wcsn_setting_sections', [] ) );
-		$this->settings->set_fields( apply_filters( 'wcsn_setting_fields', [] ) );
 
-		//initialize settings
-		$this->settings->admin_init();
-	}
-
-	/**
-	 * Render serial numbers page
-	 * @since 1.1.5
-	 */
 	public function serial_numbers_page() {
-		$action = isset( $_GET['action'] ) && ! empty( $_GET['action'] ) ? sanitize_text_field( $_GET['action'] ) : 'list';
-		switch ( $action ) {
-			case 'add':
-				include dirname( __FILE__ ) . '/views/add-serial-number.php';
-				break;
-			case 'edit':
-				include dirname( __FILE__ ) . '/views/edit-serial-number.php';
-				break;
-			case 'list':
-			default:
-				include dirname( __FILE__ ) . '/views/list-serial-numbers.php';
-				do_action( 'wpcp_serial_number_page', $action );
-		}
+		Serials_Page::output();
 	}
 
-	/**
-	 * Render activation page
-	 *
-	 * @since 1.1.5
-	 */
 	public function activations_page() {
-		include dirname( __FILE__ ) . '/views/activations-page.php';
+		Activations_Page::output();
 	}
 
-	/**
-	 * @since 1.1.5
-	 */
-	public function settings_page() {
-		include dirname( __FILE__ ) . '/views/settings-page.php';
+	public function serial_numbers_insight_page() {
+
 	}
 
+	public function serial_numbers_import_page() {
 
+	}
+
+	public function serial_numbers_export_page() {
+
+	}
 }
 
-new WC_Serial_Numbers_Admin_Menus();
+new Admin_Menus();

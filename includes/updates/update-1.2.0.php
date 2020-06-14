@@ -25,7 +25,7 @@ function wcsn_update_1_2_0() {
 	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers ADD activation_count int(9) NOT NULL  DEFAULT 0" );
 	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers ADD KEY vendor_id(`vendor_id`)" );
 	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers_activations CHANGE platform platform varchar(200) DEFAULT NULL" );
-
+	//alter table wp_wc_serial_numbers Add source varchar(200) NOT NULL default 'custom_source'
 	//status update
 	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s AND order_id=0", 'available', 'new' ) );
 	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s AND order_id != 0", 'sold', 'active' ) );

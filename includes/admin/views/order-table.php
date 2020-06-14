@@ -23,7 +23,7 @@
 				$serial_column_content = str_replace('{activation_email}', $order->get_billing_email(), $serial_column_content);
 				$serial_column_content = str_replace('{expired_at}', wc_serial_numbers_get_expiration_date($serial_number), $serial_column_content);
 				$serial_column_content = str_replace('{activation_limit}', wc_serial_numbers_get_activation_limit($serial_number), $serial_column_content);
-				echo $serial_column_content;
+				echo wp_kses_post(nl2br($serial_column_content));
 				?>
 			</td>
 

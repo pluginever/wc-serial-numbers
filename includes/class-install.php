@@ -1,13 +1,15 @@
 <?php
-defined( 'ABSPATH' ) || exit();
+namespace pluginever\SerialNumbers;
+use pluginever\SerialNumbers\Admin\Notice;
 
+defined( 'ABSPATH' ) || exit();
 /**
  * Handles installation and updating tasks.
  *
- * @class    WC_Serial_Numbers_Install
- * @version  1.1.6
+ * @class    Install
+ * @version  1.2.0
  */
-class WC_Serial_Numbers_Install {
+class Install {
 	/**
 	 * Store update files
 	 *
@@ -109,7 +111,7 @@ class WC_Serial_Numbers_Install {
 
 		if ( is_null( self::$current_version ) ) {
 			// Add dismissible welcome notice.
-			WC_Serial_Numbers_Admin_Notice::welcome_notice();
+			Notice::welcome_notice();
 		}
 
 		//setup transient actions
@@ -182,7 +184,7 @@ class WC_Serial_Numbers_Install {
 			  key active (active)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
 		];
-
+	//alter table wp_wc_serial_numbers Add source varchar(200) NOT NULL default 'custom_source'
 		return $schema;
 	}
 
@@ -293,4 +295,4 @@ class WC_Serial_Numbers_Install {
 
 }
 
-WC_Serial_Numbers_Install::init();
+Install::init();

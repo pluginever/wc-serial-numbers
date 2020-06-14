@@ -36,16 +36,16 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	public static function product_write_panel() {
 		global $post, $woocommerce;
 		?>
-		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
-			 style="padding-bottom: 50px;display: none;">
+		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple" style="padding-bottom: 50px;display: none;">
 			<?php
 			woocommerce_wp_checkbox(
 				array(
-					'id'          => '_is_serial_number',
-					'label'       => __( 'Serial Number', 'wc-serial-numbers' ),
-					'description' => __( 'Enable this if you are selling serial numbers for this product.', 'wc-serial-numbers' ),
-					'value'       => get_post_meta( $post->ID, '_is_serial_number', true ),
-					'desc_tip'    => true,
+					'id'            => '_is_serial_number',
+					'label'         => __( 'Serial Number', 'wc-serial-numbers' ),
+					'description'   => __( 'Enable this if you are selling serial numbers for this product.', 'wc-serial-numbers' ),
+					'value'         => get_post_meta( $post->ID, '_is_serial_number', true ),
+					'wrapper_class' => 'options_group',
+					'desc_tip'      => true,
 				)
 			);
 
@@ -56,13 +56,27 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 				'description'       => __( 'The amount of serial key will be delivered upon purchase. Available in PRO.', 'wc-serial-numbers' ),
 				'value'             => empty( $delivery_quantity ) ? 1 : $delivery_quantity,
 				'type'              => 'number',
+				'wrapper_class'     => 'options_group',
 				'desc_tip'          => true,
 				'custom_attributes' => array(
 					'disabled' => 'disabled'
 				),
 			) ) );
 
-			do_action( 'serial_numbers_product_metabox', $post );
+			$source = get_post_meta( $post->ID, '_serial_key_source', true );
+			woocommerce_wp_radio( array(
+				'id'            => "_serial_key_source",
+				'name'          => "_serial_key_source",
+				'class'         => "serial_key_source",
+				'label'         => __( 'Serial Key Source', 'wc-serial-numbers-pro' ),
+				'value'         => empty( $source ) ? 'custom_source' : $source,
+				'wrapper_class' => 'options_group',
+				'options'       => apply_filters( 'wc_serial_numbers_key_sources', array(
+					'custom_source' => __( 'Manually Generated serial number', 'wc-serial-numbers-pro' ),
+				) ),
+			) );
+
+			do_action( 'wc_serial_numbers_simple_product_metabox', $post );
 
 			if ( ! wc_serial_numbers()->is_pro_active() ) {
 				echo sprintf( '<p>%s <a href="%s" target="_blank">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order? Upgrade to Pro', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
@@ -71,17 +85,18 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			if ( wc_serial_numbers()->is_software_support_enabled() ) {
 				woocommerce_wp_text_input(
 					array(
-						'id'          => '_software_version',
-						'label'       => __( 'Software Version', 'wc-serial-numbers' ),
-						'description' => __( 'Version number for the software. If its not a software product ignore this.', 'wc-serial-numbers' ),
-						'placeholder' => __( 'e.g. 1.0', 'wc-serial-numbers' ),
-						'desc_tip'    => true,
+						'id'            => '_software_version',
+						'label'         => __( 'Software Version', 'wc-serial-numbers' ),
+						'description'   => __( 'Version number for the software. If its not a software product ignore this.', 'wc-serial-numbers' ),
+						'placeholder'   => __( 'e.g. 1.0', 'wc-serial-numbers' ),
+						'wrapper_class' => 'options_group',
+						'desc_tip'      => true,
 					)
 				);
 			}
 
 			echo sprintf(
-				'<p class="form-field"><label>%s</label><span class="description">%d %s</span></p>',
+				'<p class="form-field options_group"><label>%s</label><span class="description">%d %s</span></p>',
 				__( 'Available', 'wc-serial-numbers' ),
 				wc_serial_numbers_get_items( [
 					'product_id' => $post->ID,
@@ -100,9 +115,9 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	public static function product_save_data() {
 		global $post;
 		$status = isset( $_POST['_is_serial_number'] ) ? 'yes' : 'no';
+		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( $_POST['_serial_key_source'] ) : 'custom_source';
 		update_post_meta( $post->ID, '_is_serial_number', $status );
-		update_post_meta( $post->ID, '_delivery_quantity', empty( $_POST['_delivery_quantity'] ) ? 1 : intval( $_POST['_delivery_quantity'] ) );
-
+		update_post_meta( $post->ID, '_serial_key_source', $source );
 		//save only if software licensing enabled
 		if ( wc_serial_numbers()->is_software_support_enabled() ) {
 			update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
@@ -123,11 +138,13 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	public function order_itemmeta( $o_item_id, $o_item, $product ) {
 		global $post;
 		$order = wc_get_order( $post->ID );
+
 		if ( 'completed' !== $order->get_status( 'edit' ) ) {
 			return '';
 		}
 
 		$is_serial_product = 'yes' == get_post_meta( $product->get_id(), '_is_serial_number', true );
+
 		if ( ! $is_serial_product ) {
 			return false;
 		}
@@ -143,7 +160,6 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 
 			return true;
 		}
-
 
 		$url = admin_url( 'admin.php?page=wc-serial-numbers' );
 		echo sprintf( '<br/><a href="%s">%s&rarr;</a>', add_query_arg( [

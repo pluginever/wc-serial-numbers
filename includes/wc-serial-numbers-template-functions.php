@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit();
  * @since 1.1.6
  */
 function wc_serial_number_view_template_settings() {
-	include dirname( __FILE__ ) .'/admin/views/view-template-settings.php';
+	include apply_filters('wc_serial_number_view_template_settings', dirname( __FILE__ ) .'/admin/views/view-template-settings.php');
 }
 
 /**

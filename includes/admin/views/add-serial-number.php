@@ -69,7 +69,7 @@
 						</label>
 					</th>
 					<td>
-						<input name="validity" id="validity" class="regular-text" type="number" value="365">
+						<input name="validity" id="validity" class="regular-text" type="number">
 						<p class="description"><?php esc_html_e( 'The number of days the key will be valid for after the purchase date.', 'wc-serial-numbers' ); ?></p>
 					</td>
 				</tr>
