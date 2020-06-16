@@ -94,4 +94,35 @@ class Helper {
 
 		return '';
 	}
+
+	/**
+	 * @since 1.2.0
+	 * @param $serial
+	 *
+	 * @return false|string|void
+	 */
+	public static function get_expiration_date( $serial ) {
+		if ( empty( $serial->validity ) ) {
+			return __( 'Never Expire', 'wc-serial-numbers' );
+		}
+
+		return date( 'Y-m-d', strtotime( $serial->order_date . ' + ' . $serial->validity . ' Day ' ) );
+	}
+
+	/**
+	 * Get activation limit.
+	 *
+	 * @since 1.1.6
+	 * @param $serial
+	 *
+	 * @return string|void
+	 */
+	public static function  get_activation_limit($serial){
+		if ( empty( $serial->activation_limit ) ) {
+			return __( 'Unlimited', 'wc-serial-numbers' );
+		}
+
+		return $serial->activation_limit;
+	}
+
 }

@@ -339,7 +339,7 @@ class Activations_Table extends \WP_List_Table {
 		}
 
 		$query = Query_Activations::init( 'activations_list_table' )
-		                          ->leftJoin( 'wc_serial_numbers', 'serial_id', 'id' )
+		                          ->leftJoin( 'wc_serial_numbers', 'serial_id', '=', 'id' )
 		                          ->order_by( $orderby, $order )
 		                          ->page( $page, $per_page );
 		if ( ! empty( $product_id ) ) {

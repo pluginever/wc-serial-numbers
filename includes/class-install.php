@@ -42,7 +42,6 @@ class Install {
 
 		// Installation and DB updates handling.
 		add_action( 'init', array( __CLASS__, 'maybe_install' ) );
-		register_activation_hook( WCSN_PLUGIN_FILE, array( __CLASS__, 'install' ) );
 		add_action( 'admin_init', array( __CLASS__, 'maybe_update' ) );
 
 		// Show row meta on the plugin screen.
@@ -98,14 +97,13 @@ class Install {
 	 * Install Plugin.
 	 */
 	public static function install() {
-
+		error_log('wc_serial_numbers_installing');
 		if ( ! is_blog_installed() ) {
 			return;
 		}
 
 		// Running for the first time? Set a transient now. Used in 'can_install' to prevent race conditions.
 		set_transient( 'wc_serial_numbers_installing', 'yes', 10 );
-
 		// Create tables.
 		self::create_tables();
 
@@ -116,11 +114,11 @@ class Install {
 
 		//setup transient actions
 		if ( false === wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
-			wp_schedule_event( time(), 'hourly', 'wcsn_hourly_event' );
+			wp_schedule_event( time(), 'hourly', 'wc_serial_numbers_hourly_event' );
 		}
 
 		if ( false === wp_next_scheduled( 'wc_serial_numbers_daily_event' ) ) {
-			wp_schedule_event( time(), 'daily', 'wcsn_daily_event' );
+			wp_schedule_event( time(), 'daily', 'wc_serial_numbers_daily_event' );
 		}
 
 		// Update plugin version - once set, 'maybe_install' will not call 'install' again.
@@ -136,9 +134,10 @@ class Install {
 	 */
 	private static function create_tables() {
 		global $wpdb;
-		$wpdb->hide_errors();
+		//$wpdb->hide_errors();
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		$tables = self::get_schema();
+
 		foreach ( $tables as $table ) {
 			dbDelta( $table );
 		}
@@ -164,6 +163,7 @@ class Install {
 			validity varchar(200) DEFAULT NULL,
 			expire_date DATETIME NULL DEFAULT NULL,
 			order_date DATETIME NULL DEFAULT NULL,
+			source varchar(50) DEFAULT 'custom_source',
 			created_date DATETIME NULL DEFAULT NULL,
 			PRIMARY KEY  (id),
 			key product_id (product_id),
@@ -184,7 +184,6 @@ class Install {
 			  key active (active)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
 		];
-	//alter table wp_wc_serial_numbers Add source varchar(200) NOT NULL default 'custom_source'
 		return $schema;
 	}
 
@@ -231,7 +230,7 @@ class Install {
 	 * @since 1.0.0
 	 */
 	public static function maybe_update() {
-		$key               = sanitize_key( wc_serial_numbers()->plugin_name ) . '_version';;
+		$key               = sanitize_key( 'WooCommerce Serial Numbers' ) . '_version';;
 		$installed_version = get_option( $key );
 
 		// may be it's the first install

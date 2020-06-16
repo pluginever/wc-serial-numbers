@@ -16,6 +16,7 @@ class Admin_MetaBoxes {
 		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'simple_product_content' ) );
 		add_filter( 'woocommerce_process_product_meta', array( __CLASS__, 'product_save_data' ) );
 		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'variable_product_content' ), 10, 3 );
+		add_action( 'woocommerce_after_order_itemmeta', array( $this, 'order_itemmeta' ), 10, 3 );
 	}
 
 	/**
@@ -144,6 +145,56 @@ class Admin_MetaBoxes {
 		}
 
 	}
+
+
+	/**
+	 *
+	 * @param $o_item_id
+	 * @param $o_item
+	 * @param $product
+	 *
+	 * @since 1.1.6
+	 */
+	public function order_itemmeta( $o_item_id, $o_item, $product ) {
+		global $post;
+		$order = wc_get_order( $post->ID );
+
+		if ( 'completed' !== $order->get_status( 'edit' ) ) {
+			return '';
+		}
+
+		$is_serial_product = 'yes' == get_post_meta( $product->get_id(), '_is_serial_number', true );
+
+		if ( ! $is_serial_product ) {
+			return false;
+		}
+
+		$items = \pluginever\SerialNumbers\Query_Serials::init()->where('order_id', intval($post->ID))->where('product_id', $product->get_id())->get();
+		if ( empty( $items ) && $order ) {
+			echo sprintf( '<div class="serial-missing-serial-number">%s</div>', __( 'Order missing serial numbers for this item.', 'wc-serial-numbers' ) );
+			return true;
+		}
+
+		$url = admin_url( 'admin.php?page=serial-numbers' );
+		echo sprintf( '<br/><a href="%s">%s&rarr;</a>', add_query_arg( [
+			'order_id'   => $post->ID,
+			'product_id' => $product->get_id()
+		], $url ), __( 'Serial Numbers', 'wc-serial-numbers' ) );
+
+		$url = admin_url( 'admin.php?page=wc-serial-numbers' );
+
+		$li = '';
+
+		foreach ( $items as $item ) {
+			$li .= sprintf( '<li><a href="%s">&rarr;</a>&nbsp;%s</li>', add_query_arg( [
+				'action' => 'edit',
+				'id'     => $item->id
+			], $url ), \pluginever\SerialNumbers\Helper::decrypt( $item->serial_key ) );
+		}
+
+		echo sprintf( '<ul>%s</ul>', $li );
+	}
+
 }
 
 new Admin_MetaBoxes();

@@ -53,10 +53,10 @@ class Admin_Menus {
 		}
 		add_submenu_page(
 			'serial-numbers',
-			__( 'Insight', 'wc-serial-numbers' ),
-			__( 'Insight', 'wc-serial-numbers' ),
+			__( 'Products', 'wc-serial-numbers' ),
+			__( 'Products', 'wc-serial-numbers' ),
 			$this->role,
-			'serial-numbers-insight',
+			'serial-numbers-products',
 			array( $this, 'serial_numbers_insight_page' )
 		);
 

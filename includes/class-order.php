@@ -20,6 +20,10 @@ class Order {
 		add_action( 'woocommerce_order_status_refunded', array( __CLASS__, 'revoke_serial_numbers' ) );
 		add_action( 'woocommerce_order_status_failed', array( __CLASS__, 'revoke_serial_numbers' ) );
 		add_action( 'woocommerce_order_partially_refunded', array( __CLASS__, 'revoke_serial_numbers' ), 10, 2 );
+
+		//
+		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
+		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ) );
 	}
 
 	/**
@@ -59,6 +63,7 @@ class Order {
 						$notice  = str_replace( '{stock_quantity}', $stock, $notice );
 
 						wc_add_notice( $notice, 'error' );
+
 						return false;
 					}
 				}
@@ -147,7 +152,7 @@ class Order {
 		] );
 
 		if ( array_key_exists( $order->get_status( 'edit' ), $remove_statuses ) ) {
-			error_log( print_r( $remove_statuses, true ) );
+
 			self::remove_serials( $order_id );
 		}
 	}
@@ -286,6 +291,37 @@ class Order {
 		}
 
 		return Query_Serials::init()->where( 'order_id', $order_id )->update( $data );
+	}
+
+	/**
+	 * Print ordered serials
+	 * @since 1.2.0
+	 * @param $order
+	 *
+	 * @throws \Exception
+	 */
+	public static function order_print_items( $order ) {
+		$order_id = $order->get_id();
+
+		$order = wc_get_order( $order_id );
+
+		if ( 'completed' !== $order->get_status( 'edit' ) ) {
+			return;
+		}
+		global $serial_numbers;
+		$serial_numbers = \pluginever\SerialNumbers\Query_Serials::init()->where('order_id', intval($order_id))->get();
+
+		if ( empty( $serial_numbers ) ) {
+			return;
+		}
+
+		$heading                = apply_filters( 'wc_serial_numbers_headline', __( 'Serial Numbers', 'wc-serial-numbers' ) );
+		$product_column         = apply_filters( 'wc_serial_numbers_product_cell_heading', __( 'Product', 'wc-serial-numbers' ) );
+		$content_column         = apply_filters( 'wc_serial_numbers_serial_cell_heading', __( 'Serial Number', 'wc-serial-numbers' ) );
+		$product_column_content = apply_filters( 'wc_serial_numbers_product_cell_content', '<a href="{product_url}">{product_title}</a>' );
+		$serial_column_content  = apply_filters( 'wc_serial_numbers_serial_cell_content', '<ul><li><strong>Serial Numbers:</strong>{serial_number}</li><li><strong>Activation Email:</strong>{activation_email}</li><li><strong>Expire At:</strong>{expired_at}</li><li><strong>Activation Limit:</strong>{activation_limit}</li></ul>' );
+
+		include dirname( __FILE__ ) . '/admin/views/order-table.php';
 	}
 }
 

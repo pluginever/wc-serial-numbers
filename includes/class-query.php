@@ -99,7 +99,6 @@ class Query {
 		return $this;
 	}
 
-
 	/**
 	 * Adds from statement.
 	 *
@@ -322,7 +321,6 @@ class Query {
 			return $this;
 		}
 
-
 		return $this->where( $column, 'in', $options );
 	}
 
@@ -501,13 +499,13 @@ class Query {
 			return $this;
 		}
 
-		// when param2 is null we replace param2 with param one as the
-		// value holder and make param1 to the = operator.
+		// when $referenceKey is null we replace $operator with $referenceKey one as the
+		// value holder and make $operator to the = operator.
 		if ( is_null( $referenceKey ) ) {
 			$referenceKey = $operator;
-			$operator     = '=';
+			$operator = '=';
 		}
-		$contain_join = preg_replace( '/^(\s?AND ?|\s?OR ?)|\s$/i', '', $referenceKey );
+
 		$referenceKey = is_array( $referenceKey ) ? ( '(\'' . implode( '\',\'', $referenceKey ) . '\')' )
 			: ( $referenceKey === null
 				? 'null'

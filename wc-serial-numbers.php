@@ -40,20 +40,218 @@ if ( ! defined( 'WC_SERIAL_NUMBERS_FILE' ) ) {
 	define( 'WC_SERIAL_NUMBERS_FILE', __FILE__ );
 }
 
-// Include the main WC_Serial_Numbers class.
-if ( ! class_exists( 'WC_Serial_Numbers', false ) ) {
-	include_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers.php';
+
+class WC_Serial_Numbers {
+
+	/**
+	 * WC_Serial_Numbers version.
+	 *
+	 * @var string
+	 * @since 1.2.0
+	 */
+	public $version = '1.1.5';
+
+	/**
+	 * This plugin's instance
+	 *
+	 * @var WC_Serial_Numbers The one true WC_Serial_Numbers
+	 * @since 1.0
+	 */
+	private static $instance;
+
+	/**
+	 * Main WC_Serial_Numbers Instance
+	 *
+	 * Insures that only one instance of WC_Serial_Numbers exists in memory at any one
+	 * time. Also prevents needing to define globals all over the place.
+	 *
+	 * @return WC_Serial_Numbers The one true WC_Serial_Numbers
+	 * @since 1.0.0
+	 * @static var array $instance
+	 */
+	public static function instance() {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WC_Serial_Numbers ) ) {
+			self::$instance = new WC_Serial_Numbers();
+		}
+
+		return self::$instance;
+	}
+
+
+	/**
+	 * Return plugin version.
+	 *
+	 * @return string
+	 * @since 1.2.0
+	 * @access public
+	 **/
+	public function get_version() {
+		return $this->version;
+	}
+
+	/**
+	 * Plugin URL getter.
+	 *
+	 * @return string
+	 * @since 1.2.0
+	 */
+	public function plugin_url() {
+		return untrailingslashit( plugins_url( '/', WC_SERIAL_NUMBERS_FILE ) );
+	}
+
+	/**
+	 * Plugin path getter.
+	 *
+	 * @return string
+	 * @since 1.2.0
+	 */
+	public function plugin_path() {
+		return untrailingslashit( plugin_dir_path( WC_SERIAL_NUMBERS_FILE ) );
+	}
+
+	/**
+	 * Plugin base path name getter.
+	 *
+	 * @return string
+	 * @since 1.2.0
+	 */
+	public function plugin_basename() {
+		return plugin_basename( WC_SERIAL_NUMBERS_FILE );
+	}
+
+	/**
+	 * Determines if the pro version active.
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 *
+	 */
+	public function is_pro_active() {
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+		return is_plugin_active( 'wc-serial-numbers-pro/wc-serial-numbers-pro.php' ) == true;
+	}
+
+
+	/**
+	 * Throw error on object clone
+	 *
+	 * The whole idea of the singleton design pattern is that there is a single
+	 * object therefore, we don't want the object to be cloned.
+	 *
+	 * @access protected
+	 * @return void
+	 */
+
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wc-serial-numbers' ), '1.0.0' );
+	}
+
+	/**
+	 * Disable unserializing of the class
+	 *
+	 * @access protected
+	 * @return void
+	 */
+
+	public function __wakeup() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wc-serial-numbers' ), '1.0.0' );
+	}
+
+	/**
+	 * WC_Serial_Numbers constructor.
+	 */
+	protected function __construct() {
+		$this->includes();
+		$this->init_hooks();
+	}
+
+	/**
+	 * Include required core files used in admin and on the frontend.
+	 * @since 1.2.0
+	 */
+	public function includes() {
+//		if ( ! class_exists( 'WooCommerce' ) ) {
+//			add_action( 'admin_notices', array( __CLASS__, 'wc_missing_notice') );
+//			return;
+//		}
+
+		require_once dirname( __FILE__ ) . '/includes/class-install.php';
+		require_once dirname( __FILE__ ) . '/includes/functions.php';
+		require_once dirname( __FILE__ ) . '/includes/class-assets.php';
+		require_once dirname( __FILE__ ) . '/includes/class-query.php';
+		require_once dirname( __FILE__ ) . '/includes/class-query-serials.php';
+		require_once dirname( __FILE__ ) . '/includes/class-query-activations.php';
+		require_once dirname( __FILE__ ) . '/includes/class-activations-query.php';
+		require_once dirname( __FILE__ ) . '/includes/class-query-products.php';
+		require_once dirname( __FILE__ ) . '/includes/class-orders-query.php';
+
+		require_once dirname( __FILE__ ) . '/includes/class-encryption.php';
+		require_once dirname( __FILE__ ) . '/includes/class-helper.php';
+		require_once dirname( __FILE__ ) . '/includes/class-sanitization.php';
+		require_once dirname( __FILE__ ) . '/includes/class-order.php';
+
+		if ( is_admin() ) {
+			require_once dirname( __FILE__ ) . '/includes/class-admin.php';
+		}
+	}
+
+
+	/**
+	 * WooCommerce plugin dependency notice
+	 * @since 1.2.0
+	 */
+	function wc_missing_notice() {
+		$message = sprintf( __( '<strong>WooCommerce Serial Numbers</strong> requires <strong>WooCommerce</strong> installed and activated. Please Install %s WooCommerce. %s', 'wc-serial-numbers' ),
+			'<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' );
+		echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', $message );
+	}
+
+	/**
+	 * Hook into actions and filters.
+	 *
+	 * @since 1.0.0
+	 */
+	private function init_hooks() {
+		add_action( 'plugins_loaded', array( $this, 'register_textdomain' ));
+		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), - 1 );
+	}
+
+	public function register_textdomain(){
+		load_plugin_textdomain( 'wc-serial-numbers', false, plugin_basename( __FILE__ ) . '/i18n/languages/' );
+	}
+
+	/**
+	 * When WP has loaded all plugins, trigger the `wcsn_loaded` hook.
+	 *
+	 * This ensures `wc_serial_numbers_loaded` is called only after all other plugins
+	 * are loaded, to avoid issues caused by plugin directory naming changing
+	 *
+	 * @since 1.0.0
+	 */
+	public function on_plugins_loaded() {
+		do_action( 'wc_serial_numbers_loaded' );
+	}
+
+	/**
+	 * Get plugin settings.
+	 *
+	 * @param $key
+	 * @param string $default
+	 *
+	 * @return bool|string
+	 * @since 1.2.0
+	 */
+	public function get_settings( $key, $default = '', $bool = false ) {
+		$settings = get_option( 'serial_numbers_settings', [] );
+
+		$value = ! empty( $settings[ $key ] ) ? $settings[ $key ] : $default;
+
+		return $bool ? wc_serial_numbers_sanitize_bool( $value ) : $value;
+	}
+
 }
 
-/**
- * WooCommerce plugin dependency notice
- * @since 1.2.0
- */
-function serial_numbers_wc_missing_notice() {
-	$message = sprintf( __( '<strong>WooCommerce Serial Numbers</strong> requires <strong>WooCommerce</strong> installed and activated. Please Install %s WooCommerce. %s', 'wc-serial-numbers' ),
-		'<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' );
-	echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', $message );
-}
 
 /**
  * The main function responsible for returning the one true WC Serial Numbers
@@ -62,27 +260,11 @@ function serial_numbers_wc_missing_notice() {
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * @return \pluginever\SerialNumbers\WC_Serial_Numbers
+ * @return WC_Serial_Numbers
  * @since 1.2.0
  */
 function wc_serial_numbers() {
-	return \pluginever\SerialNumbers\WC_Serial_Numbers::instance();
+	return WC_Serial_Numbers::instance();
 }
-
-/**
- * Get WC Serial Numbers Running
- * @since 1.2.0
- */
-function serial_numbers_init() {
-	load_plugin_textdomain( 'wc-serial-numbers', false, plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages/' );
-
-	if ( ! class_exists( 'WooCommerce' ) ) {
-		add_action( 'admin_notices', 'serial_numbers_wc_missing_notice' );
-
-		return;
-	}
-
-	wc_serial_numbers();
-}
-
-add_action( 'plugins_loaded', 'serial_numbers_init', 10 );
+//fire
+wc_serial_numbers();
