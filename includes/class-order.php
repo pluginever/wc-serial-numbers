@@ -90,17 +90,12 @@ class Order {
 				return $order;
 			}
 
-			if ( 'complete' === $order->get_status() ) {
+			if ( 'completed' === $order->get_status() ) {
 				return false;
 			}
 
-			$keys = ( $order_id );
-			if ( empty( $keys ) ) {
-				return false;
-			}
-
-			$order->set_status( 'complete' );
-			$order->add_order_note( __( 'Order marked as complete by WC Serial Numbers', 'wc-serial-numbers' ) );
+			$order->update_status( 'completed' );
+			//$order->add_order_note( __( 'Order marked as complete by WC Serial Numbers', 'wc-serial-numbers' ) );
 
 			return true;
 		}

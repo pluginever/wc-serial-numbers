@@ -121,7 +121,7 @@ class Serials_Page {
 						</td>
 					</tr>
 
-					<?php if ( wc_serial_numbers()->get_settings('disable_software_support', false, true ) ): ?>
+					<?php if ( ! wc_serial_numbers()->get_settings('disable_software_support', '0', true ) ): ?>
 						<tr>
 							<th scope="row">
 								<label for="activation_limit">

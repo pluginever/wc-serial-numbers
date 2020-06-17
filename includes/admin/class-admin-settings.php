@@ -583,7 +583,7 @@ class Admin_Settings {
 
 					<td>
 						<?php
-						$value = '<ul><li><strong>Serial Numbers:</strong>{serial_number}</li><li><strong>Activation Email:</strong>{activation_email}</li><li><strong>Expire At:</strong>{expired_at}</li><li><strong>Activation Limit:</strong>{activation_limit}</li></ul>';
+						$value = '<ul><li><strong>Serial Number:</strong>{serial_number}</li><li><strong>Activation Email:</strong>{activation_email}</li><li><strong>Expire At:</strong>{expired_at}</li><li><strong>Activation Limit:</strong>{activation_limit}</li></ul>';
 						$this->callback_label( [
 							'id'      => 'serial_cell_content',
 							'label'   => __( 'Serial Cell Content', 'wc-serial-numbers' ),

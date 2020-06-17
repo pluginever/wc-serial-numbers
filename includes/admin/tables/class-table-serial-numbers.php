@@ -424,7 +424,7 @@ class Serial_Numbers_Table extends \WP_List_Table {
 	 * @since 1.1.6
 	 */
 	function column_validity( $item ) {
-		return ! empty( $item->validity ) ? sprintf( _n( '<b>%s</b> Day <br><small>After purchase</small>', '<b>%s</b> Days <br><small>After purchase</small>', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Never expire', 'wc-serial-numbers' );
+		return ! empty( $item->validity ) ? sprintf( _n( '<b>%s</b> Day <br><small>After purchase</small>', '<b>%s</b> Days <br><small>After purchase</small>', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Lifetime', 'wc-serial-numbers' );
 	}
 
 	/**
