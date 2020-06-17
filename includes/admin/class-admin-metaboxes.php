@@ -1,8 +1,8 @@
 <?php
 
-namespace pluginever\SerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Admin;
 
-use pluginever\SerialNumbers\Query_Serials;
+use PluginEver\SerialNumbers\Query_Serials;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -169,7 +169,7 @@ class Admin_MetaBoxes {
 			return false;
 		}
 
-		$items = \pluginever\SerialNumbers\Query_Serials::init()->where('order_id', intval($post->ID))->where('product_id', $product->get_id())->get();
+		$items = \PluginEver\SerialNumbers\Query_Serials::init()->where('order_id', intval($post->ID))->where('product_id', $product->get_id())->get();
 		if ( empty( $items ) && $order ) {
 			echo sprintf( '<div class="serial-missing-serial-number">%s</div>', __( 'Order missing serial numbers for this item.', 'wc-serial-numbers' ) );
 			return true;
@@ -189,7 +189,7 @@ class Admin_MetaBoxes {
 			$li .= sprintf( '<li><a href="%s">&rarr;</a>&nbsp;%s</li>', add_query_arg( [
 				'action' => 'edit',
 				'id'     => $item->id
-			], $url ), \pluginever\SerialNumbers\Helper::decrypt( $item->serial_key ) );
+			], $url ), \PluginEver\SerialNumbers\Helper::decrypt( $item->serial_key ) );
 		}
 
 		echo sprintf( '<ul>%s</ul>', $li );

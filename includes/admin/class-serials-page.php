@@ -1,10 +1,10 @@
 <?php
 
-namespace pluginever\SerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Admin;
 
-use pluginever\SerialNumbers\Admin\Table\Serial_Numbers_Table;
-use pluginever\SerialNumbers\Helper;
-use pluginever\SerialNumbers\Query_Serials;
+use PluginEver\SerialNumbers\Admin\Table\Serial_Numbers_Table;
+use PluginEver\SerialNumbers\Helper;
+use PluginEver\SerialNumbers\Query_Serials;
 
 defined( 'ABSPATH' ) || exit();
 

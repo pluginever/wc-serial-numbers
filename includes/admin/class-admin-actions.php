@@ -1,8 +1,8 @@
 <?php
 
-namespace pluginever\SerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Admin;
 
-use pluginever\SerialNumbers\Sanitization;
+use PluginEver\SerialNumbers\Sanitization;
 
 defined( 'ABSPATH' ) || exit();
 

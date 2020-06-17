@@ -1,8 +1,8 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-use pluginever\SerialNumbers\Sanitization;
-use \pluginever\SerialNumbers\Query_Serials;
+use PluginEver\SerialNumbers\Sanitization;
+use \PluginEver\SerialNumbers\Query_Serials;
 
 /**
  * Get serial number's statuses.

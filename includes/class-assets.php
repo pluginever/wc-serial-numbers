@@ -1,6 +1,6 @@
 <?php
 
-namespace pluginever\SerialNumbers;
+namespace PluginEver\SerialNumbers;
 defined( 'ABSPATH' ) || exit();
 
 class Assets {
@@ -28,15 +28,15 @@ class Assets {
 	 * @since 1.2.0
 	 */
 	public static function admin_scripts( $hook ) {
+		if ( ! wc_serial_numbers()->is_wc_active() ) {
+			return;
+		}
+
 		$css_url = wc_serial_numbers()->plugin_url() . '/assets/css';
 		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
 		$version = wc_serial_numbers()->get_version();
 		wp_register_style( 'serial-list-tables', $css_url .'/list-tables.css', array(), $version );
 		wp_enqueue_style( 'admin-general', $css_url .'/admin-general.css', array('woocommerce_admin_styles', 'jquery-ui-style'), $version );
-
-
-
-
 		wp_enqueue_style( 'jquery-ui-style' );
 		wp_enqueue_style( 'select2' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );

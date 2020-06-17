@@ -1,8 +1,11 @@
 <?php
-namespace pluginever\SerialNumbers;
-use pluginever\SerialNumbers\Admin\Notice;
+
+namespace PluginEver\SerialNumbers;
+
+use PluginEver\SerialNumbers\Admin\Notice;
 
 defined( 'ABSPATH' ) || exit();
+
 /**
  * Handles installation and updating tasks.
  *
@@ -49,6 +52,8 @@ class Install {
 
 		//cron actions
 		add_filter( 'cron_schedules', array( __CLASS__, 'custom_cron_schedules' ), 20 );
+
+		add_filter( 'plugin_action_links_wc-serial-numbers/wc-serial-numbers.php', array( __CLASS__, 'action_links' ) );
 	}
 
 	/**
@@ -97,13 +102,13 @@ class Install {
 	 * Install Plugin.
 	 */
 	public static function install() {
-		error_log('wc_serial_numbers_installing');
 		if ( ! is_blog_installed() ) {
 			return;
 		}
 
 		// Running for the first time? Set a transient now. Used in 'can_install' to prevent race conditions.
 		set_transient( 'wc_serial_numbers_installing', 'yes', 10 );
+
 		// Create tables.
 		self::create_tables();
 
@@ -112,6 +117,34 @@ class Install {
 			require_once dirname( __FILE__ ) . '/admin/class-admin-notice.php';
 			Notice::welcome_notice();
 		}
+
+		if ( empty( get_option( 'serial_numbers_settings' ) ) ) {
+			//update general settings.
+			$settings = array(
+				'autocomplete_order'       => '1',
+				'reuse_serial'             => '1',
+				'disable_software_support' => '0',
+				'enable_backorder'         => '0',
+				'enable_duplicate'         => '0',
+				'stock_notification'       => '1',
+				'hide_serial_number'       => '1',
+				'stock_threshold'          => '5',
+				'low_stock_message'        => __( 'Sorry, There is not enough Serial Numbers available for {product_title}, Please remove this item or lower the quantity, For now we have {stock_quantity} Serial Number for this product.', 'wc-serial-numbers' ),
+				'template_heading'         => __( 'Serial Numbers', 'wc-serial-numbers' ),
+				'product_cell_heading'     => __( 'Product', 'wc-serial-numbers' ),
+				'serial_cell_heading'      => __( 'Serial Number', 'wc-serial-numbers' ),
+				'product_cell_content'     => '<a href="{product_url}">{product_title}</a>',
+				'serial_cell_content'      => '<ul><li><strong>Serial Numbers:</strong>{serial_number}</li><li><strong>Activation Email:</strong>{activation_email}</li><li><strong>Expire At:</strong>{expired_at}</li><li><strong>Activation Limit:</strong>{activation_limit}</li></ul>',
+				'notification_recipient'   => get_option( 'admin_email' ),
+				'revoke_statuses'          => array(
+					'cancelled' => 'cancelled',
+					'refunded'  => 'refunded',
+					'failed'    => 'failed',
+				),
+			);
+			update_option( 'serial_numbers_settings', $settings );
+		}
+
 
 		//setup transient actions
 		if ( false === wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
@@ -135,7 +168,7 @@ class Install {
 	 */
 	private static function create_tables() {
 		global $wpdb;
-		//$wpdb->hide_errors();
+		$wpdb->hide_errors();
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		$tables = self::get_schema();
 
@@ -185,6 +218,7 @@ class Install {
 			  key active (active)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
 		];
+
 		return $schema;
 	}
 
@@ -231,7 +265,7 @@ class Install {
 	 * @since 1.0.0
 	 */
 	public static function maybe_update() {
-		$key               = sanitize_key( 'WooCommerce Serial Numbers' ) . '_version';;
+		$key = sanitize_key( 'WooCommerce Serial Numbers' ) . '_version';;
 		$installed_version = get_option( $key );
 
 		// may be it's the first install
@@ -290,6 +324,19 @@ class Install {
 		);
 
 		return $tables;
+	}
+
+	/**
+	 * Plugin action links
+	 *
+	 * @param array $links
+	 *
+	 * @return array
+	 */
+	public static function action_links( $links ) {
+		$links['settings'] = sprintf( '<a href="%s">', admin_url( 'admin.php?page=serial-numbers-settings' ) ) . __( 'Settings', 'wc-serial-numbers' ) . '</a>';
+
+		return $links;
 	}
 
 

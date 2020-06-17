@@ -1,6 +1,6 @@
 <?php
 
-namespace pluginever\SerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Admin;
 defined( 'ABSPATH' ) || exit();
 
 class Admin_Settings {

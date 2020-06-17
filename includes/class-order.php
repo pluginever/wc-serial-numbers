@@ -1,6 +1,6 @@
 <?php
 
-namespace pluginever\SerialNumbers;
+namespace PluginEver\SerialNumbers;
 defined( 'ABSPATH' ) || exit();
 
 class Order {
@@ -309,7 +309,7 @@ class Order {
 			return;
 		}
 		global $serial_numbers;
-		$serial_numbers = \pluginever\SerialNumbers\Query_Serials::init()->where('order_id', intval($order_id))->get();
+		$serial_numbers = \PluginEver\SerialNumbers\Query_Serials::init()->where('order_id', intval($order_id))->get();
 
 		if ( empty( $serial_numbers ) ) {
 			return;

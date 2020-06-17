@@ -1,12 +1,12 @@
 <?php
 
-namespace pluginever\SerialNumbers;
+namespace PluginEver\SerialNumbers;
 defined( 'ABSPATH' ) || exit();
 
 /**
  * @since 1.2.0
  * Class Query_Serials
- * @package pluginever\SerialNumbers
+ * @package PluginEver\SerialNumbers
  */
 class Query_Activations extends Query {
 	/**

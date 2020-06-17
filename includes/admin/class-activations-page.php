@@ -1,8 +1,8 @@
 <?php
 
-namespace pluginever\SerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Admin;
 
-use pluginever\SerialNumbers\Admin\Table\Activations_Table;
+use PluginEver\SerialNumbers\Admin\Table\Activations_Table;
 
 defined( 'ABSPATH' ) || exit();
 

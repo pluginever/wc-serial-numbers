@@ -1,6 +1,6 @@
 <?php
 
-namespace pluginever\SerialNumbers;
+namespace PluginEver\SerialNumbers;
 defined( 'ABSPATH' ) || exit();
 
 class CRON_Actions {

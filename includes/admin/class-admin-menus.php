@@ -1,6 +1,6 @@
 <?php
 
-namespace pluginever\SerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Admin;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -23,6 +23,9 @@ class Admin_Menus {
 	 * Adds page to admin menu
 	 */
 	public function register_pages() {
+		if ( ! wc_serial_numbers()->is_wc_active() ) {
+			return;
+		}
 		$serial_number_page = add_menu_page(
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
@@ -41,7 +44,7 @@ class Admin_Menus {
 			array( $this, 'serial_numbers_page' )
 		);
 
-		if ( ! wc_serial_numbers()->get_settings('disable_software_support', false, true ) ) {
+		if ( ! wc_serial_numbers()->get_settings( 'disable_software_support', false, true ) ) {
 			add_submenu_page(
 				'serial-numbers',
 				__( 'Activations', 'wc-serial-numbers' ),

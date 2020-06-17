@@ -24,10 +24,10 @@
 
 			<td class="td" style="text-align:text-align:left;">
 				<?php
-				$serial_column_content = str_replace( '{serial_number}', \pluginever\SerialNumbers\Helper::decrypt( $serial_number->serial_key ), html_entity_decode( $serial_column_content ) );
+				$serial_column_content = str_replace( '{serial_number}', \PluginEver\SerialNumbers\Helper::decrypt( $serial_number->serial_key ), html_entity_decode( $serial_column_content ) );
 				$serial_column_content = str_replace( '{activation_email}', $order->get_billing_email(), $serial_column_content );
-				$serial_column_content = str_replace( '{expired_at}', \pluginever\SerialNumbers\Helper::get_expiration_date( $serial_number ), $serial_column_content );
-				$serial_column_content = str_replace( '{activation_limit}', \pluginever\SerialNumbers\Helper::get_activation_limit( $serial_number ), $serial_column_content );
+				$serial_column_content = str_replace( '{expired_at}', \PluginEver\SerialNumbers\Helper::get_expiration_date( $serial_number ), $serial_column_content );
+				$serial_column_content = str_replace( '{activation_limit}', \PluginEver\SerialNumbers\Helper::get_activation_limit( $serial_number ), $serial_column_content );
 				echo $serial_column_content;
 				?>
 			</td>
