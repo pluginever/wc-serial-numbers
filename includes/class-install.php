@@ -265,7 +265,7 @@ class Install {
 	 * @since 1.0.0
 	 */
 	public static function maybe_update() {
-		$key = sanitize_key( 'WooCommerce Serial Numbers' ) . '_version';;
+		$key = 'woocommerceserialnumbers_version';;
 		$installed_version = get_option( $key );
 
 		// may be it's the first install
@@ -285,6 +285,7 @@ class Install {
 
 			delete_option( $key );
 			update_option( $key, wc_serial_numbers()->get_version() );
+			update_option( 'wc_serial_numbers_version', wc_serial_numbers()->get_version() );
 		}
 
 		return true;
