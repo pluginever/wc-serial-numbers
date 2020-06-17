@@ -88,7 +88,7 @@ class Admin_Settings {
 				array(
 					'name'    => 'revoke_statuses',
 					'label'   => __( 'Revoke Statuses', 'wc-serial-numbers' ),
-					'desc'    => __( 'Choose order status, when the serial number to be removed from the order detailsChoose order status, when the serial number to be removed. from the order details.', 'wc-serial-numbers' ),
+					'desc'    => __( 'Choose order status, when the serial number to be removed from the order.', 'wc-serial-numbers' ),
 					'type'    => 'multicheck',
 					'options' => array(
 						'cancelled' => __( 'Cancelled', 'wc-serial-numbers' ),
