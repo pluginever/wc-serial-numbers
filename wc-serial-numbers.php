@@ -198,6 +198,8 @@ class WC_Serial_Numbers {
 		require_once dirname( __FILE__ ) . '/includes/class-helper.php';
 		require_once dirname( __FILE__ ) . '/includes/class-sanitization.php';
 		require_once dirname( __FILE__ ) . '/includes/class-order.php';
+		require_once dirname( __FILE__ ) . '/includes/class-mailer.php';
+		require_once dirname( __FILE__ ) . '/includes/class-cron-actions.php';
 
 		if ( is_admin() ) {
 			require_once dirname( __FILE__ ) . '/includes/class-admin.php';
