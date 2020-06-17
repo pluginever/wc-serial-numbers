@@ -109,6 +109,7 @@ class Install {
 
 		if ( is_null( self::$current_version ) ) {
 			// Add dismissible welcome notice.
+			require_once dirname( __FILE__ ) . '/admin/class-admin-notice.php';
 			Notice::welcome_notice();
 		}
 
