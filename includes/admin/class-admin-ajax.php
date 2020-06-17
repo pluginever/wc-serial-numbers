@@ -23,7 +23,7 @@ class Admin_Ajax {
 		$search = isset( $_REQUEST['search'] ) ? sanitize_text_field( $_REQUEST['search'] ) : '';
 		$page   = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
 		$query  = Query_Products::init( 'ajax_product_search' )
-		                        ->search( sanitize_text_field( $search ), array( 'post_title', 'post_content' ) )
+		                        ->search( sanitize_text_field( $search ), array( 'post_title' ) )
 		                        ->page( $page );
 		$more = false;
 		if ( $query->count() > ( 20 * $page ) ) {
