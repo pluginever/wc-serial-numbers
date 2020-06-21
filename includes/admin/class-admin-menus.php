@@ -80,6 +80,15 @@ class Admin_Menus {
 			'serial-numbers-export',
 			array( $this, 'serial_numbers_export_page' )
 		);
+
+		add_submenu_page(
+			'serial-numbers',
+			__( 'Settings', 'wc-serial-numbers' ),
+			__( 'Settings', 'wc-serial-numbers' ),
+			$this->role,
+			'wc-serial-numbers-settings',
+			array('WC_Serial_Numbers_Admin_Settings', 'output')
+		);
 		add_action( 'load-' . $serial_number_page, array( $this, 'load_serial_numbers_page' ) );
 	}
 

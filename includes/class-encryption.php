@@ -1,9 +1,7 @@
 <?php
-
-namespace PluginEver\SerialNumbers;
 defined( 'ABSPATH' ) || exit();
 
-class Encryption {
+class WC_Serial_Numbers_Encryption {
 	/**
 	 * @var static
 	 */
@@ -205,4 +203,4 @@ class Encryption {
 	}
 }
 
-Encryption::init();
+WC_Serial_Numbers_Encryption::init();

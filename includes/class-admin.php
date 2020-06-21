@@ -32,7 +32,8 @@ class Admin {
 		require_once dirname( __FILE__ ) . '/admin/class-admin-actions.php';
 		require_once dirname( __FILE__ ) . '/admin/class-serials-page.php';
 		require_once dirname( __FILE__ ) . '/admin/class-activations-page.php';
-		require_once dirname( __FILE__ ) . '/admin/class-admin-settings.php';
+//		require_once dirname( __FILE__ ) . '/admin/class-admin-settings.php';
+		require_once dirname( __FILE__ ) . '/admin/class-wc-serial-numbers-admin-settings.php';
 		require_once dirname( __FILE__ ) . '/admin/class-admin-ajax.php';
 	}
 

@@ -36,13 +36,12 @@
 // don't call the file directly
 defined( 'ABSPATH' ) || exit();
 
-if ( ! defined( 'WC_SERIAL_NUMBERS_FILE' ) ) {
-	define( 'WC_SERIAL_NUMBERS_FILE', __FILE__ );
-}
-
-
+/**
+ * WC_Serial_Numbers class.
+ *
+ * @class WC_Serial_Numbers contains everything for the plugin.
+ */
 class WC_Serial_Numbers {
-
 	/**
 	 * WC_Serial_Numbers version.
 	 *
@@ -69,9 +68,9 @@ class WC_Serial_Numbers {
 	 * @since 1.0.0
 	 * @static var array $instance
 	 */
-	public static function instance() {
+	public static function init() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WC_Serial_Numbers ) ) {
-			self::$instance = new WC_Serial_Numbers();
+			self::$instance = new self();
 		}
 
 		return self::$instance;
@@ -96,7 +95,7 @@ class WC_Serial_Numbers {
 	 * @since 1.2.0
 	 */
 	public function plugin_url() {
-		return untrailingslashit( plugins_url( '/', WC_SERIAL_NUMBERS_FILE ) );
+		return untrailingslashit( plugins_url( '/', __FILE__ ) );
 	}
 
 	/**
@@ -106,7 +105,7 @@ class WC_Serial_Numbers {
 	 * @since 1.2.0
 	 */
 	public function plugin_path() {
-		return untrailingslashit( plugin_dir_path( WC_SERIAL_NUMBERS_FILE ) );
+		return untrailingslashit( plugin_dir_path( __FILE__ ) );
 	}
 
 	/**
@@ -116,7 +115,18 @@ class WC_Serial_Numbers {
 	 * @since 1.2.0
 	 */
 	public function plugin_basename() {
-		return plugin_basename( WC_SERIAL_NUMBERS_FILE );
+		return plugin_basename( __FILE__ );
+	}
+
+	/**
+	 * Initialize plugin for localization
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 *
+	 */
+	public function localization_setup() {
+		load_plugin_textdomain( 'wc-serial-numbers', false, plugin_basename( __FILE__ ) . '/i18n/languages/' );
 	}
 
 	/**
@@ -145,6 +155,33 @@ class WC_Serial_Numbers {
 		return is_plugin_active( 'woocommerce/woocommerce.php' ) == true;
 	}
 
+	/**
+	 * WooCommerce plugin dependency notice
+	 * @since 1.2.0
+	 */
+	public function wc_missing_notice() {
+		if ( ! $this->is_wc_active() ) {
+			$message = sprintf( __( '<strong>WooCommerce Serial Numbers</strong> requires <strong>WooCommerce</strong> installed and activated. Please Install %s WooCommerce. %s', 'wc-serial-numbers' ),
+				'<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' );
+			echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', $message );
+		}
+	}
+
+	/**
+	 * Define constant if not already defined
+	 *
+	 * @param string $name
+	 * @param string|bool $value
+	 *
+	 * @return void
+	 * @since 1.2.0
+	 *
+	 */
+	private function define( $name, $value ) {
+		if ( ! defined( $name ) ) {
+			define( $name, $value );
+		}
+	}
 
 	/**
 	 * Throw error on object clone
@@ -174,50 +211,75 @@ class WC_Serial_Numbers {
 	/**
 	 * WC_Serial_Numbers constructor.
 	 */
-	protected function __construct() {
+	private function __construct() {
+		$this->define_constants();
+		register_activation_hook( __FILE__, array( $this, 'activate_plugin' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'deactivate_plugin' ) );
+
+		add_action( 'woocommerce_loaded', array( $this, 'init_plugin' ) );
+		add_action( 'admin_notices', array( $this, 'wc_missing_notice' ) );
+	}
+
+	/**
+	 * Define all constants
+	 * @return void
+	 * @since 1.2.0
+	 */
+	public function define_constants() {
+		$this->define( 'WC_SERIAL_NUMBER_PLUGIN_VERSION', $this->version );
+		$this->define( 'WC_SERIAL_NUMBER_PLUGIN_FILE', __FILE__ );
+		$this->define( 'WC_SERIAL_NUMBER_PLUGIN_DIR', dirname( __FILE__ ) );
+		$this->define( 'WC_SERIAL_NUMBER_PLUGIN_INC_DIR', dirname( __FILE__ ) . '/includes' );
+	}
+
+	/**
+	 * Activate plugin.
+	 *
+	 * @return void
+	 * @since 1.2.0
+	 */
+	public function activate_plugin() {
+
+	}
+
+	/**
+	 * Deactivate plugin.
+	 *
+	 * @return void
+	 * @since 1.2.0
+	 */
+	public function deactivate_plugin() {
+
+	}
+
+	/**
+	 * Load the plugin when WooCommerce loaded.
+	 *
+	 * @return void
+	 * @since 1.2.0
+	 */
+	public function init_plugin() {
 		$this->includes();
 		$this->init_hooks();
 	}
+
 
 	/**
 	 * Include required core files used in admin and on the frontend.
 	 * @since 1.2.0
 	 */
 	public function includes() {
-		require_once dirname( __FILE__ ) . '/includes/class-install.php';
-		require_once dirname( __FILE__ ) . '/includes/functions.php';
-		require_once dirname( __FILE__ ) . '/includes/class-assets.php';
-		require_once dirname( __FILE__ ) . '/includes/class-query.php';
-		require_once dirname( __FILE__ ) . '/includes/class-query-serials.php';
-		require_once dirname( __FILE__ ) . '/includes/class-query-activations.php';
-		require_once dirname( __FILE__ ) . '/includes/class-activations-query.php';
-		require_once dirname( __FILE__ ) . '/includes/class-query-products.php';
-		require_once dirname( __FILE__ ) . '/includes/class-orders-query.php';
-
-		require_once dirname( __FILE__ ) . '/includes/class-encryption.php';
-		require_once dirname( __FILE__ ) . '/includes/class-helper.php';
-		require_once dirname( __FILE__ ) . '/includes/class-sanitization.php';
-		require_once dirname( __FILE__ ) . '/includes/class-order.php';
-		require_once dirname( __FILE__ ) . '/includes/class-mailer.php';
-		require_once dirname( __FILE__ ) . '/includes/class-cron-actions.php';
+		require_once dirname( __FILE__ ) . '/includes/wc-serial-numbers-functions.php';
+		require_once dirname( __FILE__ ) . '/includes/wc-serial-numbers-misc-functions.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-query.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-ajax.php';
 
 		if ( is_admin() ) {
-			require_once dirname( __FILE__ ) . '/includes/class-admin.php';
+			require_once dirname( __FILE__ ) . '/includes/admin/class-wc-serial-numbers-admin.php';
 		}
+		do_action( 'wc_serial_numbers__loaded' );
 	}
 
-
-	/**
-	 * WooCommerce plugin dependency notice
-	 * @since 1.2.0
-	 */
-	public function wc_missing_notice() {
-		if ( ! $this->is_wc_active() ) {
-			$message = sprintf( __( '<strong>WooCommerce Serial Numbers</strong> requires <strong>WooCommerce</strong> installed and activated. Please Install %s WooCommerce. %s', 'wc-serial-numbers' ),
-				'<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' );
-			echo sprintf( '<div class="notice notice-error"><p>%s</p></div>', $message );
-		}
-	}
 
 	/**
 	 * Hook into actions and filters.
@@ -226,21 +288,9 @@ class WC_Serial_Numbers {
 	 */
 	private function init_hooks() {
 		add_action( 'plugins_loaded', array( $this, 'localization_setup' ) );
-		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), - 1 );
-		add_action( 'admin_notices', array( $this, 'wc_missing_notice' ) );
-		register_activation_hook( __FILE__, array( 'PluginEver\SerialNumbers\Install', 'install' ) );
+		//add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), - 1 );
 	}
 
-	/**
-	 * Initialize plugin for localization
-	 *
-	 * @return void
-	 * @since 1.0.0
-	 *
-	 */
-	public function localization_setup() {
-		load_plugin_textdomain( 'wc-serial-numbers', false, plugin_basename( __FILE__ ) . '/i18n/languages/' );
-	}
 
 	/**
 	 * When WP has loaded all plugins, trigger the `wc_serial_numbers__loaded` hook.
@@ -252,23 +302,6 @@ class WC_Serial_Numbers {
 	 */
 	public function on_plugins_loaded() {
 		do_action( 'wc_serial_numbers__loaded' );
-	}
-
-	/**
-	 * Get plugin settings.
-	 *
-	 * @param $key
-	 * @param string $default
-	 *
-	 * @return bool|string
-	 * @since 1.2.0
-	 */
-	public function get_settings( $key, $default = '', $bool = false ) {
-		$settings = get_option( 'serial_numbers_settings', [] );
-
-		$value = ! empty( $settings[ $key ] ) ? $settings[ $key ] : $default;
-
-		return $bool ? wc_serial_numbers_sanitize_bool( $value ) : $value;
 	}
 
 }
@@ -285,8 +318,8 @@ class WC_Serial_Numbers {
  * @since 1.2.0
  */
 function wc_serial_numbers() {
-	return WC_Serial_Numbers::instance();
+	return WC_Serial_Numbers::init();
 }
 
-//fire
+//lets go.
 wc_serial_numbers();

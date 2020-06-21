@@ -11,7 +11,6 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );
 		add_filter( 'woocommerce_process_product_meta', array( __CLASS__, 'product_save_data' ) );
 		add_action( 'woocommerce_after_order_itemmeta', array( $this, 'order_itemmeta' ), 10, 3 );
-		add_action( 'admin_head', array( __CLASS__, 'print_style' ) );
 	}
 
 
@@ -82,7 +81,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 				echo sprintf( '<p>%s <a href="%s" target="_blank">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order? Upgrade to Pro', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 			}
 
-			if ( wc_serial_numbers()->is_software_support_enabled() ) {
+			if ( ! wc_serial_numbers_software_support_disabled() ) {
 				woocommerce_wp_text_input(
 					array(
 						'id'            => '_software_version',
@@ -98,10 +97,10 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			echo sprintf(
 				'<p class="form-field options_group"><label>%s</label><span class="description">%d %s</span></p>',
 				__( 'Available', 'wc-serial-numbers' ),
-				wc_serial_numbers_get_items( [
+				WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->where( [
 					'product_id' => $post->ID,
 					'status'     => 'available'
-				], true ),
+				] )->count(),
 				__( 'Serial Number available for sale', 'wc-serial-numbers' )
 			);
 			?>
@@ -119,7 +118,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 		update_post_meta( $post->ID, '_is_serial_number', $status );
 		update_post_meta( $post->ID, '_serial_key_source', $source );
 		//save only if software licensing enabled
-		if ( wc_serial_numbers()->is_software_support_enabled() ) {
+		if ( ! wc_serial_numbers_software_support_disabled() ) {
 			update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
 		}
 
@@ -181,21 +180,6 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 		echo sprintf( '<ul>%s</ul>', $li );
 	}
 
-	/**
-	 * Print style
-	 *
-	 * @since 1.0.0
-	 */
-	public static function print_style() {
-		echo sprintf(
-			'<style>#woocommerce-product-data ul.wc-tabs li.wc_serial_numbers_options a:before { font-family: %s; content: "%s"; }</style>',
-			'dashicons',
-			'\f112'
-		);
-
-		echo sprintf( '<style>.wcsn-missing-serial-number{%s}</style>', 'display: inline-block;background: #d62828;color: #fff;padding: 2px 5px;border-radius: 3px;margin-top: 10px;' );
-
-	}
 
 }
 
