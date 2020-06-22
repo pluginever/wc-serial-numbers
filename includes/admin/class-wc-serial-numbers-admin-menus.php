@@ -36,7 +36,7 @@ class WC_Serial_Numbers_Admin_Menus {
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
 			$role,
 			'wc-serial-numbers',
-			array( __CLASS__, 'serial_numbers_page' ),
+			array( 'WC_Serial_Numbers_Admin_Screen', 'output' ),
 			'dashicons-lock',
 			'55.9'
 		);
@@ -47,7 +47,7 @@ class WC_Serial_Numbers_Admin_Menus {
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
 			$role,
 			'wc-serial-numbers',
-			array( __CLASS__, 'serial_numbers_page' )
+			array( 'WC_Serial_Numbers_Admin_Screen', 'output' )
 		);
 
 		add_submenu_page(
@@ -56,7 +56,7 @@ class WC_Serial_Numbers_Admin_Menus {
 			__( 'Activations', 'wc-serial-numbers' ),
 			$role,
 			'wc-serial-numbers-activations',
-			array( __CLASS__, 'activations_page' )
+			array( 'WC_Serial_Numbers_Admin_Activations_Screen', 'output' )
 		);
 
 		add_submenu_page(

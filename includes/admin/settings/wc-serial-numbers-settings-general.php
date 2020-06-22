@@ -129,7 +129,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_General' ) ) :
 		 */
 		public function save() {
 			$settings = $this->get_settings();
-			WC_Serial_Numbers_Admin_Settings::save_fields( $settings );
+			WC_Order_Delivery_Date_Admin_Settings::save_fields( $settings );
 		}
 	}
 

@@ -239,7 +239,8 @@ class WC_Serial_Numbers {
 	 * @since 1.2.0
 	 */
 	public function activate_plugin() {
-
+		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-installer.php';
+		WC_Serial_Numbers_Installer::install();
 	}
 
 	/**
@@ -272,6 +273,9 @@ class WC_Serial_Numbers {
 		require_once dirname( __FILE__ ) . '/includes/wc-serial-numbers-functions.php';
 		require_once dirname( __FILE__ ) . '/includes/wc-serial-numbers-misc-functions.php';
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-query.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-installer.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-order-handler.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-encryption.php';
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-ajax.php';
 
 		if ( is_admin() ) {

@@ -19,6 +19,10 @@ class WC_Serial_Numbers_Admin {
 		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-metaboxes.php';
 		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-settings.php';
 		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-menus.php';
+		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-notice.php';
+		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-actions.php';
+		require_once dirname( __FILE__ ) . '/screen/class-wc-serial-numbers-activations-screen.php';
+		require_once dirname( __FILE__ ) . '/screen/class-wc-serial-numbers-serial-numbers-screen.php';
 	}
 
 	/**
@@ -33,8 +37,8 @@ class WC_Serial_Numbers_Admin {
 			return;
 		}
 
-		$css_url = wc_serial_numbers()->plugin_url() . '/assets/admin/css';
-		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/admin/js';
+		$css_url = wc_serial_numbers()->plugin_url() . '/assets/css';
+		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
 		$version = wc_serial_numbers()->get_version();
 
 //		wp_register_style( 'serial-list-tables', $css_url . '/list-tables.css', array(), $version );
@@ -42,7 +46,7 @@ class WC_Serial_Numbers_Admin {
 		wp_enqueue_style( 'jquery-ui-style' );
 		wp_enqueue_style( 'select2' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_script( 'wc-serial-numbers-admin', $js_url . '/wc-serial-numbers.js', [ 'jquery', 'wp-util', 'select2', ], $version, true );
+		wp_enqueue_script( 'wc-serial-numbers-admin', $js_url . '/wc-serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2', ], $version, true );
 
 		wp_localize_script( 'wc-serial-numbers-admin', 'wc_serial_numbers_admin_i10n', array(
 			'i18n'    => array(
@@ -70,13 +74,39 @@ class WC_Serial_Numbers_Admin {
 				content: "\f112";
 			}
 
-			._serial_key_source_field {
-
-			label {
+			._serial_key_source_field label {
 				margin: 0 !important;
 				width: 100% !important;
 			}
 
+			.wc-serial-numbers-upgrade-box {
+				background: #f1f1f1;
+				padding: 10px;
+				border-left: 2px solid #007cba;
+			}
+
+			.wc-serial-numbers-variation-settings .wc-serial-numbers-settings-title {
+				border-bottom: 1px solid #eee;
+				padding-left: 0 !important;
+				font-weight: 600;
+				font-size: 1em;
+				padding-bottom: 5px;
+			}
+
+			.wc-serial-numbers-variation-settings label, .wc-serial-numbers-variation-settings legend {
+				margin-bottom: 5px !important;
+				display: inline-block;
+			}
+
+			.wc-serial-numbers-variation-settings .wc-radios li {
+				padding-bottom: 0 !important;
+
+			}
+			.wc-serial-numbers-variation-settings .woocommerce-help-tip{
+				margin-top: -5px;
+			}
+			.wc-serial-numbers-variation-settings .short{
+				min-width: 200px;
 			}
 		</style>
 		<?php

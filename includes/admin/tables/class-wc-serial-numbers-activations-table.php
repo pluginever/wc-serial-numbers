@@ -40,27 +40,21 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	public $inactive_count;
 
 	/**
-	 * Base URL
-	 * @var string
+	 * Activations_Table constructor.
 	 */
-	public $base_url;
-
 	public function __construct() {
 		parent::__construct( array(
 			'singular' => __( 'Activation', 'wc-serial-number' ),
 			'plural'   => __( 'Activations', 'wc-serial-number' ),
 			'ajax'     => false,
 		) );
-		$this->base_url = admin_url( 'admin.php?page=wc-serial-numbers' );
-		$this->process_bulk_action();
-
 	}
 
 	/**
 	 * Get a list of CSS classes for the WP_List_Table table tag.
 	 *
 	 * @return array List of CSS classes for the table tag.
-	 * @since 3.1.0
+	 * @since 1.0.0
 	 *
 	 */
 	protected function get_table_classes() {
@@ -79,8 +73,6 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		$hidden                = [];
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
-
-		$this->process_bulk_action();
 
 		$data = $this->get_results();
 
@@ -177,8 +169,8 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			'instance'        => __( 'Instance', 'wc-serial-numbers' ),
 			'serial_id'       => __( 'Serial ID', 'wc-serial-numbers' ),
 			'platform'        => __( 'Platform', 'wc-serial-numbers' ),
-			'product'         => __( 'Product', 'wc-serial-numbers' ),
-			'order'           => __( 'Order', 'wc-serial-numbers' ),
+			//'product'         => __( 'Product', 'wc-serial-numbers' ),
+			//'order'           => __( 'Order', 'wc-serial-numbers' ),
 			//'expire_date'     => __( 'Expire Date', 'wc-serial-numbers' ),
 			'activation_time' => __( 'Activation time', 'wc-serial-numbers' ),
 			'status'          => __( 'Status', 'wc-serial-numbers' ),
@@ -240,10 +232,10 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	 */
 	function column_instance( $item ) {
 		$actions           = array();
-		$base_url          = add_query_arg( array( 'id' => $item->id ), admin_url( 'admin.php?page=wc-serial-numbers-activations' ) );
-		$activate_url      = wp_nonce_url( add_query_arg( [ 'action' => 'activate' ], $base_url ), 'wcsn_activation_nonce' );
-		$deactivate_url    = wp_nonce_url( add_query_arg( [ 'action' => 'deactivate' ], $base_url ), 'wcsn_activation_nonce' );
-		$delete_url        = wp_nonce_url( add_query_arg( [ 'action' => 'delete' ], $base_url ), 'wcsn_activation_nonce' );
+		$base_url          = add_query_arg( array( 'id' => $item->id ), admin_url( 'admin.php?page=serial-numbers-activations' ) );
+		$activate_url      = wp_nonce_url( add_query_arg( [ 'action' => 'activate' ], $base_url ), 'serial_number_nonce' );
+		$deactivate_url    = wp_nonce_url( add_query_arg( [ 'action' => 'deactivate' ], $base_url ), 'serial_number_nonce' );
+		$delete_url        = wp_nonce_url( add_query_arg( [ 'action' => 'delete' ], $base_url ), 'serial_number_nonce' );
 		$row_actions['id'] = sprintf( __( 'ID: %d', 'wp-serial-numbers' ), $item->id );
 
 		if ( $item->active == '0' ) {
@@ -305,47 +297,16 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	}
 
 	/**
-	 * since 1.0.0
-	 */
-	function process_bulk_action() {
-		global $wpdb;
-		if ( ! isset( $_REQUEST['id'] ) ) {
-			return;
-		}
-
-		$items = array_map( 'intval', $_REQUEST['id'] );
-
-		if ( $items ) {
-			foreach ( $items as $id ) {
-				if ( ! $id ) {
-					continue;
-				}
-
-				$id = (int) $id;
-				global $wpdb;
-				$where = [ 'id' => $id ];
-				if ( 'delete' === $this->current_action() ) {
-					$wpdb->delete( $wpdb->wcsn_activations, $where );
-				} else if ( 'activate' === $this->current_action() ) {
-					$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 1, $id ) );
-				} else if ( 'deactivate' === $this->current_action() ) {
-					$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->wcsn_activations set active=%d WHERE id=%d", 0, $id ) );
-				}
-
-			}
-		}
-	}
-
-	/**
 	 * Retrieve all the data for all the discount codes
 	 *
-	 * @return array $get_results Array of all the data for the discount codes
+	 * @return Object $get_results Array of all the data for the discount codes
 	 * @since 1.0.0
 	 */
 	public function get_results() {
 		$per_page = $this->per_page;
 
-		$orderby    = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'order_date';
+		$orderby    = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'activation_time';
+		$page       = isset( $_GET['paged'] ) ? $_GET['paged'] : 1;
 		$order      = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'desc';
 		$status     = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
 		$search     = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
@@ -370,17 +331,37 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			$args['orderby'] = $orderby;
 		}
 
-		$this->total_count     = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => '' ) ), true );
-		$this->available_count = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'available' ) ), true );
-		$this->active_count    = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'active' ) ), true );
-		$this->refunded_count  = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'refunded' ) ), true );
-		$this->cancelled_count = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'cancelled' ) ), true );
-		$this->expired_count   = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'expired' ) ), true );
-		$this->inactive_count  = wc_serial_numbers_get_activations( array_merge( $args, array( 'status' => 'inactive' ) ), true );
+		$query = WC_Serial_Numbers_Query::init()
+			->from('serial_numbers_activations')
+			->order_by( $orderby, $order )
+			->page( $page, $per_page );
+		if ( ! empty( $product_id ) ) {
+			$query->where( 'product_id', $product_id );
+		}
+		if ( ! empty( $order_id ) ) {
+			$query->where( 'order_id', $order_id );
+		}
 
-		$results = wc_serial_numbers_get_activations( $args );
+		if ( ! empty( $search ) ) {
+			$query->search( $search, array( 'platform', 'instance', 'serial_id' ), 'OR' );
+		}
+
+		//save query before apply global
+		$pre_query = $query->copy();
+
+
+		if ( ! empty( $status ) ) {
+			$status = $status == 'active' ? 1 : 0;
+			$query->where( 'active', $status );
+		}
+
+
+		$this->total_count    = $query->count();
+		$this->active_count   = $pre_query->copy()->where( 'active', '1' )->count();
+		$this->inactive_count = $pre_query->copy()->where( 'active', '0' )->count();
+
+		$results = $query->get();
 
 		return $results;
 	}
-
 }

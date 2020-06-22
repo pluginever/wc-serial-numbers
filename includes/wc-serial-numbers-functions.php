@@ -289,13 +289,14 @@ function wc_serial_numbers_order_disconnect_serial_numbers( $order_id ) {
 function wc_serial_numbers_insert_serial_number( $args ) {
 	global $wpdb;
 	$update = false;
+	$order  = false;
 	$data   = [];
 	$args   = apply_filters( 'wc_serial_numbers_insert_item', $args );
 	$id     = ! empty( $args['id'] ) ? absint( $args['id'] ) : 0;
 	if ( isset( $args['id'] ) && ! empty( trim( $args['id'] ) ) ) {
 		$id          = (int) $args['id'];
 		$update      = true;
-		$item_before = $this->get( $id );
+		$item_before = wc_serial_numbers_get_serial_number( $id );
 		if ( is_null( $item_before ) ) {
 			return new \WP_Error( 'invalid_action', __( 'Could not find the item to  update', 'wc-serial-numbers' ) );
 		}
@@ -310,7 +311,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 	}
 
 	//product exist?
-	if ( get_post( $args['product_id'] ) ) {
+	if ( empty( get_post( $args['product_id'] ) ) ) {
 		return new \WP_Error( 'invalid_content', __( 'Invalid product selected.', 'wc-serial-numbers' ) );
 	}
 
@@ -351,7 +352,13 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		return new \WP_Error( 'invalid_status', __( 'Unknown serial number status.', 'wp-serial-numbers' ) );
 	}
 
-	$data['status'] = $args['status'];
+
+	$data['created_date']     = isset( $args['created_date'] ) ? sanitize_text_field( $args['created_date'] ) : current_time( 'mysql' );
+	$data['source']           = isset( $args['source'] ) ? sanitize_text_field( $args['source'] ) : '';
+	$data['status']           = isset( $args['status'] ) ? sanitize_text_field( $args['status'] ) : '';
+	$data['validity']         = isset( $args['validity'] ) ? intval( $args['validity'] ) : '';
+	$data['activation_limit'] = isset( $args['activation_limit'] ) ? intval( $args['activation_limit'] ) : '';
+	$data['expire_date']      = isset( $args['expire_date'] ) ? sanitize_text_field( $args['expire_date'] ) : '';
 
 	if ( $data['status'] == 'sold' && empty( $order ) ) {
 		return new \WP_Error( 'invalid_status', __( 'Sold item must have a associated valid order.', 'wp-serial-numbers' ) );
@@ -420,14 +427,14 @@ function wc_serial_numbers_update_serial_number( $args ) {
 /**
  * Update status.
  *
- * @since 1.2.0
  * @param $id
  * @param $status
  *
  * @return int|WP_Error
+ * @since 1.2.0
  */
-function wc_serial_numbers_update_serial_number_status($id, $status){
-	return wc_serial_numbers_update_serial_number(['id' => intval($id), 'status' => $status ]);
+function wc_serial_numbers_update_serial_number_status( $id, $status ) {
+	return wc_serial_numbers_update_serial_number( [ 'id' => intval( $id ), 'status' => $status ] );
 }
 
 
@@ -484,7 +491,7 @@ function wc_serial_numbers_delete_activation( $args ) {
 
 }
 
-function wc_serial_numbers_update_activation_status($id, $status) {
+function wc_serial_numbers_update_activation_status( $id, $status ) {
 
 }
 
