@@ -208,7 +208,7 @@ function wc_serial_numbers_order_connect_serial_numbers( $order_id ) {
 		}
 		$total_delivery_qty = $per_product_total_delivery_qty - $delivered_qty;
 		$source             = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $total_delivery_qty );
-		do_action( 'wc_serial_numbers_pre_order_connect_serial_numbers', $product_id, $total_delivery_qty, $source, $order_id );
+		do_action( 'wc_serial_numbers_pre_order_item_connect_serial_numbers', $product_id, $total_delivery_qty, $source, $order_id );
 
 		$serials = WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )
 		                                  ->where( 'product_id', $product_id )
@@ -582,6 +582,7 @@ function wc_serial_numbers_update_activation_count( $id ) {
 	global $wpdb;
 	$activation_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) from {$wpdb->prefix}serial_numbers_activations WHERE serial_id=%d AND active='1'", $activation->serial_id ) );
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}serial_numbers SET activation_count = %d WHERE id=%d", intval( $activation_count ), intval( $activation->serial_id ) ) );
+
 	return $activation_count;
 }
 
@@ -622,3 +623,20 @@ function wc_serial_numbers_get_order_table_columns() {
 	return apply_filters( 'wc_serial_numbers_order_table_columns', $columns );
 }
 
+
+function wc_serial_numbers_get_stock_quantity( $value, $product ) {
+	if ( wc_serial_numbers_product_serial_enabled( $product->get_id() ) ) {
+		if ( 'custom_source' == get_post_meta( $product->get_id(), '_serial_key_source', true ) ) {
+			return WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( [
+				'product_id' => $product->get_id(),
+				'status'     => 'available'
+			] )->count();
+		}
+
+		return 9999;
+	}
+
+	return $value;
+}
+
+add_filter( 'woocommerce_product_get_stock_quantity', 'wc_serial_numbers_get_stock_quantity', 10, 2 );

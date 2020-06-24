@@ -75,9 +75,9 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 				'options'       => $sources,
 			) );
 
-			foreach ( array_keys( $sources ) as $source ) {
-				do_action( 'wc_serial_numbers_source_settings_' . $source, $post->ID );
-				do_action( 'wc_serial_numbers_source_settings', $source, $post->ID );
+			foreach ( array_keys( $sources ) as $key_source ) {
+				do_action( 'wc_serial_numbers_source_settings_' . $key_source, $post->ID );
+				do_action( 'wc_serial_numbers_source_settings', $key_source, $post->ID );
 			}
 
 

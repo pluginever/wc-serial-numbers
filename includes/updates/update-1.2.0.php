@@ -64,7 +64,7 @@ function wcsn_update_1_2_0() {
 		'wc_serial_numbers_enable_stock_notification'     => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
 		'wc_serial_numbers_stock_threshold'               => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
 		'wc_serial_numbers_notification_recipient'        => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
-		'wc_serial_numbers_template_heading'              => $heading_text,
+		'wc_serial_numbers_order_table_heading'              => $heading_text,
 		'wc_serial_numbers_order_table_col_product_label' => 'Product',
 		'wc_serial_numbers_order_table_col_key_label'     => $serial_key_label,
 		'wc_serial_numbers_order_table_col_email_label'   => $serial_email_label,

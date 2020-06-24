@@ -154,19 +154,14 @@ class WC_Serial_Numbers_Handler {
 	 */
 	public static function order_print_items( $order ) {
 		$order_id = $order->get_id();
-
 		if ( 'completed' !== $order->get_status( 'edit' ) ) {
-			echo sprintf( '<p>Order is waiting for approval</p>' );
-
 			return;
 		}
 
 		$serial_numbers = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order_id ) )->get();
-		echo sprintf( '<h2 class="woocommerce-order-downloads__title">%s</h2>', esc_html( "Serial Numbers" ) );
+		echo sprintf( '<h2 class="woocommerce-order-downloads__title">%s</h2>', apply_filters('wc_serial_numbers_order_table_heading', esc_html__( "Serial Numbers", 'wc-serial-numbers-pro' )) );
 
 		if ( empty( $serial_numbers ) ) {
-			echo sprintf( '<p>Order is waiting for approval</p>' );
-
 			return;
 		}
 
