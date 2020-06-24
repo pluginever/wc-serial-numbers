@@ -191,6 +191,7 @@ class WC_Serial_Numbers_Admin_Screen {
 			<form id="wc-serial-numbers-list" method="get">
 				<?php
 				$table->search_box( __( 'Search', 'wc-serial-numbers-pro' ), 'search' );
+				$table->views();
 				$table->display();
 				?>
 				<input type="hidden" name="page" value="wc-serial-numbers">

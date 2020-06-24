@@ -160,7 +160,7 @@ function wc_serial_numbers_order_has_serial_numbers( $order ) {
 	$quantity = 0;
 	$items    = $order->get_items();
 	foreach ( $items as $item ) {
-		if ( ! wc_serial_numbers_product_serial_enabled( $item->get_id() ) ) {
+		if ( ! wc_serial_numbers_product_serial_enabled( $item->get_variation_id() ? $item->get_variation_id() : $item->get_product_id() ) ) {
 			continue;
 		}
 		$quantity += 1;
@@ -191,7 +191,8 @@ function wc_serial_numbers_order_connect_serial_numbers( $order_id ) {
 	$total_added = 0;
 
 	foreach ( $items as $item ) {
-		$product_id = $item->get_id();
+		/* @var $item WC_Order_Item_Product */
+		$product_id = $item->get_variation_id() ? $item->get_variation_id() : $item->get_product_id();
 
 		$quantity = $item->get_quantity();
 		if ( ! wc_serial_numbers_product_serial_enabled( $product_id ) ) {
@@ -201,6 +202,7 @@ function wc_serial_numbers_order_connect_serial_numbers( $order_id ) {
 		$per_product_delivery_qty       = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
 		$per_product_total_delivery_qty = $quantity * $per_product_delivery_qty;
 		$delivered_qty                  = WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->where( 'order_id', $order_id )->where( 'product_id', $product_id )->count();
+
 		if ( $delivered_qty >= $per_product_total_delivery_qty ) {
 			continue;
 		}
@@ -208,16 +210,15 @@ function wc_serial_numbers_order_connect_serial_numbers( $order_id ) {
 		$source             = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $total_delivery_qty );
 		do_action( 'wc_serial_numbers_pre_order_connect_serial_numbers', $product_id, $total_delivery_qty, $source, $order_id );
 
-		$serials = WC_Serial_Numbers_Query::init()->table( 'serial_numbers_activations' )
+		$serials = WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )
 		                                  ->where( 'product_id', $product_id )
 		                                  ->where( 'status', 'available' )
 		                                  ->where( 'source', $source )
 		                                  ->limit( $total_delivery_qty )
 		                                  ->column( 0 );
-
 		foreach ( $serials as $serial_id ) {
 			$updated     = $wpdb->update(
-				$wpdb->prefix . 'wc_serial_numbers',
+				$wpdb->prefix . 'serial_numbers',
 				array(
 					'order_id'   => $order_id,
 					'status'     => 'sold',
@@ -257,7 +258,7 @@ function wc_serial_numbers_order_disconnect_serial_numbers( $order_id ) {
 
 	$reuse_serial_number = wc_serial_numbers_reuse_serial_numbers();
 	$data                = array(
-		'status' => $order->get_status( 'edit' ),
+		'status' => $order->get_status( 'edit' ) == 'completed' ? 'cancelled' : $order->get_status( 'edit' ),
 	);
 	if ( $reuse_serial_number ) {
 		$data['status']     = 'available';
@@ -291,7 +292,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 	$update = false;
 	$order  = false;
 	$data   = [];
-	$args   = apply_filters( 'wc_serial_numbers_insert_item', $args );
+	$args   = apply_filters( 'wc_serial_numbers_insert_serial_number_args', $args );
 	$id     = ! empty( $args['id'] ) ? absint( $args['id'] ) : 0;
 	if ( isset( $args['id'] ) && ! empty( trim( $args['id'] ) ) ) {
 		$id          = (int) $args['id'];
@@ -303,72 +304,65 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 
 		$args = array_merge( get_object_vars( $item_before ), $args );
 	}
-	$args = array_map( 'trim', $args );
+	$args              = array_map( 'trim', $args );
+	$default_vendor    = get_user_by( 'email', get_option( 'admin_email' ) );
+	$default_vendor_id = isset( $default_vendor->ID ) ? $default_vendor->ID : null;
+	$serial_key        = isset( $args['serial_key'] ) ? sanitize_textarea_field( $args['serial_key'] ) : '';
+	$product_id        = isset( $args['product_id'] ) ? intval( $args['product_id'] ) : null;
+	$activation_limit  = ! empty( $args['activation_limit'] ) ? intval( $args['activation_limit'] ) : 0;
+	$order_id          = ! empty( $args['order_id'] ) ? intval( $args['order_id'] ) : null;
+	$order_date        = isset( $args['order_date'] ) && ! empty( $order_id ) ? sanitize_text_field( $args['order_date'] ) : null;
+	$vendor_id         = ! empty( $args['vendor_id'] ) ? intval( $args['vendor_id'] ) : $default_vendor_id;
+	$status            = empty( $args['status'] ) ? 'available' : sanitize_text_field( $args['status'] );
+	$source            = empty( $args['source'] ) ? 'custom_source' : sanitize_text_field( $args['source'] );
+	$validity          = ! empty( $args['validity'] ) ? intval( $args['validity'] ) : null;
+	$expire_date       = isset( $args['expire_date'] ) ? sanitize_text_field( $args['expire_date'] ) : '';
+	$created_date      = isset( $args['created_date'] ) ? sanitize_text_field( $args['created_date'] ) : current_time( 'mysql' );
+
 
 	//is set product id?
-	if ( empty( $args['product_id'] ) ) {
+	if ( empty( $product_id ) ) {
 		return new \WP_Error( 'empty_content', __( 'You must select a product to add serial number.', 'wc-serial-numbers' ) );
 	}
 
 	//product exist?
-	if ( empty( get_post( $args['product_id'] ) ) ) {
+	if ( empty( get_post( $product_id ) ) ) {
 		return new \WP_Error( 'invalid_content', __( 'Invalid product selected.', 'wc-serial-numbers' ) );
 	}
-
-	//product id set
-	$data['product_id'] = absint( $args['product_id'] );
-
 	//is set serial key?
-	if ( empty( $args['serial_key'] ) ) {
+	if ( empty( $serial_key ) ) {
 		return new \WP_Error( 'empty_content', __( 'The Serial Key is empty. Please enter a serial key and try again', 'wc-serial-numbers' ) );
 	}
 
 	//is duplicate
 	if ( ! apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', false ) ) {
-		$exist_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}wc_serial_numbers WHERE product_id=%d AND serial_key=%s", $data['product_id'], apply_filters( 'serial_numbers_maybe_encrypt', $args['serial_key'] ) ) );
+		$exist_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}wc_serial_numbers WHERE product_id=%d AND serial_key=%s", $product_id, apply_filters( 'serial_numbers_maybe_encrypt', $serial_key ) ) );
 		if ( ! empty( $exist_id ) && $exist_id != $id ) {
 			return new \WP_Error( 'duplicate_key', __( 'Duplicate key is not allowed', 'wc-serial-numbers' ) );
 		}
 	}
 
-	//serial key set
-	$data['serial_key'] = apply_filters( 'wc_serial_numbers_maybe_encrypt', sanitize_textarea_field( $args['serial_key'] ), $args );
-
 	//updating ordered item
-	if ( ! empty( $args['order_id'] ) ) {
-		$order = wc_get_order( absint( $args['order_id'] ) );
+	if ( ! empty( $order_id ) ) {
+		$order = wc_get_order( absint( $order_id ) );
 		if ( empty( $order ) ) {
 			return new \WP_Error( 'invalid_order_id', __( 'Associated order is not valid.', 'wp-serial-numbers' ) );
 		}
-
-		$data['order_id'] = absint( $args['order_id'] );
 	}
 
-	if ( empty( $args['status'] ) ) {
-		$args['status'] = 'available';
-	}
-
-	if ( ! array_key_exists( $args['status'], wc_serial_numbers_get_serial_number_statuses() ) ) {
+	if ( ! array_key_exists( $status, wc_serial_numbers_get_serial_number_statuses() ) ) {
 		return new \WP_Error( 'invalid_status', __( 'Unknown serial number status.', 'wp-serial-numbers' ) );
 	}
 
-
-	$data['created_date']     = isset( $args['created_date'] ) ? sanitize_text_field( $args['created_date'] ) : current_time( 'mysql' );
-	$data['source']           = isset( $args['source'] ) ? sanitize_text_field( $args['source'] ) : '';
-	$data['status']           = isset( $args['status'] ) ? sanitize_text_field( $args['status'] ) : '';
-	$data['validity']         = isset( $args['validity'] ) ? intval( $args['validity'] ) : '';
-	$data['activation_limit'] = isset( $args['activation_limit'] ) ? intval( $args['activation_limit'] ) : '';
-	$data['expire_date']      = isset( $args['expire_date'] ) ? sanitize_text_field( $args['expire_date'] ) : '';
-
-	if ( $data['status'] == 'sold' && empty( $order ) ) {
+	if ( $status == 'sold' && empty( $order ) ) {
 		return new \WP_Error( 'invalid_status', __( 'Sold item must have a associated valid order.', 'wp-serial-numbers' ) );
 	}
 
-	if ( $order && $data['status'] == 'sold' ) {
+	if ( $order && $status == 'sold' ) {
 		$items         = $order->get_items();
 		$valid_product = false;
 		foreach ( $items as $item_id => $item ) {
-			if ( $item->get_id() === $data['product_id'] ) {
+			if ( $item->get_id() === $product_id ) {
 				$valid_product = true;
 				break;
 			}
@@ -379,13 +373,17 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		}
 	}
 
-	if ( $order && ( empty( $args['order_date'] ) || $args['order_date'] == '0000-00-00 00:00:00' ) && $order->get_date_completed() ) {
-		$data['order_date'] = $order->get_date_completed()->format( 'Y-m-d H:i:s' );
-	} elseif ( $order && ( empty( $args['order_date'] ) || $args['order_date'] == '0000-00-00 00:00:00' ) && ! $order->get_date_completed() ) {
-		$data['order_date'] = current_time( 'mysql' );
+	//serial key set
+	$serial_key = apply_filters( 'wc_serial_numbers_maybe_encrypt', sanitize_textarea_field( $serial_key ), $args );
+	if ( $order && ( empty( $order_date ) || $order_date == '0000-00-00 00:00:00' ) && $order->get_date_completed() ) {
+		$order_date = $order->get_date_completed()->format( 'Y-m-d H:i:s' );
+	} elseif ( $order && ( empty( $order_date ) || $order_date == '0000-00-00 00:00:00' ) && ! $order->get_date_completed() ) {
+		$order_date = current_time( 'mysql' );
 	} else {
-		$data['order_date'] = null;
+		$order_date = null;
 	}
+
+	$data  = compact( 'id', 'serial_key', 'product_id', 'activation_limit', 'order_id', 'vendor_id', 'status', 'validity', 'expire_date', 'source', 'created_date', 'order_date' );
 	$where = array( 'id' => $id );
 	$data  = wp_unslash( $data );
 	if ( $update ) {
@@ -473,27 +471,154 @@ function wc_serial_numbers_get_serial_number( $id ) {
 	return WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->find( intval( $id ) );
 }
 
+/**
+ * Get activation
+ *
+ * @param $args
+ *
+ * @since 1.2.0
+ */
+function wc_serial_numbers_get_activation( $activation_id ) {
+	return WC_Serial_Numbers_Query::init()->from( 'serial_numbers_activations' )->find( intval( $activation_id ) );
+}
 
+/**
+ * @param $args
+ *
+ * @return int|WP_Error
+ * @since 1.2.0
+ */
 function wc_serial_numbers_insert_activation( $args ) {
+	global $wpdb;
+	$update = false;
+	$args   = apply_filters( 'wc_serial_numbers_insert_activation_args', $args );
+	$id     = ! empty( $args['id'] ) ? absint( $args['id'] ) : 0;
+	if ( isset( $args['id'] ) && ! empty( trim( $args['id'] ) ) ) {
+		$id          = (int) $args['id'];
+		$update      = true;
+		$item_before = wc_serial_numbers_get_activation( $id );
+		if ( is_null( $item_before ) ) {
+			return new \WP_Error( 'invalid_action', __( 'Could not find the item to update', 'wc-serial-numbers' ) );
+		}
+		$args = array_merge( get_object_vars( $item_before ), $args );
+	}
 
+	$data = [
+		'serial_id'       => isset( $args['serial_id'] ) ? absint( $args['serial_id'] ) : '',
+		'instance'        => isset( $args['instance'] ) ? sanitize_text_field( $args['instance'] ) : '',
+		'active'          => isset( $args['active'] ) ? intval( $args['active'] ) : '0',
+		'platform'        => isset( $args['platform'] ) ? sanitize_text_field( $args['platform'] ) : '',
+		'activation_time' => isset( $args['activation_time'] ) ? sanitize_text_field( $args['activation_time'] ) : current_time( 'mysql' ),
+	];
 
+	if ( empty( $data['serial_id'] ) ) {
+		return new \WP_Error( 'empty_content', __( 'Serial ID is required.', 'wc-serial-numbers' ) );
+	}
+
+	$where = array( 'id' => $id );
+	$data  = wp_unslash( $data );
+	if ( $update ) {
+		do_action( 'wc_serial_numbers_pre_update_activation', $id, $data );
+		if ( false === $wpdb->update( "{$wpdb->prefix}serial_numbers_activations", $data, $where ) ) {
+			return new \WP_Error( 'db_update_error', __( 'Could not update activation in the database', 'wc-serial-numbers' ), $wpdb->last_error );
+		}
+		do_action( 'wc_serial_numbers_update_activation', $id, $data, $item_before );
+	} else {
+		do_action( 'wc_serial_numbers_pre_insert_activation', $id, $data );
+		if ( false === $wpdb->insert( "{$wpdb->prefix}serial_numbers_activations", $data ) ) {
+
+			return new \WP_Error( 'db_insert_error', __( 'Could not insert activation into the database', 'wc-serial-numbers' ), $wpdb->last_error );
+		}
+		$id = (int) $wpdb->insert_id;
+		do_action( 'wc_serial_numbers_insert_activation', $id, $data );
+	}
+
+	return $id;
 }
 
+/**
+ * @param $args
+ *
+ * @return int|WP_Error
+ * @since 1.2.0
+ */
 function wc_serial_numbers_update_activation( $args ) {
+	$id = isset( $args['id'] ) ? absint( $args['id'] ) : 0;
+	if ( empty( $id ) ) {
+		return new \WP_Error( 'no-id-found', __( 'No Activation ID found for updating', 'wc-serial-numbers' ) );
+	}
 
+	return wc_serial_numbers_insert_activation( $args );
 }
 
-function wc_serial_numbers_get_activation( $args ) {
+/**
+ * @param $id
+ *
+ * @return bool
+ * @since 1.2.0
+ */
+function wc_serial_numbers_delete_activation( $id ) {
+	global $wpdb;
+	$id = absint( $id );
 
+	$item = $this->get( $id );
+	if ( is_null( $item ) ) {
+		return false;
+	}
+	do_action( 'wc_serial_numbers_pre_delete_activation', $id, $item );
+	if ( false == $wpdb->delete( "{$wpdb->prefix}serial_numbers_activations", array( 'id' => $id ), array( '%d' ) ) ) {
+		return false;
+	}
+	do_action( 'wc_serial_numbers_delete_activation', $id, $item );
+
+	return true;
 }
 
-function wc_serial_numbers_delete_activation( $args ) {
-
+function wc_serial_numbers_update_activation_count( $id ) {
+	$activation = WC_Serial_Numbers_Query::init()->from( 'serial_numbers_activations' )->find( $id );
+	if ( empty( $activation ) ) {
+		return false;
+	}
+	global $wpdb;
+	$activation_count = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) from {$wpdb->prefix}serial_numbers_activations WHERE serial_id=%d AND active='1'", $activation->serial_id ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}serial_numbers SET activation_count = %d WHERE id=%d", intval( $activation_count ), intval( $activation->serial_id ) ) );
+	return $activation_count;
 }
 
-function wc_serial_numbers_update_activation_status( $id, $status ) {
+add_action( 'wc_serial_numbers_update_activation', 'wc_serial_numbers_update_activation_count' );
+add_action( 'wc_serial_numbers_delete_activation', 'wc_serial_numbers_update_activation_count' );
+add_action( 'wc_serial_numbers_insert_activation', 'wc_serial_numbers_update_activation_count' );
 
+/**
+ * @param $id
+ * @param int $status
+ *
+ * @return int|WP_Error
+ * @since 1.2.0
+ */
+function wc_serial_numbers_update_activation_status( $id, $status = 1 ) {
+	if ( empty( $id ) ) {
+		return new \WP_Error( 'no-id-found', __( 'No Activation ID found for updating', 'wc-serial-numbers' ) );
+	}
+
+	return wc_serial_numbers_insert_activation( array( [ 'id' => $id, 'active' => intval( $status ) ] ) );
 }
 
+/**
+ * Serial number order table get columns.
+ *
+ * @return mixed|void
+ * @since 1.2.0
+ */
+function wc_serial_numbers_get_order_table_columns() {
+	$columns = array(
+		'product'          => __( 'Product', 'wc-serial-numbers' ),
+		'serial_key'       => __( 'Serial Number', 'wc-serial-numbers' ),
+		'activation_email' => __( 'Email', 'wc-serial-numbers' ),
+		'activation_limit' => __( 'Activation Limit', 'wc-serial-numbers' ),
+		'expire_date'      => __( 'Expires', 'wc-serial-numbers' ),
+	);
 
+	return apply_filters( 'wc_serial_numbers_order_table_columns', $columns );
+}
 

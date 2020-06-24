@@ -306,12 +306,13 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 				$actions           = array();
 				$actions['id']     = sprintf( __( 'ID: %d', 'wp-serial-numbers' ), $item->id );
 				$actions['show']   = sprintf( '<a data-serial-id="%d" data-nonce="%s" class="wc-serial-numbers-decrypt-key"   href="#">%s</a>', $item->id, wp_create_nonce( 'wc_serial_numbers_decrypt_key' ), __( 'Show', 'wc-serial-numbers' ) );
-				$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [ 'action' => 'edit', 'id'=> $item->id ], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Edit', 'wp-serial-numbers' ) );
+				$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [ 'action' => 'edit', 'id' => $item->id ], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Edit', 'wp-serial-numbers' ) );
 				$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [ 'action' => 'delete' ], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Delete', 'wp-serial-numbers' ) );
 				$spinner           = sprintf( '<img class="serial-spinner" style="display: none;" src="%s"/>', admin_url( 'images/loading.gif' ) );
 				$class             = 'encrypted';
 				$serial_key        = '';
-				if ( ! wc_serial_numbers_validate_boolean(get_option('wc_serial_numbers_hide_serial_number')) ) {
+
+				if ( ! wc_serial_numbers_validate_boolean( get_option( 'wc_serial_numbers_hide_serial_number' ) ) ) {
 					$class      = 'decrypted';
 					$serial_key = apply_filters( 'wc_serial_numbers_maybe_decrypt', $item->serial_key );
 					unset( $actions['show'] );
@@ -382,12 +383,13 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 				break;
 
 			case 'order_date':
-				return ! empty( $item->order_date ) && '0000-00-00 00:00:00' != $item->order_date  ? date( get_option( 'date_format' ), strtotime( $item->order_date ) ) : '&mdash;';
+				return ! empty( $item->order_date ) && '0000-00-00 00:00:00' != $item->order_date ? date( get_option( 'date_format' ), strtotime( $item->order_date ) ) : '&mdash;';
 
 				break;
 
 			default:
-				$column = isset($item->$column_name)? $item->$column_name : '&mdash;';
+				$column = isset( $item->$column_name ) ? $item->$column_name : '&mdash;';
+
 				return apply_filters( 'wc_serial_numbers_serials_table_column_content', $column, $item, $column_name );
 		}
 
@@ -428,9 +430,9 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 		}
 
 		$query = WC_Serial_Numbers_Query::init()
-			->from('serial_numbers')
-			->order_by( $orderby, $order )
-			->page( $page, $per_page );
+										->from( 'serial_numbers' )
+										->order_by( $orderby, $order )
+										->page( $page, $per_page );
 		if ( ! empty( $product_id ) ) {
 			$query->where( 'product_id', $product_id );
 		}
