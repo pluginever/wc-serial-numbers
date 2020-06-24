@@ -103,14 +103,14 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_General' ) ) :
 				],
 				array(
 					'title'   => __( 'Stock Threshold', 'wc-serial-numbers' ),
-					'name'    => 'wc_serial_numbers_stock_threshold',
+					'id'    => 'wc_serial_numbers_stock_threshold',
 					'desc'    => __( 'When stock goes below the above number, it will send notification email.', 'wc-serial-numbers' ),
 					'type'    => 'number',
 					'default' => '5',
 				),
 				array(
 					'title'   => __( 'Notification Recipient Email', 'wc-serial-numbers' ),
-					'name'    => 'wc_serial_numbers_notification_recipient',
+					'id'    => 'wc_serial_numbers_notification_recipient',
 					'desc'    => __( 'The email address to be used for sending the email notification.', 'wc-serial-numbers' ),
 					'type'    => 'text',
 					'default' => get_option( 'admin_email' ),

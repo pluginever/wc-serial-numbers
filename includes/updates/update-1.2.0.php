@@ -15,73 +15,80 @@ function wcsn_update_1_2_0() {
 
 	global $wpdb;
 	$prefix = $wpdb->prefix;
-	$wpdb->query( "RENAME TABLE `{$prefix}wcsn_serial_numbers` TO `{$prefix}wc_serial_numbers`" );
-	$wpdb->query( "RENAME TABLE `{$prefix}wcsn_activations` TO `{$prefix}wc_serial_numbers_activations`" );
+	$wpdb->query( "RENAME TABLE `{$prefix}wcsn_serial_numbers` TO `{$prefix}serial_numbers`" );
+	$wpdb->query( "RENAME TABLE `{$prefix}wcsn_activations` TO `{$prefix}serial_numbers_activations`" );
 
-	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers DROP COLUMN `serial_image`;" );
-	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers DROP COLUMN `activation_email`;" );
-	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers CHANGE `created` `created_date` DATETIME NULL DEFAULT NULL;" );
-	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers ADD vendor_id bigint(20) NOT NULL DEFAULT 0" );
-	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers ADD activation_count int(9) NOT NULL  DEFAULT 0" );
-	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers ADD KEY vendor_id(`vendor_id`)" );
-	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers ADD source varchar(200) NOT NULL default 'custom_source'" );
-	$wpdb->query( "ALTER TABLE {$prefix}wc_serial_numbers_activations CHANGE platform platform varchar(200) DEFAULT NULL" );
-//status update
-	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s AND order_id=0", 'available', 'new' ) );
-	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s AND order_id != 0", 'sold', 'active' ) );
-	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s", 'cancelled', 'pending' ) );
-	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}wc_serial_numbers set status=%s WHERE status=%s", 'cancelled', 'rejected' ) );
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers DROP COLUMN `serial_image`;" );
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers DROP COLUMN `activation_email`;" );
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers CHANGE `created` `created_date` DATETIME NULL DEFAULT NULL;" );
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers ADD vendor_id bigint(20) NOT NULL DEFAULT 0" );
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers ADD activation_count int(9) NOT NULL  DEFAULT 0" );
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers ADD KEY vendor_id(`vendor_id`)" );
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers ADD source varchar(200) NOT NULL default 'custom_source'" );
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers_activations CHANGE platform platform varchar(200) DEFAULT NULL" );
+	//status update
+	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}serial_numbers set status=%s WHERE status=%s AND order_id=0", 'available', 'new' ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}serial_numbers set status=%s WHERE status=%s AND order_id != 0", 'sold', 'active' ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}serial_numbers set status=%s WHERE status=%s", 'cancelled', 'pending' ) );
+	$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}serial_numbers set status=%s WHERE status=%s", 'cancelled', 'rejected' ) );
 	global $current_user;
 	if ( ! empty( $current_user->ID ) && current_user_can( 'manage_options' ) ) {
-		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wc_serial_numbers set vendor_id=%d", $current_user->ID ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}serial_numbers set vendor_id=%d", $current_user->ID ) );
 	}
 
-	$activations = $wpdb->get_col( "select serial_id, count(id) as active_count from  {$wpdb->prefix}wc_serial_numbers_activations where active='1' GROUP BY serial_id" );
+	$activations = $wpdb->get_col( "select serial_id, count(id) as active_count from  {$wpdb->prefix}serial_numbers_activations where active='1' GROUP BY serial_id" );
 	foreach ( $activations as $activation ) {
 		global $wpdb;
-		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wc_serial_numbers SET activation_count = %d WHERE id=%d", intval( $activation->active_count ), intval( $activation->serial_id ) ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}serial_numbers SET activation_count = %d WHERE id=%d", intval( $activation->active_count ), intval( $activation->serial_id ) ) );
 	}
 
-	$wpdb->query( "UPDATE {$wpdb->prefix}wc_serial_numbers set status='available', order_date='0000-00-00 00:00:00', order_id='0' WHERE status !='available' AND order_id='0' AND expire_date='0000-00-00 00:00:00'" );
+	$wpdb->query( "UPDATE {$wpdb->prefix}serial_numbers set status='available', order_date='0000-00-00 00:00:00', order_id='0' WHERE status !='available' AND order_id='0' AND expire_date='0000-00-00 00:00:00'" );
 
 	//settings update
-	$heading_text          = wc_serial_numbers()->get_settings( 'heading_text', 'Serial Numbers', 'wsn_delivery_settings' );
-	$serial_col_heading    = wc_serial_numbers()->get_settings( 'table_column_heading', 'Serial Number', 'wsn_delivery_settings' );
-	$serial_key_label      = wc_serial_numbers()->get_settings( 'serial_key_label', 'Serial Number', 'wsn_delivery_settings' );
-	$serial_email_label    = wc_serial_numbers()->get_settings( 'serial_email_label', 'Activation Email', 'wsn_delivery_settings' );
-	$show_validity         = 'yes' == wc_serial_numbers()->get_settings( 'show_validity', 'yes', 'wsn_delivery_settings' );
-	$show_activation_limit = 'yes' == wc_serial_numbers()->get_settings( 'show_activation_limit', 'yes', 'wsn_delivery_settings' );
-
-	$settings = array(
-		'autocomplete_order'       => 'yes' == wc_serial_numbers()->get_settings( 'wsn_auto_complete_order', 'no', 'wsn_delivery_settings' ) ? '1' : '0',
-		'reuse_serial_number'      => 'yes' == wc_serial_numbers()->get_settings( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ) ? '1' : '0',
-		'disable_software_support' => '0',
-		'revoke_statuses'          => wc_serial_numbers()->get_settings( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ),
-		'enable_backorder'         => 'on' == wc_serial_numbers()->get_settings( 'wsn_allow_checkout', 'off', 'wsn_general_settings' ) ? '1' : '0',
-		'stock_notification'       => 'on' == wc_serial_numbers()->get_settings( 'wsn_admin_bar_notification_send_email', 'off', 'wsn_notification_settings' ) ? '1' : '0',
-		'enable_duplicate'         => '0',
-		'manual_delivery'          => '0',
-		'hide_serial_number'       => '1',
-		'template_heading'         => $heading_text,
-		'product_cell_heading'     => __( 'Product', 'wc-serial-numbers' ),
-		'serial_cell_heading'      => $serial_col_heading,
-		'product_cell_content'     => '<a href="{product_url}">{product_title}</a>',
-	);
-
-	$serial_col_content = sprintf( '<li><strong>%s:</strong>{serial_number}</li>', $serial_key_label );
-	$serial_col_content .= sprintf( '<li><strong>%s:</strong>{activation_email}</li>', $serial_email_label );
-	if ( $show_validity ) {
-		$serial_col_content .= '<li><strong>Expire At:</strong>{expired_at}</li>';
+	$heading_text          = wcsn_update_1_2_0_get_option( 'heading_text', 'Serial Numbers', 'wsn_delivery_settings' );
+	$serial_col_heading    = wcsn_update_1_2_0_get_option( 'table_column_heading', 'Serial Number', 'wsn_delivery_settings' );
+	$serial_key_label      = wcsn_update_1_2_0_get_option( 'serial_key_label', 'Serial Number', 'wsn_delivery_settings' );
+	$serial_email_label    = wcsn_update_1_2_0_get_option( 'serial_email_label', 'Activation Email', 'wsn_delivery_settings' );
+	$show_validity         = 'yes' == wcsn_update_1_2_0_get_option( 'show_validity', 'yes', 'wsn_delivery_settings' );
+	$show_activation_limit = 'yes' == wcsn_update_1_2_0_get_option( 'show_activation_limit', 'yes', 'wsn_delivery_settings' );
+	$license               = get_option( 'woocommerce_serial_numbers_pro_pluginever_license' );
+	$options               = [
+		'wc_serial_numbers_autocomplete_order'            => wcsn_update_1_2_0_get_option( 'wsn_auto_complete_order', 'yes', 'wsn_delivery_settings' ),
+		'wc_serial_numbers_reuse_serial_number'           => wcsn_update_1_2_0_get_option( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ),
+		'wc_serial_numbers_disable_software_support'      => 'no',
+		'wc_serial_numbers_manual_delivery'               => 'no',
+		'wc_serial_numbers_hide_serial_number'            => 'yes',
+		'wc_serial_numbers_revoke_status_cancelled'       => in_array( 'cancelled', wcsn_update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ) ) ? 'yes' : 'no',
+		'wc_serial_numbers_revoke_status_refunded'        => in_array( 'refunded', wcsn_update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ) ) ? 'yes' : 'no',
+		'wc_serial_numbers_revoke_status_failed'          => in_array( 'failed', wcsn_update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ) ) ? 'yes' : 'no',
+		'wc_serial_numbers_enable_stock_notification'     => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
+		'wc_serial_numbers_stock_threshold'               => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
+		'wc_serial_numbers_notification_recipient'        => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
+		'wc_serial_numbers_template_heading'              => $heading_text,
+		'wc_serial_numbers_order_table_col_product_label' => 'Product',
+		'wc_serial_numbers_order_table_col_key_label'     => $serial_key_label,
+		'wc_serial_numbers_order_table_col_email_label'   => $serial_email_label,
+		'wc_serial_numbers_order_table_col_limit_label'   => 'Activation Limit',
+		'wc_serial_numbers_order_table_col_expires_label' => 'Expire Date',
+		'wc_serial_numbers_order_table_col_product'       => 'yes',
+		'wc_serial_numbers_order_table_col_key'           => 'yes',
+		'wc_serial_numbers_order_table_col_email'         => 'no',
+		'wc_serial_numbers_order_table_col_limit'         => $show_activation_limit ? 'yes' : 'no',
+		'wc_serial_numbers_order_table_col_expires'       => $show_validity ? 'yes' : 'no',
+		'wc_serial_numbers_install_time'                  => get_option( 'woocommerceserialnumbers_install_time' ),
+		'woocommerce-serial-numbers-pro_license_key'      => array_key_exists( 'key', $license ) ? $license['key'] : '',
+		'woocommerce-serial-numbers-pro_license_status'   => array_key_exists( 'license', $license ) ? $license['license'] : '',
+	];
+	foreach ( $options as $key => $option ) {
+		update_option( $key, $option );
 	}
-	if ( $show_activation_limit ) {
-		$serial_col_content .= '<li><strong>Activation Limit:</strong>{activation_limit}</li>';
-	}
-	$serial_col_content = '<ul>' . $serial_col_content . '</ul>';
-
-	$settings['serial_cell_content'] = $serial_col_content;
-
-	update_option( 'serial_numbers_settings', $settings );
 
 }
 
 wcsn_update_1_2_0();
+
+function wcsn_update_1_2_0_get_option( $key, $default = '', $section = 'serial_numbers_settings' ) {
+	$settings = get_option( $section, [] );
+
+	return ! empty( $settings[ $key ] ) ? $settings[ $key ] : $default;
+}

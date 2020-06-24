@@ -170,11 +170,10 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			return false;
 		}
 
-		$items = wc_serial_numbers_get_items( [
+		$items = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( [
 			'order_id'   => $post->ID,
 			'product_id' => $product->get_id(),
-		] );
-
+		] )->get();
 
 		if ( empty( $items ) && $order ) {
 			echo sprintf( '<div class="wcsn-missing-serial-number">%s</div>', __( 'Order missing serial numbers for this item.', 'wc-serial-numbers' ) );

@@ -52,17 +52,15 @@ class WC_Serial_Numbers_Admin_Activations_Screen {
 						wc_serial_numbers_delete_serial( $id );
 						break;
 					case 'activate':
-						wc_serial_numbers_insert_item( array(
-							'id'         => $id,
-							'order_id'   => null,
-							'order_date' => null,
-							'status'     => 'available',
+						wc_serial_numbers_update_activation( array(
+							'id'     => $id,
+							'active' => '1',
 						) );
 						break;
 					case 'deactivate':
-						wc_serial_numbers_insert_item( array(
+						wc_serial_numbers_update_activation( array(
 							'id'     => $id,
-							'status' => 'inactive',
+							'active' => '0',
 						) );
 						break;
 				}

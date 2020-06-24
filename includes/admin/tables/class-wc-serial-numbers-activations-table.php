@@ -132,11 +132,11 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		$total_count    = '&nbsp;<span class="count">(' . $this->total_count . ')</span>';
 		$active_count   = '&nbsp;<span class="count">(' . $this->active_count . ')</span>';
 		$inactive_count = '&nbsp;<span class="count">(' . $this->inactive_count . ')</span>';
-
-		$views = array(
-			'all'      => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $this->base_url ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
-			'active'   => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $this->base_url ), $current === 'active' ? ' class="current"' : '', __( 'active', 'wc-serial-numbers' ) . $active_count ),
-			'inactive' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inactive', $this->base_url ), $current === 'inactive' ? ' class="current"' : '', __( 'Inactive', 'wc-serial-numbers' ) . $inactive_count ),
+		$url            = admin_url( 'admin.php?page=wc-serial-numbers-activations' );
+		$views          = array(
+			'all'      => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $url ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
+			'active'   => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $url ), $current === 'active' ? ' class="current"' : '', __( 'active', 'wc-serial-numbers' ) . $active_count ),
+			'inactive' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inactive', $url ), $current === 'inactive' ? ' class="current"' : '', __( 'Inactive', 'wc-serial-numbers' ) . $inactive_count ),
 		);
 
 		return $views;
@@ -232,7 +232,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	 */
 	function column_instance( $item ) {
 		$actions           = array();
-		$base_url          = add_query_arg( array( 'id' => $item->id ), admin_url( 'admin.php?page=serial-numbers-activations' ) );
+		$base_url          = add_query_arg( array( 'id' => $item->id ), admin_url( 'admin.php?page=wc-serial-numbers-activations' ) );
 		$activate_url      = wp_nonce_url( add_query_arg( [ 'action' => 'activate' ], $base_url ), 'serial_number_nonce' );
 		$deactivate_url    = wp_nonce_url( add_query_arg( [ 'action' => 'deactivate' ], $base_url ), 'serial_number_nonce' );
 		$delete_url        = wp_nonce_url( add_query_arg( [ 'action' => 'delete' ], $base_url ), 'serial_number_nonce' );
@@ -332,9 +332,9 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		}
 
 		$query = WC_Serial_Numbers_Query::init()
-			->from('serial_numbers_activations')
-			->order_by( $orderby, $order )
-			->page( $page, $per_page );
+										->from( 'serial_numbers_activations' )
+										->order_by( $orderby, $order )
+										->page( $page, $per_page );
 		if ( ! empty( $product_id ) ) {
 			$query->where( 'product_id', $product_id );
 		}
