@@ -6,9 +6,21 @@ class WC_Serial_Numbers_Compat {
 	 * WC_Serial_Numbers_Compat constructor.
 	 */
 	public function __construct() {
-		add_action( 'pdf_template_table_headings', array( $this, 'woocommerce_pdf_invoice_support' ) );
-		add_action( 'wf_module_generate_template_html', array( $this, 'wcsn_wf_module_add_serial_number_list' ) );
-		add_action( 'wpo_wcpdf_before_order_details', array( $this, 'wcsn_add_serial_number_list' ) );
+		add_action( 'wpo_wcpdf_after_order_details', array( __CLASS__, 'wpo_wcpdf_after_order_details' ), 10, 2 );
+		add_action( 'pdf_template_table_headings', array( $this, 'woocommerce_pdf_invoice_support' ), 10, 2 );
+		add_action( 'wf_module_generate_template_html', array( $this, 'wf_module_generate_template_html' ), 10, 4 );
+	}
+
+	/**
+	 * WooCommerce PDF Invoices & Packing Slips plugin support.
+	 *
+	 * @param $type
+	 * @param $order
+	 *
+	 * @since 1.2.0
+	 */
+	public static function wpo_wcpdf_after_order_details( $type, $order ) {
+		wc_serial_numbers_get_order_table( $order );
 	}
 
 	/**
@@ -21,37 +33,8 @@ class WC_Serial_Numbers_Compat {
 	 * @since 1.1.1
 	 */
 	function woocommerce_pdf_invoice_support( $headers, $order_id ) {
-		$serial_numbers = WC_Serial_Numbers_Manager::get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
-		if ( empty( $serial_numbers ) ) {
-			return $headers;
-		}
-		ob_start();
-		?>
-		<table class="shop_table orderdetails" width="100%">
-			<thead>
-			<tr>
-				<th colspan="7" align="left"><h2><?php _e( 'Serial Number', 'wc-serial-numbers' ); ?></h2></th>
-			</tr>
-			<tr>
-				<th class="product"><?php _e( 'Product', 'wc-serial-numbers' ); ?></th>
-				<th class="quantity"><?php _e( 'Serial Number', 'wc-serial-numbers' ); ?></th>
-				<th class="quantity"><?php _e( 'Activation Limit', 'wc-serial-numbers' ); ?></th>
-				<th class="quantity"><?php _e( 'Expire Date', 'wc-serial-numbers' ); ?></th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php foreach ( $serial_numbers as $serial_number ): ?>
-				<tr>
-					<td><?php echo get_the_title( $serial_number->product_id ); ?></td>
-					<td><?php echo wc_serial_numbers()->decrypt( $serial_number->serial_key ); ?></td>
-					<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
-					<td><?php echo WC_Serial_Numbers_Manager::get_expiration_date( $serial_number ); ?></td>
-				</tr>
-			<?php endforeach; ?>
-			</tbody>
-		</table>
-		<?php
-		$content = ob_get_clean();
+		$order   = wc_get_order( $order_id );
+		$content = wc_serial_numbers_get_order_table( $order, true );;
 
 		return $content . $headers;
 	}
@@ -64,45 +47,17 @@ class WC_Serial_Numbers_Compat {
 	 * @param $html
 	 * @param $template_type
 	 * @param $order
-	 * @param $box_packing
-	 * @param $order_package
 	 *
 	 * @return array
 	 * @since 1.1.1
 	 *
 	 */
 
-	function wcsn_wf_module_add_serial_number_list( $find_replace, $html, $template_type, $order, $box_packing, $order_package ) {
+	function wf_module_generate_template_html( $find_replace, $html, $template_type, $order ) {
 		if ( isset( $find_replace['[wfte_product_table_start]'] ) ) {
-			global $post;
-			$order_id       = $order->id;
-			$serial_numbers = WC_Serial_Numbers_Manager::get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
-			if ( empty( $serial_numbers ) ) {
-				return $find_replace;
-			}
 			ob_start();
+			wc_serial_numbers_get_order_table( $order );
 			?>
-			<table class="wfte_product_table wcsn-pdf-table">
-				<thead
-					class="wfte_product_table_head wfte_table_head_color wfte_product_table_head_bg wfte_text_center">
-				<tr>
-					<th class="product"><?php _e( 'Product', 'wc-serial-numbers' ); ?></th>
-					<th class="quantity"><?php _e( 'Serial Number', 'wc-serial-numbers' ); ?></th>
-					<th class="quantity"><?php _e( 'Activation Limit', 'wc-serial-numbers' ); ?></th>
-					<th class="quantity"><?php _e( 'Expire Date', 'wc-serial-numbers' ); ?></th>
-				</tr>
-				</thead>
-				<tbody class="wfte_payment_summary_table_body wfte_table_body_color">
-				<?php foreach ( $serial_numbers as $serial_number ): ?>
-					<tr>
-						<td><?php echo get_the_title( $serial_number->product_id ); ?></td>
-						<td><?php echo wc_serial_numbers()->decrypt( $serial_number->serial_key ); ?></td>
-						<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
-						<td><?php echo WC_Serial_Numbers_Manager::get_expiration_date( $serial_number ); ?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
-			</table>
 			<style type="text/css">
 				.wfte_product_table.wcsn-pdf-table {
 					margin-bottom: 30px;
@@ -113,48 +68,6 @@ class WC_Serial_Numbers_Compat {
 		}
 
 		return $find_replace;
-	}
-
-	/**
-	 * Support WooCommerce PDF Invoices & Packing Slips plugin
-	 *
-	 * @param $type
-	 * @param $order
-	 *
-	 * @return string
-	 * @since 1.1.1
-	 *
-	 */
-
-	function wcsn_add_serial_number_list( $type, $order ) {
-		global $post;
-		$order_id       = $order->get_id();
-		$serial_numbers = WC_Serial_Numbers_Manager::get_serial_numbers( [ 'order_id' => $order_id, 'number' => - 1 ] );
-		if ( empty( $serial_numbers ) ) {
-			return '';
-		}
-		?>
-		<table class="order-details">
-			<thead>
-			<tr>
-				<th class="product"><?php _e( 'Product', 'wc-serial-numbers' ); ?></th>
-				<th class="quantity"><?php _e( 'Serial Number', 'wc-serial-numbers' ); ?></th>
-				<th class="quantity"><?php _e( 'Activation Limit', 'wc-serial-numbers' ); ?></th>
-				<th class="quantity"><?php _e( 'Expire Date', 'wc-serial-numbers' ); ?></th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php foreach ( $serial_numbers as $serial_number ): ?>
-				<tr>
-					<td><?php echo get_the_title( $serial_number->product_id ); ?></td>
-					<td><?php echo wc_serial_numbers()->decrypt( $serial_number->serial_key ); ?></td>
-					<td><?php echo ( $serial_number->activation_limit ) ? $serial_number->activation_limit : __( 'N/A', 'wc-serial-numbers' ); ?></td>
-					<td><?php echo WC_Serial_Numbers_Manager::get_expiration_date( $serial_number ); ?></td>
-				</tr>
-			<?php endforeach; ?>
-			</tbody>
-		</table>
-		<?php
 	}
 }
 

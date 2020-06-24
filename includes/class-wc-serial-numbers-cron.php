@@ -39,7 +39,7 @@ class WC_Serial_Numbers_CRON {
 			return false;
 		}
 
-		$low_stock_products = serial_numbers_get_low_stock_products( $stock_threshold, true );
+		$low_stock_products = wc_serial_numbers_get_low_stock_products( $stock_threshold, true );
 		if ( empty( $low_stock_products ) ) {
 			return false;
 		}
