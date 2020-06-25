@@ -291,7 +291,6 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 	global $wpdb;
 	$update = false;
 	$order  = false;
-	$data   = [];
 	$args   = apply_filters( 'wc_serial_numbers_insert_serial_number_args', $args );
 	$id     = ! empty( $args['id'] ) ? absint( $args['id'] ) : 0;
 	if ( isset( $args['id'] ) && ! empty( trim( $args['id'] ) ) ) {
@@ -304,6 +303,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 
 		$args = array_merge( get_object_vars( $item_before ), $args );
 	}
+
 	$args              = array_map( 'trim', $args );
 	$default_vendor    = get_user_by( 'email', get_option( 'admin_email' ) );
 	$default_vendor_id = isset( $default_vendor->ID ) ? $default_vendor->ID : null;
@@ -336,7 +336,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 
 	//is duplicate
 	if ( ! apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', false ) ) {
-		$exist_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}wc_serial_numbers WHERE product_id=%d AND serial_key=%s", $product_id, apply_filters( 'serial_numbers_maybe_encrypt', $serial_key ) ) );
+		$exist_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}serial_numbers WHERE product_id=%d AND serial_key=%s", $product_id, apply_filters( 'wc_serial_numbers_maybe_encrypt', $serial_key ) ) );
 		if ( ! empty( $exist_id ) && $exist_id != $id ) {
 			return new \WP_Error( 'duplicate_key', __( 'Duplicate key is not allowed', 'wc-serial-numbers' ) );
 		}
@@ -623,20 +623,37 @@ function wc_serial_numbers_get_order_table_columns() {
 	return apply_filters( 'wc_serial_numbers_order_table_columns', $columns );
 }
 
+/**
+ * Get product stock
+ * @since 1.2.0
+ * @param $product_id
+ *
+ * @return int
+ */
+function wc_serial_numbers_get_stock_quantity( $product_id ) {
+	if ( 'custom_source' == get_post_meta( $product_id, '_serial_key_source', true ) ) {
+		return WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( [
+			'product_id' => $product_id,
+			'status'     => 'available'
+		] )->count();
+	}
 
-function wc_serial_numbers_get_stock_quantity( $value, $product ) {
+	return 9999;
+}
+
+/**
+ * @since 1.2.0
+ * @param $value
+ * @param $product
+ *
+ * @return int
+ */
+function wc_serial_numbers_find_stock_quantity( $value, $product ) {
 	if ( wc_serial_numbers_product_serial_enabled( $product->get_id() ) ) {
-		if ( 'custom_source' == get_post_meta( $product->get_id(), '_serial_key_source', true ) ) {
-			return WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( [
-				'product_id' => $product->get_id(),
-				'status'     => 'available'
-			] )->count();
-		}
-
-		return 9999;
+		return wc_serial_numbers_get_stock_quantity($product->get_id());
 	}
 
 	return $value;
 }
 
-add_filter( 'woocommerce_product_get_stock_quantity', 'wc_serial_numbers_get_stock_quantity', 10, 2 );
+add_filter( 'woocommerce_product_get_stock_quantity', 'wc_serial_numbers_find_stock_quantity', 10, 2 );
