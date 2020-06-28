@@ -448,7 +448,7 @@ function wc_serial_numbers_delete_serial_number( $id ) {
 	global $wpdb;
 	$id = absint( $id );
 
-	$item = $this->get( $id );
+	$item = wc_serial_numbers_get_serial_number( $id );
 	if ( is_null( $item ) ) {
 		return false;
 	}

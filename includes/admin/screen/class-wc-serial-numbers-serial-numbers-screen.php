@@ -211,9 +211,11 @@ class WC_Serial_Numbers_Admin_Screen {
 				wp_safe_redirect( wp_get_referer() );
 				exit;
 			}
+			error_log(print_r($ids, true));
 			foreach ( $ids as $id ) { // Check the permissions on each.
 				switch ( $doaction ) {
 					case 'delete':
+						error_log('wc_serial_numbers_delete_serial_number');
 						wc_serial_numbers_delete_serial_number( $id );
 						break;
 					case 'activate':
