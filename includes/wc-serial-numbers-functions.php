@@ -657,3 +657,24 @@ function wc_serial_numbers_find_stock_quantity( $value, $product ) {
 }
 
 add_filter( 'woocommerce_product_get_stock_quantity', 'wc_serial_numbers_find_stock_quantity', 10, 2 );
+
+/**
+ * Control software related columns
+ * @since 1.2.0
+ * @param $columns
+ *
+ * @return mixed
+ */
+function wc_serial_numbers_control_order_table_columns($columns){
+	if(wc_serial_numbers_software_support_disabled()){
+		$software_columns = ['activation_email', 'activation_limit', 'expire_date'];
+		foreach ($columns as $key => $label){
+			if(in_array($key, $software_columns)){
+				unset($columns[$key]);
+			}
+		}
+	}
+
+	return $columns;
+}
+add_filter('wc_serial_numbers_order_table_columns', 'wc_serial_numbers_control_order_table_columns', 99);
