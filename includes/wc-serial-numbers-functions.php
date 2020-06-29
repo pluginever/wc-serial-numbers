@@ -159,11 +159,17 @@ function wc_serial_numbers_order_has_serial_numbers( $order ) {
 
 	$quantity = 0;
 	$items    = $order->get_items();
+
 	foreach ( $items as $item ) {
+		$product_id = $item->get_variation_id() ? $item->get_variation_id() : $item->get_product_id();
 		if ( ! wc_serial_numbers_product_serial_enabled( $item->get_variation_id() ? $item->get_variation_id() : $item->get_product_id() ) ) {
 			continue;
 		}
-		$quantity += 1;
+
+		$line_quantity = $item->get_quantity();
+		$per_item_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
+		$needed_quantity   = $line_quantity * ( empty( $per_item_quantity ) ? 1 : absint( $per_item_quantity ) );
+		$quantity += $needed_quantity;
 	}
 
 	return $quantity;
@@ -625,10 +631,11 @@ function wc_serial_numbers_get_order_table_columns() {
 
 /**
  * Get product stock
- * @since 1.2.0
+ *
  * @param $product_id
  *
  * @return int
+ * @since 1.2.0
  */
 function wc_serial_numbers_get_stock_quantity( $product_id ) {
 	if ( 'custom_source' == get_post_meta( $product_id, '_serial_key_source', true ) ) {
@@ -642,15 +649,15 @@ function wc_serial_numbers_get_stock_quantity( $product_id ) {
 }
 
 /**
- * @since 1.2.0
  * @param $value
  * @param $product
  *
  * @return int
+ * @since 1.2.0
  */
 function wc_serial_numbers_find_stock_quantity( $value, $product ) {
 	if ( wc_serial_numbers_product_serial_enabled( $product->get_id() ) ) {
-		return wc_serial_numbers_get_stock_quantity($product->get_id());
+		return wc_serial_numbers_get_stock_quantity( $product->get_id() );
 	}
 
 	return $value;
@@ -660,21 +667,23 @@ add_filter( 'woocommerce_product_get_stock_quantity', 'wc_serial_numbers_find_st
 
 /**
  * Control software related columns
- * @since 1.2.0
+ *
  * @param $columns
  *
  * @return mixed
+ * @since 1.2.0
  */
-function wc_serial_numbers_control_order_table_columns($columns){
-	if(wc_serial_numbers_software_support_disabled()){
-		$software_columns = ['activation_email', 'activation_limit', 'expire_date'];
-		foreach ($columns as $key => $label){
-			if(in_array($key, $software_columns)){
-				unset($columns[$key]);
+function wc_serial_numbers_control_order_table_columns( $columns ) {
+	if ( wc_serial_numbers_software_support_disabled() ) {
+		$software_columns = [ 'activation_email', 'activation_limit', 'expire_date' ];
+		foreach ( $columns as $key => $label ) {
+			if ( in_array( $key, $software_columns ) ) {
+				unset( $columns[ $key ] );
 			}
 		}
 	}
 
 	return $columns;
 }
-add_filter('wc_serial_numbers_order_table_columns', 'wc_serial_numbers_control_order_table_columns', 99);
+
+add_filter( 'wc_serial_numbers_order_table_columns', 'wc_serial_numbers_control_order_table_columns', 99 );

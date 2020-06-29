@@ -63,39 +63,42 @@ class WC_Serial_Numbers_Admin {
 	}
 
 	/**
-	 * @since 1.2.0
 	 * @param $columns
 	 *
 	 * @return array|string[]
+	 * @since 1.2.0
 	 */
 	public static function add_order_serial_column( $columns ) {
 		$postition = 3;
 		$new       = array_slice( $columns, 0, $postition, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $postition, count( $columns ) - $postition, true );;
+
 		return $new;
 	}
 
 	/**
-	 * @since 1.2.0
 	 * @param $column
 	 * @param $order_id
+	 *
+	 * @since 1.2.0
 	 */
 	public static function add_order_serial_column_content( $column, $order_id ) {
 		if ( $column == 'order_serials' ) {
-			$total = wc_serial_numbers_order_has_serial_numbers( $order_id );
-			if ( empty( $total ) ) {
+			$total_ordered = wc_serial_numbers_order_has_serial_numbers( $order_id );
+			if ( empty( $total_ordered ) ) {
 				echo '&mdash;';
 			} else {
-				$total_connected = WC_Serial_Numbers_Query::init()->from('serial_numbers')->where( 'order_id', intval( $order_id ) )->count();
-				$style           = '';
-				$title           = '';
-				if ( $total > $total_connected ) {
-					$style = "color:red";
-					$title = sprintf( __( 'Order missing serial numbers(%d)', 'wc-serial-numbers' ), $total );
-				} else {
+				$total_connected = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order_id ) )->count();
+				if ( $total_ordered == $total_connected ) {
 					$style = "color:green";
 					$title = __( 'Order assigned all serial numbers.', 'wc-serial-numbers' );
+				} else if ( ! empty( $total_connected ) && $total_ordered !== $total_connected ) {
+					$style = "color:#f39c12";
+					$title = sprintf( __( 'Order partially missing serial numbers(%d)', 'wc-serial-numbers' ), $total_ordered );
+				} else {
+					$style = "color:red";
+					$title = sprintf( __( 'Order missing serial numbers(%d)', 'wc-serial-numbers' ), $total_ordered );
 				}
-				$url = add_query_arg( [ 'order_id' => $order_id ], admin_url( 'admin.php?page=serial-numbers' ) );
+				$url = add_query_arg( [ 'order_id' => $order_id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
 				echo sprintf( '<a href="%s" title="%s"><span class="dashicons dashicons-lock" style="%s"></span></a>', $url, $title, $style );
 
 			}
@@ -144,10 +147,12 @@ class WC_Serial_Numbers_Admin {
 				padding-bottom: 0 !important;
 
 			}
-			.wc-serial-numbers-variation-settings .woocommerce-help-tip{
+
+			.wc-serial-numbers-variation-settings .woocommerce-help-tip {
 				margin-top: -5px;
 			}
-			.wc-serial-numbers-variation-settings .short{
+
+			.wc-serial-numbers-variation-settings .short {
 				min-width: 200px;
 			}
 		</style>

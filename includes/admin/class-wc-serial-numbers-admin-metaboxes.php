@@ -177,7 +177,6 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 
 		if ( empty( $items ) && $order ) {
 			echo sprintf( '<div class="wcsn-missing-serial-number">%s</div>', __( 'Order missing serial numbers for this item.', 'wc-serial-numbers' ) );
-
 			return true;
 		}
 
