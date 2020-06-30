@@ -90,10 +90,6 @@ class WC_Serial_Numbers_Installer {
 		// Create tables.
 		self::create_tables();
 
-		if ( is_null( self::$current_version ) ) {
-			WC_Serial_Numbers_Admin_Notice::welcome_notice();
-		}
-
 		if ( empty( get_option( 'serial_numbers_settings' ) ) ) {
 			//update general settings.
 			$settings = array(
