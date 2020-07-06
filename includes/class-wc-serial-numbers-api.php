@@ -18,7 +18,6 @@ class WC_Serial_Numbers_API {
 		$email           = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
 		$serial_key      = ! empty( $_REQUEST['serial_key'] ) ? sanitize_text_field( $_REQUEST['serial_key'] ) : '';
 		$product_id      = ! empty( $_REQUEST['product_id'] ) ? absint( $_REQUEST['product_id'] ) : '';
-		$order_id        = ! empty( $_REQUEST['order_id'] ) ? absint( $_REQUEST['order_id'] ) : '';
 		$allow_duplicate = apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', false );
 		if ( $allow_duplicate && ! is_email( $email ) ) {
 			$this->send_error( [
@@ -51,10 +50,9 @@ class WC_Serial_Numbers_API {
 		global $wpdb;
 
 		$query_where = 'WHERE 1=1';
-		if ( $allow_duplicate ) {
-			$query_where .= $wpdb->prepare( " AND activation_email=%s", $email );
-			$query_where .= $wpdb->prepare( " AND order_id=%s", $order_id );
-		}
+//		if ( $allow_duplicate ) {
+//			$query_where .= $wpdb->prepare( " AND order_id=%s", $order_id );
+//		}
 		$query_where   .= $wpdb->prepare( " AND serial_key=%s", wc_serial_numbers_encrypt_key( $serial_key ) );
 		$query_where   .= $wpdb->prepare( " AND product_id=%d", $product_id );
 		$serial_number = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}serial_numbers $query_where" );
@@ -65,7 +63,9 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		if ( $allow_duplicate && $serial_number->activation_email !== $email ) {
+		$order = wc_get_order($serial_number->order_id);
+
+		if ( $allow_duplicate && $order->get_billing_email('edit') !== $email ) {
 			$this->send_error( [
 				'error' => __( 'This email address is not associated with any serial key', 'wc-serial-numbers' ),
 				'code'  => 403

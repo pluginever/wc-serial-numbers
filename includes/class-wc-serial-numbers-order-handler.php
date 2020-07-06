@@ -85,6 +85,11 @@ class WC_Serial_Numbers_Handler {
 	 */
 	public static function maybe_autocomplete_order() {
 		if ( is_checkout() && ! empty( is_wc_endpoint_url( 'order-received' ) ) && ! empty( get_query_var( 'order-received' ) ) ) {
+
+			if(! wc_serial_numbers_validate_boolean(get_option('wc_serial_numbers_autocomplete_order'))){
+				return;
+			}
+
 			$order_id = get_query_var( 'order-received' );
 			$order    = wc_get_order( $order_id );
 
