@@ -19,7 +19,7 @@
 		<div class="col">
 			<h4><?php _e( "Documentation", "wc-serial-numbers" ); ?></h4>
 			<p><?php _e( "This is the place to go to reference different aspects of the plugin. Our online documentation is a useful resource for learning the ins and outs of using our plugins.", "wc-serial-numbers" ); ?></p>
-			<a href="http://pluginever.com/documentation/" class="button button-large button-primary" target="_blank"><?php esc_html_e( 'Documentation', 'wc-serial-numbers' ); ?></a>
+			<a href="https://pluginever.com/docs/" class="button button-large button-primary" target="_blank"><?php esc_html_e( 'Documentation', 'wc-serial-numbers' ); ?></a>
 		</div>
 	</div>
 </div>

@@ -95,6 +95,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	 * Setup the final data for the table
 	 *
 	 * @return void
+	 * @throws Exception
 	 * @since 1.0.0
 	 */
 	function prepare_items() {
@@ -170,11 +171,11 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
 		}
 		?>
-		<p class="search-box">
-			<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-			<input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
+        <p class="search-box">
+            <label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
+            <input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
 			<?php submit_button( $text, 'button', false, false, array( 'ID' => 'search-submit' ) ); ?>
-		</p>
+        </p>
 		<?php
 	}
 
@@ -306,8 +307,14 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 				$actions           = array();
 				$actions['id']     = sprintf( __( 'ID: %d', 'wp-serial-numbers' ), $item->id );
 				$actions['show']   = sprintf( '<a data-serial-id="%d" data-nonce="%s" class="wc-serial-numbers-decrypt-key"   href="#">%s</a>', $item->id, wp_create_nonce( 'wc_serial_numbers_decrypt_key' ), __( 'Show', 'wc-serial-numbers' ) );
-				$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [ 'action' => 'edit', 'id' => $item->id ], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Edit', 'wp-serial-numbers' ) );
-				$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [ 'action' => 'delete', 'id' => $item->id ], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Delete', 'wp-serial-numbers' ) );
+				$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [
+					'action' => 'edit',
+					'id'     => $item->id
+				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Edit', 'wp-serial-numbers' ) );
+				$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [
+					'action' => 'delete',
+					'id'     => $item->id
+				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Delete', 'wp-serial-numbers' ) );
 				$spinner           = sprintf( '<img class="serial-spinner" style="display: none;" src="%s"/>', admin_url( 'images/loading.gif' ) );
 				$class             = 'encrypted';
 				$serial_key        = '';
@@ -400,6 +407,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	 * Retrieve all the data for all the discount codes
 	 *
 	 * @return object $get_results Array of all the data for the discount codes
+	 * @throws Exception
 	 * @since 1.0.0
 	 */
 	public function get_results() {
@@ -425,14 +433,14 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			'search'     => $search
 		);
 
+
 		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' != $orderby ) {
 			$args['orderby'] = $orderby;
 		}
-
 		$query = WC_Serial_Numbers_Query::init()
-										->from( 'serial_numbers' )
-										->order_by( $orderby, $order )
-										->page( $page, $per_page );
+		                                ->from( 'serial_numbers' )
+		                                ->order_by( $orderby, $order )
+		                                ->page( $page, $per_page );
 		if ( ! empty( $product_id ) ) {
 			$query->where( 'product_id', $product_id );
 		}
@@ -452,7 +460,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			$query->where( 'status', $status );
 		}
 
-		$this->total_count     = $query->count();
+		$this->total_count     = $pre_query->count();
 		$this->available_count = $pre_query->copy()->where( 'status', 'available' )->count();
 		$this->sold_count      = $pre_query->copy()->where( 'status', 'sold' )->count();
 		$this->refunded_count  = $pre_query->copy()->where( 'status', 'refunded' )->count();

@@ -113,11 +113,11 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
 		}
 		?>
-		<p class="search-box">
-			<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-			<input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
+        <p class="search-box">
+            <label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
+            <input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
 			<?php submit_button( $text, 'button', false, false, array( 'ID' => 'search-submit' ) ); ?>
-		</p>
+        </p>
 		<?php
 	}
 
@@ -300,6 +300,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	 * Retrieve all the data for all the discount codes
 	 *
 	 * @return Object $get_results Array of all the data for the discount codes
+	 * @throws Exception
 	 * @since 1.0.0
 	 */
 	public function get_results() {
@@ -332,9 +333,9 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		}
 
 		$query = WC_Serial_Numbers_Query::init()
-										->from( 'serial_numbers_activations' )
-										->order_by( $orderby, $order )
-										->page( $page, $per_page );
+		                                ->from( 'serial_numbers_activations' )
+		                                ->order_by( $orderby, $order )
+		                                ->page( $page, $per_page );
 		if ( ! empty( $product_id ) ) {
 			$query->where( 'product_id', $product_id );
 		}
@@ -356,7 +357,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		}
 
 
-		$this->total_count    = $query->count();
+		$this->total_count    = $pre_query->count();
 		$this->active_count   = $pre_query->copy()->where( 'active', '1' )->count();
 		$this->inactive_count = $pre_query->copy()->where( 'active', '0' )->count();
 

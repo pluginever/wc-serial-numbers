@@ -49,7 +49,7 @@ class WC_Serial_Numbers_Admin_Activations_Screen {
 			foreach ( $ids as $id ) { // Check the permissions on each.
 				switch ( $doaction ) {
 					case 'delete':
-						wc_serial_numbers_delete_serial( $id );
+						wc_serial_numbers_delete_activation( $id );
 						break;
 					case 'activate':
 						wc_serial_numbers_update_activation( array(

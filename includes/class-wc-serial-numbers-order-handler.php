@@ -34,7 +34,7 @@ class WC_Serial_Numbers_Handler {
 	 * serial numbers available otherwise disable checkout
 	 *
 	 * since 1.2.0
-	 * @return void
+	 * @return bool
 	 */
 	public static function validate_checkout() {
 		$car_products = WC()->cart->get_cart_contents();

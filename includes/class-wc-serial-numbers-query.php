@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Query{
+class WC_Serial_Numbers_Query {
 	/**
 	 * @var string
 	 */
@@ -501,7 +501,7 @@ class WC_Serial_Numbers_Query{
 		// value holder and make $operator to the = operator.
 		if ( is_null( $referenceKey ) ) {
 			$referenceKey = $operator;
-			$operator = '=';
+			$operator     = '=';
 		}
 
 		$referenceKey = is_array( $referenceKey ) ? ( '(\'' . implode( '\',\'', $referenceKey ) . '\')' )
@@ -722,7 +722,10 @@ class WC_Serial_Numbers_Query{
 	public function page( $page, $size = 20 ) {
 		if ( ( $page = (int) $page ) <= 1 ) {
 			$page = 0;
+		} else {
+			$page = $page - 1;
 		}
+
 
 		$this->limit  = (int) $size;
 		$this->offset = (int) $size * $page;
