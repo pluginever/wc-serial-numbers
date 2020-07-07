@@ -166,10 +166,10 @@ function wc_serial_numbers_order_has_serial_numbers( $order ) {
 			continue;
 		}
 
-		$line_quantity = $item->get_quantity();
+		$line_quantity     = $item->get_quantity();
 		$per_item_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
 		$needed_quantity   = $line_quantity * ( empty( $per_item_quantity ) ? 1 : absint( $per_item_quantity ) );
-		$quantity += $needed_quantity;
+		$quantity          += $needed_quantity;
 	}
 
 	return $quantity;
@@ -365,10 +365,17 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 	}
 
 	if ( $order && $status == 'sold' ) {
-		$items         = $order->get_items();
+		$items = $order->get_items();
+		//error_log( print_r( $items, true ) );
 		$valid_product = false;
 		foreach ( $items as $item_id => $item ) {
-			if ( $item->get_id() === $product_id ) {
+			error_log( print_r( $item->get_type(), true ) );
+//			if ( $item->get_id() === $product_id ) {
+//				$valid_product = true;
+//				break;
+//			}
+			$product        = $item->get_product();
+			if ( $product->get_id() === $product_id ) {
 				$valid_product = true;
 				break;
 			}
@@ -381,10 +388,13 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 
 	//serial key set
 	$serial_key = apply_filters( 'wc_serial_numbers_maybe_encrypt', sanitize_textarea_field( $serial_key ), $args );
+
 	if ( $order && ( empty( $order_date ) || $order_date == '0000-00-00 00:00:00' ) && $order->get_date_completed() ) {
 		$order_date = $order->get_date_completed()->format( 'Y-m-d H:i:s' );
 	} elseif ( $order && ( empty( $order_date ) || $order_date == '0000-00-00 00:00:00' ) && ! $order->get_date_completed() ) {
 		$order_date = current_time( 'mysql' );
+	} elseif ( $order && ( ! empty( $order_date ) || $order_date == '0000-00-00 00:00:00' ) && $order->get_date_completed() ) {
+		$order_date = date( 'Y-m-d H:i:s', strtotime( $order_date ) );
 	} else {
 		$order_date = null;
 	}
