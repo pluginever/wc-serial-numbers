@@ -58,14 +58,14 @@ class WC_Serial_Numbers_API {
 		$serial_number = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}serial_numbers $query_where" );
 		if ( ! $serial_number ) {
 			$this->send_error( [
-				'error' => __( 'Invalid Serial Number', 'wc-serial-numbers' ),
+				'error' => __( 'Serial Number is not associated with provided product id', 'wc-serial-numbers' ),
 				'code'  => 403
 			] );
 		}
 
-		$order = wc_get_order($serial_number->order_id);
+		$order = wc_get_order( $serial_number->order_id );
 
-		if ( $allow_duplicate && $order->get_billing_email('edit') !== $email ) {
+		if ( $allow_duplicate && $order->get_billing_email( 'edit' ) !== $email ) {
 			$this->send_error( [
 				'error' => __( 'This email address is not associated with any serial key', 'wc-serial-numbers' ),
 				'code'  => 403
@@ -183,7 +183,7 @@ class WC_Serial_Numbers_API {
 			'instance'         => $activation->instance,
 			'product_id'       => $serial_number->product_id,
 			'product'          => get_the_title( $serial_number->product_id ),
-			'message'          => sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
+			'message'          => sprintf( __( 'Successfully activated. %s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
 			'activations'      => $this->get_activations_response( $this->get_active_activations( $serial_number->id ) ),
 		) );
 
@@ -214,7 +214,7 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		 wc_serial_numbers_update_activation( [ 'id' => $activation->id, 'active' => '0' ] );
+		wc_serial_numbers_update_activation( [ 'id' => $activation->id, 'active' => '0' ] );
 
 		$serial_number = wc_serial_numbers_get_serial_number( $serial_number->id );
 		$remaining     = intval( $serial_number->activation_limit ) - intval( $serial_number->activation_count );
@@ -223,7 +223,7 @@ class WC_Serial_Numbers_API {
 			'deactivated'      => true,
 			'remaining'        => $remaining,
 			'activation_limit' => intval( $serial_number->activation_limit ),
-			'message'          => sprintf( __( '%s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
+			'message'          => sprintf( __( 'Deactivation completed. %s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
 		) );
 
 		self::send_success( $response );

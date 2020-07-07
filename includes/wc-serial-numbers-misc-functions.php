@@ -36,13 +36,14 @@ function wc_serial_numbers_get_low_stock_products( $force = false, $stock = 10 )
 	$transient = md5( 'wcsn_low_stock_products' . $stock );
 	if ( $force || false == $low_stocks = get_transient( $transient ) ) {
 		global $wpdb;
-		$product_ids   = $wpdb->get_results( "select post_id product_id, 0 as count from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes'" );
+		$product_ids = $wpdb->get_results( "select post_id, 0 as count from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes'" );
 		$serial_counts = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) as count FROM {$wpdb->prefix}serial_numbers where status='available' AND product_id IN (select post_id from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes')
 																group by product_id having count < %d order by count asc", $stock ) );
 		$serial_counts = wp_list_pluck( $serial_counts, 'count', 'product_id' );
 
-		$product_ids = wp_list_pluck( $product_ids, 'count', 'product_id' );
-		$low_stocks  = array_replace( $product_ids, $serial_counts );
+//		$product_ids = wp_list_pluck( $product_ids, 'count', 'post_id' );
+//		$low_stocks = array_replace( $product_ids, $serial_counts );
+		$low_stocks = $serial_counts;
 		set_transient( $transient, $low_stocks, time() + 60 * 20 );
 	}
 
@@ -51,13 +52,14 @@ function wc_serial_numbers_get_low_stock_products( $force = false, $stock = 10 )
 
 /**
  * Get order table.
- * @since 1.2.0
+ *
  * @param $order
  * @param bool $return
  *
  * @return false|string|void
+ * @since 1.2.0
  */
-function wc_serial_numbers_get_order_table( $order, $return = false) {
+function wc_serial_numbers_get_order_table( $order, $return = false ) {
 	ob_start();
 	$order_id = $order->get_id();
 	if ( 'completed' !== $order->get_status( 'edit' ) ) {
@@ -68,21 +70,24 @@ function wc_serial_numbers_get_order_table( $order, $return = false) {
 	echo sprintf( '<h2 class="woocommerce-order-downloads__title">%s</h2>', apply_filters( 'wc_serial_numbers_order_table_heading', esc_html__( "Serial Numbers", 'wc-serial-numbers-pro' ) ) );
 
 	if ( empty( $serial_numbers ) ) {
-		echo sprintf('<p>%s</p>', apply_filters('wc_serial_numbers_pending_notice', __('Order waiting for assigning serial numbers.', 'wc-serial-numbers')));
+		echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order waiting for assigning serial numbers.', 'wc-serial-numbers' ) ) );
+
 		return;
 	}
 
 	$columns = wc_serial_numbers_get_order_table_columns();
 	?>
-	<table class="woocommerce-table woocommerce-table--order-details shop_table order_details wc-serial-numbers-order-items" style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 40px;" cellspacing="0" cellpadding="6" border="1">
-		<thead>
-		<tr>
+    <table class="woocommerce-table woocommerce-table--order-details shop_table order_details wc-serial-numbers-order-items"
+           style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 40px;"
+           cellspacing="0" cellpadding="6" border="1">
+        <thead>
+        <tr>
 			<?php foreach ( $columns as $key => $label ) {
 				echo sprintf( '<th class="td %s" scope="col" style="text-align:left;">%s</th>', sanitize_html_class( $key ), $label );
 			} ?>
-		</tr>
-		</thead>
-		<tbody>
+        </tr>
+        </thead>
+        <tbody>
 		<?php
 		foreach ( $serial_numbers as $serial_number ) {
 			echo '<tr>';
@@ -121,12 +126,12 @@ function wc_serial_numbers_get_order_table( $order, $return = false) {
 			echo '</tr>';
 		} ?>
 
-		</tbody>
-	</table>
+        </tbody>
+    </table>
 	<?php
 	$output = ob_get_contents();
 	ob_get_clean();
-	if($return){
+	if ( $return ) {
 		return $output;
 	}
 

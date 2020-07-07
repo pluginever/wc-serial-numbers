@@ -369,7 +369,6 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		//error_log( print_r( $items, true ) );
 		$valid_product = false;
 		foreach ( $items as $item_id => $item ) {
-			error_log( print_r( $item->get_type(), true ) );
 //			if ( $item->get_id() === $product_id ) {
 //				$valid_product = true;
 //				break;

@@ -8,7 +8,7 @@ class WC_Serial_Numbers_CRON {
 	 */
 	public static function init() {
 		add_action( 'wc_serial_numbers_hourly_event', array( __CLASS__, 'expire_outdated_serials' ) );
-		add_action( 'wc_serial_numbers_daily_event', array(__CLASS__, 'send_stock_alert_email') );
+		add_action( 'wc_serial_numbers_daily_event', array( __CLASS__, 'send_stock_alert_email' ) );
 	}
 
 	/**
@@ -25,21 +25,21 @@ class WC_Serial_Numbers_CRON {
 	/**
 	 * Send low stock email notification.
 	 *
-	 * @since 1.2.0
 	 * @return bool
+	 * @since 1.2.0
 	 */
-	public static function send_stock_alert_email(){
-		if ( ! wc_serial_numbers_validate_boolean(get_option('wc_serial_numbers_enable_stock_notification')) ) {
+	public static function send_stock_alert_email() {
+		if ( ! wc_serial_numbers_validate_boolean( get_option( 'wc_serial_numbers_enable_stock_notification' ) ) ) {
 			return false;
 		}
 
-		$stock_threshold    = get_option('wc_serial_numbers_stock_threshold', 5);
-		$to = get_option('wc_serial_numbers_notification_recipient', get_option( 'admin_email' ));
+		$stock_threshold = get_option( 'wc_serial_numbers_stock_threshold', 5 );
+		$to              = get_option( 'wc_serial_numbers_notification_recipient', get_option( 'admin_email' ) );
 		if ( empty( $to ) ) {
 			return false;
 		}
 
-		$low_stock_products = wc_serial_numbers_get_low_stock_products( $stock_threshold, true );
+		$low_stock_products = wc_serial_numbers_get_low_stock_products( true, $stock_threshold );
 		if ( empty( $low_stock_products ) ) {
 			return false;
 		}
