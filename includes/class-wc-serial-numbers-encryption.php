@@ -51,6 +51,7 @@ class WC_Serial_Numbers_Encryption {
 	 *
 	 * @param $key
 	 *
+	 * @return false|string
 	 * @since 1.2.0
 	 */
 	public static function maybeEncrypt( $key ) {
@@ -66,6 +67,7 @@ class WC_Serial_Numbers_Encryption {
 	 *
 	 * @param $key
 	 *
+	 * @return false|string
 	 * @since 1.2.0
 	 */
 	public static function maybeDecrypt( $key ) {
@@ -91,7 +93,6 @@ class WC_Serial_Numbers_Encryption {
 
 	/**
 	 * @param $plainText
-	 * @param string $initVector
 	 *
 	 * @return false|string
 	 * @since
@@ -107,7 +108,6 @@ class WC_Serial_Numbers_Encryption {
 
 	/**
 	 * @param $encryptedText
-	 * @param string $initVector
 	 *
 	 * @return false|string
 	 * @since
@@ -175,7 +175,6 @@ class WC_Serial_Numbers_Encryption {
 	 * @param $mode
 	 * @param $string
 	 * @param $key
-	 * @param $initVector
 	 *
 	 * @return false|string
 	 * @since

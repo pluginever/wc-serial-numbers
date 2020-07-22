@@ -153,6 +153,7 @@ class WC_Serial_Numbers_Admin_Notice {
 	 *
 	 * @param string $notice_name
 	 *
+	 * @return bool
 	 * @since  1.2.0
 	 *
 	 */

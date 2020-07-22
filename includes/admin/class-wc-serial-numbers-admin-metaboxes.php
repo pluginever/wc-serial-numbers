@@ -69,7 +69,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 				'id'            => "_serial_key_source",
 				'name'          => "_serial_key_source",
 				'class'         => "serial_key_source",
-				'label'         => __( 'Serial Key Source', 'wc-serial-numbers-pro' ),
+				'label'         => __( 'Serial Key Source', 'wc-serial-numbers' ),
 				'value'         => empty( $source ) ? 'custom_source' : $source,
 				'wrapper_class' => 'options_group',
 				'options'       => $sources,
@@ -154,6 +154,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	 * @param $o_item
 	 * @param $product
 	 *
+	 * @return bool|string
 	 * @since 1.1.6
 	 */
 	public function order_itemmeta( $o_item_id, $o_item, $product ) {

@@ -131,10 +131,9 @@ class WC_Serial_Numbers_API {
 		$instance   = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : $user_agent;
 		$platform   = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : self::get_os();
 
-		$validity        = date( get_option( 'date_format' ), strtotime( $serial_number->order_date . '+ ' . $serial_number->validity . ' days' ) );
-		$activation_date = date( get_option( 'date_format' ) );
 
-		if ( $activation_date > $validity ) {
+		$activating_date = date( 'Y-m-d H:i:s' );
+		if ( $activating_date > $this->calculate_expire_date( $serial_number ) ) {
 			$this->send_error( [
 				'error' => __( 'Serial key activation validity exceeded', 'wc-serial-numbers' ),
 				'code'  => 403

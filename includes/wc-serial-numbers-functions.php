@@ -352,16 +352,16 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 	if ( ! empty( $order_id ) ) {
 		$order = wc_get_order( absint( $order_id ) );
 		if ( empty( $order ) ) {
-			return new \WP_Error( 'invalid_order_id', __( 'Associated order is not valid.', 'wp-serial-numbers' ) );
+			return new \WP_Error( 'invalid_order_id', __( 'Associated order is not valid.', 'wc-serial-numbers' ) );
 		}
 	}
 
 	if ( ! array_key_exists( $status, wc_serial_numbers_get_serial_number_statuses() ) ) {
-		return new \WP_Error( 'invalid_status', __( 'Unknown serial number status.', 'wp-serial-numbers' ) );
+		return new \WP_Error( 'invalid_status', __( 'Unknown serial number status.', 'wc-serial-numbers' ) );
 	}
 
 	if ( $status == 'sold' && empty( $order ) ) {
-		return new \WP_Error( 'invalid_status', __( 'Sold item must have a associated valid order.', 'wp-serial-numbers' ) );
+		return new \WP_Error( 'invalid_status', __( 'Sold item must have a associated valid order.', 'wc-serial-numbers' ) );
 	}
 
 	if ( $order && $status == 'sold' ) {
@@ -381,7 +381,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 		}
 
 		if ( ! $valid_product ) {
-			return new \WP_Error( 'invalid_status', __( 'Order does not contains the product.', 'wp-serial-numbers' ) );
+			return new \WP_Error( 'invalid_status', __( 'Order does not contains the product.', 'wc-serial-numbers' ) );
 		}
 	}
 

@@ -65,6 +65,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	 * Setup the final data for the table
 	 *
 	 * @return void
+	 * @throws Exception
 	 * @since 1.0.0
 	 */
 	function prepare_items() {
