@@ -110,8 +110,7 @@ class WC_Serial_Numbers_API {
 		] )->get();
 
 		$activation_limit = empty( $serial_number->activation_limit ) ? 99999 : intval( $serial_number->activation_limit );
-
-		$remaining = $activation_limit - $serial_number->activation_count;
+		$remaining        = $activation_limit - $serial_number->activation_count;
 		$this->send_success( apply_filters( 'wc_serial_numbers_check_license_response', [
 			'expire_date' => $this->calculate_expire_date( $serial_number ),
 			'remaining'   => $remaining,
@@ -131,6 +130,16 @@ class WC_Serial_Numbers_API {
 		$user_agent = empty( $_SERVER['HTTP_USER_AGENT'] ) ? md5( time() ) : md5( $_SERVER['HTTP_USER_AGENT'] . time() );
 		$instance   = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : $user_agent;
 		$platform   = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : self::get_os();
+
+		$validity        = date( get_option( 'date_format' ), strtotime( $serial_number->order_date . '+ ' . $serial_number->validity . ' days' ) );
+		$activation_date = date( get_option( 'date_format' ) );
+
+		if ( $activation_date > $validity ) {
+			$this->send_error( [
+				'error' => __( 'Serial key activation validity exceeded', 'wc-serial-numbers' ),
+				'code'  => 403
+			] );
+		}
 
 		$activation = WC_Serial_Numbers_Query::init()->from( 'serial_numbers_activations' )->where( [
 			'serial_id' => $serial_number->id,
