@@ -34,7 +34,7 @@ class WC_Serial_Numbers_Admin_Settings extends WC_Admin_Settings {
 		global $current_section, $current_tab;
 
 		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wc-serial-numbers-settings' ) ) {
-			die( __( 'Action failed. Please refresh the page and retry.', 'woocommerce' ) );
+			die( __( 'Action failed. Please refresh the page and retry.', 'wc-serial-numbers' ) );
 		}
 
 		// Trigger actions
@@ -42,7 +42,7 @@ class WC_Serial_Numbers_Admin_Settings extends WC_Admin_Settings {
 		do_action( 'wc_serial_numbers_update_options_' . $current_tab );
 		do_action( 'wc_serial_numbers_update_options' );
 
-		self::add_message( __( 'Your settings have been saved.', 'woocommerce' ) );
+		self::add_message( __( 'Your settings have been saved.', 'wc-serial-numbers' ) );
 
 		// Re-add endpoints and flush rules
 		WC()->query->init_query_vars();
@@ -99,7 +99,7 @@ class WC_Serial_Numbers_Admin_Settings extends WC_Admin_Settings {
 		wp_enqueue_script( 'woocommerce_settings', WC()->plugin_url() . '/assets/js/admin/settings.min.js', array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'iris' ), WC()->version, true );
 
 		wp_localize_script( 'woocommerce_settings', 'woocommerce_settings_params', array(
-			'i18n_nav_warning' => __( 'The changes you made will be lost if you navigate away from this page.', 'woocommerce' )
+			'i18n_nav_warning' => __( 'The changes you made will be lost if you navigate away from this page.', 'wc-serial-numbers' )
 		) );
 
 		// Include settings pages

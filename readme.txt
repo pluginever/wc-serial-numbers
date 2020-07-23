@@ -2,7 +2,7 @@
 Contributors: manikmist09,pluginever
 Tags: WooCommerce Serial Number, WooCommerce License Number, WooCommerce License Key,license keys,software license,woocommerce
 Requires at least: 4.4
-Tested up to: 5.3
+Tested up to: 5.4.2
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -133,14 +133,25 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
  
 == Screenshots ==
-1. License table generated and populated by WooCommerce Serial Numbers 
-2. WC Serial Numbers product page
-3. WC serial number delivery settings
-4. Create serial number
-5. Serial number on thank you page
-6. Serial number admin notification
+1. WooCommerce Serial Numbers list
+2. Add serial number
+3. Update serial number
+4. Activation log
+5. Settings page
+6. Product page serial number settings
+7. Order complete email with serial numbers
+8. order complete thank you page with serial numbers
+
 
 == Changelog ==
+= 1.2.0 (23 July,2020) =
+* Enhance - Full rewritten plugin
+* Enhance - Product tab for serial numbers
+* Enhance - Serial Key list table with status, order date and expire date
+* Enhance - All Settings are in one place
+* Enhance - API response
+* Fix - Order confirmation page needs reload
+* Remove - The notification tab from admin bar
 
 = 1.1.3 (24 November,2019) =
 * Enhance - Improve API response

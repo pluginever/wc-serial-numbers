@@ -44,8 +44,8 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	 */
 	public function __construct() {
 		parent::__construct( array(
-			'singular' => __( 'Activation', 'wc-serial-number' ),
-			'plural'   => __( 'Activations', 'wc-serial-number' ),
+			'singular' => __( 'Activation', 'wc-serial-numbers' ),
+			'plural'   => __( 'Activations', 'wc-serial-numbers' ),
 			'ajax'     => false,
 		) );
 	}
@@ -237,16 +237,16 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		$activate_url      = wp_nonce_url( add_query_arg( [ 'action' => 'activate' ], $base_url ), 'serial_number_nonce' );
 		$deactivate_url    = wp_nonce_url( add_query_arg( [ 'action' => 'deactivate' ], $base_url ), 'serial_number_nonce' );
 		$delete_url        = wp_nonce_url( add_query_arg( [ 'action' => 'delete' ], $base_url ), 'serial_number_nonce' );
-		$row_actions['id'] = sprintf( __( 'ID: %d', 'wp-serial-numbers' ), $item->id );
+		$row_actions['id'] = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), $item->id );
 
 		if ( $item->active == '0' ) {
-			$row_actions['activate'] = sprintf( '<a href="%1$s">%2$s</a>', $activate_url, __( 'Activate', 'wp-serial-numbers' ) );
+			$row_actions['activate'] = sprintf( '<a href="%1$s">%2$s</a>', $activate_url, __( 'Activate', 'wc-serial-numbers' ) );
 		}
 		if ( $item->active != '0' ) {
-			$row_actions['inactivate'] = sprintf( '<a href="%1$s">%2$s</a>', $deactivate_url, __( 'Inactivate', 'wp-serial-numbers' ) );
+			$row_actions['inactivate'] = sprintf( '<a href="%1$s">%2$s</a>', $deactivate_url, __( 'Inactivate', 'wc-serial-numbers' ) );
 		}
 
-		$row_actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', $delete_url, __( 'Delete', 'wp-serial-numbers' ) );
+		$row_actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', $delete_url, __( 'Delete', 'wc-serial-numbers' ) );
 
 		return sprintf( '<strong>%1$s</strong>%2$s', $item->instance, $this->row_actions( $row_actions ) );
 	}

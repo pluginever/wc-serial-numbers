@@ -11,13 +11,13 @@
 	$.wc_serial_numbers_admin = function () {
 		var plugin = this;
 		plugin.init = function () {
-			plugin.init_select2('.wc-serial-numbers-select-product', 'wc_serial_numbers_search_products', wc_serial_numbers_admin_i10n.i18n.search_product)
-			plugin.init_datepicker('.wc-serial-numbers-select-date')
+			plugin.init_select2('.wc-serial-numbers-select-product', 'wc_serial_numbers_search_products', wc_serial_numbers_admin_i10n.i18n.search_product);
+			plugin.init_datepicker('.wc-serial-numbers-select-date');
 			plugin.encrypt_decrypt();
-		}
+		};
 
 		plugin.init_select2 = function (el, action, placeholder) {
-			placeholder = placeholder || 'Select..'
+			placeholder = placeholder || 'Select..';
 			$(el).select2({
 				ajax: {
 					cache: true,
@@ -30,7 +30,7 @@
 							action: action,
 							nonce: window.wc_serial_numbers_admin_i10n.nonce,
 							search: params.term,
-							page: params.page,
+							page: params.page
 						};
 					},
 					processResults: function (data, params) {
@@ -47,7 +47,7 @@
 				minimumInputLength: 1,
 				allowClear: true
 			});
-		}
+		};
 		plugin.init_datepicker = function (el) {
 			$(el).datepicker({
 				changeMonth: true,
@@ -56,7 +56,7 @@
 				firstDay: 7,
 				minDate: new Date()
 			});
-		}
+		};
 
 
 		plugin.encrypt_decrypt = function () {
@@ -99,9 +99,9 @@
 
 				return false;
 			});
-		}
+		};
 		plugin.init();
-	}
+	};
 
 	//$.fn
 	$.fn.wc_serial_numbers_admin = function () {
