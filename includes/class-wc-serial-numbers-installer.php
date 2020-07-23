@@ -9,11 +9,11 @@ class WC_Serial_Numbers_Installer {
 	 * @since 1.2.0
 	 */
 	private static $updates = array(
-		'1.0.1' => 'updates/update-1.0.1.php',
-		'1.0.6' => 'updates/update-1.0.6.php',
-		'1.0.8' => 'updates/update-1.0.8.php',
-		'1.1.2' => 'updates/update-1.1.2.php',
-		'1.2.0' => 'updates/update-1.2.0.php',
+		'1.0.1' => 'update-1.0.1.php',
+		'1.0.6' => 'update-1.0.6.php',
+		'1.0.8' => 'update-1.0.8.php',
+		'1.1.2' => 'update-1.1.2.php',
+		'1.2.0' => 'update-1.2.0.php',
 	);
 
 	/**
