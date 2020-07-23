@@ -85,8 +85,8 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	 */
 	public function __construct() {
 		parent::__construct( array(
-			'singular' => __( 'Serial', 'wc-serial-number' ),
-			'plural'   => __( 'Serials', 'wc-serial-number' ),
+			'singular' => __( 'Serial', 'wc-serial-numbers' ),
+			'plural'   => __( 'Serials', 'wc-serial-numbers' ),
 			'ajax'     => false,
 		) );
 	}
@@ -305,16 +305,16 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 		switch ( $column_name ) {
 			case 'key':
 				$actions           = array();
-				$actions['id']     = sprintf( __( 'ID: %d', 'wp-serial-numbers' ), $item->id );
+				$actions['id']     = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), $item->id );
 				$actions['show']   = sprintf( '<a data-serial-id="%d" data-nonce="%s" class="wc-serial-numbers-decrypt-key"   href="#">%s</a>', $item->id, wp_create_nonce( 'wc_serial_numbers_decrypt_key' ), __( 'Show', 'wc-serial-numbers' ) );
 				$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [
 					'action' => 'edit',
 					'id'     => $item->id
-				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Edit', 'wp-serial-numbers' ) );
+				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Edit', 'wc-serial-numbers' ) );
 				$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [
 					'action' => 'delete',
 					'id'     => $item->id
-				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Delete', 'wp-serial-numbers' ) );
+				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Delete', 'wc-serial-numbers' ) );
 				$spinner           = sprintf( '<img class="serial-spinner" style="display: none;" src="%s"/>', admin_url( 'images/loading.gif' ) );
 				$class             = 'encrypted';
 				$serial_key        = '';

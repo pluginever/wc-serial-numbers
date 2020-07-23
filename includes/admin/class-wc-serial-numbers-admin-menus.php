@@ -92,7 +92,7 @@ class WC_Serial_Numbers_Admin_Menus {
 		get_current_screen()->add_help_tab(
 			array(
 				'id'      => 'status',
-				'title'   => __( 'Statuses' ),
+				'title'   => __( 'Statuses','wc-serial-numbers' ),
 				'content' => $status,
 			)
 		);
