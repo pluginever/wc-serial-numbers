@@ -117,7 +117,7 @@ module.exports = function (grunt) {
 		// Watch changes for assets.
 		watch: {
 			css: {
-				files: ['<%= dirs.css %>/*.scss'],
+				files: ['<%= dirs.css %>/**/*.scss'],
 				tasks: ['sass', 'postcss', 'cssmin', 'concat']
 			},
 			js: {

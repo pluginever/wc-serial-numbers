@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	bootstrap="tests/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	verbose="true"
+>
+	<testsuites>
+		<testsuite name="WC Serial Numbers Test Suite">
+			<directory suffix=".php">./tests/</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory prefix="test-" suffix=".php">./includes</directory>
+			<file>wc-serial-numbers.php</file>
+			<file>uninstall.php</file>
+			<exclude>
+				<directory suffix=".php">./includes/admin/views</directory>
+				<directory suffix=".php">./vendor</directory>
+				<directory suffix=".php">./tmp</directory>
+				<directory suffix=".php">./tests</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+
+	<groups>
+		<exclude>
+			<group>ignore</group>
+		</exclude>
+	</groups>
+</phpunit>

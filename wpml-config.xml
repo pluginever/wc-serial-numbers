@@ -1,5 +1,2 @@
 <wpml-config>
-  <custom-types>
-    <custom-type translate="1">wcsn_notification</custom-type>
-  </custom-types>
 </wpml-config>

@@ -2,8 +2,8 @@
 function wcsn_update_1_0_6() {
     global $wpdb;
 
-    WC_Serial_Numbers_Install::activate();
-    WC_Serial_Numbers_Install::create_cron();
+    WCSN_Install::activate();
+    WCSN_Install::create_cron();
 
     $collate = '';
     if ( $wpdb->has_cap( 'collation' ) ) {
@@ -45,7 +45,7 @@ function wcsn_update_1_0_6() {
         'number' => -1,
     ) );
     foreach( $serial_numbers as $serial_number ) {
-        wc_serial_numbers()->tmp_serial_number->insert( $serial_number );
+        wcsn()->tmp_serial_number->insert( $serial_number );
     }
     foreach( $serial_numbers as $serial_number ) {
         $serial_number = (array) $serial_number;
@@ -54,7 +54,7 @@ function wcsn_update_1_0_6() {
             $serial_number['serial_key'] = wcsn_encrypt( $serial_number['serial_key'] );
         }
 
-        wc_serial_numbers()->serial_number->update( $serial_number['id'], $serial_number );
+        wcsn()->serial_number->update( $serial_number['id'], $serial_number );
     }
 }
 

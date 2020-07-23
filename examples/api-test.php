@@ -5,11 +5,11 @@ if ( ! current_user_can( 'manage_options' ) ) die();
 
 
 // API variables, please override
-$base_url    = 'http://wcserialnumbers.test';
-$email       = 'hello@manik.com';
-$product_id  = '83';
-$license_key = 'johndoe';
-$instance    = 'http://example2.com';
+$base_url    = 'http://wcdevelop.test';
+$email       = 'manikdrmc@gmail.com';
+$product_id  = '24';
+$license_key = 'Serial-0000000001163';
+$instance    = '15924263261';
 
 $request = ( isset( $_GET['request'] ) ) ? $_GET['request'] : '';
 
@@ -18,7 +18,9 @@ function execute_request( $args ) {
 	global $base_url;
 	$target_url = add_query_arg( $args, $base_url );
 	$data       = wp_remote_get( $target_url );
-	var_dump( $data['body'] );
+	echo '<pre><code>';
+	print_r( $data['body'] );
+	echo '<code></pre>';
 }
 
 $links = array(
@@ -41,7 +43,8 @@ if ( $request == 'check' ) {
 		'serial_key' => $license_key,
 		'product_id' => $product_id
 	);
-
+	echo '<br>';
+	echo '<br>';
 	echo '<b>Valid check request:</b><br />';
 	execute_request( $args );
 }
