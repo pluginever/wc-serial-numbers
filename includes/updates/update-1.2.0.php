@@ -36,7 +36,7 @@ function wcsn_update_1_2_0() {
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}serial_numbers set vendor_id=%d", $current_user->ID ) );
 	}
 
-	$activations = $wpdb->get_col( "select serial_id, count(id) as active_count from  {$wpdb->prefix}serial_numbers_activations where active='1' GROUP BY serial_id" );
+	$activations = $wpdb->get_results( "select serial_id, count(id) as active_count from  {$wpdb->prefix}serial_numbers_activations where active='1' GROUP BY serial_id" );
 	foreach ( $activations as $activation ) {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}serial_numbers SET activation_count = %d WHERE id=%d", intval( $activation->active_count ), intval( $activation->serial_id ) ) );
