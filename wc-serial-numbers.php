@@ -48,7 +48,7 @@ class WC_Serial_Numbers {
 	 * @var string
 	 * @since 1.2.0
 	 */
-	public $version = '1.1.5';
+	public $version = '1.2.0';
 
 	/**
 	 * This plugin's instance

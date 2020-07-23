@@ -63,7 +63,7 @@ class WC_Serial_Numbers_Installer {
 	 *
 	 */
 	private static function should_install() {
-		return version_compare( self::$current_version, wc_serial_numbers()->get_version(), '<' );
+		return empty(get_option('woocommerceserialnumbers_version')) && empty('wc_serial_numbers_version');
 	}
 
 	/**
