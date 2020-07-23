@@ -647,7 +647,8 @@ function wc_serial_numbers_get_order_table_columns() {
  * @since 1.2.0
  */
 function wc_serial_numbers_get_stock_quantity( $product_id ) {
-	if ( 'custom_source' == get_post_meta( $product_id, '_serial_key_source', true ) ) {
+	$source = get_post_meta( $product_id, '_serial_key_source', true );
+	if ( 'custom_source' == get_post_meta( $product_id, '_serial_key_source', true ) || empty($source) ) {
 		return WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( [
 			'product_id' => $product_id,
 			'status'     => 'available'

@@ -109,8 +109,7 @@ class WC_Serial_Numbers_API {
 			'active'    => '1'
 		] )->get();
 
-		$activation_limit = empty( $serial_number->activation_limit ) ? 99999 : intval( $serial_number->activation_limit );
-		$remaining        = $activation_limit - $serial_number->activation_count;
+		$remaining = $this->sanitize_activation_limit( $serial_number->activation_limit ) - $serial_number->activation_count;
 		$this->send_success( apply_filters( 'wc_serial_numbers_check_license_response', [
 			'expire_date' => $this->calculate_expire_date( $serial_number ),
 			'remaining'   => $remaining,
@@ -138,15 +137,15 @@ class WC_Serial_Numbers_API {
 			'platform'  => $platform,
 		] )->first();
 
-		$activation_limit = empty( $serial_number->activation_limit ) ? 99999 : intval( $serial_number->activation_limit );
-		$remaining = intval( $activation_limit ) - intval( $serial_number->activation_count );
+
+		$remaining        = $this->sanitize_activation_limit($serial_number->activation_limit ) - intval( $serial_number->activation_count );
 
 		//not active and no remaining
 		if ( empty( $activation ) && $remaining < 1 ) {
 
 			$this->send_error( [
 				'error'            => __( 'Activation limit reached', 'wc-serial-numbers' ),
-				'activation_limit' => intval( $serial_number->activation_limit ),
+				'activation_limit' => intval( $this->sanitize_activation_limit($serial_number->activation_limit ) ),
 				'remaining'        => $remaining,
 				'activations'      => $this->get_activations_response( $this->get_active_activations( $serial_number->id ) ),
 				'code'             => 403
@@ -174,15 +173,15 @@ class WC_Serial_Numbers_API {
 
 		//since activation count updated so get again
 		$serial_number = wc_serial_numbers_get_serial_number( $serial_number->id );
-		$remaining     = intval( $serial_number->activation_limit ) - intval( $serial_number->activation_count );
+		$remaining     = intval( $this->sanitize_activation_limit($serial_number->activation_limit ) ) - intval( $serial_number->activation_count );
 		$response      = apply_filters( 'wc_serial_numbers_activate_license_response', array(
 			'activated'        => true,
 			'remaining'        => $remaining,
-			'activation_limit' => intval( $serial_number->activation_limit ),
+			'activation_limit' => intval( $this->sanitize_activation_limit($serial_number->activation_limit ) ),
 			'instance'         => $activation->instance,
 			'product_id'       => $serial_number->product_id,
 			'product'          => get_the_title( $serial_number->product_id ),
-			'message'          => sprintf( __( 'Successfully activated. %s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
+			'message'          => sprintf( __( 'Successfully activated. %s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $this->sanitize_activation_limit($serial_number->activation_limit ) ),
 			'activations'      => $this->get_activations_response( $this->get_active_activations( $serial_number->id ) ),
 		) );
 
@@ -216,13 +215,13 @@ class WC_Serial_Numbers_API {
 		wc_serial_numbers_update_activation( [ 'id' => $activation->id, 'active' => '0' ] );
 
 		$serial_number = wc_serial_numbers_get_serial_number( $serial_number->id );
-		$remaining     = intval( $serial_number->activation_limit ) - intval( $serial_number->activation_count );
+		$remaining     = intval( $this->sanitize_activation_limit($serial_number->activation_limit ) ) - intval( $serial_number->activation_count );
 
 		$response = apply_filters( 'wc_serial_numbers_deactivate_license_response', array(
 			'deactivated'      => true,
 			'remaining'        => $remaining,
-			'activation_limit' => intval( $serial_number->activation_limit ),
-			'message'          => sprintf( __( 'Deactivation completed. %s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $serial_number->activation_limit ),
+			'activation_limit' => intval( $this->sanitize_activation_limit($serial_number->activation_limit ) ),
+			'message'          => sprintf( __( 'Deactivation completed. %s out of %s activations remaining', 'wc-serial-numbers' ), $remaining, $this->sanitize_activation_limit($serial_number->activation_limit ) ),
 		) );
 
 		self::send_success( $response );
@@ -297,6 +296,15 @@ class WC_Serial_Numbers_API {
 		}
 
 		return $os_platform;
+	}
+
+	/**
+	 * @param $limit
+	 *
+	 * @return int
+	 */
+	public function sanitize_activation_limit( $limit ) {
+		return empty( $limit ) ? 99999 : intval( $limit );
 	}
 
 	/**

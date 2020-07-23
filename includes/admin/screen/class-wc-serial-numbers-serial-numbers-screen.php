@@ -54,6 +54,12 @@ class WC_Serial_Numbers_Admin_Screen {
             </a>
             <hr class="wp-header-end">
 
+			<?php
+			if ( ! wc_serial_numbers()->is_pro_active() ) {
+				echo sprintf( '<p class="wc-serial-numbers-upgrade-box" style="background-color: #fff;">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Checkout the full features of WooCommerce Serial Numbers Pro.', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=create_serial_page&utm_medium=button&utm_campaign=wc-serial-numbers&utm_content=View%20Details', __( 'View Details', 'wc-serial-numbers' ) );
+			}
+			?>
+
             <form method="post" action="<?php echo esc_html( admin_url( 'admin-post.php' ) ); ?>"
                   style="max-width: 600px">
                 <table class="form-table">
@@ -175,7 +181,6 @@ class WC_Serial_Numbers_Admin_Screen {
 
                 </table>
             </form>
-
         </div>
 		<?php
 	}
