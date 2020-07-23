@@ -90,34 +90,24 @@ class WC_Serial_Numbers_Installer {
 
 		// Create tables.
 		self::create_tables();
+		$settings = array(
+			'wc_serial_numbers_autocomplete_order'        => 'yes',
+			'wc_serial_numbers_reuse_serial_number'       => 'no',
+			'wc_serial_numbers_disable_software_support'  => 'no',
+			'wc_serial_numbers_enable_stock_notification' => 'yes',
+			'wc_serial_numbers_hide_serial_number'        => 'yes',
+			'wc_serial_numbers_revoke_status_failed'      => 'yes',
+			'wc_serial_numbers_revoke_status_refunded'    => 'yes',
+			'wc_serial_numbers_revoke_status_cancelled'   => 'yes',
+			'wc_serial_numbers_stock_threshold'           => '5',
+			'wc_serial_numbers_notification_recipient'    => get_option( 'admin_email' ),
+		);
 
-		if ( empty( get_option( 'serial_numbers_settings' ) ) ) {
-			//update general settings.
-			$settings = array(
-				'autocomplete_order'       => '1',
-				'reuse_serial'             => '1',
-				'disable_software_support' => '0',
-				'enable_backorder'         => '0',
-				'enable_duplicate'         => '0',
-				'stock_notification'       => '1',
-				'hide_serial_number'       => '1',
-				'stock_threshold'          => '5',
-				'low_stock_message'        => __( 'Sorry, There is not enough Serial Numbers available for {product_title}, Please remove this item or lower the quantity, For now we have {stock_quantity} Serial Number for this product.', 'wc-serial-numbers' ),
-				'template_heading'         => __( 'Serial Numbers', 'wc-serial-numbers' ),
-				'product_cell_heading'     => __( 'Product', 'wc-serial-numbers' ),
-				'serial_cell_heading'      => __( 'Serial Number', 'wc-serial-numbers' ),
-				'product_cell_content'     => '<a href="{product_url}">{product_title}</a>',
-				'serial_cell_content'      => '<ul><li><strong>Serial Numbers:</strong>{serial_number}</li><li><strong>Activation Email:</strong>{activation_email}</li><li><strong>Expire At:</strong>{expired_at}</li><li><strong>Activation Limit:</strong>{activation_limit}</li></ul>',
-				'notification_recipient'   => get_option( 'admin_email' ),
-				'revoke_statuses'          => array(
-					'cancelled' => 'cancelled',
-					'refunded'  => 'refunded',
-					'failed'    => 'failed',
-				),
-			);
-			update_option( 'serial_numbers_settings', $settings );
+		foreach ( $settings as $key => $value ) {
+			if ( empty( get_option( $key ) ) ) {
+				update_option( $key, $value );
+			}
 		}
-
 
 		//setup transient actions
 		if ( false === wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
