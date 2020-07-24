@@ -51,12 +51,12 @@ class WC_Serial_Numbers_Handler {
 				$source            = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $needed_quantity );
 				if ( 'custom_source' == $source ) {
 					$total_number = WC_Serial_Numbers_Query::init()
-														   ->from( 'serial_numbers' )
-														   ->where( 'product_id', $product_id )
-														   ->where( 'status', 'available' )
-														   ->where( 'source', $source )
-														   ->limit( $needed_quantity )
-														   ->count();
+					                                       ->from( 'serial_numbers' )
+					                                       ->where( 'product_id', $product_id )
+					                                       ->where( 'status', 'available' )
+					                                       ->where( 'source', $source )
+					                                       ->limit( $needed_quantity )
+					                                       ->count();
 
 					if ( $total_number < $needed_quantity ) {
 						$stock   = floor( $total_number / $per_item_quantity );
@@ -86,7 +86,7 @@ class WC_Serial_Numbers_Handler {
 	public static function maybe_autocomplete_order() {
 		if ( is_checkout() && ! empty( is_wc_endpoint_url( 'order-received' ) ) && ! empty( get_query_var( 'order-received' ) ) ) {
 
-			if(! wc_serial_numbers_validate_boolean(get_option('wc_serial_numbers_autocomplete_order'))){
+			if ( ! wc_serial_numbers_validate_boolean( get_option( 'wc_serial_numbers_autocomplete_order' ) ) ) {
 				return;
 			}
 
@@ -157,7 +157,9 @@ class WC_Serial_Numbers_Handler {
 	 * @since 1.2.0
 	 */
 	public static function order_print_items( $order ) {
-		wc_serial_numbers_get_order_table($order);
+		if ( wc_serial_numbers_order_has_serial_numbers( $order ) ) {
+			wc_serial_numbers_get_order_table( $order );
+		}
 	}
 
 
