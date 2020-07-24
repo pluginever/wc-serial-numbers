@@ -112,11 +112,6 @@ if [ -f ".gitmodules" ]; then
 			git submodule foreach --recursive 'git checkout-index -a -f --prefix=$SVNPATH/trunk/$path/'
 		done
 fi
-#install composer
-status "Installing PHP dependencies";
-cd $SVNPATH/trunk
-composer install --no-dev
-composer du -o
 
 
 # Support for the /assets folder on the .org repo, locally this will be /.wordpress-org

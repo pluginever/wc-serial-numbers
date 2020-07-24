@@ -316,7 +316,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 	$serial_key        = isset( $args['serial_key'] ) ? sanitize_textarea_field( $args['serial_key'] ) : '';
 	$product_id        = isset( $args['product_id'] ) ? intval( $args['product_id'] ) : null;
 	$activation_limit  = ! empty( $args['activation_limit'] ) ? intval( $args['activation_limit'] ) : 0;
-	$order_id          = ! empty( $args['order_id'] ) ? intval( $args['order_id'] ) : null;
+	$order_id          = ! empty( $args['order_id'] ) ? intval( $args['order_id'] ) : 0;
 	$order_date        = isset( $args['order_date'] ) && ! empty( $order_id ) ? sanitize_text_field( $args['order_date'] ) : null;
 	$vendor_id         = ! empty( $args['vendor_id'] ) ? intval( $args['vendor_id'] ) : $default_vendor_id;
 	$status            = empty( $args['status'] ) ? 'available' : sanitize_text_field( $args['status'] );

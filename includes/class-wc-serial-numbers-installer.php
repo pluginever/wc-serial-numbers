@@ -14,6 +14,7 @@ class WC_Serial_Numbers_Installer {
 		'1.0.8' => 'update-1.0.8.php',
 		'1.1.2' => 'update-1.1.2.php',
 		'1.2.0' => 'update-1.2.0.php',
+		'1.2.1' => 'update-1.2.1.php',
 	);
 
 	/**
@@ -63,7 +64,7 @@ class WC_Serial_Numbers_Installer {
 	 *
 	 */
 	private static function should_install() {
-		return empty(get_option('woocommerceserialnumbers_version')) && empty('wc_serial_numbers_version');
+		return empty( get_option( 'woocommerceserialnumbers_version' ) ) && empty( 'wc_serial_numbers_version' );
 	}
 
 	/**
