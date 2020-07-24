@@ -144,6 +144,10 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+= 1.2.1 (25 July,2020) =
+* Fix - Order email showing wrong when order contains non serial items.
+* Fix - Can not add manual serial numbers.
+
 = 1.2.0 (23 July,2020) =
 * Enhance - Full rewritten plugin
 * Enhance - Product tab for serial numbers
