@@ -229,7 +229,7 @@ class WC_Serial_Numbers_Installer {
 	 * @since 1.0.0
 	 */
 	public static function maybe_update() {
-		$key = 'woocommerceserialnumbers_version';;
+		$key = 'woocommerceserialnumbers_version';
 		$installed_version = get_option( $key );
 
 		// may be it's the first install
