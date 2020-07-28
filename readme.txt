@@ -144,6 +144,9 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+= 1.2.2 (28 July,2020) =
+* Fix - Cant add manually order.
+
 = 1.2.1 (25 July,2020) =
 * Fix - Order email showing wrong when order contains non serial items.
 * Fix - Can not add manual serial numbers.
