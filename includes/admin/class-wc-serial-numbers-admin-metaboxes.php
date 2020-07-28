@@ -10,7 +10,10 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 		add_filter( 'woocommerce_product_data_tabs', array( __CLASS__, 'product_data_tab' ) );
 		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );
 		add_filter( 'woocommerce_process_product_meta', array( __CLASS__, 'product_save_data' ) );
-		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'variable_product_content' ), 10, 3 );
+		add_action( 'woocommerce_product_after_variable_attributes', array(
+			__CLASS__,
+			'variable_product_content'
+		), 10, 3 );
 		add_action( 'woocommerce_after_order_itemmeta', array( $this, 'order_itemmeta' ), 10, 3 );
 	}
 
@@ -36,7 +39,8 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	public static function product_write_panel() {
 		global $post, $woocommerce;
 		?>
-		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple" style="padding-bottom: 50px;display: none;">
+		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
+			 style="padding-bottom: 50px;display: none;">
 			<?php
 			woocommerce_wp_checkbox(
 				array(
@@ -159,7 +163,16 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	 */
 	public function order_itemmeta( $o_item_id, $o_item, $product ) {
 		global $post;
+		if ( ! is_object( $post ) || ! isset( $post->ID ) ) {
+			return false;
+		}
+
 		$order = wc_get_order( $post->ID );
+
+		// bail for no order
+		if ( ! $order ) {
+			return false;
+		}
 
 		if ( 'completed' !== $order->get_status( 'edit' ) ) {
 			return '';
@@ -178,6 +191,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 
 		if ( empty( $items ) && $order ) {
 			echo sprintf( '<div class="wcsn-missing-serial-number">%s</div>', __( 'Order missing serial numbers for this item.', 'wc-serial-numbers' ) );
+
 			return true;
 		}
 
