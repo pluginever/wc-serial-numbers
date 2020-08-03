@@ -144,6 +144,10 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+= 1.2.3 (3 August,2020) =
+* Fix - Order status changed on pending status.
+* Fix - Order edit throwing error not found order_id.
+
 = 1.2.2 (28 July,2020) =
 * Fix - Cant add manually order.
 

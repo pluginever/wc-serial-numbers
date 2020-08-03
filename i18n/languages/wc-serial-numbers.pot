@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Serial Numbers 1.2.2\n"
+"Project-Id-Version: WooCommerce Serial Numbers 1.2.3\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2020-07-28 14:30:28+00:00\n"
+"POT-Creation-Date: 2020-08-03 15:02:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -727,7 +727,7 @@ msgid ""
 "product."
 msgstr ""
 
-#: includes/class-wc-serial-numbers-order-handler.php:107
+#: includes/class-wc-serial-numbers-order-handler.php:108
 msgid "Order marked as complete by WC Serial Numbers"
 msgstr ""
 
