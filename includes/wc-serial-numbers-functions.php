@@ -273,7 +273,7 @@ function wc_serial_numbers_order_disconnect_serial_numbers( $order_id ) {
 	}
 	if ( $reuse_serial_number ) {
 		global $wpdb;
-		WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->whereRaw( $wpdb->prepare( "serial_id IN (SELECT id from {$wpdb->prefix}wc_serial_numbers WHERE order_id=%d)", $order_id ) )->delete();
+		WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->whereRaw( $wpdb->prepare( "serial_id IN (SELECT id from {$wpdb->prefix}serial_numbers WHERE order_id=%d)", $order_id ) )->delete();
 	}
 	do_action( 'wc_serial_numbers_pre_order_disconnect_serial_numbers', $order_id );
 

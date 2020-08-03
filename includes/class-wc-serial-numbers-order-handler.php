@@ -102,9 +102,11 @@ class WC_Serial_Numbers_Handler {
 				return false;
 			}
 
-			$order->update_status( 'completed' );
+			if ( in_array( $order->get_status(), apply_filters( 'wc_serial_numbers_autocomplete_statuses', [ 'processing' ] ), true ) ) {
+				$order->update_status( 'completed' );
 
-			$order->add_order_note( __( 'Order marked as complete by WC Serial Numbers', 'wc-serial-numbers' ) );
+				$order->add_order_note( __( 'Order marked as complete by WC Serial Numbers', 'wc-serial-numbers' ) );
+			}
 
 			return true;
 		}
