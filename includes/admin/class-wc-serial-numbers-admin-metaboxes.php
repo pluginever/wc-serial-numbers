@@ -178,7 +178,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			return '';
 		}
 
-		$is_serial_product = 'yes' == get_post_meta($post->ID, '_is_serial_number', true );
+		$is_serial_product = 'yes' == get_post_meta($product->get_id(), '_is_serial_number', true );
 
 		if ( ! $is_serial_product ) {
 			return false;
