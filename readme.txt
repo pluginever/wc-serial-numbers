@@ -17,7 +17,7 @@ The best WordPress Plugin to sell license keys, redeem cards and other secret nu
 
 With **WooCommerce Serial Numbers** you will be able to sell ***license keys***, ***gift cards***, ***physical products with a serial number***, ***digital software with activation or access keys***, ***username & password***, ***tickets/ticket numbers***, ***lotteries***, ***pin codes***, ***card numbers***, and almost all kinds of secret number-based products.
 
-> [Demo]([http://demo.pluginever.com/wc-serial-numbers/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org](http://demo.pluginever.com/wc-serial-numbers/)) | [Get The PRO Version]([https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org](https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/))  |  [Support]([https://www.pluginever.com/support/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org](https://www.pluginever.com/support/))  |  [Documentation ]([https://www.pluginever.com/docs/woocommerce-serial-numbers/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org](https://www.pluginever.com/docs/woocommerce-serial-numbers/))
+> [Demo](http://pluginever.xyz/wc-serial-numbers/) | [Get The PRO Version]([https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org](https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/))  |  [Support]([https://www.pluginever.com/support/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org](https://www.pluginever.com/support/))  |  [Documentation ]([https://www.pluginever.com/docs/woocommerce-serial-numbers/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org](https://www.pluginever.com/docs/woocommerce-serial-numbers/))
 
 ## WooCommerce Serial Numbers Features:
 
@@ -144,6 +144,9 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+= 1.2.4 (9 August,2020) =
+* Fix - Serial numbers are not showing in order edit page.
+
 = 1.2.3 (3 August,2020) =
 * Fix - Order status changed on pending status.
 * Fix - Order edit throwing error not found order_id.
