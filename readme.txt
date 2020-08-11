@@ -144,6 +144,9 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+= 1.2.5 (12 August,2020) =
+* Fix - Error on order edit page when contains non serial numbers.
+
 = 1.2.4 (9 August,2020) =
 * Fix - Serial numbers are not showing in order edit page.
 
