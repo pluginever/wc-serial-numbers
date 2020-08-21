@@ -126,7 +126,7 @@ class WC_Serial_Numbers {
 	 *
 	 */
 	public function localization_setup() {
-		load_plugin_textdomain( 'wc-serial-numbers', false, plugin_basename( __FILE__ ) . '/i18n/languages/' );
+		load_plugin_textdomain( 'wc-serial-numbers', false, plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages' );
 	}
 
 	/**
