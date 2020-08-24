@@ -3,10 +3,11 @@ defined( 'ABSPATH' ) || exit();
 /**
  * Get product title.
  *
+ * @since 1.2.0
+ *
  * @param $product
  *
  * @return string
- * @since 1.2.0
  */
 function wc_serial_numbers_get_product_title( $product ) {
 	if ( ! empty( $product ) ) {
@@ -27,10 +28,11 @@ function wc_serial_numbers_get_product_title( $product ) {
 /**
  * Get Low stock products.
  *
+ * @since 1.0.0
+ *
  * @param int $stock
  *
  * @return array
- * @since 1.0.0
  */
 function wc_serial_numbers_get_low_stock_products( $force = false, $stock = 10 ) {
 	$transient = md5( 'wcsn_low_stock_products' . $stock );
@@ -53,11 +55,13 @@ function wc_serial_numbers_get_low_stock_products( $force = false, $stock = 10 )
 /**
  * Get order table.
  *
- * @param $order
+ * @since 1.2.0
+ *
  * @param bool $return
  *
+ * @param      $order
+ *
  * @return false|string|void
- * @since 1.2.0
  */
 function wc_serial_numbers_get_order_table( $order, $return = false ) {
 	$order_id = $order->get_id();
@@ -77,6 +81,7 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 	echo sprintf( '<h2 class="woocommerce-order-downloads__title">%s</h2>', apply_filters( 'wc_serial_numbers_order_table_heading', esc_html__( "Serial Numbers", 'wc-serial-numbers' ) ) );
 	if ( empty( $serial_numbers ) ) {
 		echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order waiting for assigning serial numbers.', 'wc-serial-numbers' ) ) );
+
 		return;
 	}
 
@@ -85,7 +90,7 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 	?>
 	<table
 		class="woocommerce-table woocommerce-table--order-details shop_table order_details wc-serial-numbers-order-items"
-		style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 40px;"
+		style="width: 100%; margin-bottom: 40px;"
 		cellspacing="0" cellpadding="6" border="1">
 		<thead>
 		<tr>

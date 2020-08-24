@@ -11,10 +11,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 		add_filter( 'woocommerce_product_data_tabs', array( __CLASS__, 'product_data_tab' ) );
 		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );
 		add_filter( 'woocommerce_process_product_meta', array( __CLASS__, 'product_save_data' ) );
-		add_action( 'woocommerce_product_after_variable_attributes', array(
-			__CLASS__,
-			'variable_product_content'
-		), 10, 3 );
+		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'variable_product_content' ), 10, 3 );
 		//add_action( 'woocommerce_after_order_itemmeta', array( $this, 'order_itemmeta' ), 10, 3 );
 	}
 
@@ -130,11 +127,12 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	/**
 	 * Show promo box.
 	 *
-	 * @param $loop
+	 * @since 1.2.0
+	 *
 	 * @param $variation_data
 	 * @param $variation
 	 *
-	 * @since 1.2.0
+	 * @param $loop
 	 */
 	public static function variable_product_content( $loop, $variation_data, $variation ) {
 		if ( ! wc_serial_numbers()->is_pro_active() ) {
@@ -163,12 +161,14 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 
 	/**
 	 *
-	 * @param $o_item_id
+	 * @since 1.1.6
+	 *
 	 * @param $o_item
 	 * @param $product
 	 *
+	 * @param $o_item_id
+	 *
 	 * @return bool|string
-	 * @since 1.1.6
 	 */
 	public function order_itemmeta( $o_item_id, $o_item, $product ) {
 		global $post;
@@ -234,8 +234,9 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	 *
 	 * The metabox shows all ordered serial numbers.
 	 *
-	 * @param $post
 	 * @since 1.2.6
+	 *
+	 * @param $post
 	 *
 	 * @return bool
 	 */
@@ -249,6 +250,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 		if ( ! $order ) {
 			return false;
 		}
+
 		if ( 'completed' !== $order->get_status( 'edit' ) ) {
 			echo sprintf( '<p>%s</p>', __( 'Order status is not completed.', 'wc-serial-numbers' ) );
 
