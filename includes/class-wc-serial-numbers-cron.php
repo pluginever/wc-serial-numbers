@@ -55,7 +55,7 @@ class WC_Serial_Numbers_CRON {
 		ob_get_clean();
 
 		$message = $mailer->wrap_message( $subject, $message );
-		$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message' );
+		$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message', 'null' );
 		$mailer->send( $to, $subject, $message, $headers, array() );
 
 		exit();
