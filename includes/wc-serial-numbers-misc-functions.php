@@ -39,8 +39,14 @@ function wc_serial_numbers_get_low_stock_products( $force = false, $stock = 10 )
 	if ( $force || false == $low_stocks = get_transient( $transient ) ) {
 		global $wpdb;
 		$product_ids   = $wpdb->get_results( "select post_id, 0 as count from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes'" );
+		/*
 		$serial_counts = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) as count FROM {$wpdb->prefix}serial_numbers where status='available' AND product_id IN (select post_id from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes')
 																group by product_id having count < %d order by count asc", $stock ) );
+		*/
+		// skip private products for serial number notification count
+		$serial_counts = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) as count FROM {$wpdb->prefix}serial_numbers where status='available' AND product_id IN (select meta.post_id from $wpdb->postmeta AS meta LEFT JOIN $wpdb->posts AS posts on posts.ID=meta.post_id where posts.post_status='publish' AND meta.meta_key='_is_serial_number' AND meta.meta_value='yes')
+																group by product_id having count < %d order by count asc", $stock ) );
+
 		$serial_counts = wp_list_pluck( $serial_counts, 'count', 'product_id' );
 
 //		$product_ids = wp_list_pluck( $product_ids, 'count', 'post_id' );

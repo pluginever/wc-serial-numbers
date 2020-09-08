@@ -91,7 +91,7 @@ class WC_Serial_Numbers_AJAX {
 	 * since 1.0.0
 	 */
 	public function check_permission() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			self::send_error( __( 'Error: You are not allowed to do this.', 'wc-serial-numbers' ) );
 		}
 	}

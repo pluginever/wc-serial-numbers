@@ -10,32 +10,32 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 	/**
 	 * Number of results to show per page
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $per_page = 20;
 
 	/**
 	 *
 	 * Total number of items
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $total_count;
 
 	/**
 	 * active number
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $active_count;
 
 	/**
 	 * Inactive number
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $inactive_count;
 
@@ -114,11 +114,11 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
 		}
 		?>
-        <p class="search-box">
-            <label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-            <input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
+		<p class="search-box">
+			<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
+			<input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
 			<?php submit_button( $text, 'button', false, false, array( 'ID' => 'search-submit' ) ); ?>
-        </p>
+		</p>
 		<?php
 	}
 
@@ -169,6 +169,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			'cb'              => '<input type="checkbox" />',
 			'instance'        => __( 'Instance', 'wc-serial-numbers' ),
 			'serial_id'       => __( 'Serial ID', 'wc-serial-numbers' ),
+//			'serial_numbers'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
 			'platform'        => __( 'Platform', 'wc-serial-numbers' ),
 			//'product'         => __( 'Product', 'wc-serial-numbers' ),
 			//'order'           => __( 'Order', 'wc-serial-numbers' ),
@@ -334,9 +335,9 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		}
 
 		$query = WC_Serial_Numbers_Query::init()
-		                                ->from( 'serial_numbers_activations' )
-		                                ->order_by( $orderby, $order )
-		                                ->page( $page, $per_page );
+										->from( 'serial_numbers_activations' )
+										->order_by( $orderby, $order )
+										->page( $page, $per_page );
 		if ( ! empty( $product_id ) ) {
 			$query->where( 'product_id', $product_id );
 		}

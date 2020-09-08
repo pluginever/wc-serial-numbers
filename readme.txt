@@ -144,6 +144,12 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+= 1.2.7 (8 September, 2020) =
+* Fix - Shop manager User level : Search products do not show and decrypting key failed
+* Fix - Notification email conflict
+* Fix - Stock notification need to skip private products
+* Fix - Activation list table serial number column is not working.
+
 = 1.2.6 (24 August, 2020) =
 * Fix - Unicode character not showing on PDF.
 * Fix - Translate path not found.
