@@ -169,14 +169,13 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			'cb'              => '<input type="checkbox" />',
 			'instance'        => __( 'Instance', 'wc-serial-numbers' ),
 			'serial_id'       => __( 'Serial ID', 'wc-serial-numbers' ),
-			'serial_numbers'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
+//			'serial_numbers'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
 			'platform'        => __( 'Platform', 'wc-serial-numbers' ),
 			//'product'         => __( 'Product', 'wc-serial-numbers' ),
 			//'order'           => __( 'Order', 'wc-serial-numbers' ),
 			//'expire_date'     => __( 'Expire Date', 'wc-serial-numbers' ),
 			'activation_time' => __( 'Activation time', 'wc-serial-numbers' ),
 			'status'          => __( 'Status', 'wc-serial-numbers' ),
-
 		);
 
 		return apply_filters( 'serial_numbers_activation_table_columns', $columns );
@@ -293,15 +292,6 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 				break;
 			case 'activation_time':
 				$column = ! empty( $item->activation_time ) && ( '0000-00-00 00:00:00' != $item->activation_time ) ? $item->activation_time : '&mdash;';
-				break;
-			case 'serial_numbers':
-				$serial_numbers     = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->select( 'serial_key' )->where( 'id', $item->serial_id )->value( 0 );
-				$serial_numbers     = wc_serial_numbers_decrypt_key( $serial_numbers );
-				$serial_numbers_url = add_query_arg( [
-					's'    => $serial_numbers,
-					'page' => 'wc-serial-numbers',
-				], admin_url( 'admin.php' ) );
-				$column             = empty( $serial_numbers ) ? '&mdash' : sprintf( '<strong><a href="%1$s" target="_blank">%2$s</a></strong>', $serial_numbers_url, $serial_numbers );
 				break;
 		}
 

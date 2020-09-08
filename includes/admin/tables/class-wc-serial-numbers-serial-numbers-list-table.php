@@ -444,6 +444,9 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 		if ( ! empty( $product_id ) ) {
 			$query->where( 'product_id', $product_id );
 		}
+		if ( ! empty( $id ) ) {
+			$query->where( 'id', $id );
+		}
 		if ( ! empty( $order_id ) ) {
 			$query->where( 'order_id', $order_id );
 		}
