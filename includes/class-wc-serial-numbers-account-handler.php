@@ -71,7 +71,7 @@ class WC_Serial_Numbers_Account_handler {
 		wc_print_notices();
 		$current_user_id     = get_current_user_id();
 		$customer_orders     = get_posts( array(
-			'posts_per_page' =>  -1,
+			'posts_per_page' => - 1,
 			'post_type'      => 'shop_order',
 			'post_status'    => 'wc-completed',
 			'meta_query'     => array(
@@ -108,6 +108,13 @@ class WC_Serial_Numbers_Account_handler {
 					}
 				}
 			}
+		} else {
+			?>
+			<div class="woocommerce-message woocommerce-message--info woocommerce-Message woocommerce-Message--info woocommerce-info">
+				<a class="woocommerce-Button button" href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>"><?php esc_html_e( 'Browse products', 'woocommerce' ); ?></a>
+				<?php esc_html_e( apply_filters( 'wc_serial_numbers_account_empty_message', __( 'No serial numbers has been added yet.', 'wc-serial-numbers' ) ) ); ?>
+			</div>
+			<?php
 		}
 
 		if ( is_array( $serial_numbers_data ) && count( $serial_numbers_data ) ) {
