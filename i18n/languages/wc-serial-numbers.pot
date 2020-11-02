@@ -18,6 +18,8 @@ msgstr ""
 msgid "Serial Number saved successfully"
 msgstr ""
 
+#: includes/class-wc-serial-numbers-account-handler.php:37
+#: includes/class-wc-serial-numbers-account-handler.php:53
 #: includes/admin/class-wc-serial-numbers-admin-menus.php:37
 #: includes/admin/class-wc-serial-numbers-admin-menus.php:38
 #: includes/admin/class-wc-serial-numbers-admin-menus.php:48
@@ -190,6 +192,7 @@ msgstr ""
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:308
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:364
 #: includes/wc-serial-numbers-misc-functions.php:126
+#: includes/class-wc-serial-numbers-account-handler.php:156
 msgid "Unlimited"
 msgstr ""
 
@@ -289,6 +292,7 @@ msgstr ""
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:70
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:238
 #: includes/wc-serial-numbers-functions.php:631
+#: includes/class-wc-serial-numbers-account-handler.php:124
 msgid "Product"
 msgstr ""
 
@@ -315,6 +319,7 @@ msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:102
 #: includes/wc-serial-numbers-functions.php:634
+#: includes/class-wc-serial-numbers-account-handler.php:125
 msgid "Activation Limit"
 msgstr ""
 
@@ -569,6 +574,7 @@ msgid "Key"
 msgstr ""
 
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:239
+#: includes/class-wc-serial-numbers-account-handler.php:122
 msgid "Order"
 msgstr ""
 
@@ -830,6 +836,7 @@ msgid "Email"
 msgstr ""
 
 #: includes/wc-serial-numbers-functions.php:635
+#: includes/class-wc-serial-numbers-account-handler.php:126
 msgid "Expires"
 msgstr ""
 
@@ -839,6 +846,16 @@ msgid ""
 "<strong>WooCommerce</strong> installed and activated. Please Install %s "
 "WooCommerce. %s"
 msgstr ""
+
+#: includes/class-wc-serial-numbers-account-handler.php:115
+#: includes/class-wc-serial-numbers-account-handler.php:180
+msgid "No serial numbers has been added yet."
+msgstr ""
+
+#: includes/class-wc-serial-numbers-account-handler.php:123
+msgid "Serial Key"
+msgstr ""
+
 
 #: wc-serial-numbers.php:197 wc-serial-numbers.php:208
 msgid "Cheatin&#8217; huh?"
