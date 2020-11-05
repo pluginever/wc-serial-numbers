@@ -218,6 +218,8 @@ class WC_Serial_Numbers {
 
 		add_action( 'woocommerce_loaded', array( $this, 'init_plugin' ) );
 		add_action( 'admin_notices', array( $this, 'wc_missing_notice' ) );
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'wc_serial_numbers_scripts' ) );
 	}
 
 	/**
@@ -288,6 +290,13 @@ class WC_Serial_Numbers {
 		do_action( 'wc_serial_numbers__loaded' );
 	}
 
+	/**
+	 * Register frontend scripts for serial numbers
+	 * @since 1.2.8
+	 */
+	public function wc_serial_numbers_scripts() {
+		wp_enqueue_script( 'wc-serial-numbers', wc_serial_numbers()->plugin_url() . '/assets/js/wc-serial-numbers.js', array( 'jquery' ), time(), true );
+	}
 
 	/**
 	 * Hook into actions and filters.

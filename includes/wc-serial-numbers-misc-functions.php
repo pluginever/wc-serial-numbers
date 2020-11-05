@@ -3,11 +3,11 @@ defined( 'ABSPATH' ) || exit();
 /**
  * Get product title.
  *
- * @since 1.2.0
- *
  * @param $product
  *
  * @return string
+ * @since 1.2.0
+ *
  */
 function wc_serial_numbers_get_product_title( $product ) {
 	if ( ! empty( $product ) ) {
@@ -28,17 +28,17 @@ function wc_serial_numbers_get_product_title( $product ) {
 /**
  * Get Low stock products.
  *
- * @since 1.0.0
- *
  * @param int $stock
  *
  * @return array
+ * @since 1.0.0
+ *
  */
 function wc_serial_numbers_get_low_stock_products( $force = false, $stock = 10 ) {
 	$transient = md5( 'wcsn_low_stock_products' . $stock );
 	if ( $force || false == $low_stocks = get_transient( $transient ) ) {
 		global $wpdb;
-		$product_ids   = $wpdb->get_results( "select post_id, 0 as count from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes'" );
+		$product_ids = $wpdb->get_results( "select post_id, 0 as count from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes'" );
 		/*
 		$serial_counts = $wpdb->get_results( $wpdb->prepare( "SELECT product_id, count(id) as count FROM {$wpdb->prefix}serial_numbers where status='available' AND product_id IN (select post_id from $wpdb->postmeta where meta_key='_is_serial_number' AND meta_value='yes')
 																group by product_id having count < %d order by count asc", $stock ) );
@@ -61,13 +61,13 @@ function wc_serial_numbers_get_low_stock_products( $force = false, $stock = 10 )
 /**
  * Get order table.
  *
- * @since 1.2.0
- *
  * @param bool $return
  *
  * @param      $order
  *
  * @return false|string|void
+ * @since 1.2.0
+ *
  */
 function wc_serial_numbers_get_order_table( $order, $return = false ) {
 	$order_id = $order->get_id();
@@ -110,13 +110,13 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 		foreach ( $serial_numbers as $serial_number ) {
 			echo '<tr>';
 			foreach ( $columns as $key => $label ) {
-				echo '<td class="td" style="text-align:left;">';
+				echo sprintf( '<td class="td %s" style="text-align:left;">', sanitize_html_class( $key ) );
 				switch ( $key ) {
 					case 'product':
 						echo sprintf( '<a href="%s">%s</a>', esc_url( get_permalink( $serial_number->product_id ) ), get_the_title( $serial_number->product_id ) );
 						break;
 					case 'serial_key':
-						echo wc_serial_numbers_decrypt_key( $serial_number->serial_key );
+						echo '<span>' . wc_serial_numbers_decrypt_key( $serial_number->serial_key ) . '</span>';
 						break;
 					case 'activation_email':
 						echo $order->get_billing_email();

@@ -126,7 +126,7 @@ class WC_Serial_Numbers_Account_handler {
 				'expire_date'      => __( 'Expires', 'wc-serial-numbers' ),
 			) );
 			?>
-			<table class="woocommerce-table woocommerce-table--order-serial_numbers shop_table shop_table_responsive order_details" cellspacing="0" cellpadding="6" border="1">
+			<table class="woocommerce-table woocommerce-table--order-serial_numbers shop_table shop_table_responsive order_details wc-serial-numbers-order-items" cellspacing="0" cellpadding="6" border="1">
 			<thead>
 			<tr>
 				<?php foreach ( $columns as $key => $label ) {
@@ -140,13 +140,13 @@ class WC_Serial_Numbers_Account_handler {
 				$order_id = $serial_number['order_id'];
 				echo '<tr>';
 				foreach ( $columns as $key => $label ) {
-					echo sprintf( '<td class="td %s" style="text-align:left;">', $key );
+					echo sprintf( '<td class="td %s" style="text-align:left;">', sanitize_html_class( $key ) );
 					switch ( $key ) {
 						case 'order':
 							echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( wc_get_endpoint_url( 'view-order', $order_id, wc_get_page_permalink( 'myaccount' ) ) ), '#' . $order_id );
 							break;
 						case 'serial_key':
-							echo wc_serial_numbers_decrypt_key( $serial_number['serial_key'] );
+							echo '<span>' . wc_serial_numbers_decrypt_key( $serial_number['serial_key'] ) . '</span>';
 							break;
 						case 'product':
 							echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( get_the_permalink( $serial_number['product_id'] ) ), get_the_title( $serial_number['product_id'] ) );
