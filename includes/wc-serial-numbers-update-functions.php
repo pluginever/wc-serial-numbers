@@ -1,4 +1,125 @@
 <?php
+/**
+ * WooCommerce Serial Numbers Updates
+ *
+ * Functions for updating data.
+ *
+ * @package WC_Serial_Numbers/Functions
+ * @version 1.2.8
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+function wcsn_update_1_0_1() {
+	WCSN_Install::activate();
+
+	$serial_numbers = get_posts( array(
+		'post_type' => 'wsn_serial_number',
+		'nopaging'  => true,
+	) );
+
+	foreach ( $serial_numbers as $post ) {
+		$validity = get_post_meta( $post->ID, 'validity', true );
+		$order    = get_post_meta( $post->ID, 'order', true );
+		$data     = array(
+			'serial_key'       => $post->post_title,
+			'license_image'    => ! empty( $_POST['license_image'] ) ? sanitize_text_field( $_POST['license_image'] ) : '',
+			'product_id'       => get_post_meta( $post->ID, 'product', true ),
+			'activation_limit' => get_post_meta( $post->ID, 'max_instance', true ),
+			'validity'         => is_numeric( $validity ) ? $validity : 0,
+			'expire_date'      => is_string( $validity ) && ( strtotime( $validity ) > strtotime( '2019-01-01' ) ) ? date( 'Y-m-d', strtotime( $validity ) ) : 0,
+			'status'           => empty( intval( $order ) ) ? 'new' : 'active',
+			'order_id'         => intval( $order ),
+		);
+		wcsn()->serial_number->insert( $data );
+	}
+}
+
+function wcsn_update_1_0_6() {
+	global $wpdb;
+
+	WCSN_Install::activate();
+	WCSN_Install::create_cron();
+
+	$collate = '';
+	if ( $wpdb->has_cap( 'collation' ) ) {
+		if ( ! empty( $wpdb->charset ) ) {
+			$collate .= "DEFAULT CHARACTER SET $wpdb->charset";
+		}
+		if ( ! empty( $wpdb->collate ) ) {
+			$collate .= " COLLATE $wpdb->collate";
+		}
+	}
+
+	$tables = [
+		"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wcsn_tmp_serial_numbers(
+        id bigint(20) NOT NULL AUTO_INCREMENT,
+        serial_key longtext DEFAULT NULL,
+        serial_image varchar(200) DEFAULT NULL,
+        product_id bigint(20) NOT NULL,
+        activation_limit int(9) NULL,
+        order_id bigint(20) NOT NULL DEFAULT 0,
+        activation_email varchar(200) DEFAULT NULL,
+        status varchar(50) DEFAULT 'available',
+        validity varchar(200) DEFAULT NULL,
+        expire_date DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL,
+        order_date DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL,
+        created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        PRIMARY KEY  (id)
+        ) $collate;",
+	];
+
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+	foreach ( $tables as $table ) {
+		dbDelta( $table );
+	}
+
+
+	$serial_numbers = wcsn_get_serial_numbers( array(
+		'number' => - 1,
+	) );
+	foreach ( $serial_numbers as $serial_number ) {
+		wcsn()->tmp_serial_number->insert( $serial_number );
+	}
+	foreach ( $serial_numbers as $serial_number ) {
+		$serial_number = (array) $serial_number;
+
+		if ( ! empty( $serial_number['serial_key'] ) ) {
+			$serial_number['serial_key'] = wcsn_encrypt( $serial_number['serial_key'] );
+		}
+
+		wcsn()->serial_number->update( $serial_number['id'], $serial_number );
+	}
+}
+
+function wcsn_update_1_0_8() {
+	$delivery_settings                          = get_option( 'wsn_delivery_settings' );
+	$delivery_settings['heading_text']          = empty( $delivery_settings['wsnp_email_label'] ) ? 'Serial Numbers' : $delivery_settings['wsnp_email_label'];
+	$delivery_settings['table_column_heading']  = empty( $delivery_settings['wsnp_email_tabel_label'] ) ? 'Serial Number' : $delivery_settings['wsnp_email_tabel_label'];
+	$delivery_settings['serial_key_label']      = empty( $delivery_settings['wsnp_email_serial_key_email_label'] ) ? 'Serial Key' : $delivery_settings['wsnp_email_serial_key_email_label'];
+	$delivery_settings['serial_email_label']    = empty( $delivery_settings['wsnp_email_serial_key_label'] ) ? 'Serial Email' : $delivery_settings['wsnp_email_serial_key_label'];
+	$delivery_settings['show_validity']         = empty( $delivery_settings['wsnp_show_validity_on_email'] ) ? 'yes' : $delivery_settings['wsnp_show_validity_on_email'];
+	$delivery_settings['show_activation_limit'] = empty( $delivery_settings['wsnp_show_activation_limit_on_email'] ) ? 'yes' : $delivery_settings['wsnp_show_activation_limit_on_email'];
+
+	update_option( 'wsn_delivery_settings', $delivery_settings );
+}
+
+
+function wcsn_update_1_1_2() {
+	global $wpdb;
+	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD KEY product_id(`product_id`)" );
+	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD KEY order_id (`order_id`)" );
+	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD KEY status (`status`)" );
+
+	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers CHANGE expire_date expire_date DATETIME DEFAULT NULL" );
+	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers CHANGE order_date order_date DATETIME DEFAULT NULL" );
+	$wpdb->query( "UPDATE {$wpdb->prefix}wcsn_serial_numbers  set expire_date=NULL WHERE expire_date='0000-00-00 00:00:00'" );
+	$wpdb->query( "UPDATE {$wpdb->prefix}wcsn_serial_numbers  set order_date=NULL WHERE order_date='0000-00-00 00:00:00'" );
+
+	$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_activations ADD KEY serial_id (`serial_id`)" );
+
+}
 
 function wcsn_update_1_2_0() {
 	wp_clear_scheduled_hook( 'wcsn_per_minute_event' );
@@ -64,7 +185,7 @@ function wcsn_update_1_2_0() {
 		'wc_serial_numbers_enable_stock_notification'     => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
 		'wc_serial_numbers_stock_threshold'               => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
 		'wc_serial_numbers_notification_recipient'        => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
-		'wc_serial_numbers_order_table_heading'              => $heading_text,
+		'wc_serial_numbers_order_table_heading'           => $heading_text,
 		'wc_serial_numbers_order_table_col_product_label' => 'Product',
 		'wc_serial_numbers_order_table_col_key_label'     => $serial_key_label,
 		'wc_serial_numbers_order_table_col_email_label'   => $serial_email_label,
@@ -85,10 +206,15 @@ function wcsn_update_1_2_0() {
 
 }
 
-wcsn_update_1_2_0();
-
 function wcsn_update_1_2_0_get_option( $key, $default = '', $section = 'serial_numbers_settings' ) {
 	$settings = get_option( $section, [] );
 
 	return ! empty( $settings[ $key ] ) ? $settings[ $key ] : $default;
+}
+
+function wcsn_update_1_2_1() {
+	global $wpdb;
+	$prefix = $wpdb->prefix;
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers CHANGE order_id order_id bigint(20) DEFAULT NULL" );
+	$wpdb->query( "ALTER TABLE {$prefix}serial_numbers CHANGE vendor_id vendor_id bigint(20) DEFAULT NULL" );
 }
