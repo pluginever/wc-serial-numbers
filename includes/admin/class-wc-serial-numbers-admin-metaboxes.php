@@ -115,6 +115,14 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 					] )->count(),
 					__( 'Serial Number available for sale', 'wc-serial-numbers' )
 				);
+				if ( wc_serial_numbers()->is_pro_active() ) {
+					echo sprintf(
+						'<a href="%s" class="button button-secondary view-serial-button" target="_blank">%s</a>', add_query_arg( array( 'page' => 'wc-serial-numbers', 'action' => - 1, 's' => $post->ID ), admin_url( 'admin.php' ) ), __( 'View Serial numbers', 'wc-serial-numbers-pro' )
+					);
+					echo sprintf(
+						'<a href="%s" class="button button-secondary" target="_blank">%s</a>', add_query_arg( array( 'page' => 'wc-serial-numbers', 'action' => 'add', ), admin_url( 'admin.php' ) ), __( 'Add Serial numbers', 'wc-serial-numbers-pro' )
+					);
+				}
 			}
 			if ( ! wc_serial_numbers()->is_pro_active() ) {
 				echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order and many more?', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
@@ -127,12 +135,13 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	/**
 	 * Show promo box.
 	 *
-	 * @since 1.2.0
-	 *
 	 * @param $variation_data
 	 * @param $variation
 	 *
 	 * @param $loop
+	 *
+	 * @since 1.2.0
+	 *
 	 */
 	public static function variable_product_content( $loop, $variation_data, $variation ) {
 		if ( ! wc_serial_numbers()->is_pro_active() ) {
@@ -161,14 +170,14 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 
 	/**
 	 *
-	 * @since 1.1.6
-	 *
 	 * @param $o_item
 	 * @param $product
 	 *
 	 * @param $o_item_id
 	 *
 	 * @return bool|string
+	 * @since 1.1.6
+	 *
 	 */
 	public function order_itemmeta( $o_item_id, $o_item, $product ) {
 		global $post;
@@ -234,11 +243,11 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	 *
 	 * The metabox shows all ordered serial numbers.
 	 *
-	 * @since 1.2.6
-	 *
 	 * @param $post
 	 *
 	 * @return bool
+	 * @since 1.2.6
+	 *
 	 */
 	public static function order_metabox( $post ) {
 		if ( ! is_object( $post ) || ! isset( $post->ID ) ) {
