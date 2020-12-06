@@ -157,7 +157,6 @@ class WC_Serial_Numbers {
 	 * @access protected
 	 * @return void
 	 */
-
 	public function __clone() {
 		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wc-serial-numbers' ), '1.0.0' );
 	}
@@ -168,7 +167,6 @@ class WC_Serial_Numbers {
 	 * @access protected
 	 * @return void
 	 */
-
 	public function __wakeup() {
 		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wc-serial-numbers' ), '1.0.0' );
 	}
