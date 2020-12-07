@@ -64,9 +64,9 @@ class WC_Serial_Numbers {
 	 * Insures that only one instance of WC_Serial_Numbers exists in memory at any one
 	 * time. Also prevents needing to define globals all over the place.
 	 *
+	 * @return WC_Serial_Numbers The one true WC_Serial_Numbers
 	 * @since  1.0.0
 	 * @static var array $instance
-	 * @return WC_Serial_Numbers The one true WC_Serial_Numbers
 	 */
 	public static function init() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WC_Serial_Numbers ) ) {
@@ -80,10 +80,10 @@ class WC_Serial_Numbers {
 	/**
 	 * Return plugin version.
 	 *
+	 * @return string
 	 * @since  1.2.0
 	 * @access public
-	 **@return string
-	 */
+	 **/
 	public function get_version() {
 		return $this->version;
 	}
@@ -91,12 +91,12 @@ class WC_Serial_Numbers {
 	/**
 	 * Plugin URL getter.
 	 *
-	 * @since 1.2.0
-	 * @since 1.2.8 path param added.
-	 *
 	 * @param string path Relative path
 	 *
 	 * @return string
+	 * @since 1.2.0
+	 * @since 1.2.8 path param added.
+	 *
 	 */
 	public function plugin_url( $path = '' ) {
 		$url = untrailingslashit( plugins_url( '/', __FILE__ ) );
@@ -111,12 +111,12 @@ class WC_Serial_Numbers {
 	/**
 	 * Plugin path getter.
 	 *
-	 * @since 1.2.8 path param added.
-	 * @since 1.2.0
-	 *
 	 * @param string path relative path.
 	 *
 	 * @return string
+	 * @since 1.2.8 path param added.
+	 * @since 1.2.0
+	 *
 	 */
 	public function plugin_path( $path = '' ) {
 		$plugin_path = untrailingslashit( plugin_dir_path( __FILE__ ) );
@@ -131,8 +131,8 @@ class WC_Serial_Numbers {
 	/**
 	 * Plugin base path name getter.
 	 *
-	 * @since 1.2.0
 	 * @return string
+	 * @since 1.2.0
 	 */
 	public function plugin_basename() {
 		return plugin_basename( __FILE__ );
@@ -141,8 +141,8 @@ class WC_Serial_Numbers {
 	/**
 	 * Get Ajax URL.
 	 *
-	 * @since 1.2.8
 	 * @return string
+	 * @since 1.2.8
 	 */
 	public function ajax_url() {
 		return admin_url( 'admin-ajax.php', 'relative' );
@@ -175,9 +175,9 @@ class WC_Serial_Numbers {
 	/**
 	 * Determines if the pro version active.
 	 *
+	 * @return bool
 	 * @since 1.0.0
 	 *
-	 * @return bool
 	 */
 	public function is_pro_active() {
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
@@ -188,9 +188,9 @@ class WC_Serial_Numbers {
 	/**
 	 * Determines if the wc active.
 	 *
+	 * @return bool
 	 * @since 1.0.0
 	 *
-	 * @return bool
 	 */
 	public function is_wc_active() {
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
@@ -205,6 +205,7 @@ class WC_Serial_Numbers {
 		$this->define_constants();
 		add_action( 'admin_notices', array( $this, 'wc_missing_notice' ) );
 		add_action( 'plugins_loaded', array( $this, 'localization_setup' ) );
+		add_action( 'plugins_loaded', array( $this, 'create_upload_directory' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'wc_serial_numbers_scripts' ) );
 		register_activation_hook( __FILE__, array( $this, 'activate_plugin' ) );
 		add_action( 'woocommerce_loaded', array( $this, 'includes' ) );
@@ -213,8 +214,8 @@ class WC_Serial_Numbers {
 	/**
 	 * Define all constants
 	 *
-	 * @since 1.2.0
 	 * @return void
+	 * @since 1.2.0
 	 */
 	public function define_constants() {
 		define( 'WC_SERIAL_NUMBER_PLUGIN_VERSION', $this->version );
@@ -226,8 +227,8 @@ class WC_Serial_Numbers {
 	/**
 	 * Activate plugin.
 	 *
-	 * @since 1.2.0
 	 * @return void
+	 * @since 1.2.0
 	 */
 	public function activate_plugin() {
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-installer.php';
@@ -263,12 +264,22 @@ class WC_Serial_Numbers {
 	/**
 	 * Initialize plugin for localization
 	 *
+	 * @return void
 	 * @since 1.0.0
 	 *
-	 * @return void
 	 */
 	public function localization_setup() {
 		load_plugin_textdomain( 'wc-serial-numbers', false, plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages' );
+	}
+
+	/**
+	 * Initialize upload directory for txt files
+	 * @return void
+	 * @since 1.2.8
+	 */
+	public function create_upload_directory() {
+		$uploads_dir = trailingslashit( wp_upload_dir()['basedir'] ) . 'wc-serial-numbers';
+		wp_mkdir_p( $uploads_dir );
 	}
 
 	/**
@@ -304,8 +315,8 @@ class WC_Serial_Numbers {
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * @since 1.2.0
  * @return WC_Serial_Numbers
+ * @since 1.2.0
  */
 function wc_serial_numbers() {
 	return WC_Serial_Numbers::init();

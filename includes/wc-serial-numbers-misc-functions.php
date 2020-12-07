@@ -147,7 +147,7 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 		</tbody>
 	</table>
 	<?php
-	$output = ob_get_contents();
+	$output  = ob_get_contents();
 	ob_get_clean();
 	if ( $return ) {
 		return $output;

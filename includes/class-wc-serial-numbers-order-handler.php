@@ -27,6 +27,7 @@ class WC_Serial_Numbers_Handler {
 		//
 		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
 		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), 10 );
+		add_filter( 'woocommerce_email_attachments', array( __CLASS__, 'serial_numbers_text_attachments' ), 10, 3 );
 	}
 
 	/**
@@ -51,12 +52,12 @@ class WC_Serial_Numbers_Handler {
 				$source            = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $needed_quantity );
 				if ( 'custom_source' == $source ) {
 					$total_number = WC_Serial_Numbers_Query::init()
-					                                       ->from( 'serial_numbers' )
-					                                       ->where( 'product_id', $product_id )
-					                                       ->where( 'status', 'available' )
-					                                       ->where( 'source', $source )
-					                                       ->limit( $needed_quantity )
-					                                       ->count();
+														   ->from( 'serial_numbers' )
+														   ->where( 'product_id', $product_id )
+														   ->where( 'status', 'available' )
+														   ->where( 'source', $source )
+														   ->limit( $needed_quantity )
+														   ->count();
 
 					if ( $total_number < $needed_quantity ) {
 						$stock   = floor( $total_number / $per_item_quantity );
@@ -162,6 +163,60 @@ class WC_Serial_Numbers_Handler {
 		if ( wc_serial_numbers_order_has_serial_numbers( $order ) ) {
 			wc_serial_numbers_get_order_table( $order );
 		}
+	}
+
+	/**
+	 * Attach serial numbers as text file attachments
+	 *
+	 * @param $attachments
+	 * @param $status
+	 * @param $order
+	 *
+	 * @return $attachments
+	 * @since 1.2.8
+	 */
+	public static function serial_numbers_text_attachments( $attachments, $status, $order ) {
+		if ( ! is_object( $order ) || ! isset( $status ) ) {
+			return $attachments;
+		}
+
+		if ( empty( $order ) ) {
+			return $attachments;
+		}
+
+		if ( 'completed' !== $order->get_status( 'edit' ) ) {
+			return $attachments;
+		}
+
+		//no serial numbers ordered so bail @since 1.2.1
+		$total_ordered_serial_numbers = wc_serial_numbers_order_has_serial_numbers( $order );
+		$order_id                     = $order->get_id();
+		if ( empty( $total_ordered_serial_numbers ) ) {
+			return $attachments;
+		}
+
+		$serial_numbers = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order_id ) )->get();
+
+		if ( empty( $serial_numbers ) ) {
+			return $attachments;
+		}
+		$file    = fopen( wc_serial_numbers()->plugin_path() . '/data/serial.txt', "w" );
+		$content = '';
+		$content .= apply_filters( 'wc_serial_numbers_order_table_heading', esc_html__( "Serial Numbers", 'wc-serial-numbers' ) );
+		$content .= sprintf( __( " For Order #%d \n", "wc-serial-numbers" ), $order_id );
+		foreach ( $serial_numbers as $serial_number ) {
+			$content .= __( "Product Name: ", "wc-serial-numbers" ) . html_entity_decode( get_the_title( $serial_number->product_id ), ENT_NOQUOTES, 'UTF-8' ) . __( "  Serial Number: ", "wc-serial-numbers" ) . wc_serial_numbers_decrypt_key( $serial_number->serial_key ) . "\n";
+		}
+
+		fwrite( $file, $content );
+		$upload_dir = wp_upload_dir();
+		copy( wc_serial_numbers()->plugin_path() . '/data/serial.txt', $upload_dir['basedir'] . '/wc-serial-numbers/serial-' . $order_id . '.txt' );
+		$attachments[] = $upload_dir['basedir'] . '/wc-serial-numbers/serial-' . $order_id . '.txt';
+
+		//error_log( print_r( $attachments, true ) );
+
+		return $attachments;
+
 	}
 
 
