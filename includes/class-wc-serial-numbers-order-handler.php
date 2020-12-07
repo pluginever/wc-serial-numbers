@@ -200,20 +200,41 @@ class WC_Serial_Numbers_Handler {
 		if ( empty( $serial_numbers ) ) {
 			return $attachments;
 		}
+
+		$columns = wc_serial_numbers_get_order_table_columns();
+
+		//get temporary file for writing serial numbers
 		$file    = fopen( wc_serial_numbers()->plugin_path() . '/data/serial.txt', "w" );
 		$content = '';
-		$content .= apply_filters( 'wc_serial_numbers_order_table_heading', esc_html__( "Serial Numbers", 'wc-serial-numbers' ) );
-		$content .= sprintf( __( " For Order #%d \n", "wc-serial-numbers" ), $order_id );
+		$content .= sprintf( __( "Order #%d \n", "wc-serial-numbers" ), $order_id );
+		//prepare content for attachments
 		foreach ( $serial_numbers as $serial_number ) {
-			$content .= __( "Product Name: ", "wc-serial-numbers" ) . html_entity_decode( get_the_title( $serial_number->product_id ), ENT_NOQUOTES, 'UTF-8' ) . __( "  Serial Number: ", "wc-serial-numbers" ) . wc_serial_numbers_decrypt_key( $serial_number->serial_key ) . "\n";
+			foreach ( $columns as $key => $label ) {
+				switch ( $key ) {
+					case 'product':
+						$content .= $label.": " . html_entity_decode( get_the_title( $serial_number->product_id ), ENT_NOQUOTES, 'UTF-8' )." ";
+						break;
+					case 'serial_key':
+						$content .= $label.": " .wc_serial_numbers_decrypt_key( $serial_number->serial_key ) . "\n";
+						break;
+					default:
+						$content .= __( "Product Name: ", "wc-serial-numbers" ) . html_entity_decode( get_the_title( $serial_number->product_id ), ENT_NOQUOTES, 'UTF-8' ) . apply_filters( 'wc_serial_numbers_order_table_heading', esc_html__( " Serial Number: ", 'wc-serial-numbers' ) ) . wc_serial_numbers_decrypt_key( $serial_number->serial_key ) . "\n";
+				}
+			}
+
 		}
 
+		//write serial numbers in the text file
 		fwrite( $file, $content );
 		$upload_dir = wp_upload_dir();
+
+		//copy the text file into the upload folder and adding its path to the attachments path
 		copy( wc_serial_numbers()->plugin_path() . '/data/serial.txt', $upload_dir['basedir'] . '/wc-serial-numbers/serial-' . $order_id . '.txt' );
 		$attachments[] = $upload_dir['basedir'] . '/wc-serial-numbers/serial-' . $order_id . '.txt';
 
-		//error_log( print_r( $attachments, true ) );
+		//cleanup the temporary file and closing it
+		file_put_contents( wc_serial_numbers()->plugin_path() . '/data/serial.txt', "" );
+		fclose( $file );
 
 		return $attachments;
 
