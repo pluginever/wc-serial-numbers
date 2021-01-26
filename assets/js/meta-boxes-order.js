@@ -153,14 +153,12 @@ jQuery( document ).ready( function ( $ ) {
 				return;
 			}
 
-			// Add an item from
-			if ( settings.data.indexOf( 'action=woocommerce_add_order_item' ) >= 0 ) {
+			if (
+				settings.data.indexOf( 'action=woocommerce_add_order_item' ) >= 0 ||
+				settings.data.indexOf( 'action=woocommerce_remove_order_item' ) >= 0 ||
+				settings.data.indexOf( 'action=woocommerce_save_order_items' ) >= 0
+			) {
 				wcsn_meta_boxes_order_serial_number.refresh_serial_numbers();
-			}
-
-			// Deleted an item
-			if ( settings.data.indexOf( 'action=woocommerce_remove_order_item' ) >= 0 ) {
-				wcsn_meta_boxes_order_serial_number.refresh_serial_numbers( 'remove_item' );
 			}
 		}
 	};
