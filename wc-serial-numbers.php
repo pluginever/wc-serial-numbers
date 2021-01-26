@@ -59,6 +59,24 @@ class WC_Serial_Numbers {
 	private static $instance;
 
 	/**
+	 * Holds various controller classes
+	 *
+	 * @since 1.2.8
+	 *
+	 * @var object
+	 */
+	private $controllers = null;
+
+	/**
+	 * Databse version key
+	 *
+	 * @since 1.2.8
+	 *
+	 * @var string
+	 */
+	private $db_version_key = 'wc_serial_numbers_version';
+
+	/**
 	 * Main WC_Serial_Numbers Instance
 	 *
 	 * Insures that only one instance of WC_Serial_Numbers exists in memory at any one
@@ -212,12 +230,29 @@ class WC_Serial_Numbers {
 	 * WC_Serial_Numbers constructor.
 	 */
 	private function __construct() {
+		require_once __DIR__ . '/vendor/autoload.php';
+
 		$this->define_constants();
 		register_activation_hook( __FILE__, array( $this, 'activate_plugin' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate_plugin' ) );
 
 		add_action( 'woocommerce_loaded', array( $this, 'init_plugin' ) );
 		add_action( 'admin_notices', array( $this, 'wc_missing_notice' ) );
+	}
+
+	/**
+	 * Getter to call the controller classes
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $prop
+	 *
+	 * @return mixed
+	 */
+	public function __get( $prop ) {
+		if ( isset( $this->controllers->$prop ) ) {
+			return $this->controllers->$prop;
+		}
 	}
 
 	/**
@@ -295,22 +330,37 @@ class WC_Serial_Numbers {
 	 */
 	private function init_hooks() {
 		add_action( 'plugins_loaded', array( $this, 'localization_setup' ) );
-		//add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), - 1 );
+		add_action( 'plugins_loaded', array( $this, 'load_controllers' ) );
+
+		new WCSerialNumbers\Upgrade\Hooks();
 	}
 
+
+    /**
+     * Load plugin controllers
+     *
+     * These controllers are chainable and could be called
+     * like wc_serial_numbers()->controller_name->feature.
+     *
+	 * @since 1.2.8
+	 *
+	 * @return void
+	 */
+	public function load_controllers() {
+		$this->controllers           = new stdClass();
+		$this->controllers->upgrades = new \WCSerialNumbers\Upgrade\Controller();
+	}
 
 	/**
-	 * When WP has loaded all plugins, trigger the `wc_serial_numbers__loaded` hook.
+	 * Get db version key
 	 *
-	 * This ensures `wc_serial_numbers__loaded` is called only after all other plugins
-	 * are loaded, to avoid issues caused by plugin directory naming changing
+	 * @since 3.0.0
 	 *
-	 * @since 1.0.0
+	 * @return string
 	 */
-	public function on_plugins_loaded() {
-		do_action( 'wc_serial_numbers__loaded' );
+	public function get_db_version_key() {
+		return $this->db_version_key;
 	}
-
 }
 
 
