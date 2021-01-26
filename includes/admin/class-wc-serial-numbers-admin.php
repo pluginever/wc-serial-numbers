@@ -9,6 +9,7 @@ class WC_Serial_Numbers_Admin {
 	public function __construct() {
 		add_action( 'init', array( __CLASS__, 'includes' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_meta_boxes_order_scripts' ) );
 		add_action( 'admin_head', array( __CLASS__, 'print_style' ) );
 		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_serial_column' ) );
 		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'add_order_serial_column_content' ), 20, 2 );
@@ -60,6 +61,36 @@ class WC_Serial_Numbers_Admin {
 			'nonce'   => wp_create_nonce( 'wc_serial_numbers_admin_js_nonce' ),
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		) );
+	}
+
+	/**
+	 * Enqueue metabox script for WC order
+	 *
+	 * @since 1.2.8
+	 *
+	 * @return void
+	 */
+	public function enqueue_meta_boxes_order_scripts() {
+		if ( ! wc_serial_numbers()->is_wc_active() ) {
+			return;
+		}
+
+		$screen       = get_current_screen();
+		$screen_id    = $screen ? $screen->id : '';
+		$suffix       = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$js_url       = wc_serial_numbers()->plugin_url() . '/assets/js';
+		$version      = wc_serial_numbers()->get_version();
+
+		if ( in_array( str_replace( 'edit-', '', $screen_id ), wc_get_order_types( 'order-meta-boxes' ) ) ) {
+			wp_enqueue_script( 'wc-serial-numbers-meta-boxes-order', $js_url . '/meta-boxes-order' . $suffix . '.js', array( 'wc-admin-order-meta-boxes' ), $version );
+
+			wp_localize_script( 'wc-serial-numbers-meta-boxes-order', 'wc_serial_numbers_meta_boxes_order_i10n', array(
+				'i18n'    => array(
+					'no_product_selected'  => __( 'No product selected', 'wc-serial-numbers' ),
+					'something_went_wrong' => __( 'Something went wrong', 'wc-serial-numbers' ),
+				),
+			) );
+		}
 	}
 
 	/**

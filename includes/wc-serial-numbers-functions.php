@@ -266,15 +266,16 @@ function wc_serial_numbers_order_disconnect_serial_numbers( $order_id ) {
 	$data                = array(
 		'status' => $order->get_status( 'edit' ) == 'completed' ? 'cancelled' : $order->get_status( 'edit' ),
 	);
-	if ( $reuse_serial_number ) {
+
+	if ( ! $reuse_serial_number ) {
 		$data['status']     = 'available';
 		$data['order_id']   = '';
 		$data['order_date'] = '';
-	}
-	if ( $reuse_serial_number ) {
+	} else {
 		global $wpdb;
 		WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->whereRaw( $wpdb->prepare( "serial_id IN (SELECT id from {$wpdb->prefix}serial_numbers WHERE order_id=%d)", $order_id ) )->delete();
 	}
+
 	do_action( 'wc_serial_numbers_pre_order_disconnect_serial_numbers', $order_id );
 
 	$total_disconnected = WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->where( 'order_id', $order_id )->update( $data );
@@ -697,3 +698,54 @@ function wc_serial_numbers_control_order_table_columns( $columns ) {
 }
 
 add_filter( 'wc_serial_numbers_order_table_columns', 'wc_serial_numbers_control_order_table_columns', 99 );
+
+/**
+ * Validate cart item for Serial Number products
+ *
+ * @since 1.2.8
+ *
+ * @param mixed $product_id
+ * @param int   $quantity
+ *
+ * @return bool|\WP_Error
+ */
+function wcsn_validate_cart_item( $product_id, $quantity ) {
+	$product = wc_get_product( $product_id );
+
+	if ( ! $product instanceof WC_Product ) {
+		return new WP_Error(
+			'wcsn_validate_cart_item_error',
+			sprintf( __( 'Invalid product id %s', 'wc-serial-numbers' ), $product_id )
+		);
+	}
+
+	$allow_backorder = apply_filters( 'wc_serial_numbers_allow_backorder', false, $product_id );
+
+	if ( wc_serial_numbers_product_serial_enabled( $product_id ) && ! $allow_backorder ) {
+		$per_item_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
+		$per_item_quantity = $per_item_quantity ? $per_item_quantity : 1;
+		$needed_quantity   = $quantity * $per_item_quantity;
+		$source            = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $needed_quantity );
+		if ( 'custom_source' === $source ) {
+			$total_number = WC_Serial_Numbers_Query::init()
+				->from( 'serial_numbers' )
+				->where( 'product_id', $product_id )
+				->where( 'status', 'available' )
+				->where( 'source', $source )
+				->limit( $needed_quantity )
+				->count();
+
+			if ( $total_number < $needed_quantity ) {
+				$stock   = floor( $total_number / $per_item_quantity );
+				$message = sprintf( __( 'Sorry, There is not enough serial numbers available for %s, Please remove this item or lower the quantity, For now we have %s Serial Number for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
+				$message  = apply_filters( 'wc_serial_numbers_low_stock_message', $message );
+				$message  = str_replace( '{product_title}', $product->get_title(), $message );
+				$message  = str_replace( '{stock_quantity}', $stock, $message );
+
+				return new WP_Error( 'wcsn_validate_cart_item_error', $message );
+			}
+		}
+	}
+
+	return true;
+}
