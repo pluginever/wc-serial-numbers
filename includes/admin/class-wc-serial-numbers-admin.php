@@ -42,14 +42,17 @@ class WC_Serial_Numbers_Admin {
 
 		$css_url = wc_serial_numbers()->plugin_url() . '/assets/css';
 		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
-		$version = wc_serial_numbers()->get_version();
+		$asset = require_once WC_SERIAL_NUMBER_PLUGIN_DIR . '/assets/js/wc-serial-numbers-admin.asset.php';
+		$js_dep = array_merge(
+			$asset[ 'dependencies' ],
+			array( 'wp-util', 'select2' )
+		);
 
-
-		wp_enqueue_style( 'wc-serial-numbers-admin', $css_url . '/wc-serial-numbers-admin.css', array( 'woocommerce_admin_styles', 'jquery-ui-style' ), $version );
+		wp_enqueue_style( 'wc-serial-numbers-admin', $css_url . '/wc-serial-numbers-admin.css', array( 'woocommerce_admin_styles', 'jquery-ui-style' ), $asset['version'] );
 		wp_enqueue_style( 'jquery-ui-style' );
 		wp_enqueue_style( 'select2' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_script( 'wc-serial-numbers-admin', $js_url . '/wc-serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2', ], $version, true );
+		wp_enqueue_script( 'wc-serial-numbers-admin', $js_url . '/wc-serial-numbers-admin.js', $js_dep, $asset['version'], true );
 
 		wp_localize_script( 'wc-serial-numbers-admin', 'wc_serial_numbers_admin_i10n', array(
 			'i18n'    => array(
@@ -77,12 +80,18 @@ class WC_Serial_Numbers_Admin {
 
 		$screen       = get_current_screen();
 		$screen_id    = $screen ? $screen->id : '';
-		$suffix       = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$js_url       = wc_serial_numbers()->plugin_url() . '/assets/js';
-		$version      = wc_serial_numbers()->get_version();
 
 		if ( in_array( str_replace( 'edit-', '', $screen_id ), wc_get_order_types( 'order-meta-boxes' ) ) ) {
-			wp_enqueue_script( 'wc-serial-numbers-meta-boxes-order', $js_url . '/meta-boxes-order' . $suffix . '.js', array( 'wc-admin-order-meta-boxes' ), $version );
+			$css_url = wc_serial_numbers()->plugin_url() . '/assets/css';
+			$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
+			$asset = require_once WC_SERIAL_NUMBER_PLUGIN_DIR . '/assets/js/meta-boxes-order.asset.php';
+			$js_dep = array_merge(
+				$asset[ 'dependencies' ],
+				array( 'wc-admin-order-meta-boxes' )
+			);
+
+			wp_enqueue_style( 'wc-serial-numbers-meta-boxes-order', $css_url . '/meta-boxes-order.css', array(), $asset['version'] );
+			wp_enqueue_script( 'wc-serial-numbers-meta-boxes-order', $js_url . '/meta-boxes-order.js', $js_dep, $asset['version'], true );
 
 			wp_localize_script( 'wc-serial-numbers-meta-boxes-order', 'wc_serial_numbers_meta_boxes_order_i10n', array(
 				'i18n'    => array(
