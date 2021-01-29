@@ -14,10 +14,14 @@
     "build": "wp-scripts build",
     "lint:js": "wp-scripts lint-js src/",
     "lint:css": "wp-scripts lint-style src/",
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix",
     "make-pot": "wp i18n make-pot ./ languages/wc-serial-numbers.pot --exclude=assets",
     "clean:assets": "rimraf assets/css && rimraf assets/js"
   },
   "devDependencies": {
+    "@wordpress/components": "^12.0.2",
+    "@wordpress/element": "^2.19.0",
+    "@wordpress/i18n": "^3.17.0",
     "@wordpress/scripts": "^13.0.0",
     "eslint-plugin-import": "^2.22.1",
     "jquery": "^3.5.1",

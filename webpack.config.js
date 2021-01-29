@@ -39,6 +39,7 @@ module.exports = {
 			'src/admin/wc-serial-numbers-admin.js'
 		),
 		'meta-boxes-order': resolve( 'src/admin/meta-boxes-order.js' ),
+		'upgrader': resolve( 'src/admin/upgrader/index.js' ),
 	},
 
 	output: {

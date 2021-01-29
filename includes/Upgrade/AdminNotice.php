@@ -34,13 +34,12 @@ class AdminNotice {
 
 		require_once dirname( __FILE__ ) . '/upgrade-notice.php';
 
-		$css_url = wc_serial_numbers()->plugin_url() . '/assets/css';
 		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
+		$asset = require_once WC_SERIAL_NUMBER_PLUGIN_DIR . '/assets/js/upgrader.asset.php';
 
-        wp_enqueue_style( 'wcsn-upgrade', $css_url . '/wcsn-upgrade.css', [], WC_SERIAL_NUMBER_PLUGIN_VERSION );
-		wp_enqueue_script( 'wcsn-upgrade', $js_url . '/wcsn-upgrade.js', [ 'jquery' ], WC_SERIAL_NUMBER_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'wcsn-upgrader', $js_url . '/upgrader.js', $asset[ 'dependencies' ], WC_SERIAL_NUMBER_PLUGIN_VERSION, true );
 
-		wp_localize_script( 'wcsn-upgrade', 'wcsn_upgrader', [
+		wp_localize_script( 'wcsn-upgrader', 'wcsnUpgrader', [
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'nonce'   => wp_create_nonce( 'wcsn_upgrader' ),
 		] );

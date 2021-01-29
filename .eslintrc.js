@@ -22,5 +22,6 @@ module.exports = {
 		woocommerce_admin_meta_boxes: true,
 		wc_serial_numbers_meta_boxes_order_i10n: true,
 		wc_serial_numbers_admin_i10n: true,
+		wcsnUpgrader: true,
 	},
 };
