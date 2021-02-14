@@ -7,8 +7,6 @@ const path = require( 'path' );
  * WordPress dependencies
  */
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
-const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
-const LiveReloadPlugin = require( 'webpack-livereload-plugin' );
 const plugins = [];
 
 function resolve( ...paths ) {
@@ -16,13 +14,13 @@ function resolve( ...paths ) {
 }
 
 defaultConfig.plugins.forEach( ( item ) => {
-	if ( item instanceof MiniCssExtractPlugin ) {
+	if ( item.constructor.name.toLowerCase() === 'minicssextractplugin' ) {
 		item.options.filename = '../css/[name].css';
 		item.options.chunkFilename = '../css/[name].css';
 		item.options.esModule = true;
 	}
 
-	if ( item instanceof LiveReloadPlugin ) {
+	if ( item.constructor.name.toLowerCase() === 'livereloadplugin' ) {
 		return;
 	}
 
@@ -35,11 +33,11 @@ module.exports = {
 	plugins,
 
 	entry: {
+		upgrader: resolve( 'src/admin/upgrader/index.js' ),
 		'wc-serial-numbers-admin': resolve(
 			'src/admin/wc-serial-numbers-admin.js'
 		),
 		'meta-boxes-order': resolve( 'src/admin/meta-boxes-order.js' ),
-		'upgrader': resolve( 'src/admin/upgrader/index.js' ),
 	},
 
 	output: {

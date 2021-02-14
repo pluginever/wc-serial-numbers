@@ -25,9 +25,7 @@
     "@wordpress/scripts": "^13.0.0",
     "eslint-plugin-import": "^2.22.1",
     "jquery": "^3.5.1",
-    "mini-css-extract-plugin": "^1.3.5",
-    "prettier": "npm:wp-prettier@^2.2.1-beta-1",
-    "webpack-livereload-plugin": "^2.3.0"
+    "prettier": "npm:wp-prettier@^2.2.1-beta-1"
   },
   "keywords": []
 }

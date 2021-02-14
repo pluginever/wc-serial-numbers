@@ -12,6 +12,7 @@ class Upgrades {
 	 * @var array
 	 */
 	private static $upgrades = [
+		'1.2.8'    => Upgrades\V_1_2_8::class,
 	];
 
 	/**

@@ -34,6 +34,13 @@ abstract class AbstractUpgrader {
 			}
 		}
 
+		/**
+		 * -- THE ORDER OF THE UPGRADER METHODS DURING EXECUTION --
+		 * ReflectionClass::getMethods will return array of public methods
+		 * in the upgrader class. The "order" of this collection of methods will
+		 * be the same as the methods written in the upgrader class. So the process
+		 * will call the functions one by one from top to bottom of the upgrader class.
+		 */
 		self::$reflection = new ReflectionClass( static::class );
 		$methods          = self::$reflection->getMethods( ReflectionMethod::IS_PUBLIC );
 
