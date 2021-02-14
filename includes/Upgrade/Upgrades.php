@@ -7,18 +7,17 @@ class Upgrades {
 	/**
 	 * Files or classes containing updates
 	 *
-	 * @since 3.0.0
+	 * @since 1.2.8
 	 *
 	 * @var array
 	 */
 	private static $upgrades = [
-		'1.2.8'    => Upgrades\V_1_2_8::class,
 	];
 
 	/**
 	 * Get DB installed version number
 	 *
-	 * @since 3.0.0
+	 * @since 1.2.8
 	 *
 	 * @return string
 	 */
@@ -29,7 +28,7 @@ class Upgrades {
 	/**
 	 * Checks if upgrade is required or not
 	 *
-	 * @since 3.0.0
+	 * @since 1.2.8
 	 *
 	 * @param bool $is_required
 	 *
@@ -49,7 +48,7 @@ class Upgrades {
 	/**
 	 * Update DB version
 	 *
-	 * @since 3.0.0
+	 * @since 1.2.8
 	 *
 	 * @return void
 	 */
@@ -64,7 +63,7 @@ class Upgrades {
 	/**
 	 * Get upgrades
 	 *
-	 * @since 3.0.0
+	 * @since 1.2.8
 	 *
 	 * @param array $upgrades
 	 *

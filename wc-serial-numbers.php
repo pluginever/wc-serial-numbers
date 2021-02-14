@@ -333,6 +333,7 @@ class WC_Serial_Numbers {
 		add_action( 'plugins_loaded', array( $this, 'load_controllers' ) );
 
 		new WCSerialNumbers\Upgrade\Hooks();
+		new WCSerialNumbers\Queue\Hooks();
 	}
 
 
@@ -349,6 +350,7 @@ class WC_Serial_Numbers {
 	public function load_controllers() {
 		$this->controllers           = new stdClass();
 		$this->controllers->upgrades = new \WCSerialNumbers\Upgrade\Controller();
+		$this->controllers->queue    = new \WCSerialNumbers\Queue\Controller();
 	}
 
 	/**

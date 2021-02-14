@@ -4,6 +4,11 @@ namespace WCSerialNumbers\Upgrade;
 
 class Controller {
 
+	/**
+	 * The db key refers we have an ongoing upgrading process
+	 *
+	 * @var string
+	 */
 	private $is_upgrading_db_key = 'wcsn_is_upgrading';
 
 	/**
@@ -74,7 +79,7 @@ class Controller {
 	 *
 	 * This will execute every method found in a
 	 * upgrader class, execute `run` method defined
-	 * in `DokanUpgrader` abstract class and then finally,
+	 * in `AbstractUpgrader` class and then finally,
 	 * `update_db_version` will update the db version
 	 * reference in database.
 	 *
@@ -111,5 +116,18 @@ class Controller {
 		 */
 		do_action( 'wcsn_upgrade_finished' );
 	}
-}
 
+	/**
+	 * Add upgrader to queue
+	 *
+	 * @since 1.2.8
+	 *
+	 * @param \WCSerialNumbers\Upgrade\AbstractUpgrader $handler
+	 * @param array										$args
+	 *
+	 * @return void
+	 */
+	public function add_to_queue( $handler, $args ) {
+		wc_serial_numbers()->queue->add( $handler, $args, 'wc_serial_numbers_queue_upgrader' );
+	}
+}
