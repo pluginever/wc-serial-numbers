@@ -44,13 +44,13 @@ function wc_serial_numbers_get_revoke_statuses() {
 	$refund_statuses = wp_cache_get( 'wc_serial_numbers_get_revoke_statuses' );
 	if ( $refund_statuses == false ) {
 		$refund_statuses = [];
-		if ( 'yes' == get_option( 'wc_serial_numbers_revoke_status_refunded' ) ) {
+		if ( 'yes' == get_option( 'wc_serial_numbers_revoke_status_refunded', 'yes' ) ) {
 			$refund_statuses[] = 'refunded';
 		}
-		if ( 'yes' == get_option( 'wc_serial_numbers_revoke_status_cancelled' ) ) {
+		if ( 'yes' == get_option( 'wc_serial_numbers_revoke_status_cancelled', 'yes' ) ) {
 			$refund_statuses[] = 'cancelled';
 		}
-		if ( 'yes' == get_option( 'wc_serial_numbers_revoke_status_failed' ) ) {
+		if ( 'yes' == get_option( 'wc_serial_numbers_revoke_status_failed', 'yes' ) ) {
 			$refund_statuses[] = 'failed';
 		}
 	}
@@ -65,7 +65,7 @@ function wc_serial_numbers_get_revoke_statuses() {
  * @since 1.2.0
  */
 function wc_serial_numbers_software_support_disabled() {
-	return 'yes' == get_option( 'wc_serial_numbers_disable_software_support' );
+	return 'yes' == get_option( 'wc_serial_numbers_disable_software_support', 'no' );
 }
 
 /**
@@ -75,7 +75,7 @@ function wc_serial_numbers_software_support_disabled() {
  * @since 1.2.0
  */
 function wc_serial_numbers_reuse_serial_numbers() {
-	return 'yes' == get_option( 'wc_serial_numbers_reuse_serial_number' );
+	return 'yes' == get_option( 'wc_serial_numbers_reuse_serial_number', 'no' );
 }
 
 /**

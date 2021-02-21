@@ -102,6 +102,7 @@ class WC_Serial_Numbers_Installer {
 			'wc_serial_numbers_revoke_status_cancelled'   => 'yes',
 			'wc_serial_numbers_stock_threshold'           => '5',
 			'wc_serial_numbers_notification_recipient'    => get_option( 'admin_email' ),
+			'wc_serial_numbers_notices'                   => array(),
 		);
 
 		foreach ( $settings as $key => $value ) {
