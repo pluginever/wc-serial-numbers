@@ -37,6 +37,7 @@ class AdminNotice {
 		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
 		$asset = require_once WC_SERIAL_NUMBER_PLUGIN_DIR . '/assets/js/upgrader.asset.php';
 
+		wp_enqueue_style( 'wp-components' );
 		wp_enqueue_script( 'wcsn-upgrader', $js_url . '/upgrader.js', $asset[ 'dependencies' ], WC_SERIAL_NUMBER_PLUGIN_VERSION, true );
 
 		wp_localize_script( 'wcsn-upgrader', 'wcsnUpgrader', [

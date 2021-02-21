@@ -226,9 +226,10 @@ function wc_serial_numbers_order_connect_serial_numbers( $order_id ) {
 			$updated     = $wpdb->update(
 				$wpdb->prefix . 'serial_numbers',
 				array(
-					'order_id'   => $order_id,
-					'status'     => 'sold',
-					'order_date' => current_time( 'mysql' ),
+					'order_id'      => $order_id,
+					'order_item_id' => $item->get_id(),
+					'status'        => 'sold',
+					'order_date'    => current_time( 'mysql' ),
 				),
 				array(
 					'id' => $serial_id
@@ -268,9 +269,10 @@ function wc_serial_numbers_order_disconnect_serial_numbers( $order_id ) {
 	);
 
 	if ( ! $reuse_serial_number ) {
-		$data['status']     = 'available';
-		$data['order_id']   = '';
-		$data['order_date'] = '';
+		$data['status']        = 'available';
+		$data['order_id']      = '';
+		$data['order_item_id'] = '';
+		$data['order_date']    = '';
 	} else {
 		global $wpdb;
 		WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->whereRaw( $wpdb->prepare( "serial_id IN (SELECT id from {$wpdb->prefix}serial_numbers WHERE order_id=%d)", $order_id ) )->delete();
@@ -318,6 +320,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 	$product_id        = isset( $args['product_id'] ) ? intval( $args['product_id'] ) : null;
 	$activation_limit  = ! empty( $args['activation_limit'] ) ? intval( $args['activation_limit'] ) : 0;
 	$order_id          = ! empty( $args['order_id'] ) ? intval( $args['order_id'] ) : 0;
+	$order_item_id     = ! empty( $args['order_item_id'] ) ? intval( $args['order_item_id'] ) : null;
 	$order_date        = isset( $args['order_date'] ) && ! empty( $order_id ) ? sanitize_text_field( $args['order_date'] ) : null;
 	$vendor_id         = ! empty( $args['vendor_id'] ) ? intval( $args['vendor_id'] ) : $default_vendor_id;
 	$status            = empty( $args['status'] ) ? 'available' : sanitize_text_field( $args['status'] );

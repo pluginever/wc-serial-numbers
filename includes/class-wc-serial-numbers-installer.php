@@ -156,6 +156,7 @@ class WC_Serial_Numbers_Installer {
 			activation_limit int(9) NOT NULL DEFAULT 0,
 			activation_count int(9) NOT NULL  DEFAULT 0,
 			order_id bigint(20) DEFAULT NULL,
+			order_item_id bigint(20) DEFAULT NULL,
 			vendor_id bigint(20) DEFAULT NULL,
 			status varchar(50) DEFAULT 'available',
 			validity varchar(200) DEFAULT NULL,
