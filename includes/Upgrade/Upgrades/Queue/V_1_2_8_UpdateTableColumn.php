@@ -18,7 +18,7 @@ class V_1_2_8_UpdateTableColumn implements QueueHandler {
 	 * @return array|bool
 	 */
 	public static function run( $args ) {
-		$limit = 2;
+		$limit = 30;
 		$serial_numbers = WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->page( $args['page'],  $limit)->get();
 
 		if ( empty( $serial_numbers ) ) {
