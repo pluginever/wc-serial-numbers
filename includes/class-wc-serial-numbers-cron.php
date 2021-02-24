@@ -29,7 +29,7 @@ class WC_Serial_Numbers_CRON {
 	 * @since 1.2.0
 	 */
 	public static function send_stock_alert_email() {
-		if ( ! wc_serial_numbers_validate_boolean( get_option( 'wc_serial_numbers_enable_stock_notification' ) ) ) {
+		if ( ! wc_serial_numbers_validate_boolean( get_option( 'wc_serial_numbers_enable_stock_notification', 'yes' ) ) ) {
 			return false;
 		}
 

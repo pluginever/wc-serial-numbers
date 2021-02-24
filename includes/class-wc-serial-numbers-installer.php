@@ -102,6 +102,7 @@ class WC_Serial_Numbers_Installer {
 			'wc_serial_numbers_revoke_status_cancelled'   => 'yes',
 			'wc_serial_numbers_stock_threshold'           => '5',
 			'wc_serial_numbers_notification_recipient'    => get_option( 'admin_email' ),
+			'wc_serial_numbers_notices'                   => array(),
 		);
 
 		foreach ( $settings as $key => $value ) {
@@ -156,6 +157,7 @@ class WC_Serial_Numbers_Installer {
 			activation_limit int(9) NOT NULL DEFAULT 0,
 			activation_count int(9) NOT NULL  DEFAULT 0,
 			order_id bigint(20) DEFAULT NULL,
+			order_item_id bigint(20) DEFAULT NULL,
 			vendor_id bigint(20) DEFAULT NULL,
 			status varchar(50) DEFAULT 'available',
 			validity varchar(200) DEFAULT NULL,

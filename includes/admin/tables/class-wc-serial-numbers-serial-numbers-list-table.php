@@ -319,7 +319,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 				$class             = 'encrypted';
 				$serial_key        = '';
 
-				if ( ! wc_serial_numbers_validate_boolean( get_option( 'wc_serial_numbers_hide_serial_number' ) ) ) {
+				if ( ! wc_serial_numbers_validate_boolean( get_option( 'wc_serial_numbers_hide_serial_number', 'yes' ) ) ) {
 					$class      = 'decrypted';
 					$serial_key = apply_filters( 'wc_serial_numbers_maybe_decrypt', $item->serial_key );
 					unset( $actions['show'] );

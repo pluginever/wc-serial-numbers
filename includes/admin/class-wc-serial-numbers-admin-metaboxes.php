@@ -251,86 +251,81 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			return false;
 		}
 
-		if ( 'completed' !== $order->get_status( 'edit' ) ) {
-			echo sprintf( '<p>%s</p>', __( 'Order status is not completed.', 'wc-serial-numbers' ) );
-
-			return false;
-		}
-
-		$total_ordered_serial_numbers = wc_serial_numbers_order_has_serial_numbers( $order );
-		if ( empty( $total_ordered_serial_numbers ) ) {
-			echo sprintf( '<p>%s</p>', __( 'No serial numbers associated with the order.', 'wc-serial-numbers' ) );
-
-			return false;
-		}
-
 		$serial_numbers = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order->get_id() ) )->get();
-
-		if ( empty( $serial_numbers ) ) {
-			echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order waiting for assigning serial numbers.', 'wc-serial-numbers' ) ) );
-
-			return false;
-		}
 
 		do_action( 'wc_serial_numbers_order_table_top', $order, $serial_numbers );
 		$columns = wc_serial_numbers_get_order_table_columns();
-
+		$col_span = count( $columns ) + 1;
 		?>
-		<table class="widefat striped">
-			<tbody>
-			<tr>
-				<?php foreach ( $columns as $key => $label ) {
-					echo sprintf( '<th class="td %s" scope="col" style="text-align:left;">%s</th>', sanitize_html_class( $key ), $label );
-				} ?>
-
-				<th>
-					<?php _e( 'Actions', 'wc-serial-numbers' ); ?>
-				</th>
-			</tr>
-
-			<?php foreach ( $serial_numbers as $serial_number ): ?>
+		<table class="widefat striped" id="wcsn-admin-order-serial-numbers">
+			<thead>
 				<tr>
-					<?php foreach ( $columns as $key => $column ): ?>
-						<td class="td" style="text-align:left;">
-							<?php
-							switch ( $key ) {
-								case 'product':
-									echo sprintf( '<a href="%s">%s</a>', esc_url( get_permalink( $serial_number->product_id ) ), get_the_title( $serial_number->product_id ) );
-									break;
-								case 'serial_key':
-									echo wc_serial_numbers_decrypt_key( $serial_number->serial_key );
-									break;
-								case 'activation_email':
-									echo $order->get_billing_email();
-									break;
-								case 'activation_limit':
-									if ( empty( $serial_number->activation_limit ) ) {
-										echo __( 'Unlimited', 'wc-serial-numbers' );
-									} else {
-										echo $serial_number->activation_limit;
-									}
-									break;
-								case 'expire_date':
-									if ( empty( $serial_number->validity ) ) {
-										echo __( 'Lifetime', 'wc-serial-numbers' );
-									} else {
-										echo date( 'Y-m-d', strtotime( $serial_number->order_date . ' + ' . $serial_number->validity . ' Day ' ) );
-									}
-									break;
-								default:
-									do_action( 'wc_serial_numbers_order_table_cell_content', $key, $serial_number, $order->get_id() );
-							}
-							?>
+					<?php foreach ( $columns as $key => $label ) {
+						echo sprintf( '<th class="td %s" scope="col" style="text-align:left;">%s</th>', sanitize_html_class( $key ), $label );
+					} ?>
 
-						</td>
-					<?php endforeach; ?>
-					<td>
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-serial-numbers&action=edit&id=' . $serial_number->id ) ) ?>"><?php _e( 'Edit', 'wc-serial-numbers' ); ?></a>
-					</td>
+					<th>
+						<?php _e( 'Actions', 'wc-serial-numbers' ); ?>
+					</th>
 				</tr>
-			<?php endforeach; ?>
+			</thead>
+			<tbody>
+			<?php require_once WC_SERIAL_NUMBER_PLUGIN_INC_DIR . '/admin/views/order-metabox-items.php'; ?>
 			</tbody>
 		</table>
+
+		<script type="text/template" id="tmpl-wcsn-modal-add-products">
+			<div class="wc-backbone-modal" id="wcsn-modal-add-products">
+				<div class="wc-backbone-modal-content">
+					<section class="wc-backbone-modal-main" role="main">
+						<header class="wc-backbone-modal-header">
+							<h1><?php esc_html_e( 'Add products', 'woocommerce' ); ?></h1>
+							<button class="modal-close modal-close-link dashicons dashicons-no-alt">
+								<span class="screen-reader-text">Close modal panel</span>
+							</button>
+						</header>
+						<div id="wcsn-modal-add-products-contents">
+							<article>
+								<form action="" method="post">
+									<table class="widefat">
+										<thead>
+											<tr>
+												<th><?php esc_html_e( 'Product', 'woocommerce' ); ?></th>
+												<th><?php esc_html_e( 'Quantity', 'woocommerce' ); ?></th>
+											</tr>
+										</thead>
+										<?php
+											$row = '
+												<td><select class="wc-product-search" name="item_id" data-action="wcsn_json_search_products_and_variations" data-allow_clear="true" data-display_stock="true" data-exclude_type="variable" data-placeholder="' . esc_attr__( 'Search for a product&hellip;', 'woocommerce' ) . '"></select></td>
+												<td><input type="number" step="1" min="0" max="9999" autocomplete="off" name="item_qty" placeholder="1" size="4" class="quantity" /></td>';
+										?>
+										<tbody data-row="<?php echo esc_attr( $row ); ?>">
+											<tr>
+												<?php echo $row; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+											</tr>
+										</tbody>
+									</table>
+								</form>
+							</article>
+							<footer>
+								<div class="inner">
+									<label>
+										<input
+											id="wcsn-modal-add-products-chkbox"
+											type="checkbox"
+											name="wcsn_product_only"
+											checked
+										> <?php esc_html_e( 'Serial number products only', 'wc-searial-number' ); ?>
+									</label>
+									<button id="btn-ok" class="button button-primary button-large"><?php esc_html_e( 'Add', 'woocommerce' ); ?></button>
+								</div>
+							</footer>
+						</div>
+					</section>
+				</div>
+			</div>
+			<div class="wc-backbone-modal-backdrop modal-close"></div>
+		</script>
 		<?php
 
 		do_action( 'wc_serial_numbers_order_table_bottom', $order, $serial_numbers );

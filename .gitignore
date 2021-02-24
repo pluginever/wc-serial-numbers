@@ -52,3 +52,7 @@ contributors.md
 
 #build
 build
+
+# Compiled assets
+/assets/js/
+/assets/css/
