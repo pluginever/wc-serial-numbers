@@ -275,6 +275,7 @@ class WC_Serial_Numbers {
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-query.php';
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-installer.php';
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-order-handler.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-account-handler.php';
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-encryption.php';
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-ajax.php';
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-api.php';
