@@ -1,7 +1,7 @@
 <?php defined( 'ABSPATH' ) || exit(); ?>
 <div class="wrap about-wrap">
 	<h1><?php _e( 'Welcome', 'wc-serial-numbers' ); ?></h1>
-	<p class="about-text"><?php _e( 'Thank you for installing from WooCommerce Serial Numbers! You can sell license keys, any kind of gift cards, physical products that include a serial number or license key, digital software with access keys, username & password, tickets, lotteries, pin codes almost any kind of secret number based products using the plugin.', 'wc-serial-numbers' ); ?></p>
+	<p class="about-text"><?php _e( 'Thank you for installing WooCommerce Serial Numbers! You can sell license keys, any kind of gift cards, physical products that include a serial number or license key, digital software with access keys, username & password, tickets, lotteries, pin codes almost any kind of secret number based products using the plugin.', 'wc-serial-numbers' ); ?></p>
 </div>
 <div class="wrap" style="margin: 25px 40px 0 20px;">
 </div>
