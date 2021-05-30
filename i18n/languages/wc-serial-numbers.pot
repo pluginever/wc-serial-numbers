@@ -1,15 +1,15 @@
-# Copyright (C) 2020 pluginever
+# Copyright (C) 2021 pluginever
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Serial Numbers 1.2.7\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2020-09-08 06:47:30+00:00\n"
+"POT-Creation-Date: 2021-05-30 09:29:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
