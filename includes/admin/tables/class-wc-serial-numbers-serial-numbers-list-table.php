@@ -365,7 +365,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 				$count = intval( $item->activation_count );
 				$link  = add_query_arg( [
 					'key_id' => $item->id,
-					'page'   => 'serial-numbers-activations'
+					'page'   => 'wc-serial-numbers-activations'
 				], admin_url( 'admin.php' ) );
 
 				$activated = sprintf( '<a href="%s">%s</a>', $link, $count );
