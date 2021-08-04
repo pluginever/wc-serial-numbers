@@ -280,6 +280,7 @@ class WC_Serial_Numbers {
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-api.php';
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-cron.php';
 		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-compat.php';
+		require_once dirname( __FILE__ ) . '/includes/class-wc-serial-numbers-order-api.php';
 
 		if ( is_admin() ) {
 			require_once dirname( __FILE__ ) . '/includes/admin/class-wc-serial-numbers-admin.php';
