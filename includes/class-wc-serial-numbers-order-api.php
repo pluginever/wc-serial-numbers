@@ -28,15 +28,11 @@ class WC_Serial_Numbers_Order_API {
 	public function validate_api_request() {
 		$order_id        = ! empty( $_REQUEST['order_id'] ) ? $_REQUEST['order_id'] : array(); //phpcs:ignore
 		$email           = ! empty( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : ''; //phpcs:ignore
-		$page            = ! empty( $_REQUEST['page'] ) ? sanitize_text_field( $_REQUEST['page'] ) : 1; //phpcs:ignore
-		$per_page        = ! empty( $_REQUEST['per_page'] ) ? sanitize_text_field( $_REQUEST['per_page'] ) : 10; //phpcs:ignore
-		$exclude         = ! empty( $_REQUEST['exclude'] ) ? sanitize_text_field( $_REQUEST['exclude'] ) : ''; //phpcs:ignore
-		$include         = ! empty( $_REQUEST['include'] ) ? sanitize_text_field( $_REQUEST['include'] ) : ''; //phpcs:ignore
+		$page            = ! empty( $_REQUEST['page'] ) ? sanitize_text_field( $_REQUEST['page'] ) : ''; //phpcs:ignore
+		$per_page        = ! empty( $_REQUEST['per_page'] ) ? sanitize_text_field( $_REQUEST['per_page'] ) : ''; //phpcs:ignore
 		$order           = ! empty( $_REQUEST['order'] ) ? sanitize_text_field( $_REQUEST['order'] ) : 'asc'; //phpcs:ignore
 		$orderby         = ! empty( $_REQUEST['orderby'] ) ? sanitize_text_field( $_REQUEST['orderby'] ) : 'post_date'; //phpcs:ignore
-		$parent          = ! empty( $_REQUEST['parent'] ) ? sanitize_text_field( $_REQUEST['parent'] ) : array(); //phpcs:ignore
-		$status          = ! empty( $_REQUEST['status'] ) ? sanitize_text_field( $_REQUEST['status'] ) : ''; //phpcs:ignore
-		$product         = ! empty( $_REQUEST['product'] ) ? sanitize_text_field( $_REQUEST['product'] ) : array(); //phpcs:ignore
+		$status          = ! empty( $_REQUEST['status'] ) ? sanitize_text_field( $_REQUEST['status'] ) : 'completed'; //phpcs:ignore
 		$allow_duplicate = apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', false );
 		if ( $allow_duplicate && ! is_email( $email ) ) {
 			$this->send_error(
@@ -87,15 +83,32 @@ class WC_Serial_Numbers_Order_API {
 	 *
 	 * @param array $request_data Request data
 	 *
+	 * @throws Exception If any error happened
 	 * @since 1.2.9
 	 */
 	public function check_orders( $request_data ) {
-		$orders = WC_Serial_Numbers_Query::init()->from( 'posts' )->where(
-			array(
-				'post_type'   => 'shop_order',
-				'post_status' => 'wc-' . $request_data['status'],
-			)
-		)->order_by( $request_data['orderby'], $request_data['order'] )->page( $request_data['page'], $request_data['per_page'] )->get();
+		$order_query = WC_Serial_Numbers_Query::init()->from( 'posts' );
+		$where       = array();
+		$where_in    = array();
+		if ( ! empty( $request_data['order_id'] ) ) {
+			$where['ID'] = $request_data['order_id'];
+		}
+		if ( ! empty( $request_data['status'] ) ) {
+			$where_in['post_status'] = 'wc-' . $request_data['status'];
+		}
+		$where['post_type'] = 'shop_order';
+
+		$order_query = $order_query->where( $where );
+
+		if ( ! empty( $request_data['page'] ) && $request_data['per_page'] ) {
+			$order_query = $order_query->page( $request_data['page'], $request_data['per_page'] );
+		}
+
+		if ( ! empty( $request_data['orderby'] ) && ! empty( $order ) ) {
+			$order_query = $order_query->order_by( $request_data['orderby'], $request_data['order'] );
+		}
+
+		$orders = $order_query->get();
 
 		$order_data = array();
 		if ( is_array( $orders ) && ! empty( $orders ) ) {
@@ -156,7 +169,7 @@ class WC_Serial_Numbers_Order_API {
 			}
 		}
 		// error_log( print_r( wp_json_encode( $order_data ), true ) );
-		$this->send_success(  $order_data  );
+		$this->send_success( $order_data );
 	}
 
 
