@@ -267,7 +267,9 @@ module.exports = function (grunt) {
 					'!.csscomb.json',
 					'!.editorconfig',
 					'!.jshintrc',
-					'!.tmp'
+					'!.tmp',
+					'!phpunit.xml',
+					'!yarn.lock'
 				],
 				dest: 'build/'
 			}

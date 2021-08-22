@@ -11,7 +11,13 @@
 .eslintrc.json
 .npmrc
 yarn.lock
-
+.svnignore
+.jshintrc
+.phpcs.xml.dist
+.stylelintrc
+deploy.sh
+.gitattributes
+.gitkeep
 
 #COMMON
 CONTRIBUTING.md
@@ -22,7 +28,7 @@ phpcs.xml
 phpcs.xml.dist
 package.json
 package-lock.json
-gruntfile.js
+Gruntfile.js
 composer.json
 composer.lock
 tests
@@ -37,4 +43,6 @@ Thumbs.db
 
 #build files
 .build
+/bin
 src
+assets/css/wc-serial-numbers-admin.scss
