@@ -14,36 +14,53 @@
     "npm": ">=5.5.1"
   },
   "scripts": {
-    "build": "grunt",
-    "build-watch": "grunt watch"
+    "start": "composer install --ignore-platform-reqs && npm install && npm run lint && npm run watch",
+    "watch": "byteever-scripts start",
+    "build": "byteever-scripts build",
+    "postbuild": "npm run i18n",
+    "i18n": "grunt i18n",
+    "format": "byteever-scripts format-js",
+    "lint": "npm run lint:js && npm run lint:css && npm run && npm run lint:php && npm run lint:pkg-json && npm run lint:md",
+    "lint:js": "byteever-scripts lint-js  --fix",
+    "lint:css": "byteever-scripts lint-style --fix",
+    "lint:php": "./vendor/bin/phpcs --standard=phpcs.xml $(git ls-files | grep .php$)",
+    "lint:php-fix": "./vendor/bin/phpcbf --standard=phpcs.xml $(git ls-files | grep .php$)",
+    "lint:pkg-json": "byteever-scripts lint-pkg-json",
+    "lint:md": "byteever-scripts lint-md-docs",
+    "analyze-bundles": "byteever-scripts build --webpack-bundle-analyzer",
+    "check-engines": "byteever-scripts check-engines",
+    "check-licenses": "byteever-scripts check-licenses",
+    "packages-update": "byteever-scripts packages-update",
+    "test:e2e": "byteever-scripts test-e2e",
+    "test:unit": "byteever-scripts test-unit-js"
   },
   "devDependencies": {
-    "autoprefixer": "~8.6.2",
-    "babel": "^6.5.2",
-    "babel-cli": "^6.14.0",
-    "babel-eslint": "^8.2.3",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-es2015": "^6.14.0",
-    "babel-preset-stage-2": "^6.13.0",
-    "config": "^1.24.0",
-    "cross-env": "^5.1.6",
-    "grunt": "^1.2.1",
-    "grunt-checktextdomain": "~1.0.1",
-    "grunt-contrib-clean": "~1.1.0",
-    "grunt-contrib-compress": "^1.4.3",
-    "grunt-contrib-concat": "~1.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "~2.2.1",
-    "grunt-contrib-jshint": "~1.1.0",
-    "grunt-contrib-uglify": "~3.3.0",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-phpcs": "~0.4.0",
-    "grunt-postcss": "~0.9.0",
-    "grunt-prompt": "^1.3.3",
-    "grunt-sass": "^2.1.0",
-    "grunt-stylelint": "~0.10.0",
-    "grunt-wp-i18n": "~1.0.1",
-    "stylelint": "~9.2.1"
+    "@byteever/scripts": "git+ssh://git@github.com:byteever/scripts.git",
+    "grunt-checktextdomain": "^1.0.1",
+    "grunt-wp-i18n": "^1.0.3",
+    "grunt-wp-readme-to-markdown": "^2.0.1",
+    "husky": "4.3.0",
+    "matchdep": "^2.0.0"
   },
-  "keywords": []
+  "@byteever/scripts": {
+    "devURL": "https://buildwc.test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.php": [
+      "php -d display_errors=1 -l",
+      "./vendor/bin/phpcs --extensions=php --warning-severity=8 -s"
+    ],
+    "*.scss": [
+      "stylelint --syntax=scss --fix"
+    ],
+    "*.{js,jsx}": [
+      "wp-scripts format-js",
+      "wp-scripts lint-js"
+    ]
+  }
 }
