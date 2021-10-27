@@ -28,8 +28,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "byteever/plugin-framework": "dev-master",
-    "composer/installers": "~1.7"
+    "byteever/plugin-framework": "dev-master"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
@@ -38,7 +37,7 @@
   },
   "autoload": {
     "psr-4": {
-      "PluginEver\\WooCommerce\\WCSerialNUmbers\\": "src"
+      "PluginEver\\WC_Serial_Numbers\\": "src"
     }
   },
   "config": {
