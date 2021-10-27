@@ -59,8 +59,8 @@ module.exports = function ( grunt ) {
 				options: {
 					domainPath: 'i18n/languages',
 					exclude: [ '.git/*', 'bin/*', 'node_modules/*', 'tests/*' ],
-					mainFile: 'wc-minmax-quantities.php',
-					potFilename: 'wc-minmax-quantities.pot',
+					mainFile: 'wc-serial-numbers.php',
+					potFilename: 'wc-serial-numbers.pot',
 					potHeaders: {
 						poedit: true,
 						'x-poedit-keywordslist': true,
