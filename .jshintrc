@@ -23,6 +23,7 @@
 		"JSON": false,
 		"wp": false,
 		"wc_serial_numbers_admin_i10n":false,
+		"SerialNumberVars":false,
 		"alert":false
 	}
 }
