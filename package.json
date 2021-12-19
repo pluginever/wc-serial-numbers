@@ -21,7 +21,6 @@
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^9.8.8",
-    "cssnano": "^5.0.13",
     "grunt": "^1.4.1",
     "grunt-checktextdomain": "~1.0.1",
     "grunt-contrib-concat": "^2.0.0",
