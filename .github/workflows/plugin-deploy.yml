@@ -1,0 +1,30 @@
+name: Build Release
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    name: Build Plugin
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build
+        id: build
+        uses: sultann/action-wp-build-deploy@master
+        with:
+          generate_zip: true
+          wp_deploy: true
+          wp_username: ${{ secrets.WP_USERNAME }}
+          wp_password: ${{ secrets.WP_PASSWORD }}
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ steps.build.outputs.zip_path }}
+          asset_name: ${{ steps.build.outputs.zip_name }}.zip
+          asset_content_type: application/zip
