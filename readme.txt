@@ -144,6 +144,10 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+= 1.2.9 (19 December, 2021) =
+* Fix - Compatibility with WP v5.8.2
+* Fix - Compatibility with WC v6.0.0
+
 = 1.2.8 (27 May, 2021) =
 * Fix - Compatibility with WP v5.7.2
 * Fix - Compatibility with WC v5.3.0
