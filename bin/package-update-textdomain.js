@@ -1,3 +1,6 @@
+/**
+ * External dependencies
+ */
 const wpTextdomain = require( 'wp-textdomain' );
 
 wpTextdomain( 'packages/**/*.php', {
@@ -20,6 +23,6 @@ wpTextdomain( 'packages/**/*.php', {
 		'_nx:1,2,4c,5d',
 		'_n_noop:1,2,3d',
 		'_nx_noop:1,2,3c,4d',
-		'wp_set_script_translations:1,2d,3'
+		'wp_set_script_translations:1,2d,3',
 	],
 } );

@@ -15,28 +15,51 @@
     "npm": ">=5.5.1"
   },
   "scripts": {
-    "build": "grunt build",
-    "watch": "grunt watch"
+    "postinstall": "husky install",
+    "watch": "byteever-scripts start --webpack-no-externals",
+    "build": "byteever-scripts build  --webpack-no-externals && grunt build",
+    "format": "byteever-scripts format-js",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:pkg-json && npm run lint:md",
+    "lint:js": "byteever-scripts lint-js  --fix",
+    "lint:css": "byteever-scripts lint-style --fix",
+    "lint:pkg-json": "byteever-scripts lint-pkg-json",
+    "lint:md": "byteever-scripts lint-md-docs",
+    "analyze-bundles": "byteever-scripts build --webpack-bundle-analyzer",
+    "check-engines": "byteever-scripts check-engines",
+    "check-licenses": "byteever-scripts check-licenses",
+    "packages-update": "byteever-scripts packages-update",
+    "test:e2e": "byteever-scripts test-e2e",
+    "test:unit": "byteever-scripts test-unit-js"
   },
   "dependencies": {},
   "devDependencies": {
-    "autoprefixer": "^9.8.8",
+    "@byteever/scripts": "git+ssh://git@github.com/byteever/scripts.git",
     "grunt": "^1.4.1",
-    "grunt-checktextdomain": "~1.0.1",
-    "grunt-contrib-concat": "^2.0.0",
-    "grunt-contrib-cssmin": "^4.0.0",
-    "grunt-contrib-jshint": "^3.1.1",
-    "grunt-contrib-uglify": "^5.0.1",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-postcss": "~0.9.0",
-    "grunt-prompt": "^1.3.3",
-    "grunt-sass": "^3.1.0",
-    "grunt-wp-i18n": "~1.0.1",
-    "load-grunt-tasks": "^5.1.0",
-    "node-sass": "^7.0.0"
+    "grunt-checktextdomain": "^1.0.1",
+    "grunt-shell": "^3.0.1",
+    "grunt-wp-i18n": "^1.0.3",
+    "husky": "^7.0.4",
+    "matchdep": "^2.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.php": [
+      "php -d display_errors=1 -l",
+      "./vendor/bin/phpcs --extensions=php --warning-severity=8 -s"
+    ],
+    "*.scss": [
+      "stylelint --syntax=scss --fix"
+    ],
+    "*.{js}": [
+      "grunt jshint"
+    ]
   },
   "browserslist": [
-    "last 1 version",
+    "last 2 version",
     "> 1%",
     "IE 10"
   ]

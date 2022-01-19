@@ -1,6 +1,6 @@
 .wp-list-table.serials {
 	.column-key {
-		width: 22%
+		width: 22%;
 	}
 
 	.serial-key {
@@ -17,19 +17,19 @@
 		cursor: pointer;
 
 		&::before {
-			font-family: dashicons;
-			content: "\f112";
+			font-family: 'dashicons'; /* stylelint-disable-line */
+			content: '\f112';
 			position: absolute;
 			top: 0;
 			bottom: 0;
 			left: -25px;
 			width: 25px;
-			background-color: silver;
-			color: #fff;
+			background-color: silver; /* stylelint-disable-line */
+			color: #fff; /* stylelint-disable-line */
 			line-height: 25px;
 			border-top-left-radius: 3px;
 			border-bottom-left-radius: 3px;
-			text-align: center
+			text-align: center;
 		}
 
 		&.encrypted::after {
@@ -39,18 +39,18 @@
 			bottom: 0;
 			left: 0;
 			content: 'SERIAL-XXXX-XXXX-XXXX';
-			color: rgba(0, 0, 0, .4);
+			color: rgba(0, 0, 0, 0.4);
 			line-height: 25px;
-			padding-left: 10px
+			padding-left: 10px;
 		}
 	}
 
 	.serial-key-status {
-		color: #fff;
+		color: #fff; /* stylelint-disable-line */
 		padding: 3px 10px;
 		font-size: 14px;
 		white-space: nowrap;
-		background-color: silver;
+		background-color: silver; /* stylelint-disable-line */
 		border-radius: 3px;
 		line-height: 1;
 		border: 1px solid transparent;
@@ -58,19 +58,19 @@
 		&.available {
 			color: #155724;
 			background-color: #d4edda;
-			border-color: #c3e6cb
+			border-color: #c3e6cb;
 		}
 
 		&.inactive {
 			color: #1b1e21;
 			background-color: #d6d8d9;
-			border-color: #c6c8ca
+			border-color: #c6c8ca;
 		}
 
 		&.sold {
 			background: #cce5ff;
 			color: #004085;
-			border-color: #b8daff
+			border-color: #b8daff;
 		}
 
 		&.expired {
@@ -88,13 +88,13 @@
 		&.refunded {
 			color: #383d41;
 			background-color: #e2e3e5;
-			border-color: #d6d8db
+			border-color: #d6d8db;
 		}
 
 		&.failed {
 			color: #5e171e;
 			background-color: #f4c1c6;
-			border-color: #f1b0b7
+			border-color: #f1b0b7;
 		}
 	}
 
@@ -131,15 +131,15 @@
 
 
 	&::before {
-		font-family: 'dashicons';
-		content: "\f112";
+		font-family: 'dashicons'; /* stylelint-disable-line */
+		content: '\f112';
 		position: absolute;
 		top: 0;
 		bottom: 0;
 		left: -25px;
 		width: 25px;
-		background-color: #c0c0c0;
-		color: #ffffff;
+		background-color: #c0c0c0; /* stylelint-disable-line */
+		color: #ffffff; /* stylelint-disable-line */
 		text-align: center;
 		line-height: 25px;
 		border-top-left-radius: 3px;
@@ -153,7 +153,7 @@
 		bottom: 0;
 		left: 10px;
 		content: 'SERIAL-XXXX-XXXX-XXXX';
-		color: rgba(0, 0, 0, .4);
+		color: rgba(0, 0, 0, 0.4);
 		line-height: 25px;
 	}
 }
@@ -173,8 +173,8 @@
 
 .select2-container--default .select2-selection--single {
 	border: 1px solid #7e8993;
-	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .07);
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, .07);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
 }
 
 .select2-container--default .select2-selection--single {

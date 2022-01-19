@@ -15,8 +15,10 @@
 .svnignore
 .travis.yml
 .jshintrc
+.eslintrc
 .phpcs.xml.dist
 .stylelintrc
+.stylelintignore
 package.json
 package-lock.json
 yarn.lock
@@ -27,6 +29,7 @@ composer.lock
 /bin
 gulpfile.js
 gruntfile.js
+.husky
 
 #COMMON
 CONTRIBUTING.md
@@ -41,6 +44,7 @@ tests
 *.zip
 *.sh
 
+
 #OS
 .DS_Store
 Thumbs.db
@@ -49,4 +53,4 @@ Thumbs.db
 .wordpress-org
 
 #Assets
-*.scss
+assets
