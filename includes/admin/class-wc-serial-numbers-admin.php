@@ -39,8 +39,8 @@ class WC_Serial_Numbers_Admin {
 			return;
 		}
 
-		$css_url = wc_serial_numbers()->plugin_url() . '/assets/css';
-		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
+		$css_url = wc_serial_numbers()->plugin_url() . '/assets/dist/css';
+		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/dist/js';
 		$version = wc_serial_numbers()->get_version();
 
 

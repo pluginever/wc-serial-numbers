@@ -2,7 +2,7 @@
   "name": "wc-serial-number",
   "title": "WC Serial Number",
   "description": "The Best WooCommerce Plugin ever made!",
-  "version": "1.2.7",
+  "version": "1.2.9",
   "keywords": [],
   "homepage": "https://www.pluginever.com",
   "author": {
@@ -14,11 +14,13 @@
     "node": ">=8.9.3",
     "npm": ">=5.5.1"
   },
-  "scripts": {
-    "build": "grunt build",
-    "watch": "grunt watch"
+  "dependencies": {
+    "@byteever/scripts": "git+ssh://git@github.com/byteever/scripts.git",
+    "grunt": "^1.4.1",
+    "grunt-checktextdomain": "^1.0.1",
+    "grunt-shell": "^3.0.1",
+    "grunt-wp-i18n": "^1.0.3"
   },
-  "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^9.8.8",
     "grunt": "^1.4.1",
@@ -34,6 +36,30 @@
     "grunt-wp-i18n": "~1.0.1",
     "load-grunt-tasks": "^5.1.0",
     "node-sass": "^7.0.0"
+  },
+  "scripts": {
+    "start": "composer install && npm install && npm -s run watch",
+    "watch": "byteever-scripts start --webpack-no-externals",
+    "build": "byteever-scripts build  --webpack-no-externals && grunt build",
+    "postbuild": "npm run -s i18n",
+    "i18n": "npm run -s i18n:pot && npm run -s i18n:build",
+    "i18n:pot": "grunt i18n",
+    "i18n:build": "php bin/combine-pot-files.php i18n/languages/wc-serial-numbers.po i18n/languages/wc-serial-numbers.pot",
+    "lint": "npm run lint:js && npm run lint:css && npm run && npm run lint:php",
+    "lint:js": "byteever-scripts lint-js  --fix",
+    "lint:css": "byteever-scripts lint-style --fix",
+    "lint:php": "./vendor/bin/phpcs --standard=phpcs.xml $(git ls-files | grep .php$)",
+    "lint:php-fix": "./vendor/bin/phpcbf --standard=phpcs.xml $(git ls-files | grep .php$)",
+    "check-engines": "byteever-scripts check-engines",
+    "check-licenses": "byteever-scripts check-licenses",
+    "format:js": "byteever-scripts format-js",
+    "lint:md:docs": "byteever-scripts lint-md-docs",
+    "lint:md:js": "byteever-scripts lint-md-js",
+    "lint:pkg-json": "byteever-scripts lint-pkg-json",
+    "packages-update": "byteever-scripts packages-update",
+    "test:e2e": "byteever-scripts test-e2e",
+    "test:unit": "byteever-scripts test-unit-js",
+    "create-extension": "node ./bin/create-extension.js"
   },
   "browserslist": [
     "last 1 version",

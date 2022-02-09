@@ -50,3 +50,5 @@ Thumbs.db
 
 #Assets
 *.scss
+/assets/css
+/assets/js
