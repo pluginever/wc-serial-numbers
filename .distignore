@@ -1,10 +1,11 @@
-/.wordpress-org
+#GITHUB
 /.git
 /.github
 .gitattributes
 .gitkeep
 .gitmodules
 
+#BUILD FILES
 .distignore
 .gitignore
 .babelrc
@@ -15,8 +16,11 @@
 .svnignore
 .travis.yml
 .jshintrc
+.eslintrc
 .phpcs.xml.dist
 .stylelintrc
+.stylelintignore
+.nvmrc
 package.json
 package-lock.json
 yarn.lock
@@ -28,9 +32,11 @@ composer.lock
 gulpfile.js
 gruntfile.js
 
+#SVN
+/.wordpress-org
+
 #COMMON
 CONTRIBUTING.md
-release-test.sh
 phpunit.xml.dist
 phpunit.xml
 phpcs.xml
@@ -40,13 +46,17 @@ tests
 *.tar.gz
 *.zip
 *.sh
+.phpstorm.meta.php
 
 #OS
 .DS_Store
 Thumbs.db
 
-#WP
-.wordpress-org
-
-#Assets
-*.scss
+#Plugin Specific
+assets/css/
+assets/js/
+assets/blocks/
+assets/fonts/
+assets/images/
+scaffold.json
+readme.md
