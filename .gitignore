@@ -50,5 +50,9 @@ contributors.md
 # Screenshots for e2e tests failures
 /screenshots/
 
+# Asset Files
+assets/dist
+
 #build
 build
+@next

@@ -2,7 +2,7 @@
 Contributors: manikmist09,pluginever
 Tags: WooCommerce Serial Number, WooCommerce License Number, WooCommerce License Key,license keys,software license,woocommerce
 Requires at least: 4.4
-Tested up to: 5.8.2
+Tested up to: 5.9.2
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -144,6 +144,10 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+= 1.2.10 (3 April, 2022) =
+* Fix - Compatibility with WP v5.9.2
+* Fix - Compatibility with WC v6.3.1
+
 = 1.2.9 (19 December, 2021) =
 * Fix - Compatibility with WP v5.8.2
 * Fix - Compatibility with WC v6.0.0
