@@ -697,3 +697,21 @@ function wc_serial_numbers_control_order_table_columns( $columns ) {
 }
 
 add_filter( 'wc_serial_numbers_order_table_columns', 'wc_serial_numbers_control_order_table_columns', 99 );
+
+/**
+ * Serial number account table get columns.
+ *
+ * @return mixed|void
+ * @since 1.2.10
+ */
+function wc_serial_numbers_get_account_table_columns() {
+	$columns = array(
+		'order'            => __( 'Order', 'wc-serial-numbers' ),
+		'serial_key'       => __( 'Serial Number', 'wc-serial-numbers' ),
+		'product'          => __( 'Product', 'wc-serial-numbers' ),
+		'activation_limit' => __( 'Activation Limit', 'wc-serial-numbers' ),
+		'expire_date'      => __( 'Expires', 'wc-serial-numbers' ),
+	);
+
+	return apply_filters( 'wc_serial_numbers_account_table_columns', $columns );
+}
