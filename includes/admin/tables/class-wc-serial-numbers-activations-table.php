@@ -136,7 +136,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		$url            = admin_url( 'admin.php?page=wc-serial-numbers-activations' );
 		$views          = array(
 			'all'      => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $url ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
-			'active'   => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $url ), $current === 'active' ? ' class="current"' : '', __( 'active', 'wc-serial-numbers' ) . $active_count ),
+			'active'   => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $url ), $current === 'active' ? ' class="current"' : '', __( 'Active', 'wc-serial-numbers' ) . $active_count ),
 			'inactive' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inactive', $url ), $current === 'inactive' ? ' class="current"' : '', __( 'Inactive', 'wc-serial-numbers' ) . $inactive_count ),
 		);
 
