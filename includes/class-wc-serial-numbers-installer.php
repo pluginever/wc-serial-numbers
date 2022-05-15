@@ -299,9 +299,11 @@ class WC_Serial_Numbers_Installer {
 	 * @return array
 	 */
 	public static function action_links( $links ) {
-		$links['settings'] = sprintf( '<a href="%s">', admin_url( 'admin.php?page=wc-serial-numbers-settings' ) ) . __( 'Settings', 'wc-serial-numbers' ) . '</a>';
+		$action_links = array(
+			'settings' => '<a href="' . admin_url( 'admin.php?page=wc-serial-numbers-settings' ) . '" aria-label="' . esc_attr__( 'View Serial number settings', 'wc-serial-numbers' ) . '">' . esc_html__( 'Settings', 'wc-serial-numbers' ) . '</a>',
+		);
 
-		return $links;
+		return array_merge( $action_links, $links );
 	}
 
 }
