@@ -206,10 +206,8 @@ class WC_Serial_Numbers_Installer {
 	public static function plugin_row_meta( $links, $file ) {
 
 		if ( $file == wc_serial_numbers()->plugin_basename() ) {
-			$upgrade_link = 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro';
 			$row_meta     = array(
 				'docs'    => '<a href="https://www.pluginever.com/docs/woocommerce-serial-numbers/">' . __( 'Documentation', 'wc-serial-numbers' ) . '</a>',
-				'upgrade' => '<a href="' . esc_url( $upgrade_link ) . '" style="color: red;font-weight: bold;" target="_blank">' . __( 'Upgrade to PRO', 'wc-serial-numbers' ) . '</a>',
 			);
 
 			if ( wc_serial_numbers()->is_pro_active() ) {
@@ -303,7 +301,18 @@ class WC_Serial_Numbers_Installer {
 			'settings' => '<a href="' . admin_url( 'admin.php?page=wc-serial-numbers-settings' ) . '" aria-label="' . esc_attr__( 'View Serial number settings', 'wc-serial-numbers' ) . '">' . esc_html__( 'Settings', 'wc-serial-numbers' ) . '</a>',
 		);
 
-		return array_merge( $action_links, $links );
+		$links = array_merge( $action_links, $links );
+
+		if ( ! wc_serial_numbers()->is_pro_active() ) {
+			$upgrade_link = 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro';
+			$upgrade_links = array(
+				'upgrade' => '<a href="' . esc_url( $upgrade_link ) . '" style="color: red;font-weight: bold;" target="_blank">' . __( 'Go Pro', 'wc-serial-numbers' ) . '</a>',
+			);
+
+			$links = array_merge( $links, $upgrade_links );
+		}
+
+		return $links;
 	}
 
 }
