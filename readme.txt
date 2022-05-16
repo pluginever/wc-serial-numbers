@@ -1,14 +1,14 @@
-=== WooCommerce Serial Numbers - License Key Manager ===
-Contributors: manikmist09,pluginever,b-07
-Tags: WooCommerce Serial Number, WooCommerce License Number, WooCommerce License Key, license keys, license manager, software license,woocommerce
+=== WooCommerce Serial Numbers ===
+Contributors: manikmist09,pluginever
+Tags: WooCommerce Serial Number, WooCommerce License Number, WooCommerce License Key,license keys,software license,woocommerce
 Requires at least: 4.4
-Tested up to: 5.9
+Tested up to: 5.8.2
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The best WordPress Plugin to sell license keys, redeem cards, and other secret numbers!
+The best WordPress Plugin to sell license keys, redeem cards and other secret numbers!
 
 == Description ==
 **[WooCommerce Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is a simple yet the most powerful serial numbers generator and license key manager plugin for WooCommerce. It enables you to easily sell all sorts of numbers and/or secret key distributed products.
@@ -58,7 +58,7 @@ With **WooCommerce Serial Numbers** you will be able to sell ***license keys***,
 🎫 Automatic license key generator to auto-create & assign keys with orders.
 🎫 License key management option from the order page with required actions.
 🎫 Create unlimited license key generator rules with your custom patterns.
-🎫 Generate your desired number of keys from the rules with a single click.
+🎫 Generate your desired numbers of keys from the rules with a single click.
 🎫 Support for bulk Import and/or export of license/serial keys from/to CSV.
 🎫 Option to sell license keys even if there are no available keys in stock.
 🎫 You will be able to add duplicate license/serial keys for your products.
@@ -78,6 +78,9 @@ With **WooCommerce Serial Numbers** you will be able to sell ***license keys***,
 🌠 Selling lottery tickets on your WordPress site is made simple with this.
 🌠 Finally, it will help increase your revenue by adding new product types.
 
+## Installation and Usage:
+
+Like most WordPress plugins, the installation of WooCommerce Serial Numbers is very simple and straightforward. If you have any experience of installing a WordPress plugin, there is nothing new for you. Most importantly, you need to have WooCommerce installed and activated on your site. It requires WooCommerce to function properly. [For a detailed installation guide follow our documentation on installation](https://pluginever.com/docs/wocommerce-serial-numbers/installation-of-woocommerce-serial-numbers/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org).
 
 ## How Does It Work:
 
@@ -99,58 +102,36 @@ You will find that adding a license key is very easy. To create a serial number,
 
 👉 Finally, comes the "Expires At" option. Enter a date from the pop-up calendar. Serial Numbers will expire after this date and they will not be assigned with any order after this date.
 
-If you are not selling license keys for software or games then, you can ignore the **third** and **fourth** options. You can disable this from the **Settings** section by enabling **Disable Software Support**.
+If you are not selling license keys for software or games then, you can ignore the **third** and **fourth** option. You can disable this from the **Settings** section by enabling **Disable Software Support**.
 
 ## Compatibility:
 WooCommerce Serial Numbers is only dependent on WooCommerce. Apart from that, you should at least have 5.6 as your PHP & MySQL version. We have tested this plugin thoroughly to make sure it operates seamlessly under every situation. We did not detect any problem or conflict during our test. Still, we are open to issues as we understand that WordPress and WooCommerce is a vast ecosystem of plugins and themes.
 
+## 📢 Frequently asked questions
+
+ **How will this plugin empower my online store?**
+Primarily this plugin will enable you to sell and manage license keys. So along with your physical products, you will be able to sell digital products like license keys, pin codes, gift cards, and other licensable products. It will definitely start a new era for your online venture.
+
+**Which products are the main target of this plugin?**
+This WooCommerce plugin has the ability to extend and become a fully-fledged license management tool. The current focus highly prioritizes on enabling WooCommerce store owners to sell pin codes, gift cards, and other secret codes.
+
+**What is the minimum PHP version that I have to maintain to use this plugin?**
+To enjoy the sweet features of this powerful plugin you have to at least have PHP version 5.6 or higher installed. If you have a lower version of PHP then you may face problems.
+
+**Can I ask/suggest for a new feature?**
+Yes, of course. We do not create products for ourselves. You are always welcome to suggest new features and improvements.
+
+**How do I get the advanced features?**
+The advanced features include bulk import of license keys and automatic license generation. They offer much-needed productivity enhancement for every store owner. You can purchase the premium version from Plugiever and enjoy those advanced features.
+
+**How do I work with software API?**
+WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn more from our documentation about how it works](https://www.pluginever.com/docs/woocommerce-serial-numbers/woocommerce-serial-numbers-api-docs/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org).
+
 == Installation ==
-
-## Installation and Usage:
-
-Like most WordPress plugins, the installation of WooCommerce Serial Numbers is very simple and straightforward. If you have any experience of installing a WordPress plugin, there is nothing new for you. Most importantly, you need to have WooCommerce installed and activated on your site. It requires WooCommerce to function properly.
-
-= Automatic installation =
-
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of WooCommerce Serial Numbers, log in to your WordPress dashboard, navigate to the Plugins menu and click "Add New".
-
-In the search field type "WooCommerce Serial Numbers" and click Search Plugins. Once you have found the plugin you can view details about it such as the point release, rating and description. Most importantly of course, you can install it by simply clicking "Install Now".
-
-= Manual installation =
-
-
 1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
-= Updating =
-
-Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
-
-== Frequently Asked Questions ==
-
-= How will this plugin empower my online store? =
-
-Primarily this plugin will enable you to sell and manage license keys. So along with your physical products, you will be able to sell digital products like license keys, pin codes, gift cards, and other licensable products. It will definitely start a new era for your online venture.
-
-= Which products are the main target of this plugin? =
-
-This WooCommerce plugin has the ability to extend and become a fully-fledged license management tool. The current focus highly prioritizes on enabling WooCommerce store owners to sell pin codes, gift cards, and other secret codes.
-
-= What is the minimum PHP version that I have to maintain to use this plugin? =
-
-To enjoy the sweet features of this powerful plugin you have to at least have PHP version 5.6 or higher installed. If you have a lower version of PHP then you may face problems.
-
-= Can I ask/suggest for a new feature? =
-Yes, of course. We do not create products for ourselves. You are always welcome to suggest new features and improvements.
-
-= How do I get the advanced features? =
  
-The advanced features include bulk import of license keys and automatic license generation. They offer much-needed productivity enhancement for every store owner. You can purchase the premium version from Plugiever and enjoy those advanced features.
-
-= How do I work with software API? =
-
-WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn more from our documentation about how it works](https://www.pluginever.com/docs/woocommerce-serial-numbers/woocommerce-serial-numbers-api-docs/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org).
-
 == Screenshots ==
 1. WooCommerce Serial Numbers list
 2. Add serial number
