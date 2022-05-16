@@ -27,26 +27,26 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_General' ) ) :
 			global $woocommerce, $wp_roles;
 			$settings = array(
 				[
-					'title' => __( 'Serial Number Settings.', 'wc-serial-numbers' ),
+					'title' => __( 'General settings', 'wc-serial-numbers' ),
 					'type'  => 'title',
 					'desc'  => __( 'The following options affects how the serial numbers will work.', 'wc-serial-numbers' ),
 					'id'    => 'section_serial_numbers'
 				],
 				[
-					'title'   => __( 'Auto Complete Order', 'wc-serial-numbers' ),
+					'title'   => __( 'Auto-complete order', 'wc-serial-numbers' ),
 					'id'      => 'wc_serial_numbers_autocomplete_order',
-					'desc'    => __( 'This will automatically complete an order after successfull payment.', 'wc-serial-numbers' ),
+					'desc'    => __( 'Automatically completes orders  after successfull payments.', 'wc-serial-numbers' ),
 					'type'    => 'checkbox',
 					'default' => 'no',
 				],
 				[
-					'title' => __( 'Reuse Serial Number', 'wc-serial-numbers' ),
+					'title' => __( 'Reuse serial number', 'wc-serial-numbers' ),
 					'id'    => 'wc_serial_numbers_reuse_serial_number',
-					'desc'  => __( 'This will recover failed, refunded serial number for selling again.', 'wc-serial-numbers' ),
+					'desc'  => __( 'Recover failed, refunded serial numbers for selling again.', 'wc-serial-numbers' ),
 					'type'  => 'checkbox',
 				],
 				[
-					'title'           => __( 'Revoke statuses', 'wc-serial-numbers' ),
+					'title'           => __( 'Revoke status', 'wc-serial-numbers' ),
 					'desc'            => __( 'Cancelled', 'wc-serial-numbers' ),
 					'id'              => 'wc_serial_numbers_revoke_status_cancelled',
 					'default'         => 'yes',
@@ -71,16 +71,16 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_General' ) ) :
 
 				],
 				[
-					'title'   => __( 'Hide Serial Number', 'wc-serial-numbers' ),
+					'title'   => __( 'Hide serial number', 'wc-serial-numbers' ),
 					'id'      => 'wc_serial_numbers_hide_serial_number',
 					'desc'    => __( 'All serial numbers will be hidden and only displayed when the "Show" button is clicked.', 'wc-serial-numbers' ),
 					'default' => 'yes',
 					'type'    => 'checkbox',
 				],
 				[
-					'title'   => __( 'Disable Software Support', 'wc-serial-numbers' ),
+					'title'   => __( 'Disable software support', 'wc-serial-numbers' ),
 					'id'      => 'wc_serial_numbers_disable_software_support',
-					'desc'    => __( 'This will disable Software Licensing support & API functionalities..', 'wc-serial-numbers' ),
+					'desc'    => __( 'Disable Software Licensing support & API functionalities.', 'wc-serial-numbers' ),
 					'default' => 'yes',
 					'type'    => 'checkbox',
 				],
@@ -89,29 +89,29 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_General' ) ) :
 					'id'   => 'section_serial_numbers'
 				],
 				[
-					'title' => __( 'Stock notification.', 'wc-serial-numbers' ),
+					'title' => __( 'Stock notification', 'wc-serial-numbers' ),
 					'type'  => 'title',
 					'desc'  => __( 'The following options affects how stock notification will work.', 'wc-serial-numbers' ),
 					'id'    => 'stock_section'
 				],
 				[
-					'title'             => __( 'Stock Notification Email', 'wc-serial-numbers' ),
+					'title'             => __( 'Stock notification email', 'wc-serial-numbers' ),
 					'id'                => 'wc_serial_numbers_enable_stock_notification',
-					'desc'              => __( 'This will send you notification email when product stock is low.', 'wc-serial-numbers' ),
+					'desc'              => __( 'Sends notification emails when product stock is low.', 'wc-serial-numbers' ),
 					'type'              => 'checkbox',
 					'sanitize_callback' => 'intval',
 				],
 				array(
-					'title'   => __( 'Stock Threshold', 'wc-serial-numbers' ),
+					'title'   => __( 'Stock threshold', 'wc-serial-numbers' ),
 					'id'    => 'wc_serial_numbers_stock_threshold',
 					'desc'    => __( 'When stock goes below the above number, it will send notification email.', 'wc-serial-numbers' ),
 					'type'    => 'number',
 					'default' => '5',
 				),
 				array(
-					'title'   => __( 'Notification Recipient Email', 'wc-serial-numbers' ),
+					'title'   => __( 'Notification recipient email', 'wc-serial-numbers' ),
 					'id'    => 'wc_serial_numbers_notification_recipient',
-					'desc'    => __( 'The email address to be used for sending the email notification.', 'wc-serial-numbers' ),
+					'desc'    => __( 'The email address to be used for sending the email notifications.', 'wc-serial-numbers' ),
 					'type'    => 'text',
 					'default' => get_option( 'admin_email' ),
 				),
