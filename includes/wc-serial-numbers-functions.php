@@ -130,7 +130,7 @@ function wc_serial_numbers_get_serial_number_statuses() {
  */
 function wc_serial_numbers_get_key_sources() {
 	$sources = array(
-		'custom_source' => __( 'Manually Generated serial number', 'wc-serial-numbers' ),
+		'custom_source' => __( 'Manually generated serial number', 'wc-serial-numbers' ),
 	);
 
 	return apply_filters( 'wc_serial_numbers_key_sources', $sources );
