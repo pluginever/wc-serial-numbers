@@ -284,4 +284,3 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 = 1.0 (21 January,2019) =
 Initial release
-
