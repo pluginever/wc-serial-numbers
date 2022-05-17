@@ -29,7 +29,7 @@ if ( ! class_exists( 'WC_Serial_Numbers_Settings_General' ) ) :
 				[
 					'title' => __( 'General settings', 'wc-serial-numbers' ),
 					'type'  => 'title',
-					'desc'  => __( 'The following options affects how the serial numbers will work.', 'wc-serial-numbers' ),
+					'desc'  => __( 'The following options affect how the serial numbers will work.', 'wc-serial-numbers' ),
 					'id'    => 'section_serial_numbers'
 				],
 				[
