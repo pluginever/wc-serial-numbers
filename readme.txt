@@ -163,6 +163,11 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+= 1.2.10 (17 May, 2022) =
+Fix - Compatibility with WC v6.5.1
+Fix - Fix Typo
+Enhance - Enhance simple product metabox styles
+
 = 1.2.9 (19 December, 2021) =
 * Fix - Compatibility with WP v5.8.2
 * Fix - Compatibility with WC v6.0.0
