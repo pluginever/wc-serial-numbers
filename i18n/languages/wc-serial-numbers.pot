@@ -1,15 +1,15 @@
-# Copyright (C) 2021 pluginever
+# Copyright (C) 2022 pluginever
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Serial Numbers 1.2.7\n"
+"Project-Id-Version: WooCommerce Serial Numbers 1.2.10\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2021-12-18 15:45:08+00:00\n"
+"POT-Creation-Date: 2022-05-17 05:40:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: includes/admin/class-wc-serial-numbers-admin-menus.php:49
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:24
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:33
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:216
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:218
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:197
 #: includes/wc-serial-numbers-misc-functions.php:87
 msgid "Serial Numbers"
@@ -39,84 +39,89 @@ msgstr ""
 
 #: includes/admin/class-wc-serial-numbers-admin-menus.php:66
 #: includes/admin/class-wc-serial-numbers-admin-menus.php:67
-#: includes/class-wc-serial-numbers-installer.php:302
+#: includes/class-wc-serial-numbers-installer.php:301
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:78
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:77
+#: includes/class-wc-serial-numbers-installer.php:309
+msgid "Go Pro"
+msgstr ""
+
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:90
 msgid "Serials per page"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:84
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:111
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:96
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:116
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:201
 #: includes/wc-serial-numbers-functions.php:113
 msgid "Available"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:84
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:96
 msgid "Serial Numbers are valid and available for sell"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:85
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:97
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:202
 #: includes/wc-serial-numbers-functions.php:114
 msgid "Sold"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:85
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:97
 msgid "Serial Numbers are sold and active"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:86
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:98
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:58
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:203
 #: includes/wc-serial-numbers-functions.php:115
 msgid "Refunded"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:86
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:98
 msgid "Serial Numbers are sold then refunded"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:87
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:99
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:50
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:204
 #: includes/wc-serial-numbers-functions.php:116
 msgid "Cancelled"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:87
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:99
 msgid "Serial Numbers are sold then cancelled"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:88
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:100
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:205
 #: includes/wc-serial-numbers-functions.php:117
 msgid "Expired"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:88
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:100
 msgid "Serial Numbers are sold then expired"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:89
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:101
 #: includes/admin/tables/class-wc-serial-numbers-activations-table.php:140
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:207
 #: includes/wc-serial-numbers-functions.php:119
 msgid "Inactive"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:89
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:101
 msgid "Serial Numbers are are npt available for sell "
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:95
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:107
 msgid "Statuses"
 msgstr ""
 
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:54
-msgid "Sell Serial Numbers"
+msgid "Sell serial numbers"
 msgstr ""
 
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:55
@@ -128,78 +133,74 @@ msgid "Delivery quantity"
 msgstr ""
 
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:66
-msgid "The number of serial key will be delivered per item. Available in PRO."
+msgid "Number of serial key(s) will be delivered per item. Available in PRO."
 msgstr ""
 
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:82
-msgid "Serial Key Source"
+msgid "Serial key source"
 msgstr ""
 
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:100
-msgid "Software Version"
+msgid "Software version"
 msgstr ""
 
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:101
-msgid "Version number for the software. If its not a software product ignore this."
+msgid "Version number for the software. Ignore if it's not a software product."
 msgstr ""
 
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:102
 msgid "e.g. 1.0"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:116
-msgid "Serial Number available for sale"
-msgstr ""
-
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:120
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:122
 msgid ""
-"Want serial number to be generated automatically and auto assign with order "
-"and many more?"
+"Want serial numbers to be generated automatically and auto assign with "
+"order and many more?"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:120
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:139
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:122
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:141
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:139
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:141
 msgid "WooCommerce Serial Number Free version does not support product variation."
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:207
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:209
 msgid "Order missing serial numbers for this item."
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:255
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:257
 msgid "Order status is not completed."
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:262
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:264
 msgid "No serial numbers associated with the order."
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:270
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:272
 #: includes/wc-serial-numbers-misc-functions.php:89
 msgid "Order waiting for assigning serial numbers."
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:287
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:289
 msgid "Actions"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:308
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:310
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:364
 #: includes/wc-serial-numbers-misc-functions.php:126
 msgid "Unlimited"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:315
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:317
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:378
 #: includes/wc-serial-numbers-misc-functions.php:133
 msgid "Lifetime"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:328
+#: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:330
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:313
 msgid "Edit"
 msgstr ""
@@ -232,33 +233,40 @@ msgstr ""
 msgid "The changes you made will be lost if you navigate away from this page."
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:55
+#: includes/admin/class-wc-serial-numbers-admin.php:56
 msgid "Search product by name"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:56
+#: includes/admin/class-wc-serial-numbers-admin.php:57
 msgid "Search order"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:57
+#: includes/admin/class-wc-serial-numbers-admin.php:58
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:309
 msgid "Show"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:58
+#: includes/admin/class-wc-serial-numbers-admin.php:59
 msgid "Hide"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:93
+#: includes/admin/class-wc-serial-numbers-admin.php:94
 msgid "Order assigned all serial numbers."
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:96
+#: includes/admin/class-wc-serial-numbers-admin.php:97
 msgid "Order partially missing serial numbers(%d)"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:99
+#: includes/admin/class-wc-serial-numbers-admin.php:100
 msgid "Order missing serial numbers(%d)"
+msgstr ""
+
+#: includes/admin/class-wc-serial-numbers-admin.php:176
+msgid ""
+"If you like <strong>WooCommerce Serial Numbers</strong> please leave us a "
+"<a href=\"%s\" target=\"_blank\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
+"rating. It takes a minute and helps a lot. Thanks in advance!"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-activations-screen.php:23
@@ -267,11 +275,13 @@ msgid "Search"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:47
-msgid "Update Serial"
+#: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:174
+msgid "Update Serial Number"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:49
-msgid "Add Serial"
+#: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:176
+msgid "Add Serial Number"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:53
@@ -298,30 +308,28 @@ msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:80
 msgid ""
-"Select product to add serial number. NOTE: Free version does not support "
-"variation & subscription product."
+"Select a product to add a serial number. Note: Free version does not "
+"support variations & subscription products."
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:87
-#: includes/wc-serial-numbers-functions.php:632
-msgid "Serial Number"
+msgid "Serial number"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:94
 msgid ""
-"Your secret number, supports multiline. Will be encrypted before it saving. "
-"eg. d555b5ae-d9a6-41cb-ae54-361427357382"
+"Your secret number, supports multiline. Will be encrypted before saving it. "
+"E.g., d555b5ae-d9a6-41cb-ae54-361427357382"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:102
-#: includes/wc-serial-numbers-functions.php:634
-msgid "Activation Limit"
+msgid "Activation limit"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:107
 msgid ""
 "Maximum number of times the key can be used to activate the software. If "
-"the product is not software keep blank."
+"the product is not software, keep it blank."
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:114
@@ -329,7 +337,7 @@ msgid "Validity (days)"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:119
-msgid "The number of days the key will be valid from the purchase date."
+msgid "Number of days the key will be valid from the purchase date."
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:127
@@ -338,8 +346,8 @@ msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:131
 msgid ""
-"After this date the key will not be assigned with any order. Leave blank "
-"for no expire date."
+"After this date, the key will not be assigned with any order. Leave blank "
+"for no expiry date."
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:140
@@ -349,7 +357,7 @@ msgid "Status"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:149
-msgid "The status of the serial number."
+msgid "Status of the serial number."
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:156
@@ -358,14 +366,6 @@ msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:161
 msgid "The order to which the serial number will be assigned."
-msgstr ""
-
-#: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:174
-msgid "Update Serial Number"
-msgstr ""
-
-#: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:176
-msgid "Add Serial Number"
 msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:201
@@ -377,31 +377,31 @@ msgid "General"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:30
-msgid "Serial Number Settings."
+msgid "General settings"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:32
-msgid "The following options affects how the serial numbers will work."
+msgid "The following options affect how the serial numbers will work."
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:36
-msgid "Auto Complete Order"
+msgid "Auto-complete order"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:38
-msgid "This will automatically complete an order after successfull payment."
+msgid "Automatically completes orders  after successfull payments."
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:43
-msgid "Reuse Serial Number"
+msgid "Reuse serial number"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:45
-msgid "This will recover failed, refunded serial number for selling again."
+msgid "Recover failed, refunded serial numbers for selling again."
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:49
-msgid "Revoke statuses"
+msgid "Revoke status"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:66
@@ -411,7 +411,7 @@ msgid "Failed"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:74
-msgid "Hide Serial Number"
+msgid "Hide serial number"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:76
@@ -421,15 +421,15 @@ msgid ""
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:81
-msgid "Disable Software Support"
+msgid "Disable software support"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:83
-msgid "This will disable Software Licensing support & API functionalities.."
+msgid "Disable Software Licensing support & API functionalities."
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:92
-msgid "Stock notification."
+msgid "Stock notification"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:94
@@ -437,15 +437,15 @@ msgid "The following options affects how stock notification will work."
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:98
-msgid "Stock Notification Email"
+msgid "Stock notification email"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:100
-msgid "This will send you notification email when product stock is low."
+msgid "Sends notification emails when product stock is low."
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:105
-msgid "Stock Threshold"
+msgid "Stock threshold"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:107
@@ -453,11 +453,11 @@ msgid "When stock goes below the above number, it will send notification email."
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:112
-msgid "Notification Recipient Email"
+msgid "Notification recipient email"
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-general.php:114
-msgid "The email address to be used for sending the email notification."
+msgid "The email address to be used for sending the email notifications."
 msgstr ""
 
 #: includes/admin/settings/wc-serial-numbers-settings-help.php:22
@@ -475,7 +475,7 @@ msgid "All"
 msgstr ""
 
 #: includes/admin/tables/class-wc-serial-numbers-activations-table.php:139
-msgid "active"
+msgid "Active"
 msgstr ""
 
 #: includes/admin/tables/class-wc-serial-numbers-activations-table.php:155
@@ -609,16 +609,16 @@ msgid "The email is sent by <a href=\"%s\" target=\"_blank\">WC Serial Numbers</
 msgstr ""
 
 #: includes/admin/views/html-admin-help.php:3
-msgid "Welcome"
+msgid "Welcome!"
 msgstr ""
 
 #: includes/admin/views/html-admin-help.php:4
 msgid ""
-"Thank you for installing from WooCommerce Serial Numbers! You can sell "
-"license keys, any kind of gift cards, physical products that include a "
-"serial number or license key, digital software with access keys, username & "
-"password, tickets, lotteries, pin codes almost any kind of secret number "
-"based products using the plugin."
+"Thank you for using WooCommerce Serial Numbers! You can sell license keys, "
+"any kind of gift cards, physical products that include a serial number or a "
+"license key, digital software with access keys, username & passwords, "
+"tickets, lotteries, pin codes, and almost any kind of secret number based "
+"products using the plugin."
 msgstr ""
 
 #: includes/admin/views/html-admin-help.php:12
@@ -626,7 +626,7 @@ msgid "Support"
 msgstr ""
 
 #: includes/admin/views/html-admin-help.php:15
-msgid "Submit A Ticket"
+msgid "Submit a support ticket"
 msgstr ""
 
 #: includes/admin/views/html-admin-help.php:16
@@ -642,7 +642,7 @@ msgstr ""
 
 #: includes/admin/views/html-admin-help.php:20
 #: includes/admin/views/html-admin-help.php:22
-#: includes/class-wc-serial-numbers-installer.php:211
+#: includes/class-wc-serial-numbers-installer.php:210
 msgid "Documentation"
 msgstr ""
 
@@ -650,7 +650,7 @@ msgstr ""
 msgid ""
 "This is the place to go to reference different aspects of the plugin. Our "
 "online documentation is a useful resource for learning the ins and outs of "
-"using our plugins."
+"the plugin."
 msgstr ""
 
 #: includes/admin/views/html-admin-settings.php:25
@@ -733,12 +733,12 @@ msgstr ""
 msgid "Serial Numbers stock running low"
 msgstr ""
 
-#: includes/class-wc-serial-numbers-installer.php:212
-msgid "Upgrade to PRO"
+#: includes/class-wc-serial-numbers-installer.php:268
+msgid "Once a Minute"
 msgstr ""
 
-#: includes/class-wc-serial-numbers-installer.php:270
-msgid "Once a Minute"
+#: includes/class-wc-serial-numbers-installer.php:301
+msgid "View Serial number settings"
 msgstr ""
 
 #: includes/class-wc-serial-numbers-order-handler.php:63
@@ -753,7 +753,7 @@ msgid "Order marked as complete by WC Serial Numbers"
 msgstr ""
 
 #: includes/wc-serial-numbers-functions.php:133
-msgid "Manually Generated serial number"
+msgid "Manually generated serial number"
 msgstr ""
 
 #: includes/wc-serial-numbers-functions.php:307
@@ -825,8 +825,16 @@ msgstr ""
 msgid "No Activation ID found for updating"
 msgstr ""
 
+#: includes/wc-serial-numbers-functions.php:632
+msgid "Serial Number"
+msgstr ""
+
 #: includes/wc-serial-numbers-functions.php:633
 msgid "Email"
+msgstr ""
+
+#: includes/wc-serial-numbers-functions.php:634
+msgid "Activation Limit"
 msgstr ""
 
 #: includes/wc-serial-numbers-functions.php:635

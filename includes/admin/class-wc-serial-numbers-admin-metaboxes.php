@@ -51,7 +51,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			woocommerce_wp_checkbox(
 				array(
 					'id'            => '_is_serial_number',
-					'label'         => __( 'Sell Serial Numbers', 'wc-serial-numbers' ),
+					'label'         => __( 'Sell serial numbers', 'wc-serial-numbers' ),
 					'description'   => __( 'Enable this if you are selling serial numbers for this product.', 'wc-serial-numbers' ),
 					'value'         => get_post_meta( $post->ID, '_is_serial_number', true ),
 					'wrapper_class' => 'options_group',
@@ -63,7 +63,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			woocommerce_wp_text_input( apply_filters( 'wc_serial_numbers_delivery_quantity_field_args', array(
 				'id'                => '_delivery_quantity',
 				'label'             => __( 'Delivery quantity', 'wc-serial-numbers' ),
-				'description'       => __( 'The number of serial key will be delivered per item. Available in PRO.', 'wc-serial-numbers' ),
+				'description'       => __( 'Number of serial key(s) will be delivered per item. Available in PRO.', 'wc-serial-numbers' ),
 				'value'             => empty( $delivery_quantity ) ? 1 : $delivery_quantity,
 				'type'              => 'number',
 				'wrapper_class'     => 'options_group',
@@ -79,7 +79,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 				'id'            => "_serial_key_source",
 				'name'          => "_serial_key_source",
 				'class'         => "serial_key_source",
-				'label'         => __( 'Serial Key Source', 'wc-serial-numbers' ),
+				'label'         => __( 'Serial key source', 'wc-serial-numbers' ),
 				'value'         => empty( $source ) ? 'custom_source' : $source,
 				'wrapper_class' => 'options_group',
 				'options'       => $sources,
@@ -97,8 +97,8 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 				woocommerce_wp_text_input(
 					array(
 						'id'            => '_software_version',
-						'label'         => __( 'Software Version', 'wc-serial-numbers' ),
-						'description'   => __( 'Version number for the software. If its not a software product ignore this.', 'wc-serial-numbers' ),
+						'label'         => __( 'Software version', 'wc-serial-numbers' ),
+						'description'   => __( 'Version number for the software. Ignore if it\'s not a software product.', 'wc-serial-numbers' ),
 						'placeholder'   => __( 'e.g. 1.0', 'wc-serial-numbers' ),
 						'wrapper_class' => 'options_group',
 						'desc_tip'      => true,
@@ -106,18 +106,20 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 				);
 			}
 			if ( 'custom_source' == $source ) {
+				$available_serial_numbers = WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->where( [
+					'product_id' => $post->ID,
+					'status'     => 'available'
+				] )->count();
+
 				echo sprintf(
 					'<p class="form-field options_group"><label>%s</label><span class="description">%d %s</span></p>',
 					__( 'Available', 'wc-serial-numbers' ),
-					WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->where( [
-						'product_id' => $post->ID,
-						'status'     => 'available'
-					] )->count(),
-					__( 'Serial Number available for sale', 'wc-serial-numbers' )
+					$available_serial_numbers,
+					__( 'serial number'. ( ( 1 == $available_serial_numbers || 0 == $available_serial_numbers ) ? '' : 's' ). ' available for sale', 'wc-serial-numbers' )
 				);
 			}
 			if ( ! wc_serial_numbers()->is_pro_active() ) {
-				echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Want serial number to be generated automatically and auto assign with order and many more?', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
+				echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Want serial numbers to be generated automatically and auto assign with order and many more?', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 			}
 			?>
 		</div>

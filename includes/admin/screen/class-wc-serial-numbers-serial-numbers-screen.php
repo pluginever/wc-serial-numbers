@@ -44,9 +44,9 @@ class WC_Serial_Numbers_Admin_Screen {
         <div class="wrap">
             <h1 class="wp-heading-inline">
 				<?php if ( $update ): ?>
-					<?php _e( 'Update Serial', 'wc-serial-numbers' ) ?>
+					<?php _e( 'Update Serial Number', 'wc-serial-numbers' ) ?>
 				<?php else: ?>
-					<?php _e( 'Add Serial', 'wc-serial-numbers' ) ?>
+					<?php _e( 'Add Serial Number', 'wc-serial-numbers' ) ?>
 				<?php endif ?>
             </h1>
             <a href="<?php echo esc_url( remove_query_arg( array( 'action', 'id' ) ) ); ?>" class="page-title-action">
@@ -77,21 +77,21 @@ class WC_Serial_Numbers_Admin_Screen {
                                     placeholder="<?php _e( 'Select Product', 'wc-serial-numbers' ); ?>">
 								<?php echo sprintf( '<option value="%d" selected="selected">%s</option>', $item['product_id'], wc_serial_numbers_get_product_title( $item['product_id'] ) ); ?>
                             </select>
-                            <p class="description"><?php esc_html_e( 'Select product to add serial number. NOTE: Free version does not support variation & subscription product.', 'wc-serial-numbers' ); ?></p>
+                            <p class="description"><?php esc_html_e( 'Select a product to add a serial number. Note: Free version does not support variations & subscription products.', 'wc-serial-numbers' ); ?></p>
                         </td>
                     </tr>
 
                     <tr>
                         <th scope="row">
                             <label for="serial_key">
-								<?php esc_html_e( 'Serial Number', 'wc-serial-numbers' ); ?>
+								<?php esc_html_e( 'Serial number', 'wc-serial-numbers' ); ?>
                             </label>
                         </th>
 
                         <td>
                             <textarea name="serial_key" id="serial_key" class="regular-text" required="required"
                                       placeholder="d555b5ae-d9a6-41cb-ae54-361427357382"><?php echo $item['serial_key']; ?></textarea>
-                            <p class="description"><?php esc_html_e( 'Your secret number, supports multiline. Will be encrypted before it saving. eg. d555b5ae-d9a6-41cb-ae54-361427357382', 'wc-serial-numbers' ); ?></p>
+                            <p class="description"><?php esc_html_e( 'Your secret number, supports multiline. Will be encrypted before saving it. E.g., d555b5ae-d9a6-41cb-ae54-361427357382', 'wc-serial-numbers' ); ?></p>
                         </td>
                     </tr>
 
@@ -99,12 +99,12 @@ class WC_Serial_Numbers_Admin_Screen {
                         <tr>
                             <th scope="row">
                                 <label for="activation_limit">
-									<?php esc_html_e( 'Activation Limit', 'wc-serial-numbers' ); ?>
+									<?php esc_html_e( 'Activation limit', 'wc-serial-numbers' ); ?>
                                 </label>
                             </th>
                             <td>
 								<?php echo sprintf( '<input name="activation_limit" id="activation_limit" class="regular-text" type="number" value="%d" autocomplete="off">', $item['activation_limit'] ); ?>
-                                <p class="description"><?php esc_html_e( 'Maximum number of times the key can be used to activate the software. If the product is not software keep blank.', 'wc-serial-numbers' ); ?></p>
+                                <p class="description"><?php esc_html_e( 'Maximum number of times the key can be used to activate the software. If the product is not software, keep it blank.', 'wc-serial-numbers' ); ?></p>
                             </td>
                         </tr>
 
@@ -116,7 +116,7 @@ class WC_Serial_Numbers_Admin_Screen {
                             </th>
                             <td>
 								<?php echo sprintf( '<input name="validity" id="validity" class="regular-text" type="number" value="%d">', $item['validity'] ); ?>
-                                <p class="description"><?php esc_html_e( 'The number of days the key will be valid from the purchase date.', 'wc-serial-numbers' ); ?></p>
+                                <p class="description"><?php esc_html_e( 'Number of days the key will be valid from the purchase date.', 'wc-serial-numbers' ); ?></p>
                             </td>
                         </tr>
 
@@ -128,7 +128,7 @@ class WC_Serial_Numbers_Admin_Screen {
                         </th>
                         <td>
 							<?php echo sprintf( '<input name="expire_date" id="expire_date" class="regular-text wc-serial-numbers-select-date" type="text" autocomplete="off" value="%s">', $item['expire_date'] ); ?>
-                            <p class="description"><?php esc_html_e( 'After this date the key will not be assigned with any order. Leave blank for no expire date.', 'wc-serial-numbers' ); ?></p>
+                            <p class="description"><?php esc_html_e( 'After this date, the key will not be assigned with any order. Leave blank for no expiry date.', 'wc-serial-numbers' ); ?></p>
                         </td>
                     </tr>
 
@@ -146,7 +146,7 @@ class WC_Serial_Numbers_Admin_Screen {
 										<?php echo sprintf( '<option value="%s" %s>%s</option>', $key, selected( $item['status'], $key, false ), $option ); ?>
 									<?php endforeach; ?>
                                 </select>
-                                <p class="description"><?php esc_html_e( 'The status of the serial number.', 'wc-serial-numbers' ); ?></p>
+                                <p class="description"><?php esc_html_e( 'Status of the serial number.', 'wc-serial-numbers' ); ?></p>
                             </td>
                         </tr>
                         <!-- order -->

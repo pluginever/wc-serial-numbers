@@ -12,6 +12,7 @@ class WC_Serial_Numbers_Admin {
 		add_action( 'admin_head', array( __CLASS__, 'print_style' ) );
 		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_serial_column' ) );
 		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'add_order_serial_column_content' ), 20, 2 );
+		add_action( 'admin_footer_text', array( __CLASS__, 'admin_footer_note' ) );
 	}
 
 	/**
@@ -160,6 +161,21 @@ class WC_Serial_Numbers_Admin {
 		$style = ob_get_contents();
 		ob_get_clean();
 		echo $style;
+	}
+
+
+	/**
+	 * Add footer note
+	 *
+	 * @return string
+	*/
+	public static function admin_footer_note() {
+		$screen = get_current_screen();
+		if ( 'wc-serial-numbers' == $screen->parent_base ) {
+			$star_url = 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5#new-post';
+			$text     = sprintf( __( 'If you like <strong>WooCommerce Serial Numbers</strong> please leave us a <a href="%s" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. It takes a minute and helps a lot. Thanks in advance!', 'wc-serial-numbers' ), $star_url );
+			return $text;
+		}
 	}
 }
 
