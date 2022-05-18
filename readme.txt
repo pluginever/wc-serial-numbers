@@ -8,14 +8,14 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The best WooCommerce plugin to sell and mange license keys with ease!
+The best WooCommerce plugin to sell and manage license keys with ease!
 
 == Description ==
-**[WooCommerce Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license key manager plugin for WooCommerce. You can generate, sell, and mange software, game, digital produsts' license keys easily with this plugin.
+**[WooCommerce Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license key manager plugin for WooCommerce. You can generate, sell, and manage software, game and digital produsts' license keys easily with this plugin.
 
 === 💵 With WooCommerce Serial Numbers You Can Sell: ===
 
-* License activated digital software, games and digital products in the simplest way.
+* License activated digital software, games, and digital products in the simplest way.
 * Gift cards, recharge cards, and other secret number-based products. 
 * Pin codes, username & passwords.
 * Lottery tickets.
@@ -42,7 +42,7 @@ The best WooCommerce plugin to sell and mange license keys with ease!
 * A flexible option to edit the serial/license key when necessary.
 * Software licensing API for validation, activation, and deactivations.
 * License tracking options for the site admin from the order page.
-* License key encruption to keep you safe.
+* License key encryption to keep you safe.
 * Option to hide the license keys on the admin dashboard.
 * Supports WPML to sell license keys on multilingual sites.
 * Supports third-party PDF Invoice & Packing Slips plugins.
@@ -53,7 +53,7 @@ The best WooCommerce plugin to sell and mange license keys with ease!
 
 * Create and assign license keys for WooCommerce subscription products.
 * Create and assign license keys for WooCommerce variable products.
-* Generate bulk licence keys with your custom key generator rule.
+* Generate bulk license keys with your custom key generator rule.
 * Random & sequential order for the generator rules.
 * Automatic license key generator to auto-create & assign keys with orders.
 * License key management option from the order page with required actions.
@@ -70,7 +70,7 @@ Generating and adding a license key is easy. You just need to click ‘Add New�
 Next, follow these five steps:
 
 **1. Select A Product**
-Select a desired product from your ‘Add New’ serial key interface. Next, select the right product from the dropdown by entering a few characters of the product name.
+Select the desired product from your ‘Add New’ serial key interface. Next, select the right product from the dropdown by entering a few characters of the product name.
 
 **2. Generate Keys**
 * Add the desired serial/license key from the ‘Serial Numbers’ tab. You could use any combination of letters and numbers to generate serial/license keys. 
@@ -81,10 +81,10 @@ Select a desired product from your ‘Add New’ serial key interface. Next, sel
 **4. Set Validation Days**
 * Set key validation days in the ‘Validity’ field. For example, if you desire your license key to stay valid for a whole year, enter 365 in its input bar. It’s worth noting that the countdown starts from the date of purchase. 
 
-**5. Set Exriry Date**
+**5. Set Expiry Date**
 * Enter a later date from the pop-up calendar in the ‘Expires At’ section. License keys will expire after the date you enter. There will be no allocation to this serial key with future orders after the date expires.  
 
-If your license keys are not for games or software, you can skip options three and four. You can disasle this from the Settings menu by clicking the ‘Disable software support’ checkbox.
+If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
 === 💝 WooCommerce Serial Numbers has received lots of love from its users: === 
 **Jose Varghese** 
@@ -114,7 +114,7 @@ If your license keys are not for games or software, you can skip options three a
 
 Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of WooCommerce Serial Numbers, log in to your WordPress dashboard, navigate to the Plugins menu and click "Add New".
 
-In the search field type "WooCommerce Serial Numbers" and click Search Plugins. Once you have found the plugin you can view details about it such as the point release, rating and description. Most importantly of course, you can install it by simply clicking "Install Now".
+In the search field type "WooCommerce Serial Numbers" and click Search Plugins. Once you have found the plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking "Install Now".
 
 = Manual installation =
 
@@ -133,7 +133,7 @@ Primarily this plugin will enable you to sell and manage license keys. When a cu
 
 = Which products are the main target of this plugin? =
 
-This WooCommerce plugin has the ability to extend and become a fully-fledged license management tool. The current focus highly prioritizes on enabling WooCommerce store owners to sell software, game, digital products, pin codes, gift cards, and other secret codes.
+This WooCommerce plugin has the ability to extend and become a fully-fledged license management tool. The current focus highly prioritizes enabling WooCommerce store owners to sell software, game, digital products, pin codes, gift cards, and other secret codes.
 
 = Can I ask/suggest for a new feature? =
 Yes, of course. We do not create products for ourselves. You are always welcome to suggest new features and improvements.
@@ -172,7 +172,7 @@ Enhance - Enhance simple product metabox styles
 * Fix - Compatibility with WC v5.3.0
 
 = 1.2.7 (8 September, 2020) =
-* Fix - Shop manager User level : Search products do not show and decrypting key failed
+* Fix - Shop manager User level: Search products do not show and decrypting key failed
 * Fix - Notification email conflict
 * Fix - Stock notification need to skip private products
 * Fix - Activation list table serial number column is not working
