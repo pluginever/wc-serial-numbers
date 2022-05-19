@@ -1,5 +1,5 @@
 === WooCommerce Serial Numbers - License Key Manager ===
-Contributors: manikmist09,pluginever,b-07
+Contributors: manikmist09, pluginever, b-07
 Tags: license, key, license key, license number, software license, serial number, serial key, license manager, woocommerce
 Requires at least: 4.4
 Tested up to: 5.9
@@ -8,14 +8,14 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The best WooCommerce plugin to sell and manage license keys with ease!
+The best WooCommerce plugin to sell and manage license keys with ease.
 
 == Description ==
-**[WooCommerce Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license key manager plugin for WooCommerce. You can generate, sell, and manage software, game and digital produsts' license keys easily with this plugin.
+**[WooCommerce Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license key manager plugin for WooCommerce. You can generate, sell, and manage software, games and digital produsts' license keys easily with this plugin.
 
 === 💵 With WooCommerce Serial Numbers You Can Sell: ===
 
-* License activated digital software, games, and digital products in the simplest way.
+* License activated digital software, games, and digital products.
 * Gift cards, recharge cards, and other secret number-based products. 
 * Pin codes, username & passwords.
 * Lottery tickets.
@@ -23,11 +23,11 @@ The best WooCommerce plugin to sell and manage license keys with ease!
 
 === 💻 Find Out More: ===
 
-* **[See the Live Demo Site](https://pluginever.xyz/wc-serial-numbers "See the Live Demo Site")**
+* **[See The Live Demo Site](https://pluginever.xyz/wc-serial-numbers "See the Live Demo Site")**
 * **[Plugin Documentation](https://pluginever.com/docs/woocommerce-serial-numbers "Plugin Documentation")**
 * **[Need Help? Contact Our 24/7 Support](https://pluginever.com/support "Need Help? Contact Our 24/7 Support")**
 
-=== ✨ WooCommerce Serial Numbers Features ===
+=== ✨ WooCommerce Serial Numbers Features: ===
 
 * Create, assign, and manage license keys for digital products.
 * Option to add license validity so they expire after the preset time.
@@ -47,9 +47,9 @@ The best WooCommerce plugin to sell and manage license keys with ease!
 * Supports WPML to sell license keys on multilingual sites.
 * Supports third-party PDF Invoice & Packing Slips plugins.
 
-> Looking for more features? [Get The PRO Version]([https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org](https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/))
+> ➡️ Looking for more features? [Get The PRO Version.](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
-=== 💥 WooCommerce Serial Numbers PRO Features: ===
+=== ⚡ WooCommerce Serial Numbers PRO Features: ===
 
 * Create and assign license keys for WooCommerce subscription products.
 * Create and assign license keys for WooCommerce variable products.
@@ -73,27 +73,31 @@ Next, follow these five steps:
 Select the desired product from your ‘Add New’ serial key interface. Next, select the right product from the dropdown by entering a few characters of the product name.
 
 **2. Generate Keys**
-* Add the desired serial/license key from the ‘Serial Numbers’ tab. You could use any combination of letters and numbers to generate serial/license keys. 
+Add the desired serial/license key from the ‘Serial Numbers’ tab. You could use any combination of letters and numbers to generate serial/license keys. 
 
 **3. Set Activation Limit**
-* Set the ‘Activation Limit’ of your license key. This mostly applies to software and games licenses. In this section, you can also restrict total activations from the license. For instance, you can enter ‘3’ to allow a maximum of three activations with one key. 
+Set the ‘Activation Limit’ of your license key. This mostly applies to software and games licenses. In this section, you can also restrict total activations from the license. For instance, you can enter ‘3’ to allow a maximum of three activations with one key. 
 
 **4. Set Validation Days**
-* Set key validation days in the ‘Validity’ field. For example, if you desire your license key to stay valid for a whole year, enter 365 in its input bar. It’s worth noting that the countdown starts from the date of purchase. 
+Set key validation days in the ‘Validity’ field. For example, if you desire your license key to stay valid for a whole year, enter 365 in its input bar. It’s worth noting that the countdown starts from the date of purchase. 
 
 **5. Set Expiry Date**
-* Enter a later date from the pop-up calendar in the ‘Expires At’ section. License keys will expire after the date you enter. There will be no allocation to this serial key with future orders after the date expires.  
+Enter a later date from the calendar in the ‘Expires At’ section. License keys will expire after the date you enter. There will be no allocation to this serial key with future orders after the date expires.  
 
 If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
 === 💝 WooCommerce Serial Numbers has received lots of love from its users: === 
 **Jose Varghese** 
 ***Developer***
-> [Thanks a lot for providing this super awesome plugin. It saved a lot
-> of time while working on my client website. Good luck and keep up the
-> work!! 👏👏](https://wordpress.org/support/topic/awesome-plugin-4630/)
+> [Thanks a lot for providing this super awesome plugin. It saved a lot of time while working on my client website. Good luck and keep up the work!!](https://wordpress.org/support/topic/awesome-plugin-4630/)
 
-=== 💢 Superchange Your WooCommerce Store With Our Other Plugins: === 
+**Gaurav Yadav** 
+> [Best Serial code generator plugin ever!](https://wordpress.org/support/topic/best-serial-code-generator-plugin-ever/)
+
+**Kajol Dave** 
+> [Best Serial Numbers Pro Plugin](https://wordpress.org/support/topic/best-serial-numbers-pro-plugin/)
+
+=== 💢 Supercharge Your WooCommerce Store With Our Other Plugins: === 
 
 * **[WooCommerce Category Slider](https://wordpress.org/plugins/woo-category-slider-by-pluginever "WooCommerce Category Slider")**
 * **[WooCommerce Category Showcase](https://wordpress.org/plugins/wc-category-showcase "WooCommerce Category Showcase")**
