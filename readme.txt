@@ -51,7 +51,6 @@ The best WooCommerce plugin to sell and manage license keys with ease.
 
 === ⚡ WooCommerce Serial Numbers PRO Features: ===
 
-* Create and assign license keys for WooCommerce subscription products.
 * Create and assign license keys for WooCommerce variable products.
 * Generate bulk license keys with your custom key generator rule.
 * Random & sequential order for the generator rules.
