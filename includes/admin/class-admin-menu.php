@@ -93,6 +93,15 @@ class Admin_Menu {
 			array( Admin_Settings::class, 'output' )
 		);
 
+		add_submenu_page(
+			'wc-serial-numbers',
+			__( 'Tools', 'wc-serial-numbers' ),
+			__( 'Tools', 'wc-serial-numbers' ),
+			'manage_options',
+			'wc-serial-numbers-tools',
+			array( __CLASS__, 'render_tools_page' )
+		);
+
 		if ( ! defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) ) {
 			add_submenu_page(
 				'wc-serial-numbers',
@@ -134,6 +143,14 @@ class Admin_Menu {
 		include_once __DIR__.'/views/html-generators-page.php';
 	}
 
+	/**
+	 * Render tools page output.
+	 *
+	 * @since 1.3.1
+	*/
+	public static function render_tools_page() {
+		include_once __DIR__.'/views/html-tools-page.php';
+	}
 	/**
 	 * Load serial numbers pages.
 	 *
