@@ -135,7 +135,7 @@ class Install {
 		add_option( 'wc_serial_numbers_version', Plugin::instance()->get_plugin_version() );
 		self::create_tables();
 		self::create_cron_jobs();
-		//self::create_options();
+		self::create_options();
 	}
 
 	/**
@@ -183,7 +183,7 @@ class Install {
 			"CREATE TABLE {$wpdb->prefix}wcsn_generators(
 			`id` bigint(20) NOT NULL auto_increment,
 			`name` VARCHAR(191) NOT NULL,
-			`patern` VARCHAR(32) NOT NULL,
+			`pattern` VARCHAR(32) NOT NULL,
 			`is_sequential` INT(1) NOT NULL DEFAULT 1,
 			`activation_limit` INT(9) NOT NULL DEFAULT 0,
 			`validity` INT(9) DEFAULT NULL,

@@ -182,9 +182,21 @@ class Plugin extends Framework\AbstractPlugin {
 	 */
 	public function includes() {
 		include_once __DIR__ . '/class-install.php';
+		include_once __DIR__ . '/class-serial-keys.php';
+		include_once __DIR__ . '/class-generators.php';
+		include_once __DIR__ . '/class-activations.php';
+		include_once __DIR__ . '/entity/class-data.php';
+		include_once __DIR__ . '/entity/class-serial-key.php';
+		include_once __DIR__ . '/entity/class-generator.php';
+		include_once __DIR__ . '/entity/class-activation.php';
+
+
 		if ( is_admin() ) {
 			include_once __DIR__ . '/admin/class-admin-manager.php';
+		}
 
+		if ( defined( '\WP_CLI' ) && WP_CLI ) {
+			include_once __DIR__ . '/class-cli.php';
 		}
 	}
 }
