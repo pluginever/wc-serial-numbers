@@ -1,54 +1,36 @@
-# Editors
-project.xml
-project.properties
-/nbproject/private/
-.buildpath
-.project
-.settings*
-.idea
-.vscode
-*.sublime-project
-*.sublime-workspace
-.sublimelinterrc
+# IDEs
+/.settings
+/.project
+/.idea
 
-# Grunt
-/node_modules/
-none
+# NPM packages used by Grunt.js
+/node_modules
 
-# Sass
-.sass-cache/
-
-# OS X metadata
-.DS_Store
-
-# Windows junk
-Thumbs.db
-
-# ApiGen
-/wc-apidocs/
-
-# Behat/CLI Tests
-tests/cli/installer
-tests/cli/composer.phar
-tests/cli/composer.lock
-tests/cli/composer.json
-tests/cli/vendor
-
-# Unit tests
-/tmp
-/tests/bin/tmp
-/tests/e2e-tests/config/local-*.json
-/tests/e2e-tests/config/local.json
-
-# Logs
-/logs
+# NPM debug log
+npm-debug.log
 
 # Composer
-/vendor/
-contributors.md
+/vendor
 
-# Screenshots for e2e tests failures
-/screenshots/
+# PHPUnit
+/tmp
 
-#build
-build
+# Misc
+*.zip
+.cache
+.sass-cache*
+.husky
+
+# Tests
+codeception.yml
+.env
+/tests/_data/dump.sql
+.env.testing
+
+# Framework
+deps
+!deps/bootstrap.php
+
+
+# Build
+assets/dist

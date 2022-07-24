@@ -1,43 +1,63 @@
 {
-  "name": "wc-serial-number",
-  "title": "WC Serial Number",
-  "description": "The Best WooCommerce Plugin ever made!",
-  "version": "1.2.7",
-  "keywords": [],
-  "homepage": "https://www.pluginever.com",
-  "author": {
-    "name": "pluginever",
-    "email": "support@pluginever.com",
-    "url": "https://www.pluginever.com"
+  "name": "wc-serial-numbers",
+  "title": "WooCommerce Serial Numbers",
+  "version": "1.0.0",
+  "description": "The best WooCommerce Plugin to sell license keys, redeem cards and other secret numbers!",
+  "homepage": "https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/",
+  "license": "GPL-3.0+",
+  "scripts": {
+    "build": "wp-scripts build && grunt build",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:md:docs": "wp-scripts lint-md-docs",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "packages-update": "wp-scripts packages-update",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "start": "wp-scripts start",
+    "test:e2e": "wp-scripts test-e2e",
+    "test:unit": "wp-scripts test-unit-js",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@lodder/time-grunt": "^4.0.0",
+    "@wordpress/prettier-config": "^1.4.0",
+    "@wordpress/scripts": "^23.3.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "grunt": "^1.5.3",
+    "grunt-checktextdomain": "^1.0.1",
+    "grunt-text-replace": "^0.4.0",
+    "grunt-wp-i18n": "^1.0.3",
+    "grunt-wp-readme-to-markdown": "^2.1.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
+    "load-grunt-tasks": "^5.1.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "webpack-remove-empty-scripts": "^0.8.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.php": [
+      "php -d display_errors=1 -l",
+      "composer run-script pre-commit"
+    ],
+    "!(*min).js": [
+      "eslint --fix"
+    ]
   },
   "engines": {
-    "node": ">=8.9.3",
-    "npm": ">=5.5.1"
-  },
-  "scripts": {
-    "build": "grunt build",
-    "watch": "grunt watch"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "autoprefixer": "^9.8.8",
-    "grunt": "^1.4.1",
-    "grunt-checktextdomain": "~1.0.1",
-    "grunt-contrib-concat": "^2.0.0",
-    "grunt-contrib-cssmin": "^4.0.0",
-    "grunt-contrib-jshint": "^3.1.1",
-    "grunt-contrib-uglify": "^5.0.1",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-postcss": "~0.9.0",
-    "grunt-prompt": "^1.3.3",
-    "grunt-sass": "^3.1.0",
-    "grunt-wp-i18n": "~1.0.1",
-    "load-grunt-tasks": "^5.1.0",
-    "node-sass": "^7.0.0"
+    "node": "^16.13.1",
+    "pnpm": "^6.24.2"
   },
   "browserslist": [
-    "last 1 version",
-    "> 1%",
-    "IE 10"
+    "> 0.1%",
+    "ie 8",
+    "ie 9"
   ]
 }

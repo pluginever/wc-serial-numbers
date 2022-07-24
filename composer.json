@@ -1,0 +1,91 @@
+{
+  "name": "pluginever/wc-serial-numbers",
+  "description": "WooCommerce Serial Numbers.",
+  "homepage": "https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "repositories": [
+    {
+      "url": "git@github.com:byteever/byteever-sniffs.git",
+      "type": "github"
+    },
+    {
+      "url": "git@github.com:pluginever/framework-plugin.git",
+      "type": "github"
+    },
+    {
+      "url": "git@github.com:pluginever/framework-settings.git",
+      "type": "github"
+    }
+  ],
+  "require": {
+    "php": ">=7.2"
+  },
+  "require-dev": {
+    "byteever/byteever-sniffs": "dev-master",
+    "codeception/lib-innerbrowser": "^1.0",
+    "codeception/module-asserts": "^1.1",
+    "codeception/module-cli": "^1.0",
+    "codeception/module-db": "^1.0",
+    "codeception/module-filesystem": "^1.0",
+    "codeception/module-phpbrowser": "^1.0",
+    "codeception/module-rest": "^1.2",
+    "codeception/module-webdriver": "^1.0",
+    "codeception/util-universalframework": "^1.0",
+    "coenjacobs/mozart": "^0.7.1",
+    "lucatume/wp-browser": "^3.1",
+    "phpcompatibility/php-compatibility": "9.3.5",
+    "pluginever/framework-plugin": "dev-master",
+    "pluginever/framework-settings": "dev-master"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/*": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "autoload": {},
+  "autoload-dev": {
+    "psr-4": {
+      "WooCommerceSerialNumbers\\Tests\\WPUnit\\": "tests/wpunit",
+      "WooCommerceSerialNumbers\\Tests\\Unit\\": "tests/unit"
+    },
+    "classmap": []
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "\"vendor/bin/mozart\" compose",
+      "composer dump-autoload"
+    ],
+    "post-update-cmd": [
+      "\"vendor/bin/mozart\" compose",
+      "composer dump-autoload"
+    ],
+    "phpcbf": "./vendor/bin/phpcbf -p .",
+    "phpcs": "./vendor/bin/phpcs --standard=ByteEver-Default --extensions=php -s -p .",
+    "selenium:start": "selenium-server -port 4444",
+    "test:acceptance": "@php ./vendor/bin/codecept run acceptance",
+    "test:clean": "@php ./vendor/bin/codecept clean",
+    "test:coverage": "@php ./vendor/bin/codecept run wpunit --coverage --coverage-xml --coverage-html",
+    "test:functional": "@php ./vendor/bin/codecept run functional",
+    "test:generate-scenarios": "@php vendor/bin/codecept generate:scenarios",
+    "test:integration": "@php ./vendor/bin/codecept run wpunit"
+  },
+  "extra": {
+    "mozart": {
+      "dep_namespace": "PluginEver\\WooCommerceSerialNumbers\\",
+      "dep_directory": "/deps/",
+      "classmap_directory": "/deps/classes/",
+      "classmap_prefix": "WooCommerceSerialNumbers_",
+      "delete_vendor_directories": true,
+      "packages": [
+        "pluginever/framework-plugin",
+        "pluginever/framework-settings"
+      ]
+    }
+  }
+}
