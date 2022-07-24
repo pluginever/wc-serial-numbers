@@ -20,8 +20,45 @@ class Admin_Menu {
 	 * @return void
 	 */
 	public function __construct() {
+//		add_filter( 'woocommerce_screen_ids', array( __CLASS__, 'screen_ids' ) );
+		add_action( 'admin_menu', array( __CLASS__, 'register_nav_items' ), 20 );
 		add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
 		add_action( 'admin_menu', array( __CLASS__, 'register_pages' ) );
+	}
+
+
+	/**
+	 * Add the plugin screens to the WooCommerce screens
+	 *
+	 * @param array $ids Screen ids.
+	 *
+	 * @return array
+	 */
+	public static function screen_ids( $ids ) {
+		$ids[] = 'woocommerce_page_wc-serial-numbers-settings';
+
+		return $ids;
+	}
+
+	/**
+	 * Registers the navigation items in the WC Navigation Menu.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function register_nav_items() {
+		if ( ! class_exists( '\Automattic\WooCommerce\Admin\Features\Navigation\Menu' ) ) {
+			return;
+		}
+//		if ( function_exists( 'wc_admin_connect_page' ) ) {
+//			wc_admin_connect_page(
+//				array(
+//					'id'        => 'toplevel_page_wc-serial-numbers',
+//					'parent'    => 'toplevel_page_wc-serial-numbers',
+//					'screen_id' => 'toplevel_page_wc-serial-numbers',
+//					'title'     => __( 'Starter Plugin Settings', 'wc-serial-numbers' ),
+//				)
+//			);
+//		}
 	}
 
 	/**
@@ -31,11 +68,11 @@ class Admin_Menu {
 	 * @param $option
 	 * @param $value
 	 *
-	 * @return mixed
 	 * @since 1.2.0
+	 * @return mixed
 	 */
 	public static function save_screen_options( $status, $option, $value ) {
-		if ( 'serials_per_page' == $option ) {
+		if ( 'serials_per_page' === $option ) {
 			return $value;
 		}
 	}
@@ -120,9 +157,9 @@ class Admin_Menu {
 	 * Render main serial_numbers page output.
 	 *
 	 * @since 1.3.1
-	*/
+	 */
 	public static function render_main_page() {
-		include_once __DIR__.'/views/html-main-page.php';
+		include_once __DIR__ . '/views/html-main-page.php';
 	}
 
 	/**
@@ -131,7 +168,7 @@ class Admin_Menu {
 	 * @since 1.3.1
 	 */
 	public static function render_activations_page() {
-		include_once __DIR__.'/views/html-activations-page.php';
+		include_once __DIR__ . '/views/html-activations-page.php';
 	}
 
 	/**
@@ -140,22 +177,23 @@ class Admin_Menu {
 	 * @since 1.3.1
 	 */
 	public static function render_generators_page() {
-		include_once __DIR__.'/views/html-generators-page.php';
+		include_once __DIR__ . '/views/html-generators-page.php';
 	}
 
 	/**
 	 * Render tools page output.
 	 *
 	 * @since 1.3.1
-	*/
+	 */
 	public static function render_tools_page() {
-		include_once __DIR__.'/views/html-tools-page.php';
+		include_once __DIR__ . '/views/html-tools-page.php';
 	}
+
 	/**
 	 * Load serial numbers pages.
 	 *
 	 * @since 1.2.0
-	*/
+	 */
 	public static function load_serial_numbers_page() {
 		$args = array(
 			'label'   => __( 'Serials per page', 'wc-serial-numbers' ),
@@ -186,7 +224,7 @@ class Admin_Menu {
 	 * Pro version redirect.
 	 *
 	 * @since 1.2.0
-	*/
+	 */
 	public static function go_pro_redirect() {
 		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
 			wp_redirect( 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=wp-menu&utm_campaign=gopro&utm_medium=wp-dash' );

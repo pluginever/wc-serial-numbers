@@ -28,8 +28,8 @@ codeception.yml
 .env.testing
 
 # Framework
-deps
-!deps/bootstrap.php
+lib
+!lib/bootstrap.php
 
 
 # Build

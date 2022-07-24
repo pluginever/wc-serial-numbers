@@ -21,12 +21,12 @@ class Install {
 	 * @var array
 	 */
 	private static $updates = array(
-		'1.0.1' => 'update-1.0.1.php',
-		'1.0.6' => 'update-1.0.6.php',
-		'1.0.8' => 'update-1.0.8.php',
-		'1.1.2' => 'update-1.1.2.php',
-		'1.2.0' => 'update-1.2.0.php',
-		'1.2.1' => 'update-1.2.1.php',
+//		'1.0.1' => 'update-1.0.1.php',
+//		'1.0.6' => 'update-1.0.6.php',
+//		'1.0.8' => 'update-1.0.8.php',
+//		'1.1.2' => 'update-1.1.2.php',
+//		'1.2.0' => 'update-1.2.0.php',
+//		'1.2.1' => 'update-1.2.1.php',
 	);
 
 	/**
@@ -51,7 +51,7 @@ class Install {
 	 * @return void
 	 */
 	public static function maybe_install() {
-		if ( ! defined( 'IFRAME_REQUEST' ) && self::get_db_version() !== Plugin::instance()->get_plugin_version() ) {
+		if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( self::get_db_version(), Plugin::instance()->get_plugin_version(), '!=' ) ) {
 			self::install();
 		}
 	}
@@ -65,6 +65,7 @@ class Install {
 	public static function maybe_update() {
 		$current_db_version = self::get_db_version();
 		if ( ! empty( $current_db_version ) && version_compare( $current_db_version, Plugin::instance()->get_plugin_version(), '<' ) ) {
+			self::install();
 			$logger = wc_get_logger();
 			foreach ( self::$updates as $version => $update_callbacks ) {
 				if ( version_compare( $current_db_version, $version, '<' ) ) {
@@ -91,7 +92,7 @@ class Install {
 	 * @return void
 	 */
 	public static function admin_init() {
-		if ( Plugin::instance()->get_plugin_settings_url() &&  'yes' === get_transient( 'wc_serial_numbers_activated' ) ) {
+		if ( Plugin::instance()->get_plugin_settings_url() && 'yes' === get_transient( 'wc_serial_numbers_activated' ) ) {
 			delete_transient( 'wc_serial_numbers_activated' );
 			wp_safe_redirect( Plugin::instance()->get_plugin_settings_url() );
 			exit();
@@ -101,7 +102,7 @@ class Install {
 	/**
 	 * Add custom cron schedule
 	 *
-	 * @param $schedules
+	 * @param array $schedules Cron schedules.
 	 *
 	 * @since 1.0.0
 	 * @return array
@@ -109,7 +110,7 @@ class Install {
 	public static function cron_schedules( $schedules ) {
 		$schedules ['once_a_minute'] = array(
 			'interval' => 60,
-			'display'  => __( 'Once a Minute', 'wc-serial-numbers' )
+			'display'  => __( 'Once a Minute', 'wc-serial-numbers' ),
 		);
 
 		return $schedules;
@@ -204,7 +205,7 @@ class Install {
 			PRIMARY KEY  (`id`),
 			KEY `key_id` (`key_id`),
 			KEY `is_active` (`is_active`)
-			) $collate; "
+			) $collate; ",
 		];
 
 		foreach ( $tables as $table ) {
@@ -219,7 +220,7 @@ class Install {
 	 * @return void
 	 */
 	public static function create_cron_jobs() {
-		//setup transient actions
+		// setup transient actions
 		if ( false === wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
 			wp_schedule_event( time(), 'hourly', 'wc_serial_numbers_hourly_event' );
 		}

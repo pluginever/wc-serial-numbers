@@ -52,10 +52,27 @@ module.exports = function (grunt) {
 					]
 				}
 			},
+			addtextdomain: {
+				options: {
+					expand: true,
+					text_domain: 'wc-serial-numbers',
+					updateDomains: [ 'framework-text-domain' ],
+				},
+				plugin: {
+					files: {
+						src: [
+							'*.php',
+							'**/*.php',
+							'!node_modules/**',
+							'!tests/**',
+							'!vendor/**',
+						],
+					},
+				},
+			},
 			checktextdomain: {
 				options: {
-					text_domain: "<%= package.name %>",
-					fix:true,
+					text_domain: "wc-serial-numbers",
 					keywords: [
 						'__:1,2d',
 						'_e:1,2d',

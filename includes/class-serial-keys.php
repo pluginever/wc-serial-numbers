@@ -1,6 +1,7 @@
 <?php
 
 namespace PluginEver\WooCommerceSerialNumbers;
+
 use PluginEver\WooCommerceSerialNumbers\Entity\Serial_Key;
 
 // don't call the file directly.
@@ -12,6 +13,7 @@ class Serial_Keys {
 	 * Get serial number's statuses.
 	 *
 	 * since 1.2.0
+	 *
 	 * @return array
 	 */
 	public static function get_statuses() {
@@ -28,7 +30,7 @@ class Serial_Keys {
 	/**
 	 * Get serial key.
 	 *
-	 * @param int $id serial key id
+	 * @param int    $id serial key id
 	 * @param string $output The required return type. One of OBJECT, ARRAY_A, or ARRAY_N. Default OBJECT.
 	 *
 	 * @since 1.3.0
@@ -148,7 +150,7 @@ class Serial_Keys {
 		$cache_group  = Serial_Key::get_cache_group();
 		$table        = $wpdb->prefix . Serial_Key::get_table_name();
 		$columns      = Serial_Key::get_columns();
-		$key          = md5( serialize( $args ) );
+		$key          = md5( maybe_serialize( $args ) );
 		$last_changed = wp_cache_get_last_changed( $cache_group );
 		$cache_key    = "$cache_group:$key:$last_changed";
 		$cache        = wp_cache_get( $cache_key, $cache_group );
@@ -159,19 +161,22 @@ class Serial_Keys {
 		$having       = '';
 		$limit        = '';
 
-		$args = (array) wp_parse_args( $args, array(
-			'orderby'  => 'date_created',
-			'order'    => 'ASC',
-			'search'   => '',
-			'balance'  => '',
-			'offset'   => '',
-			'per_page' => 20,
-			'paged'    => 1,
-			'no_count' => false,
-			'fields'   => 'all',
-			'return'   => 'objects',
+		$args = (array) wp_parse_args(
+			$args,
+			array(
+				'orderby'  => 'date_created',
+				'order'    => 'ASC',
+				'search'   => '',
+				'balance'  => '',
+				'offset'   => '',
+				'per_page' => 20,
+				'paged'    => 1,
+				'no_count' => false,
+				'fields'   => 'all',
+				'return'   => 'objects',
 
-		) );
+			)
+		);
 
 		if ( false !== $cache ) {
 			return $count ? $cache->total : $cache->results;
@@ -194,41 +199,41 @@ class Serial_Keys {
 		$from = "FROM $table";
 
 		// Parse arch params
-		if ( ! empty ( $args['search'] ) ) {
+		if ( ! empty( $args['search'] ) ) {
 			$allowed_fields = array( 'key', 'product_id', 'order_id', 'vendor_id' );
 			$search_fields  = ! empty( $args['search_field'] ) ? $args['search_field'] : $allowed_fields;
 			$search_fields  = array_intersect( $search_fields, $allowed_fields );
 			$searches       = array();
 			foreach ( $search_fields as $field ) {
-				$searches[] = $wpdb->prepare('`' .$field . '` LIKE %s', '%' . $wpdb->esc_like( $args['search'] ) . '%' );
+				$searches[] = $wpdb->prepare( '`' . $field . '` LIKE %s', '%' . $wpdb->esc_like( $args['search'] ) . '%' );
 			}
 
 			$where .= ' AND (' . implode( ' OR ', $searches ) . ')';
 		}
 
 		// Parse date params
-		if ( ! empty ( $args['date'] ) ) {
+		if ( ! empty( $args['date'] ) ) {
 			$args['date_from'] = $args['date'];
 			$args['date_to']   = $args['date'];
 		}
 
 		if ( ! empty( $args['date_from'] ) ) {
-			$date  = get_gmt_from_date( gmdate( 'Y-m-d H:i:s', strtotime( $args['date_from'] . ' 00:00:00' ) ) );
+			$date   = get_gmt_from_date( gmdate( 'Y-m-d H:i:s', strtotime( $args['date_from'] . ' 00:00:00' ) ) );
 			$where .= $wpdb->prepare( " AND DATE($table.date_created) >= %s", $date );
 		}
 
 		if ( ! empty( $args['date_to'] ) ) {
-			$date  = get_gmt_from_date( gmdate( 'Y-m-d H:i:s', strtotime( $args['date_to'] . ' 23:59:59' ) ) );
+			$date   = get_gmt_from_date( gmdate( 'Y-m-d H:i:s', strtotime( $args['date_to'] . ' 23:59:59' ) ) );
 			$where .= $wpdb->prepare( " AND DATE($table.date_created) <= %s", $date );
 		}
 
 		if ( ! empty( $args['date_after'] ) ) {
-			$date  = get_gmt_from_date( gmdate( 'Y-m-d H:i:s', strtotime( $args['date_after'] ) ) );
+			$date   = get_gmt_from_date( gmdate( 'Y-m-d H:i:s', strtotime( $args['date_after'] ) ) );
 			$where .= $wpdb->prepare( " AND DATE($table.date_created) > %s", $date );
 		}
 
 		if ( ! empty( $args['date_before'] ) ) {
-			$date  = get_gmt_from_date( gmdate( 'Y-m-d H:i:s', strtotime( $args['date_before'] ) ) );
+			$date   = get_gmt_from_date( gmdate( 'Y-m-d H:i:s', strtotime( $args['date_before'] ) ) );
 			$where .= $wpdb->prepare( " AND DATE($table.date_created) < %s", $date );
 		}
 
@@ -281,7 +286,7 @@ class Serial_Keys {
 			}
 		}
 
-		//Parse pagination
+		// Parse pagination
 		$page     = absint( $args['paged'] );
 		$per_page = absint( $args['per_page'] );
 		if ( $per_page >= 0 ) {
@@ -289,7 +294,7 @@ class Serial_Keys {
 			$limit  = " LIMIT {$offset}, {$per_page}";
 		}
 
-		//Parse order.
+		// Parse order.
 		$orderby = "$table.id";
 		if ( in_array( $args['orderby'], $columns, true ) ) {
 			$orderby = sprintf( '%s.%s', $table, $args['orderby'] );
@@ -302,7 +307,7 @@ class Serial_Keys {
 
 		$orderby = sprintf( 'ORDER BY %s %s', $orderby, $order );
 
-		//Add all param.
+		// Add all param.
 		if ( null === $results ) {
 			$request = "SELECT {$fields} {$from} {$join} WHERE 1=1 {$where} {$groupby} {$having} {$orderby} {$limit}";
 
@@ -313,7 +318,7 @@ class Serial_Keys {
 			}
 
 			if ( ! $args['no_count'] ) {
-				$total = (int) $wpdb->get_var( "SELECT FOUND_ROWS()" );
+				$total = (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' );
 			}
 
 			if ( 'all' === $args['fields'] ) {
@@ -326,7 +331,7 @@ class Serial_Keys {
 				}
 			}
 
-			$cache          = new \StdClass;
+			$cache          = new \StdClass();
 			$cache->results = $results;
 			$cache->total   = $total;
 

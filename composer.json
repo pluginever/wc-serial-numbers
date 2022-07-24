@@ -78,8 +78,8 @@
   "extra": {
     "mozart": {
       "dep_namespace": "PluginEver\\WooCommerceSerialNumbers\\",
-      "dep_directory": "/deps/",
-      "classmap_directory": "/deps/classes/",
+      "dep_directory": "/lib/",
+      "classmap_directory": "/lib/classes/",
       "classmap_prefix": "WooCommerceSerialNumbers_",
       "delete_vendor_directories": true,
       "packages": [

@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit();
 
 // WP_List_Table is not loaded automatically so we need to load it in our application
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 class Admin_Serial_Keys_Table extends \WP_List_Table {
@@ -22,6 +22,7 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 	/**
 	 *
 	 * Total number of items
+	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
@@ -63,11 +64,13 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 	 * Serial_Numbers_Table constructor.
 	 */
 	public function __construct() {
-		parent::__construct( array(
-			'singular' => __( 'Serial key', 'wc-serial-numbers' ),
-			'plural'   => __( 'Serial keys', 'wc-serial-numbers' ),
-			'ajax'     => false,
-		) );
+		parent::__construct(
+			array(
+				'singular' => __( 'Serial key', 'wc-serial-numbers' ),
+				'plural'   => __( 'Serial keys', 'wc-serial-numbers' ),
+				'ajax'     => false,
+			)
+		);
 	}
 
 	/**
@@ -109,10 +112,11 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 
 		$this->items = $data;
 
-		$this->set_pagination_args( array(
+		$this->set_pagination_args(
+			array(
 				'total_items' => $total_items,
 				'per_page'    => get_user_option( 'serials_per_page' ),
-				'total_pages' => ceil( $total_items / get_user_option( 'serials_per_page' ) ),
+				'total_pages' => $total_items > 0 ? ceil( $total_items / (int) get_user_option( 'serials_per_page' ) ) : 0,
 			)
 		);
 	}
@@ -125,7 +129,6 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 *
 	 */
 	public function search_box( $text, $input_id ) {
 		if ( empty( $_REQUEST['s'] ) && ! $this->has_items() ) {
@@ -142,8 +145,8 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 		}
 		?>
 		<p class="search-box">
-			<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-			<input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
+			<label class="screen-reader-text" for="<?php echo $input_id; ?>"><?php echo $text; ?>:</label>
+			<input type="search" id="<?php echo $input_id; ?>" name="s" value="<?php _admin_search_query(); ?>"/>
 			<?php submit_button( $text, 'button', false, false, array( 'ID' => 'search-submit' ) ); ?>
 		</p>
 		<?php
@@ -193,6 +196,7 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 
 	/**
 	 * since 1.0.0
+	 *
 	 * @return array
 	 */
 	public function get_columns() {
@@ -207,16 +211,17 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 			'status'      => __( 'Status', 'wc-serial-numbers' ),
 		);
 
-//		if ( ! wc_serial_numbers_software_support_disabled() ) {
-//			$columns['activation'] = __( 'Activation', 'wc-serial-numbers' );
-//			$columns['validity']   = __( 'Validity', 'wc-serial-numbers' );
-//		}
+		// if ( ! wc_serial_numbers_software_support_disabled() ) {
+		// $columns['activation'] = __( 'Activation', 'wc-serial-numbers' );
+		// $columns['validity']   = __( 'Validity', 'wc-serial-numbers' );
+		// }
 
 		return apply_filters( 'wcsn_serial_keys_table_columns', $columns );
 	}
 
 	/**
 	 * since 1.0.0
+	 *
 	 * @return array
 	 */
 	function get_sortable_columns() {
@@ -240,7 +245,6 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 	 * @return string Name of the primary column.
 	 * @since 1.0.0
 	 * @access protected
-	 *
 	 */
 	protected function get_primary_column_name() {
 		return 'key';
@@ -261,7 +265,7 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 	 * since 1.0.0
 	 *
 	 * @param Serial_key $item
-	 * @param string $column_name
+	 * @param string     $column_name
 	 *
 	 * @return string|void
 	 */
@@ -271,14 +275,28 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 				$actions           = array();
 				$actions['id']     = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), $item->id );
 				$actions['show']   = sprintf( '<a class="wcsn-decrypt-key" href="#" data-key="%s">%s</a>', $item->key, __( 'Show', 'wc-serial-numbers' ) );
-				$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [
-					'action' => 'edit',
-					'id'     => $item->id
-				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Edit', 'wc-serial-numbers' ) );
-				$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [
-					'action' => 'delete',
-					'id'     => $item->id
-				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Delete', 'wc-serial-numbers' ) );
+				$actions['edit']   = sprintf(
+					'<a href="%1$s">%2$s</a>',
+					add_query_arg(
+						[
+							'action' => 'edit',
+							'id'     => $item->id,
+						],
+						admin_url( 'admin.php?page=wc-serial-numbers' )
+					),
+					__( 'Edit', 'wc-serial-numbers' )
+				);
+				$actions['delete'] = sprintf(
+					'<a href="%1$s">%2$s</a>',
+					add_query_arg(
+						[
+							'action' => 'delete',
+							'id'     => $item->id,
+						],
+						admin_url( 'admin.php?page=wc-serial-numbers' )
+					),
+					__( 'Delete', 'wc-serial-numbers' )
+				);
 				$class             = 'encrypted';
 				$serial_key        = $item->key;
 
@@ -314,10 +332,13 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 			case 'activation':
 				$limit = ! empty( $item->activation_limit ) ? $item->activation_limit : __( 'Unlimited', 'wc-serial-numbers' );
 				$count = (int) $item->activation_count;
-				$link  = add_query_arg( [
-					'key_id' => $item->id,
-					'page'   => 'serial-numbers-activations'
-				], admin_url( 'admin.php' ) );
+				$link  = add_query_arg(
+					[
+						'key_id' => $item->id,
+						'page'   => 'serial-numbers-activations',
+					],
+					admin_url( 'admin.php' )
+				);
 
 				$activated = sprintf( '<a href="%s">%s</a>', $link, $count );
 
@@ -371,9 +392,8 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 			'product_id' => $product_id,
 			'order_id'   => $order_id,
 			'include'    => $id,
-			'search'     => $search
+			'search'     => $search,
 		);
-
 
 		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' !== $orderby ) {
 			$args['orderby'] = $orderby;

@@ -31,13 +31,13 @@
  * GNU General Public License for more details.
  */
 
-namespace PluginEver\WooCommerceSerialNumbers;
+use PluginEver\WooCommerceSerialNumbers\Plugin;
 
-// don't call the file directly
+// don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
 // Load framework.
-require_once __DIR__ . '/deps/bootstrap.php';
+require_once __DIR__ . '/lib/bootstrap.php';
 
 /**
  * Main instance of the plugin.

@@ -25,12 +25,6 @@ class CleanDeps {
 					}
 				});
 
-				console.log('entrypoint.origins[0]', entrypoint.origins[0]);
-				console.log('compilationAssetMatch', compilationAssetMatch);
-				console.log('entryPointPath', entryPointPath);
-				// console.log(processAssets);
-				// console.log(compilationAssetMatch);
-
 				if (
 					entrypoint.origins[0].request.match(/\.s?css$/) &&
 					entryPointPath &&
