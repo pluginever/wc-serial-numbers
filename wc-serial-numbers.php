@@ -17,6 +17,7 @@
  * @package PluginEver\WooCommerceSerialNumbers
  * @author  pluginever
  * @link    https://pluginever.com/plugins/wc-serial-numbers/
+ * Settings Path: admin.php?page=wc-serial-numbers-settings
  *
  * Copyright (c) 2019 pluginever (email : support@pluginever.com)
  *
