@@ -178,7 +178,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			'status'          => __( 'Status', 'wc-serial-numbers' ),
 		);
 
-		return apply_filters( 'serial_numbers_activation_table_columns', $columns );
+		return apply_filters( 'wc_serial_numbers_activation_table_columns', $columns );
 	}
 
 	/**
@@ -197,7 +197,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 			'status'          => array( 'status', false ),
 		);
 
-		return apply_filters( 'serial_numbers_activation_table_sortable_columns', $sortable_columns );
+		return apply_filters( 'wc_serial_numbers_activation_table_sortable_columns', $sortable_columns );
 	}
 
 	/**
@@ -290,7 +290,7 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 				break;
 		}
 
-		return apply_filters( 'serial_numbers_activations_table_column_content', $column, $item, $column_name );
+		return apply_filters( 'wc_serial_numbers_activations_table_column_content', $column, $item, $column_name );
 	}
 
 	/**

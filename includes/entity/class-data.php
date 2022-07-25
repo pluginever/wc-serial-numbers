@@ -609,7 +609,7 @@ abstract class Data {
 		 *
 		 * @since 1.0.0
 		 */
-		do_action( 'wcsn_pre_insert_' . $this->object_type, $data, $this->get_data(), $this );
+		do_action( 'wc_serial_numbers_pre_insert_' . $this->object_type, $data, $this->get_data(), $this );
 
 		if ( false === $wpdb->insert( $wpdb->prefix . $this->table, $data, array() ) ) {
 			return new \WP_Error( 'db_insert_error', __( 'Could not insert item into the database.', 'wc-serial-numbers' ), $wpdb->last_error );
@@ -627,7 +627,7 @@ abstract class Data {
 		 *
 		 * @since 1.0.0
 		 */
-		do_action( 'wcsn_insert_' . $this->object_type, $this->get_id(), $data, $this->get_data(), $this );
+		do_action( 'wc_serial_numbers_insert_' . $this->object_type, $this->get_id(), $data, $this->get_data(), $this );
 
 		return $this->exists();
 	}
@@ -662,7 +662,7 @@ abstract class Data {
 
 		$this->set_props( $data );
 		$this->set_object_read( true );
-		do_action( 'serial_numbers_read_' . $this->object_type . '_item', $this->get_id(), $this );
+		do_action( 'wc_serial_numbers_read_' . $this->object_type . '_item', $this->get_id(), $this );
 
 		return $data;
 	}
@@ -696,7 +696,7 @@ abstract class Data {
 		 *
 		 * @since 1.0.0
 		 */
-		do_action( 'serial_numbers_pre_update_' . $this->object_type, $this->get_id(), $this->get_data(), $changes, $this );
+		do_action( 'wc_serial_numbers_pre_update_' . $this->object_type, $this->get_id(), $this->get_data(), $changes, $this );
 
 		$this->date_updated = current_time( 'mysql' );
 		$data               = wp_unslash( $this->get_core_data() );
@@ -714,7 +714,7 @@ abstract class Data {
 		 *
 		 * @since 1.0.0
 		 */
-		do_action( 'serial_numbers_update_' . $this->object_type, $this->get_id(), $this->get_data(), $changes, $this );
+		do_action( 'wc_serial_numbers_update_' . $this->object_type, $this->get_id(), $this->get_data(), $changes, $this );
 
 		return true;
 	}
@@ -744,7 +744,7 @@ abstract class Data {
 		 *
 		 * @since 1.0.0
 		 */
-		$check = apply_filters( 'serial_numbers_check_delete_' . $this->object_type, null, $this->get_id(), $data, $this );
+		$check = apply_filters( 'wc_serial_numbers_check_delete_' . $this->object_type, null, $this->get_id(), $data, $this );
 		if ( null !== $check ) {
 			return $check;
 		}
@@ -758,7 +758,7 @@ abstract class Data {
 		 *
 		 * @since 1.0.0
 		 */
-		do_action( 'serial_numbers_pre_delete_' . $this->object_type, $this->get_id(), $data, $this );
+		do_action( 'wc_serial_numbers_pre_delete_' . $this->object_type, $this->get_id(), $data, $this );
 
 		global $wpdb;
 
@@ -778,7 +778,7 @@ abstract class Data {
 		 *
 		 * @since 1.0.0
 		 */
-		do_action( 'serial_numbers_delete_' . $this->object_type, $this->get_id(), $data );
+		do_action( 'wc_serial_numbers_delete_' . $this->object_type, $this->get_id(), $data );
 
 		wp_cache_delete( $this->get_id(), $this->cache_group );
 		wp_cache_set( 'last_changed', microtime(), $this->cache_group );

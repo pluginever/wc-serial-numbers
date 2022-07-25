@@ -4,6 +4,8 @@ namespace PluginEver\WooCommerceSerialNumbers\Admin;
 
 
 // don't call the file directly.
+use PluginEver\WooCommerceSerialNumbers\Plugin;
+
 defined( 'ABSPATH' ) || exit();
 
 /**
@@ -33,7 +35,24 @@ class Admin_Manager {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_scripts( $hook ) {
-//		wp_die(var_dump($hook));
+		wp_enqueue_style( 'jquery-ui-style' );
+		wp_enqueue_style( 'select2' );
+		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_register_style( 'wc-serial-numbers-admin', Plugin::instance()->get_assets_url( 'css/admin-style.css' ), [ 'woocommerce_admin_styles', 'jquery-ui-style' ], Plugin::instance()->get_plugin_version() );
+		wp_register_script( 'wc-serial-numbers-admin', Plugin::instance()->get_assets_url( 'js/admin-script.js' ), [ 'jquery', 'wp-util', 'select2' ], Plugin::instance()->get_plugin_version(), true );
+
+		wp_enqueue_script( 'wc-serial-numbers-admin' );
+		wp_localize_script( 'wc-serial-numbers-admin', 'wc_serial_numbers_admin_i10n', array(
+			'i18n'    => array(
+				'search_product' => __( 'Search product by name', 'wc-serial-numbers' ),
+				'search_order'   => __( 'Search order', 'wc-serial-numbers' ),
+				'show'           => __( 'Show', 'wc-serial-numbers' ),
+				'hide'           => __( 'Hide', 'wc-serial-numbers' ),
+			),
+			'nonce'   => wp_create_nonce( 'wc_serial_numbers_admin_js_nonce' ),
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+		) );
+
 	}
 
 

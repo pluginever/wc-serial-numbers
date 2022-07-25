@@ -66,6 +66,7 @@ class Plugin extends Framework\AbstractPlugin {
 			include_once __DIR__ . '/admin/class-admin-manager.php';
 			include_once __DIR__ . '/admin/class-admin-settings.php';
 			include_once __DIR__ . '/admin/class-admin-menu.php';
+			include_once __DIR__ . '/admin/class-meta-boxes.php';
 		}
 
 		if ( defined( '\WP_CLI' ) && WP_CLI ) {
