@@ -340,7 +340,7 @@ class Generators{
 				}
 			}
 
-			$serial_keys[] = apply_filters( 'wcsn_generated_key', $serial_key, $pattern, $quantity, $is_sequential, $start );
+			$serial_keys[] = apply_filters( 'wc_serial_numbers_generated_key', $serial_key, $pattern, $quantity, $is_sequential, $start );
 		}
 
 		return $serial_keys;

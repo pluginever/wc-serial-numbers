@@ -24,7 +24,7 @@ class Serial_Keys {
 			'expired'   => __( 'Expired', 'wc-serial-numbers' ), // when expired
 		);
 
-		return apply_filters( 'serial_numbers_serial_keys_statuses', $statuses );
+		return apply_filters( 'wc_serial_numbers_serial_keys_statuses', $statuses );
 	}
 
 	/**

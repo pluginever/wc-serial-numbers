@@ -157,7 +157,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
 		}
 
-		do_action( 'wcsn_save_simple_product_meta', $post );
+		do_action( 'wc_serial_numbers_save_simple_product_meta', $post );
 	}
 
 

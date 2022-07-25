@@ -189,7 +189,7 @@ class Generator extends Data {
 		 *
 		 * @since 1.3.1
 		 */
-		do_action( 'wcsn_saved_' . $this->object_type, $this->get_id(), $this );
+		do_action( 'wc_serial_numbers_saved_' . $this->object_type, $this->get_id(), $this );
 
 		return $this->get_id();
 	}

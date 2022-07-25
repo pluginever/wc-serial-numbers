@@ -216,7 +216,7 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 		// $columns['validity']   = __( 'Validity', 'wc-serial-numbers' );
 		// }
 
-		return apply_filters( 'wcsn_serial_keys_table_columns', $columns );
+		return apply_filters( 'wc_serial_numbers_serial_keys_table_columns', $columns );
 	}
 
 	/**
@@ -236,7 +236,7 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 			'order_date'  => array( 'order_date', false ),
 		);
 
-		return apply_filters( 'wcsn_serial_keys_table_sortable_columns', $sortable_columns );
+		return apply_filters( 'wc_serial_numbers_serial_keys_table_sortable_columns', $sortable_columns );
 	}
 
 	/**
@@ -359,7 +359,7 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 			default:
 				$column = isset( $item->$column_name ) ? $item->$column_name : '&mdash;';
 
-				return apply_filters( 'wcsn_serial_keys_table_column_content', $column, $item, $column_name );
+				return apply_filters( 'wc_serial_numbers_serial_keys_table_column_content', $column, $item, $column_name );
 		}
 
 	}
