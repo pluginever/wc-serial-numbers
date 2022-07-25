@@ -10,7 +10,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
-class Admin_Serial_Keys_Table extends \WP_List_Table {
+class WooCommerceSerialNumbers_Serial_Keys_Table extends \WP_List_Table {
 	/**
 	 * Number of results to show per page
 	 *
@@ -74,7 +74,7 @@ class Admin_Serial_Keys_Table extends \WP_List_Table {
 	}
 
 	/**
-	 * Setup the final data for the table
+	 * Set up the final data for the table
 	 *
 	 * @return void
 	 * @throws Exception

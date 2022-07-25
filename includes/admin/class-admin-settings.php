@@ -32,7 +32,7 @@ class Admin_Settings extends Framework\AdminSettings {
 		return \apply_filters(
 			static::HOOK_PREFIX . '_settings_tabs_array',
 			array(
-				'general' => esc_html__( 'General', 'wc-serial-numbers' ),
+				'general'  => esc_html__( 'General', 'wc-serial-numbers' ),
 				'advanced' => esc_html__( 'Advanced', 'wc-serial-numbers' ),
 			)
 		);
@@ -45,18 +45,18 @@ class Admin_Settings extends Framework\AdminSettings {
 	 *
 	 * @return array
 	 * @since 1.3.1
-	*/
+	 */
 	public static function get_settings_for_general_tab( $section_id ) {
-//		if ( '' !== $section_id ) {
-//			return [];
-//		}
+		// if ( '' !== $section_id ) {
+		// return [];
+		// }
 
 		$settings = [
 			[
 				'title' => __( 'General settings', 'wc-serial-numbers' ),
 				'type'  => 'title',
 				'desc'  => __( 'The following options affect how the serial numbers will work.', 'wc-serial-numbers' ),
-				'id'    => 'section_serial_numbers'
+				'id'    => 'section_serial_numbers',
 			],
 			[
 				'title'   => __( 'Auto-complete order', 'wc-serial-numbers' ),
@@ -96,13 +96,13 @@ class Admin_Settings extends Framework\AdminSettings {
 			],
 			[
 				'type' => 'sectionend',
-				'id'   => 'section_serial_numbers'
+				'id'   => 'section_serial_numbers',
 			],
 			[
 				'title' => __( 'Stock notification', 'wc-serial-numbers' ),
 				'type'  => 'title',
 				'desc'  => __( 'The following options affects how stock notification will work.', 'wc-serial-numbers' ),
-				'id'    => 'stock_section'
+				'id'    => 'stock_section',
 			],
 			[
 				'title'             => __( 'Stock notification email', 'wc-serial-numbers' ),
@@ -112,24 +112,24 @@ class Admin_Settings extends Framework\AdminSettings {
 				'sanitize_callback' => 'intval',
 			],
 			array(
-				'title'   => __( 'Stock threshold', 'wc-serial-numbers' ),
-				'id'    => 'wc_serial_numbers_stock_threshold',
-				'desc'    => __( 'When stock goes below the above number, it will send notification email.', 'wc-serial-numbers' ),
-				'type'    => 'number',
-				'default' => '5',
+				'title'    => __( 'Stock threshold', 'wc-serial-numbers' ),
+				'id'       => 'wc_serial_numbers_stock_threshold',
+				'desc'     => __( 'When stock goes below the above number, it will send notification email.', 'wc-serial-numbers' ),
+				'type'     => 'number',
+				'default'  => '5',
 				'desc_tip' => true,
 			),
 			array(
-				'title'   => __( 'Notification recipient email', 'wc-serial-numbers' ),
-				'id'    => 'wc_serial_numbers_notification_recipient',
-				'desc'    => __( 'The email address to be used for sending the email notifications.', 'wc-serial-numbers' ),
-				'type'    => 'text',
-				'default' => get_option( 'admin_email' ),
+				'title'    => __( 'Notification recipient email', 'wc-serial-numbers' ),
+				'id'       => 'wc_serial_numbers_notification_recipient',
+				'desc'     => __( 'The email address to be used for sending the email notifications.', 'wc-serial-numbers' ),
+				'type'     => 'text',
+				'default'  => get_option( 'admin_email' ),
 				'desc_tip' => true,
 			),
 			[
 				'type' => 'sectionend',
-				'id'   => 'stock_section'
+				'id'   => 'stock_section',
 			],
 
 		];
@@ -146,16 +146,16 @@ class Admin_Settings extends Framework\AdminSettings {
 	 * @since 1.3.1
 	 */
 	public static function get_settings_for_advanced_tab( $section_id ) {
-		//		if ( '' !== $section_id ) {
-//			return [];
-//		}
+		// if ( '' !== $section_id ) {
+		// return [];
+		// }
 
 		$settings = [
 			[
 				'title' => __( 'Advanced settings', 'wc-serial-numbers' ),
 				'type'  => 'title',
 				'desc'  => __( 'Advanced plugin settings.', 'wc-serial-numbers' ),
-				'id'    => 'section_advanced'
+				'id'    => 'section_advanced',
 			],
 			[
 				'title'   => __( 'Hide serial number', 'wc-serial-numbers' ),
@@ -173,7 +173,7 @@ class Admin_Settings extends Framework\AdminSettings {
 			],
 			[
 				'type' => 'sectionend',
-				'id'   => 'section_advanced'
+				'id'   => 'section_advanced',
 			],
 
 		];
