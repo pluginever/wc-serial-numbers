@@ -1,6 +1,6 @@
 <?php
 
-namespace PluginEver\WooCommerceSerialNumbers\Admin;
+namespace PluginEver\WooCommerceSerialNumbers;
 
 // don't call the file directly.
 use PluginEver\WooCommerceSerialNumbers\Generators;
@@ -95,7 +95,7 @@ class Meta_Boxes {
 			) );
 
 			$source = get_post_meta( $post->ID, '_serial_key_source', true );
-			woocommerce_wp_select( array(
+			woocommerce_wp_radio( array(
 				'id'          => "_serial_key_source",
 				'name'        => "_serial_key_source",
 				'class'       => "serial_key_source",

@@ -4,12 +4,12 @@ use PluginEver\WooCommerceSerialNumbers\Generators;
 
 defined( 'ABSPATH' ) || exit();
 
-// WP_List_Table is not loaded automatically so we need to load it in our application
+// WP_List_Table is not loaded automatically so we need to load it in our application.
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
-class Admin_Generators_Table extends \WP_List_Table {
+class WCSN_Admin_List_Table_Generators extends \WP_List_Table {
 	/**
 	 * Number of results to show per page
 	 *
@@ -21,6 +21,7 @@ class Admin_Generators_Table extends \WP_List_Table {
 	/**
 	 *
 	 * Total number of items
+	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
@@ -46,11 +47,13 @@ class Admin_Generators_Table extends \WP_List_Table {
 	 * Activations_Table constructor.
 	 */
 	public function __construct() {
-		parent::__construct( array(
-			'singular' => __( 'Activation', 'wc-serial-numbers' ),
-			'plural'   => __( 'Activations', 'wc-serial-numbers' ),
-			'ajax'     => false,
-		) );
+		parent::__construct(
+			array(
+				'singular' => __( 'Activation', 'wc-serial-numbers' ),
+				'plural'   => __( 'Activations', 'wc-serial-numbers' ),
+				'ajax'     => false,
+			)
+		);
 	}
 
 	/**
@@ -84,11 +87,11 @@ class Admin_Generators_Table extends \WP_List_Table {
 
 		$this->items = $data;
 
-
-		$this->set_pagination_args( array(
+		$this->set_pagination_args(
+			array(
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
-				'total_pages' => ceil( $total_items / $per_page ),
+				'total_pages' => $total_items > 0 ? ceil( $total_items / (int) $per_page )  : 0,
 			)
 		);
 	}
@@ -118,8 +121,8 @@ class Admin_Generators_Table extends \WP_List_Table {
 		}
 		?>
 		<p class="search-box">
-			<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-			<input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
+			<label class="screen-reader-text" for="<?php echo $input_id; ?>"><?php echo $text; ?>:</label>
+			<input type="search" id="<?php echo $input_id; ?>" name="s" value="<?php _admin_search_query(); ?>"/>
 			<?php submit_button( $text, 'button', false, false, array( 'ID' => 'search-submit' ) ); ?>
 		</p>
 		<?php
@@ -142,12 +145,13 @@ class Admin_Generators_Table extends \WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		return array(
-			'delete'     => __( 'Delete', 'wc-serial-numbers' ),
+			'delete' => __( 'Delete', 'wc-serial-numbers' ),
 		);
 	}
 
 	/**
 	 * since 1.0.0
+	 *
 	 * @return array
 	 */
 	function get_columns() {
@@ -164,6 +168,7 @@ class Admin_Generators_Table extends \WP_List_Table {
 
 	/**
 	 * since 1.0.0
+	 *
 	 * @return array
 	 */
 	function get_sortable_columns() {
@@ -251,19 +256,19 @@ class Admin_Generators_Table extends \WP_List_Table {
 			'page'       => $page,
 			'orderby'    => $orderby,
 			'order'      => $order,
-			'status' => $status,
+			'status'     => $status,
 			'product_id' => $product_id,
 			'key_id'     => $serial_id,
-			'search'     => $search
+			'search'     => $search,
 		);
 
 		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' !== $orderby ) {
 			$args['orderby'] = $orderby;
 		}
 
-		$this->total_count    = Generators::query( $args, true );
-//		$this->active_count   = Generators::query( array_merge( $args, [ 'is_active' => '1' ] ), true );
-//		$this->inactive_count = Generators::query( array_merge( $args, [ 'is_active' => '0' ] ), true );
+		$this->total_count = Generators::query( $args, true );
+		// $this->active_count   = Generators::query( array_merge( $args, [ 'is_active' => '1' ] ), true );
+		// $this->inactive_count = Generators::query( array_merge( $args, [ 'is_active' => '0' ] ), true );
 
 		return Generators::query( $args );
 	}

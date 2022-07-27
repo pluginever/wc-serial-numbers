@@ -1,6 +1,6 @@
 <?php
 
-namespace PluginEver\WooCommerceSerialNumbers\Admin;
+namespace PluginEver\WooCommerceSerialNumbers;
 
 use PluginEver\WooCommerceSerialNumbers\Framework;
 

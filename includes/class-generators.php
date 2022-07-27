@@ -1,7 +1,7 @@
 <?php
 
 namespace PluginEver\WooCommerceSerialNumbers;
-use PluginEver\WooCommerceSerialNumbers\Entity\Generator;
+use PluginEver\WooCommerceSerialNumbers\Generator;
 
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();

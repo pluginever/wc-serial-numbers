@@ -1,6 +1,6 @@
 <?php
 
-namespace PluginEver\WooCommerceSerialNumbers\Entity;
+namespace PluginEver\WooCommerceSerialNumbers;
 
 use PluginEver\WooCommerceSerialNumbers\Serial_Keys;
 

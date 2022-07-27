@@ -3,9 +3,9 @@
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
-include_once __DIR__. '/../class-admin-activations-table.php';
+require_once dirname( __DIR__ ) . '/tables/class-admin-activations-table.php';
 
-$table = new Admin_Activations_Table();
+$table = new WCSN_Admin_List_Table_Activations();
 $table->prepare_items();
 $do_action = $table->current_action();
 
@@ -13,11 +13,10 @@ $do_action = $table->current_action();
 
 	<div class="wrap">
 		<h1 class="wp-heading-inline">
-			<?php _e( 'Activations', 'wc-serial-numbers' ); ?>
+			<?php esc_html_e( 'Activations', 'wc-serial-numbers' ); ?>
 		</h1>
-		<a href="<?php echo admin_url( 'admin.php?page=wc-serial-numbers-activations&action=add' ) ?>"
-		   class="add-serial-title page-title-action">
-			<?php _e( 'Add New Activations', 'wc-serial-numbers' ) ?>
+		<a href="<?php echo admin_url( 'admin.php?page=wc-serial-numbers-activations&action=add' ); ?>" class="add-serial-title page-title-action">
+			<?php esc_html_e( 'Add New Activations', 'wc-serial-numbers' ); ?>
 		</a>
 		<hr class="wp-header-end">
 

@@ -2,7 +2,7 @@
 
 namespace PluginEver\WooCommerceSerialNumbers;
 
-use PluginEver\WooCommerceSerialNumbers\Admin\Admin_Settings;
+use PluginEver\WooCommerceSerialNumbers\Admin_Settings;
 
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();
@@ -160,10 +160,12 @@ class Install {
 			"CREATE TABLE {$wpdb->prefix}wcsn_keys(
          	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 			`key` longtext DEFAULT NULL,
+			`parent_id` BIGINT UNSIGNED NOT NULL,
 			`product_id` BIGINT UNSIGNED NOT NULL,
 			`order_id` BIGINT UNSIGNED NOT NULL,
 			`order_item_id` BIGINT UNSIGNED NOT NULL,
 			`vendor_id` BIGINT UNSIGNED NOT NULL,
+			`activation_ids` longtext NOT NULL,
 			`activation_limit` INT(9) NOT NULL DEFAULT 0,
 			`activation_count` INT(9) NOT NULL  DEFAULT 0,
 			`status` VARCHAR(50) DEFAULT 'available',

@@ -188,7 +188,7 @@ function wc_serial_numbers_order_connect_serial_numbers( $order_id ) {
 	$order    = wc_get_order( $order_id );
 	$order_id = $order->get_id();
 
-	// bail for no order
+	// bail for no order.
 	if ( ! $order_id ) {
 		return false;
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace PluginEver\WooCommerceSerialNumbers\Entity;
+namespace PluginEver\WooCommerceSerialNumbers;
 
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();

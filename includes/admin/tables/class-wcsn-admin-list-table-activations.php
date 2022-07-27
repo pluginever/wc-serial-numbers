@@ -4,12 +4,12 @@ use PluginEver\WooCommerceSerialNumbers\Activations;
 
 defined( 'ABSPATH' ) || exit();
 
-// WP_List_Table is not loaded automatically so we need to load it in our application
+// WP_List_Table is not loaded automatically so we need to load it in our application.
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
-class Admin_Activations_Table extends \WP_List_Table {
+class WCSN_Admin_List_Table_Activations extends \WP_List_Table {
 	/**
 	 * Number of results to show per page
 	 *
@@ -21,6 +21,7 @@ class Admin_Activations_Table extends \WP_List_Table {
 	/**
 	 *
 	 * Total number of items
+	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
@@ -46,11 +47,13 @@ class Admin_Activations_Table extends \WP_List_Table {
 	 * Activations_Table constructor.
 	 */
 	public function __construct() {
-		parent::__construct( array(
-			'singular' => __( 'Activation', 'wc-serial-numbers' ),
-			'plural'   => __( 'Activations', 'wc-serial-numbers' ),
-			'ajax'     => false,
-		) );
+		parent::__construct(
+			array(
+				'singular' => __( 'Activation', 'wc-serial-numbers' ),
+				'plural'   => __( 'Activations', 'wc-serial-numbers' ),
+				'ajax'     => false,
+			)
+		);
 	}
 
 	/**
@@ -84,11 +87,11 @@ class Admin_Activations_Table extends \WP_List_Table {
 
 		$this->items = $data;
 
-
-		$this->set_pagination_args( array(
+		$this->set_pagination_args(
+			array(
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
-				'total_pages' => ceil( $total_items / $per_page ),
+				'total_pages' => $total_items > 0 ? ceil( $total_items / (int) $per_page )  : 0,
 			)
 		);
 	}
@@ -118,8 +121,8 @@ class Admin_Activations_Table extends \WP_List_Table {
 		}
 		?>
 		<p class="search-box">
-			<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-			<input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
+			<label class="screen-reader-text" for="<?php echo $input_id; ?>"><?php echo $text; ?>:</label>
+			<input type="search" id="<?php echo $input_id; ?>" name="s" value="<?php _admin_search_query(); ?>"/>
 			<?php submit_button( $text, 'button', false, false, array( 'ID' => 'search-submit' ) ); ?>
 		</p>
 		<?php
@@ -165,20 +168,21 @@ class Admin_Activations_Table extends \WP_List_Table {
 
 	/**
 	 * since 1.0.0
+	 *
 	 * @return array
 	 */
 	function get_columns() {
 		$columns = array(
-			'cb'              => '<input type="checkbox" />',
-			'instance'        => __( 'Instance', 'wc-serial-numbers' ),
-			'key_id'          => __( 'Serial Key', 'wc-serial-numbers' ),
-//			'serial_numbers'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
-			'platform'        => __( 'Platform', 'wc-serial-numbers' ),
-			//'product'         => __( 'Product', 'wc-serial-numbers' ),
-			//'order'           => __( 'Order', 'wc-serial-numbers' ),
-			//'expire_date'     => __( 'Expire Date', 'wc-serial-numbers' ),
-			'activation_time' => __( 'Activation time', 'wc-serial-numbers' ),
-			'status'          => __( 'Status', 'wc-serial-numbers' ),
+			'cb'                       => '<input type="checkbox" />',
+			'instance'                 => __( 'Instance', 'wc-serial-numbers' ),
+			'key_id'                   => __( 'Serial Key', 'wc-serial-numbers' ),
+			// 'serial_numbers'  => __( 'Serial Numbers', 'wc-serial-numbers' ),
+							'platform' => __( 'Platform', 'wc-serial-numbers' ),
+			// 'product'         => __( 'Product', 'wc-serial-numbers' ),
+			// 'order'           => __( 'Order', 'wc-serial-numbers' ),
+			// 'expire_date'     => __( 'Expire Date', 'wc-serial-numbers' ),
+			'activation_time'          => __( 'Activation time', 'wc-serial-numbers' ),
+			'status'                   => __( 'Status', 'wc-serial-numbers' ),
 		);
 
 		return apply_filters( 'wc_serial_numbers_activation_table_columns', $columns );
@@ -186,6 +190,7 @@ class Admin_Activations_Table extends \WP_List_Table {
 
 	/**
 	 * since 1.0.0
+	 *
 	 * @return array
 	 */
 	function get_sortable_columns() {
@@ -264,10 +269,13 @@ class Admin_Activations_Table extends \WP_List_Table {
 		$column = '';
 		switch ( $column_name ) {
 			case 'key_id':
-				$serial_number_url = add_query_arg( [
-					'id'   => $item->serial_id,
-					'page' => 'wc-serial-numbers',
-				], admin_url( 'admin.php' ) );
+				$serial_number_url = add_query_arg(
+					[
+						'id'   => $item->serial_id,
+						'page' => 'wc-serial-numbers',
+					],
+					admin_url( 'admin.php' )
+				);
 				$column            = empty( $item->instance ) ? '&mdash;' : sprintf( '<strong><a href="%1$s" target="_blank">#%2$s</a></strong>', $serial_number_url, $item->serial_id );
 				break;
 			case 'platform':
@@ -278,7 +286,7 @@ class Admin_Activations_Table extends \WP_List_Table {
 				break;
 			case 'status':
 				$status = $item->active == '1' ? 'active' : 'inactive';
-				$column = "<span class='wcsn-key-status {$status}'>" . ucfirst( $status ) . "</span>";
+				$column = "<span class='wcsn-key-status {$status}'>" . ucfirst( $status ) . '</span>';
 				break;
 		}
 
@@ -311,7 +319,7 @@ class Admin_Activations_Table extends \WP_List_Table {
 			'status__in' => $status,
 			'product_id' => $product_id,
 			'key_id'     => $serial_id,
-			'search'     => $search
+			'search'     => $search,
 		);
 
 		$this->active_count   = Activations::query( array_merge( $args, [ 'is_active' => '1' ] ), true );

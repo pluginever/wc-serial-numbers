@@ -1,16 +1,16 @@
 <?php
 
-use PluginEver\WooCommerceSerialNumbers\Entity\Serial_Key;
+use PluginEver\WooCommerceSerialNumbers\Serial_Key;
 use PluginEver\WooCommerceSerialNumbers\Serial_Keys;
 
 defined( 'ABSPATH' ) || exit();
 
-// WP_List_Table is not loaded automatically so we need to load it in our application
+// WP_List_Table is not loaded automatically, so we need to load it in our application.
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
-class WooCommerceSerialNumbers_Serial_Keys_Table extends \WP_List_Table {
+class WCSN_Admin_List_Table_Keys extends \WP_List_Table {
 	/**
 	 * Number of results to show per page
 	 *
@@ -110,13 +110,15 @@ class WooCommerceSerialNumbers_Serial_Keys_Table extends \WP_List_Table {
 				break;
 		}
 
-		$this->items = $data;
+		$this->items   = $data;
+		$user_per_page = (int) get_user_option( 'serials_per_page' );
+		$per_page      = empty( $user_per_page ) ? $this->per_page : $user_per_page;
 
 		$this->set_pagination_args(
 			array(
 				'total_items' => $total_items,
 				'per_page'    => get_user_option( 'serials_per_page' ),
-				'total_pages' => $total_items > 0 ? ceil( $total_items / (int) get_user_option( 'serials_per_page' ) ) : 0,
+				'total_pages' => $total_items > 0 ? ceil( $total_items / $per_page ) : 0,
 			)
 		);
 	}

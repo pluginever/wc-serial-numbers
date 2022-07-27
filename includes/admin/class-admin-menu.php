@@ -1,6 +1,6 @@
 <?php
 
-namespace PluginEver\WooCommerceSerialNumbers\Admin;
+namespace PluginEver\WooCommerceSerialNumbers;
 
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();

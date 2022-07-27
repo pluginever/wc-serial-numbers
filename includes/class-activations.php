@@ -1,7 +1,7 @@
 <?php
 
 namespace PluginEver\WooCommerceSerialNumbers;
-use PluginEver\WooCommerceSerialNumbers\Entity\Activation;
+use PluginEver\WooCommerceSerialNumbers\Activation;
 
 
 // don't call the file directly.

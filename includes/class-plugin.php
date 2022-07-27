@@ -53,6 +53,7 @@ class Plugin extends Framework\AbstractPlugin {
 	 * @since 1.3.1
 	 */
 	public function init_plugin() {
+		include_once __DIR__ . '/class-helper.php';
 		include_once __DIR__ . '/class-install.php';
 		include_once __DIR__ . '/class-serial-keys.php';
 		include_once __DIR__ . '/class-generators.php';
@@ -61,12 +62,16 @@ class Plugin extends Framework\AbstractPlugin {
 		include_once __DIR__ . '/entity/class-serial-key.php';
 		include_once __DIR__ . '/entity/class-generator.php';
 		include_once __DIR__ . '/entity/class-activation.php';
+		include_once __DIR__ . '/class-order.php';
+		include_once __DIR__ . '/class-product.php';
 
 		if ( self::is_request( 'admin' ) ) {
 			include_once __DIR__ . '/admin/class-admin-manager.php';
 			include_once __DIR__ . '/admin/class-admin-settings.php';
 			include_once __DIR__ . '/admin/class-admin-menu.php';
-			include_once __DIR__ . '/admin/class-meta-boxes.php';
+			include_once __DIR__ . '/admin/class-admin-order.php';
+			include_once __DIR__ . '/admin/class-admin-product.php';
+//			include_once __DIR__ . '/admin/class-meta-boxes.php';
 		}
 
 		if ( defined( '\WP_CLI' ) && WP_CLI ) {

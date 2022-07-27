@@ -2,7 +2,7 @@
 
 namespace PluginEver\WooCommerceSerialNumbers;
 
-use PluginEver\WooCommerceSerialNumbers\Entity\Serial_Key;
+use PluginEver\WooCommerceSerialNumbers\Serial_Key;
 
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();
@@ -310,7 +310,6 @@ class Serial_Keys {
 		// Add all param.
 		if ( null === $results ) {
 			$request = "SELECT {$fields} {$from} {$join} WHERE 1=1 {$where} {$groupby} {$having} {$orderby} {$limit}";
-
 			if ( is_array( $args['fields'] ) || 'all' === $args['fields'] ) {
 				$results = $wpdb->get_results( $request );
 			} else {
