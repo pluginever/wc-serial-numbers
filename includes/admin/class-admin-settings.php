@@ -172,6 +172,13 @@ class Admin_Settings extends Framework\AdminSettings {
 				'type'    => 'checkbox',
 			],
 			[
+				'title'   => __( 'Show on my account', 'wc-serial-numbers' ),
+				'id'      => 'wc_serial_numbers_show_on_my_account',
+				'desc'    => __( 'Show serial numbers on my-account sections', 'wc-serial-numbers' ),
+				'default' => 'yes',
+				'type'    => 'checkbox',
+			],
+			[
 				'type' => 'sectionend',
 				'id'   => 'section_advanced',
 			],
