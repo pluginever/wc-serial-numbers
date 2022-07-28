@@ -15,7 +15,7 @@ The best WooCommerce plugin to sell and manage license keys with ease.
 
 === 💵 With WooCommerce Serial Numbers You Can Sell: ===
 
-* License activated digital software, games, and digital products.
+* License activated software, games, and digital products.
 * Gift cards, recharge cards, and other secret number-based products. 
 * Pin codes, username & passwords.
 * Lottery tickets.
