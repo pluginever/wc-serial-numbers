@@ -1,6 +1,6 @@
 === WooCommerce Serial Numbers - License Key Manager ===
 Contributors: manikmist09, pluginever, b-07
-Tags: license, key, license key, license number, software license, serial number, serial key, license manager, woocommerce
+Tags: license, key, license key, license number, software license, serial number, serial key, license manager, woocommerce, woocommerce license manager, software license, software license key, digital product key, digital product license, virtual product key, virtual product license
 Requires at least: 4.4
 Tested up to: 5.9
 Requires PHP: 5.6
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 The best WooCommerce plugin to sell and manage license keys with ease.
 
 == Description ==
-**[WooCommerce Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license key manager plugin for WooCommerce. You can generate, sell, and manage software, games and digital produsts' license keys easily with this plugin.
+**[WooCommerce Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license key manager plugin for WooCommerce. You can generate, sell, and manage software, games and digital product's license keys easily with this plugin.
 
 === 💵 With WooCommerce Serial Numbers You Can Sell: ===
 
