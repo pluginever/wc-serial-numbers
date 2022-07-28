@@ -47,19 +47,19 @@ if ( ! empty( $id ) && $serial = Serial_Keys::get( $id ) ) { //phpcs:ignore
 	<div class="wrap wc-serial-numbers-table-wrap">
 		<h1 class="wp-heading-inline">
 			<?php if ( $update ) : ?>
-				<?php _e( 'Update Serial Number', 'wc-serial-numbers' ); ?>
+				<?php esc_html_e( 'Update Serial Number', 'wc-serial-numbers' ); ?>
 			<?php else : ?>
-				<?php _e( 'Add Serial Number', 'wc-serial-numbers' ); ?>
+				<?php esc_html_e( 'Add Serial Number', 'wc-serial-numbers' ); ?>
 			<?php endif ?>
 		</h1>
 		<a href="<?php echo esc_url ( remove_query_arg( array( 'action', 'id' ) ) ); ?>" class="page-title-action">
-			<?php _e( 'Back', 'wc-serial-numbers' ); ?>
+			<?php esc_html_e( 'Back', 'wc-serial-numbers' ); ?>
 		</a>
 		<hr class="wp-header-end">
 
 		<?php
 		if ( ! is_plugin_active( 'wc-serial-numbers-pro/wc-serial-numbers-pro.php' ) ) {
-			echo sprintf( '<p class="wc-serial-numbers-upgrade-box" style="background-color: #fff;">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Checkout the full features of WooCommerce Serial Numbers Pro.', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=create_serial_page&utm_medium=button&utm_campaign=wc-serial-numbers&utm_content=View%20Details', __( 'View Details', 'wc-serial-numbers' ) );
+			echo sprintf( '<p class="wc-serial-numbers-upgrade-box" style="background-color: #fff;">%s <a href="%s" target="_blank" class="button">%s</a></p>', esc_html__( 'Checkout the full features of WooCommerce Serial Numbers Pro.', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=create_serial_page&utm_medium=button&utm_campaign=wc-serial-numbers&utm_content=View%20Details', esc_html__( 'View Details', 'wc-serial-numbers' ) );
 		}
 		?>
 
@@ -77,7 +77,7 @@ if ( ! empty( $id ) && $serial = Serial_Keys::get( $id ) ) { //phpcs:ignore
 					<td>
 						<select name="product_id" id="product_id"
 						        class="regular-text wc-serial-numbers-select-product" required="required"
-						        placeholder="<?php _e( 'Select Product', 'wc-serial-numbers' ); ?>">
+						        placeholder="<?php esc_html_e( 'Select Product', 'wc-serial-numbers' ); ?>">
 							<?php echo sprintf( '<option value="%d" selected="selected">%s</option>', $item['product_id'], get_the_title( $item['product_id'] ) ); ?>
 						</select>
 					</td>
@@ -174,9 +174,9 @@ if ( ! empty( $id ) && $serial = Serial_Keys::get( $id ) ) { //phpcs:ignore
 							<?php wp_nonce_field( 'edit_serial_number' ); ?>
 							<?php if ( $update ) : ?>
 								<?php echo sprintf( '<input type="hidden" name="id" value="%d">', $id ); ?>
-								<?php submit_button( __( 'Update Serial Number', 'wc-serial-numbers' ), 'primary', 'submit', false ); ?>
+								<?php submit_button( esc_html__( 'Update Serial Number', 'wc-serial-numbers' ), 'primary', 'submit', false ); ?>
 							<?php else : ?>
-								<?php submit_button( __( 'Add Serial Number', 'wc-serial-numbers' ) ); ?>
+								<?php submit_button( esc_html__( 'Add Serial Number', 'wc-serial-numbers' ) ); ?>
 							<?php endif ?>
 						</p>
 					</td>
