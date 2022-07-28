@@ -3,13 +3,18 @@
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
-require_once dirname( __DIR__ ) . '/tables/class-wcsn-admin-list-table-keys.php';
+$action = isset( $_GET['action'] ) && ! empty( $_GET['action'] ) ? sanitize_text_field( $_GET['action'] ) : 'list'; //phpcs:ignore
+if ( in_array( $action, [ 'add', 'edit' ], true ) ) {
+	require_once dirname( __DIR__ ) . '/views/html-add-edit-serial-keys.php';
+} else {
 
-$table = new WCSN_Admin_List_Table_Keys();
-$table->prepare_items();
-$do_action = $table->current_action();
+	require_once dirname( __DIR__ ) . '/tables/class-wcsn-admin-list-table-keys.php';
 
-?>
+	$table = new WCSN_Admin_List_Table_Keys();
+	$table->prepare_items();
+	$do_action = $table->current_action();
+
+	?>
 
 	<div class="wrap">
 		<h1 class="wp-heading-inline">
@@ -30,4 +35,5 @@ $do_action = $table->current_action();
 		</form>
 	</div>
 
-<?php
+	<?php
+}
