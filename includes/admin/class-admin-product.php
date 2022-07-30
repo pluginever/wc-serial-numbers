@@ -38,7 +38,6 @@ class Admin_Product {
 		add_action( 'woocommerce_product_write_panel_tabs', array( __CLASS__, 'product_write_panel_tab' ) );
 		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'data_panel' ) );
 
-
 		add_action( 'woocommerce_process_product_meta', array( __CLASS__, 'save_product' ) );
 
 		if ( Helper::is_software_support_enabled() ) {
@@ -134,7 +133,7 @@ class Admin_Product {
 							'class'       => 'serial_numbers_key_source short',
 							'label'       => esc_html__( 'Serial key source', 'wc-serial-numbers' ),
 							'callback'    => 'woocommerce_wp_select',
-							'description' => __( 'Manual option will pre-load the manually generated serial numbers. Automatic option will create serial numbers automatically based on the assigned generator rule and will be attached with order', 'wc-serial-numbers' ),
+							'description' => __( 'Pre generated option will assign already generated keys. Generator rule option will create keys using selected rule on the fly. Automatic option will create keys automatically as per the rule set.', 'wc-serial-numbers' ),
 							'desc_tip'    => true,
 							'default'     => 'stock',
 							'options'     => Helper::get_key_sources(),
@@ -181,6 +180,55 @@ class Admin_Product {
 				?>
 			</div>
 			<?php
+			Helper::print_js(
+				"
+			// Only display Tab if serial numbers' checkbox is checked
+			jQuery( 'input#_is_serial_numbers' )
+			.on( 'change', function () {
+				const dependents = jQuery( '.show_if_serial_numbers' );
+				dependents.hide();
+				const is_checked = jQuery( this ).is( ':checked' );
+				if ( is_checked ) {
+					dependents.show();
+				} else {
+					dependents.hide();
+					if ( jQuery( '.wc-serial-numbers-tab' ).is( '.active' ) ) {
+						jQuery( 'ul.product_data_tabs li:visible' )
+							.eq( 0 )
+							.find( 'a' )
+							.click();
+					}
+				}
+			} )
+			.change();
+
+			// Hide all source dependent components
+			jQuery( '#_serial_numbers_key_source' )
+				.on( 'change', function () {
+					jQuery( \"[class*='show_if_serial_numbers_key_source_is_']\" ).hide();
+					const source = jQuery( '#_serial_numbers_key_source' ).val();
+					if ( source ) {
+						jQuery( '.show_if_serial_numbers_key_source_is_' + source ).show();
+					}
+				} )
+				.change();
+
+			// Datepicker for API tab
+			jQuery( '#_serial_numbers_software_last_updated' ).datepicker( {
+				dateFormat: 'yy-mm-dd',
+				numberOfMonths: 1,
+				showButtonPanel: true,
+			} );
+
+			// Tooltips
+			jQuery( '.tips, .help_tip' ).tipTip( {
+				attribute: 'data-tip',
+				fadeIn: 50,
+				fadeOut: 50,
+				delay: 200,
+			} );
+			"
+			);
 		}
 	}
 

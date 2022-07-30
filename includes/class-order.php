@@ -59,7 +59,14 @@ class Order {
 		// add_action( 'edit_post', array( $this, 'edit_post' ), 10, 2 );
 		// add_action( 'woocommerce_email_before_order_table', array( $this, 'email_license_keys' ), 10, 3 );
 
-		add_filter( 'wc_serial_numbers_get_keys_from_source_stock', [ __CLASS__, 'get_keys_from_stock' ], 10, 3 );
+//		add_filter( 'wc_serial_numbers_get_keys_from_source_stock', [ __CLASS__, 'get_keys_from_stock' ], 10, 3 );
+
+		// New hooks.
+//		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
+	}
+
+	public static function validate_checkout(){
+		$items = WC()->cart->get_cart_contents();
 	}
 
 	public static function get_keys_from_stock( $keys, $line_item, $order ) {

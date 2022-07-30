@@ -3,6 +3,8 @@
 namespace PluginEver\WooCommerceSerialNumbers;
 
 // don't call the file directly.
+use Automattic\WooCommerce\Admin\PageController;
+
 defined( 'ABSPATH' ) || exit();
 
 /**
@@ -20,7 +22,7 @@ class Admin_Menu {
 	 * @return void
 	 */
 	public function __construct() {
-//		add_filter( 'woocommerce_screen_ids', array( __CLASS__, 'screen_ids' ) );
+		// add_filter( 'woocommerce_screen_ids', array( __CLASS__, 'screen_ids' ) );
 		add_action( 'admin_menu', array( __CLASS__, 'register_nav_items' ), 20 );
 		add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
 		add_action( 'admin_menu', array( __CLASS__, 'register_pages' ) );
@@ -49,16 +51,16 @@ class Admin_Menu {
 		if ( ! class_exists( '\Automattic\WooCommerce\Admin\Features\Navigation\Menu' ) ) {
 			return;
 		}
-//		if ( function_exists( 'wc_admin_connect_page' ) ) {
-//			wc_admin_connect_page(
-//				array(
-//					'id'        => 'toplevel_page_wc-serial-numbers',
-//					'parent'    => 'toplevel_page_wc-serial-numbers',
-//					'screen_id' => 'toplevel_page_wc-serial-numbers',
-//					'title'     => __( 'Starter Plugin Settings', 'wc-serial-numbers' ),
-//				)
-//			);
-//		}
+		// if ( function_exists( 'wc_admin_connect_page' ) ) {
+		// wc_admin_connect_page(
+		// array(
+		// 'id'        => 'toplevel_page_wc-serial-numbers',
+		// 'parent'    => 'toplevel_page_wc-serial-numbers',
+		// 'screen_id' => 'toplevel_page_wc-serial-numbers',
+		// 'title'     => __( 'Starter Plugin Settings', 'wc-serial-numbers' ),
+		// )
+		// );
+		// }
 	}
 
 	/**
@@ -79,6 +81,7 @@ class Admin_Menu {
 
 	/**
 	 * Register pages.
+	 *
 	 * @since 1.2.0
 	 */
 	public static function register_pages() {
@@ -110,7 +113,7 @@ class Admin_Menu {
 			array( __CLASS__, 'render_generators_page' )
 		);
 
-		if ( 'no' == get_option( 'wc_serial_numbers_disable_software_support' ) ) {
+		if ( Helper::is_software_support_enabled() ) {
 			add_submenu_page(
 				'wc-serial-numbers',
 				__( 'Activations', 'wc-serial-numbers' ),
@@ -151,6 +154,35 @@ class Admin_Menu {
 		}
 
 		add_action( 'load-' . $serial_number_page, array( __CLASS__, 'load_serial_numbers_page' ) );
+
+		if ( function_exists( 'wc_admin_connect_page' ) ) {
+			wc_admin_connect_page(
+				array(
+					'id'        => 'toplevel_page_wc-serial-numbers',
+					'screen_id' => 'toplevel_page_wc-serial-numbers',
+					'title'     => '',
+					'path'      => add_query_arg( 'page', 'wc-serial-numbers', 'admin.php' ),
+				)
+			);
+			wc_admin_connect_page(
+				array(
+					'id'        => 'serial-numbers-activations',
+					'parent'    => 'toplevel_page_wc-serial-numbers',
+					'screen_id' => 'serial-numbers_page_wc-serial-numbers-activations',
+					'title'     => '',
+					'path'      => add_query_arg( 'page', 'wc-serial-numbers', 'admin.php' ),
+				)
+			);
+			wc_admin_connect_page(
+				array(
+					'id'        => 'wc-serial-numbers-generators',
+					'parent'    => 'toplevel_page_wc-serial-numbers',
+					'screen_id' => 'serial-numbers_page_wc-serial-numbers-generators',
+					'title'     => '',
+					'path'      => add_query_arg( 'page', 'wc-serial-numbers', 'admin.php' ),
+				)
+			);
+		}
 	}
 
 	/**
@@ -198,26 +230,26 @@ class Admin_Menu {
 		$args = array(
 			'label'   => __( 'Serials per page', 'wc-serial-numbers' ),
 			'default' => 20,
-			'option'  => 'serials_per_page'
+			'option'  => 'serials_per_page',
 		);
 		add_screen_option( 'per_page', $args );
 
-//		$status = "<ul>";
-//		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Available', 'wc-serial-numbers' ), __( 'Serial Numbers are valid and available for sell', 'wc-serial-numbers' ) );
-//		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Sold', 'wc-serial-numbers' ), __( 'Serial Numbers are sold and active', 'wc-serial-numbers' ) );
-//		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Refunded', 'wc-serial-numbers' ), __( 'Serial Numbers are sold then refunded', 'wc-serial-numbers' ) );
-//		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Cancelled', 'wc-serial-numbers' ), __( 'Serial Numbers are sold then cancelled', 'wc-serial-numbers' ) );
-//		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Expired', 'wc-serial-numbers' ), __( 'Serial Numbers are sold then expired', 'wc-serial-numbers' ) );
-//		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Inactive', 'wc-serial-numbers' ), __( 'Serial Numbers are are npt available for sell ', 'wc-serial-numbers' ) );
-//		$status .= "</ul>";
-//
-//		get_current_screen()->add_help_tab(
-//			array(
-//				'id'      => 'status',
-//				'title'   => __( 'Statuses','wc-serial-numbers' ),
-//				'content' => $status,
-//			)
-//		);
+		// $status = "<ul>";
+		// $status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Available', 'wc-serial-numbers' ), __( 'Serial Numbers are valid and available for sell', 'wc-serial-numbers' ) );
+		// $status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Sold', 'wc-serial-numbers' ), __( 'Serial Numbers are sold and active', 'wc-serial-numbers' ) );
+		// $status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Refunded', 'wc-serial-numbers' ), __( 'Serial Numbers are sold then refunded', 'wc-serial-numbers' ) );
+		// $status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Cancelled', 'wc-serial-numbers' ), __( 'Serial Numbers are sold then cancelled', 'wc-serial-numbers' ) );
+		// $status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Expired', 'wc-serial-numbers' ), __( 'Serial Numbers are sold then expired', 'wc-serial-numbers' ) );
+		// $status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Inactive', 'wc-serial-numbers' ), __( 'Serial Numbers are are npt available for sell ', 'wc-serial-numbers' ) );
+		// $status .= "</ul>";
+		//
+		// get_current_screen()->add_help_tab(
+		// array(
+		// 'id'      => 'status',
+		// 'title'   => __( 'Statuses','wc-serial-numbers' ),
+		// 'content' => $status,
+		// )
+		// );
 	}
 
 	/**

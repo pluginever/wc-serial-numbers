@@ -35,7 +35,9 @@
     "lint-staged": "^13.0.3",
     "load-grunt-tasks": "^5.1.0",
     "mini-css-extract-plugin": "^2.6.1",
-    "webpack-remove-empty-scripts": "^0.8.1"
+    "webpack-remove-empty-scripts": "^0.8.1",
+    "postcss": "^8.4.5",
+    "postcss-loader": "^6.2.1"
   },
   "husky": {
     "hooks": {

@@ -44,5 +44,23 @@ jQuery(function ($) {
 		fadeIn: 50,
 		fadeOut: 50,
 		delay: 200,
+<<<<<<< HEAD
 	});
 });
+=======
+	} );
+
+	$( '#add-serial-number' )
+		.on( 'ever_modal:open', function ( e, data ) {
+			console.log( 'open' );
+			console.log( e );
+			console.log( data );
+		} )
+		.on( 'ever_modal:submit', function ( e, modal ) {
+			const $form = $( 'form', modal.$elm );
+			$form.block();
+			console.log( $form.serializeJSON() );
+		} );
+
+} );
+>>>>>>> e2acbf5 (stage changes)

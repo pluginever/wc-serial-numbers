@@ -160,7 +160,14 @@ class Generator extends Data {
 		$requires = [ 'name', 'pattern' ];
 		foreach ( $requires as $required ) {
 			if ( empty( $this->$required ) ) {
-				return new \WP_Error( 'missing_required_params', sprintf( __( 'Generator %s is required.', 'wc-serial-numbers' ), $required ) );
+				return new \WP_Error(
+					'missing_required_params',
+					sprintf(
+					/* translator %s generator rule name */
+					__( 'Generator %s is required.', 'wc-serial-numbers' ),
+						$required
+					)
+				);
 			}
 		}
 
