@@ -191,7 +191,22 @@ class Admin_Menu {
 	 * @since 1.3.1
 	 */
 	public static function render_main_page() {
-		include_once __DIR__ . '/views/html-main-page.php';
+		$action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
+		$id     = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT );
+		if ( ! empty( $id ) ) {
+			$serial_key = Serial_Keys::get( $id );
+			if ( ! $serial_key->exists() ) {
+				wp_safe_redirect( remove_query_arg( 'id' ) );
+				exit();
+			}
+		}
+
+		if ( 'add' === $action || ! empty( $id ) ) {
+			$serial_key = new Serial_key( $id );
+			include_once __DIR__ . '/views/html-edit-serial-key.php';
+		} else {
+			include_once __DIR__ . '/views/html-list-serial-keys.php';
+		}
 	}
 
 	/**

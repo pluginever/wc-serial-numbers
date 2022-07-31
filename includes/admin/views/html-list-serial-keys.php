@@ -20,9 +20,10 @@ if ( in_array( $action, [ 'add', 'edit' ], true ) ) {
 		<h1 class="wp-heading-inline" rel="ever_modal:open">
 			<?php esc_html_e( 'Serial Numbers', 'wc-serial-numbers' ); ?>
 		</h1>
-		<a id="add-serial-number" rel="ever_modal:open" href="<?php echo esc_attr( wp_nonce_url( admin_url( 'admin-ajax.php?action=serial_numbers_get_admin_template&template=edit_serial_key', 'wcsn_get_template' ) ) ); ?>" class="add-serial-title page-title-action">
+		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers&action=add' ) ); ?>" class="add-serial-title page-title-action">
 			<?php esc_html_e( 'Add New', 'wc-serial-numbers' ); ?>
 		</a>
+
 		<hr class="wp-header-end">
 
 		<form id="wc-serial-numbers-list" method="get">
