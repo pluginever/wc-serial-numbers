@@ -99,7 +99,7 @@ defined( 'ABSPATH' ) || exit();
 						</label>
 					</th>
 					<td>
-						<select id="status" name="status" class="regular-text serial-numbers-order-search">
+						<select id="status" name="status" class="regular-text">
 							<?php foreach ( Serial_Keys::get_statuses() as $key => $option ) : ?>
 								<?php echo sprintf( '<option value="%s" %s>%s</option>', $key, selected( $serial_key->get_status(), $key, false ), $option ); ?>
 							<?php endforeach; ?>
