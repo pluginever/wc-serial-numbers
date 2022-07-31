@@ -23,6 +23,7 @@ class Ajax {
 	 */
 	public static function init() {
 		add_action( 'wp_ajax_wc_serial_numbers_search_products', array( __CLASS__, 'search_products' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( __CLASS__, 'search_orders' ) );
 	}
 
 	/**
@@ -83,6 +84,82 @@ WHERE
 
 			$results[] = array(
 				'id'   => $product->get_id(),
+				'text' => $text,
+			);
+		}
+
+		wp_send_json(
+			array(
+				'page'       => $page,
+				'results'    => $results,
+				'pagination' => array(
+					'more' => $more,
+				),
+			)
+		);
+		wp_die();
+	}
+
+	/**
+	 * Search orders.
+	 *
+	 * @since 1.3.1
+	 */
+	public static function search_orders() {
+		self::verify_nonce( 'wc_serial_numbers_admin_js_nonce', 'nonce' );
+		self::check_permission();
+		$search   = isset( $_REQUEST['search'] ) ? sanitize_text_field( $_REQUEST['search'] ) : '';
+		$page     = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
+		$page     = absint( $page );
+		$per_page = absint( 20 );
+		if ( $per_page >= 0 ) {
+			$offset = absint( ( $page - 1 ) * $per_page );
+			$limit  = " LIMIT {$offset}, {$per_page}";
+		}
+		global $wpdb;
+		$types       = [ 'shop_order' ];
+		$sql_types   = '("' . implode( '","', $types ) . '")';
+
+		$order_types = apply_filters( 'wc_serial_numbers_search_order_types', array( 'wc-completed', 'wc-processing' ) );
+		$sql_order_types = '("' . implode( '","', $order_types ) . '")';
+
+		$sql = $wpdb->prepare(
+			"
+SELECT
+       ID from {$wpdb->posts}
+WHERE
+      post_type in $sql_types
+ AND
+    post_status in $sql_order_types
+AND
+ 	ID LIKE %s $limit
+ 	",
+			'%' . $wpdb->esc_like( $search ) . '%'
+		);
+
+		// todo need to add cache.
+		$order_ids = $wpdb->get_col(  $sql );
+
+		$more = false;
+		if ( count( $order_ids ) > ( 20 * $page ) ) {
+			$more = true;
+		}
+		$results = array();
+		foreach ( $order_ids as $order_id ) {
+			$order = wc_get_order( $order_id );
+
+			if ( ! $order_id ) {
+				continue;
+			}
+
+			$text = sprintf(
+				'(#%1$s) %2$s',
+				$order->get_id(),
+				wp_strip_all_tags( $order->get_id() )
+			);
+
+			$results[] = array(
+				'id'   => $order->get_id(),
 				'text' => $text,
 			);
 		}
