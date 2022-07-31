@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || exit();
 
 				<td>
 
-					<textarea name="key" id="key" class="regular-text" required="required" placeholder="d555b5ae-d9a6-41cb-ae54-361427357382"><?php echo $serial_key->get_key(); ?></textarea>
+					<textarea name="serial_key" id="serial_key" class="regular-text" required="required" placeholder="d555b5ae-d9a6-41cb-ae54-361427357382"><?php echo $serial_key->get_key(); ?></textarea>
 
 				</td>
 			</tr>

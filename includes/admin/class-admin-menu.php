@@ -213,7 +213,7 @@ class Admin_Menu {
 				$order_id         = isset( $_POST['order_id'] ) ? absint( $_POST['order_id'] ) : 0;
 				$activation_limit = isset( $_POST['activation_limit'] ) ? absint( $_POST['activation_limit'] ) : 0;
 				$valid_for        = isset( $_POST['valid_for'] ) ? absint( $_POST['valid_for'] ) : 0;
-				$status           = isset( $_POST['status'] ) ? sanitize_key( $_POST['status'] ) : '';
+				$status           = isset( $_POST['status'] ) ? sanitize_key( $_POST['status'] ) : 'available';
 				$serial_key       = isset( $_POST['serial_key'] ) ? sanitize_textarea_field( wp_unslash( $_POST['serial_key'] ) ) : '';
 				$expire_date      = isset( $_POST['expire_date'] ) ? sanitize_textarea_field( wp_unslash( $_POST['expire_date'] ) ) : '';
 
@@ -228,7 +228,7 @@ class Admin_Menu {
 					[
 						'product_id'       => $product_id,
 						'order_id'         => $order_id,
-						'serial_key'       => $serial_key,
+						'key'              => $serial_key,
 						'status'           => $status,
 						'activation_limit' => $activation_limit,
 						'valid_for'        => $valid_for,
@@ -273,22 +273,7 @@ class Admin_Menu {
 	 * @since 1.3.1
 	 */
 	public static function render_generators_page() {
-		$action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
-		$id     = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT );
-		if ( ! empty( $id ) ) {
-			$generator = Generators::get( $id );
-			if ( ! $generator->exists() ) {
-				wp_safe_redirect( remove_query_arg( 'id' ) );
-				exit();
-			}
-		}
-		if ( 'add' === $action || ! empty( $id ) ) {
-			$generator = new Generator( $id );
-			include_once __DIR__ . '/views/html-edit-serial-generator.php';
-		} else {
-			include_once __DIR__ . '/views/html-generators-page.php';
-		}
-
+		include_once __DIR__ . '/views/html-generators-page.php';
 	}
 
 	/**
