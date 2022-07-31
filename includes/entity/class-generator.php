@@ -38,13 +38,14 @@ class Generator extends Data {
 	 * @var array
 	 */
 	protected $core_data = [
-		'name'             => '',
-		'pattern'          => '',
-		'is_sequential'    => '',
-		'activation_limit' => '',
-		'validity'         => '',
-		'date_expire'      => '',
-		'date_created'     => '',
+		'name'               => '',
+		'pattern'            => '',
+		'is_sequential'      => '',
+		'sequential_pointer' => '',
+		'activation_limit'   => '',
+		'validity'           => '',
+		'date_expire'        => '',
+		'date_created'       => '',
 	];
 
 	/**
@@ -81,6 +82,18 @@ class Generator extends Data {
 	 */
 	public function set_is_sequential( $is_sequential ) {
 		$this->set_prop( 'is_sequential', wc_string_to_bool( $is_sequential ) );
+	}
+
+	/**
+	 * Set sequential pointer.
+	 *
+	 * @param int|string $sequential_pointer Is sequential.
+	 *
+	 * @since 1.3.1
+	 * @return void
+	 */
+	public function set_sequential_pointer( $sequential_pointer ) {
+		$this->set_prop( 'sequential_pointer', absint( $sequential_pointer ) );
 	}
 
 	/**
@@ -164,7 +177,7 @@ class Generator extends Data {
 					'missing_required_params',
 					sprintf(
 					/* translator %s generator rule name */
-					__( 'Generator %s is required.', 'wc-serial-numbers' ),
+						__( 'Generator %s is required.', 'wc-serial-numbers' ),
 						$required
 					)
 				);
