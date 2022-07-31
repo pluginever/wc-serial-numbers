@@ -1,24 +1,23 @@
 <?php
-// don't call the file directly.
+
 use PluginEver\WooCommerceSerialNumbers\Helper;
 use PluginEver\WooCommerceSerialNumbers\Serial_Keys;
 
+// don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 ?>
 <div class="wrap woocommerce">
 	<?php if ( $serial_key->exists() ) : ?>
-		<h2><?php esc_html_e( 'Edit Serial Number', 'woocommerce-bookings' ); ?></h2>
-		<p><?php // esc_html_e( 'You can create a new booking for a customer here. This form will create a booking for the user, and optionally an associated order. Created orders will be marked as pending payment.', 'woocommerce-bookings' ); ?></p>
-	<?php else : ?>
-		<h2><?php esc_html_e( 'Add Serial Number', 'woocommerce-bookings' ); ?></h2>
-		<p><?php // esc_html_e( 'You can create a new booking for a customer here. This form will create a booking for the user, and optionally an associated order. Created orders will be marked as pending payment.', 'woocommerce-bookings' ); ?></p>
-	<?php endif; ?>
+		<h2><?php esc_html_e( 'Edit Serial Number', 'wc-serial-numbers' ); ?></h2>
+		<?php else : ?>
+		<h2><?php esc_html_e( 'Add Serial Number', 'wc-serial-numbers' ); ?></h2>
+		<?php endif; ?>
 	<form method="POST">
 		<table class="form-table">
 			<tbody>
 			<tr valign="top">
 				<th scope="row">
-					<label for="product_id"><?php esc_html_e( 'Product', 'woocommerce-bookings' ); ?></label>
+					<label for="product_id"><?php esc_html_e( 'Product', 'wc-serial-numbers' ); ?></label>
 				</th>
 				<td>
 					<select name="product_id" id="product_id" class="regular-text serial-numbers-product-search" required="required" placeholder="<?php esc_html_e( 'Select Product', 'wc-serial-numbers' ); ?>">
