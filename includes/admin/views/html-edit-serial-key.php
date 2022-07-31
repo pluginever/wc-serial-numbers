@@ -12,6 +12,13 @@ defined( 'ABSPATH' ) || exit();
 		<?php else : ?>
 		<h2><?php esc_html_e( 'Add Serial Number', 'wc-serial-numbers' ); ?></h2>
 		<?php endif; ?>
+
+	<?php
+	foreach ( $errors as $error ) {
+			echo '<div class="error"><p>' . esc_html( $error ) . '</p></div>';
+	}
+	?>
+
 	<form method="POST">
 		<table class="form-table">
 			<tbody>
@@ -83,7 +90,7 @@ defined( 'ABSPATH' ) || exit();
 				</tr>
 			<?php endif; ?>
 
-			<?php if ( !empty( $serial_key->get_order_id() ) ):?>
+			<?php if ( ! empty( $serial_key->get_order_id() ) ) : ?>
 				<tr valign="top">
 					<th scope="row">
 						<label for="status">
@@ -112,7 +119,7 @@ defined( 'ABSPATH' ) || exit();
 					</td>
 				</tr>
 
-			<?php endif;?>
+			<?php endif; ?>
 
 			<tr>
 				<td></td>

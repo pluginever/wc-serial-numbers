@@ -10,10 +10,8 @@ const mode = isProduction ? 'production' : 'development';
 module.exports = {
 	...defaultConfig,
 	entry: {
-		'css/ever-modal': './assets/css/ever-modal.scss',
-		'css/admin-style': './assets/css/admin-style.scss',
-		'js/ever-modal': './assets/js/ever-modal.js',
-		'js/admin-script': './assets/js/admin-script.js',
+		'css/admin': './assets/css/admin.scss',
+		'js/admin': './assets/js/admin.js',
 	},
 	output: {
 		clean: true,
