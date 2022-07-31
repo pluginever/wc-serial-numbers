@@ -35,8 +35,8 @@ class Admin_Manager {
 	 * @since 1.0.0
 	 */
 	public static function enqueue_scripts( $hook ) {
-		wp_register_style( 'serial-numbers-admin', Plugin::instance()->get_assets_url( 'css/admin.css' ), [], Plugin::instance()->get_plugin_version() );
-		wp_register_script( 'serial-numbers-admin', Plugin::instance()->get_assets_url( 'js/admin.js' ), [ 'jquery' ], Plugin::instance()->get_plugin_version(), true );
+		wp_register_style( 'serial-numbers-admin', Plugin::instance()->get_assets_url( 'css/admin.css' ), ['woocommerce_admin_styles', 'jquery-ui-style'], Plugin::instance()->get_plugin_version() );
+		wp_register_script( 'serial-numbers-admin', Plugin::instance()->get_assets_url( 'js/admin.js' ), [ 'jquery', 'select2' ], Plugin::instance()->get_plugin_version(), true );
 
 		if ( str_contains( $hook, 'serial-numbers' ) ) {
 			wp_enqueue_style( 'serial-numbers-admin' );

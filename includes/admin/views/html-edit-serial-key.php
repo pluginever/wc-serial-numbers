@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || exit();
 
 				<td>
 
-					<textarea name="key" id="key" class="regular-text" required="required" placeholder="d555b5ae-d9a6-41cb-ae54-361427357382"><?php echo $serial_key->get_key(); ?></textarea>
+					<textarea name="serial_key" id="serial_key" class="regular-text" required="required" placeholder="d555b5ae-d9a6-41cb-ae54-361427357382"><?php echo $serial_key->get_key(); ?></textarea>
 
 				</td>
 			</tr>
@@ -99,7 +99,7 @@ defined( 'ABSPATH' ) || exit();
 						</label>
 					</th>
 					<td>
-						<select id="status" name="status" class="regular-text serial-numbers-order-search">
+						<select id="status" name="status" class="regular-text">
 							<?php foreach ( Serial_Keys::get_statuses() as $key => $option ) : ?>
 								<?php echo sprintf( '<option value="%s" %s>%s</option>', $key, selected( $serial_key->get_status(), $key, false ), $option ); ?>
 							<?php endforeach; ?>
@@ -115,7 +115,15 @@ defined( 'ABSPATH' ) || exit();
 						</label>
 					</th>
 					<td>
-						<?php echo sprintf( '<input name="order_id" id="order_id" class="regular-text" type="number" value="%d" autocomplete="off">', $serial_key->get_order_id() ); ?>
+						<select name="order_id" id="order_id" class="regular-text serial-numbers-order-search" required="required" placeholder="<?php esc_html_e( 'Select Order', 'wc-serial-numbers' ); ?>">
+							<?php
+							echo sprintf(
+								'<option value="%d" selected="selected">#%d</option>',
+								esc_attr( $serial_key->get_order_id() ),
+								esc_attr( $serial_key->get_order_id() ),
+							);
+							?>
+						</select>
 					</td>
 				</tr>
 
