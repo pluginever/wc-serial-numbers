@@ -3,9 +3,9 @@
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
-require_once dirname( __DIR__ ) . '/tables/class-admin-activations-table.php';
+require_once dirname( __DIR__ ) . '/tables/class-wc-serial-numbers-activations-table.php';
 
-$table = new WCSN_Admin_List_Table_Activations();
+$table = new WC_Serial_Numbers_Activations_List_Table();
 $table->prepare_items();
 $do_action = $table->current_action();
 

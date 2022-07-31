@@ -64,6 +64,9 @@ class Plugin extends Framework\AbstractPlugin {
 		include_once __DIR__ . '/entity/class-activation.php';
 		include_once __DIR__ . '/class-order.php';
 		include_once __DIR__ . '/class-product.php';
+		if ( 'yes' === get_option( 'wc_serial_numbers_show_on_my_account')) {
+			include_once __DIR__ . '/class-my-account.php';
+		}
 
 		if ( self::is_request( 'ajax' ) ) {
 			include_once __DIR__ . '/class-ajax.php';
