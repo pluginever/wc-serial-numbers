@@ -115,7 +115,15 @@ defined( 'ABSPATH' ) || exit();
 						</label>
 					</th>
 					<td>
-						<?php echo sprintf( '<input name="order_id" id="order_id" class="regular-text" type="number" value="%d" autocomplete="off">', $serial_key->get_order_id() ); ?>
+						<select name="order_id" id="order_id" class="regular-text serial-numbers-order-search" required="required" placeholder="<?php esc_html_e( 'Select Order', 'wc-serial-numbers' ); ?>">
+							<?php
+							echo sprintf(
+								'<option value="%d" selected="selected">#%d</option>',
+								esc_attr( $serial_key->get_order_id() ),
+								esc_attr( $serial_key->get_order_id() ),
+							);
+							?>
+						</select>
 					</td>
 				</tr>
 
