@@ -65,13 +65,17 @@ class Plugin extends Framework\AbstractPlugin {
 		include_once __DIR__ . '/class-order.php';
 		include_once __DIR__ . '/class-product.php';
 
-		if ( self::is_request( 'admin' ) || self::is_request('ajax')) {
+		if ( self::is_request( 'ajax' ) ) {
+			include_once __DIR__ . '/class-ajax.php';
+		}
+
+		if ( self::is_request( 'admin' ) || self::is_request( 'ajax' ) ) {
 			include_once __DIR__ . '/admin/class-admin-manager.php';
 			include_once __DIR__ . '/admin/class-admin-settings.php';
 			include_once __DIR__ . '/admin/class-admin-menu.php';
 			include_once __DIR__ . '/admin/class-admin-order.php';
 			include_once __DIR__ . '/admin/class-admin-product.php';
-//			include_once __DIR__ . '/admin/class-meta-boxes.php';
+			// include_once __DIR__ . '/admin/class-meta-boxes.php';
 		}
 
 		if ( defined( '\WP_CLI' ) && WP_CLI ) {

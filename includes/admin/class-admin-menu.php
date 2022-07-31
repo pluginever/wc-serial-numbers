@@ -204,7 +204,7 @@ class Admin_Menu {
 
 		try {
 			if ( ! empty( $_POST ) && ! check_admin_referer( 'serial_numbers_edit_key' ) ) {
-				throw new \Exception( __( 'Error - please try again', 'woocommerce-bookings' ) );
+				throw new \Exception( __( 'Error - please try again', 'wc-serial-numbers' ) );
 			}
 
 			if ( ! empty( $_POST['serial_numbers_edit'] ) ) {
@@ -218,12 +218,33 @@ class Admin_Menu {
 				$expire_date      = isset( $_POST['expire_date'] ) ? sanitize_textarea_field( wp_unslash( $_POST['expire_date'] ) ) : '';
 
 				if ( ! $product_id ) {
-					throw new \Exception( __( 'Please select a product', 'woocommerce-bookings' ) );
+					throw new \Exception( __( 'Please select a product', 'wc-serial-numbers' ) );
 				}
 				if ( empty( $serial_key ) ) {
-					throw new \Exception( __( 'Please insert serial key.', 'woocommerce-bookings' ) );
+					throw new \Exception( __( 'Please insert serial key.', 'wc-serial-numbers' ) );
+				}
+				$serial = new Serial_Key( $id );
+				$serial->set_props(
+					[
+						'product_id'       => $product_id,
+						'order_id'         => $order_id,
+						'serial_key'       => $serial_key,
+						'status'           => $status,
+						'activation_limit' => $activation_limit,
+						'valid_for'        => $valid_for,
+					]
+				);
+				$save = $serial->save();
+				if ( is_wp_error( $save ) ) {
+					throw new \Exception( $save->get_error_message() );
 				}
 
+				wp_safe_redirect(
+					[
+						'page' => 'wc-serial-numbers',
+						$id    => $id,
+					]
+				);
 			}
 		} catch ( \Exception $e ) {
 			$errors[] = $e->getMessage();
