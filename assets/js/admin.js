@@ -1,4 +1,4 @@
 /*global jQuery */
-jQuery(function ($) {
-
-});
+jQuery( document ).ready( function ( $ ) {
+	console.log( 'LOG' );
+} );
