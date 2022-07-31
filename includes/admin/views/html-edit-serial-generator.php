@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit();
 						<label for="name"><?php esc_html_e( 'Name', 'wc-serial-numbers' ); ?></label>
 					</th>
 					<td>
-						<?php echo sprintf( '<input name="name" id="name" class="regular-text" type="text" autocomplete="off" value="%s">', $generator->get_name() ); ?>
+						<?php echo sprintf( '<input name="name" id="name" class="regular-text" type="text" required="required" autocomplete="off" value="%s">', $generator->get_name() ); ?>
 					</td>
 				</tr>
 
