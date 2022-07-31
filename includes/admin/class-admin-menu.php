@@ -191,6 +191,7 @@ class Admin_Menu {
 	 * @since 1.3.1
 	 */
 	public static function render_main_page() {
+		$errors = [];
 		$action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
 		$id     = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT );
 		if ( ! empty( $id ) ) {
@@ -199,6 +200,33 @@ class Admin_Menu {
 				wp_safe_redirect( remove_query_arg( 'id' ) );
 				exit();
 			}
+		}
+
+		try {
+			if ( ! empty( $_POST ) && ! check_admin_referer( 'serial_numbers_edit_key' ) ) {
+				throw new \Exception( __( 'Error - please try again', 'woocommerce-bookings' ) );
+			}
+
+			if ( ! empty( $_POST['serial_numbers_edit'] ) ) {
+				$id               = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+				$product_id       = isset( $_POST['product_id'] ) ? absint( $_POST['product_id'] ) : 0;
+				$order_id         = isset( $_POST['order_id'] ) ? absint( $_POST['order_id'] ) : 0;
+				$activation_limit = isset( $_POST['activation_limit'] ) ? absint( $_POST['activation_limit'] ) : 0;
+				$valid_for        = isset( $_POST['valid_for'] ) ? absint( $_POST['valid_for'] ) : 0;
+				$status           = isset( $_POST['status'] ) ? sanitize_key( $_POST['status'] ) : '';
+				$serial_key       = isset( $_POST['serial_key'] ) ? sanitize_textarea_field( wp_unslash( $_POST['serial_key'] ) ) : '';
+				$expire_date      = isset( $_POST['expire_date'] ) ? sanitize_textarea_field( wp_unslash( $_POST['expire_date'] ) ) : '';
+
+				if ( ! $product_id ) {
+					throw new \Exception( __( 'Please select a product', 'woocommerce-bookings' ) );
+				}
+				if ( empty( $serial_key ) ) {
+					throw new \Exception( __( 'Please insert serial key.', 'woocommerce-bookings' ) );
+				}
+
+			}
+		} catch ( \Exception $e ) {
+			$errors[] = $e->getMessage();
 		}
 
 		if ( 'add' === $action || ! empty( $id ) ) {
