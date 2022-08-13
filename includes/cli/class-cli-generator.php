@@ -73,13 +73,6 @@ class CLI_Generator {
 			return;
 		}
 
-		var_dump( $pattern );
-		var_dump( $activation_limit );
-		var_dump( $validity );
-		var_dump( $date_expire );
-		var_dump( $sequential );
-		var_dump( $start );
-
 		if ( empty( $product_id ) ) {
 			WP_CLI::error( "Product id is required" );
 

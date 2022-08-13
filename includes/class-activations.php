@@ -1,13 +1,21 @@
 <?php
 
 namespace PluginEver\WooCommerceSerialNumbers;
-use PluginEver\WooCommerceSerialNumbers\Activation;
-
 
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
 class Activations {
+
+	/**
+	 * Construct Activations.
+	 *
+	 * @since 1.3.0
+	 */
+	public function __construct() {
+	}
+
+
 	/**
 	 * Get activation object.
 	 *

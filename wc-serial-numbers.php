@@ -17,7 +17,7 @@
  * @package PluginEver\WooCommerceSerialNumbers
  * @author  pluginever
  * @link    https://pluginever.com/plugins/wc-serial-numbers/
- * Settings Path: admin.php?page=wc-serial-numbers-settings
+ * Settings 1Path: admin.php?page=wc-serial-numbers-settings
  *
  * Copyright (c) 2019 pluginever (email : support@pluginever.com)
  *
@@ -37,8 +37,9 @@ use PluginEver\WooCommerceSerialNumbers\Plugin;
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
-// Load framework.
+// Load files.
 require_once __DIR__ . '/lib/bootstrap.php';
+require_once __DIR__ . '/includes/class-plugin.php';
 
 /**
  * Main instance of the plugin.
@@ -50,8 +51,6 @@ require_once __DIR__ . '/lib/bootstrap.php';
  * @return Plugin
  */
 function wc_serial_numbers() {
-	require_once __DIR__ . '/includes/class-plugin.php';
-
 	return Plugin::init( __FILE__ );
 }
 

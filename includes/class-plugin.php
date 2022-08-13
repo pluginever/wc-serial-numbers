@@ -11,80 +11,104 @@ defined( 'ABSPATH' ) || exit();
  * @since 1.3.1
  * @package PluginEver\WooCommerceSerialNumbers
  */
-class Plugin extends Framework\AbstractPlugin {
+class Plugin extends Framework\Plugin {
 
 	/**
 	 * Setup plugin.
 	 *
-	 * @return void
 	 * @since 1.3.1
+	 * @return void
 	 */
 	public function setup() {
-		// initialize the plugin.
-		if ( ! self::is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-			add_action( 'admin_notices', array( $this, 'dependency_notice' ) );
-
+		if ( ! $this->is_requirements_meet() ) {
 			return;
 		}
-		add_action( 'woocommerce_loaded', array( $this, 'init_plugin' ) );
+
+		// Include required files.
+		$this->includes();
+
+		// Instantiate classes.
+		$this->instantiate();
+
+		// Register hooks.
+		$this->init_hooks();
+
+		do_action( 'wc_serial_numbers_plugin_loaded' );
 	}
+
 	/**
-	 * Missing dependency notice.
+	 * Check that the WordPress and PHP setup meets the plugin requirements.
 	 *
 	 * @since 1.0.0
-	 * @return void
+	 * @return bool
 	 */
-	public function dependency_notice() {
-		$notice = sprintf(
-		/* translators: %s Plugin Name, %s Missing Plugin Name, %s Download URL link. */
-			__( '%1$s requires %2$s to be installed and active. You can download %3$s from here.', 'wc-serial-numbers' ),
-			'<strong>' . $this->get_plugin_name() . '</strong>',
-			'<strong>WooCommerce</strong>',
-			'<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">WooCommerce</a>'
-		);
-		echo wp_kses_post( '<div class="notice notice-error"><p>' . $notice . '</p></div>' );
+	protected function is_requirements_meet() {
+		if ( ! self::is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+			$this->activation_notices[] = sprintf(
+			/* translators: %s Plugin Name, %s Missing Plugin Name, %s Download URL link. */
+				__( '%1$s requires %2$s to be installed and active. You can download %3$s from here.', 'wc-serial-numbers' ),
+				'<strong>' . $this->plugin_name() . '</strong>',
+				'<strong>WooCommerce</strong>',
+				'<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">WooCommerce</a>'
+			);
+		}
+
+		return parent::is_requirements_meet();
 	}
+
 	/**
-	 * Initializes the plugin.
+	 * Include required files.
 	 *
-	 * Plugins can override this to set up any handlers after WordPress is ready.
-	 *
-	 * @return void
 	 * @since 1.3.1
+	 * @return void
 	 */
-	public function init_plugin() {
-		include_once __DIR__ . '/class-helper.php';
-		include_once __DIR__ . '/class-install.php';
-		include_once __DIR__ . '/class-serial-keys.php';
-		include_once __DIR__ . '/class-generators.php';
-		include_once __DIR__ . '/class-activations.php';
-		include_once __DIR__ . '/entity/class-data.php';
-		include_once __DIR__ . '/entity/class-serial-key.php';
-		include_once __DIR__ . '/entity/class-generator.php';
-		include_once __DIR__ . '/entity/class-activation.php';
-		include_once __DIR__ . '/class-order.php';
-		include_once __DIR__ . '/class-product.php';
-		if ( 'yes' === get_option( 'wc_serial_numbers_show_on_my_account')) {
-			include_once __DIR__ . '/class-my-account.php';
+	public function includes() {
+		require_once __DIR__ . '/class-autoloader.php';
+	}
+
+	/**
+	 * Instantiate classes.
+	 *
+	 * @since 1.3.1
+	 * @return void
+	 */
+	public function instantiate() {
+		// Instantiate classes.
+		$this->installer   = new Installer();
+		$this->keys        = new Keys();
+		$this->generators  = new Generators();
+		$this->activations = new Activations();
+		$this->encryption  = new Encryption();
+		$this->products    = new Products();
+		$this->orders      = new Orders();
+
+		// Instantiate frontend classes.
+		if ( self::is_request( 'frontend' ) ) {
+			$this->frontend = new Frontend();
 		}
 
-		if ( self::is_request( 'ajax' ) ) {
-			include_once __DIR__ . '/class-ajax.php';
+		// Instantiate admin classes.
+		if ( self::is_request( 'admin' ) ) {
+			$this->admin = new Admin\Admin();
 		}
 
-		if ( self::is_request( 'admin' ) || self::is_request( 'ajax' ) ) {
-			include_once __DIR__ . '/admin/class-admin-manager.php';
-			include_once __DIR__ . '/admin/class-admin-settings.php';
-			include_once __DIR__ . '/admin/class-admin-menu.php';
-			include_once __DIR__ . '/admin/class-admin-order.php';
-			include_once __DIR__ . '/admin/class-admin-product.php';
-			// include_once __DIR__ . '/admin/class-meta-boxes.php';
+		// Instantiate CLI classes.
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$this->cli_commands = new CLI\Commands();
 		}
+	}
 
-		if ( defined( '\WP_CLI' ) && WP_CLI ) {
-			include_once __DIR__ . '/class-cli.php';
-		}
 
-		do_action( 'wc_serial_numbers_loaded' );
+	/**
+	 * Register hooks.
+	 *
+	 * @since 1.3.1
+	 * @return void
+	 */
+	public function init_hooks() {
+		// Register activation hook.
+		register_activation_hook( $this->plugin_file(), array( Installer::class, 'install' ) );
+		register_deactivation_hook( $this->plugin_file(), array( Installer::class, 'deactivate' ) );
+		register_uninstall_hook( $this->plugin_file(), array( Installer::class, 'uninstall' ) );
 	}
 }

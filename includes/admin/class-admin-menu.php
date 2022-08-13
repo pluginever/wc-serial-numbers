@@ -281,7 +281,6 @@ class Admin_Menu {
 				exit();
 			}
 		}
-		error_log( print_r( $_POST, true ) );
 
 		try {
 			if ( ! empty( $_POST ) && ! check_admin_referer( 'serial_numbers_edit_generator' ) ) {

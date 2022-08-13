@@ -2,16 +2,103 @@
 
 namespace PluginEver\WooCommerceSerialNumbers;
 
-use PluginEver\WooCommerceSerialNumbers\Generator;
-
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
-class Generators {
+/**
+ * Keys controller class.
+ *
+ * @since 1.3.1
+ * @package PluginEver\WooCommerceSerialNumbers
+ */
+class Keys {
+
 	/**
-	 * Get generator object.
+	 * Keys Constructor.
 	 *
-	 * @param int $id Generator id
+	 * @since 1.3.1
+	 */
+	public function __construct() {
+		add_filter( 'wc_serial_numbers_order_item_keys', array( __CLASS__, 'order_item_keys' ), 10, 4 );
+		add_filter( 'wc_serial_numbers_pre_save_key', array( __CLASS__, 'maybe_encrypt_key' ), 10, 2 );
+	}
+
+	/**
+	 * Order item keys.
+	 *
+	 * @param array $keys The keys.
+	 * @param \WC_Order_Item_Product $item The order item.
+	 * @param string $source The source.
+	 * @param int $qty The source.
+	 *
+	 * @since 1.3.1
+	 * @return array The keys.
+	 *
+	 */
+	public static function order_item_keys( $keys, $item, $source, $qty ) {
+		if ( 'pre_generated' === $source ) {
+			return self::query( [
+				'product_id__in' => $item->get_product_id(),
+				'status'         => 'available',
+				'per_page'       => $qty,
+			] );
+		}
+
+//		if ( 'generator' === $source ) {
+//			$generator_id = $item->get_meta( '_serial_numbers_generator_id', true );
+//			$generator    = Generators::get( $generator_id );
+//			if ( empty( $generator ) ) {
+//				return $keys;
+//			}
+//
+//			$keys = Generators::generate_keys($generator->pattern, $qty);
+//		}
+
+		return $keys;
+	}
+
+	/**
+	 * Maybe encrypt key.
+	 *
+	 * @param int $key_id Key id.
+	 * @param Key $key Serial key.
+	 *
+	 * @since 1.3.1
+	 */
+	public static function maybe_encrypt_key( $key_id, $key ) {
+		$changes = $key->get_changes();
+		if ( apply_filters( 'wc_serial_numbers_allow_encryption', true ) && ( ! $key_id || array_key_exists( 'key', $changes ) ) ) {
+			$key->set_prop( 'key', Encryption::encrypt( $key->key ) );
+			$key->set_prop( 'is_encrypted', 1 );
+		}
+
+		return $key;
+	}
+
+	/**
+	 * Get serial number's statuses.
+	 *
+	 * since 1.2.0
+	 *
+	 * @return array
+	 */
+	public static function get_statuses() {
+		$statuses = array(
+			'available' => __( 'Available', 'wc-serial-numbers' ), // when ready for selling.
+			'sold'      => __( 'Sold', 'wc-serial-numbers' ), // when sold for API it should show inactive.
+			'delivered' => __( 'Delivered', 'wc-serial-numbers' ), // when sold for API it should show inactive.
+			'active'    => __( 'Active', 'wc-serial-numbers' ), // when sold and API activated.
+			'revoked'   => __( 'Revoked', 'wc-serial-numbers' ), // when expired.
+			'expired'   => __( 'Expired', 'wc-serial-numbers' ), // when expired.
+		);
+
+		return apply_filters( 'wc_serial_numbers_key_statuses', $statuses );
+	}
+
+	/**
+	 * Get serial key.
+	 *
+	 * @param int $id serial key id
 	 * @param string $output The required return type. One of OBJECT, ARRAY_A, or ARRAY_N. Default OBJECT.
 	 *
 	 * @since 1.3.0
@@ -21,10 +108,10 @@ class Generators {
 			return null;
 		}
 
-		if ( $id instanceof Generator ) {
+		if ( $id instanceof Key ) {
 			$serial = $id;
 		} else {
-			$serial = new Generator( $id );
+			$serial = new Key( $id );
 		}
 
 		if ( ! $serial->exists() ) {
@@ -43,26 +130,45 @@ class Generators {
 	}
 
 	/**
-	 * Insert generator in the database.
+	 * Get serial key by key
 	 *
-	 * @param array|object $data Generator Data
+	 * @param string $key Account Number
+	 *
+	 * @since 1.3.0
+	 * @return Key|null
+	 */
+	public static function get_by_key( $key ) {
+		global $wpdb;
+		$serial_key = wp_cache_get( $key, Key::get_cache_group() );
+		if ( $serial_key === false ) {
+			$serial_key = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wsn_keys WHERE number = %s", wc_clean( $key ) ) );
+			wp_cache_set( $key, $serial_key, Key::get_cache_group() );
+		}
+
+		return new Key( $serial_key );
+	}
+
+	/**
+	 * Insert serial key.
+	 *
+	 * @param array|object $data Serial key Data
 	 *
 	 * @since 1.3.0
 	 * @return object|\WP_Error
 	 */
 	public static function insert( $data ) {
-		if ( $data instanceof Generator ) {
+		if ( $data instanceof Key ) {
 			$data = $data->get_data();
 		} elseif ( is_object( $data ) ) {
 			$data = get_object_vars( $data );
 		}
 
 		if ( empty( $data ) || ! is_array( $data ) ) {
-			return new \WP_Error( 'invalid_data', __( 'Generator could not be saved.', 'wc-serial-numbers' ) );
+			return new \WP_Error( 'invalid_data', __( 'Serial key could not be saved.', 'wc-serial-numbers' ) );
 		}
 
 		$data       = wp_parse_args( $data, array( 'id' => null ) );
-		$serial_key = new Generator( (int) $data['id'] );
+		$serial_key = new Key( (int) $data['id'] );
 		$serial_key->set_props( $data );
 		$is_error = $serial_key->save();
 		if ( is_wp_error( $is_error ) ) {
@@ -73,15 +179,15 @@ class Generators {
 	}
 
 	/**
-	 * Delete generator.
+	 * Delete Serial key.
 	 *
-	 * @param int $id Generator id
+	 * @param int $id Serial key id
 	 *
 	 * @since 1.3.0
 	 * @return object|bool
 	 */
 	public static function delete( $id ) {
-		if ( $id instanceof Generator ) {
+		if ( $id instanceof Key ) {
 			$id = $id->get_id();
 		}
 
@@ -89,7 +195,7 @@ class Generators {
 			return false;
 		}
 
-		$serial_key = new Generator( (int) $id );
+		$serial_key = new Key( (int) $id );
 		if ( ! $serial_key->exists() ) {
 			return false;
 		}
@@ -98,21 +204,21 @@ class Generators {
 	}
 
 	/**
-	 * Get all generators
+	 * Get all serial keys
 	 *
 	 * @param array $args Query arguments.
 	 *
 	 * @since 1.0.0
-	 * @return int|object
+	 * @return array|int
 	 */
 	public static function query( $args = array(), $count = false ) {
 		global $wpdb;
 		$results      = null;
 		$total        = 0;
-		$cache_group  = Generator::get_cache_group();
-		$table        = $wpdb->prefix . Generator::get_table_name();
-		$columns      = Generator::get_columns();
-		$key          = md5( serialize( $args ) );
+		$cache_group  = Key::get_cache_group();
+		$table        = $wpdb->prefix . Key::get_table_name();
+		$columns      = Key::get_columns();
+		$key          = md5( maybe_serialize( $args ) );
 		$last_changed = wp_cache_get_last_changed( $cache_group );
 		$cache_key    = "$cache_group:$key:$last_changed";
 		$cache        = wp_cache_get( $cache_key, $cache_group );
@@ -123,19 +229,22 @@ class Generators {
 		$having       = '';
 		$limit        = '';
 
-		$args = (array) wp_parse_args( $args, array(
-			'orderby'  => 'date_created',
-			'order'    => 'ASC',
-			'search'   => '',
-			'balance'  => '',
-			'offset'   => '',
-			'per_page' => 20,
-			'paged'    => 1,
-			'no_count' => false,
-			'fields'   => 'all',
-			'return'   => 'objects',
+		$args = (array) wp_parse_args(
+			$args,
+			array(
+				'orderby'  => 'date_created',
+				'order'    => 'ASC',
+				'search'   => '',
+				'balance'  => '',
+				'offset'   => '',
+				'per_page' => 20,
+				'paged'    => 1,
+				'no_count' => false,
+				'fields'   => 'all',
+				'return'   => 'objects',
 
-		) );
+			)
+		);
 
 		if ( false !== $cache ) {
 			return $count ? $cache->total : $cache->results;
@@ -157,21 +266,26 @@ class Generators {
 		// Query from.
 		$from = "FROM $table";
 
+		// Parse where.
+		if ( ! empty( $args['status'] ) ) {
+			$where .= $wpdb->prepare( "AND status = %s", $args['status'] );
+		}
+
 		// Parse arch params
-		if ( ! empty ( $args['search'] ) ) {
-			$allowed_fields = array( 'name', 'pattern' );
+		if ( ! empty( $args['search'] ) ) {
+			$allowed_fields = array( 'key', 'product_id', 'order_id', 'vendor_id' );
 			$search_fields  = ! empty( $args['search_field'] ) ? $args['search_field'] : $allowed_fields;
 			$search_fields  = array_intersect( $search_fields, $allowed_fields );
 			$searches       = array();
 			foreach ( $search_fields as $field ) {
-				$searches[] = $wpdb->prepare( $field . ' LIKE %s', '%' . $wpdb->esc_like( $args['search'] ) . '%' );
+				$searches[] = $wpdb->prepare( '`' . $field . '` LIKE %s', '%' . $wpdb->esc_like( $args['search'] ) . '%' );
 			}
 
 			$where .= ' AND (' . implode( ' OR ', $searches ) . ')';
 		}
 
 		// Parse date params
-		if ( ! empty ( $args['date'] ) ) {
+		if ( ! empty( $args['date'] ) ) {
 			$args['date_from'] = $args['date'];
 			$args['date_to']   = $args['date'];
 		}
@@ -245,7 +359,7 @@ class Generators {
 			}
 		}
 
-		//Parse pagination
+		// Parse pagination
 		$page     = absint( $args['paged'] );
 		$per_page = (int) $args['per_page'];
 		if ( $per_page >= 0 ) {
@@ -253,7 +367,7 @@ class Generators {
 			$limit  = " LIMIT {$offset}, {$per_page}";
 		}
 
-		//Parse order.
+		// Parse order.
 		$orderby = "$table.id";
 		if ( in_array( $args['orderby'], $columns, true ) ) {
 			$orderby = sprintf( '%s.%s', $table, $args['orderby'] );
@@ -266,10 +380,9 @@ class Generators {
 
 		$orderby = sprintf( 'ORDER BY %s %s', $orderby, $order );
 
-		//Add all param.
+		// Add all param.
 		if ( null === $results ) {
 			$request = "SELECT {$fields} {$from} {$join} WHERE 1=1 {$where} {$groupby} {$having} {$orderby} {$limit}";
-
 			if ( is_array( $args['fields'] ) || 'all' === $args['fields'] ) {
 				$results = $wpdb->get_results( $request );
 			} else {
@@ -277,20 +390,20 @@ class Generators {
 			}
 
 			if ( ! $args['no_count'] ) {
-				$total = (int) $wpdb->get_var( "SELECT FOUND_ROWS()" );
+				$total = (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' );
 			}
 
 			if ( 'all' === $args['fields'] ) {
 				foreach ( $results as $key => $row ) {
 					wp_cache_add( $row->id, $row, $cache_group );
-					$item = new Generator();
+					$item = new Key;
 					$item->set_props( $row );
 					$item->set_object_read( true );
 					$results[ $key ] = $item;
 				}
 			}
 
-			$cache          = new \StdClass;
+			$cache          = new \StdClass();
 			$cache->results = $results;
 			$cache->total   = $total;
 
@@ -298,72 +411,5 @@ class Generators {
 		}
 
 		return $count ? $total : $results;
-	}
-
-	/**
-	 * Generate serial keys.
-	 *
-	 * @param string $pattern Serial number pattern.
-	 * @param int $quantity Quantity to generate.
-	 * @param bool $is_sequential Is sequential or not.
-	 * @param int $start Sequential start number.
-	 *
-	 * @return array
-	 */
-	public static function generate_keys( $pattern = 'SERIAL-#####################', $quantity = 5, $is_sequential = true, $start = 0 ) {
-		$pattern              = empty( $pattern ) ? str_pad( $pattern, 32, '#' ) : trim( $pattern );
-		$start                = absint( $start );
-		$pattern_length       = strlen( $pattern );
-		$pattern_mask_length  = substr_count( $pattern, '#' );
-		$required_mask_length = strlen( $quantity + $start );
-		if ( $pattern_mask_length < $required_mask_length ) {
-			$static              = $pattern_length - $pattern_mask_length;
-			$pad_length          = $static + $required_mask_length;
-			$pattern_mask_length = $required_mask_length;
-			$pattern             = str_pad( $pattern, $pad_length, '#' );
-		}
-
-		$serial_keys = array();
-		for ( $i = 1; $i <= $quantity; $i ++ ) {
-			$serial_key = $pattern;
-			if ( $is_sequential ) {
-				$new_serial_key = str_pad( $start + $i, $pattern_mask_length, '0', STR_PAD_LEFT );
-			} else {
-				$new_serial_key = strtolower( wp_generate_password( $pattern_mask_length, false ) );
-			}
-
-
-			$new_key_parts = str_split( $new_serial_key );
-			for ( $j = 0; $j <= count( $new_key_parts ) - 1; $j ++ ) {
-				if ( strpos( $serial_key, '#' ) !== false ) {
-					$occurrence = strpos( $serial_key, '#' );
-					$serial_key = substr_replace( $serial_key, $new_key_parts[ $j ], $occurrence, 1 );
-				}
-			}
-
-			$serial_keys[] = apply_filters( 'wc_serial_numbers_generated_key', $serial_key, $pattern, $quantity, $is_sequential, $start );
-		}
-
-		return $serial_keys;
-	}
-
-	/**
-	 * Get dropdown options.
-	 *
-	 *
-	 * @since #.#.#
-	 * @return array
-	 */
-	public static function get_dropdown_options() {
-		$options = self::query( [
-			'fields'   => [ 'id', 'name' ],
-			'per_page' => - 1,
-		] );
-
-		return wp_list_pluck( $options, 'name', 'id' );
-	}
-
-	public static function get_products_counts(){
-		global $wpdb;
 	}
 }

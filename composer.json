@@ -66,14 +66,7 @@
       "composer dump-autoload"
     ],
     "phpcbf": "./vendor/bin/phpcbf -p .",
-    "phpcs": "./vendor/bin/phpcs --standard=ByteEver-Default --extensions=php -s -p .",
-    "selenium:start": "selenium-server -port 4444",
-    "test:acceptance": "@php ./vendor/bin/codecept run acceptance",
-    "test:clean": "@php ./vendor/bin/codecept clean",
-    "test:coverage": "@php ./vendor/bin/codecept run wpunit --coverage --coverage-xml --coverage-html",
-    "test:functional": "@php ./vendor/bin/codecept run functional",
-    "test:generate-scenarios": "@php vendor/bin/codecept generate:scenarios",
-    "test:integration": "@php ./vendor/bin/codecept run wpunit"
+    "phpcs": "./vendor/bin/phpcs --standard=ByteEver-Default --extensions=php -s -p ."
   },
   "extra": {
     "mozart": {

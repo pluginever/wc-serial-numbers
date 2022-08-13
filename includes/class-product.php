@@ -13,65 +13,140 @@ defined( 'ABSPATH' ) || exit();
  * @since  1.0.0
  * @return Product
  */
-class Product {
+class Product extends \WC_Product {
+
 	/**
-	 * Register action and filter hooks.
+	 * Get product by ID.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @param int $product_id Product ID.
+	 *
+	 * @return Product
 	 */
-	public static function init() {
+	public static function get( $product_id ) {
+		return new self( $product_id );
 	}
 
-
+	/**
+	 * Check if the product is a serial number product.
+	 *
+	 * @since 1.3.1
+	 * @return boolean
+	 */
+	public function is_selling_serial_numbers() {
+		return 'yes' === $this->get_meta( '_selling_serial_numbers' );
+	}
 
 	/**
-	 * Update product metadata.
+	 * Get serial key source meta.
 	 *
-	 * @since #.#.#
-	 *
-	 * @param int|\WC_Product $product Product object.
-	 * @param string          $meta_key Meta key.
-	 * @param mixed           $meta_value Meta value.
+	 * @since 1.3.1
+	 * @return string
 	 */
-//	public static function update_meta( $product, $meta_key, $meta_value ) {
-//		$product = Helper::get_product_object( $product );
-//
-//		if ( $product ) {
-//			if ( Helper::is_woocommerce_pre( '3.0' ) ) {
-//				update_post_meta( $product->get_id(), $meta_key, $meta_value );
-//			} else {
-//				$product->update_meta_data( $meta_key, $meta_value );
-//				$product->save_meta_data();
-//			}
-//		}
-//	}
-
+	public function get_key_source() {
+		return $this->get_meta( '_serial_numbers_key_source' );
+	}
 
 	/**
-	 * Update product metadata.
+	 * Get serial key source meta.
 	 *
-	 * @since #.#.#
-	 *
-	 * @param int|\WC_Product $product Product object.
-	 * @param string          $meta_key Meta key.
-	 *
-	 * @return mixed
+	 * @since 1.3.1
+	 * @return string
 	 */
-	public static function get_meta( $product, $meta_key ) {
-		$product = Helper::get_product_object( $product );
-		$meta    = '';
-		if ( $product ) {
-			if ( Helper::is_woocommerce_pre( '3.0' ) ) {
-				$meta = get_post_meta( $product->get_id(), $meta_key, true );
-			} else {
-				$meta = $product->get_meta_data( $meta_key );
-			}
-		}
+	public function get_generator_id() {
+		return $this->get_meta( '_serial_numbers_generator_id' );
+	}
 
-		return $meta;
+	/**
+	 * Get pattern meta.
+	 *
+	 * @since 1.3.1
+	 * @return string
+	 */
+	public function get_pattern() {
+		return $this->get_meta( '_serial_numbers_pattern' );
+	}
+
+	/**
+	 * Get activation limit meta.
+	 *
+	 * @since 1.3.1
+	 * @return string
+	 */
+	public function get_activation_limit() {
+		return $this->get_meta( '_serial_numbers_activation_limit' );
+	}
+
+	/**
+	 * Get software version meta.
+	 *
+	 * @since 1.3.1
+	 * @return string
+	 */
+	public function get_software_version() {
+		return $this->get_meta( '_serial_numbers_software_version' );
+	}
+
+	/**
+	 * Get software author meta.
+	 *
+	 * @since 1.3.1
+	 * @return string
+	 */
+	public function get_software_author() {
+		return $this->get_meta( '_serial_numbers_software_author' );
+	}
+
+	/**
+	 * Get software last updated meta.
+	 *
+	 * @since 1.3.1
+	 * @return string
+	 */
+	public function get_software_last_updated() {
+		return $this->get_meta( '_serial_numbers_software_last_updated' );
+	}
+
+	/**
+	 * Get software upgrade notice meta.
+	 *
+	 * @since 1.3.1
+	 * @return string
+	 */
+	public function get_software_upgrade_notice() {
+		return $this->get_meta( '_serial_numbers_software_upgrade_notice' );
+	}
+
+	/**
+	 * Get valid for meta.
+	 *
+	 * @since 1.3.1
+	 * @return string
+	 */
+	public function get_valid_for() {
+		return $this->get_meta( '_serial_numbers_valid_for' );
+	}
+
+	/**
+	 * Get the total number of serial numbers will be delivered.
+	 *
+	 * @param int $qty Quantity.
+	 *
+	 * @return int The number of serial numbers will be delivered.
+	 */
+	public function get_delivery_quantity( $qty ) {
+		return apply_filters( 'wc_serial_numbers_delivery_quantity', $qty, $this );
+	}
+
+	/**
+	 * Get the total number of serial numbers available.
+	 *
+	 * @since 1.3.1
+	 * @return int The number of serial numbers available.
+	 */
+	public function get_key_stock_count() {
+		return (int ) Keys::query([
+			'product_id__in' => [ $this->get_id() ],
+			'status'        => 'available',
+		], true );
 	}
 }
-
-Product::init();
-
