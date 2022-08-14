@@ -94,8 +94,8 @@ class Commands {
 	 *
 	 * ## EXAMPLES
 	 *
-	 * wp serial_numbers make keys --pattern=SERIAL-####-####-####-####
-	 * wp serial_numbers make keys 10 --pattern=SERIAL-####-####-####-#### 10 --product_id=25 --activation_limit=10 --valid_for=365
+	 * wp serial_numbers make keys 10 --pattern=SERIAL-####-####-####-####
+	 * wp serial_numbers make keys 10 --pattern=SERIAL-####-####-####-#### --product_id=25 --activation_limit=10 --valid_for=365
 	 *
 	 * @param array $args WP-CLI positional arguments.
 	 * @param array $assoc_args WP-CLI associative arguments.

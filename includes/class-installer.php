@@ -148,7 +148,6 @@ class Installer {
 			`order_item_id` BIGINT UNSIGNED NOT NULL,
 			`vendor_id` BIGINT UNSIGNED NOT NULL,
 			`customer_id` BIGINT UNSIGNED NOT NULL,
-			`activation_ids` longtext NOT NULL,
 			`activation_limit` INT(9) NOT NULL DEFAULT 0,
 			`activation_count` INT(9) NOT NULL  DEFAULT 0,
 			`status` VARCHAR(50) DEFAULT 'available',
