@@ -329,7 +329,8 @@ class Helper {
 				$delivered_key->save();
 			} elseif ( in_array( $order_status, $revoke_statuses, true ) ) {
 				if ( $is_reuse && 'pre_generated' === $key_source ) {
-					$delivered_key->set_status_available();
+					$delivered_key->set_status('available');
+					$delivered_key->save();
 				} else {
 					$delivered_key->delete();
 				}

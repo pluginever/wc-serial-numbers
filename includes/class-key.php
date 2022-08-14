@@ -186,17 +186,6 @@ class Key extends Data {
 	}
 
 	/**
-	 * Set key status available.
-	 *
-	 * @return int|\WP_Error
-	 */
-	public function set_status_available() {
-		$this->set_status( 'available' );
-
-		return $this->save();
-	}
-
-	/**
 	 * Saves an object in the database.
 	 *
 	 * @since 1.0.0
@@ -269,38 +258,5 @@ class Key extends Data {
 		do_action( 'wc_serial_numbers_saved_' . $this->object_type, $this->get_id(), $this );
 
 		return $this->get_id();
-	}
-
-
-	public function update_status( $status ) {
-		$old_status = $this->status;
-		if ( ! array_key_exists( $status, Keys::get_statuses() ) ) {
-			return new \WP_Error( 'invalid_status', __( 'Invalid status.', 'wc-serial-numbers' ) );
-		}
-
-		$switch = "{$old_status}_to_{$status}";
-
-		switch ( $switch ){
-			case 'sold_to_available':
-				$this->set_status( 'pending' );
-				break;
-//			case 'available':
-//				$this->set_status( 'available' );
-//				break;
-//			case 'pending':
-//				$this->set_status( 'pending' );
-//				break;
-//			case 'expired':
-//				$this->set_status( 'expired' );
-//				break;
-//			case 'used':
-//				$this->set_status( 'used' );
-//				break;
-//			case 'disabled':
-//				$this->set_status( 'disabled' );
-//				break;
-		}
-
-		return $this->save();
 	}
 }

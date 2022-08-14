@@ -43,26 +43,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</td>
 				<td>
 					<?php
-					$props = array(
-						array(
-							'display_index' => 'key',
-							'display_key'   => esc_html__( 'Key', 'wc-serial-numbers' ),
-							'display_value' => esc_html( $key->get_key() ),
-						),
-						array(
-							'display_index' => 'date_expire',
-							'display_key'   => esc_html__( 'Expire Date', 'wc-serial-numbers' ),
-							'display_value' => empty( $key->get_validity() ) ? esc_html__( 'Lifetime', 'wc-serial-numbers' ) : esc_html( $key->get_validity() ),
-						),
-					);
-					if ( Helper::is_software_support_enabled() ) {
-						$props[] = array(
-							'display_index' => 'activation_limit',
-							'display_key'   => esc_html__( 'Activation Limit', 'wc-serial-numbers' ),
-							'display_value' => empty( $key->get_activation_limit() ) ? esc_html__( 'Unlimited', 'wc-serial-numbers' ) : esc_html( $key->get_activation_limit() ),
+					if ( in_array( $key->status, [ 'delivered', 'expired' ] ) ) {
+						$props = array(
+							array(
+								'display_index' => 'key',
+								'display_key'   => esc_html__( 'Key', 'wc-serial-numbers' ),
+								'display_value' => esc_html( $key->get_decrypted_key() ),
+							),
+							array(
+								'display_index' => 'date_expire',
+								'display_key'   => esc_html__( 'Expire Date', 'wc-serial-numbers' ),
+								'display_value' => empty( $key->get_validity() ) ? esc_html__( 'Lifetime', 'wc-serial-numbers' ) : esc_html( $key->get_validity() ),
+							),
 						);
+
+						if ( 'expired' === $key->status ) {
+							$props[] = [
+								'display_index' => 'key_status',
+								'display_key'   => esc_html__( 'Status', 'wc-serial-numbers' ),
+								'display_value' => esc_html__( 'Expired', 'wc-serial-numbers' ),
+							];
+						}
+
+						if ( Helper::is_software_support_enabled() ) {
+							$props[] = array(
+								'display_index' => 'activation_limit',
+								'display_key'   => esc_html__( 'Activation Limit', 'wc-serial-numbers' ),
+								'display_value' => empty( $key->get_activation_limit() ) ? esc_html__( 'Unlimited', 'wc-serial-numbers' ) : esc_html( $key->get_activation_limit() ),
+							);
+						}
+						echo wp_kses_post( Helper::display_key_props( apply_filters( 'wc_serial_numbers_keys_props', $props, $key, $order_id ) ) );
+					} else {
+						echo esc_attr__( 'Pending', 'wc-serial-numbers' );
 					}
-					echo wp_kses_post( Helper::display_key_props( apply_filters( 'wc_serial_numbers_keys_props', $props, $key, $order_id ) ) );
 					?>
 				</td>
 			</tr>

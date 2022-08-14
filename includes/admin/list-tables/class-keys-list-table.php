@@ -279,7 +279,8 @@ class Keys_List_Table extends List_Table {
 						$key->delete();
 						break;
 					case 'set_available':
-						$key->set_status_available();
+						$key->set_status('available');
+						$key->save();
 						break;
 				}
 			}

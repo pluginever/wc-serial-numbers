@@ -24,8 +24,8 @@ class Frontend {
 		add_filter( 'the_title', array( __CLASS__, 'endpoint_title' ) );
 		add_filter( 'woocommerce_account_menu_items', array( __CLASS__, 'my_account_menu_item' ) );
 		add_action( 'woocommerce_account_' . self::get_endpoint() . '_endpoint', array( __CLASS__, 'endpoint_content' ) );
-		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
-		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), - 1 );
+//		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
+//		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), - 1 );
 	}
 
 	/**

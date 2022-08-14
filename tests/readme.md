@@ -24,6 +24,13 @@
   }
 }
 ```
+https://www.oracle.com/java/technologies/downloads/
+As Global NPM Package
+npm install selenium-standalone -g
+selenium-standalone install && selenium-standalone start
+As a Local NPM Package
+npm install selenium-standalone --save-dev
+npx selenium-standalone install && npx selenium-standalone start
 * Install `selenium-server` using brew `brew install selenium-server-standalone`
 * Download chrome driver from here `https://sites.google.com/chromium.org/driver/`
 * Then move the package in bin folder so its become available in your path `mv chromedriver /usr/local/bin`

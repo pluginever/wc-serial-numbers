@@ -20,7 +20,20 @@ class Orders {
 	 */
 	public function __construct() {
 		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
+		add_action( 'template_redirect', array( __CLASS__, 'maybe_autocomplete_order' ) );
 		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'maybe_update_order' ) );
+
+//		add_action( 'woocommerce_delete_order_items', array( $this, 'delete_order' ) );
+//		add_action( 'woocommerce_delete_order', array( $this, 'delete_order' ) );
+//		add_action( 'woocommerce_trash_order', array( $this, 'delete_order' ) );
+//		add_action( 'woocommerce_before_delete_order_item', array( $this, 'delete_order_item' ) );
+
+//		add_action( 'wp_trash_post', array( $this, 'trash_post' ) );
+//		add_action( 'untrashed_post', array( $this, 'untrashed_post' ) );
+//		add_action( 'edit_post', array( $this, 'edit_post' ), 10, 2 );
+
+		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
+		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), - 1 );
 	}
 
 	/**
@@ -54,6 +67,16 @@ class Orders {
 				}
 			}
 		}
+	}
+
+	/**
+	 * If order contains serial numbers autocomplete order.
+	 *
+	 * @since 1.2.0
+	 * @return bool
+	 */
+	public static function maybe_autocomplete_order() {
+
 	}
 
 	/**
@@ -212,5 +235,46 @@ class Orders {
 		foreach ( $keys as $key ) {
 			$key->delete();
 		}
+	}
+
+	/**
+	 * @param int $order_id Order Id.
+	 */
+	public static function order_print_items( $order_id ) {
+		$order = Helper::get_order_object( $order_id );
+		if ( 'completed' !== $order->get_status( 'edit' ) ) {
+			return;
+		}
+
+		$line_items = Helper::get_order_line_items( $order_id );
+		if ( empty( $line_items ) ) {
+			return;
+		}
+
+		$table_columns = apply_filters(
+			'wc_serial_numbers_order_table_columns',
+			[
+				'product'       => esc_html__( 'Product', 'wc-serial-numbers' ),
+				'serial_number' => esc_html__( 'Serial Numbers', 'wc-serial-numbers' ),
+			]
+		);
+
+		$keys = Keys::query(
+			[
+				'order_id__in' => $order->get_id(),
+				'per_page'     => - 1,
+			]
+		);
+
+		wc_get_template(
+			'/order/serial-numbers-display.php',
+			array(
+				'order_id'      => $order_id,
+				'table_columns' => $table_columns,
+				'keys'          => $keys,
+			),
+			'wc-serial-numbers',
+			Plugin::get()->templates_path()
+		);
 	}
 }
