@@ -62,7 +62,7 @@ class Orders {
 	 * When the order status is on hold then set the key status as sold.
 	 * When the order status is processing then set the key status as sold.
 	 * When the order status is completed then set the key status as delivered.
-	 * When the order status is anything other than on hold, pressing or completed then set the key status as available.
+	 * When the order status is anything other than on hold, pressing or completed then remove the key.
 	 *
 	 * Case "Reuse" and source is pre-generated.
 	 * Completed to any status set the key status as cancelled.
@@ -176,17 +176,24 @@ class Orders {
 			} elseif ( in_array( $order_status, [ 'processing', 'on-hold' ] ) ) {
 				$delivered_key->set_status( 'sold' );
 				$delivered_key->save();
-			}else {
-//				if( $is_reuse )
-
-//				$is_reuse && 'pre_generated' === $key_source
-//				if ( 'completed' === $delivered_key->status ) {
-//					$delivered_key->set_status( 'cancelled' );
-//					$delivered_key->save();
-//				} else {
-//					$delivered_key->set_status_available();
-//				}
-//				$delivered_key->delete();
+			} else if ( 'pre_generated' === $key_source ) {
+				if ( $delivered_key->status !== 'delivered' && $is_reuse ) {
+					$delivered_key->set_props( [
+						'order_id'         => null,
+						'customer_id'      => null,
+						'order_item_id'    => null,
+						'activation_count' => 0,
+						'status'           => 'available',
+						'date_ordered'     => '',
+					] );
+				} else {
+					$delivered_key->set_props( [
+						'status' => 'revoked',
+					] );
+				}
+				$delivered_key->save();
+			} else {
+				$delivered_key->delete();
 			}
 		}
 

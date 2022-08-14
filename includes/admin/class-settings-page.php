@@ -43,8 +43,8 @@ class Settings_Page extends Framework\Settings_Page {
 	 *
 	 * @param string $section_id Section ID.
 	 *
-	 * @return array
 	 * @since 1.3.1
+	 * @return array
 	 */
 	public static function get_settings_for_general_tab( $section_id ) {
 		// if ( '' !== $section_id ) {
@@ -59,17 +59,19 @@ class Settings_Page extends Framework\Settings_Page {
 				'id'    => 'section_serial_numbers',
 			],
 			[
-				'title'   => __( 'Auto-complete order', 'wc-serial-numbers' ),
-				'id'      => 'wc_serial_numbers_autocomplete_order',
-				'desc'    => __( 'Automatically completes orders  after successfull payments.', 'wc-serial-numbers' ),
-				'type'    => 'checkbox',
-				'default' => 'no',
+				'title'         => __( 'Auto-complete order', 'wc-serial-numbers' ),
+				'id'            => 'wc_serial_numbers_autocomplete_order',
+				'desc'          => __( 'Automatically completes orders after successfully payments.', 'wc-serial-numbers' ),
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'start',
+				'default'       => 'no',
 			],
 			[
-				'title' => __( 'Reuse serial number', 'wc-serial-numbers' ),
-				'id'    => 'wc_serial_numbers_reuse_serial_number',
-				'desc'  => __( 'Select the order statuses you want to .', 'wc-serial-numbers' ),
-				'type'  => 'checkbox',
+				'title'         => __( 'Reuse serial numbers', 'wc-serial-numbers' ),
+				'id'            => 'wc_serial_numbers_reuse_serial_number',
+				'desc'          => __( 'Serial numbers will be reused from the following selected order status.', 'wc-serial-numbers' ),
+				'checkboxgroup' => 'start',
+				'type'          => 'checkbox',
 			],
 			[
 				'title'           => __( 'Revoke status', 'wc-serial-numbers' ),
@@ -142,8 +144,8 @@ class Settings_Page extends Framework\Settings_Page {
 	 *
 	 * @param string $section_id Section ID.
 	 *
-	 * @return array
 	 * @since 1.3.1
+	 * @return array
 	 */
 	public static function get_settings_for_advanced_tab( $section_id ) {
 		// if ( '' !== $section_id ) {
