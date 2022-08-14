@@ -20,7 +20,21 @@ class Orders {
 	 * @since 1.3.1
 	 */
 	public function __construct() {
+		add_filter( 'bulk_actions-edit-shop_order', [ __CLASS__, 'order_bulk_actions'] );
 		add_action( 'add_meta_boxes', array( __CLASS__, 'register_metaboxes' ) );
+	}
+
+
+	/**
+	 * Add custom order actions.
+	 *
+	 * @param array $actions Bulk actions.
+	 *
+	 * @return array
+	 */
+	public static function order_bulk_actions( $actions ){
+		$actions['update_ordered_keys'] = __( 'Update ordered keys', 'wc-serial-numbers' );
+		return $actions;
 	}
 
 	/**

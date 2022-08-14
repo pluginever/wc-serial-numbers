@@ -3,8 +3,6 @@
 namespace PluginEver\WooCommerceSerialNumbers;
 
 // don't call the file directly.
-use function cli\err;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
