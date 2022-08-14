@@ -7,6 +7,7 @@ actor: FunctionalTester
 #bootstrap: ../bootstrap.php
 modules:
   enabled:
+    - WPCLI
     - WPDb
     - WPBrowser
     # - WPFilesystem
@@ -39,3 +40,8 @@ modules:
       mu-plugins: '/wp-content/mu-plugins'
       themes: '/wp-content/themes'
       uploads: '/wp-content/uploads'
+    WPCLI:
+      path: '%WP_ROOT_FOLDER%'
+      throw: true
+      timeout: 60
+      allow-root: true

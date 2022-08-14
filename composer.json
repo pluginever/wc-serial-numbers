@@ -66,7 +66,13 @@
       "composer dump-autoload"
     ],
     "phpcbf": "./vendor/bin/phpcbf -p .",
-    "phpcs": "./vendor/bin/phpcs --standard=ByteEver-Default --extensions=php -s -p ."
+    "phpcs": "./vendor/bin/phpcs --standard=ByteEver-Default --extensions=php -s -p .",
+    "test:acceptance": "@php ./vendor/bin/codecept run acceptance",
+    "test:clean": "@php ./vendor/bin/codecept clean",
+    "test:coverage": "@php ./vendor/bin/codecept run wpunit --coverage --coverage-xml --coverage-html",
+    "test:functional": "@php ./vendor/bin/codecept run functional",
+    "test:generate": "@php vendor/bin/codecept gen:cest",
+    "test:integration": "@php ./vendor/bin/codecept run wpunit"
   },
   "extra": {
     "mozart": {

@@ -2,7 +2,7 @@
 
 class CreateProductCest {
 	public function _before( AcceptanceTester $I ) {
-		$I->loginAsAdmin();
+		$I->cli('option get admin_email');
 	}
 
 	// tests
