@@ -9,7 +9,7 @@ actor: AcceptanceTester
 modules:
   enabled:
     - WPDb
-    - WPBrowser
+    - WPWebDriver
     - \Helper\Acceptance
   config:
     WPDb:
@@ -48,7 +48,7 @@ modules:
       window_size: true #disabled for Chrome driver
       capabilities:
         chromeOptions:
-          args: ["--headless", "--disable-gpu", "--proxy-server='direct://'", "--proxy-bypass-list=*"]
+          args: [ "--disable-gpu", "--proxy-server='direct://'", "--proxy-bypass-list=*"]
       headers:
         X_TEST_REQUEST: 1
         X_WPBROWSER_REQUEST: 1    

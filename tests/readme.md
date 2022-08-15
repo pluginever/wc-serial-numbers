@@ -24,21 +24,13 @@
   }
 }
 ```
-https://www.oracle.com/java/technologies/downloads/
-As Global NPM Package
-npm install selenium-standalone -g
-selenium-standalone install && selenium-standalone start
-As a Local NPM Package
-npm install selenium-standalone --save-dev
-npx selenium-standalone install && npx selenium-standalone start
-* Install `selenium-server` using brew `brew install selenium-server-standalone`
+* Javascript Testing
+* Download Java JDK from here https://www.oracle.com/java/technologies/downloads/
 * Download chrome driver from here `https://sites.google.com/chromium.org/driver/`
-* Then move the package in bin folder so its become available in your path `mv chromedriver /usr/local/bin`
-* Verify everything looks nice `chromedriver --version` & `selenium-server --version`
-* run this `./vendor/bin/codecept init wpbrowser` and follow the
-  on-screen guideline.
-
-
+* Then move the package in bin folder so its become available in your path `mv chromedriver /usr/local/bin` then verify running `chromedriver --version`
+* Install selenium globally `npm install -g selenium-standalone`
+* Now navigate to project root and run `selenium-standalone install && selenium-standalone start -p 4444`
+* Run the tests `./vendor/bin/codecept run acceptance`
 
 #Setup
 * Copy `.env` file to `.env.testing` and modify file as per your setup. 

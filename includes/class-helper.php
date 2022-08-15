@@ -329,7 +329,7 @@ class Helper {
 				$delivered_key->save();
 			} elseif ( in_array( $order_status, $revoke_statuses, true ) ) {
 				if ( $is_reuse && 'pre_generated' === $key_source ) {
-					$delivered_key->set_status('available');
+					$delivered_key->set_status( 'available' );
 					$delivered_key->save();
 				} else {
 					$delivered_key->delete();
@@ -504,7 +504,7 @@ class Helper {
 				]
 			);
 			$value     = $args['autop'] ? wp_kses_post( $prop['display_value'] ) : wp_kses_post( trim( $prop['display_value'] ) );
-			$strings[] = $args['label_before'] . wp_kses_post( $prop['display_key'] ) . $args['label_after'] . $value;
+			$strings[] = $args['label_before'] . wp_kses_post( $prop['display_key'] ) . $args['label_after'] . '<span class="' . sanitize_html_class( sanitize_key( $prop['display_key'] ) ) . '">' . $value . '</span>';
 		}
 
 		if ( $strings ) {
