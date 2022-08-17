@@ -214,6 +214,21 @@ class Helper {
 		return apply_filters( 'wc_serial_numbers_order_line_items', $line_items, $order_id );
 	}
 
+
+	/**
+	 * Get ordered keys.
+	 *
+	 * @param int $order_id Order ID.
+	 *
+	 * @return array
+	 */
+	public static function get_ordered_keys( $order_id ) {
+		return Keys::query( [
+			'order_id__in' => absint( $order_id ),
+			'per_page'     => - 1,
+		] );
+	}
+
 	/**
 	 * Adds a new order, or updates an existing order.
 	 *
@@ -475,9 +490,7 @@ class Helper {
 	 * @since #.#.#
 	 * @return mixed|void
 	 */
-	public static function display_key_props(
-		$props, $args = []
-	) {
+	public static function display_key_props( $key, $args = [] ) {
 		$strings     = array();
 		$html        = '';
 		$text_align  = is_rtl() ? 'right' : 'left';
@@ -495,23 +508,45 @@ class Helper {
 			)
 		);
 
+		$props = [
+			[
+				'key'   => 'key',
+				'label' => esc_html__( 'Key', 'wc-serial-numbers' ),
+				'value' => '<code>' . $key->get_decrypted_key() . '</code>',
+			],
+			[
+				'key'   => 'expire_date',
+				'label' => esc_html__( 'Expire Date', 'wc-serial-numbers' ),
+				'value' => $key->expire_date,
+			],
+			[
+				'key'   => 'activation_limit',
+				'label' => esc_html__( 'Activation Limit', 'wc-serial-numbers' ),
+				'value' => $key->activation_limit,
+			],
+			[
+				'key'   => 'activation_count',
+				'label' => esc_html__( 'Activation Count', 'wc-serial-numbers' ),
+				'value' => $key->activation_count,
+			],
+			[
+				'key'   => 'status',
+				'label' => esc_html__( 'Status', 'wc-serial-numbers' ),
+				'value' => $key->status,
+			]
+		];
+
+		$props = apply_filters( 'wc_serial_numbers_display_item_props', $props, $key, $args );
+
 		foreach ( $props as $prop ) {
-			$prop      = wp_parse_args(
-				$prop,
-				[
-					'display_value' => '',
-					'display_key'   => '',
-				]
-			);
-			$value     = $args['autop'] ? wp_kses_post( $prop['display_value'] ) : wp_kses_post( trim( $prop['display_value'] ) );
-			$strings[] = $args['label_before'] . wp_kses_post( $prop['display_key'] ) . $args['label_after'] . '<span class="' . sanitize_html_class( sanitize_key( $prop['display_key'] ) ) . '">' . $value . '</span>';
+			$prop      = wp_parse_args( $prop, [ 'key' => '', 'label' => '', 'value' => '' ] );
+			$value     = $args['autop'] ? wp_kses_post( $prop['value'] ) : wp_kses_post( trim( $prop['value'] ) );
+			$strings[] = $args['label_before'] . wp_kses_post( $prop['label'] ) . $args['label_after'] . '<span class="' . sanitize_html_class( sanitize_key( $prop['key'] ) ) . '">' . $value . '</span>';
 		}
 
 		if ( $strings ) {
 			$html = $args['before'] . implode( $args['separator'], $strings ) . $args['after'];
 		}
-
-		$html = apply_filters( 'wc_serial_numbers_display_item_props', $html, $props, $args );
 
 		if ( $args['echo'] ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

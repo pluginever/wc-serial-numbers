@@ -26,7 +26,7 @@ class Activation extends Abstracts\Data {
 	 * @since 1.3.1
 	 * @var string
 	 */
-	protected $table = 'wsn_activations';
+	protected $table = 'wcsn_activations';
 
 	/**
 	 * Cache group.
@@ -34,7 +34,7 @@ class Activation extends Abstracts\Data {
 	 * @since 1.3.1
 	 * @var string
 	 */
-	protected $cache_group = 'wsn_activations';
+	protected $cache_group = 'wcsn_activations';
 
 
 	/**

@@ -66,7 +66,7 @@ class Menus {
 				'per_page',
 				array(
 					'default' => 20,
-					'option'  => 'wsn_keys_per_page',
+					'option'  => 'wcsn_keys_per_page',
 				)
 			);
 		} elseif ( 'generators' === $screen_id && ( ! isset( $_GET['generate'], $_GET['edit'], $_GET['create'] ) ) ) {
@@ -77,7 +77,7 @@ class Menus {
 				'per_page',
 				array(
 					'default' => 20,
-					'option'  => 'wsn_generators_per_page',
+					'option'  => 'wcsn_generators_per_page',
 				)
 			);
 		} elseif ( 'activations' === $screen_id ) {
@@ -86,7 +86,7 @@ class Menus {
 				'per_page',
 				array(
 					'default' => 20,
-					'option'  => 'wsn_activations_per_page',
+					'option'  => 'wcsn_activations_per_page',
 				)
 			);
 		}
@@ -107,7 +107,7 @@ class Menus {
 	 * @return mixed
 	 */
 	public static function save_screen_options( $status, $option, $value ) {
-		if ( in_array( $option, array( 'wsn_keys_per_page', 'wsn_generators_per_page', 'wsn_activations_per_page' ), true ) ) {
+		if ( in_array( $option, array( 'wcsn_keys_per_page', 'wcsn_generators_per_page', 'wcsn_activations_per_page' ), true ) ) {
 			return $value;
 		}
 
@@ -183,7 +183,7 @@ class Menus {
 			'manage_options',
 			'wc-serial-numbers',
 			array( $this, 'render_keys_page' ),
-			'dashicons-lock',
+			'dashicons-admin-network',
 			'55.9'
 		);
 
@@ -301,7 +301,7 @@ class Menus {
 	 * @since 1.2.0
 	 */
 	public function go_pro_redirect() {
-		if ( isset( $_GET['page'] ) && 'go_wsn_pro' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
 			wp_redirect( 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=wp-menu&utm_campaign=gopro&utm_medium=wp-dash' );
 			die;
 		}

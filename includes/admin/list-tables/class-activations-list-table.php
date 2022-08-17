@@ -50,7 +50,7 @@ class Activations_List_Table extends List_Table {
 	 * @since #.#.#
 	 */
 	public function prepare_items() {
-		$per_page              = $this->get_items_per_page( 'wsn_activations_per_page' );
+		$per_page              = $this->get_items_per_page( 'wcsn_activations_per_page' );
 		$columns               = $this->get_columns();
 		$hidden                = [];
 		$sortable              = $this->get_sortable_columns();

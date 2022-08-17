@@ -89,7 +89,7 @@ class Admin_Menu {
 			'manage_options',
 			'wc-serial-numbers',
 			array( __CLASS__, 'render_main_page' ),
-			'dashicons-lock',
+			'dashicons-admin-network',
 			'55.9'
 		);
 

@@ -27,7 +27,7 @@ class Generator extends Abstracts\Data {
 	 * @since 1.3.1
 	 * @var string
 	 */
-	protected $table = 'wsn_generators';
+	protected $table = 'wcsn_generators';
 
 	/**
 	 * Cache group.
@@ -35,7 +35,7 @@ class Generator extends Abstracts\Data {
 	 * @since 1.3.1
 	 * @var string
 	 */
-	protected $cache_group = 'wsn_generators';
+	protected $cache_group = 'wcsn_generators';
 
 
 	/**

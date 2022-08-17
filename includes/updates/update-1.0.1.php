@@ -3,7 +3,7 @@ function wcsn_update_1_0_1() {
 	WCSN_Install::activate();
 
 	$serial_numbers = get_posts( array(
-		'post_type' => 'wsn_serial_number',
+		'post_type' => 'wcsn_serial_number',
 		'nopaging'  => true,
 	) );
 

@@ -310,7 +310,7 @@ class Generators {
 	 *
 	 * @return array
 	 */
-	public static function generate_keys( $pattern = 'SERIAL-#####################', $quantity = 5, $is_sequential = true, $start = 0 ) {
+	public static function generate_keys( $pattern = 'SERIAL-#####################', $quantity = 5, $is_sequential = false, $start = 0 ) {
 		$pattern              = empty( $pattern ) ? str_pad( $pattern, 32, '#' ) : trim( $pattern );
 		$start                = absint( $start );
 		$pattern_length       = strlen( $pattern );

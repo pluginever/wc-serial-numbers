@@ -4,6 +4,7 @@ namespace PluginEver\WooCommerceSerialNumbers\Admin\List_Tables;
 
 // don't call the file directly.
 use PluginEver\WooCommerceSerialNumbers\Helper;
+use PluginEver\WooCommerceSerialNumbers\Key;
 use PluginEver\WooCommerceSerialNumbers\Keys;
 
 defined( 'ABSPATH' ) || exit();
@@ -55,6 +56,14 @@ class Keys_List_Table extends List_Table {
 	 * @var string
 	 */
 	public $expired_count = 0;
+
+	/**
+	 * Revoked number
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	public $revoked_count = 0;
 
 	/**
 	 * available number
@@ -132,6 +141,7 @@ class Keys_List_Table extends List_Table {
 		$this->delivered_count = Keys::query( array_merge( $args, [ 'status__in' => 'delivered' ] ), true );
 		$this->expired_count   = Keys::query( array_merge( $args, [ 'status__in' => 'expired' ] ), true );
 		$this->active_count    = Keys::query( array_merge( $args, [ 'status__in' => 'active' ] ), true );
+		$this->revoked_count   = Keys::query( array_merge( $args, [ 'status__in' => 'revoked' ] ), true );
 		$this->total_count     = array_sum( [ $this->available_count, $this->sold_count, $this->delivered_count, $this->expired_count, $this->active_count ] );
 		switch ( $status ) {
 			case 'available':
@@ -148,6 +158,9 @@ class Keys_List_Table extends List_Table {
 				break;
 			case 'delivered':
 				$total_items = $this->delivered_count;
+				break;
+			case 'revoked':
+				$total_items = $this->revoked_count;
 				break;
 			case 'any':
 			default:
@@ -216,12 +229,14 @@ class Keys_List_Table extends List_Table {
 		$total_count     = '&nbsp;<span class="count">(' . $this->total_count . ')</span>';
 		$sold_count      = '&nbsp;<span class="count">(' . $this->sold_count . ')</span>';
 		$delivered_count = '&nbsp;<span class="count">(' . $this->delivered_count . ')</span>';
+		$revoked_count   = '&nbsp;<span class="count">(' . $this->revoked_count . ')</span>';
 		$url             = admin_url( 'admin.php?page=wc-serial-numbers' );
 		$views           = array(
 			'all'       => sprintf( '<a href="%s" title="%s" %s>%s</a>', remove_query_arg( 'status', $url ), __( 'All keys.', 'wc-serial-numbers' ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
 			'available' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'available', $url ), __( 'Available for sell.', 'wc-serial-numbers' ), $current === 'available' ? ' class="current"' : '', __( 'Available', 'wc-serial-numbers' ) . $available_count ),
 			'sold'      => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'sold', $url ), __( 'Sold but not sent to customers yet.', 'wc-serial-numbers' ), $current === 'sold' ? ' class="current"' : '', __( 'Sold', 'wc-serial-numbers' ) . $sold_count ),
 			'delivered' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'delivered', $url ), __( 'Delivered to customers.', 'wc-serial-numbers' ), $current === 'delivered' ? ' class="current"' : '', __( 'Delivered', 'wc-serial-numbers' ) . $delivered_count ),
+			'revoked'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'revoked', $url ), __( 'Revoked.', 'wc-serial-numbers' ), $current === 'revoked' ? ' class="current"' : '', __( 'Revoked', 'wc-serial-numbers' ) . $revoked_count ),
 		);
 
 		if ( Helper::is_software_support_enabled() ) {
@@ -279,7 +294,7 @@ class Keys_List_Table extends List_Table {
 						$key->delete();
 						break;
 					case 'set_available':
-						$key->set_status('available');
+						$key->set_status( 'available' );
 						$key->save();
 						break;
 				}
@@ -386,26 +401,47 @@ class Keys_List_Table extends List_Table {
 		$edit_url          = add_query_arg( [ 'edit' => $item->id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
 		$delete_url        = add_query_arg( [ 'id' => $item->id, 'action' => 'delete' ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
 		$actions['id']     = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), $item->id );
-		$actions['show']   = sprintf( '<a class="wsn_decrypt_key" href="#" data-key="%s">%s</a>', $item->key, __( 'Show', 'wc-serial-numbers' ) );
+		$actions['show']   = sprintf( '<a class="wcsn_decrypt_key" href="#" data-key="%s">%s</a>', $item->key, __( 'Show', 'wc-serial-numbers' ) );
 		$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', $edit_url, __( 'Edit', 'wc-serial-numbers' ) );
 		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', $delete_url, __( 'Delete', 'wc-serial-numbers' ) );
 
-		return sprintf( '<code class="wsn-key %1$s">%2$s</code> %3$s', 'encrypted', $item->key, $this->row_actions( $actions ) );
+		return sprintf( '<code class="serial-numbers-key %1$s" data-key="%2$s"></code> %3$s', 'is-encrypted', $item->key, $this->row_actions( $actions ) );
 	}
 
 
+	/**
+	 * Display product.
+	 *
+	 * @param Key $item Key object.
+	 *
+	 * @since #.#.#
+	 */
 	protected function column_product( $item ) {
 		$product     = wc_get_product( $item->product_id );
 		$post_parent = wp_get_post_parent_id( $item->product_id );
 		$post_id     = $post_parent ? $post_parent : $item->product_id;
 
-		return empty( $item->product_id ) || empty( $product ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', get_edit_post_link( $post_id ), $product->get_id(), $product->get_formatted_name() );
+		return empty( $item->product_id ) || empty( $product ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', get_edit_post_link( $post_id ), $product->get_id(), $product->get_title() );
 	}
 
+	/**
+	 * Display order.
+	 *
+	 * @param Key $item Key object.
+	 *
+	 * @since #.#.#
+	 */
 	protected function column_order( $item ) {
 		return ! empty( $item->order_id ) ? sprintf( '<a href="%s">#%s</a>', get_edit_post_link( $item->order_id ), $item->order_id ) : '&mdash;';
 	}
 
+	/**
+	 * Display customer.
+	 *
+	 * @param Key $item Key object.
+	 *
+	 * @since #.#.#
+	 */
 	protected function column_customer( $item ) {
 		if ( empty( $item->order_id ) ) {
 			return '&mdash;';
@@ -414,16 +450,32 @@ class Keys_List_Table extends List_Table {
 		if ( empty( $order ) || empty( $order->get_id() ) ) {
 			return '&mdash;';
 		}
+		$actions         = [];
+		$actions['email'] = esc_html__( $order->get_billing_email() );
 
 		return sprintf(
-			'<a href="%s">%s (#%d - %s)</a>',
-			get_edit_user_link( $order->get_customer_id() ),
-			$order->get_formatted_billing_full_name(),
-			$order->get_customer_id(),
-			$order->get_billing_email()
+			'<a href="%1$s">%2$s</a> %3$s',
+			esc_attr__( get_edit_user_link( $order->get_customer_id() ) ),
+			esc_html__( $order->get_formatted_billing_full_name() ),
+			$this->row_actions( $actions )
 		);
+//
+//		return sprintf(
+//			'<a href="%s">%s (#%d - %s)</a>',
+//			get_edit_user_link( $order->get_customer_id() ),
+//			$order->get_formatted_billing_full_name(),
+//			$order->get_customer_id(),
+//			$order->get_billing_email()
+//		);
 	}
 
+	/**
+	 * Display activation limit.
+	 *
+	 * @param Key $item Key object.
+	 *
+	 * @since #.#.#
+	 */
 	protected function column_activation( $item ) {
 		$limit = ! empty( $item->activation_limit ) ? $item->activation_limit : __( 'Unlimited', 'wc-serial-numbers' );
 		$count = (int) $item->activation_count;
@@ -440,16 +492,37 @@ class Keys_List_Table extends List_Table {
 		return sprintf( '<b>%s</b> / <b>%s</b>', $activated, $limit );
 	}
 
+	/**
+	 * Display expire date.
+	 *
+	 * @param Key $item Key object.
+	 *
+	 * @since #.#.#
+	 */
 	protected function column_valid_for( $item ) {
 		return ! empty( $item->valid_for ) ? sprintf( _n( '<b>%s</b> Day <br><small>After purchase</small>', '<b>%s</b> Days <br><small>After purchase</small>', $item->valid_for, 'wc-serial-numbers' ), number_format_i18n( $item->valid_for ) ) : __( 'Lifetime', 'wc-serial-numbers' );
 	}
 
+	/**
+	 * Display status.
+	 *
+	 * @param Key $item Key object.
+	 *
+	 * @since #.#.#
+	 */
 	protected function column_order_date( $item ) {
 		return ! empty( $item->order_date ) && '0000-00-00 00:00:00' !== $item->order_date ? date( get_option( 'date_format' ), strtotime( $item->order_date ) ) : '&mdash;';
 
 	}
 
+	/**
+	 * Render the status column.
+	 *
+	 * @param Key $item Key object.
+	 *
+	 * @return string
+	 */
 	protected function column_status( $item ) {
-		return sprintf( "<span class='serial-key-status %s'>%s</span>", sanitize_html_class( $item->status ), ucfirst( $item->status ) );
+		return sprintf( "<span class='serial-numbers-status %s'>%s</span>", sanitize_html_class( $item->status ), ucfirst( $item->status ) );
 	}
 }

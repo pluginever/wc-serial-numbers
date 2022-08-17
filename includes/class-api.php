@@ -64,17 +64,17 @@ class API {
 //		if ( $allow_duplicate ) {
 //			$query_where .= $wpdb->prepare( " AND order_id=%s", $order_id );
 //		}
-		$query_where   .= $wpdb->prepare( " AND `key`=%s", Encryption::maybe_encrypt( $serial_key ) );
-		$query_where   .= $wpdb->prepare( " AND product_id=%d", $product_id );
-		$serial_number = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}wsn_keys $query_where" );
-		if ( ! $serial_number ) {
+		$query_where .= $wpdb->prepare( " AND `key`=%s", Encryption::maybe_encrypt( $serial_key ) );
+		$query_where .= $wpdb->prepare( " AND product_id=%d", $product_id );
+		$key         = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}wcsn_keys $query_where" );
+		if ( ! $key ) {
 			$this->send_error( [
 				'error' => __( 'Serial Number is not associated with provided product id', 'wc-serial-numbers' ),
 				'code'  => 403
 			] );
 		}
 
-		$order = wc_get_order( $serial_number->order_id );
+		$order = wc_get_order( $key->order_id );
 
 		if ( $allow_duplicate && $order->get_billing_email( 'edit' ) !== $email ) {
 			$this->send_error( [
@@ -83,12 +83,20 @@ class API {
 			] );
 		}
 
-		if ( $serial_number->status !== 'sold' ) {
+		if ( 'completed' !== $order->get_status( 'edit' ) ) {
 			$this->send_error( [
-				'error' => __( 'Serial Number is not active', 'wc-serial-numbers' ),
+				'error' => __( 'Order is not completed, yet.', 'wc-serial-numbers' ),
 				'code'  => 403
 			] );
 		}
+
+		if ( ! in_array( $key->status, [ 'delivered', 'active' ] ) ) {
+			$this->send_error( [
+				'error' => __( 'The key is not authorized to use.', 'wc-serial-numbers' ),
+				'code'  => 403
+			] );
+		}
+
 
 		$request = empty( $_REQUEST['request'] ) ? '' : sanitize_key( $_REQUEST['request'] );
 		if ( empty( $request ) || ! in_array( $request, array(
@@ -104,8 +112,8 @@ class API {
 			] );
 		}
 
-		do_action( 'wc_serial_numbers_api_action', $serial_number );
-		do_action( "wc_serial_numbers_api_action_{$request}", $serial_number );
+		do_action( 'wc_serial_numbers_api_action', $key );
+		do_action( "wc_serial_numbers_api_action_{$request}", $key );
 	}
 
 
@@ -123,7 +131,7 @@ class API {
 		$this->send_success( apply_filters( 'wc_serial_numbers_check_license_response', [
 			'expire_date' => $this->calculate_expire_date( $serial_number ),
 			'remaining'   => $remaining,
-			'status'      => $serial_number->status === 'sold' ? 'active' : $serial_number->status,
+			'status'      => $serial_number->status === 'delivered' ? 'active' : $serial_number->status,
 			'product_id'  => $serial_number->product_id,
 			'product'     => get_the_title( $serial_number->product_id ),
 			'activations' => $this->get_activations_response( $activations ),

@@ -20,7 +20,7 @@ class Orders {
 	 */
 	public function __construct() {
 		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
-		add_action( 'template_redirect', array( __CLASS__, 'maybe_autocomplete_order' ) );
+		add_action( 'woocommerce_order_status_processing', array( $this, 'maybe_autocomplete_order' ) );
 		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'maybe_update_order' ) );
 
 //		add_action( 'woocommerce_delete_order_items', array( $this, 'delete_order' ) );
@@ -73,10 +73,12 @@ class Orders {
 	 * If order contains serial numbers autocomplete order.
 	 *
 	 * @since 1.2.0
-	 * @return bool
+	 * @return void
 	 */
 	public static function maybe_autocomplete_order() {
-
+		if ( 'yes' !== get_option( 'wc_serial_numbers_autocomplete_order', 'no' ) ) {
+			return;
+		}
 	}
 
 	/**
@@ -104,7 +106,7 @@ class Orders {
 		$is_reuse        = 'yes' === get_option( 'wc_serial_numbers_reuse', 'yes' );
 		$order_status    = $order->get_status( 'edit' );
 		if ( empty( $line_items ) ) {
-			self::remove_order_items( $order_id );
+			self::remove_ordered_keys( $order_id );
 
 			return false;
 		}
@@ -224,14 +226,40 @@ class Orders {
 	}
 
 	/**
-	 * @param $order_id
+	 * Remove keys from order.
+	 *
+	 * @param int $order_id Order ID.
+	 *
+	 * @since 3.0.1
+	 * @return void
 	 */
-	public static function remove_order_items( $order_id ) {
+	public static function remove_ordered_keys( $order_id ) {
 		$keys = Keys::query( [
 			'order_id__in' => $order_id,
 			'per_page'     => - 1,
 		] );
 
+		foreach ( $keys as $key ) {
+			$key->delete();
+		}
+	}
+
+
+	/**
+	 * Remove keys for specific product.
+	 *
+	 * @param int $product_id Product ID.
+	 * @param int $order_id Order ID.
+	 *
+	 * @since 3.0.1
+	 *
+	 */
+	public static function remove_ordered_product_keys( $product_id, $order_id ) {
+		$keys = Keys::query( [
+			'product_id__in' => $product_id,
+			'order_id__in'   => $order_id,
+			'per_page'       => - 1,
+		] );
 		foreach ( $keys as $key ) {
 			$key->delete();
 		}
@@ -245,34 +273,28 @@ class Orders {
 		if ( 'completed' !== $order->get_status( 'edit' ) ) {
 			return;
 		}
-
-		$line_items = Helper::get_order_line_items( $order_id );
+		$line_items = Helper::get_ordered_keys( $order->get_id() );
 		if ( empty( $line_items ) ) {
 			return;
 		}
+		$table_columns        = [
+			'product_name'     => esc_html__( 'Product', 'wc-serial-numbers' ),
+			'serial_numbers'   => esc_html__( 'Serial Numbers', 'wc-serial-numbers' ),
+		];
+		$keys                 = Helper::get_ordered_keys( $order->get_id() );
+		$columns              = apply_filters( 'wc_serial_numbers_order_table_columns', $table_columns, $order_id, $keys );
+		$title                = apply_filters( 'wc_serial_numbers_order_table_title', esc_html__( 'Your Serial Number(s)', 'wc-serial-numbers' ) );
+		$pending_keys_message = apply_filters( 'wc_serial_numbers_order_table_pending_keys_message', esc_html__( 'Pending', 'wc-serial-numbers' ) );
 
-		$table_columns = apply_filters(
-			'wc_serial_numbers_order_table_columns',
-			[
-				'product'       => esc_html__( 'Product', 'wc-serial-numbers' ),
-				'serial_number' => esc_html__( 'Serial Numbers', 'wc-serial-numbers' ),
-			]
+		$template_data = array(
+			'title'                => $title,
+			'columns'              => $columns,
+			'keys'                 => $keys,
+			'pending_keys_message' => $pending_keys_message,
 		);
-
-		$keys = Keys::query(
-			[
-				'order_id__in' => $order->get_id(),
-				'per_page'     => - 1,
-			]
-		);
-
 		wc_get_template(
 			'/order/serial-numbers-display.php',
-			array(
-				'order_id'      => $order_id,
-				'table_columns' => $table_columns,
-				'keys'          => $keys,
-			),
+			$template_data,
 			'wc-serial-numbers',
 			Plugin::get()->templates_path()
 		);

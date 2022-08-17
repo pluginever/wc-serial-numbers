@@ -28,7 +28,7 @@ class InstallationCest {
 
 	public function database_tables_test( FunctionalTester $I ) {
 		$I->wantTo( 'Check that the plugin database tables are created after activation' );
-		$tables = [ 'wsn_keys', 'wsn_activations', 'wsn_generators' ];
+		$tables = [ 'wcsn_keys', 'wcsn_activations', 'wcsn_generators' ];
 		foreach ( $tables as $table ) {
 			$table_name = $I->grabPrefixedTableNameFor( $table );
 			$I->seeTableInDatabase( $table_name );

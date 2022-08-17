@@ -16,7 +16,7 @@ global $wp_list_table;
 
 	<hr class="wp-header-end">
 
-	<form id="wsn-keys-table" method="get">
+	<form id="serial-numbers-keys-table" method="get">
 		<?php
 		$wp_list_table->prepare_items();
 		$wp_list_table->views();

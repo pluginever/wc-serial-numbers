@@ -3,6 +3,9 @@
 namespace PluginEver\WooCommerceSerialNumbers\Admin;
 
 // don't call the file directly.
+use PluginEver\WooCommerceSerialNumbers\Helper;
+use PluginEver\WooCommerceSerialNumbers\Keys;
+
 defined( 'ABSPATH' ) || exit();
 
 
@@ -20,10 +23,57 @@ class Orders {
 	 * @since 1.3.1
 	 */
 	public function __construct() {
-		add_filter( 'bulk_actions-edit-shop_order', [ __CLASS__, 'order_bulk_actions'] );
+//		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_column' ) );
+//		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'render_order_column' ), 10, 2 );
+//		add_filter( 'bulk_actions-edit-shop_order', [ __CLASS__, 'order_bulk_actions' ] );
 		add_action( 'add_meta_boxes', array( __CLASS__, 'register_metaboxes' ) );
 	}
 
+	/**
+	 * Add a column to the WooCommerce Orders admin screen to indicate whether an order contains a serial number Product.
+	 *
+	 * @param array $columns The current list of columns
+	 *
+	 * @since 3.0.1
+	 *
+	 * @return array
+	 */
+	public static function add_order_column( $columns ) {
+		$column_header = '<span class="serial_numbers_product_head tips" data-tip="' . esc_attr__( 'Contains Serial Numbers Product', 'wc-serial-numbers' ) . '">' . esc_attr__( 'Serial Numbers Product', 'wc-serial-numbers' ) . '</span>';
+		$key           = array_search( 'shipping_address', array_keys( $columns ), true ) + 1;
+		$new_column    = array_slice( $columns, 0, $key, true ) + [ 'serial_numbers_product' => $column_header ] + array_slice( $columns, $key, null, true );
+
+		return array_merge(
+			array_slice( $columns, 0, $key ),
+			array(
+				'serial_numbers' => $column_header,
+			),
+			array_slice( $columns, $key ) );
+	}
+
+	/**
+	 * Add a column to the WooCommerce Orders admin screen to indicate whether an order contains an API Product.
+	 *
+	 * @param string $column The string of the current column
+	 * @param int $post_id
+	 *
+	 * @since 3.0.1
+	 *
+	 */
+	public static function render_order_column( $column, $post_id ) {
+		if ( 'serial_numbers' === $column ) {
+			if ( Helper::get_order_line_items( $post_id ) ) {
+//				$has_activations = WC_AM_API_ACTIVATION_DATA_STORE()->has_activations_for_order_id( $post_id );
+//				if ( $has_activations ) {
+				echo '<span class="serial_numbers_order_has_keys tips" data-tip="' . esc_attr__( 'Has all keys.', 'wc-serial-numbers' ) . '"></span>';
+//				} else {
+//					echo '<span class="serial_numbers_order_has_no_keys tips" data-tip="' . esc_attr__( 'Has missing keys.', 'wc-serial-numbers' ) . '"></span>';
+//				}
+			} else {
+				echo '<span class="normal_order">&ndash;</span>';
+			}
+		}
+	}
 
 	/**
 	 * Add custom order actions.
@@ -32,8 +82,9 @@ class Orders {
 	 *
 	 * @return array
 	 */
-	public static function order_bulk_actions( $actions ){
+	public static function order_bulk_actions( $actions ) {
 		$actions['update_ordered_keys'] = __( 'Update ordered keys', 'wc-serial-numbers' );
+
 		return $actions;
 	}
 
@@ -54,29 +105,55 @@ class Orders {
 	 * @since 1.2.5
 	 */
 	public static function order_metabox( $post ) {
-		$order          = wc_get_order( $post->ID );
-		$items          = $order->get_items();
-		$serial_numbers = [];
-		foreach ( $items as $item ) {
-			$product = $item->get_product();
-			if ( $product->is_type( 'variation' ) ) {
-				$product = $product->get_parent_id();
-			}
-			$serial_numbers[ $product ] = get_post_meta( $item->get_id(), '_wc_serial_numbers_serial_numbers', true );
+		$order = Helper::get_order_object( $post->ID );
+		if ( ! $order ) {
+			return;
 		}
+		$line_items = Helper::get_order_line_items( $order->get_id() );
+		if ( ! $line_items ) {
+			echo '<p>' . esc_html__( 'No keys found.', 'wc-serial-numbers' ) . '</p>';
+
+			return;
+		}
+		$line_items_ids = array_map( function ( $item ) {
+			return $item['product_id'];
+		}, $line_items );
+//		var_dump($line_items);
+//		$keys           = Keys::query( [
+//			'order_id__in' => $order->get_id(),
+//		] );
+
+		var_dump( $line_items_ids );
 		?>
-		<table class="widefat">
+		<table class="wp-list-table widefat fixed wcsn-orders-table">
 			<thead>
 			<tr>
-				<th><?php esc_html_e( 'Product', 'wc-serial-numbers' ); ?></th>
-				<th><?php esc_html_e( 'Serial Numbers', 'wc-serial-numbers' ); ?></th>
+				<th><?php echo esc_html__( 'Product' ); ?></th>
+				<th><?php echo esc_html__( 'Serial Numbers' ); ?></th>
 			</tr>
 			</thead>
 			<tbody>
-			<?php foreach ( $serial_numbers as $product_id => $serial_number ) : ?>
+			<?php foreach ( $line_items as $item ) : ?>
 				<tr>
-					<td><?php echo esc_html( get_the_title( $product_id ) ); ?></td>
-					<td><?php echo esc_html( $serial_number ); ?></td>
+					<td><a href="<?php echo esc_attr( get_edit_post_link( $item['product_id'] ) ); ?>"><?php echo esc_html( $item['name'] ); ?></a></td>
+					<td>
+						<?php
+						$keys = Keys::query( [
+							'order_id__in'   => $order->get_id(),
+							'product_id__in' => $item['product_id'],
+						] );
+						if ( $keys ) {
+							echo '<ul class="serial-numbers-keys-list">';
+							foreach ( $keys as $key ) {
+								echo '<li>';
+								echo sprintf( '<code class="serial-numbers-key1">%s</code>', $key->get_decrypted_key() );
+								echo '</li>';
+							}
+
+							echo '</ul>';
+						}
+						?>
+					</td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

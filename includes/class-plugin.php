@@ -84,7 +84,9 @@ class Plugin extends Framework\Plugin {
 
 		// Instantiate frontend classes.
 		if ( self::is_request( 'frontend' ) ) {
-			$this->frontend = new Frontend();
+//			$this->account = new My_Account();
+//			$this->frontend = new Frontend();
+//			$this->api      = new API();
 		}
 
 		// Instantiate admin classes.

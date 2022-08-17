@@ -23,6 +23,10 @@ class Products {
 	 * @since 1.3.1
 	 */
 	public function __construct() {
+		add_filter( 'manage_edit-product_columns', array( __CLASS__, 'add_columns' ) );
+		add_action( 'manage_product_posts_custom_column', array( __CLASS__, 'render_column_contents' ), 10, 2 );
+//		add_filter( 'bulk_actions-edit-product', [ __CLASS__, 'product_bulk_actions' ] );
+
 		add_action( 'woocommerce_product_options_product_type', array( __CLASS__, 'type_options' ) );
 		add_filter( 'product_type_options', array( __CLASS__, 'product_type_options' ) );
 		add_action( 'woocommerce_product_write_panel_tabs', array( __CLASS__, 'product_write_panel_tab' ) );
@@ -32,6 +36,46 @@ class Products {
 		}
 
 		add_action( 'woocommerce_process_product_meta', array( __CLASS__, 'save_product' ) );
+	}
+
+	/**
+	 * Add a column to the WooCommerce Product admin screen to indicate whether an order contains a serial number Product.
+	 *
+	 * @param array $columns The current list of columns
+	 *
+	 * @since 3.0.1
+	 *
+	 * @return array
+	 */
+	public static function add_columns( $columns ) {
+		$column_header = '<span class="serial_numbers_indication_head tips" data-tip="' . esc_attr__( 'Contains Serial Numbers Product', 'wc-serial-numbers' ) . '">' . esc_attr__( 'Serial Numbers Product', 'wc-serial-numbers' ) . '</span>';
+		$key           = array_search( 'price', array_keys( $columns ), true ) + 1;
+
+		return array_merge(
+			array_slice( $columns, 0, $key ),
+			array(
+				'is_serial_numbers' => $column_header,
+			),
+			array_slice( $columns, $key ) );
+	}
+
+	/**
+	 * Add a column to the WooCommerce Orders admin screen to indicate whether an order contains an API Product.
+	 *
+	 * @param string $column The string of the current column
+	 * @param int $post_id
+	 *
+	 * @since 3.0.1
+	 *
+	 */
+	public static function render_column_contents( $column, $post_id ) {
+		if ( 'is_serial_numbers' === $column ) {
+			if ( Helper::is_serial_product( $post_id ) ) {
+				echo '<span class="serial_numbers_indication_check">&ndash;</span>';
+			} else {
+				echo '<span class="serial_numbers_indication">&ndash;</span>';
+			}
+		}
 	}
 
 	/**
@@ -46,7 +90,7 @@ class Products {
 			woocommerce_wp_checkbox(
 				array(
 					'id'            => '_selling_serial_numbers',
-					'wrapper_class' => 'wsn_checkbox_wrapper',
+					'wrapper_class' => 'wcsn_checkbox_wrapper',
 					'label'         => esc_html__( 'Selling Serial Numbers', 'wc-serial-numbers' ),
 					'description'   => esc_html__( 'Enable this if you are selling serial numbers for this product.', 'wc-serial-numbers' ),
 					'value'         => Helper::is_serial_product( $post->ID ) ? 'yes' : 'no',
@@ -69,7 +113,7 @@ class Products {
 		if ( Helper::is_valid_product_type( $post->ID ) ) {
 			$options['selling_serial_numbers'] = array(
 				'id'            => '_selling_serial_numbers',
-				'wrapper_class' => 'wsn_checkbox_wrapper',
+				'wrapper_class' => 'wcsn_checkbox_wrapper',
 				'label'         => esc_html__( 'Selling Serial Numbers', 'wc-serial-numbers' ),
 				'description'   => esc_html__( 'Enable this if you are selling serial numbers for this product.', 'wc-serial-numbers' ),
 			);
@@ -124,7 +168,7 @@ class Products {
 						array(
 							'id'          => '_serial_numbers_key_source',
 							'name'        => '_serial_numbers_key_source',
-							'class'       => 'wsn_key_source short',
+							'class'       => 'wcsn_key_source short',
 							'label'       => esc_html__( 'Serial key source', 'wc-serial-numbers' ),
 							'callback'    => 'woocommerce_wp_select',
 							'description' => __( 'Pre generated option will assign already generated keys. Generator rule option will create keys using selected rule on the fly. Automatic option will create keys automatically as per the rule set.', 'wc-serial-numbers' ),
@@ -282,7 +326,7 @@ class Products {
 				'label'       => esc_html__( 'Last updated', 'wc-serial-numbers' ),
 				'description' => esc_html__( 'When the software was last updated.', 'wc-serial-numbers' ),
 				'placeholder' => esc_html__( 'YYYY-MM-DD', 'wc-serial-numbers' ),
-				'class'       => 'wsn_date_field',
+				'class'       => 'wcsn_date_field',
 				'type'        => 'text',
 				'callback'    => 'woocommerce_wp_text_input',
 				'desc_tip'    => true,

@@ -138,7 +138,7 @@ class Installer {
 		}
 
 		$tables = [
-			"CREATE TABLE {$wpdb->prefix}wsn_keys(
+			"CREATE TABLE {$wpdb->prefix}wcsn_keys(
          	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 			`key` longtext DEFAULT NULL,
 			`is_encrypted` TINYINT(9) NOT NULL DEFAULT 0,
@@ -165,7 +165,7 @@ class Installer {
 			KEY `status` (`status`)
             ) $collate;",
 
-			"CREATE TABLE {$wpdb->prefix}wsn_generators(
+			"CREATE TABLE {$wpdb->prefix}wcsn_generators(
 			`id` bigint(20) NOT NULL auto_increment,
 			`name` VARCHAR(191) NOT NULL,
 			`pattern` VARCHAR(32) NOT NULL,
@@ -177,7 +177,7 @@ class Installer {
 			KEY `name` (`name`)
 			) $collate;",
 
-			"CREATE TABLE {$wpdb->prefix}wsn_activations(
+			"CREATE TABLE {$wpdb->prefix}wcsn_activations(
 			`id` bigint(20) NOT NULL auto_increment,
 			`key_id` BIGINT UNSIGNED NOT NULL,
 			`instance` VARCHAR(200) NOT NULL,

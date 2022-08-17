@@ -28,7 +28,7 @@ class Key extends Data {
 	 * @since 1.3.1
 	 * @var string
 	 */
-	protected $table = 'wsn_keys';
+	protected $table = 'wcsn_keys';
 
 	/**
 	 * Cache group.
@@ -36,7 +36,7 @@ class Key extends Data {
 	 * @since 1.3.1
 	 * @var string
 	 */
-	protected $cache_group = 'wsn_keys';
+	protected $cache_group = 'wcsn_keys';
 
 
 	/**
@@ -108,6 +108,25 @@ class Key extends Data {
 		}
 
 		return $this->key;
+	}
+
+	/**
+	 * Get key.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @return string
+	 */
+	public function get_product_title() {
+		if ( empty( $this->product_id ) ) {
+			return '';
+		}
+		$product = wc_get_product( $this->product_id );
+		if ( ! $product ) {
+			return '';
+		}
+
+		return $product->get_title();
 	}
 
 	/**

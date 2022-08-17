@@ -19,8 +19,19 @@ class Keys {
 	 * @since 1.3.1
 	 */
 	public function __construct() {
+		add_action( 'wc_serial_numbers_saved_keys', [ __CLASS__, 'set_selling_serial_numbers' ], 10, 2 );
 		add_filter( 'wc_serial_numbers_order_item_keys', array( __CLASS__, 'order_item_keys' ), 10, 4 );
 		add_filter( 'wc_serial_numbers_pre_save_key', array( __CLASS__, 'maybe_encrypt_key' ), 10, 2 );
+	}
+
+	/**
+	 * Set selling serial numbers.
+	 *
+	 * @since 1.3.1
+	 * @param int $key_id The key id.
+	 */
+	public static function set_selling_serial_numbers( $key_id ){
+		add_post_meta( $key_id, '_selling_serial_numbers', true );
 	}
 
 	/**
@@ -141,7 +152,7 @@ class Keys {
 		global $wpdb;
 		$serial_key = wp_cache_get( $key, Key::get_cache_group() );
 		if ( $serial_key === false ) {
-			$serial_key = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wsn_keys WHERE number = %s", wc_clean( $key ) ) );
+			$serial_key = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcsn_keys WHERE number = %s", wc_clean( $key ) ) );
 			wp_cache_set( $key, $serial_key, Key::get_cache_group() );
 		}
 
@@ -383,6 +394,7 @@ class Keys {
 		// Add all param.
 		if ( null === $results ) {
 			$request = "SELECT {$fields} {$from} {$join} WHERE 1=1 {$where} {$groupby} {$having} {$orderby} {$limit}";
+			error_log($request);
 			if ( is_array( $args['fields'] ) || 'all' === $args['fields'] ) {
 				$results = $wpdb->get_results( $request );
 			} else {

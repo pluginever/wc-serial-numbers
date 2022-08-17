@@ -45,25 +45,25 @@ function wcsn_update_1_2_0() {
 	$wpdb->query( "UPDATE {$wpdb->prefix}serial_numbers set status='available', order_date='0000-00-00 00:00:00', order_id='0' WHERE status !='available' AND order_id='0' AND expire_date='0000-00-00 00:00:00'" );
 
 	//settings update
-	$heading_text          = wcsn_update_1_2_0_get_option( 'heading_text', 'Serial Numbers', 'wsn_delivery_settings' );
-	$serial_col_heading    = wcsn_update_1_2_0_get_option( 'table_column_heading', 'Serial Number', 'wsn_delivery_settings' );
-	$serial_key_label      = wcsn_update_1_2_0_get_option( 'serial_key_label', 'Serial Number', 'wsn_delivery_settings' );
-	$serial_email_label    = wcsn_update_1_2_0_get_option( 'serial_email_label', 'Activation Email', 'wsn_delivery_settings' );
-	$show_validity         = 'yes' == wcsn_update_1_2_0_get_option( 'show_validity', 'yes', 'wsn_delivery_settings' );
-	$show_activation_limit = 'yes' == wcsn_update_1_2_0_get_option( 'show_activation_limit', 'yes', 'wsn_delivery_settings' );
+	$heading_text          = wcsn_update_1_2_0_get_option( 'heading_text', 'Serial Numbers', 'wcsn_delivery_settings' );
+	$serial_col_heading    = wcsn_update_1_2_0_get_option( 'table_column_heading', 'Serial Number', 'wcsn_delivery_settings' );
+	$serial_key_label      = wcsn_update_1_2_0_get_option( 'serial_key_label', 'Serial Number', 'wcsn_delivery_settings' );
+	$serial_email_label    = wcsn_update_1_2_0_get_option( 'serial_email_label', 'Activation Email', 'wcsn_delivery_settings' );
+	$show_validity         = 'yes' == wcsn_update_1_2_0_get_option( 'show_validity', 'yes', 'wcsn_delivery_settings' );
+	$show_activation_limit = 'yes' == wcsn_update_1_2_0_get_option( 'show_activation_limit', 'yes', 'wcsn_delivery_settings' );
 	$license               = get_option( 'woocommerce_serial_numbers_pro_pluginever_license' );
 	$options               = [
-		'wc_serial_numbers_autocomplete_order'            => wcsn_update_1_2_0_get_option( 'wsn_auto_complete_order', 'yes', 'wsn_delivery_settings' ),
-		'wc_serial_numbers_reuse_serial_number'           => wcsn_update_1_2_0_get_option( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ),
+		'wc_serial_numbers_autocomplete_order'            => wcsn_update_1_2_0_get_option( 'wcsn_auto_complete_order', 'yes', 'wcsn_delivery_settings' ),
+		'wc_serial_numbers_reuse_serial_number'           => wcsn_update_1_2_0_get_option( 'wcsn_re_use_serial', 'no', 'wcsn_delivery_settings' ),
 		'wc_serial_numbers_disable_software_support'      => 'no',
 		'wc_serial_numbers_manual_delivery'               => 'no',
 		'wc_serial_numbers_hide_serial_number'            => 'yes',
-		'wc_serial_numbers_revoke_status_cancelled'       => in_array( 'cancelled', wcsn_update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ) ) ? 'yes' : 'no',
-		'wc_serial_numbers_revoke_status_refunded'        => in_array( 'refunded', wcsn_update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ) ) ? 'yes' : 'no',
-		'wc_serial_numbers_revoke_status_failed'          => in_array( 'failed', wcsn_update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ) ) ? 'yes' : 'no',
-		'wc_serial_numbers_enable_stock_notification'     => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
-		'wc_serial_numbers_stock_threshold'               => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
-		'wc_serial_numbers_notification_recipient'        => wcsn_update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
+		'wc_serial_numbers_revoke_status_cancelled'       => in_array( 'cancelled', wcsn_update_1_2_0_get_option( 'wcsn_revoke_serial_number', [], 'wcsn_delivery_settings' ) ) ? 'yes' : 'no',
+		'wc_serial_numbers_revoke_status_refunded'        => in_array( 'refunded', wcsn_update_1_2_0_get_option( 'wcsn_revoke_serial_number', [], 'wcsn_delivery_settings' ) ) ? 'yes' : 'no',
+		'wc_serial_numbers_revoke_status_failed'          => in_array( 'failed', wcsn_update_1_2_0_get_option( 'wcsn_revoke_serial_number', [], 'wcsn_delivery_settings' ) ) ? 'yes' : 'no',
+		'wc_serial_numbers_enable_stock_notification'     => wcsn_update_1_2_0_get_option( 'wcsn_admin_bar_notification_send_email', 'yes', 'wcsn_notification_settings' ),
+		'wc_serial_numbers_stock_threshold'               => wcsn_update_1_2_0_get_option( 'wcsn_admin_bar_notification_number', '5', 'wcsn_notification_settings' ),
+		'wc_serial_numbers_notification_recipient'        => wcsn_update_1_2_0_get_option( 'wcsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wcsn_notification_settings' ),
 		'wc_serial_numbers_order_table_heading'              => $heading_text,
 		'wc_serial_numbers_order_table_col_product_label' => 'Product',
 		'wc_serial_numbers_order_table_col_key_label'     => $serial_key_label,

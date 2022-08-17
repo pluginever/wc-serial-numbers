@@ -44,10 +44,6 @@ jQuery(function ($) {
 		fadeIn: 50,
 		fadeOut: 50,
 		delay: 200,
-<<<<<<< HEAD
-	});
-});
-=======
 	} );
 
 	$( '#add-serial-number' )
@@ -63,4 +59,3 @@ jQuery(function ($) {
 		} );
 
 } );
->>>>>>> e2acbf5 (stage changes)

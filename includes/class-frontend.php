@@ -20,12 +20,13 @@ class Frontend {
 	 */
 	public function __construct() {
 		add_action( 'init', array( __CLASS__, 'add_endpoint' ) );
-		add_filter( 'query_vars', array( __CLASS__, 'add_query_vars' ), 0 );
-		add_filter( 'the_title', array( __CLASS__, 'endpoint_title' ) );
-		add_filter( 'woocommerce_account_menu_items', array( __CLASS__, 'my_account_menu_item' ) );
+		add_filter( 'woocommerce_get_query_vars', array( __CLASS__, 'add_query_vars' ) );
+		add_filter( 'woocommerce_account_menu_items', array( __CLASS__, 'account_menu_item' ) );
+//		add_filter( 'woocommerce_account_' . self::get_endpoint() . '_title', array( __CLASS__, 'endpoint_title' ), 10, 2 );
 		add_action( 'woocommerce_account_' . self::get_endpoint() . '_endpoint', array( __CLASS__, 'endpoint_content' ) );
 //		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
 //		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), - 1 );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts') );
 	}
 
 	/**
@@ -35,7 +36,7 @@ class Frontend {
 	 * @see https://developer.wordpress.org/reference/functions/add_rewrite_endpoint/
 	 */
 	public static function add_endpoint() {
-		add_rewrite_endpoint( self::get_endpoint(), EP_PAGES );
+		add_rewrite_endpoint( self::get_endpoint(), EP_ROOT | EP_PAGES );
 	}
 
 	/**
@@ -45,7 +46,7 @@ class Frontend {
 	 * @return string
 	 */
 	public static function get_endpoint() {
-		return apply_filters( 'wc_serial_numbers_account_endpoint', 'serial-numbers' );
+		return apply_filters( 'wc_serial_numbers_account_endpoint', 'serials' );
 	}
 
 
@@ -60,7 +61,6 @@ class Frontend {
 	 */
 	public static function add_query_vars( $vars ) {
 		$vars[] = self::get_endpoint();
-
 		return $vars;
 	}
 
@@ -70,16 +70,13 @@ class Frontend {
 	 * @since #.#.#
 	 *
 	 * @param string $title Page title.
+	 * @param  string  $endpoint Page endpoint.
 	 *
 	 * @return string
 	 */
-	public static function endpoint_title( $title ) {
-		global $wp_query;
-		$is_endpoint = isset( $wp_query->query_vars[ self::get_endpoint() ] );
-
-		if ( $is_endpoint && ! is_admin() && is_main_query() && in_the_loop() && is_account_page() ) {
+	public static function endpoint_title( $title, $endpoint  ) {
+		if ( self::get_endpoint() === $endpoint ) {
 			$title = __( 'Serial Numbers', 'wc-serial-numbers' );
-			remove_filter( 'the_title', array( __CLASS__, 'endpoint_title' ) );
 		}
 
 		return $title;
@@ -94,7 +91,7 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	public static function my_account_menu_item( $items ) {
+	public static function account_menu_item( $items ) {
 		// Remove logout menu item.
 		if ( array_key_exists( 'customer-logout', $items ) ) {
 			$logout = $items['customer-logout'];
@@ -110,6 +107,29 @@ class Frontend {
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Gets the URL for an endpoint, which varies depending on permalink settings.
+	 *
+	 * @since 2.0
+	 *
+	 * @param string $endpoint
+	 * @param string $value
+	 * @param string $permalink
+	 *
+	 * @return string $url
+	 */
+	public function get_endpoint_url( $url, $endpoint, $value = '', $permalink = '' ) {
+		if ( ! empty( $this->query_vars[ $endpoint ] ) ) {
+			remove_filter( 'woocommerce_get_endpoint_url', array( $this, 'get_endpoint_url' ) );
+
+			$url = wc_get_endpoint_url( $this->query_vars[ $endpoint ], $value, $permalink );
+
+			add_filter( 'woocommerce_get_endpoint_url', array( $this, 'get_endpoint_url' ), 10, 4 );
+		}
+
+		return $url;
 	}
 
 
@@ -167,6 +187,8 @@ class Frontend {
 	public static function endpoint_content( $current_page ) {
 		$user_id      = get_current_user_id();
 		$current_page = empty( $current_page ) ? 1 : absint( $current_page );
+		var_dump( $user_id );
+		var_dump( $current_page );
 
 		// wc_get_template(
 		// 'myaccount/serial numbers.php',
@@ -176,5 +198,9 @@ class Frontend {
 		// 'serial numbers_per_page' => 20,
 		// ) ),
 		// 'wc-serial-numbers/', WC_BOOKINGS_TEMPLATE_PATH );
+	}
+
+	public static function enqueue_scripts(){
+
 	}
 }

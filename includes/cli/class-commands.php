@@ -92,9 +92,12 @@ class Commands {
 	 * default: 0
 	 * ---
 	 *
+	 * [--random=<random>]
+	 * : Random generated keys
+	 *
 	 * ## EXAMPLES
 	 *
-	 * wp serial_numbers make keys 10 --pattern=SERIAL-####-####-####-####
+	 * wp serial_numbers make keys 10 --pattern=SERIAL-####-####-####-#### --random
 	 * wp serial_numbers make keys 10 --pattern=SERIAL-####-####-####-#### --product_id=25 --activation_limit=10 --valid_for=365
 	 *
 	 * @param array $args WP-CLI positional arguments.
@@ -103,12 +106,16 @@ class Commands {
 	public static function make_keys( $args, $assoc_args ) {
 		$number           = absint( $args[0] );
 		$pattern          = $assoc_args['pattern'];
+		$is_random        = isset( $assoc_args['random'] ) ? true : false;
 		$product_id       = absint( $assoc_args['product_id'] );
 		$activation_limit = absint( $assoc_args['activation_limit'] );
 		$valid_for        = absint( $assoc_args['valid_for'] );
 		$date_expire      = absint( $assoc_args['date_expire'] );
 		$sequential       = absint( $assoc_args['sequential'] );
 		$start            = absint( $assoc_args['start'] );
+
+		var_dump( $is_random );
+		exit();
 
 		if ( empty( $pattern ) ) {
 			WP_CLI::error( "Pattern could not be empty" );
@@ -195,10 +202,10 @@ class Commands {
 		}
 
 		$created = Generators::insert( array(
-			'name'              => $name,
-			'pattern'           => $pattern,
-			'activation_limit'  => $activation_limit,
-			'valid_for'         => $valid_for,
+			'name'             => $name,
+			'pattern'          => $pattern,
+			'activation_limit' => $activation_limit,
+			'valid_for'        => $valid_for,
 		) );
 
 		if ( $created ) {

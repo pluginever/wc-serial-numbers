@@ -32,7 +32,7 @@ abstract class List_Table extends \WP_List_Table {
 		<label for="filter-by-order-id" class="screen-reader-text">
 			<?php esc_html_e( 'Filter by order', 'wc-serial-numbers' ); ?>
 		</label>
-		<select class="wsn_search_order" name="order_id" id="filter-by-order-id">
+		<select class="wcsn_search_order" name="order_id" id="filter-by-order-id">
 			<?php if ( ! empty( $order ) ) : ?>
 				<option selected="selected" value="<?php echo esc_attr( $order->get_id() ); ?>">
 					<?php echo esc_html( $order->get_formatted_billing_full_name() ); ?>
@@ -55,7 +55,7 @@ abstract class List_Table extends \WP_List_Table {
 		<label for="filter-by-product-id" class="screen-reader-text">
 			<?php esc_html_e( 'Filter by product', 'wc-serial-numbers' ); ?>
 		</label>
-		<select class="wsn_search_product" name="product_id" id="filter-by-product-id">
+		<select class="wcsn_search_product" name="product_id" id="filter-by-product-id">
 			<?php if ( ! empty( $product ) ) : ?>
 				<option selected="selected" value="<?php echo esc_attr( $product->get_id() ); ?>">
 					<?php echo esc_html( $product->get_name() ); ?>
@@ -78,7 +78,7 @@ abstract class List_Table extends \WP_List_Table {
 		<label for="filter-by-customer-id" class="screen-reader-text">
 			<?php esc_html_e( 'Filter by customer', 'wc-serial-numbers' ); ?>
 		</label>
-		<select class="wsn_search_customer" name="customer_id" id="filter-by-customer-id">
+		<select class="wcsn_search_customer" name="customer_id" id="filter-by-customer-id">
 			<?php if ( ! empty( $customer ) ) : ?>
 				<option selected="selected" value="<?php echo esc_attr( $customer->get_id() ); ?>">
 					<?php echo esc_html( $customer->get_name() ); ?>
