@@ -85,7 +85,7 @@ class Plugin extends Framework\Plugin {
 		// Instantiate frontend classes.
 		if ( self::is_request( 'frontend' ) ) {
 //			$this->account = new My_Account();
-//			$this->frontend = new Frontend();
+			$this->frontend = new Frontend();
 //			$this->api      = new API();
 		}
 
@@ -112,5 +112,63 @@ class Plugin extends Framework\Plugin {
 		register_activation_hook( $this->plugin_file(), array( Installer::class, 'install' ) );
 		register_deactivation_hook( $this->plugin_file(), array( Installer::class, 'deactivate' ) );
 		register_uninstall_hook( $this->plugin_file(), array( Installer::class, 'uninstall' ) );
+		add_action( 'woocommerce_order_item_meta_end', array( $this, 'serial_numbers_summary' ), 10, 3 );
+	}
+
+	public function serial_numbers_summary( $item_id, $item, $order ) {
+		?>
+		<div class="wcsn-order-summary">
+			<ul class="wcsn-order-summary__list">
+
+				<li>
+
+					<span class="wcsn-order-summary__item__count">#1</span>
+					<div class="wcsn-order-summary__item">
+
+						<div class="wcsn-order-summary__item__prop key">
+							<div class="wcsn-order-summary__item__prop-key key-key">Key</div>
+							<div class="wcsn-order-summary__item__prop-value key-value"><code>serial-####-####-####</code></div>
+						</div>
+
+						<div class="wcsn-order-summary__item__prop activation-limit">
+							<div class="wcsn-order-summary__item__prop-key activation-limit-key">Activation Limit</div>
+							<div class="wcsn-order-summary__item__prop-value activation-limit-value">10</div>
+						</div>
+
+						<div class="wcsn-order-summary__item__prop expire-date">
+							<div class="wcsn-order-summary__item__prop-key expire-date-key">Expire Date</div>
+							<div class="wcsn-order-summary__item__prop-value expire-date-value">10-12-2020</div>
+						</div>
+
+					</div>
+
+				</li>
+				<li>
+
+					<span class="wcsn-order-summary__item__count">#2</span>
+					<div class="wcsn-order-summary__item">
+
+						<div class="wcsn-order-summary__item__prop key">
+							<div class="wcsn-order-summary__item__prop-key key-key">Key</div>
+							<div class="wcsn-order-summary__item__prop-value key-value"><code>serial-####-####-####</code></div>
+						</div>
+
+						<div class="wcsn-order-summary__item__prop activation-limit">
+							<div class="wcsn-order-summary__item__prop-key activation-limit-key">Activation Limit</div>
+							<div class="wcsn-order-summary__item__prop-value activation-limit-value">10</div>
+						</div>
+
+						<div class="wcsn-order-summary__item__prop expire-date">
+							<div class="wcsn-order-summary__item__prop-key expire-date-key">Expire Date</div>
+							<div class="wcsn-order-summary__item__prop-value expire-date-value">10-12-2020</div>
+						</div>
+
+					</div>
+
+				</li>
+
+			</ul>
+		</div>
+		<?php
 	}
 }

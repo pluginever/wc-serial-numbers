@@ -23,10 +23,29 @@ class Orders {
 	 * @since 1.3.1
 	 */
 	public function __construct() {
-//		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_column' ) );
-//		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'render_order_column' ), 10, 2 );
-//		add_filter( 'bulk_actions-edit-shop_order', [ __CLASS__, 'order_bulk_actions' ] );
+		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_column' ) );
+		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'render_order_column' ), 10, 2 );
+		add_filter( 'bulk_actions-edit-shop_order', [ __CLASS__, 'order_bulk_actions' ] );
 		add_action( 'add_meta_boxes', array( __CLASS__, 'register_metaboxes' ) );
+	}
+
+
+	/**
+	 * Show booking data if a line item is linked to a booking ID.
+	 */
+	public function serial_numbers_display( $item_id, $item, $order ) {
+//		$booking_ids = WC_Booking_Data_Store::get_booking_ids_from_order_item_id( $item_id );
+
+//		wc_get_template(
+//			'order/booking-display.php',
+//			array(
+//				'booking_ids'       => $booking_ids,
+//				'endpoint'          => $this->get_endpoint(),
+//				'hide_item_details' => true,
+//			),
+//			'woocommerce-bookings',
+//			WC_BOOKINGS_TEMPLATE_PATH
+//		);
 	}
 
 	/**
@@ -39,14 +58,13 @@ class Orders {
 	 * @return array
 	 */
 	public static function add_order_column( $columns ) {
-		$column_header = '<span class="serial_numbers_product_head tips" data-tip="' . esc_attr__( 'Contains Serial Numbers Product', 'wc-serial-numbers' ) . '">' . esc_attr__( 'Serial Numbers Product', 'wc-serial-numbers' ) . '</span>';
+		$column_header = '<span class="wcsn-items-column-icon tips" data-tip="' . esc_attr__( 'Contains Serial Numbers Products', 'wc-serial-numbers' ) . '">' . esc_attr__( 'Serial Numbers Products', 'wc-serial-numbers' ) . '</span>';
 		$key           = array_search( 'shipping_address', array_keys( $columns ), true ) + 1;
-		$new_column    = array_slice( $columns, 0, $key, true ) + [ 'serial_numbers_product' => $column_header ] + array_slice( $columns, $key, null, true );
 
 		return array_merge(
 			array_slice( $columns, 0, $key ),
 			array(
-				'serial_numbers' => $column_header,
+				'wcsn_items' => $column_header,
 			),
 			array_slice( $columns, $key ) );
 	}
@@ -61,14 +79,9 @@ class Orders {
 	 *
 	 */
 	public static function render_order_column( $column, $post_id ) {
-		if ( 'serial_numbers' === $column ) {
+		if ( 'wcsn_items' === $column ) {
 			if ( Helper::get_order_line_items( $post_id ) ) {
-//				$has_activations = WC_AM_API_ACTIVATION_DATA_STORE()->has_activations_for_order_id( $post_id );
-//				if ( $has_activations ) {
-				echo '<span class="serial_numbers_order_has_keys tips" data-tip="' . esc_attr__( 'Has all keys.', 'wc-serial-numbers' ) . '"></span>';
-//				} else {
-//					echo '<span class="serial_numbers_order_has_no_keys tips" data-tip="' . esc_attr__( 'Has missing keys.', 'wc-serial-numbers' ) . '"></span>';
-//				}
+				echo '<span class="wcsn-items-icon tips" data-tip="' . esc_attr__( 'Has serial numbers items.', 'wc-serial-numbers' ) . '"></span>';
 			} else {
 				echo '<span class="normal_order">&ndash;</span>';
 			}
@@ -83,7 +96,7 @@ class Orders {
 	 * @return array
 	 */
 	public static function order_bulk_actions( $actions ) {
-		$actions['update_ordered_keys'] = __( 'Update ordered keys', 'wc-serial-numbers' );
+		$actions['update_serial_numbers'] = __( 'Update serial numbers', 'wc-serial-numbers' );
 
 		return $actions;
 	}
@@ -111,48 +124,41 @@ class Orders {
 		}
 		$line_items = Helper::get_order_line_items( $order->get_id() );
 		if ( ! $line_items ) {
-			echo '<p>' . esc_html__( 'No keys found.', 'wc-serial-numbers' ) . '</p>';
+			echo '<p>' . esc_html__( 'Order does not contains any serial numbers items.', 'wc-serial-numbers' ) . '</p>';
 
 			return;
 		}
-		$line_items_ids = array_map( function ( $item ) {
-			return $item['product_id'];
-		}, $line_items );
-//		var_dump($line_items);
-//		$keys           = Keys::query( [
-//			'order_id__in' => $order->get_id(),
-//		] );
 
-		var_dump( $line_items_ids );
+		$keys = Helper::get_ordered_keys( $order->get_id() );
+		if ( empty( $keys ) ) {
+			echo '<p>' . esc_html__( 'No serial numbers found.', 'wc-serial-numbers' ) . '</p>';
+
+			return;
+		}
+		$table_columns = [
+			'product_name'   => esc_html__( 'Product', 'wc-serial-numbers' ),
+			'serial_numbers' => esc_html__( 'Serial Numbers', 'wc-serial-numbers' ),
+		];
+		$columns       = apply_filters( 'wc_serial_numbers_order_table_columns', $table_columns, $post->ID, $keys );
 		?>
-		<table class="wp-list-table widefat fixed wcsn-orders-table">
+		<table class="wp-list-table widefat fixed striped wcsn-orders-table">
 			<thead>
 			<tr>
-				<th><?php echo esc_html__( 'Product' ); ?></th>
-				<th><?php echo esc_html__( 'Serial Numbers' ); ?></th>
+				<?php foreach ( $columns as $column_key => $column ) : ?>
+					<th class="product-<?php sanitize_html_class( $column_key ); ?>">
+						<?php echo esc_html( $column ); ?>
+					</th>
+				<?php endforeach; ?>
 			</tr>
 			</thead>
 			<tbody>
-			<?php foreach ( $line_items as $item ) : ?>
+			<?php foreach ( $keys as $key ) : ?>
 				<tr>
-					<td><a href="<?php echo esc_attr( get_edit_post_link( $item['product_id'] ) ); ?>"><?php echo esc_html( $item['name'] ); ?></a></td>
-					<td>
-						<?php
-						$keys = Keys::query( [
-							'order_id__in'   => $order->get_id(),
-							'product_id__in' => $item['product_id'],
-						] );
-						if ( $keys ) {
-							echo '<ul class="serial-numbers-keys-list">';
-							foreach ( $keys as $key ) {
-								echo '<li>';
-								echo sprintf( '<code class="serial-numbers-key1">%s</code>', $key->get_decrypted_key() );
-								echo '</li>';
-							}
-
-							echo '</ul>';
-						}
-						?>
+					<td class="product-name">
+						<a href="<?php echo esc_html( get_the_permalink( $key->product_id ) ); ?>"><?php echo esc_html( $key->get_product_title() ); ?></a>
+					</td>
+					<td class="product-serial-numbers">
+						<?php echo Helper::display_key_props( $key ); ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>

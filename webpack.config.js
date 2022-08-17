@@ -10,7 +10,9 @@ const mode = isProduction ? 'production' : 'development';
 module.exports = {
 	...defaultConfig,
 	entry: {
+		'css/frontend-style': './assets/css/frontend-style.scss',
 		'css/admin-style': './assets/css/admin-style.scss',
+		'js/frontend-script': './assets/js/frontend-script.js',
 		'js/admin-script': './assets/js/admin-script.js',
 	},
 	output: {

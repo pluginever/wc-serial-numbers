@@ -37,7 +37,8 @@ class Helper {
 	 * @return bool
 	 */
 	public static function is_serial_product( $product_id ) {
-		return 'yes' === get_post_meta( $product_id, '_selling_serial_numbers', true );
+//		return 'yes' === get_post_meta( $product_id, '_selling_serial_numbers', true );
+		return 'yes' === get_post_meta( $product_id, '_wcsn_is_enabled', true );
 	}
 
 	/**
@@ -174,7 +175,7 @@ class Helper {
 	 *
 	 * @return array order line item data.
 	 */
-	public static function get_order_line_items( $order_id ) {
+	public static function get_order_items( $order_id ) {
 		$line_items = array();
 		$order      = self::get_order_object( $order_id );
 		$items      = $order->get_items();
@@ -555,4 +556,7 @@ class Helper {
 			return $html;
 		}
 	}
+
+
+	public static function get_key_ids_from_order_id(){}
 }

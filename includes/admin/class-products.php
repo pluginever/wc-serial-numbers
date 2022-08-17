@@ -48,13 +48,13 @@ class Products {
 	 * @return array
 	 */
 	public static function add_columns( $columns ) {
-		$column_header = '<span class="serial_numbers_indication_head tips" data-tip="' . esc_attr__( 'Contains Serial Numbers Product', 'wc-serial-numbers' ) . '">' . esc_attr__( 'Serial Numbers Product', 'wc-serial-numbers' ) . '</span>';
+		$column_header = '<span class="wcsn-items-column-icon tips" data-tip="' . esc_attr__( 'Is selling serial numbers.', 'wc-serial-numbers' ) . '">' . esc_attr__( 'Serial Numbers Product', 'wc-serial-numbers' ) . '</span>';
 		$key           = array_search( 'price', array_keys( $columns ), true ) + 1;
 
 		return array_merge(
 			array_slice( $columns, 0, $key ),
 			array(
-				'is_serial_numbers' => $column_header,
+				'wcsn_items' => $column_header,
 			),
 			array_slice( $columns, $key ) );
 	}
@@ -69,11 +69,11 @@ class Products {
 	 *
 	 */
 	public static function render_column_contents( $column, $post_id ) {
-		if ( 'is_serial_numbers' === $column ) {
+		if ( 'wcsn_items' === $column ) {
 			if ( Helper::is_serial_product( $post_id ) ) {
-				echo '<span class="serial_numbers_indication_check">&ndash;</span>';
+				echo '<span class="wcsn-items-icon" data-tip="' . esc_attr__( 'Selling serial numbers.', 'wc-serial-numbers' ) . '">&ndash;</span>';
 			} else {
-				echo '<span class="serial_numbers_indication">&ndash;</span>';
+				echo '<span class="normal-product">&ndash;</span>';
 			}
 		}
 	}

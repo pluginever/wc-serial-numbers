@@ -35,7 +35,7 @@ class Menus {
 		add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
 
 		// Add menus.
-		add_action( 'admin_menu', array( $this, 'connect_pages' ) );
+//		add_action( 'admin_menu', array( $this, 'connect_pages' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 	}
 
@@ -52,13 +52,13 @@ class Menus {
 			$screen_id = isset( $screen, $screen->id ) ? $screen->id : '';
 		}
 
-		if ( strpos( $screen_id, 'serial-numbers' ) === false ) {
+		if ( strpos( $screen_id, 'wcsn-' ) === false ) {
 			return;
 		}
-		$screen_id = str_replace( array( 'toplevel_page_wc-', 'serial-numbers_page_wsn-' ), '', $screen_id );
+		$screen_id = str_replace( array( 'toplevel_page_wcsn-', 'serial-numbers_page_wcsn-' ), '', $screen_id );
 		global $wp_list_table;
 
-		if ( 'serial-numbers' === $screen_id && ( ! isset( $_GET['create'], $_GET['edit'] ) ) ) {
+		if ( 'keys' === $screen_id && ( ! isset( $_GET['create'], $_GET['edit'] ) ) ) {
 			$wp_list_table = new Keys_List_Table();
 			$action        = $wp_list_table->current_action();
 			$wp_list_table->process_bulk_actions( $action );
@@ -126,7 +126,7 @@ class Menus {
 		}
 		wc_admin_connect_page(
 			array(
-				'id'        => 'serial-numbers',
+				'id'        => 'wcsn-keys',
 				'title'     => __( 'WooCommerce Serial Numbers', 'wc-serial-numbers' ),
 				'screen_id' => 'toplevel_page_wc-serial-numbers',
 				'parent'    => 'toplevel_page_wc-serial-numbers',
@@ -135,7 +135,7 @@ class Menus {
 
 		wc_admin_connect_page(
 			array(
-				'id'        => 'wsn-generators',
+				'id'        => 'wcsn-generators',
 				'title'     => __( 'WooCommerce Serial Numbers', 'wc-serial-numbers' ),
 				'screen_id' => 'serial-numbers_page_wsn-generators',
 				'parent'    => 'toplevel_page_wc-serial-numbers',
@@ -144,7 +144,7 @@ class Menus {
 
 		wc_admin_connect_page(
 			array(
-				'id'        => 'wsn-activations',
+				'id'        => 'wcsn-activations',
 				'title'     => __( 'WooCommerce Serial Numbers', 'wc-serial-numbers' ),
 				'screen_id' => 'serial-numbers_page_wsn-activations',
 				'parent'    => 'toplevel_page_wc-serial-numbers',
@@ -153,7 +153,7 @@ class Menus {
 
 		wc_admin_connect_page(
 			array(
-				'id'        => 'wsn-tools',
+				'id'        => 'wcsn-tools',
 				'title'     => __( 'WooCommerce Serial Numbers', 'wc-serial-numbers' ),
 				'screen_id' => 'serial-numbers_page_wsn-tools',
 				'parent'    => 'toplevel_page_wc-serial-numbers',
@@ -162,7 +162,7 @@ class Menus {
 
 		wc_admin_connect_page(
 			array(
-				'id'        => 'wsn-settings',
+				'id'        => 'wcsn-settings',
 				'title'     => __( 'WooCommerce Serial Numbers', 'wc-serial-numbers' ),
 				'screen_id' => 'serial-numbers_page_wsn-settings',
 				'parent'    => 'toplevel_page_wc-serial-numbers',
@@ -181,56 +181,56 @@ class Menus {
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
 			'manage_options',
-			'wc-serial-numbers',
+			'wcsn-keys',
 			array( $this, 'render_keys_page' ),
 			'dashicons-admin-network',
 			'55.9'
 		);
 
 		add_submenu_page(
-			'wc-serial-numbers',
+			'wcsn-keys',
 			__( 'Serial Keys', 'wc-serial-numbers' ),
 			__( 'Serial Keys', 'wc-serial-numbers' ),
 			'manage_options',
-			'wc-serial-numbers',
+			'wcsn-keys',
 			array( $this, 'render_keys_page' )
 		);
 
 		add_submenu_page(
-			'wc-serial-numbers',
+			'wcsn-keys',
 			__( 'Generators', 'wc-serial-numbers' ),
 			__( 'Generators', 'wc-serial-numbers' ),
 			'manage_options',
-			'wsn-generators',
+			'wcsn-generators',
 			array( $this, 'render_generators_page' )
 		);
 
 		if ( Helper::is_software_support_enabled() ) {
 			add_submenu_page(
-				'wc-serial-numbers',
+				'wcsn-keys',
 				__( 'Activations', 'wc-serial-numbers' ),
 				__( 'Activations', 'wc-serial-numbers' ),
 				'manage_options',
-				'wsn-activations',
+				'wcsn-activations',
 				array( $this, 'render_activations_page' )
 			);
 		}
 
 		add_submenu_page(
-			'wc-serial-numbers',
+			'wcsn-keys',
 			__( 'Tools', 'wc-serial-numbers' ),
 			__( 'Tools', 'wc-serial-numbers' ),
 			'manage_options',
-			'wsn-tools',
+			'wcsn-tools',
 			array( $this, 'render_tools_page' )
 		);
 
 		add_submenu_page(
-			'wc-serial-numbers',
+			'wcsn-keys',
 			__( 'Settings', 'wc-serial-numbers' ),
 			__( 'Settings', 'wc-serial-numbers' ),
 			'manage_options',
-			'wsn-settings',
+			'wcsn-settings',
 			array( Settings_Page::class, 'output' )
 		);
 
@@ -240,7 +240,7 @@ class Menus {
 				'',
 				'<span style="color:#ff7a03;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Go Pro', 'wc-serial-numbers' ) . '</span>',
 				'manage_options',
-				'wsn-go-pro',
+				'wcsn-go-pro',
 				array( $this, 'go_pro_redirect' )
 			);
 		}
@@ -301,7 +301,7 @@ class Menus {
 	 * @since 1.2.0
 	 */
 	public function go_pro_redirect() {
-		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && 'wcsn-go-pro' === $_GET['page'] ) {
 			wp_redirect( 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=wp-menu&utm_campaign=gopro&utm_medium=wp-dash' );
 			die;
 		}

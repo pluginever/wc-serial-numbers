@@ -49,10 +49,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<tbody>
 		<?php foreach ( $keys as $key ) : ?>
 			<tr>
-				<td class="woocommerce-table__product-table product-<?php sanitize_html_class( $column_key ); ?>">
+				<td class="woocommerce-table__product-table product-name">
 					<a href="<?php echo esc_html( get_the_permalink( $key->product_id ) ); ?>"><?php echo esc_html( $key->get_product_title() ); ?></a>
 				</td>
-				<td class="woocommerce-table__product-table product-<?php sanitize_html_class( $column_key ); ?>">
+				<td class="woocommerce-table__product-table product-serial-numbers">
 					<?php echo Helper::display_key_props( $key ); ?>
 				</td>
 			</tr>

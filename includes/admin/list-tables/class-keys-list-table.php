@@ -230,7 +230,7 @@ class Keys_List_Table extends List_Table {
 		$sold_count      = '&nbsp;<span class="count">(' . $this->sold_count . ')</span>';
 		$delivered_count = '&nbsp;<span class="count">(' . $this->delivered_count . ')</span>';
 		$revoked_count   = '&nbsp;<span class="count">(' . $this->revoked_count . ')</span>';
-		$url             = admin_url( 'admin.php?page=wc-serial-numbers' );
+		$url             = admin_url( 'admin.php?page=wcsn-keys' );
 		$views           = array(
 			'all'       => sprintf( '<a href="%s" title="%s" %s>%s</a>', remove_query_arg( 'status', $url ), __( 'All keys.', 'wc-serial-numbers' ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
 			'available' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'available', $url ), __( 'Available for sell.', 'wc-serial-numbers' ), $current === 'available' ? ' class="current"' : '', __( 'Available', 'wc-serial-numbers' ) . $available_count ),
@@ -398,14 +398,14 @@ class Keys_List_Table extends List_Table {
 	 * @since #.#.#
 	 */
 	protected function column_key( $item ) {
-		$edit_url          = add_query_arg( [ 'edit' => $item->id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
-		$delete_url        = add_query_arg( [ 'id' => $item->id, 'action' => 'delete' ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
+		$edit_url          = add_query_arg( [ 'edit' => $item->id ], admin_url( 'admin.php?page=wcsn-keys' ) );
+		$delete_url        = add_query_arg( [ 'id' => $item->id, 'action' => 'delete' ], admin_url( 'admin.php?page=wcsn-keys' ) );
 		$actions['id']     = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), $item->id );
 		$actions['show']   = sprintf( '<a class="wcsn_decrypt_key" href="#" data-key="%s">%s</a>', $item->key, __( 'Show', 'wc-serial-numbers' ) );
 		$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', $edit_url, __( 'Edit', 'wc-serial-numbers' ) );
 		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', $delete_url, __( 'Delete', 'wc-serial-numbers' ) );
 
-		return sprintf( '<code class="serial-numbers-key %1$s" data-key="%2$s"></code> %3$s', 'is-encrypted', $item->key, $this->row_actions( $actions ) );
+		return sprintf( '<code class="wcsn-serial-number-key %1$s" data-key="%2$s"></code> %3$s', 'is-encrypted', $item->key, $this->row_actions( $actions ) );
 	}
 
 

@@ -19,14 +19,14 @@ class Frontend {
 	 * @since  1.0.0
 	 */
 	public function __construct() {
-		add_action( 'init', array( __CLASS__, 'add_endpoint' ) );
-		add_filter( 'woocommerce_get_query_vars', array( __CLASS__, 'add_query_vars' ) );
-		add_filter( 'woocommerce_account_menu_items', array( __CLASS__, 'account_menu_item' ) );
+//		add_action( 'init', array( __CLASS__, 'add_endpoint' ) );
+//		add_filter( 'woocommerce_get_query_vars', array( __CLASS__, 'add_query_vars' ) );
+//		add_filter( 'woocommerce_account_menu_items', array( __CLASS__, 'account_menu_item' ) );
 //		add_filter( 'woocommerce_account_' . self::get_endpoint() . '_title', array( __CLASS__, 'endpoint_title' ), 10, 2 );
-		add_action( 'woocommerce_account_' . self::get_endpoint() . '_endpoint', array( __CLASS__, 'endpoint_content' ) );
+//		add_action( 'woocommerce_account_' . self::get_endpoint() . '_endpoint', array( __CLASS__, 'endpoint_content' ) );
 //		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
 //		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), - 1 );
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts') );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
 	/**
@@ -61,6 +61,7 @@ class Frontend {
 	 */
 	public static function add_query_vars( $vars ) {
 		$vars[] = self::get_endpoint();
+
 		return $vars;
 	}
 
@@ -70,11 +71,11 @@ class Frontend {
 	 * @since #.#.#
 	 *
 	 * @param string $title Page title.
-	 * @param  string  $endpoint Page endpoint.
+	 * @param string $endpoint Page endpoint.
 	 *
 	 * @return string
 	 */
-	public static function endpoint_title( $title, $endpoint  ) {
+	public static function endpoint_title( $title, $endpoint ) {
 		if ( self::get_endpoint() === $endpoint ) {
 			$title = __( 'Serial Numbers', 'wc-serial-numbers' );
 		}
@@ -112,11 +113,11 @@ class Frontend {
 	/**
 	 * Gets the URL for an endpoint, which varies depending on permalink settings.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string $endpoint
 	 * @param string $value
 	 * @param string $permalink
+	 *
+	 * @since 2.0
 	 *
 	 * @return string $url
 	 */
@@ -200,7 +201,15 @@ class Frontend {
 		// 'wc-serial-numbers/', WC_BOOKINGS_TEMPLATE_PATH );
 	}
 
-	public static function enqueue_scripts(){
-
+	/**
+	 * Enqueue frontend scripts.
+	 *
+	 * @since #.#.#
+	 */
+	public static function enqueue_scripts() {
+		wp_register_style( 'wc-serial-numbers-frontend', Plugin::instance()->assets_url( '/css/frontend-style.css' ), array(), Plugin::instance()->plugin_version() );
+		wp_register_script( 'wc-serial-numbers-frontend', Plugin::instance()->assets_url( '/js/frontend-script.js' ), array( 'jquery' ), Plugin::instance()->plugin_version(), true );
+		wp_enqueue_style( 'wc-serial-numbers-frontend' );
+		wp_enqueue_script( 'wc-serial-numbers-frontend' );
 	}
 }

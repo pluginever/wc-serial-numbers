@@ -19,9 +19,9 @@ class Orders {
 	 * Orders constructor.
 	 */
 	public function __construct() {
-		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
-		add_action( 'woocommerce_order_status_processing', array( $this, 'maybe_autocomplete_order' ) );
-		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'maybe_update_order' ) );
+//		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
+//		add_action( 'woocommerce_order_status_processing', array( $this, 'maybe_autocomplete_order' ) );
+//		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'maybe_update_order' ) );
 
 //		add_action( 'woocommerce_delete_order_items', array( $this, 'delete_order' ) );
 //		add_action( 'woocommerce_delete_order', array( $this, 'delete_order' ) );
@@ -32,8 +32,33 @@ class Orders {
 //		add_action( 'untrashed_post', array( $this, 'untrashed_post' ) );
 //		add_action( 'edit_post', array( $this, 'edit_post' ), 10, 2 );
 
-		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
-		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), - 1 );
+//		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
+//		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), - 1 );
+//		add_action( 'woocommerce_order_item_meta_end', array( $this, 'serial_numbers_summary' ), 10, 3 );
+
+		add_action( 'woocommerce_order_item_meta_end', array( __CLASS__, 'order_item_summary_display' ), 10, 3 );
+		// WooCommerce PIP compatibility
+		add_action( 'wc_pip_order_item_meta_end', array( __CLASS__, 'order_item_summary_display' ), 10, 3 );
+	}
+
+
+	/**
+	 * Order summary display.
+	 *
+	 * @param int $item_id Order item id.
+	 * @param array $item Order item.
+	 * @param \WC_Order $order Order object.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function order_item_summary_display( $item_id, $item, $order ) {
+		$line_items = Helper::get_order_line_items( $order->get_id() );
+		if ( empty( $line_items ) ) {
+			return;
+		}
+
+
+		var_dump( $line_items );
 	}
 
 	/**
@@ -278,8 +303,8 @@ class Orders {
 			return;
 		}
 		$table_columns        = [
-			'product_name'     => esc_html__( 'Product', 'wc-serial-numbers' ),
-			'serial_numbers'   => esc_html__( 'Serial Numbers', 'wc-serial-numbers' ),
+			'product_name'   => esc_html__( 'Product', 'wc-serial-numbers' ),
+			'serial_numbers' => esc_html__( 'Serial Numbers', 'wc-serial-numbers' ),
 		];
 		$keys                 = Helper::get_ordered_keys( $order->get_id() );
 		$columns              = apply_filters( 'wc_serial_numbers_order_table_columns', $table_columns, $order_id, $keys );

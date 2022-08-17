@@ -1,0 +1,55 @@
+[class*='wcsn-'] {
+	box-sizing: border-box;
+}
+
+.wcsn-order-summary {
+	color: #888;
+	font-size: 0.9em;
+
+	&__item__count {
+		font-weight: bold;
+	}
+
+	&__list {
+		list-style: none;
+		padding: 0;
+		margin: 1em 0 0;
+	}
+
+	&__item {
+		margin-bottom: 10px;
+		border-radius: 0;
+		border: 1px solid #e5e5e5;
+		background: #fafafa;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__item__prop {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.2em 0.5em 0.2em 0.5em;
+		border-bottom: 1px solid #ededed;
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+
+	&__item__prop-key {
+		margin-right: 20px;
+	}
+
+	&__item__prop-value {
+		code {
+			padding: 0.2em 0.5em 0.2em 0.5em;
+			margin: 0;
+		}
+
+		&.key-value {
+			cursor: pointer;
+		}
+	}
+}

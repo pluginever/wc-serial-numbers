@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit();
 	<?php if ( count( $tabs ) > 1 ) : ?>
 		<nav class="nav-tab-wrapper">
 			<?php foreach ( $tabs as $tab_id => $tab ) : ?>
-				<a href="<?php echo esc_url( admin_url( 'admin.php?page=wsn-tools&tab=' . $tab_id ) ); ?>"
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=wcsn-tools&tab=' . $tab_id ) ); ?>"
 				   class="nav-tab <?php echo $tab_id === $current_tab ? 'nav-tab-active' : ''; ?>"><?php echo esc_html( $tab ); ?></a>
 			<?php endforeach; ?>
 		</nav>

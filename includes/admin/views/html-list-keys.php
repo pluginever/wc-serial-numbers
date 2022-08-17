@@ -23,6 +23,6 @@ global $wp_list_table;
 		$wp_list_table->search_box( __( 'Search key', 'woocommerce' ), 'key' );
 		$wp_list_table->display();
 		?>
-		<input type="hidden" name="page" value="wc-serial-numbers">
+		<input type="hidden" name="page" value="wcsn-keys">
 	</form>
 </div>
