@@ -1,0 +1,66 @@
+name: Build Plugin
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+    
+env:
+  BUILD_FOLDER: /tmp/build/
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks out the repository under $GITHUB_WORKSPACE, so workflow can access it.
+      - uses: actions/checkout@v2
+
+      - name: Set composer token
+        run: |
+          composer config -g github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Setup proper PHP version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          ini-values: output_buffering=off
+          extensions: mbstring, intl, pdo_mysql
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: |
+          composer install --ignore-platform-reqs --prefer-dist --no-progress
+          npm install
+          npm run build
+
+      - name: Copy files to build directory
+        run: |
+          mkdir $BUILD_FOLDER
+          rsync -rc --exclude-from="${GITHUB_WORKSPACE}/.distignore" "${GITHUB_WORKSPACE}/" "$BUILD_FOLDER/" --delete --delete-excluded
+          cp composer.json $BUILD_FOLDER/composer.json
+          cp composer.lock $BUILD_FOLDER/composer.lock
+
+      - name: Dump autoloader and remove Composer files
+        working-directory: ${{ env.BUILD_FOLDER }}
+        run: |
+          composer install --no-dev --ignore-platform-reqs --prefer-dist --optimize-autoloader --no-progress --no-scripts
+          find . -name 'composer.lock' -delete
+          find . -name 'composer.json' -delete
+
+      - name: Upload build
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.event.repository.name }}
+          path: ${{ env.BUILD_FOLDER }}
