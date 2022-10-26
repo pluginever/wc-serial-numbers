@@ -1,52 +1,79 @@
-/.wordpress-org
-/.git
-/.github
+# Default dist ignore list
+
+# Git related files
+.git
+.github
+.gitignore
 .gitattributes
 .gitkeep
 .gitmodules
+.husky
+readme.md
+README.md
 
-.distignore
-.gitignore
-.babelrc
-.editorconfig
-.eslintignore
-.eslintrc.json
-.npmrc
-.svnignore
-.travis.yml
-.jshintrc
-.phpcs.xml.dist
-.stylelintrc
+# Composer related files
+composer.lock
+composer.json
+
+# NPM related files
+npm-debug.log
+node_modules
+postcss.config.js
+babel.config.js
 package.json
 package-lock.json
-yarn.lock
-Gruntfile.js
-composer.json
-composer.lock
-/node_modules
-/bin
-gulpfile.js
 gruntfile.js
+Gruntfile.js
+webpack.config.js
+yarn.lock
+bower.json
+bower_components
+.*
 
-#COMMON
-CONTRIBUTING.md
-release-test.sh
-phpunit.xml.dist
+
+# Test related files
 phpunit.xml
+phpunit.xml.dist
+tests
+.dist
+codeception.yml
+*.yml
+
+# PHPCS related files
 phpcs.xml
 phpcs.xml.dist
-tests
-*.sql
-*.tar.gz
-*.zip
-*.sh
 
-#OS
+
+# IDE related files
+.idea
+*.iml
+*.sublime-project
+*.sublime-workspace
+*.project
+*.tmproj
+*.vscode
+
+# Misc files
+*.log
+*.sh
+bin
+
+# OS related files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-#WP
+
+# Action related files
 .wordpress-org
 
 #Assets
 *.scss
+*.*.map
+
+# Build related files
+/vendor

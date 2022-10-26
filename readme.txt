@@ -23,7 +23,7 @@ The best WooCommerce plugin to sell and manage license keys with ease.
 
 === 💻 Find Out More: ===
 
-* **[See The Live Demo Site](https://pluginever.xyz/wc-serial-numbers "See the Live Demo Site")**
+* **[See The Live Demo Site](https://demo.pluginever.com/serial-numbers "See the Live Demo Site")**
 * **[Plugin Documentation](https://pluginever.com/docs/woocommerce-serial-numbers "Plugin Documentation")**
 * **[Need Help? Contact Our 24/7 Support](https://pluginever.com/support "Need Help? Contact Our 24/7 Support")**
 
