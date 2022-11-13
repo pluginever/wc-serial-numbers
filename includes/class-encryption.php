@@ -1,61 +1,86 @@
 <?php
+
+namespace WooCommerceSerialNumbers;
+
+// don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Encryption {
+/**
+ * Class Encryption.
+ *
+ * @since 1.2.0
+ */
+class Encryption {
 	/**
+	 * Key.
+	 *
 	 * @var static
 	 */
 	private static $key;
 
 	/**
+	 * Encryption method.
+	 *
 	 * @var string
 	 */
 	const METHOD = 'AES-256-CBC';
 
 	/**
+	 * Encryption algorithm.
+	 *
 	 * @var string
 	 */
 	const ALGORITHM = 'sha256';
 
 	/**
+	 * Maximum key size.
+	 *
 	 * @var int
 	 */
 	const MAXKEYSIZE = 32;
 
 	/**
+	 * Maximum IV size.
+	 *
 	 * @var int
 	 */
 	const MAXIVSIZE = 16;
 
 	/**
+	 * Number of iterations.
+	 *
 	 * @var int
 	 */
 	const NUMBEROFITERATION = 1;
 
 	/**
+	 * Initialization vector.
+	 *
 	 * @var string;
 	 */
 	const INITVECTOR = 'kcv4tu0FSCB9oJyH';
 
 	/**
+	 * Construct Encryption.
+	 *
 	 * @since 1.2.0
 	 */
-	public static function init() {
-		self::setEncryptionKey();
-		add_filter( 'wc_serial_numbers_maybe_encrypt', array( __CLASS__, 'maybeEncrypt' ) );
-		add_filter( 'wc_serial_numbers_maybe_decrypt', array( __CLASS__, 'maybeDecrypt' ) );
+	public function __construct() {
+		self::set_encryption_key();
+		add_filter( 'wc_serial_numbers_maybe_encrypt', array( __CLASS__, 'maybe_encrypt' ) );
+		add_filter( 'wc_serial_numbers_maybe_decrypt', array( __CLASS__, 'maybe_decrypt' ) );
 	}
 
 	/**
 	 * Maybe encrypt key.
 	 *
-	 * @param $key
+	 * @param string $key Key.
 	 *
 	 * @return false|string
 	 * @since 1.2.0
 	 */
-	public static function maybeEncrypt( $key ) {
-		if ( ! self::isEncrypted( $key ) ) {
+	public static function maybe_encrypt( $key ) {
+		if ( ! self::is_encrypted( $key ) ) {
 			return self::encrypt( $key );
 		}
 
@@ -65,13 +90,13 @@ class WC_Serial_Numbers_Encryption {
 	/**
 	 * May be decrypt key.
 	 *
-	 * @param $key
+	 * @param string $key Key.
 	 *
 	 * @return false|string
 	 * @since 1.2.0
 	 */
-	public static function maybeDecrypt( $key ) {
-		if ( self::isEncrypted( $key ) ) {
+	public static function maybe_decrypt( $key ) {
+		if ( self::is_encrypted( $key ) ) {
 			return self::decrypt( $key );
 		}
 
@@ -82,25 +107,27 @@ class WC_Serial_Numbers_Encryption {
 	/**
 	 * Check if the key is encrypted.
 	 *
-	 * @param $string
+	 * @param string $string Key.
 	 *
 	 * @return bool
 	 * @since 1.2.0
 	 */
-	public static function isEncrypted( $string ) {
+	public static function is_encrypted( $string ) {
 		return false !== self::decrypt( $string );
 	}
 
 	/**
-	 * @param $plainText
+	 * Encrypt key.
+	 *
+	 * @param string $plainText Key.
 	 *
 	 * @return false|string
 	 * @since
 	 */
 	public static function encrypt( $plainText ) {
 		$encryptedText = $plainText;
-		if ( ! self::isEncrypted( $plainText ) ) {
-			$encryptedText = self::encryptOrDecrypt( 'encrypt', $plainText, self::$key );
+		if ( ! self::is_encrypted( $plainText ) ) {
+			$encryptedText = self::encrypt_or_decrypt( 'encrypt', $plainText, self::$key );
 		}
 
 		return $encryptedText;
@@ -113,19 +140,17 @@ class WC_Serial_Numbers_Encryption {
 	 * @since
 	 */
 	public static function decrypt( $encryptedText ) {
-		$plainText = self::encryptOrDecrypt( 'decrypt', $encryptedText, self::$key );
-
-		return $plainText;
+		return self::encrypt_or_decrypt( 'decrypt', $encryptedText, self::$key );
 	}
 
 	/**
 	 * @return bool|mixed|string|void
 	 * @since 1.2.0
 	 */
-	public static function setEncryptionKey() {
+	public static function set_encryption_key() {
 		$encryption_password = get_option( 'wcsn_pkey', false );
 		if ( false === $encryption_password || '' === $encryption_password ) {
-			$salt     = self::GenerateRandomString();
+			$salt     = self::generate_random_string();
 			$time     = time();
 			$home_url = get_home_url( '/' );
 			$salts    = array( $time, $home_url, $salt );
@@ -145,7 +170,7 @@ class WC_Serial_Numbers_Encryption {
 	 *
 	 * @return string
 	 */
-	private static function GenerateRandomString( $length = 10 ) {
+	private static function generate_random_string( $length = 10 ) {
 		$chars         = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_@$#';
 		$chars_length  = strlen( $chars );
 		$random_string = '';
@@ -162,7 +187,7 @@ class WC_Serial_Numbers_Encryption {
 	 * @return string
 	 * @since
 	 */
-	private static function getComputedHash( $key ) {
+	private static function get_computed_hash( $key ) {
 		$hash = $key;
 		for ( $i = 0; $i < intval( self::NUMBEROFITERATION ); $i ++ ) {
 			$hash = hash( self::ALGORITHM, $hash );
@@ -179,17 +204,19 @@ class WC_Serial_Numbers_Encryption {
 	 * @return false|string
 	 * @since
 	 */
-	private static function encryptOrDecrypt( $mode, $string, $key ) {
-		$password = substr( self::getComputedHash( $key ), 0, intval( self::MAXKEYSIZE ) );
+	private static function encrypt_or_decrypt( $mode, $string, $key ) {
+		$password = substr( self::get_computed_hash( $key ), 0, intval( self::MAXKEYSIZE ) );
 
 		if ( 'encrypt' === $mode ) {
-			return base64_encode( openssl_encrypt(
-				$string,
-				self::METHOD,
-				$password,
-				OPENSSL_RAW_DATA,
-				self::INITVECTOR
-			) );
+			return base64_encode(
+				openssl_encrypt(
+					$string,
+					self::METHOD,
+					$password,
+					OPENSSL_RAW_DATA,
+					self::INITVECTOR
+				)
+			);
 		}
 
 		return openssl_decrypt(
@@ -201,5 +228,3 @@ class WC_Serial_Numbers_Encryption {
 		);
 	}
 }
-
-WC_Serial_Numbers_Encryption::init();

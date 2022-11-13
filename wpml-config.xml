@@ -1,2 +1,10 @@
 <wpml-config>
+	<custom-types>
+ 		<custom-type translate="1"></custom-type>
+	</custom-types>
+	 <admin-texts>
+        <key name=""/>
+    </admin-texts>
 </wpml-config>
+
+

@@ -44,23 +44,26 @@ class WC_Serial_Numbers_Admin {
 		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
 		$version = wc_serial_numbers()->get_version();
 
-
 		wp_enqueue_style( 'wc-serial-numbers-admin', $css_url . '/wc-serial-numbers-admin.css', array( 'woocommerce_admin_styles', 'jquery-ui-style' ), $version );
 		wp_enqueue_style( 'jquery-ui-style' );
 		wp_enqueue_style( 'select2' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_script( 'wc-serial-numbers-admin', $js_url . '/wc-serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2', ], $version, true );
+		wp_enqueue_script( 'wc-serial-numbers-admin', $js_url . '/wc-serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2' ], $version, true );
 
-		wp_localize_script( 'wc-serial-numbers-admin', 'wc_serial_numbers_admin_i10n', array(
-			'i18n'    => array(
-				'search_product' => __( 'Search product by name', 'wc-serial-numbers' ),
-				'search_order'   => __( 'Search order', 'wc-serial-numbers' ),
-				'show'           => __( 'Show', 'wc-serial-numbers' ),
-				'hide'           => __( 'Hide', 'wc-serial-numbers' ),
-			),
-			'nonce'   => wp_create_nonce( 'wc_serial_numbers_admin_js_nonce' ),
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-		) );
+		wp_localize_script(
+			'wc-serial-numbers-admin',
+			'wc_serial_numbers_admin_i10n',
+			array(
+				'i18n'    => array(
+					'search_product' => __( 'Search product by name', 'wc-serial-numbers' ),
+					'search_order'   => __( 'Search order', 'wc-serial-numbers' ),
+					'show'           => __( 'Show', 'wc-serial-numbers' ),
+					'hide'           => __( 'Hide', 'wc-serial-numbers' ),
+				),
+				'nonce'   => wp_create_nonce( 'wc_serial_numbers_admin_js_nonce' ),
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			)
+		);
 	}
 
 	/**
@@ -71,7 +74,7 @@ class WC_Serial_Numbers_Admin {
 	 */
 	public static function add_order_serial_column( $columns ) {
 		$postition = 3;
-		$new       = array_slice( $columns, 0, $postition, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $postition, count( $columns ) - $postition, true );;
+		$new       = array_slice( $columns, 0, $postition, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $postition, count( $columns ) - $postition, true );
 
 		return $new;
 	}
@@ -90,13 +93,13 @@ class WC_Serial_Numbers_Admin {
 			} else {
 				$total_connected = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order_id ) )->count();
 				if ( $total_ordered == $total_connected ) {
-					$style = "color:green";
+					$style = 'color:green';
 					$title = __( 'Order assigned all serial numbers.', 'wc-serial-numbers' );
-				} else if ( ! empty( $total_connected ) && $total_ordered !== $total_connected ) {
-					$style = "color:#f39c12";
+				} elseif ( ! empty( $total_connected ) && $total_ordered !== $total_connected ) {
+					$style = 'color:#f39c12';
 					$title = sprintf( __( 'Order partially missing serial numbers(%d)', 'wc-serial-numbers' ), $total_ordered );
 				} else {
-					$style = "color:red";
+					$style = 'color:red';
 					$title = sprintf( __( 'Order missing serial numbers(%d)', 'wc-serial-numbers' ), $total_ordered );
 				}
 				$url = add_query_arg( [ 'order_id' => $order_id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
@@ -168,7 +171,7 @@ class WC_Serial_Numbers_Admin {
 	 * Add footer note
 	 *
 	 * @return string
-	*/
+	 */
 	public static function admin_footer_note() {
 		$screen = get_current_screen();
 		if ( 'wc-serial-numbers' == $screen->parent_base ) {
