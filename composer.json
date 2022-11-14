@@ -78,12 +78,18 @@
     "phpcs": "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -v",
     "phpcbf": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -v",
     "selenium:start": "selenium-server -port 4444",
+    "test:build": "@php ./vendor/bin/codecept build",
     "test:acceptance": "@php ./vendor/bin/codecept run acceptance",
+    "test:functional": "@php ./vendor/bin/codecept run functional",
+    "test:wpunit": "@php ./vendor/bin/codecept run wpunit",
+    "test": "composer test:acceptance && composer test:functional && composer test:wpunit",
+    "test:gen:acceptance": "@php vendor/bin/codecept generate:cept",
+    "test:gen:func": "@php vendor/bin/codecept generate:cest",
+    "test:gen:wpunit": "@php vendor/bin/codecept generate:wpunit wpunit",
     "test:clean": "@php ./vendor/bin/codecept clean",
     "test:coverage": "@php ./vendor/bin/codecept run wpunit --coverage --coverage-xml --coverage-html",
-    "test:functional": "@php ./vendor/bin/codecept run functional",
-    "test:generate-scenarios": "@php vendor/bin/codecept generate:scenarios",
-    "test:integration": "@php ./vendor/bin/codecept run wpunit"
+    "test:generate": "@php vendor/bin/codecept generate:scenarios",
+    "codecept": "@php vendor/bin/codecept"
   },
   "extra": {
     "mozart": {

@@ -212,8 +212,8 @@ class Key extends Framework\Data {
 	 * @since 1.4.0
 	 * @return string
 	 */
-	public function get_date_created( $context = 'edit' ) {
-		return $this->get_prop( 'date_created', $context );
+	public function get_created_date( $context = 'edit' ) {
+		return $this->get_prop( 'created_date', $context );
 	}
 
 	/*
@@ -344,12 +344,12 @@ class Key extends Framework\Data {
 	/**
 	 * Set date created.
 	 *
-	 * @param string $date_created Date created.
+	 * @param string $created_date Date created.
 	 *
 	 * @since 1.4.0
 	 */
-	public function set_date_created( $date_created ) {
-		$this->set_date_prop( 'date_created', $date_created );
+	public function set_created_date( $created_date ) {
+		$this->set_date_prop( 'created_date', $created_date );
 	}
 
 	/**
@@ -360,11 +360,11 @@ class Key extends Framework\Data {
 	 */
 	protected function sanitize_data() {
 		if ( empty( $this->get_serial_key() ) ) {
-			return new \WP_Error( 'invalid-serial-key', __( 'You must select a product to add serial number.', 'wc-serial-numbers' ) );
+			return new \WP_Error( 'invalid-serial-key', __( 'Serial key is required.', 'wc-serial-numbers' ) );
 		}
 
 		if ( empty( $this->get_product_id() ) ) {
-			return new \WP_Error( 'invalid-product-id', __( 'Invalid product ID.', 'boll' ) );
+			return new \WP_Error( 'invalid-product-id', __( 'Invalid product ID.', 'wc-serial-numbers' ) );
 		}
 
 		if ( ! array_key_exists( $this->get_status(), self::get_statuses() ) ) {

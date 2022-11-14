@@ -22,6 +22,7 @@ echo "✓ ZIP directory created!"
 
 echo "➤ Copying files..."
 # If .distignore file exists, use it to exclude files from the SVN repo, otherwise use the default.
+# shellcheck disable=SC2039
 if [[ -r "$WORKING_DIR/.distignore" ]]; then
 	echo "ℹ︎ Using .distignore"
 	rsync -rc --exclude-from="$WORKING_DIR/.distignore" "$WORKING_DIR/" "$ZIP_DIR/" --delete --delete-excluded

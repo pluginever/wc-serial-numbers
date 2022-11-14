@@ -143,7 +143,7 @@ class Admin extends Controller {
 		if ( isset( $_GET['create'] ) || isset( $_GET['edit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$id = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
-		$this->render_view( 'html-list-serial-numbers' );
+		$this->render_view( 'html-list-keys' );
 	}
 
 	/**
