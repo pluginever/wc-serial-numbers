@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ruleset name="ByteEver Coding Standards">
+	<description>ByteEver PHPCS extended.</description>
+	<rule ref="ByteEver-Default" />
+
+	<!-- Check all PHP files in directory tree by default. -->
+	<arg name="extensions" value="php"/>
+	<file>.</file>
+	<exclude-pattern>*/lib/*</exclude-pattern>
+
+
+	<!-- Check that the proper text domain(s) is used everywhere. -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="wc-serial-numbers"/>
+				<element value="framework-text-domain"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Define some special rules for the Codeception tests. -->
+	<rule ref="PSR2.Methods.MethodDeclaration">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.NamingConventions">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+</ruleset>

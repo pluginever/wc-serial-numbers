@@ -1,44 +1,32 @@
 #!/bin/sh
-SLUG=$(node -p "require('./package.json').name")
-VERSION=$(node -p "require('./package.json').version")
-WORKING_DIR=$(pwd)
-ZIP_DIR=/tmp/${SLUG}
 
-# If slug is not set, exit
-if [ -z "$SLUG" ]; then
-	echo "Slug not set. Exiting."
-	exit 1
-fi
-echo "➤ Preparing zip for $VERSION of $SLUG..."
+PLUGIN_SLUG=$(node -p "require('./package.json').name") || exit "$?"
+PROJECT_PATH=$(pwd)
+BUILD_PATH="${PROJECT_PATH}/zip"
+DEST_PATH="$BUILD_PATH/$PLUGIN_SLUG"
 
-# if directory already exists, delete it
-if [ -d "$ZIP_DIR" ]; then
-	rm -rf $ZIP_DIR
-fi
+echo "Generating build directory..."
+rm -rf "$BUILD_PATH"
+mkdir -p "$DEST_PATH"
 
-echo "➤ Creating ZIP directory..."
-mkdir -p "$ZIP_DIR"
-echo "✓ ZIP directory created!"
+echo "Installing PHP and JS dependencies..."
+npm install
+echo "Running JS Build..."
+npm run build || exit "$?"
+echo "Cleaning up PHP dependencies..."
+composer install || exit "$?"
+composer update --no-dev --no-scripts || exit "$?"
+echo "Syncing files..."
+rsync -rc --exclude-from="$PROJECT_PATH/.distignore" "$PROJECT_PATH/" "$DEST_PATH/" --delete --delete-excluded
+find "$DEST_PATH" -type d -empty -delete
 
-echo "➤ Copying files..."
-# If .distignore file exists, use it to exclude files from the SVN repo, otherwise use the default.
-if [[ -r "$WORKING_DIR/.distignore" ]]; then
-	echo "ℹ︎ Using .distignore"
-	rsync -rc --exclude-from="$WORKING_DIR/.distignore" "$WORKING_DIR/" "$ZIP_DIR/" --delete --delete-excluded
-	echo "✓ Files copied!"
-fi
+echo "Generating zip file..."
+cd "$BUILD_PATH" || exit
+zip -q -r "${PLUGIN_SLUG}.zip" "$PLUGIN_SLUG/"
 
-# Remove empty directories from trunk
-find "$ZIP_DIR/" -type d -empty -delete
+cd "$PROJECT_PATH" || exit
+mv "$BUILD_PATH/${PLUGIN_SLUG}.zip" "$PROJECT_PATH"
+rm -rf "$BUILD_PATH"
+echo "${PLUGIN_SLUG}.zip file generated!"
 
-ZIP_NAME="$SLUG-v$VERSION.zip"
-echo "➤ Creating ZIP file..."
-# cd to the one level above the ZIP directory and zip it up
-cd "$ZIP_DIR/.." || exit 1
-zip -q -r "$ZIP_NAME" "${SLUG}/"
-mv "$ZIP_NAME" "$WORKING_DIR/"
-echo "✓ ZIP file created!"
-
-echo "➤ Cleaning up..."
-rm -rf "$ZIP_DIR"
-echo "✓ Done!"
+echo "Build done!"

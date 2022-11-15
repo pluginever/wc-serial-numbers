@@ -2,35 +2,63 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\Controller;
 use WooCommerceSerialNumbers\Query;
 
 defined( 'ABSPATH' ) || exit();
 
-class Admin {
+/**
+ * Class Admin
+ *
+ * @since 1.0.0
+ * @package WooCommerceSerialNumbers\Admin
+ */
+class Admin extends Controller {
 
 	/**
-	 * WC_Serial_Numbers_Admin constructor.
+	 * Set up the controller.
+	 *
+	 * Load files or register hooks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
-	public function __construct() {
-		add_action( 'init', array( __CLASS__, 'includes' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-		add_action( 'admin_head', array( __CLASS__, 'print_style' ) );
-		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_serial_column' ) );
-		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'add_order_serial_column_content' ), 20, 2 );
-		add_action( 'admin_footer_text', array( __CLASS__, 'admin_footer_note' ) );
+	protected function init() {
+		add_action( 'init', array( $this, 'add_controllers' ) );
+		// add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		// add_action( 'admin_head', array( __CLASS__, 'print_style' ) );
+		// add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_serial_column' ) );
+		// add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'add_order_serial_column_content' ), 20, 2 );
+		// add_action( 'admin_footer_text', array( __CLASS__, 'admin_footer_note' ) );
+	}
+
+	/**
+	 * Register admin controllers.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function add_controllers() {
+		$controllers = array(
+			'admin_menus' => Menus::class,
+			'meta_boxes'  => Meta_Boxes::class,
+			'settings'    => Settings::class,
+		);
+
+		$this->add_controller( $controllers );
 	}
 
 	/**
 	 * Include any classes we need within admin.
 	 */
 	public static function includes() {
-		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-metaboxes.php';
-		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-settings.php';
-		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-menus.php';
-		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-notice.php';
-		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-actions.php';
-		require_once dirname( __FILE__ ) . '/screen/class-wc-serial-numbers-activations-screen.php';
-		require_once dirname( __FILE__ ) . '/screen/class-wc-serial-numbers-serial-numbers-screen.php';
+		// require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-metaboxes.php';
+		// require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-settings.php';
+		// require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-menus.php';
+		// require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-notice.php';
+		// require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-actions.php';
+		// require_once dirname( __FILE__ ) . '/screen/class-wc-serial-numbers-activations-screen.php';
+		// require_once dirname( __FILE__ ) . '/screen/class-wc-serial-numbers-serial-numbers-screen.php';
 	}
 
 	/**
@@ -49,34 +77,37 @@ class Admin {
 		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
 		$version = wc_serial_numbers()->get_version();
 
-
 		wp_enqueue_style( 'wc-serial-numbers-admin', $css_url . '/wc-serial-numbers-admin.css', array( 'woocommerce_admin_styles', 'jquery-ui-style' ), $version );
 		wp_enqueue_style( 'jquery-ui-style' );
 		wp_enqueue_style( 'select2' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_script( 'wc-serial-numbers-admin', $js_url . '/wc-serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2', ], $version, true );
+		wp_enqueue_script( 'wc-serial-numbers-admin', $js_url . '/wc-serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2' ], $version, true );
 
-		wp_localize_script( 'wc-serial-numbers-admin', 'wc_serial_numbers_admin_i10n', array(
-			'i18n'    => array(
-				'search_product' => __( 'Search product by name', 'wc-serial-numbers' ),
-				'search_order'   => __( 'Search order', 'wc-serial-numbers' ),
-				'show'           => __( 'Show', 'wc-serial-numbers' ),
-				'hide'           => __( 'Hide', 'wc-serial-numbers' ),
-			),
-			'nonce'   => wp_create_nonce( 'wc_serial_numbers_admin_js_nonce' ),
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-		) );
+		wp_localize_script(
+			'wc-serial-numbers-admin',
+			'wc_serial_numbers_admin_i10n',
+			array(
+				'i18n'    => array(
+					'search_product' => __( 'Search product by name', 'wc-serial-numbers' ),
+					'search_order'   => __( 'Search order', 'wc-serial-numbers' ),
+					'show'           => __( 'Show', 'wc-serial-numbers' ),
+					'hide'           => __( 'Hide', 'wc-serial-numbers' ),
+				),
+				'nonce'   => wp_create_nonce( 'wc_serial_numbers_admin_js_nonce' ),
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			)
+		);
 	}
 
 	/**
 	 * @param $columns
 	 *
-	 * @return array|string[]
 	 * @since 1.2.0
+	 * @return array|string[]
 	 */
 	public static function add_order_serial_column( $columns ) {
 		$postition = 3;
-		$new       = array_slice( $columns, 0, $postition, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $postition, count( $columns ) - $postition, true );;
+		$new       = array_slice( $columns, 0, $postition, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $postition, count( $columns ) - $postition, true );
 
 		return $new;
 	}
@@ -95,13 +126,13 @@ class Admin {
 			} else {
 				$total_connected = Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order_id ) )->count();
 				if ( $total_ordered == $total_connected ) {
-					$style = "color:green";
+					$style = 'color:green';
 					$title = __( 'Order assigned all serial numbers.', 'wc-serial-numbers' );
-				} else if ( ! empty( $total_connected ) && $total_ordered !== $total_connected ) {
-					$style = "color:#f39c12";
+				} elseif ( ! empty( $total_connected ) && $total_ordered !== $total_connected ) {
+					$style = 'color:#f39c12';
 					$title = sprintf( __( 'Order partially missing serial numbers(%d)', 'wc-serial-numbers' ), $total_ordered );
 				} else {
-					$style = "color:red";
+					$style = 'color:red';
 					$title = sprintf( __( 'Order missing serial numbers(%d)', 'wc-serial-numbers' ), $total_ordered );
 				}
 				$url = add_query_arg( [ 'order_id' => $order_id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
@@ -173,12 +204,13 @@ class Admin {
 	 * Add footer note
 	 *
 	 * @return string
-	*/
+	 */
 	public static function admin_footer_note() {
 		$screen = get_current_screen();
 		if ( 'wc-serial-numbers' === $screen->parent_base ) {
 			$star_url = 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5#new-post';
 			$text     = sprintf( __( 'If you like <strong>WooCommerce Serial Numbers</strong> please leave us a <a href="%s" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. It takes a minute and helps a lot. Thanks in advance!', 'wc-serial-numbers' ), $star_url );
+
 			return $text;
 		}
 	}

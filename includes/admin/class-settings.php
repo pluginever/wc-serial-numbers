@@ -2,142 +2,179 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\Framework;
+
 defined( 'ABSPATH' ) || exit();
 
-include_once( WC()->plugin_path() . '/includes/admin/class-wc-admin-settings.php' );
-
-class Settings extends \WC_Admin_Settings {
-	private static $settings = array();
-	private static $errors = array();
-	private static $messages = array();
-
+/**
+ * Settings class.
+ *
+ * @since 1.0.0
+ * @package WooCommerceSerialNumbers\Admin
+ */
+class Settings extends Framework\Settings {
 	/**
-	 * Include the settings page classes
-	 */
-	public static function get_settings_pages() {
-		if ( empty( self::$settings ) ) {
-			$settings = array();
-
-			include_once( WC()->plugin_path() . '/includes/admin/settings/class-wc-settings-page.php' );
-
-			$settings[] = include( 'settings/wc-serial-numbers-settings-general.php' );
-			$settings[] = include( 'settings/wc-serial-numbers-settings-help.php' );
-
-			self::$settings = apply_filters( 'wc_serial_numbers_get_settings_pages', $settings );
-		}
-
-		return self::$settings;
-	}
-
-
-	/**
-	 * Save the settings
-	 */
-	public static function save() {
-		global $current_section, $current_tab;
-
-		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wc-serial-numbers-settings' ) ) {
-			die( __( 'Action failed. Please refresh the page and retry.', 'wc-serial-numbers' ) );
-		}
-
-		// Trigger actions
-		do_action( 'wc_serial_numbers_settings_save_' . $current_tab );
-		do_action( 'wc_serial_numbers_update_options_' . $current_tab );
-		do_action( 'wc_serial_numbers_update_options' );
-
-		self::add_message( __( 'Your settings have been saved.', 'wc-serial-numbers' ) );
-
-		// Re-add endpoints and flush rules
-		WC()->query->init_query_vars();
-		WC()->query->add_endpoints();
-		flush_rewrite_rules();
-
-		do_action( 'wc_serial_numbers_settings_saved' );
-	}
-
-	/**
-	 * Add a message
+	 * Set up the controller.
 	 *
-	 * @param string $text
-	 */
-	public static function add_message( $text ) {
-		self::$messages[] = $text;
-	}
-
-	/**
-	 * Add an error
+	 * Load files or register hooks.
 	 *
-	 * @param string $text
-	 */
-	public static function add_error( $text ) {
-		self::$errors[] = $text;
-	}
-
-	/**
-	 * Output messages + errors
-	 */
-	public static function show_messages() {
-		if ( sizeof( self::$errors ) > 0 ) {
-			foreach ( self::$errors as $error ) {
-				echo '<div id="message" class="error fade"><p><strong>' . esc_html( $error ) . '</strong></p></div>';
-			}
-		} elseif ( sizeof( self::$messages ) > 0 ) {
-			foreach ( self::$messages as $message ) {
-				echo '<div id="message" class="updated fade"><p><strong>' . esc_html( $message ) . '</strong></p></div>';
-			}
-		}
-	}
-
-	/**
-	 * Settings page.
-	 *
-	 * Handles the display of the main settings page in admin.
-	 *
-	 * @access public
+	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function output() {
-		global $current_section, $current_tab;
-
-		wp_enqueue_script( 'woocommerce_settings', WC()->plugin_url() . '/assets/js/admin/settings.min.js', array(
-			'jquery',
-			'jquery-ui-datepicker',
-			'jquery-ui-sortable',
-			'iris'
-		), WC()->version, true );
-
-		wp_localize_script( 'woocommerce_settings', 'woocommerce_settings_params', array(
-			'i18n_nav_warning' => __( 'The changes you made will be lost if you navigate away from this page.', 'wc-serial-numbers' )
-		) );
-
-		// Include settings pages
-		self::get_settings_pages();
-
-		// Get current tab/section
-		$current_tab = empty( $_GET['tab'] ) ? 'general' : sanitize_title( $_GET['tab'] );
-		$current_section = empty( $_REQUEST['section'] ) ? '' : sanitize_title( $_REQUEST['section'] );
-
-		// Save settings if data has been posted
-		if ( ! empty( $_POST ) ) {
-			self::save();
-		}
-
-		// Add any posted messages
-		if ( ! empty( $_GET['wc_error'] ) ) {
-			self::add_error( stripslashes( $_GET['wc_error'] ) );
-		}
-
-		if ( ! empty( $_GET['wc_message'] ) ) {
-			self::add_message( stripslashes( $_GET['wc_message'] ) );
-		}
-
-		self::show_messages();
-
-		// Get tabs for the settings page
-		$tabs = apply_filters( 'wc_serial_numbers_settings_tabs_array', array() );
-
-		include 'views/html-admin-settings.php';
+	protected function init() {
+		add_action( 'admin_menu', array( $this, 'admin_menu' ), 55 );
+		add_action( 'wc_serial_numbers_settings_tabs', array( $this, 'add_extra_tabs' ), 20 );
+		add_action( 'wc_serial_numbers_activated', array( $this, 'save_defaults' ) );
+		add_action( 'wc_serial_numbers_settings_sidebar', array( $this, 'output_upgrade_widget' ) );
+		add_action( 'wc_serial_numbers_settings_sidebar', array( $this, 'output_about_widget' ) );
+		add_action( 'wc_serial_numbers_settings_sidebar', array( $this, 'output_help_widget' ) );
+		add_action( 'wc_serial_numbers_settings_sidebar', array( $this, 'output_recommended_widget' ) );
 	}
 
+	/**
+	 * Admin menu.
+	 *
+	 * @since 1.0.0
+	 */
+	public function admin_menu() {
+		$load = add_submenu_page(
+			'wc-serial-numbers',
+			__( 'Settings', 'wc-serial-numbers' ),
+			__( 'Settings', 'wc-serial-numbers' ),
+			'manage_options',
+			'wc-serial-numbers-settings',
+			array( $this, 'output' )
+		);
+		add_action( 'load-' . $load, array( $this, 'save_settings' ) );
+	}
 
+	/**
+	 * Add extra tabs.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_extra_tabs() {
+		if ( $this->get_plugin()->get_doc_url() ) {
+			echo '<a href="' . esc_url( $this->get_plugin()->get_doc_url() ) . '" target="_blank" class="nav-tab">' . esc_html__( 'Documentation', 'wc-serial-numbers' ) . '</a>';
+		}
+	}
+
+	/**
+	 * Get tabs.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function get_settings_tabs() {
+		$tabs = [
+			'general'  => __( 'General', 'wc-serial-numbers' ),
+			'advanced' => __( 'Advanced', 'wc-serial-numbers' ),
+		];
+
+		return apply_filters( 'wc_serial_numbers_settings_tabs_array', $tabs );
+	}
+
+	/**
+	 * Get general settings.
+	 *
+	 * @since 1.0.0
+	 * @return array General settings.
+	 */
+	public function get_general_tab_settings() {
+		return array(
+			[
+				'title' => __( 'General settings', 'wc-serial-numbers' ),
+				'type'  => 'title',
+				'desc'  => __( 'The following options affect how the serial numbers will work.', 'wc-serial-numbers' ),
+				'id'    => 'section_serial_numbers',
+			],
+			[
+				'title'   => __( 'Auto-complete order', 'wc-serial-numbers' ),
+				'id'      => 'wc_serial_numbers_autocomplete_order',
+				'desc'    => __( 'Automatically completes orders  after successfull payments.', 'wc-serial-numbers' ),
+				'type'    => 'checkbox',
+				'default' => 'no',
+			],
+			[
+				'title' => __( 'Reuse serial number', 'wc-serial-numbers' ),
+				'id'    => 'wc_serial_numbers_reuse_serial_number',
+				'desc'  => __( 'Recover failed, refunded serial numbers for selling again.', 'wc-serial-numbers' ),
+				'type'  => 'checkbox',
+			],
+			[
+				'title'           => __( 'Revoke status', 'wc-serial-numbers' ),
+				'desc'            => __( 'Cancelled', 'wc-serial-numbers' ),
+				'id'              => 'wc_serial_numbers_revoke_status_cancelled',
+				'default'         => 'yes',
+				'type'            => 'checkbox',
+				'checkboxgroup'   => 'start',
+				'show_if_checked' => 'option',
+			],
+			[
+				'desc'          => __( 'Refunded', 'wc-serial-numbers' ),
+				'id'            => 'wc_serial_numbers_revoke_status_refunded',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'checkboxgroup' => '',
+
+			],
+			[
+				'desc'          => __( 'Failed', 'wc-serial-numbers' ),
+				'id'            => 'wc_serial_numbers_revoke_status_failed',
+				'default'       => 'yes',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'end',
+
+			],
+			[
+				'title'   => __( 'Hide serial number', 'wc-serial-numbers' ),
+				'id'      => 'wc_serial_numbers_hide_serial_number',
+				'desc'    => __( 'All serial numbers will be hidden and only displayed when the "Show" button is clicked.', 'wc-serial-numbers' ),
+				'default' => 'yes',
+				'type'    => 'checkbox',
+			],
+			[
+				'title'   => __( 'Disable software support', 'wc-serial-numbers' ),
+				'id'      => 'wc_serial_numbers_disable_software_support',
+				'desc'    => __( 'Disable Software Licensing support & API functionalities.', 'wc-serial-numbers' ),
+				'default' => 'yes',
+				'type'    => 'checkbox',
+			],
+			[
+				'type' => 'sectionend',
+				'id'   => 'section_serial_numbers',
+			],
+			[
+				'title' => __( 'Stock notification', 'wc-serial-numbers' ),
+				'type'  => 'title',
+				'desc'  => __( 'The following options affects how stock notification will work.', 'wc-serial-numbers' ),
+				'id'    => 'stock_section',
+			],
+			[
+				'title'             => __( 'Stock notification email', 'wc-serial-numbers' ),
+				'id'                => 'wc_serial_numbers_enable_stock_notification',
+				'desc'              => __( 'Sends notification emails when product stock is low.', 'wc-serial-numbers' ),
+				'type'              => 'checkbox',
+				'sanitize_callback' => 'intval',
+			],
+			array(
+				'title'   => __( 'Stock threshold', 'wc-serial-numbers' ),
+				'id'      => 'wc_serial_numbers_stock_threshold',
+				'desc'    => __( 'When stock goes below the above number, it will send notification email.', 'wc-serial-numbers' ),
+				'type'    => 'number',
+				'default' => '5',
+			),
+			array(
+				'title'   => __( 'Notification recipient email', 'wc-serial-numbers' ),
+				'id'      => 'wc_serial_numbers_notification_recipient',
+				'desc'    => __( 'The email address to be used for sending the email notifications.', 'wc-serial-numbers' ),
+				'type'    => 'text',
+				'default' => get_option( 'admin_email' ),
+			),
+			[
+				'type' => 'sectionend',
+				'id'   => 'stock_section',
+			],
+		);
+	}
 }

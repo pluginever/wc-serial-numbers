@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit();
 class Menus {
 
 	/**
-	 * WC_Serial_Numbers_Admin_Menus constructor.
+	 * Menus constructor.
 	 */
 	public function __construct() {
 		add_filter( 'set-screen-option', array( $this, 'save_screen_options' ), 10, 3 );
@@ -32,6 +32,7 @@ class Menus {
 
 	/**
 	 * Register pages.
+	 *
 	 * @since 1.2.0
 	 */
 	public function register_pages() {
@@ -64,14 +65,6 @@ class Menus {
 			array( 'WC_Serial_Numbers_Admin_Activations_Screen', 'output' )
 		);
 
-		add_submenu_page(
-			'wc-serial-numbers',
-			__( 'Settings', 'wc-serial-numbers' ),
-			__( 'Settings', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers-settings',
-			array( 'WC_Serial_Numbers_Admin_Settings', 'output' )
-		);
 
 		if ( ! defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) ) {
 			add_submenu_page(
@@ -84,7 +77,6 @@ class Menus {
 			);
 		}
 
-
 		add_action( 'load-' . $serial_number_page, array( $this, 'load_serial_numbers_page' ) );
 	}
 
@@ -92,22 +84,22 @@ class Menus {
 		$args = array(
 			'label'   => __( 'Serials per page', 'wc-serial-numbers' ),
 			'default' => 20,
-			'option'  => 'serials_per_page'
+			'option'  => 'serials_per_page',
 		);
 		add_screen_option( 'per_page', $args );
-		$status = "<ul>";
-		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Available', 'wc-serial-numbers' ), __( 'Serial Numbers are valid and available for sell', 'wc-serial-numbers' ) );
-		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Sold', 'wc-serial-numbers' ), __( 'Serial Numbers are sold and active', 'wc-serial-numbers' ) );
-		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Refunded', 'wc-serial-numbers' ), __( 'Serial Numbers are sold then refunded', 'wc-serial-numbers' ) );
-		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Cancelled', 'wc-serial-numbers' ), __( 'Serial Numbers are sold then cancelled', 'wc-serial-numbers' ) );
-		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Expired', 'wc-serial-numbers' ), __( 'Serial Numbers are sold then expired', 'wc-serial-numbers' ) );
-		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', __( 'Inactive', 'wc-serial-numbers' ), __( 'Serial Numbers are are npt available for sell ', 'wc-serial-numbers' ) );
-		$status .= "</ul>";
+		$status  = '<ul>';
+		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', esc_html__( 'Available', 'wc-serial-numbers' ), esc_html__( 'Serial Numbers are valid and available for sell', 'wc-serial-numbers' ) );
+		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', esc_html__( 'Sold', 'wc-serial-numbers' ), esc_html__( 'Serial Numbers are sold and active', 'wc-serial-numbers' ) );
+		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', esc_html__( 'Refunded', 'wc-serial-numbers' ), esc_html__( 'Serial Numbers are sold then refunded', 'wc-serial-numbers' ) );
+		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', esc_html__( 'Cancelled', 'wc-serial-numbers' ), esc_html__( 'Serial Numbers are sold then cancelled', 'wc-serial-numbers' ) );
+		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', esc_html__( 'Expired', 'wc-serial-numbers' ), esc_html__( 'Serial Numbers are sold then expired', 'wc-serial-numbers' ) );
+		$status .= sprintf( '<li><strong>%s</strong>: %s</li>', esc_html__( 'Inactive', 'wc-serial-numbers' ), esc_html__( 'Serial Numbers are are npt available for sell ', 'wc-serial-numbers' ) );
+		$status .= '</ul>';
 
 		get_current_screen()->add_help_tab(
 			array(
 				'id'      => 'status',
-				'title'   => __( 'Statuses','wc-serial-numbers' ),
+				'title'   => esc_html__( 'Statuses', 'wc-serial-numbers' ),
 				'content' => $status,
 			)
 		);

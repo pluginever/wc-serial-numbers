@@ -1,0 +1,98 @@
+name: Release Plugin
+# This workflow is intended to be used for releasing plugins to the WordPress.org plugin repository.
+# Or for creating a ZIP file for distribution. It will run when a tag is pushed to the repository.
+# The tag name should be in the format of `x.x.x` prefixed with a `v` (e.g. `v1.0.0`).
+# When the workflow is triggered, it will create a ZIP file of the plugin and upload it to the release.
+
+on:
+  push:
+      tags: # Trigger when a tag is pushed prefixed with "v" to the repo
+        - 'v*'
+  workflow_dispatch: # Trigger manually from the Actions tab
+    inputs:
+      ref:
+        description: 'The branch to run the release on (default: master)'
+        required: false
+        default: 'master'
+      version:
+        description: 'The version to release (e.g. 1.0.0)'
+        required: true
+
+env:
+  # The slug of the plugin in the WordPress.org plugin repository.
+  SLUG: ${{ github.event.repository.name }}
+  # If the event is tag push, use the tag name as the version. or use the input version. then remove the "v" prefix.
+  TAG: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.ref_name || github.event.inputs.version }}
+
+jobs:
+  release:
+    name: Build release asset
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Set up release version
+      - name: Setup version
+        run: echo "VERSION=$(echo "$TAG" | sed -e 's/[^0-9.]*//g')" >> $GITHUB_ENV
+
+      # Set up PHP and other tools if needed.
+      - name: Setup proper PHP version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+
+      # Build the plugin.
+      - name: Build plugin
+        run: |
+          # composer install --no-interaction --no-progress --no-suggest --optimize-autoloader --no-dev
+          # npm install
+          # npm run build
+
+      # Deploy the plugin to the WordPress.org plugin repository. In case of SVN deployment, uncomment the following step.
+#      - name: Release Plugin
+#        id: deploy
+#        if: ${{ env.VERSION }}
+#        uses: sultann/action-plugin-deploy@master
+#        with:
+#          svn_username: ${{ secrets.SVN_USERNAME }}
+#          svn_password: ${{ secrets.SVN_PASSWORD }}
+#          svn_slug: ${{ env.SLUG }}
+#          version: ${{ env.VERSION }}
+#          dry_run: true
+
+      # Create a ZIP file of the plugin. In case of SVN deployment, this will be the trunk directory.
+      - name: Create zip file
+        id: create_zip
+        run : |
+          BUILD_DIR=$HOME/$SLUG
+          mkdir -p $BUILD_DIR || exit 1
+          rsync -rc --exclude-from=".distignore" "$GITHUB_WORKSPACE/" "$BUILD_DIR/" --delete --delete-excluded || exit 1
+          cd $HOME || exit 1
+          zip -r "$GITHUB_WORKSPACE/$SLUG.zip" "$SLUG/"
+          # Output zip path
+          echo "::set-output name=zip_path::$SLUG.zip"
+          cd "$GITHUB_WORKSPACE" || exit 1
+
+      # Create a ZIP file of the plugin. In case of SVN deployment, uncomment the following step.
+#      - name: Create zip file
+#        id: create_zip
+#        run : |
+#          BUILD_DIR=$HOME/$SLUG
+#          mkdir -p $BUILD_DIR || exit 1
+#          cp -r "${{ steps.deploy.output.svn_path }}" "$BUILD_DIR/" --delete --delete-excluded || exit 1
+#          cd $HOME || exit 1
+#          zip -r "$GITHUB_WORKSPACE/$SLUG.zip" "$SLUG/"
+#          # Output zip path
+#          echo "::set-output name=zip_path::$SLUG.zip"
+#          cd "$GITHUB_WORKSPACE" || exit 1
+
+      # Upload the ZIP file to the release.
+      - name: Upload release asset
+        if: ${{ env.VERSION }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ steps.create_zip.outputs.zip_path }}
+          asset_name: ${{ env.SLUG }}-v${{ env.VERSION }}.zip
+          tag: v${{ env.VERSION }}
+          overwrite: true
