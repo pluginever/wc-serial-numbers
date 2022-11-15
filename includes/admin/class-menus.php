@@ -1,7 +1,10 @@
 <?php
+
+namespace WooCommerceSerialNumbers\Admin;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin_Menus {
+class Menus {
 
 	/**
 	 * WC_Serial_Numbers_Admin_Menus constructor.
@@ -22,7 +25,7 @@ class WC_Serial_Numbers_Admin_Menus {
 	 * @since 1.2.0
 	 */
 	public function save_screen_options( $status, $option, $value ) {
-		if ( 'serials_per_page' == $option ) {
+		if ( 'serials_per_page' === $option ) {
 			return $value;
 		}
 	}
@@ -121,5 +124,3 @@ class WC_Serial_Numbers_Admin_Menus {
 	}
 
 }
-
-new WC_Serial_Numbers_Admin_Menus();

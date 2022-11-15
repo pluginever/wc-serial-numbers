@@ -1,7 +1,10 @@
 <?php
+
+namespace WooCommerceSerialNumbers;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Encryption {
+class Encryption {
 	/**
 	 * @var static
 	 */
@@ -113,9 +116,7 @@ class WC_Serial_Numbers_Encryption {
 	 * @since
 	 */
 	public static function decrypt( $encryptedText ) {
-		$plainText = self::encryptOrDecrypt( 'decrypt', $encryptedText, self::$key );
-
-		return $plainText;
+		return self::encryptOrDecrypt( 'decrypt', $encryptedText, self::$key );
 	}
 
 	/**
@@ -201,5 +202,3 @@ class WC_Serial_Numbers_Encryption {
 		);
 	}
 }
-
-WC_Serial_Numbers_Encryption::init();

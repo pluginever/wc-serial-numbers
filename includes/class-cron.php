@@ -1,7 +1,10 @@
 <?php
+
+namespace WooCommerceSerialNumbers;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_CRON {
+class CRON {
 
 	/**
 	 * WC_Serial_Numbers_CRON constructor.
@@ -61,5 +64,3 @@ class WC_Serial_Numbers_CRON {
 		exit();
 	}
 }
-
-WC_Serial_Numbers_CRON::init();

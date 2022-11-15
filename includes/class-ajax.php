@@ -1,7 +1,10 @@
 <?php
+
+namespace WooCommerceSerialNumbers;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_AJAX {
+class AJAX {
 
 	/**
 	 * WC_Serial_Numbers_AJAX constructor.
@@ -23,7 +26,7 @@ class WC_Serial_Numbers_AJAX {
 		$page   = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
 		$types  = apply_filters( 'wc_serial_numbers_product_types', array( 'product' ) );
 		global $wpdb;
-		$query = WC_Serial_Numbers_Query::init()->table( 'posts' )
+		$query = Query::init()->table( 'posts' )
 		                                ->where( 'post_status', 'publish' )
 		                                ->whereRaw( 'post_type IN ("' . implode( '","', $types ) . '")' )
 		                                ->whereRaw( "ID NOT IN  (SELECT DISTINCT post_parent FROM {$wpdb->posts} WHERE post_type='product_variation') " )
@@ -128,5 +131,3 @@ class WC_Serial_Numbers_AJAX {
 		wp_send_json_error( $data );
 	}
 }
-
-new WC_Serial_Numbers_AJAX();

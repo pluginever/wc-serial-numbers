@@ -1,7 +1,10 @@
 <?php
+
+namespace WooCommerceSerialNumbers;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Installer {
+class Installer {
 	/**
 	 * Store update files
 	 *
@@ -316,5 +319,3 @@ class WC_Serial_Numbers_Installer {
 	}
 
 }
-
-WC_Serial_Numbers_Installer::init();

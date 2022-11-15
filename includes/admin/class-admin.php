@@ -1,7 +1,12 @@
 <?php
+
+namespace WooCommerceSerialNumbers\Admin;
+
+use WooCommerceSerialNumbers\Query;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin {
+class Admin {
 
 	/**
 	 * WC_Serial_Numbers_Admin constructor.
@@ -83,12 +88,12 @@ class WC_Serial_Numbers_Admin {
 	 * @since 1.2.0
 	 */
 	public static function add_order_serial_column_content( $column, $order_id ) {
-		if ( $column == 'order_serials' ) {
+		if ( $column === 'order_serials' ) {
 			$total_ordered = wc_serial_numbers_order_has_serial_numbers( $order_id );
 			if ( empty( $total_ordered ) ) {
 				echo '&mdash;';
 			} else {
-				$total_connected = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order_id ) )->count();
+				$total_connected = Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order_id ) )->count();
 				if ( $total_ordered == $total_connected ) {
 					$style = "color:green";
 					$title = __( 'Order assigned all serial numbers.', 'wc-serial-numbers' );
@@ -171,12 +176,10 @@ class WC_Serial_Numbers_Admin {
 	*/
 	public static function admin_footer_note() {
 		$screen = get_current_screen();
-		if ( 'wc-serial-numbers' == $screen->parent_base ) {
+		if ( 'wc-serial-numbers' === $screen->parent_base ) {
 			$star_url = 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5#new-post';
 			$text     = sprintf( __( 'If you like <strong>WooCommerce Serial Numbers</strong> please leave us a <a href="%s" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. It takes a minute and helps a lot. Thanks in advance!', 'wc-serial-numbers' ), $star_url );
 			return $text;
 		}
 	}
 }
-
-new WC_Serial_Numbers_Admin();

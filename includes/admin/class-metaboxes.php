@@ -1,7 +1,12 @@
 <?php
+
+namespace WooCommerceSerialNumbers\Admin;
+
+use WooCommerceSerialNumbers\Query;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin_MetaBoxes {
+class MetaBoxes {
 
 	/**
 	 * WC_Serial_Numbers_Admin_MetaBoxes constructor.
@@ -105,8 +110,8 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 					)
 				);
 			}
-			if ( 'custom_source' == $source ) {
-				$available_serial_numbers = WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->where( [
+			if ( 'custom_source' === $source ) {
+				$available_serial_numbers = Query::init()->table( 'serial_numbers' )->where( [
 					'product_id' => $post->ID,
 					'status'     => 'available'
 				] )->count();
@@ -200,7 +205,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			return false;
 		}
 
-		$items = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( [
+		$items = Query::init()->from( 'serial_numbers' )->where( [
 			'order_id'   => $post->ID,
 			'product_id' => $product->get_id(),
 		] )->get();
@@ -266,7 +271,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			return false;
 		}
 
-		$serial_numbers = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order->get_id() ) )->get();
+		$serial_numbers = Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order->get_id() ) )->get();
 
 		if ( empty( $serial_numbers ) ) {
 			echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order waiting for assigning serial numbers.', 'wc-serial-numbers' ) ) );
@@ -341,5 +346,3 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 	}
 
 }
-
-new WC_Serial_Numbers_Admin_MetaBoxes();

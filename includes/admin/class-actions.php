@@ -1,7 +1,11 @@
 <?php
+
+namespace WooCommerceSerialNumbers\Admin;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin_Actions {
+class Actions {
+
 	public static function init() {
 		add_action( 'admin_post_wc_serial_numbers_edit_serial_number', array( __CLASS__, 'edit_serial_number' ) );
 	}

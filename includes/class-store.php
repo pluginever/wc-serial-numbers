@@ -1,7 +1,10 @@
 <?php
+
+namespace WooCommerceSerialNumbers;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Handler {
+class Store {
 
 	/**
 	 * @since 1.2.0
@@ -49,8 +52,8 @@ class WC_Serial_Numbers_Handler {
 				$per_item_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
 				$needed_quantity   = $quantity * ( empty( $per_item_quantity ) ? 1 : absint( $per_item_quantity ) );
 				$source            = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $needed_quantity );
-				if ( 'custom_source' == $source ) {
-					$total_number = WC_Serial_Numbers_Query::init()
+				if ( 'custom_source' === $source ) {
+					$total_number = Query::init()
 					                                       ->from( 'serial_numbers' )
 					                                       ->where( 'product_id', $product_id )
 					                                       ->where( 'status', 'available' )
@@ -164,7 +167,5 @@ class WC_Serial_Numbers_Handler {
 		}
 	}
 
-
 }
 
-WC_Serial_Numbers_Handler::init();

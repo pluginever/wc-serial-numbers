@@ -1,7 +1,10 @@
 <?php
+
+namespace WooCommerceSerialNumbers;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Compat {
+class Compat {
 	/**
 	 * WC_Serial_Numbers_Compat constructor.
 	 */
@@ -70,5 +73,3 @@ class WC_Serial_Numbers_Compat {
 		return $find_replace;
 	}
 }
-
-new WC_Serial_Numbers_Compat();

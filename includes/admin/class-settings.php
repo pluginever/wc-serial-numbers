@@ -1,9 +1,12 @@
 <?php
+
+namespace WooCommerceSerialNumbers\Admin;
+
 defined( 'ABSPATH' ) || exit();
 
 include_once( WC()->plugin_path() . '/includes/admin/class-wc-admin-settings.php' );
 
-class WC_Serial_Numbers_Admin_Settings extends WC_Admin_Settings {
+class Settings extends \WC_Admin_Settings {
 	private static $settings = array();
 	private static $errors = array();
 	private static $messages = array();
@@ -96,7 +99,12 @@ class WC_Serial_Numbers_Admin_Settings extends WC_Admin_Settings {
 	public static function output() {
 		global $current_section, $current_tab;
 
-		wp_enqueue_script( 'woocommerce_settings', WC()->plugin_url() . '/assets/js/admin/settings.min.js', array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable', 'iris' ), WC()->version, true );
+		wp_enqueue_script( 'woocommerce_settings', WC()->plugin_url() . '/assets/js/admin/settings.min.js', array(
+			'jquery',
+			'jquery-ui-datepicker',
+			'jquery-ui-sortable',
+			'iris'
+		), WC()->version, true );
 
 		wp_localize_script( 'woocommerce_settings', 'woocommerce_settings_params', array(
 			'i18n_nav_warning' => __( 'The changes you made will be lost if you navigate away from this page.', 'wc-serial-numbers' )
@@ -106,7 +114,7 @@ class WC_Serial_Numbers_Admin_Settings extends WC_Admin_Settings {
 		self::get_settings_pages();
 
 		// Get current tab/section
-		$current_tab     = empty( $_GET['tab'] ) ? 'general' : sanitize_title( $_GET['tab'] );
+		$current_tab = empty( $_GET['tab'] ) ? 'general' : sanitize_title( $_GET['tab'] );
 		$current_section = empty( $_REQUEST['section'] ) ? '' : sanitize_title( $_REQUEST['section'] );
 
 		// Save settings if data has been posted

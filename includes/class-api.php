@@ -1,7 +1,11 @@
 <?php
+
+
+namespace WooCommerceSerialNumbers;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_API {
+class API {
 
 	/**
 	 * WC_Serial_Numbers_API constructor.
@@ -104,7 +108,7 @@ class WC_Serial_Numbers_API {
 	 * @param $serial_number
 	 */
 	public function check_license( $serial_number ) {
-		$activations = WC_Serial_Numbers_Query::init()->from( 'serial_numbers_activations' )->where( [
+		$activations = Query::init()->from( 'serial_numbers_activations' )->where( [
 			'serial_id' => $serial_number->id,
 			'active'    => '1'
 		] )->get();
@@ -130,7 +134,7 @@ class WC_Serial_Numbers_API {
 		$instance   = ! empty( $_REQUEST['instance'] ) ? sanitize_textarea_field( $_REQUEST['instance'] ) : $user_agent;
 		$platform   = ! empty( $_REQUEST['platform'] ) ? sanitize_textarea_field( $_REQUEST['platform'] ) : self::get_os();
 
-		$activation = WC_Serial_Numbers_Query::init()->from( 'serial_numbers_activations' )->where( [
+		$activation = Query::init()->from( 'serial_numbers_activations' )->where( [
 			'serial_id' => $serial_number->id,
 			'active'    => '1',
 			'instance'  => $instance,
@@ -199,7 +203,7 @@ class WC_Serial_Numbers_API {
 			] );
 		}
 
-		$activation = WC_Serial_Numbers_Query::init()->from( 'serial_numbers_activations' )->where( [
+		$activation = Query::init()->from( 'serial_numbers_activations' )->where( [
 			'serial_id' => $serial_number->id,
 			'instance'  => $instance,
 			'active'    => '1',
@@ -247,7 +251,7 @@ class WC_Serial_Numbers_API {
 	 * @since 1.2.0
 	 */
 	public function get_active_activations( $serial_id ) {
-		return WC_Serial_Numbers_Query::init()->from( 'serial_numbers_activations' )->where( [
+		return Query::init()->from( 'serial_numbers_activations' )->where( [
 			'serial_id' => $serial_id,
 			'active'    => '1'
 		] )->get();
@@ -369,5 +373,3 @@ class WC_Serial_Numbers_API {
 		wp_send_json_success( $result );
 	}
 }
-
-new WC_Serial_Numbers_API();

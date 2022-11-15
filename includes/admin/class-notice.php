@@ -1,7 +1,10 @@
 <?php
+
+namespace WooCommerceSerialNumbers\Admin;
+
 defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin_Notice {
+class Notice {
 	/**
 	 * WC_Serial_Numbers_Admin_Notices presisting on the next request.
 	 * @var array
@@ -209,5 +212,3 @@ class WC_Serial_Numbers_Admin_Notice {
 		self::add_dismissible_notice( $notice, array( 'type' => 'native', 'dismiss_class' => 'welcome' ) );
 	}
 }
-
-WC_Serial_Numbers_Admin_Notice::init();
