@@ -3,6 +3,7 @@
 namespace WooCommerceSerialNumbers\Admin;
 
 use WooCommerceSerialNumbers\Controller;
+use WooCommerceSerialNumbers\Helper;
 use WooCommerceSerialNumbers\Key;
 
 defined( 'ABSPATH' ) || exit();
@@ -183,8 +184,8 @@ class Meta_Boxes extends Controller {
 		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( $_POST['_serial_key_source'] ) : 'custom_source';
 		update_post_meta( $post->ID, '_is_serial_number', $status );
 		update_post_meta( $post->ID, '_serial_key_source', $source );
-		// save only if software licensing enabled
-		if ( ! wc_serial_numbers_software_support_disabled() ) {
+		// save only if software licensing enabled.
+		if ( Helper::is_software_support_enabled() ) {
 			update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
 		}
 
@@ -198,7 +199,7 @@ class Meta_Boxes extends Controller {
 	 *
 	 * @since 1.2.6
 	 *
-	 * @param $post
+	 * @param \WP_Post $post Post object.
 	 *
 	 * @return bool
 	 */
@@ -208,7 +209,7 @@ class Meta_Boxes extends Controller {
 		}
 		$order = wc_get_order( $post->ID );
 
-		// bail for no order
+		// bail for no order.
 		if ( ! $order ) {
 			return false;
 		}

@@ -43,16 +43,15 @@ class Installer extends Controller {
 	 * @return void
 	 */
 	public function install() {
-		global $wpdb;
-		$wpdb->hide_errors();
 		$db_version = $this->get_plugin()->get_db_version();
-		$collate    = $wpdb->has_cap( 'collation' ) ? $wpdb->get_charset_collate() : '';
 		if ( ! is_blog_installed() ) {
 			return;
 		}
-
 		add_option( $this->get_plugin()->get_db_version_key(), $this->get_plugin()->get_version() );
 		add_option( $this->get_plugin()->get_activation_date_key(), current_time( 'mysql' ) );
+
+		// create tables.
+		$this->create_tables();
 
 		if ( ! $db_version ) {
 			/**
@@ -134,44 +133,46 @@ class Installer extends Controller {
 	 *
 	 * @return array
 	 */
-	private static function get_schema() {
+	private function create_tables() {
 		global $wpdb;
-		$schema = [
-			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}serial_numbers(
-         	id bigint(20) NOT NULL AUTO_INCREMENT,
-			serial_key longtext DEFAULT NULL,
-			product_id bigint(20) NOT NULL,
-			activation_limit int(9) NOT NULL DEFAULT 0,
-			activation_count int(9) NOT NULL  DEFAULT 0,
-			order_id bigint(20) DEFAULT NULL,
-			vendor_id bigint(20) DEFAULT NULL,
-			status varchar(50) DEFAULT 'available',
-			validity varchar(200) DEFAULT NULL,
-			expire_date DATETIME NULL DEFAULT NULL,
-			order_date DATETIME NULL DEFAULT NULL,
-			source varchar(50) DEFAULT 'custom_source',
-			created_date DATETIME NULL DEFAULT NULL,
-			PRIMARY KEY  (id),
-			key product_id (product_id),
-			key order_id (order_id),
-			key vendor_id (vendor_id),
-			key activation_limit (activation_limit),
-			key status (status)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ",
-			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}serial_numbers_activations(
-			  id bigint(20) NOT NULL auto_increment,
-			  serial_id bigint(20) NOT NULL,
-			  instance varchar(200) NOT NULL,
-			  active int(1) NOT NULL DEFAULT 1,
-			  platform varchar(200) DEFAULT NULL,
-			  activation_time DATETIME NULL DEFAULT NULL,
-			  PRIMARY KEY  (id),
-			  key serial_id (serial_id),
-			  key active (active)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
-		];
-
-		return $schema;
+		$wpdb->hide_errors();
+		$collate = $wpdb->has_cap( 'collation' ) ? $wpdb->get_charset_collate() : '';
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		$tables = "
+CREATE TABLE {$wpdb->prefix}serial_numbers (
+id bigint(20) NOT NULL AUTO_INCREMENT,
+serial_key longtext DEFAULT NULL,
+product_id bigint(20) NOT NULL,
+activation_limit int(9) NOT NULL DEFAULT 0,
+activation_count int(9) NOT NULL  DEFAULT 0,
+order_id bigint(20) DEFAULT NULL,
+vendor_id bigint(20) DEFAULT NULL,
+status varchar(50) DEFAULT 'available',
+validity varchar(200) DEFAULT NULL,
+expire_date DATETIME NULL DEFAULT NULL,
+order_date DATETIME NULL DEFAULT NULL,
+source varchar(50) DEFAULT 'custom_source',
+created_date DATETIME NULL DEFAULT NULL,
+PRIMARY KEY  (id),
+key product_id (product_id),
+key order_id (order_id),
+key vendor_id (vendor_id),
+key activation_limit (activation_limit),
+key status (status)
+) $collate;
+CREATE TABLE {$wpdb->prefix}serial_numbers_activations(
+id bigint(20) NOT NULL auto_increment,
+serial_id bigint(20) NOT NULL,
+instance varchar(200) NOT NULL,
+active int(1) NOT NULL DEFAULT 1,
+platform varchar(200) DEFAULT NULL,
+activation_time DATETIME NULL DEFAULT NULL,
+PRIMARY KEY  (id),
+key serial_id (serial_id),
+key active (active)
+) $collate;
+	";
+		dbDelta( $tables );
 	}
 
 	/**

@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit();
 
-if ( ! current_user_can( \WooCommerceSerialNumbers\Admin\Helper::get_manager_role() ) ) {
+if ( ! current_user_can( \WooCommerceSerialNumbers\Admin\Admin::get_manager_role() ) ) {
 	return;
 }
 ?>

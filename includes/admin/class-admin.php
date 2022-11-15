@@ -2,9 +2,11 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\Admin\List_Tables\Activations_List_Table;
 use WooCommerceSerialNumbers\Admin\List_Tables\Keys_List_Table;
 use WooCommerceSerialNumbers\Admin\List_Tables\List_Table;
 use WooCommerceSerialNumbers\Controller;
+use WooCommerceSerialNumbers\Key;
 
 // don't call the file directly.
 defined( 'ABSPATH' ) || exit();
@@ -89,8 +91,35 @@ class Admin extends Controller {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		$this->get_plugin()->register_style( 'wc-serial-numbers-admin', 'css/admin.css' );
-		$this->get_plugin()->register_script( 'wc-serial-numbers-admin', 'js/admin.js' );
+		$style_deps  = array( 'woocommerce_admin_styles' );
+		$script_deps = array( 'jquery', 'wc-enhanced-select' );
+		$this->get_plugin()->register_style( 'wc-serial-numbers-admin', 'css/admin-style.css', $style_deps );
+		$this->get_plugin()->register_script( 'wc-serial-numbers-admin', 'js/admin-script.js', $script_deps );
+
+		wp_enqueue_style( 'wc-serial-numbers-admin' );
+		wp_enqueue_script( 'wc-serial-numbers-admin' );
+
+		wp_localize_script(
+			'wc-serial-numbers-admin',
+			'wc_serial_numbers_vars',
+			array(
+				'i18n'    => array(
+					'search_product'  => __( 'Search product by name', 'wc-serial-numbers' ),
+					'search_order'    => __( 'Search order', 'wc-serial-numbers' ),
+					'search_customer' => __( 'Search customer', 'wc-serial-numbers' ),
+					'show'            => __( 'Show', 'wc-serial-numbers' ),
+					'hide'            => __( 'Hide', 'wc-serial-numbers' ),
+				),
+				'nonce'   => wp_create_nonce( 'wc_serial_numbers_search_nonce' ),
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			)
+		);
+
+		// Adjust label style.
+		wp_add_inline_style(
+			'forms',
+			'._serial_key_source_field label { margin: 0 !important;width: 100% !important; }'
+		);
 	}
 
 
@@ -101,7 +130,7 @@ class Admin extends Controller {
 	 * @return void
 	 */
 	public function register_menu() {
-		$manager_role = Helper::get_manager_role();
+		$manager_role = self::get_manager_role();
 		add_menu_page(
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
@@ -131,14 +160,14 @@ class Admin extends Controller {
 		);
 
 		if ( ! defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) ) {
-			add_submenu_page(
-				'wc-serial-numbers',
-				'',
-				'<span style="color:#ff7a03;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Go Pro', 'wc-serial-numbers' ) . '</span>',
-				'edit_others_posts',
-				'go_wcsn_pro',
-				array( $this, 'go_pro_redirect' )
-			);
+			// add_submenu_page(
+			// 'wc-serial-numbers',
+			// '',
+			// '<span style="color:#ff7a03;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Go Pro', 'wc-serial-numbers' ) . '</span>',
+			// 'edit_others_posts',
+			// 'go_wcsn_pro',
+			// array( $this, 'go_pro_redirect' )
+			// );
 		}
 	}
 
@@ -150,15 +179,23 @@ class Admin extends Controller {
 	 */
 	public function render_main_page() {
 		if ( isset( $_GET['add'] ) || isset( $_GET['edit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$id = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-
+			$id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$key = new Key( $id );
+			$this->render(
+				'html-edit-key',
+				[
+					'key' => $key,
+				]
+			);
 			return;
 		}
 		$this->list_table = new Keys_List_Table();
-		$this->render( 'html-list-keys', [
-			'list_table' => $this->list_table
-		] );
+		$this->render(
+			'html-list-keys',
+			[
+				'list_table' => $this->list_table,
+			]
+		);
 	}
 
 	/**
@@ -168,7 +205,13 @@ class Admin extends Controller {
 	 * @return void
 	 */
 	public function render_activations_page() {
-		$this->render( 'html-list-activations' );
+		$this->list_table = new Activations_List_Table();
+		$this->render(
+			'html-list-activations',
+			[
+				'list_table' => $this->list_table,
+			]
+		);
 	}
 
 	/**
@@ -180,5 +223,16 @@ class Admin extends Controller {
 	public function go_pro_redirect() {
 		wp_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit;
+	}
+
+	/**
+	 * Get serial number user role.
+	 * Capability to manage serial numbers.
+	 *
+	 * @since 1.4.0
+	 * @return string
+	 */
+	public static function get_manager_role() {
+		return apply_filters( 'wc_serial_numbers_manager_role', 'manage_woocommerce' );
 	}
 }

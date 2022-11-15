@@ -1,0 +1,276 @@
+@import "mixins";
+
+/*
+======
+ Elements
+======
+*/
+.wcsn_copy_text {
+	@extend %copy_text;
+}
+
+/*
+======
+Admin order edit page
+======
+*/
+.wcsn-order-item-key {
+	.wcsn-serial-key {
+		@extend %pattern_style;
+		margin-right: 5px;
+		padding: 3px 10px 2px;
+	}
+
+	a {
+		opacity: 0;
+		text-decoration: none;
+		vertical-align: middle;
+		transition: opacity 0.2s ease-in-out;
+	}
+
+	&:hover {
+		a {
+			opacity: 1;
+		}
+	}
+}
+
+/*
+======
+ Serial Keys List Table
+======
+*/
+#serial-numbers-keys-table {
+	.wcsn-serial-key {
+		@extend %pattern_style;
+	}
+
+	.wcsn-serial-key-status {
+		padding: 3px 10px;
+		font-size: 14px;
+		white-space: nowrap;
+		line-height: 1;
+		border: 2px solid transparent;
+		min-width: 80px;
+		display: inline-block;
+		text-align: center;
+
+		&.instock {
+			color: #34495e;
+			border-color: #34495e;
+		}
+
+		&.sold {
+			color: #27ae60;
+			border-color: #27ae60;
+		}
+
+		&.revoked {
+			color: #f39c12;
+			border-color: #f39c12;
+		}
+
+		&.expired {
+			color: #e74c3c;
+			border-color: #e74c3c;
+		}
+	}
+
+}
+
+/*
+======
+ Generators List Table
+======
+*/
+#wcsn-generators-table {
+	.wcsn-generator-pattern {
+		@extend %pattern_style;
+	}
+}
+
+/*
+======
+ Form Utilities
+======
+*/
+
+.wcsn-form-wrap {
+	max-width: 800px;
+
+	.form-field {
+		textarea, input[type="text"], input[type="number"], select {
+			border-style: solid;
+			border-width: 1px;
+			width: 95% !important;
+		}
+
+	}
+}
+
+/*
+======
+Products & Order List Table
+======
+*/
+
+.wp-list-table {
+	.column-is_wcsn_product, .column-is_wcsn_order {
+		margin-right: 10px;
+		width: 48px !important;
+		position: relative;
+	}
+
+	.wcsn-item-icon {
+		display: block;
+		height: 1em;
+		width: 1em;
+		margin: 0 auto;
+		position: relative;
+
+		&.wcsn-item-icon-yes, &.column-head {
+			text-indent: -9999px;
+
+			&:after {
+				font-weight: 400;
+				margin: 0;
+				text-indent: 0;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				line-height: 16px;
+				top: 0;
+				speak: none;
+				font-variant: normal;
+				text-transform: none;
+				-webkit-font-smoothing: antialiased;
+				left: 0;
+				font-family: dashicons;
+				color: #7ad03a;
+				content: "\f147";
+				font-size: 1.5em;
+				margin-left: -3px;
+			}
+
+			&.mismatch:after {
+				color: #e74c3c;
+			}
+		}
+
+		&.column-head {
+			&:after {
+				color: #2c3338;
+				content: "\f112";
+				font-size: 1em;
+			}
+		}
+	}
+}
+/*
+======
+ Help content
+======
+*/
+.wcsn-help-content{
+	.wcsn-docs__list{
+		padding: 25px 0;
+		flex-grow: 1;
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: stretch;
+		overflow-y: auto;
+		margin: 0;
+	}
+
+	.wcsn-docs__item{
+		display: flex;
+		background: #fafafa;
+		border: 1px solid #d4d8dc;
+		box-sizing: border-box;
+		border-radius: 4px;
+		padding: 15px 20px;
+		align-items: center;
+		justify-content: space-between;
+		margin: 17px 0;
+
+		+ &{
+			margin-top: 0;
+		}
+
+	}
+
+	.wcsn-docs__item-title{
+		color: #000!important;
+		text-decoration: none;
+		margin: 0;
+		background: transparent;
+		border: 0;
+		width: auto;
+		text-align: left;
+		display: flex;
+		justify-content: flex-start;
+		padding: 0;
+		outline: 0;
+		box-shadow: none;
+		align-content: center;
+		align-items: center;
+
+		h4{
+			font-weight: 700;
+			font-size: 15px;
+			line-height: 18px;
+			color: #333;
+			margin: 0;
+			padding: 0;
+		}
+
+		&:before{
+			font-family: dashicons;
+			display: inline-block;
+			line-height: 1;
+			font-weight: 400;
+			font-style: normal;
+			speak: never;
+			text-decoration: inherit;
+			text-transform: none;
+			text-rendering: auto;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			font-size: 2.5em;
+			vertical-align: top;
+			text-align: center;
+			transition: color 0.1s ease-in;
+			content: '\f14c';
+			padding-right: 20px;
+		}
+	}
+
+	.wcsn-docs__item-link{
+		display: inline-block;
+		color: #333!important;
+		background: #fff;
+		text-decoration: none!important;
+		height: 38px;
+		line-height: 38px;
+		padding: 0 25px;
+		border: 1px solid #333;
+		border-radius: 4px;
+		box-sizing: border-box;
+		cursor: pointer;
+		transition: background-color 0.2s ease-in-out;
+		&:hover{
+			background: #f1f1f1;
+		}
+	}
+}
+
+/*
+======
+ MISC
+======
+*/
+// Fix select2 dropdown width
+.wcsn_search_customer, .wcsn_search_order, .wcsn_search_product {
+	min-width: 180px;
+}

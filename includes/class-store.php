@@ -1,30 +1,42 @@
 <?php
-defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Handler {
+namespace WooCommerceSerialNumbers;
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Store class.
+ *
+ * @since 1.3.1
+ * @package WooCommerceSerialNumbers
+ */
+class Store extends Controller {
 	/**
-	 * @since 1.2.0
+	 * Set up the controller.
+	 *
+	 * Load files or register hooks.
+	 *
+	 * @since 1.0.0
+	 * @return void
 	 */
-	public static function init() {
+	protected function init() {
 		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
 
-		//autocomplete
+		// autocomplete.
 		add_action( 'template_redirect', array( __CLASS__, 'maybe_autocomplete_order' ) );
 
-		//add serial numbers
+		// add serial numbers.
 		add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'maybe_assign_serial_numbers' ) );
 		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'maybe_assign_serial_numbers' ) );
 		add_action( 'woocommerce_order_status_processing', array( __CLASS__, 'maybe_assign_serial_numbers' ) );
 		add_action( 'woocommerce_order_status_on-hold', array( __CLASS__, 'maybe_assign_serial_numbers' ) );
 
-		// revoke ordered serial numbers
+		// revoke ordered serial numbers.
 		add_action( 'woocommerce_order_status_cancelled', array( __CLASS__, 'revoke_serial_numbers' ) );
 		add_action( 'woocommerce_order_status_refunded', array( __CLASS__, 'revoke_serial_numbers' ) );
 		add_action( 'woocommerce_order_status_failed', array( __CLASS__, 'revoke_serial_numbers' ) );
 		add_action( 'woocommerce_order_partially_refunded', array( __CLASS__, 'revoke_serial_numbers' ), 10, 2 );
 
-		//
 		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
 		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), 10 );
 	}
@@ -34,12 +46,13 @@ class WC_Serial_Numbers_Handler {
 	 * serial numbers available otherwise disable checkout
 	 *
 	 * since 1.2.0
+	 *
 	 * @return bool
 	 */
 	public static function validate_checkout() {
 		$car_products = WC()->cart->get_cart_contents();
 		foreach ( $car_products as $id => $cart_product ) {
-			/** @var \WC_Product $product */
+			/** @var \WC_Product $product WooCommerce product */
 			$product         = $cart_product['data'];
 			$product_id      = $product->get_id();
 			$quantity        = $cart_product['quantity'];
@@ -49,18 +62,21 @@ class WC_Serial_Numbers_Handler {
 				$per_item_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
 				$needed_quantity   = $quantity * ( empty( $per_item_quantity ) ? 1 : absint( $per_item_quantity ) );
 				$source            = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $needed_quantity );
-				if ( 'custom_source' == $source ) {
-					$total_number = WC_Serial_Numbers_Query::init()
-					                                       ->from( 'serial_numbers' )
-					                                       ->where( 'product_id', $product_id )
-					                                       ->where( 'status', 'available' )
-					                                       ->where( 'source', $source )
-					                                       ->limit( $needed_quantity )
-					                                       ->count();
+				if ( 'custom_source' === $source ) {
+					$total_number = Key::query(
+						[
+							'product_id' => $product_id,
+							'status'     => 'available',
+							'source'     => $source,
+							'limit'      => $needed_quantity,
+							'count'      => true,
+						]
+					);
 
 					if ( $total_number < $needed_quantity ) {
-						$stock   = floor( $total_number / $per_item_quantity );
-						$message = sprintf( __( 'Sorry, There is not enough serial numbers available for %s, Please remove this item or lower the quantity, For now we have %s Serial Number for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
+						$stock = floor( $total_number / $per_item_quantity );
+						/* translators: %s: product name */
+						$message = sprintf( __( 'Sorry, There is not enough serial numbers available for %1$s, Please remove this item or lower the quantity, For now we have %2$s Serial Number for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
 						$notice  = apply_filters( 'wc_serial_numbers_low_stock_message', $message );
 						$notice  = str_replace( '{product_title}', $product->get_title(), $notice );
 						$notice  = str_replace( '{stock_quantity}', $stock, $notice );
@@ -79,9 +95,8 @@ class WC_Serial_Numbers_Handler {
 	/**
 	 * Autocomplete order.
 	 *
-	 *
-	 * @return bool
 	 * @since 1.2.0
+	 * @return bool
 	 */
 	public static function maybe_autocomplete_order() {
 		if ( is_checkout() && ! empty( is_wc_endpoint_url( 'order-received' ) ) && ! empty( get_query_var( 'order-received' ) ) ) {
@@ -93,7 +108,7 @@ class WC_Serial_Numbers_Handler {
 			$order_id = get_query_var( 'order-received' );
 			$order    = wc_get_order( $order_id );
 
-			//only autocomplete if contains serials
+			// only autocomplete if contains serials.
 			if ( empty( $order ) || ! wc_serial_numbers_order_has_serial_numbers( $order_id ) ) {
 				return $order;
 			}
@@ -133,16 +148,16 @@ class WC_Serial_Numbers_Handler {
 	/**
 	 * Remove serial numbers from order.
 	 *
-	 * @param $order_id
+	 * @param int $order_id Order ID.
 	 *
-	 * @return bool|int
 	 * @since 1.2.0
+	 * @return bool|int
 	 */
 	public static function revoke_serial_numbers( $order_id ) {
 		$order    = wc_get_order( $order_id );
 		$order_id = $order->get_id();
 
-		// bail for no order
+		// bail for no order.
 		if ( ! $order_id ) {
 			return false;
 		}
@@ -153,9 +168,8 @@ class WC_Serial_Numbers_Handler {
 	/**
 	 * Print ordered serials
 	 *
-	 * @param $order
+	 * @param \WC_Order $order Order object.
 	 *
-	 * @throws \Exception
 	 * @since 1.2.0
 	 */
 	public static function order_print_items( $order ) {
@@ -163,8 +177,4 @@ class WC_Serial_Numbers_Handler {
 			wc_serial_numbers_get_order_table( $order );
 		}
 	}
-
-
 }
-
-WC_Serial_Numbers_Handler::init();

@@ -6,107 +6,106 @@
  * Licensed under the GPLv2+ license.
  */
 
-(function ($, window) {
+( function( $, window ) {
 	'use strict';
-	$.wc_serial_numbers_admin = function () {
-		var plugin = this;
-		plugin.init = function () {
-			plugin.init_select2('.wc-serial-numbers-select-product', 'wc_serial_numbers_search_products', wc_serial_numbers_admin_i10n.i18n.search_product);
-			plugin.init_datepicker('.wc-serial-numbers-select-date');
+	$.wc_serial_numbers_admin = function() {
+		const plugin = this;
+		plugin.init = function() {
+			plugin.init_select2( '.wc-serial-numbers-select-product', 'wc_wcsn_search_products', wc_serial_numbers_admin_i10n.i18n.search_product );
+			plugin.init_datepicker( '.wc-serial-numbers-select-date' );
 			plugin.encrypt_decrypt();
 		};
 
-		plugin.init_select2 = function (el, action, placeholder) {
+		plugin.init_select2 = function( el, action, placeholder ) {
 			placeholder = placeholder || 'Select..';
-			$(el).select2({
+			$( el ).select2( {
 				ajax: {
 					cache: true,
 					delay: 500,
 					url: window.wc_serial_numbers_admin_i10n.ajaxurl,
 					method: 'POST',
 					dataType: 'json',
-					data: function (params) {
+					data( params ) {
 						return {
-							action: action,
+							action,
 							nonce: window.wc_serial_numbers_admin_i10n.nonce,
 							search: params.term,
-							page: params.page
+							page: params.page,
 						};
 					},
-					processResults: function (data, params) {
+					processResults( data, params ) {
 						params.page = params.page || 1;
 						return {
 							results: data.results,
 							pagination: {
-								more: data.pagination.more
-							}
+								more: data.pagination.more,
+							},
 						};
-					}
+					},
 				},
-				placeholder: placeholder,
+				placeholder,
 				minimumInputLength: 1,
-				allowClear: true
-			});
+				allowClear: true,
+			} );
 		};
-		plugin.init_datepicker = function (el) {
-			$(el).datepicker({
+		plugin.init_datepicker = function( el ) {
+			$( el ).datepicker( {
 				changeMonth: true,
 				changeYear: true,
 				dateFormat: 'yy-mm-dd',
 				firstDay: 7,
-				minDate: new Date()
-			});
+				minDate: new Date(),
+			} );
 		};
 
-
-		plugin.encrypt_decrypt = function () {
+		plugin.encrypt_decrypt = function() {
 			//show decrypted value
-			$(document).on('click', '.wc-serial-numbers-decrypt-key', function (e) {
+			$( document ).on( 'click', '.wc-serial-numbers-decrypt-key', function( e ) {
 				e.preventDefault();
-				var self = $(this);
-				var id = self.data('serial-id');
-				var nonce = self.data('nonce') || null;
-				var td = self.closest('td');
-				var code = td.find('.serial-key');
-				var spinner = td.find('.serial-spinner');
+				const self = $( this );
+				const id = self.data( 'serial-id' );
+				const nonce = self.data( 'nonce' ) || null;
+				const td = self.closest( 'td' );
+				const code = td.find( '.serial-key' );
+				const spinner = td.find( '.serial-spinner' );
 				spinner.show();
-				if (!code.hasClass('encrypted')) {
-					code.addClass('encrypted');
+				if ( ! code.hasClass( 'encrypted' ) ) {
+					code.addClass( 'encrypted' );
 					spinner.hide();
-					code.text('');
-					self.text(wc_serial_numbers_admin_i10n.i18n.show);
+					code.text( '' );
+					self.text( wc_serial_numbers_admin_i10n.i18n.show );
 					return false;
 				}
-				wp.ajax.send('wc_serial_numbers_decrypt_key', {
+				wp.ajax.send( 'wc_serial_numbers_decrypt_key', {
 					data: {
 						serial_id: id,
-						nonce: nonce
+						nonce,
 					},
-					success: function (res) {
-						code.text(res.key);
+					success( res ) {
+						code.text( res.key );
 						spinner.hide();
-						code.removeClass('encrypted');
-						self.text(wc_serial_numbers_admin_i10n.i18n.hide);
+						code.removeClass( 'encrypted' );
+						self.text( wc_serial_numbers_admin_i10n.i18n.hide );
 					},
-					error: function () {
+					error() {
 						spinner.hide();
-						code.text('');
-						code.addClass('encrypted');
-						self.text(wc_serial_numbers_admin_i10n.i18n.show);
-						alert('Decrypting key failed');
-					}
-				});
+						code.text( '' );
+						code.addClass( 'encrypted' );
+						self.text( wc_serial_numbers_admin_i10n.i18n.show );
+						alert( 'Decrypting key failed' );
+					},
+				} );
 
 				return false;
-			});
+			} );
 		};
 		plugin.init();
 	};
 
 	//$.fn
-	$.fn.wc_serial_numbers_admin = function () {
+	$.fn.wc_serial_numbers_admin = function() {
 		return new $.wc_serial_numbers_admin();
 	};
 
 	$.wc_serial_numbers_admin();
-})(jQuery, window);
+}( jQuery, window ) );

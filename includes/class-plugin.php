@@ -71,4 +71,14 @@ final class Plugin extends Framework\Premium_Plugin {
 
 		return $schedules;
 	}
+
+	/**
+	 * Is pro version active?
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
+	public static function is_pro_active() {
+		return class_exists( 'WooCommerceSerialNumbersPro\Plugin' );
+	}
 }

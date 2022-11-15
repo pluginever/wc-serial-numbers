@@ -98,7 +98,7 @@ class Activation extends Framework\Data {
 	 * @return string
 	 */
 	public function get_activation_time( $context = 'edit' ) {
-		return $this->get_prop( 'activation_time', $context );
+		return $this->get_date_prop( 'activation_time', $context );
 	}
 
 	/*

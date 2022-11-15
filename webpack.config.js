@@ -9,7 +9,9 @@ const mode = isProduction ? 'production' : 'development';
 module.exports = {
 	...defaultConfig,
 	entry: {
+		'css/frontend-style': './assets/css/frontend-style.scss',
 		'css/admin-style': './assets/css/admin-style.scss',
+		'js/frontend-script': './assets/js/frontend-script.js',
 		'js/admin-script': './assets/js/admin-script.js',
 	},
 	output: {
@@ -49,6 +51,7 @@ module.exports = {
 	},
 	plugins: [
 		...defaultConfig.plugins,
+		// new RemoveEmptyScriptsPlugin(),
 		// During rebuilds, all webpack assets that are not used anymore will be
 		// removed automatically. There is an exception added in watch mode for
 		// fonts and images. It is a known limitations:
@@ -67,6 +70,7 @@ module.exports = {
 		} ),
 		// WP_NO_EXTERNALS global variable controls whether scripts' assets get
 		// generated, and the default externals set.
-		new RemoveEmptyScriptsPlugin(),
+		//Removes wp-polyfill from CSS.
+		// new CleanDeps(),
 	],
 };

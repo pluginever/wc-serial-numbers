@@ -189,7 +189,7 @@ class Key extends Framework\Data {
 	 * @return string
 	 */
 	public function get_order_date( $context = 'edit' ) {
-		return $this->get_prop( 'order_date', $context );
+		return $this->get_date_prop( 'order_date', $context );
 	}
 
 	/**
@@ -213,7 +213,7 @@ class Key extends Framework\Data {
 	 * @return string
 	 */
 	public function get_created_date( $context = 'edit' ) {
-		return $this->get_prop( 'created_date', $context );
+		return $this->get_date_prop( 'created_date', $context );
 	}
 
 	/*
@@ -386,5 +386,156 @@ class Key extends Framework\Data {
 		}
 
 		return parent::sanitize_data();
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Conditionals
+	|--------------------------------------------------------------------------
+	|
+	| Checks if a condition is true or false.
+	|
+	*/
+
+	/*
+	|--------------------------------------------------------------------------
+	| Helper
+	|--------------------------------------------------------------------------
+	|
+	| Helper methods.
+	|
+	*/
+
+	/**
+	 * Get the associated product.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @return \WC_Product|null Product object or null if not found.
+	 */
+	public function get_product() {
+		if( empty( $this->get_product_id() ) ) {
+			return null;
+		}
+
+		$product = wc_get_product( $this->get_product_id() );
+		if ( ! $product ) {
+			return null;
+		}
+
+		return $product;
+	}
+
+	/**
+	 * Get the associated order.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @return \WC_Order|null Order object or null if not found.
+	 */
+	public function get_order() {
+		if( empty( $this->get_order_id() ) ) {
+			return null;
+		}
+
+		$order = wc_get_order( $this->get_order_id() );
+		if ( ! $order ) {
+			return null;
+		}
+
+		return $order;
+	}
+
+	/**
+	 * Get the associated customer.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @return \WP_User|null
+	 */
+	public function get_customer() {
+		$order = $this->get_order();
+		if ( ! empty( $order ) && ! ( $order instanceof \WC_Order_Refund ) ) {
+			$customer_id = $order->get_customer_id();
+			if ( $customer_id ) {
+				return get_user_by( 'ID', $customer_id );
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get the expired date of the key.
+	 *
+	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
+	 *
+	 * @since 1.3.1
+	 * @return string
+	 */
+	public function get_date_expire( $context = 'edit' ) {
+		$value     = '';
+		$valid_for = $this->get_validity();
+		if ( ! empty( $valid_for ) && $valid_for > 0 && $this->get_order_id() ) {
+			$date = new \DateTime( $this->get_order_date() );
+			$date->add( new \DateInterval( "P{$valid_for}D" ) );
+
+			$value = $date->format( 'Y-m-d H:i:s' );
+		}
+
+		if ( 'view' === $context ) {
+			return apply_filters( 'wc_serial_numbers_key_get_date_expire', $value, $this );
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get serial number's statuses.
+	 *
+	 * since 1.2.0
+	 *
+	 * @return string
+	 */
+	public function get_status_label() {
+		$statuses = self::get_statuses();
+
+		return array_key_exists( $this->get_status(), $statuses ) ? $statuses[ $this->get_status() ] : $this->get_status();
+	}
+
+	/**
+	 * Get the product name.
+	 *
+	 * @since 1.3.1
+	 * @return string
+	 */
+	public function get_product_title() {
+		$product = $this->get_product();
+		if ( $product ) {
+			return $product->get_formatted_name();
+		}
+
+		return '';
+	}
+
+	/**
+	 * Get the title of associated order.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @return string|null
+	 */
+	public function get_order_title() {
+		$order = $this->get_order();
+		if ( $order ) {
+			return sprintf(
+				'#%1$s %2$s <%3$s>',
+				$order->get_order_number(),
+				$order->get_formatted_billing_full_name(),
+				$order->get_billing_email()
+			);
+		}
+
+		return '';
 	}
 }

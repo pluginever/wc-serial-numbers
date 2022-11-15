@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a292d5fd6de7c6ab0353930e245b8a8",
+    "content-hash": "5e56e535716fb53af0952a71a1fc87aa",
     "packages": [],
     "packages-dev": [
         {
@@ -3307,16 +3307,16 @@
         },
         {
             "name": "pluginever/framework-data",
-            "version": "dev-master",
+            "version": "dev-release/v1.0.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:pluginever/framework-data.git",
-                "reference": "e4ddcb9ae4739d642263186b57a635e41bdd00b9"
+                "reference": "8b9fa4a1ed44bd04eab69209933a3e8cad94cc18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pluginever/framework-data/zipball/e4ddcb9ae4739d642263186b57a635e41bdd00b9",
-                "reference": "e4ddcb9ae4739d642263186b57a635e41bdd00b9",
+                "url": "https://api.github.com/repos/pluginever/framework-data/zipball/8b9fa4a1ed44bd04eab69209933a3e8cad94cc18",
+                "reference": "8b9fa4a1ed44bd04eab69209933a3e8cad94cc18",
                 "shasum": ""
             },
             "require": {
@@ -3325,7 +3325,6 @@
             "require-dev": {
                 "byteever/byteever-sniffs": "dev-master"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3351,23 +3350,23 @@
             ],
             "description": "Plugin background process framework",
             "support": {
-                "source": "https://github.com/pluginever/framework-data/tree/master",
+                "source": "https://github.com/pluginever/framework-data/tree/release/v1.0.0",
                 "issues": "https://github.com/pluginever/framework-data/issues"
             },
-            "time": "2022-10-21T14:05:03+00:00"
+            "time": "2022-11-14T06:33:05+00:00"
         },
         {
             "name": "pluginever/framework-license",
-            "version": "dev-master",
+            "version": "dev-release/v1.0.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:pluginever/framework-license.git",
-                "reference": "69e4f6fe939e052f2804a6da2d93cbea883149f8"
+                "reference": "a3c2a3e8110b036d57790a2900a7db13174de2ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pluginever/framework-license/zipball/69e4f6fe939e052f2804a6da2d93cbea883149f8",
-                "reference": "69e4f6fe939e052f2804a6da2d93cbea883149f8",
+                "url": "https://api.github.com/repos/pluginever/framework-license/zipball/a3c2a3e8110b036d57790a2900a7db13174de2ba",
+                "reference": "a3c2a3e8110b036d57790a2900a7db13174de2ba",
                 "shasum": ""
             },
             "require": {
@@ -3376,7 +3375,6 @@
             "require-dev": {
                 "byteever/byteever-sniffs": "dev-master"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3402,10 +3400,10 @@
             ],
             "description": "Plugin licensing handler for the framework",
             "support": {
-                "source": "https://github.com/pluginever/framework-license/tree/master",
+                "source": "https://github.com/pluginever/framework-license/tree/release/v1.0.0",
                 "issues": "https://github.com/pluginever/framework-license/issues"
             },
-            "time": "2022-11-04T12:28:09+00:00"
+            "time": "2022-11-14T06:23:58+00:00"
         },
         {
             "name": "pluginever/framework-plugin",
@@ -3413,12 +3411,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:pluginever/framework-plugin.git",
-                "reference": "1bf9c82b67730ee7e2d57f0ad3a9695b7b15dc77"
+                "reference": "b093365b8a1f14ed00901b9b437c1b8f76fe938d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pluginever/framework-plugin/zipball/1bf9c82b67730ee7e2d57f0ad3a9695b7b15dc77",
-                "reference": "1bf9c82b67730ee7e2d57f0ad3a9695b7b15dc77",
+                "url": "https://api.github.com/repos/pluginever/framework-plugin/zipball/b093365b8a1f14ed00901b9b437c1b8f76fe938d",
+                "reference": "b093365b8a1f14ed00901b9b437c1b8f76fe938d",
                 "shasum": ""
             },
             "require": {
@@ -3455,7 +3453,7 @@
                 "source": "https://github.com/pluginever/framework-plugin/tree/release/v1.0.0",
                 "issues": "https://github.com/pluginever/framework-plugin/issues"
             },
-            "time": "2022-11-14T06:24:13+00:00"
+            "time": "2022-11-15T07:00:02+00:00"
         },
         {
             "name": "pluginever/framework-settings",
