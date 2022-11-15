@@ -51,22 +51,8 @@ class Installer extends Controller {
 			return;
 		}
 
-		add_option( $this->get_plugin()->get_db_version_name(), $this->get_plugin()->get_version() );
-		add_option( $this->get_plugin()->get_activation_date_name(), current_time( 'mysql' ) );
-
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		$tables = self::get_schema();
-		foreach ( $tables as $table ) {
-			dbDelta( $table );
-		}
-
-		if ( false === wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
-			wp_schedule_event( time(), 'hourly', 'wc_serial_numbers_hourly_event' );
-		}
-
-		if ( false === wp_next_scheduled( 'wc_serial_numbers_daily_event' ) ) {
-			wp_schedule_event( time(), 'daily', 'wc_serial_numbers_daily_event' );
-		}
+		add_option( $this->get_plugin()->get_db_version_key(), $this->get_plugin()->get_version() );
+		add_option( $this->get_plugin()->get_activation_date_key(), current_time( 'mysql' ) );
 
 		if ( ! $db_version ) {
 			/**

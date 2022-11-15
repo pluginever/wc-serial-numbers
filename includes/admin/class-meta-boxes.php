@@ -115,7 +115,7 @@ class Meta_Boxes extends Controller {
 
 			do_action( 'wc_serial_numbers_simple_product_metabox', $post );
 
-			if ( ! \WooCommerceSerialNumbers\Helper::is_software_support_disabled() ) {
+			if ( ! \WooCommerceSerialNumbers\Helper::is_software_support_enabled() ) {
 				woocommerce_wp_text_input(
 					array(
 						'id'            => '_software_version',

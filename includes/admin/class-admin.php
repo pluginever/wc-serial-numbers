@@ -2,6 +2,8 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\Admin\List_Tables\Keys_List_Table;
+use WooCommerceSerialNumbers\Admin\List_Tables\List_Table;
 use WooCommerceSerialNumbers\Controller;
 
 // don't call the file directly.
@@ -13,6 +15,13 @@ defined( 'ABSPATH' ) || exit();
  * @package PluginEver\WooCommerceSerialNumbers\Admin
  */
 class Admin extends Controller {
+	/**
+	 * List table.
+	 *
+	 * @since #.#.#
+	 * @var List_Table
+	 */
+	protected $list_table;
 
 	/**
 	 * Set up the controller.
@@ -140,10 +149,16 @@ class Admin extends Controller {
 	 * @return void
 	 */
 	public function render_main_page() {
-		if ( isset( $_GET['create'] ) || isset( $_GET['edit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['add'] ) || isset( $_GET['edit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$id = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+
+			return;
 		}
-		$this->render_view( 'html-list-keys' );
+		$this->list_table = new Keys_List_Table();
+		$this->render( 'html-list-keys', [
+			'list_table' => $this->list_table
+		] );
 	}
 
 	/**
@@ -153,7 +168,7 @@ class Admin extends Controller {
 	 * @return void
 	 */
 	public function render_activations_page() {
-		$this->render_view( 'html-list-activations' );
+		$this->render( 'html-list-activations' );
 	}
 
 	/**

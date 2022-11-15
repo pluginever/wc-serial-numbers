@@ -93,6 +93,17 @@ if [ ! -f "$PLUGIN_DIR/.env.testing" ]; then
 	echo "✓ .dist.env copied to .env.testing!"
 fi
 
+# Check if codeception.yml exists otherwise create it.
+if [ ! -f "$PLUGIN_DIR/codeception.yml" ]; then
+	echo "➤ Creating codeception.yml..."
+	# Create codeception.yml
+	cat > "$PLUGIN_DIR/codeception.yml" <<EOL
+params:
+    - .env.testing
+EOL
+	echo "✓ codeception.yml created!"
+fi
+
 
 if ! grep -q "HTTP_X_TEST_REQUEST" "$ROOT_FOLDER/wp-config.php"; then
 	echo "➤ Replacing wp-config.php..."

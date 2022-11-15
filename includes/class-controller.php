@@ -49,11 +49,10 @@ abstract class Controller extends Plugin_Aware {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	protected function render_view( $view, $args = [], $path = '' ) {
+	protected function render( $view, $args = [], $path = '' ) {
 		if ( empty( $path ) ) {
 			$path = $this->get_plugin()->get_views_path();
 		}
-
 		// replace .php extension if it was added.
 		$view = str_replace( '.php', '', $view );
 		$view = ltrim( $view, '/' );

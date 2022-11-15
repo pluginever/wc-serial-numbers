@@ -1,82 +1,83 @@
 <?php
 
-defined( 'ABSPATH' ) || exit();
+namespace WooCommerceSerialNumbers\Admin\List_Tables;
 
-// WP_List_Table is not loaded automatically so we need to load it in our application
-if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
-}
+use WooCommerceSerialNumbers\Helper;
+use WooCommerceSerialNumbers\Key;
 
-class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
+defined( 'ABSPATH' ) || exit;
+
+class Keys_List_Table extends List_Table {
+
 	/**
 	 * Number of results to show per page
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $per_page = 20;
 
 	/**
 	 *
 	 * Total number of items
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $total_count;
 
 	/**
 	 * Sold number
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $sold_count;
 
 	/**
 	 * Refunded number
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $refunded_count;
 
 	/**
 	 * Expired number
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $expired_count;
 
 	/**
 	 * Expired number
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $failed_count;
 
 	/**
 	 * Cancelled number
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $cancelled_count;
 
 	/**
 	 * available number
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $available_count;
 
 	/**
 	 * Inactive number
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $inactive_count;
 
@@ -91,45 +92,81 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 		) );
 	}
 
+
+
 	/**
-	 * Setup the final data for the table
+	 * Retrieve all the data for all the discount codes
 	 *
-	 * @return void
-	 * @throws Exception
 	 * @since 1.0.0
 	 */
-	function prepare_items() {
-		$per_page              = $this->per_page;
-		$columns               = $this->get_columns();
-		$hidden                = [];
-		$sortable              = $this->get_sortable_columns();
-		$this->_column_headers = array( $columns, $hidden, $sortable );
+	public function prepare_items() {
+		$per_page   = $this->get_items_per_page( 'serials_per_page', $this->per_page );
+		$page       = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
+		$orderby    = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'order_date';
+		$order      = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'desc';
+		$status     = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
+		$search     = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
+		$product_id = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
+		$order_id   = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
+		$id         = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : '';
 
-		$data = $this->get_results();
+		$args = array(
+			'per_page'   => $per_page,
+			'page'       => $page,
+			'orderby'    => $orderby,
+			'order'      => $order,
+			'status'     => $status,
+			'product_id' => $product_id,
+			'order_id'   => $order_id,
+			'include'    => $id,
+			'search'     => $search
+		);
 
-		$status = isset( $_GET['status'] ) ? $_GET['status'] : 'any';
+
+		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' !== $orderby ) {
+			$args['orderby'] = $orderby;
+		}
+		$this->items = Key::query( $args );
+		$count_query = array_merge( $args, [ 'count' => true ] );
+
+		$this->available_count = Key::query( array_merge( $count_query, [ 'status' => 'available' ] ) );
+		$this->sold_count      = Key::query( array_merge( $count_query, [ 'status' => 'sold' ] ) );
+		$this->refunded_count  = Key::query( array_merge( $count_query, [ 'status' => 'refunded' ] ) );
+		$this->cancelled_count = Key::query( array_merge( $count_query, [ 'status' => 'cancelled' ] ) );
+		$this->failed_count    = Key::query( array_merge( $count_query, [ 'status' => 'failed' ] ) );
+		$this->expired_count   = Key::query( array_merge( $count_query, [ 'status' => 'expired' ] ) );
+		$this->inactive_count  = Key::query( array_merge( $count_query, [ 'status' => 'inactive' ] ) );
+		$this->total_count     = array_sum( [
+			$this->available_count,
+			$this->sold_count,
+			$this->refunded_count,
+			$this->cancelled_count,
+			$this->failed_count,
+			$this->expired_count,
+			$this->inactive_count,
+		] );
 
 		switch ( $status ) {
 			case 'available':
-				$total_items = $this->available_count;
+				$this->total_count = $this->available_count;
 				break;
 			case 'sold':
-				$total_items = $this->sold_count;
+				$this->total_count = $this->sold_count;
 				break;
 			case 'refunded':
-				$total_items = $this->refunded_count;
-				break;
-			case 'failed':
-				$total_items = $this->failed_count;
+				$this->total_count = $this->refunded_count;
 				break;
 			case 'cancelled':
-				$total_items = $this->cancelled_count;
+				$this->total_count = $this->cancelled_count;
+				break;
+			case 'failed':
+				$this->total_count = $this->failed_count;
 				break;
 			case 'expired':
-				$total_items = $this->expired_count;
+				$this->total_count = $this->expired_count;
 				break;
 			case 'inactive':
-				$total_items = $this->inactive_count;
+				$this->total_count = $this->inactive_count;
 				break;
 			case 'any':
 			default:
@@ -137,53 +174,20 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 				break;
 		}
 
-		$this->items = $data;
-
-		$this->set_pagination_args( array(
+		$this->set_pagination_args(
+			array(
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
-				'total_pages' => ceil( $total_items / $per_page ),
+				'total_pages' => $total_items > 0 ? ceil( $total_items / $per_page ) : 0,
 			)
 		);
 	}
 
 	/**
-	 * Show the search field
-	 *
-	 * @param string $text Label for the search box
-	 * @param string $input_id ID of the search box
-	 *
-	 * @return void
-	 * @since 1.0.0
-	 *
-	 */
-	public function search_box( $text, $input_id ) {
-		if ( empty( $_REQUEST['s'] ) && ! $this->has_items() ) {
-			return;
-		}
-
-		$input_id = $input_id . '-search-input';
-
-		if ( ! empty( $_REQUEST['orderby'] ) ) {
-			echo '<input type="hidden" name="orderby" value="' . esc_attr( $_REQUEST['orderby'] ) . '" />';
-		}
-		if ( ! empty( $_REQUEST['order'] ) ) {
-			echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
-		}
-		?>
-        <p class="search-box">
-            <label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-            <input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
-			<?php submit_button( $text, 'button', false, false, array( 'ID' => 'search-submit' ) ); ?>
-        </p>
-		<?php
-	}
-
-	/**
 	 * Retrieve the view types
 	 *
-	 * @return array $views All the views sellable
 	 * @since 1.0.0
+	 * @return array $views All the views sellable
 	 */
 	public function get_views() {
 		$current         = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
@@ -243,7 +247,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			'status'      => __( 'Status', 'wc-serial-numbers' ),
 		);
 
-		if ( ! wc_serial_numbers_software_support_disabled() ) {
+		if ( ! Helper::is_software_support_enabled() ) {
 			$columns['activation'] = __( 'Activation', 'wc-serial-numbers' );
 			$columns['validity']   = __( 'Validity', 'wc-serial-numbers' );
 		}
@@ -273,10 +277,10 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	/**
 	 * Gets the name of the primary column.
 	 *
-	 * @return string Name of the primary column.
 	 * @since 1.0.0
 	 * @access protected
 	 *
+	 * @return string Name of the primary column.
 	 */
 	protected function get_primary_column_name() {
 		return 'key';
@@ -400,80 +404,5 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 				return apply_filters( 'wc_serial_numbers_serials_table_column_content', $column, $item, $column_name );
 		}
 
-	}
-
-
-	/**
-	 * Retrieve all the data for all the discount codes
-	 *
-	 * @return object $get_results Array of all the data for the discount codes
-	 * @throws Exception
-	 * @since 1.0.0
-	 */
-	public function get_results() {
-		$per_page   = $this->get_items_per_page( 'serials_per_page', $this->per_page );
-		$page       = isset( $_GET['paged'] ) ? $_GET['paged'] : 1;
-		$orderby    = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'order_date';
-		$order      = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'desc';
-		$status     = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
-		$search     = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
-		$product_id = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
-		$order_id   = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
-		$id         = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : '';
-
-		$args = array(
-			'per_page'   => $per_page,
-			'page'       => $page,
-			'orderby'    => $orderby,
-			'order'      => $order,
-			'status'     => $status,
-			'product_id' => $product_id,
-			'order_id'   => $order_id,
-			'include'    => $id,
-			'search'     => $search
-		);
-
-
-		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' != $orderby ) {
-			$args['orderby'] = $orderby;
-		}
-		$query = WC_Serial_Numbers_Query::init()
-		                                ->from( 'serial_numbers' )
-		                                ->order_by( $orderby, $order )
-		                                ->page( $page, $per_page );
-		if ( ! empty( $product_id ) ) {
-			$query->where( 'product_id', $product_id );
-		}
-		if ( ! empty( $id ) ) {
-			$query->where( 'id', $id );
-		}
-		if ( ! empty( $order_id ) ) {
-			$query->where( 'order_id', $order_id );
-		}
-
-		if ( ! empty( $search ) ) {
-			$query->orWhere( 'serial_key', 'LIKE', '%' . apply_filters( 'wc_serial_numbers_maybe_encrypt', $search ) . '%' );
-			$query->search( $search, array( 'product_id', 'order_id' ), 'OR' );
-		}
-
-		//save query before apply global
-		$pre_query = $query->copy();
-
-		if ( ! empty( $status ) ) {
-			$query->where( 'status', $status );
-		}
-
-		$this->total_count     = $pre_query->count();
-		$this->available_count = $pre_query->copy()->where( 'status', 'available' )->count();
-		$this->sold_count      = $pre_query->copy()->where( 'status', 'sold' )->count();
-		$this->refunded_count  = $pre_query->copy()->where( 'status', 'refunded' )->count();
-		$this->cancelled_count = $pre_query->copy()->where( 'status', 'cancelled' )->count();
-		$this->failed_count    = $pre_query->copy()->where( 'status', 'failed' )->count();
-		$this->expired_count   = $pre_query->copy()->where( 'status', 'expired' )->count();
-		$this->inactive_count  = $pre_query->copy()->where( 'status', 'inactive' )->count();
-
-		$results = $query->get();
-
-		return $results;
 	}
 }

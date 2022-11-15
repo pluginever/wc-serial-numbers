@@ -1,12 +1,10 @@
 <?php
-defined( 'ABSPATH' ) || exit();
 
-// WP_List_Table is not loaded automatically so we need to load it in our application
-if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
-}
+namespace WooCommerceSerialNumbers\Admin\List_Tables;
 
-class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
+defined( 'ABSPATH' ) || exit;
+
+class Activations_List_Table extends \WP_List_Table {
 	/**
 	 * Number of results to show per page
 	 *
@@ -335,9 +333,9 @@ class WC_Serial_Numbers_Activations_List_Table extends \WP_List_Table {
 		}
 
 		$query = WC_Serial_Numbers_Query::init()
-										->from( 'serial_numbers_activations' )
-										->order_by( $orderby, $order )
-										->page( $page, $per_page );
+		                                ->from( 'serial_numbers_activations' )
+		                                ->order_by( $orderby, $order )
+		                                ->page( $page, $per_page );
 		if ( ! empty( $product_id ) ) {
 			$query->where( 'product_id', $product_id );
 		}
