@@ -1,8 +1,8 @@
-=== WooCommerce Serial Numbers - License Key Manager ===
+=== Serial Numbers for WooCommerce - License Key Manager ===
 Contributors: manikmist09, pluginever, b-07
 Tags: license, key, license key, license number, software license, serial number, serial key, license manager, woocommerce license manager, software license, software license key, digital product key, digital product license, virtual product key, virtual product license, subscription product license, woocommerce
 Requires at least: 4.4
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -11,9 +11,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 The best WooCommerce plugin to sell and manage license keys with ease.
 
 == Description ==
-**[WooCommerce Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license key manager plugin for WooCommerce. You can generate, sell, and manage software, games and digital product's license keys easily with this plugin.
+**[Serial Numbers for WooCommerce](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license key manager plugin for WooCommerce. You can generate, sell, and manage software, games and digital product's license keys easily with this plugin.
 
-=== 💵 With WooCommerce Serial Numbers You Can Sell: ===
+=== 💵 With Serial Numbers for WooCommerce You Can Sell: ===
 
 * License activated software, games, and digital products.
 * Gift cards, recharge cards, and other secret number-based products. 
@@ -27,7 +27,7 @@ The best WooCommerce plugin to sell and manage license keys with ease.
 * **[Plugin Documentation](https://pluginever.com/docs/woocommerce-serial-numbers "Plugin Documentation")**
 * **[Need Help? Contact Our 24/7 Support](https://pluginever.com/support "Need Help? Contact Our 24/7 Support")**
 
-=== ✨ WooCommerce Serial Numbers Features: ===
+=== ✨ Serial Numbers for WooCommerce Features: ===
 
 * Create, assign, and manage license keys for digital products.
 * Option to add license validity so they expire after the preset time.
@@ -49,7 +49,7 @@ The best WooCommerce plugin to sell and manage license keys with ease.
 
 > ➡️ Looking for more features? [Get The PRO Version.](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
-=== ⚡ WooCommerce Serial Numbers PRO Features: ===
+=== ⚡ Serial Numbers for WooCommerce PRO Features: ===
 
 * Create and assign license keys for WooCommerce variable products.
 * Generate bulk license keys with your custom key generator rule.
@@ -85,7 +85,7 @@ Enter a later date from the calendar in the ‘Expires At’ section. License ke
 
 If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
-=== 💝 WooCommerce Serial Numbers has received lots of love from its users: === 
+=== 💝 Serial Numbers for WooCommerce has received lots of love from its users: === 
 **Jose Varghese** 
 ***Developer***
 > [Thanks a lot for providing this super awesome plugin. It saved a lot of time while working on my client website. Good luck and keep up the work!!](https://wordpress.org/support/topic/awesome-plugin-4630/)
@@ -98,10 +98,10 @@ If your license keys are not for games or software, you can skip options three a
 
 === 💢 Supercharge Your WooCommerce Store With Our Other Plugins: === 
 
-* **[WooCommerce Category Slider](https://wordpress.org/plugins/woo-category-slider-by-pluginever "WooCommerce Category Slider")**
-* **[WooCommerce Category Showcase](https://wordpress.org/plugins/wc-category-showcase "WooCommerce Category Showcase")**
+* **[Product Category Slider for WooCommerce](https://wordpress.org/plugins/woo-category-slider-by-pluginever "Product Category Slider for WooCommerce")**
+* **[Product Category Showcase for WooCommerce](https://wordpress.org/plugins/wc-category-showcase "Product Category Showcase for WooCommerce")**
 * **[Min Max Quantities for WooCommerce](https://wordpress.org/plugins/wc-min-max-quantities "Min Max Quantities for WooCommerce")**
-* **[WooCommerce Variation Swatches](https://wordpress.org/plugins/wc-variation-swatches "WooCommerce Variation Swatches")**
+* **[Product Variation Swatches for WooCommerce](https://wordpress.org/plugins/wc-variation-swatches "Product Variation Swatches for WooCommerce")**
 
 == Installation ==
 
@@ -115,13 +115,13 @@ If your license keys are not for games or software, you can skip options three a
 
 = Automatic installation =
 
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of WooCommerce Serial Numbers, log in to your WordPress dashboard, navigate to the Plugins menu and click "Add New".
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of Serial Numbers for WooCommerce, log in to your WordPress dashboard, navigate to the Plugins menu and click "Add New".
 
-In the search field type "WooCommerce Serial Numbers" and click Search Plugins. Once you have found the plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking "Install Now".
+In the search field type "Serial Numbers for WooCommerce" and click Search Plugins. Once you have found the plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking "Install Now".
 
 = Manual installation =
 
-1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/wc-serail-numbers` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 = Updating =
@@ -147,7 +147,7 @@ The advanced features include bulk import of license keys and automatic license 
 
 = How do I work with software API? =
 
-WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn more from our documentation about how it works](https://www.pluginever.com/docs/woocommerce-serial-numbers/woocommerce-serial-numbers-api-docs/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org).
+Serial Numbers for WooCommerce has a dedicated page for Software API. [You can learn more from our documentation about how it works](https://www.pluginever.com/docs/woocommerce-serial-numbers/woocommerce-serial-numbers-api-docs/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org).
 
 == Screenshots ==
 1. WooCommerce Serial Numbers list
@@ -161,6 +161,11 @@ WooCommerce Serial Numbers has a dedicated page for Software API. [You can learn
 
 
 == Changelog ==
+
+= 1.2.10 (20 May, 2022) =
+Fix - Compatibility with WP 6.1
+Fix - Compatibility with WC 71. 
+
 = 1.2.10 (17 May, 2022) =
 Fix - Compatibility with WC v6.5.1
 Fix - Fix typo
