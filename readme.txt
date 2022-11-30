@@ -1,6 +1,6 @@
 === Serial Numbers for WooCommerce - License Key Manager ===
 Contributors: manikmist09, pluginever, b-07
-Tags: license, key, license key, license number, software license, serial number, serial key, license manager, woocommerce license manager, software license, software license key, digital product key, digital product license, virtual product key, virtual product license, subscription product license, woocommerce
+Tags: woocommerce, license, key, license key, license number, software license, serial number, serial key, license manager, woocommerce license manager, software license, software license key, digital product key, digital product license, virtual product key, virtual product license, subscription product license, woocommerce
 Requires at least: 4.4
 Tested up to: 6.1
 Requires PHP: 5.6
