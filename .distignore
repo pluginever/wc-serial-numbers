@@ -12,12 +12,11 @@ readme.md
 README.md
 
 # Composer related files
-composer.lock
-composer.json
+composer.*
 
 # NPM related files
 npm-debug.log
-node_modules
+/node_modules/
 postcss.config.js
 babel.config.js
 package.json
@@ -54,9 +53,14 @@ phpcs.xml.dist
 *.vscode
 
 # Misc files
+.*
+.*/
+*.lock
 *.log
 *.sh
-bin
+*.zip
+/bin/
+
 
 # OS related files
 .DS_Store
@@ -76,4 +80,6 @@ Thumbs.db
 *.*.map
 
 # Build related files
-/vendor
+/assets/js
+/assets/css
+vendor

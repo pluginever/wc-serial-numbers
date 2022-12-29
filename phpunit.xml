@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-	bootstrap="tests/bootstrap.php"
+	bootstrap="tests/php/bootstrap.php"
 	backupGlobals="false"
 	colors="true"
 	convertErrorsToExceptions="true"
@@ -9,8 +9,8 @@
 	verbose="true"
 >
 	<testsuites>
-		<testsuite name="WC Serial Numbers Test Suite">
-			<directory suffix=".php">./tests/</directory>
+		<testsuite name="Serial Numbers for WooCommerce Test Suite">
+			<directory suffix=".php">./tests/php/</directory>
 		</testsuite>
 	</testsuites>
 
@@ -20,7 +20,6 @@
 			<file>wc-serial-numbers.php</file>
 			<file>uninstall.php</file>
 			<exclude>
-				<directory suffix=".php">./includes/admin/views</directory>
 				<directory suffix=".php">./vendor</directory>
 				<directory suffix=".php">./tmp</directory>
 				<directory suffix=".php">./tests</directory>
