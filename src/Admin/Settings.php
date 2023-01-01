@@ -191,15 +191,17 @@ class Settings extends Lib\Settings {
 	}
 
 	/**
-	 * Get support links.
+	 * Output tabs.
+	 *
+	 * @param array $tabs Tabs.
 	 *
 	 * @since 1.0.0
-	 * @return array
+	 * @return void
 	 */
-	public function get_support_links() {
-		return array_merge(
-			wc_serial_numbers()->get_meta_links(),
-			parent::get_support_links()
-		);
+	public function output_tabs( $tabs ) {
+		parent::output_tabs( $tabs );
+		if ( wc_serial_numbers()->get_docs_url() ) {
+			echo sprintf( '<a href="%s" class="nav-tab" target="_blank">%s</a>', wc_serial_numbers()->get_docs_url(), __( 'Documentation', 'wc-serial-numbers' ) );
+		}
 	}
 }

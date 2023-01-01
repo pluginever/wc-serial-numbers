@@ -37,14 +37,16 @@ class Notices extends Singleton {
 	 * @since 1.0.0
 	 */
 	public function add_notices() {
-		$notice = array(
-			'type'    => 'error',
-			'message' => sprintf(
-			/* translators: %1$s: link to the plugin page, %2$s: link to the plugin page */
-				__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.1.9 or higher.', 'wc-serial-numbers' ),
-				'<a href="' . esc_url( wc_serial_numbers()->get_data( 'premium_url' ) ) . '" target="_blank">WooCommerce Serial Numbers Pro</a>'
-			),
-		);
+		if ( defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) && version_compare( WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION, '1.1.9', '<' ) ) {
+			$this->notices[] = array(
+				'type'    => 'error',
+				'message' => sprintf(
+				/* translators: %1$s: link to the plugin page, %2$s: link to the plugin page */
+					__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.1.9 or higher.', 'wc-serial-numbers' ),
+					'<a href="' . esc_url( wc_serial_numbers()->get_data( 'premium_url' ) ) . '" target="_blank">WooCommerce Serial Numbers Pro</a>'
+				),
+			);
+		}
 	}
 
 	/**
