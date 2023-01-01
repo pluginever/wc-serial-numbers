@@ -8,6 +8,7 @@ module.exports = {
 	globals: {
 		wp: true,
 		es6: true,
+		wc_serial_numbers_vars: true,
 	},
 	rules: {
 		camelcase: 0,

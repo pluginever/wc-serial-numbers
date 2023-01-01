@@ -73,7 +73,7 @@ class WC_Serial_Numbers_Admin_Screen {
 
                         <td>
                             <select name="product_id" id="product_id"
-                                    class="regular-text wc-serial-numbers-select-product" required="required"
+                                    class="regular-text wc-serial-numbers-select-product wc_serial_numbers_search_product" required="required"
                                     placeholder="<?php _e( 'Select Product', 'wc-serial-numbers' ); ?>">
 								<?php echo sprintf( '<option value="%d" selected="selected">%s</option>', $item['product_id'], wc_serial_numbers_get_product_title( $item['product_id'] ) ); ?>
                             </select>

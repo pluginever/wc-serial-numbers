@@ -4,9 +4,9 @@ require 'wp-blog-header.php';
 if ( ! current_user_can( 'manage_options' ) ) die();
 
 
-// API variables, please override
-$base_url    = 'http://wcdevelop.test';
-$email       = 'manikdrmc@gmail.com';
+// API variables, please override.
+$base_url    = 'http://domain.com';
+$email       = 'example@domain.com';
 $product_id  = '24';
 $license_key = 'Serial-0000000001163';
 $instance    = '15924263261';

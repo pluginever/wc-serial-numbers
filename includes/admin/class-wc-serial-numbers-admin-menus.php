@@ -60,28 +60,6 @@ class WC_Serial_Numbers_Admin_Menus {
 			'wc-serial-numbers-activations',
 			array( 'WC_Serial_Numbers_Admin_Activations_Screen', 'output' )
 		);
-
-		add_submenu_page(
-			'wc-serial-numbers',
-			__( 'Settings', 'wc-serial-numbers' ),
-			__( 'Settings', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers-settings',
-			array( 'WC_Serial_Numbers_Admin_Settings', 'output' )
-		);
-
-		if ( ! defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) ) {
-			add_submenu_page(
-				'wc-serial-numbers',
-				'',
-				'<span style="color:#ff7a03;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Go Pro', 'wc-serial-numbers' ) . '</span>',
-				'edit_others_posts',
-				'go_wcsn_pro',
-				array( $this, 'go_pro_redirect' )
-			);
-		}
-
-
 		add_action( 'load-' . $serial_number_page, array( $this, 'load_serial_numbers_page' ) );
 	}
 

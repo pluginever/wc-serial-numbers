@@ -14,11 +14,14 @@
     {
       "url": "git@github.com:pluginever/framework-plugin.git",
       "type": "github"
+    },
+    {
+      "url": "git@github.com:pluginever/framework-settings.git",
+      "type": "github"
     }
   ],
   "require": {
-    "php": ">=7.2",
-    "illuminate/database": "^8.83"
+    "php": ">=7.0"
   },
   "require-dev": {
     "byteever/byteever-sniffs": "dev-master",
@@ -34,7 +37,8 @@
     "coenjacobs/mozart": "^0.7.1",
     "lucatume/wp-browser": "^3.1",
     "phpcompatibility/php-compatibility": "9.3.5",
-    "pluginever/framework-plugin": "dev-master"
+    "pluginever/framework-plugin": "dev-master",
+    "pluginever/framework-settings": "dev-master"
   },
   "config": {
     "optimize-autoloader": true,
@@ -80,12 +84,13 @@
   "extra": {
     "mozart": {
       "dep_namespace": "WooCommerceSerialNumbers\\",
-      "dep_directory": "/src/",
-      "classmap_directory": "/src/classes/",
+      "dep_directory": "/lib/",
+      "classmap_directory": "/lib/classes/",
       "classmap_prefix": "WooCommerceSerialNumbers_",
       "delete_vendor_directories": true,
       "packages": [
-        "pluginever/framework-plugin"
+        "pluginever/framework-plugin",
+        "pluginever/framework-settings"
       ]
     }
   }

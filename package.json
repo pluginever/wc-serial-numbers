@@ -25,7 +25,7 @@
   "devDependencies": {
     "@lodder/time-grunt": "^4.0.0",
     "@wordpress/prettier-config": "^1.4.0",
-    "@wordpress/scripts": "^23.3.0",
+    "@wordpress/scripts": "^19.1.0",
     "clean-webpack-plugin": "^4.0.0",
     "grunt": "^1.5.3",
     "grunt-checktextdomain": "^1.0.1",
@@ -37,10 +37,6 @@
     "mini-css-extract-plugin": "^2.6.1",
     "webpack-remove-empty-scripts": "^0.8.1",
     "wp-prettier": "^2.6.2"
-  },
-  "engines": {
-    "node": "^16.13.1",
-    "pnpm": "^6.24.2"
   },
   "stylelint": {
     "extends": "@wordpress/stylelint-config",

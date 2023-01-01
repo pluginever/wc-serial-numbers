@@ -8,7 +8,6 @@ class WC_Serial_Numbers_Admin {
 	 */
 	public function __construct() {
 		add_action( 'init', array( __CLASS__, 'includes' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'admin_head', array( __CLASS__, 'print_style' ) );
 		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_serial_column' ) );
 		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'add_order_serial_column_content' ), 20, 2 );
@@ -20,7 +19,6 @@ class WC_Serial_Numbers_Admin {
 	 */
 	public static function includes() {
 		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-metaboxes.php';
-		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-settings.php';
 		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-menus.php';
 		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-notice.php';
 		require_once dirname( __FILE__ ) . '/class-wc-serial-numbers-admin-actions.php';
@@ -28,40 +26,6 @@ class WC_Serial_Numbers_Admin {
 		require_once dirname( __FILE__ ) . '/screen/class-wc-serial-numbers-serial-numbers-screen.php';
 	}
 
-	/**
-	 * Enqueue admin related assets
-	 *
-	 * @param $hook
-	 *
-	 * @since 1.2.0
-	 */
-	public function admin_scripts( $hook ) {
-		if ( ! wc_serial_numbers()->is_wc_active() ) {
-			return;
-		}
-
-		$css_url = wc_serial_numbers()->plugin_url() . '/assets/css';
-		$js_url  = wc_serial_numbers()->plugin_url() . '/assets/js';
-		$version = wc_serial_numbers()->get_version();
-
-
-		wp_enqueue_style( 'wc-serial-numbers-admin', $css_url . '/wc-serial-numbers-admin.css', array( 'woocommerce_admin_styles', 'jquery-ui-style' ), $version );
-		wp_enqueue_style( 'jquery-ui-style' );
-		wp_enqueue_style( 'select2' );
-		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_script( 'wc-serial-numbers-admin', $js_url . '/wc-serial-numbers-admin.js', [ 'jquery', 'wp-util', 'select2', ], $version, true );
-
-		wp_localize_script( 'wc-serial-numbers-admin', 'wc_serial_numbers_admin_i10n', array(
-			'i18n'    => array(
-				'search_product' => __( 'Search product by name', 'wc-serial-numbers' ),
-				'search_order'   => __( 'Search order', 'wc-serial-numbers' ),
-				'show'           => __( 'Show', 'wc-serial-numbers' ),
-				'hide'           => __( 'Hide', 'wc-serial-numbers' ),
-			),
-			'nonce'   => wp_create_nonce( 'wc_serial_numbers_admin_js_nonce' ),
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-		) );
-	}
 
 	/**
 	 * @param $columns

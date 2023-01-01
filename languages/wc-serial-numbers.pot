@@ -1,17 +1,27 @@
-# Copyright (C) 2022 pluginever
+# Copyright (C) 2023 PluginEver
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Serial Numbers 1.3.11\n"
-"Report-Msgid-Bugs-To: "
-"https://wordpress.org/support/plugin/wc-serial-numbers\n"
-"POT-Creation-Date: 2022-10-26 15:19:31+00:00\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.0.0\n"
+"Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
+"POT-Creation-Date: 2023-01-01 14:17:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
 #: includes/admin/class-wc-serial-numbers-admin-actions.php:47
@@ -37,86 +47,73 @@ msgstr ""
 msgid "Activations"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:66
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:67
-#: includes/class-wc-serial-numbers-installer.php:301
-msgid "Settings"
-msgstr ""
-
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:77
-#: includes/class-wc-serial-numbers-installer.php:309
-msgid "Go Pro"
-msgstr ""
-
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:90
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:68
 msgid "Serials per page"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:96
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:74
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:116
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:201
 #: includes/wc-serial-numbers-functions.php:113
 msgid "Available"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:96
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:74
 msgid "Serial Numbers are valid and available for sell"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:97
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:75
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:202
 #: includes/wc-serial-numbers-functions.php:114
 msgid "Sold"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:97
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:75
 msgid "Serial Numbers are sold and active"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:98
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:58
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:76
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:203
-#: includes/wc-serial-numbers-functions.php:115
+#: includes/wc-serial-numbers-functions.php:115 src/Admin/Settings.php:76
 msgid "Refunded"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:98
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:76
 msgid "Serial Numbers are sold then refunded"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:99
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:50
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:77
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:204
-#: includes/wc-serial-numbers-functions.php:116
+#: includes/wc-serial-numbers-functions.php:116 src/Admin/Settings.php:68
 msgid "Cancelled"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:99
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:77
 msgid "Serial Numbers are sold then cancelled"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:100
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:78
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:205
 #: includes/wc-serial-numbers-functions.php:117
 msgid "Expired"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:100
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:78
 msgid "Serial Numbers are sold then expired"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:101
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:79
 #: includes/admin/tables/class-wc-serial-numbers-activations-table.php:140
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:207
 #: includes/wc-serial-numbers-functions.php:119
 msgid "Inactive"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:101
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:79
 msgid "Serial Numbers are are npt available for sell "
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-menus.php:107
+#: includes/admin/class-wc-serial-numbers-admin-menus.php:85
 msgid "Statuses"
 msgstr ""
 
@@ -221,48 +218,19 @@ msgstr ""
 msgid "Let's go!"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin-settings.php:37
-msgid "Action failed. Please refresh the page and retry."
-msgstr ""
-
-#: includes/admin/class-wc-serial-numbers-admin-settings.php:45
-msgid "Your settings have been saved."
-msgstr ""
-
-#: includes/admin/class-wc-serial-numbers-admin-settings.php:102
-msgid "The changes you made will be lost if you navigate away from this page."
-msgstr ""
-
-#: includes/admin/class-wc-serial-numbers-admin.php:56
-msgid "Search product by name"
-msgstr ""
-
-#: includes/admin/class-wc-serial-numbers-admin.php:57
-msgid "Search order"
-msgstr ""
-
 #: includes/admin/class-wc-serial-numbers-admin.php:58
-#: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:309
-msgid "Show"
-msgstr ""
-
-#: includes/admin/class-wc-serial-numbers-admin.php:59
-msgid "Hide"
-msgstr ""
-
-#: includes/admin/class-wc-serial-numbers-admin.php:94
 msgid "Order assigned all serial numbers."
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:97
+#: includes/admin/class-wc-serial-numbers-admin.php:61
 msgid "Order partially missing serial numbers(%d)"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:100
+#: includes/admin/class-wc-serial-numbers-admin.php:64
 msgid "Order missing serial numbers(%d)"
 msgstr ""
 
-#: includes/admin/class-wc-serial-numbers-admin.php:176
+#: includes/admin/class-wc-serial-numbers-admin.php:140
 msgid ""
 "If you like <strong>WooCommerce Serial Numbers</strong> please leave us a "
 "<a href=\"%s\" target=\"_blank\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> "
@@ -372,98 +340,6 @@ msgstr ""
 msgid "Add New"
 msgstr ""
 
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:14
-msgid "General"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:30
-msgid "General settings"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:32
-msgid "The following options affect how the serial numbers will work."
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:36
-msgid "Auto-complete order"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:38
-msgid "Automatically completes orders  after successfull payments."
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:43
-msgid "Reuse serial number"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:45
-msgid "Recover failed, refunded serial numbers for selling again."
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:49
-msgid "Revoke status"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:66
-#: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:206
-#: includes/wc-serial-numbers-functions.php:118
-msgid "Failed"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:74
-msgid "Hide serial number"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:76
-msgid ""
-"All serial numbers will be hidden and only displayed when the \"Show\" "
-"button is clicked."
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:81
-msgid "Disable software support"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:83
-msgid "Disable Software Licensing support & API functionalities."
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:92
-msgid "Stock notification"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:94
-msgid "The following options affects how stock notification will work."
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:98
-msgid "Stock notification email"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:100
-msgid "Sends notification emails when product stock is low."
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:105
-msgid "Stock threshold"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:107
-msgid "When stock goes below the above number, it will send notification email."
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:112
-msgid "Notification recipient email"
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-general.php:114
-msgid "The email address to be used for sending the email notifications."
-msgstr ""
-
-#: includes/admin/settings/wc-serial-numbers-settings-help.php:22
-msgid "Help"
-msgstr ""
-
 #: includes/admin/tables/class-wc-serial-numbers-activations-table.php:47
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:247
 msgid "Activation"
@@ -552,6 +428,11 @@ msgstr ""
 msgid "Expired serial numbers"
 msgstr ""
 
+#: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:206
+#: includes/wc-serial-numbers-functions.php:118 src/Admin/Settings.php:84
+msgid "Failed"
+msgstr ""
+
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:207
 msgid "Inactive serial numbers"
 msgstr ""
@@ -588,6 +469,11 @@ msgstr ""
 msgid "Validity"
 msgstr ""
 
+#: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:309
+#: src/Scripts.php:63
+msgid "Show"
+msgstr ""
+
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:378
 msgid "<b>%s</b> Day <br><small>After purchase</small>"
 msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
@@ -621,7 +507,7 @@ msgid ""
 "products using the plugin."
 msgstr ""
 
-#: includes/admin/views/html-admin-help.php:12
+#: includes/admin/views/html-admin-help.php:12 lib/Lib/Plugin.php:536
 msgid "Support"
 msgstr ""
 
@@ -641,8 +527,7 @@ msgid "Submit a ticket"
 msgstr ""
 
 #: includes/admin/views/html-admin-help.php:20
-#: includes/admin/views/html-admin-help.php:22
-#: includes/class-wc-serial-numbers-installer.php:210
+#: includes/admin/views/html-admin-help.php:22 lib/Lib/Plugin.php:529
 msgid "Documentation"
 msgstr ""
 
@@ -655,22 +540,6 @@ msgstr ""
 
 #: includes/admin/views/html-admin-settings.php:25
 msgid "Save changes"
-msgstr ""
-
-#: includes/class-wc-serial-numbers-ajax.php:76
-msgid "Could not detect the serial number to decrypt"
-msgstr ""
-
-#: includes/class-wc-serial-numbers-ajax.php:81
-msgid "Could not find the serial number to decrypt"
-msgstr ""
-
-#: includes/class-wc-serial-numbers-ajax.php:95
-msgid "Error: You are not allowed to do this."
-msgstr ""
-
-#: includes/class-wc-serial-numbers-ajax.php:107
-msgid "Error: Nonce verification failed"
 msgstr ""
 
 #: includes/class-wc-serial-numbers-api.php:24
@@ -731,14 +600,6 @@ msgstr ""
 
 #: includes/class-wc-serial-numbers-cron.php:47
 msgid "Serial Numbers stock running low"
-msgstr ""
-
-#: includes/class-wc-serial-numbers-installer.php:268
-msgid "Once a Minute"
-msgstr ""
-
-#: includes/class-wc-serial-numbers-installer.php:301
-msgid "View Serial number settings"
 msgstr ""
 
 #: includes/class-wc-serial-numbers-order-handler.php:63
@@ -841,27 +702,489 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
-#: lib/Framework/Settings_Page.php:310
+#: lib/Lib/Plugin.php:228 src/Admin/Menus.php:56
+msgid "Go Pro"
+msgstr ""
+
+#: lib/Lib/Plugin.php:543
+msgid "Review"
+msgstr ""
+
+#: lib/Lib/Plugin.php:549
+msgid "More Plugins"
+msgstr ""
+
+#: lib/Lib/Plugin.php:566 src/Admin/Menus.php:36 src/Admin/Menus.php:37
+msgid "Settings"
+msgstr ""
+
+#: lib/Lib/Settings.php:69
 msgid "Settings saved."
 msgstr ""
 
-#: lib/Framework/WP_Background_Process.php:426
-msgid "Every %d Minutes"
+#: lib/Lib/Settings.php:226 lib/Lib/Settings.php:314 lib/Lib/Settings.php:323
+#: lib/Lib/Settings.php:332
+msgid "Recommended"
 msgstr ""
 
-#: wc-serial-numbers.php:164
+#: lib/Lib/Settings.php:227 lib/Lib/Settings.php:315 lib/Lib/Settings.php:324
+#: lib/Lib/Settings.php:333
+msgid "Install Now"
+msgstr ""
+
+#: lib/Lib/Settings.php:285
+msgid "Need Help?"
+msgstr ""
+
+#: lib/Lib/Settings.php:347
+msgid "Join our Community"
+msgstr ""
+
+#: lib/Lib/Settings.php:351
+msgid "Request a Feature"
+msgstr ""
+
+#: lib/Lib/Settings.php:355
+msgid "Report a Bug"
+msgstr ""
+
+#: src/AJAX.php:96 src/AJAX.php:104
+msgid "Could not detect the serial number to decrypt"
+msgstr ""
+
+#: src/Admin/Admin.php:64
+#. translators: 1: Plugin name 2: WordPress
 msgid ""
-"<strong>WooCommerce Serial Numbers</strong> requires "
-"<strong>WooCommerce</strong> installed and activated. Please Install %s "
-"WooCommerce. %s"
+"Thank you for using %1$s. If you like it, please leave us a %2$s rating. A "
+"huge thank you from PluginEver in advance!"
 msgstr ""
 
-#: wc-serial-numbers.php:197 wc-serial-numbers.php:208
-msgid "Cheatin&#8217; huh?"
+#: src/Admin/Admin.php:66
+msgid "Thanks :)"
+msgstr ""
+
+#: src/Admin/Admin.php:84
+#. translators: 1: Plugin version
+msgid "Version %s"
+msgstr ""
+
+#: src/Admin/Notices.php:44
+#. translators: %1$s: link to the plugin page, %2$s: link to the plugin page
+msgid ""
+"%s is not functional because you are using outdated version of the plugin, "
+"please update to the version 1.1.9 or higher."
+msgstr ""
+
+#: src/Admin/Settings.php:25
+msgid "General"
+msgstr ""
+
+#: src/Admin/Settings.php:46
+msgid "General settings"
+msgstr ""
+
+#: src/Admin/Settings.php:48
+msgid "The following options affect how the serial numbers will work."
+msgstr ""
+
+#: src/Admin/Settings.php:52
+msgid "Auto-complete order"
+msgstr ""
+
+#: src/Admin/Settings.php:54
+msgid "Automatically completes orders  after successfull payments."
+msgstr ""
+
+#: src/Admin/Settings.php:59
+msgid "Reuse serial number"
+msgstr ""
+
+#: src/Admin/Settings.php:61
+msgid "Recover failed, refunded serial numbers for selling again."
+msgstr ""
+
+#: src/Admin/Settings.php:62
+msgid ""
+"If you enable this option, the serial number will be available for selling "
+"again if the order is refunded or failed."
+msgstr ""
+
+#: src/Admin/Settings.php:67
+msgid "Revoke status"
+msgstr ""
+
+#: src/Admin/Settings.php:92
+msgid "Hide serial number"
+msgstr ""
+
+#: src/Admin/Settings.php:94
+msgid ""
+"All serial numbers will be hidden and only displayed when the \"Show\" "
+"button is clicked."
+msgstr ""
+
+#: src/Admin/Settings.php:99
+msgid "Disable software support"
+msgstr ""
+
+#: src/Admin/Settings.php:101
+msgid "Disable Software Licensing support & API functionalities."
+msgstr ""
+
+#: src/Admin/Settings.php:110
+msgid "Stock notification"
+msgstr ""
+
+#: src/Admin/Settings.php:112
+msgid "The following options affects how stock notification will work."
+msgstr ""
+
+#: src/Admin/Settings.php:116
+msgid "Stock notification email"
+msgstr ""
+
+#: src/Admin/Settings.php:118
+msgid "Sends notification emails when product stock is low."
+msgstr ""
+
+#: src/Admin/Settings.php:124
+msgid "Stock threshold"
+msgstr ""
+
+#: src/Admin/Settings.php:126
+msgid "When stock goes below the above number, it will send notification email."
+msgstr ""
+
+#: src/Admin/Settings.php:131
+msgid "Notification recipient email"
+msgstr ""
+
+#: src/Admin/Settings.php:133
+msgid "The email address to be used for sending the email notifications."
+msgstr ""
+
+#: src/Admin/Settings.php:167
+msgid "Create and assign license keys for WooCommerce variable products."
+msgstr ""
+
+#: src/Admin/Settings.php:168
+msgid "Generate bulk license keys with your custom key generator rule."
+msgstr ""
+
+#: src/Admin/Settings.php:169
+msgid "Random & sequential order for the generator rules."
+msgstr ""
+
+#: src/Admin/Settings.php:170
+msgid "Automatic license key generator to auto-create & assign keys with orders."
+msgstr ""
+
+#: src/Admin/Settings.php:171
+msgid "License key management option from the order page with required actions."
+msgstr ""
+
+#: src/Admin/Settings.php:172
+msgid "Support for bulk import/export of license keys from/to CSV."
+msgstr ""
+
+#: src/Admin/Settings.php:173
+msgid ""
+"Option to sell license keys even if there are no available keys in the "
+"stock."
+msgstr ""
+
+#: src/Admin/Settings.php:174
+msgid "Custom deliverable quantity to deliver multiple keys with a single product."
+msgstr ""
+
+#: src/Admin/Settings.php:175
+msgid ""
+"Manual delivery option to manually deliver license keys instead of "
+"automatic."
+msgstr ""
+
+#: src/Admin/Settings.php:176
+msgid ""
+"Email Template to easily and quickly customize the order confirmation & low "
+"stock alert email."
+msgstr ""
+
+#: src/Admin/Settings.php:177
+msgid "Many more ..."
+msgstr ""
+
+#: src/Admin/Settings.php:181
+msgid "Want More?"
+msgstr ""
+
+#: src/Admin/Settings.php:182
+msgid ""
+"This plugin offers a premium version which comes with the following "
+"features:"
+msgstr ""
+
+#: src/Admin/Settings.php:188
+msgid "Upgrade to PRO"
+msgstr ""
+
+#: src/Installer.php:50
+msgid "Once a Minute"
+msgstr ""
+
+#: src/Installer.php:101
+#. translators: 1: plugin name 2: version number
+msgid "%1$s updated to version %2$s successfully."
+msgstr ""
+
+#: src/Plugin.php:75
+#. translators: 1: plugin name 2: WooCommerce
+msgid "%1$s requires %2$s to be installed and active."
+msgstr ""
+
+#: src/Plugin.php:77
+msgid "WooCommerce"
+msgstr ""
+
+#: src/Scripts.php:61
+msgid "Search product by name"
+msgstr ""
+
+#: src/Scripts.php:62
+msgid "Search order"
+msgstr ""
+
+#: src/Scripts.php:64
+msgid "Hide"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/internationalized-plugin.php:11
+msgid "This is a dummy plugin"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:42
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:72
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:80
+msgid "There was an error when reading this WXR file"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:43
+msgid ""
+"Details are shown above. The importer will now try again with a different "
+"parser..."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:84
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:89
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:306
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:495
+msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:132
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:141
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:192
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:196
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:205
+msgid "Sorry, there has been an error."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:133
+msgid "The file does not exist, please try again."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:176
+msgid "All done."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:176
+msgid "Have fun!"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:177
+msgid "Remember to update the passwords and roles of imported users."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:197
+msgid ""
+"The export file could not be found at <code>%s</code>. It is likely that "
+"this was caused by a permissions problem."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:213
+msgid ""
+"This WXR file (version %s) may not be supported by this version of the "
+"importer. Please consider updating."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:238
+msgid ""
+"Failed to import author %s. Their posts will be attributed to the current "
+"user."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:264
+msgid "Assign Authors"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:265
+msgid ""
+"To make it easier for you to edit and save the imported content, you may "
+"want to reassign the author of the imported item to an existing user of "
+"this site. For example, you may want to import all the entries as "
+"<code>admin</code>s entries."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:267
+msgid ""
+"If a new user is created by WordPress, a new password will be randomly "
+"generated and the new user&#8217;s role will be set as %s. Manually "
+"changing the new user&#8217;s details will be necessary."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:277
+msgid "Import Attachments"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:280
+msgid "Download and import file attachments"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:284
+msgid "Submit"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:297
+msgid "Import author:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:308
+msgid "or create new user with login name:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:311
+msgid "as a new user:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:319
+msgid "assign posts to an existing user:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:321
+msgid "or assign posts to an existing user:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:322
+msgid "- Select -"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:372
+msgid ""
+"Failed to create new user for %s. Their posts will be attributed to the "
+"current user."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:424
+msgid "Failed to import category %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:467
+msgid "Failed to import post tag %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:516
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:738
+msgid "Failed to import %s %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:605
+msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:642
+msgid "%s &#8220;%s&#8221; already exists."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:704
+msgid "Failed to import %s &#8220;%s&#8221;"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:869
+msgid "Menu item skipped due to missing menu slug"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:876
+msgid "Menu item skipped due to invalid menu slug: %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:939
+msgid "Fetching attachments is not enabled"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:952
+msgid "Invalid file type"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:996
+msgid "Remote server did not respond"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1002
+msgid "Remote server returned error response %1$d %2$s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1009
+msgid "Remote file is incorrect size"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1014
+msgid "Zero size file downloaded"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1020
+msgid "Remote file is too large, limit is %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1119
+msgid "Import WordPress"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1126
+msgid ""
+"A new version of this importer is available. Please update to version %s to "
+"ensure compatibility with newer export files."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1141
+msgid ""
+"Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import "
+"the posts, pages, comments, custom fields, categories, and tags into this "
+"site."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1142
+msgid "Choose a WXR (.xml) file to upload, then click Upload file and import."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1216
+msgid ""
+"Import <strong>posts, pages, comments, custom fields, categories, and "
+"tags</strong> from a WordPress export file."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/themedir1/internationalized-theme/functions.php:7
+msgid "This is a dummy theme"
+msgstr ""
+
+#: vendor/wp-cli/wp-cli/php/utils-wp.php:230
+msgid "Inactive Widgets"
+msgstr ""
+
+#: vendor/wp-cli/wp-cli/php/utils-wp.php:233
+msgid "Drag widgets here to remove them from the sidebar but keep their settings."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "WooCommerce Serial Numbers"
+msgid "Serial Numbers for WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -870,44 +1193,14 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"The best WooCommerce Plugin to sell license keys, redeem cards and other "
-"secret numbers!"
+"The best WooCommerce extension to sell license & serial keys, gift cards "
+"and other secret numbers!"
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "pluginever"
+msgid "PluginEver"
 msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "http://pluginever.com"
-msgstr ""
-
-#: lib/Framework/Plugin.php:272
-msgctxt "aria-label: settings link"
-msgid "settings"
-msgstr ""
-
-#: lib/Framework/Plugin.php:273
-msgctxt "plugin action link"
-msgid "Settings"
-msgstr ""
-
-#: lib/Framework/Plugin.php:302
-msgctxt "noun"
-msgid "More Plugins"
-msgstr ""
-
-#: lib/Framework/Plugin.php:310
-msgctxt "noun"
-msgid "Docs"
-msgstr ""
-
-#: lib/Framework/Plugin.php:318
-msgctxt "noun"
-msgid "Support"
-msgstr ""
-
-#: lib/Framework/Plugin.php:326
-msgctxt "noun"
-msgid "Review"
 msgstr ""

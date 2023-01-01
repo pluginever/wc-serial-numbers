@@ -10,9 +10,7 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		'css/admin-style': './assets/css/admin-style.scss',
-		'js/admin-script': './assets/js/admin-script.js',
-		'css/settings': './assets/css/settings.scss',
-		'js/settings': './assets/js/settings.js',
+		'js/admin-script': './assets/js/admin-script.js'
 	},
 	output: {
 		clean: true,
