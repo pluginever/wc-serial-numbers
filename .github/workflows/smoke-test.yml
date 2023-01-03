@@ -158,12 +158,15 @@ jobs:
           # Export the database
           wp db export $GITHUB_WORKSPACE/tests/_data/dump.sql || exit 1
 
+          # Create codeception.yml file
+          cp $GITHUB_WORKSPACE/codeception.dist.yml $GITHUB_WORKSPACE/codeception.yml || exit 1
+
         env:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         working-directory: ${{ env.WP_ROOT_FOLDER }}
 
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '11'
