@@ -112,6 +112,7 @@ jobs:
           sleep 1
           done
           mysql -u $TEST_SITE_DB_USER -p"$TEST_SITE_DB_PASSWORD" -h"127.0.0.1" -P"$DB_PORT" -e "SHOW DATABASES;"
+          mysql -u $TEST_SITE_DB_USER -p"$TEST_SITE_DB_PASSWORD" -h"127.0.0.1" -P"$DB_PORT" -e "CREATE DATABASE $TEST_DB_NAME" 2>/dev/null || exit 1
 
       - name: Setup WP CLI tools
         run: |
