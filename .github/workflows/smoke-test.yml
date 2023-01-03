@@ -1,6 +1,9 @@
 name: Smoke Test
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     types: [ labeled ]
   workflow_dispatch:
@@ -19,8 +22,7 @@ on:
 
 env:
   # Must match the env variables in .dist.env file
-  TEST_SITE_DB_DSN: mysql:host=localhost;dbname=test_acceptance
-  TEST_SITE_DB_HOST: 127.0.0.1
+  TEST_SITE_DB_HOST: localhost
   WP_ROOT_FOLDER: /tmp/wordpress
   TEST_SITE_DB_NAME: test_acceptance
   TEST_SITE_DB_USER: root
@@ -35,7 +37,7 @@ env:
 
   # For integration tests
   TEST_DB_NAME: tests
-  TEST_DB_HOST: 127.0.0.1
+  TEST_DB_HOST: localhost
   TEST_DB_USER: root
   TEST_DB_PASSWORD: root
   TEST_TABLE_PREFIX: wp_
@@ -114,8 +116,8 @@ jobs:
           while ! mysqladmin ping -h"127.0.0.1" -P"$DB_PORT" --silent; do
           sleep 1
           done
-          mysql -u $TEST_SITE_DB_USER -p"$TEST_SITE_DB_PASSWORD" -h"$TEST_DB_HOST" -P"$DB_PORT" -e "CREATE DATABASE $TEST_DB_NAME" 2>/dev/null || exit 1
-          mysql -u $TEST_SITE_DB_USER -p"$TEST_SITE_DB_PASSWORD" -h"$TEST_SITE_DB_HOST" -P"$DB_PORT" -e "SHOW DATABASES;"
+          mysql -u $TEST_SITE_DB_USER -p"$TEST_SITE_DB_PASSWORD" -h"127.0.0.1" -P"$DB_PORT" -e "CREATE DATABASE $TEST_DB_NAME" 2>/dev/null || exit 1
+          mysql -u $TEST_SITE_DB_USER -p"$TEST_SITE_DB_PASSWORD" -h"127.0.0.1" -P"$DB_PORT" -e "SHOW DATABASES;"
 
       - name: Setup WP CLI tools
         run: |
