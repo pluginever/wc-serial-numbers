@@ -76,6 +76,7 @@ jobs:
           MYSQL_DATABASE: test_acceptance
           MYSQL_ROOT_PASSWORD: root
           options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+
     steps:
       - uses: actions/checkout@v3
 
@@ -116,7 +117,6 @@ jobs:
           while ! mysqladmin ping -h"127.0.0.1" -P"$DB_PORT" --silent; do
           sleep 1
           done
-          mysql -u $TEST_SITE_DB_USER -p"$TEST_SITE_DB_PASSWORD" -h"127.0.0.1" -P"$DB_PORT" -e "CREATE DATABASE $TEST_DB_NAME" 2>/dev/null || exit 1
           mysql -u $TEST_SITE_DB_USER -p"$TEST_SITE_DB_PASSWORD" -h"127.0.0.1" -P"$DB_PORT" -e "SHOW DATABASES;"
 
       - name: Setup WP CLI tools
@@ -127,7 +127,7 @@ jobs:
           chmod +x $GITHUB_WORKSPACE/tools/wp-cli.phar && mv $GITHUB_WORKSPACE/tools/wp-cli.phar $GITHUB_WORKSPACE/tools/wp
           echo "$GITHUB_WORKSPACE/tools/" >> $GITHUB_PATH
 
-      - name : Prepare environment
+      - name: Prepare environment
         run: |
           # Install WP
           wp core download --version=${{ matrix.WP_VERSION }} || exit 1
