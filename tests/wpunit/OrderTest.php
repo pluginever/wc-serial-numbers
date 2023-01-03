@@ -3,9 +3,7 @@ use LevelLevel\WPBrowserWooCommerce\WCTestCase;
 
 // write a wpunit test for ordering a product with WooCommerce.
 class OrderTest extends WCTestCase {
-	/**
-	 * @var \WpunitTester
-	 */
+
 	protected $tester;
 
 	public function test_order() {
