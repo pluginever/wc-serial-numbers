@@ -186,11 +186,11 @@ jobs:
           echo "NPM version: $(npm -v)"
           echo "Yarn version: $(yarn -v)"
 
-      - name: Run Codeception functional tests
-        run: composer run-script test:functional
-
       - name: Run Codeception acceptance tests
         run: composer run-script test:acceptance
+
+      - name: Run Codeception functional tests
+        run: composer run-script test:functional
 
       - name: Maybe Upload Tests Output
         if: ${{ failure() }}
