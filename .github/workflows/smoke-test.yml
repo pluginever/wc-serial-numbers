@@ -36,8 +36,8 @@ env:
   TEST_SITE_ADMIN_EMAIL: admin@localhost.test
 
   # For integration tests
-  TEST_DB_NAME: tests
-  TEST_DB_HOST: localhost
+  TEST_DB_NAME: test_acceptance
+  TEST_DB_HOST: 127.0.0.1
   TEST_DB_USER: root
   TEST_DB_PASSWORD: root
   TEST_TABLE_PREFIX: wp_
