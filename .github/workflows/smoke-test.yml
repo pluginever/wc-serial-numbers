@@ -1,9 +1,6 @@
 name: Smoke Test
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     types: [ labeled ]
   workflow_dispatch:
@@ -34,13 +31,6 @@ env:
   TEST_SITE_WP_URL: http://localhost:8888
   TEST_SITE_WP_DOMAIN: localhost:8888
   TEST_SITE_ADMIN_EMAIL: admin@localhost.test
-
-  # For integration tests
-  TEST_DB_NAME: test_acceptance
-  TEST_DB_HOST: 127.0.0.1
-  TEST_DB_USER: root
-  TEST_DB_PASSWORD: root
-  TEST_TABLE_PREFIX: wp_
 
 jobs:
   smoke_test:
@@ -170,17 +160,17 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         working-directory: ${{ env.WP_ROOT_FOLDER }}
 
-#      - name: Setup Java
-#        uses: actions/setup-java@v3
-#        with:
-#          distribution: 'adopt'
-#          java-version: '11'
-#
-#      - name: Run Selenium
-#        run: nohup java -jar $SELENIUM_JAR_PATH standalone --port 4444 &
-#
-#      - name: Run chromedriver
-#        run: nohup $CHROMEWEBDRIVER/chromedriver --url-base=/wd/hub /dev/null 2>&1 &
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Run Selenium
+        run: nohup java -jar $SELENIUM_JAR_PATH standalone --port 4444 &
+
+      - name: Run chromedriver
+        run: nohup $CHROMEWEBDRIVER/chromedriver --url-base=/wd/hub /dev/null 2>&1 &
 
       - name: Start a web server
         run: php -S "$TEST_SITE_WP_DOMAIN" -t "$WP_ROOT_FOLDER" >/dev/null 2>&1 &
@@ -194,14 +184,14 @@ jobs:
           echo "NPM version: $(npm -v)"
           echo "Yarn version: $(yarn -v)"
 
-#      - name: Run Codeception acceptance tests
-#        run: composer run-script test:acceptance
+      - name: Run Codeception acceptance tests
+        run: composer run-script test:acceptance
 
-#      - name: Run Codeception functional tests
-#        run: composer run-script test:functional
+      - name: Run Codeception functional tests
+        run: composer run-script test:functional
 
-      - name: Run Codeception WP unit tests
-        run: composer run-script test:wpunit
+#      - name: Run Codeception WP unit tests
+#        run: composer run-script test:wpunit
 
       - name: Maybe Upload Tests Output
         if: ${{ failure() }}
