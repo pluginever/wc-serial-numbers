@@ -16,6 +16,12 @@ fi
 
 echo "Preparing release $VERSION for $SLUG..."
 
+echo "➤ Building plugin..."
+npm install && npm run build
+composer install
+composer update --no-dev --no-scripts
+echo "✓ Plugin built!"
+
 # Check if svn user name is provided with -u flag and password with -p flag
 while getopts u:p: flag; do
 	case "${flag}" in

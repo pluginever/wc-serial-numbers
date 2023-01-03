@@ -11,6 +11,12 @@ if [ -z "$SLUG" ]; then
 fi
 echo "➤ Preparing zip for $VERSION of $SLUG..."
 
+echo "➤ Building plugin..."
+npm install && npm run build
+composer install
+composer update --no-dev --no-scripts
+echo "✓ Plugin built!"
+
 # if directory already exists, delete it
 if [ -d "$ZIP_DIR" ]; then
 	rm -rf $ZIP_DIR
