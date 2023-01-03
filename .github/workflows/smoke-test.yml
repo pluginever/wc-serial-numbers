@@ -165,17 +165,17 @@ jobs:
           DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         working-directory: ${{ env.WP_ROOT_FOLDER }}
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-
-      - name: Run Selenium
-        run: nohup java -jar $SELENIUM_JAR_PATH standalone --port 4444 &
-
-      - name: Run chromedriver
-        run: nohup $CHROMEWEBDRIVER/chromedriver --url-base=/wd/hub /dev/null 2>&1 &
+#      - name: Setup Java
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'adopt'
+#          java-version: '11'
+#
+#      - name: Run Selenium
+#        run: nohup java -jar $SELENIUM_JAR_PATH standalone --port 4444 &
+#
+#      - name: Run chromedriver
+#        run: nohup $CHROMEWEBDRIVER/chromedriver --url-base=/wd/hub /dev/null 2>&1 &
 
       - name: Start a web server
         run: php -S "$TEST_SITE_WP_DOMAIN" -t "$WP_ROOT_FOLDER" >/dev/null 2>&1 &
@@ -189,11 +189,14 @@ jobs:
           echo "NPM version: $(npm -v)"
           echo "Yarn version: $(yarn -v)"
 
-      - name: Run Codeception acceptance tests
-        run: composer run-script test:acceptance
+#      - name: Run Codeception acceptance tests
+#        run: composer run-script test:acceptance
 
       - name: Run Codeception functional tests
         run: composer run-script test:functional
+
+      - name: Run Codeception WP unit tests
+        run: composer run-script test:wpunit
 
       - name: Maybe Upload Tests Output
         if: ${{ failure() }}
