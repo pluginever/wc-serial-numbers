@@ -33,6 +33,7 @@ env:
 
   # For integration tests
   TEST_DB_NAME: tests
+  TEST_DB_HOST: 127.0.0.1
   TEST_DB_USER: root
   TEST_DB_PASSWORD: root
   TEST_TABLE_PREFIX: wp_
@@ -52,13 +53,13 @@ jobs:
       fail-fast: true
       max-parallel: 2
       matrix:
-        php: [ 7.4, 8.0 ]
+        php: [ 7.2, 7.4, 8.0 ]
         WP_VERSION: [ latest ]
         WC_VERSION: [ latest ]
         include:
           - php: 7.4
-            WP_VERSION: 5.5
-            WC_VERSION: 4.5.2
+            WP_VERSION: latest
+            WC_VERSION: latest
           - php: 8.1
             WP_VERSION: latest
             WC_VERSION: latest
