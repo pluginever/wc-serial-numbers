@@ -62,7 +62,7 @@ class Installer extends Singleton {
 	 * @return void
 	 */
 	public function check_update() {
-		$db_version      = get_option( 'wc_serial_numbers_version' );
+		$db_version      = wc_serial_numbers()->get_db_version();
 		$current_version = wc_serial_numbers()->get_version();
 		$requires_update = version_compare( $db_version, $current_version, '<' );
 		$can_install     = ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) && ! defined( 'IFRAME_REQUEST' );
@@ -74,7 +74,7 @@ class Installer extends Singleton {
 			if ( ! is_null( $db_version ) && version_compare( $db_version, end( $update_versions ), '<' ) ) {
 				$this->update();
 			} else {
-				update_option( 'wc_serial_numbers_version', $current_version );
+				wc_serial_numbers()->update_db_version( $current_version );
 			}
 		}
 	}
@@ -86,7 +86,7 @@ class Installer extends Singleton {
 	 * @return void
 	 */
 	public function update() {
-		$db_version = get_option( 'wc_serial_numbers_version' );
+		$db_version = wc_serial_numbers()->get_db_version();
 		foreach ( $this->updates as $version => $callbacks ) {
 			$callbacks = (array) $callbacks;
 			if ( version_compare( $db_version, $version, '<' ) ) {
@@ -95,7 +95,7 @@ class Installer extends Singleton {
 					// if the callback return false then we need to update the db version.
 					$continue = call_user_func( array( $this, $callback ) );
 					if ( ! $continue ) {
-						update_option( 'wc_serial_numbers_version', $version );
+						wc_serial_numbers()->update_db_version( $version );
 						$notice = sprintf(
 						/* translators: 1: plugin name 2: version number */
 							__( '%1$s updated to version %2$s successfully.', 'wc-serial-numbers' ),
@@ -123,7 +123,7 @@ class Installer extends Singleton {
 		self::create_tables();
 		self::create_cron_jobs();
 		Admin\Settings::get_instance()->save_defaults();
-		add_option( 'wc_serial_numbers_version', wc_serial_numbers()->get_version() );
+		wc_serial_numbers()->update_db_version( wc_serial_numbers()->get_version(), false );
 		add_option( 'wc_serial_numbers_install_date', current_time( 'mysql' ) );
 		set_transient( 'wc_serial_numbers_activated', true, 30 );
 		set_transient( 'wc_serial_numbers_activation_redirect', true, 30 );

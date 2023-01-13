@@ -78,13 +78,13 @@ spl_autoload_register( 'wc_serial_numbers_autoload' );
  */
 function wc_serial_numbers() {
 	$data = array(
-		'file'         => __FILE__,
-		'settings_url' => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),
-		'support_url'  => 'https://pluginever.com/support/',
-		'docs_url'     => 'https://pluginever.com/docs/wocommerce-serial-numbers/',
-		'premium_url'  => 'https://pluginever.com/plugins/wc-serial-numbers/',
-		'premium_slug' => 'wc-serial-numbers-pro',
-		'review_url'   => 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5#new-post',
+		'file'             => __FILE__,
+		'settings_url'     => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),
+		'support_url'      => 'https://pluginever.com/support/',
+		'docs_url'         => 'https://pluginever.com/docs/wocommerce-serial-numbers/',
+		'premium_url'      => 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/',
+		'premium_basename' => 'wc-serial-numbers-pro',
+		'review_url'       => 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5#new-post',
 	);
 
 	return Plugin::create( $data );

@@ -16,7 +16,7 @@ The best WooCommerce plugin to sell and manage license keys with ease.
 === 💵 With Serial Numbers for WooCommerce You Can Sell: ===
 
 * License activated software, games, and digital products.
-* Gift cards, recharge cards, and other secret number-based products. 
+* Gift cards, recharge cards, and other secret number-based products.
 * Pin codes, username & passwords.
 * Lottery tickets.
 
@@ -65,38 +65,38 @@ The best WooCommerce plugin to sell and manage license keys with ease.
 
 === 🔑 How To Generate/ Add A License Key: ===
 
-Generating and adding a license key is easy. You just need to click ‘Add New’ to generate a new license key. 
+Generating and adding a license key is easy. You just need to click ‘Add New’ to generate a new license key.
 Next, follow these five steps:
 
 **1. Select A Product**
 Select the desired product from your ‘Add New’ serial key interface. Next, select the right product from the dropdown by entering a few characters of the product name.
 
 **2. Generate Keys**
-Add the desired serial/license key from the ‘Serial Numbers’ tab. You could use any combination of letters and numbers to generate serial/license keys. 
+Add the desired serial/license key from the ‘Serial Numbers’ tab. You could use any combination of letters and numbers to generate serial/license keys.
 
 **3. Set Activation Limit**
-Set the ‘Activation Limit’ of your license key. This mostly applies to software and games licenses. In this section, you can also restrict total activations from the license. For instance, you can enter ‘3’ to allow a maximum of three activations with one key. 
+Set the ‘Activation Limit’ of your license key. This mostly applies to software and games licenses. In this section, you can also restrict total activations from the license. For instance, you can enter ‘3’ to allow a maximum of three activations with one key.
 
 **4. Set Validation Days**
-Set key validation days in the ‘Validity’ field. For example, if you desire your license key to stay valid for a whole year, enter 365 in its input bar. It’s worth noting that the countdown starts from the date of purchase. 
+Set key validation days in the ‘Validity’ field. For example, if you desire your license key to stay valid for a whole year, enter 365 in its input bar. It’s worth noting that the countdown starts from the date of purchase.
 
 **5. Set Expiry Date**
-Enter a later date from the calendar in the ‘Expires At’ section. License keys will expire after the date you enter. There will be no allocation to this serial key with future orders after the date expires.  
+Enter a later date from the calendar in the ‘Expires At’ section. License keys will expire after the date you enter. There will be no allocation to this serial key with future orders after the date expires.
 
 If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
-=== 💝 Serial Numbers for WooCommerce has received lots of love from its users: === 
-**Jose Varghese** 
+=== 💝 Serial Numbers for WooCommerce has received lots of love from its users: ===
+**Jose Varghese**
 ***Developer***
 > [Thanks a lot for providing this super awesome plugin. It saved a lot of time while working on my client website. Good luck and keep up the work!!](https://wordpress.org/support/topic/awesome-plugin-4630/)
 
-**Gaurav Yadav** 
+**Gaurav Yadav**
 > [Best Serial code generator plugin ever!](https://wordpress.org/support/topic/best-serial-code-generator-plugin-ever/)
 
-**Kajol Dave** 
+**Kajol Dave**
 > [Best Serial Numbers Pro Plugin](https://wordpress.org/support/topic/best-serial-numbers-pro-plugin/)
 
-=== 💢 Supercharge Your WooCommerce Store With Our Other Plugins: === 
+=== 💢 Supercharge Your WooCommerce Store With Our Other Plugins: ===
 
 * **[Product Category Slider for WooCommerce](https://wordpress.org/plugins/woo-category-slider-by-pluginever "Product Category Slider for WooCommerce")**
 * **[Product Category Showcase for WooCommerce](https://wordpress.org/plugins/wc-category-showcase "Product Category Showcase for WooCommerce")**
@@ -142,7 +142,7 @@ This WooCommerce plugin has the ability to extend and become a fully-fledged lic
 Yes, of course. We do not create products for ourselves. You are always welcome to suggest new features and improvements.
 
 = How do I get the advanced features? =
- 
+
 The advanced features include bulk import of license keys and automatic license generation. They offer much-needed productivity enhancement for every store owner. You can purchase the premium version from Plugiever and enjoy those advanced features.
 
 = How do I work with software API? =
@@ -161,10 +161,14 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.4.2 11th January 2023 =
+* Enhancement: New settings UI with performance improvements.
+* Enhancement: Optimized plugin assets.
+
 
 = 1.2.10 (20 May, 2022) =
 Fix - Compatibility with WP 6.1
-Fix - Compatibility with WC 71. 
+Fix - Compatibility with WC 71.
 
 = 1.2.10 (17 May, 2022) =
 Fix - Compatibility with WC v6.5.1
@@ -219,13 +223,13 @@ Enhance - Enhance simple product metabox styles
 = 1.1.3 (24 November, 2019) =
 * Enhance - Improve API response
 * Fix - Added compatibility with Product Input Fields
-* Fix - Option to modify license validity 
+* Fix - Option to modify license validity
 * Fix - WP Compatibility v5.3
 
 = 1.1.2 (11 November, 2019) =
 * New - Obscure serial keys in dashboard
 * Enhance - Change API response
-* Fix - Indexing serial number table 
+* Fix - Indexing serial number table
 * Fix - WC Compatibility v3.8.0
 
 = 1.1.1 (16 October, 2019) =
