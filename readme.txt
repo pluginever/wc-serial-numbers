@@ -161,7 +161,11 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
-= 1.4.2 15th January 2023 =
+= 1.4.3 (15 January 2023) =
+* Fix: Translation breaking page
+* Fix: Reuse license key not working
+
+= 1.4.2 (15 January 2023 )=
 * Enhancement: New settings UI with performance improvements.
 * Enhancement: Optimized plugin assets.
 

@@ -94,10 +94,12 @@ class Admin extends Singleton {
 	 * @return array
 	 */
 	public static function get_screen_ids() {
+		$screen_id = sanitize_title( __( 'Serial Numbers', 'wc-serial-numbers' ) );
 		$screen_ids = [
-			'toplevel_page_wc-serial-numbers',
-			'serial-numbers_page_wc-serial-numbers-products',
-			'serial-numbers_page_wc-serial-numbers-settings',
+			'toplevel_page_'. $screen_id,
+			'toplevel_page_wc-'. $screen_id,
+			$screen_id. '_page_wc-serial-numbers-products',
+			$screen_id. '_page_wc-serial-numbers-settings',
 		];
 
 		return apply_filters( 'wc_serial_numbers_screen_ids', $screen_ids );

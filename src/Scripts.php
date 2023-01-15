@@ -52,7 +52,7 @@ class Scripts extends Lib\Singleton {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 
 		wc_serial_numbers()->enqueue_style( 'wc-serial-numbers-admin', 'css/admin-style.css' );
-		wc_serial_numbers()->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', 'select2' ) );
+		wc_serial_numbers()->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', 'select2', 'wp-util' ) );
 		wp_localize_script(
 			'wc-serial-numbers-admin',
 			'wc_serial_numbers_vars',

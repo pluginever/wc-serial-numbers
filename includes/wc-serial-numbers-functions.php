@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit();
 /**
  * Get serial number user role.
  *
- * @return mixed|void
  * @since 1.2.0
+ * @return mixed|void
  */
 function wc_serial_numbers_get_user_role() {
 	return apply_filters( 'wc_serial_numbers_user_role', 'manage_woocommerce' );
@@ -15,8 +15,8 @@ function wc_serial_numbers_get_user_role() {
  *
  * @param $string
  *
- * @return mixed
  * @since 1.2.0
+ * @return mixed
  */
 function wc_serial_numbers_validate_boolean( $string ) {
 	return filter_var( $string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
@@ -27,8 +27,8 @@ function wc_serial_numbers_validate_boolean( $string ) {
  *
  * @param $product_id
  *
- * @return bool
  * @since 1.2.0
+ * @return bool
  */
 function wc_serial_numbers_product_serial_enabled( $product_id ) {
 	return 'yes' == get_post_meta( $product_id, '_is_serial_number', true );
@@ -37,8 +37,8 @@ function wc_serial_numbers_product_serial_enabled( $product_id ) {
 /**
  * Get refund statuses.
  *
- * @return array|bool|mixed
  * @since 1.2.0
+ * @return array|bool|mixed
  */
 function wc_serial_numbers_get_revoke_statuses() {
 	$refund_statuses = wp_cache_get( 'wc_serial_numbers_get_revoke_statuses' );
@@ -61,8 +61,8 @@ function wc_serial_numbers_get_revoke_statuses() {
 /**
  * Check if software disabled.
  *
- * @return bool
  * @since 1.2.0
+ * @return bool
  */
 function wc_serial_numbers_software_support_disabled() {
 	return 'yes' == get_option( 'wc_serial_numbers_disable_software_support' );
@@ -71,8 +71,8 @@ function wc_serial_numbers_software_support_disabled() {
 /**
  * Check if serial number is reusing.
  *
- * @return bool
  * @since 1.2.0
+ * @return bool
  */
 function wc_serial_numbers_reuse_serial_numbers() {
 	return 'yes' == get_option( 'wc_serial_numbers_reuse_serial_number' );
@@ -83,8 +83,8 @@ function wc_serial_numbers_reuse_serial_numbers() {
  *
  * @param $key
  *
- * @return false|string
  * @since 1.2.0
+ * @return false|string
  */
 function wc_serial_numbers_encrypt_key( $key ) {
 	return WC_Serial_Numbers_Encryption::maybeEncrypt( $key );
@@ -95,8 +95,8 @@ function wc_serial_numbers_encrypt_key( $key ) {
  *
  * @param $key
  *
- * @return false|string
  * @since 1.2.0
+ * @return false|string
  */
 function wc_serial_numbers_decrypt_key( $key ) {
 	return WC_Serial_Numbers_Encryption::maybeDecrypt( $key );
@@ -125,8 +125,8 @@ function wc_serial_numbers_get_serial_number_statuses() {
 /**
  * Get key sources.
  *
- * @return mixed|void
  * @since 1.2.0
+ * @return mixed|void
  */
 function wc_serial_numbers_get_key_sources() {
 	$sources = array(
@@ -142,8 +142,8 @@ function wc_serial_numbers_get_key_sources() {
  *
  * @param $order
  *
- * @return bool|int
  * @since 1.2.0
+ * @return bool|int
  */
 function wc_serial_numbers_order_has_serial_numbers( $order ) {
 	if ( is_numeric( $order ) ) {
@@ -180,8 +180,8 @@ function wc_serial_numbers_order_has_serial_numbers( $order ) {
  *
  * @param $order_id
  *
- * @return bool|int
  * @since 1.2.0
+ * @return bool|int
  */
 function wc_serial_numbers_order_connect_serial_numbers( $order_id ) {
 	global $wpdb;
@@ -246,10 +246,11 @@ function wc_serial_numbers_order_connect_serial_numbers( $order_id ) {
  *
  * @param $order_id
  *
- * @return bool
  * @since 1.2.0
+ * @return bool
  */
 function wc_serial_numbers_order_disconnect_serial_numbers( $order_id ) {
+	global $wpdb;
 	$order    = wc_get_order( $order_id );
 	$order_id = $order->get_id();
 
@@ -262,26 +263,21 @@ function wc_serial_numbers_order_disconnect_serial_numbers( $order_id ) {
 		return false;
 	}
 
+	do_action( 'wc_serial_numbers_pre_order_disconnect_serial_numbers', $order_id );
+
 	$reuse_serial_number = wc_serial_numbers_reuse_serial_numbers();
-	$data                = array(
-		'status' => $order->get_status( 'edit' ) == 'completed' ? 'cancelled' : $order->get_status( 'edit' ),
-	);
-	if ( $reuse_serial_number ) {
+	if ( ! $reuse_serial_number ) {
+		$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}serial_numbers WHERE order_id = %d", absint( $order_id )));
+	} else {
 		$data['status']     = 'available';
 		$data['order_id']   = '';
 		$data['order_date'] = '';
+		$wpdb->update( $wpdb->prefix . 'serial_numbers', $data, array( 'order_id' => absint( $order_id ) ) );
 	}
-	if ( $reuse_serial_number ) {
-		global $wpdb;
-		WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->whereRaw( $wpdb->prepare( "serial_id IN (SELECT id from {$wpdb->prefix}serial_numbers WHERE order_id=%d)", $order_id ) )->delete();
-	}
-	do_action( 'wc_serial_numbers_pre_order_disconnect_serial_numbers', $order_id );
 
-	$total_disconnected = WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->where( 'order_id', $order_id )->update( $data );
+	do_action( 'wc_serial_numbers_order_disconnect_serial_numbers', $order_id );
 
-	do_action( 'wc_serial_numbers_order_disconnect_serial_numbers', $order_id, $total_disconnected );
-
-	return $total_disconnected;
+	return true;
 }
 
 
@@ -290,8 +286,8 @@ function wc_serial_numbers_order_disconnect_serial_numbers( $order_id ) {
  *
  * @param $args
  *
- * @return int|WP_Error
  * @since 1.2.0
+ * @return int|WP_Error
  */
 function wc_serial_numbers_insert_serial_number( $args ) {
 	global $wpdb;
@@ -373,7 +369,7 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 //				$valid_product = true;
 //				break;
 //			}
-			$product        = $item->get_product();
+			$product = $item->get_product();
 			if ( $product->get_id() === $product_id ) {
 				$valid_product = true;
 				break;
@@ -425,8 +421,8 @@ function wc_serial_numbers_insert_serial_number( $args ) {
 /**
  * @param $args
  *
- * @return int|WP_Error
  * @since 1.2.0
+ * @return int|WP_Error
  */
 function wc_serial_numbers_update_serial_number( $args ) {
 	$id = isset( $args['id'] ) ? absint( $args['id'] ) : 0;
@@ -443,8 +439,8 @@ function wc_serial_numbers_update_serial_number( $args ) {
  * @param $id
  * @param $status
  *
- * @return int|WP_Error
  * @since 1.2.0
+ * @return int|WP_Error
  */
 function wc_serial_numbers_update_serial_number_status( $id, $status ) {
 	return wc_serial_numbers_update_serial_number( [ 'id' => intval( $id ), 'status' => $status ] );
@@ -456,8 +452,8 @@ function wc_serial_numbers_update_serial_number_status( $id, $status ) {
  *
  * @param $id
  *
- * @return bool
  * @since 1.2.0
+ * @return bool
  */
 function wc_serial_numbers_delete_serial_number( $id ) {
 	global $wpdb;
@@ -479,8 +475,8 @@ function wc_serial_numbers_delete_serial_number( $id ) {
 /**
  * @param $id
  *
- * @return mixed
  * @since 1.2.0
+ * @return mixed
  */
 function wc_serial_numbers_get_serial_number( $id ) {
 	return WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->find( intval( $id ) );
@@ -500,8 +496,8 @@ function wc_serial_numbers_get_activation( $activation_id ) {
 /**
  * @param $args
  *
- * @return int|WP_Error
  * @since 1.2.0
+ * @return int|WP_Error
  */
 function wc_serial_numbers_insert_activation( $args ) {
 	global $wpdb;
@@ -554,8 +550,8 @@ function wc_serial_numbers_insert_activation( $args ) {
 /**
  * @param $args
  *
- * @return int|WP_Error
  * @since 1.2.0
+ * @return int|WP_Error
  */
 function wc_serial_numbers_update_activation( $args ) {
 	$id = isset( $args['id'] ) ? absint( $args['id'] ) : 0;
@@ -569,8 +565,8 @@ function wc_serial_numbers_update_activation( $args ) {
 /**
  * @param $id
  *
- * @return bool
  * @since 1.2.0
+ * @return bool
  */
 function wc_serial_numbers_delete_activation( $id ) {
 	global $wpdb;
@@ -609,8 +605,8 @@ add_action( 'wc_serial_numbers_insert_activation', 'wc_serial_numbers_update_act
  * @param $id
  * @param int $status
  *
- * @return int|WP_Error
  * @since 1.2.0
+ * @return int|WP_Error
  */
 function wc_serial_numbers_update_activation_status( $id, $status = 1 ) {
 	if ( empty( $id ) ) {
@@ -623,8 +619,8 @@ function wc_serial_numbers_update_activation_status( $id, $status = 1 ) {
 /**
  * Serial number order table get columns.
  *
- * @return mixed|void
  * @since 1.2.0
+ * @return mixed|void
  */
 function wc_serial_numbers_get_order_table_columns() {
 	$columns = array(
@@ -643,12 +639,12 @@ function wc_serial_numbers_get_order_table_columns() {
  *
  * @param $product_id
  *
- * @return int
  * @since 1.2.0
+ * @return int
  */
 function wc_serial_numbers_get_stock_quantity( $product_id ) {
 	$source = get_post_meta( $product_id, '_serial_key_source', true );
-	if ( 'custom_source' == get_post_meta( $product_id, '_serial_key_source', true ) || empty($source) ) {
+	if ( 'custom_source' == get_post_meta( $product_id, '_serial_key_source', true ) || empty( $source ) ) {
 		return WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( [
 			'product_id' => $product_id,
 			'status'     => 'available'
@@ -662,8 +658,8 @@ function wc_serial_numbers_get_stock_quantity( $product_id ) {
  * @param $value
  * @param $product
  *
- * @return int
  * @since 1.2.0
+ * @return int
  */
 function wc_serial_numbers_find_stock_quantity( $value, $product ) {
 	if ( wc_serial_numbers_product_serial_enabled( $product->get_id() ) ) {
@@ -680,8 +676,8 @@ add_filter( 'woocommerce_product_get_stock_quantity', 'wc_serial_numbers_find_st
  *
  * @param $columns
  *
- * @return mixed
  * @since 1.2.0
+ * @return mixed
  */
 function wc_serial_numbers_control_order_table_columns( $columns ) {
 	if ( wc_serial_numbers_software_support_disabled() ) {
