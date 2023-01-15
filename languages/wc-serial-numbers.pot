@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.4.2\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.4.3\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-01-15 08:59:04+00:00\n"
+"POT-Creation-Date: 2023-01-15 19:34:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,7 +36,7 @@ msgstr ""
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:33
 #: includes/admin/class-wc-serial-numbers-admin-metaboxes.php:218
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:197
-#: includes/wc-serial-numbers-misc-functions.php:87
+#: includes/wc-serial-numbers-misc-functions.php:87 src/Admin/Admin.php:97
 msgid "Serial Numbers"
 msgstr ""
 
@@ -265,7 +265,7 @@ msgstr ""
 
 #: includes/admin/screen/class-wc-serial-numbers-serial-numbers-screen.php:70
 #: includes/admin/tables/class-wc-serial-numbers-serial-numbers-list-table.php:238
-#: includes/wc-serial-numbers-functions.php:631
+#: includes/wc-serial-numbers-functions.php:627
 msgid "Product"
 msgstr ""
 
@@ -616,88 +616,88 @@ msgstr ""
 msgid "Manually generated serial number"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:307
+#: includes/wc-serial-numbers-functions.php:303
 msgid "Could not find the item to  update"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:331
+#: includes/wc-serial-numbers-functions.php:327
 msgid "You must select a product to add serial number."
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:336
+#: includes/wc-serial-numbers-functions.php:332
 msgid "Invalid product selected."
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:340
+#: includes/wc-serial-numbers-functions.php:336
 msgid "The Serial Key is empty. Please enter a serial key and try again"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:347
+#: includes/wc-serial-numbers-functions.php:343
 msgid "Duplicate key is not allowed"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:355
+#: includes/wc-serial-numbers-functions.php:351
 msgid "Associated order is not valid."
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:360
+#: includes/wc-serial-numbers-functions.php:356
 msgid "Unknown serial number status."
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:364
+#: includes/wc-serial-numbers-functions.php:360
 msgid "Sold item must have a associated valid order."
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:384
+#: includes/wc-serial-numbers-functions.php:380
 msgid "Order does not contains the product."
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:407
+#: includes/wc-serial-numbers-functions.php:403
 msgid "Could not update serial number in the database"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:414
+#: includes/wc-serial-numbers-functions.php:410
 msgid "Could not insert serial number into the database"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:434
+#: includes/wc-serial-numbers-functions.php:430
 msgid "No serial number ID found for updating"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:516
+#: includes/wc-serial-numbers-functions.php:512
 msgid "Could not find the item to update"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:530
+#: includes/wc-serial-numbers-functions.php:526
 msgid "Serial ID is required."
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:538
+#: includes/wc-serial-numbers-functions.php:534
 msgid "Could not update activation in the database"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:545
+#: includes/wc-serial-numbers-functions.php:541
 msgid "Could not insert activation into the database"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:563
-#: includes/wc-serial-numbers-functions.php:617
+#: includes/wc-serial-numbers-functions.php:559
+#: includes/wc-serial-numbers-functions.php:613
 msgid "No Activation ID found for updating"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:632
+#: includes/wc-serial-numbers-functions.php:628
 msgid "Serial Number"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:633
+#: includes/wc-serial-numbers-functions.php:629
 msgid "Email"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:634
+#: includes/wc-serial-numbers-functions.php:630
 msgid "Activation Limit"
 msgstr ""
 
-#: includes/wc-serial-numbers-functions.php:635
+#: includes/wc-serial-numbers-functions.php:631
 msgid "Expires"
 msgstr ""
 
