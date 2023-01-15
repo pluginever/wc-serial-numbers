@@ -38,8 +38,8 @@
     "level-level/wp-browser-woocommerce": "^0.1.8",
     "lucatume/wp-browser": "^3.1",
     "phpcompatibility/php-compatibility": "9.3.5",
-    "pluginever/framework-plugin": "dev-master",
-    "pluginever/framework-settings": "dev-master"
+    "pluginever/framework-plugin": "^1.0.0",
+    "pluginever/framework-settings": "^1.0.0"
   },
   "config": {
     "optimize-autoloader": true,
@@ -72,7 +72,7 @@
     "test:build": "@php ./vendor/bin/codecept build",
     "test:acceptance": "@php ./vendor/bin/codecept run acceptance",
     "test:functional": "@php ./vendor/bin/codecept run functional",
-    "test:wpunit": "@php ./vendor/bin/codecept run wpunit --debug",
+    "test:wpunit": "@php ./vendor/bin/codecept run wpunit",
     "test": "composer test:acceptance && composer test:functional && composer test:wpunit",
     "test:gen:acceptance": "@php vendor/bin/codecept generate:cept",
     "test:gen:func": "@php vendor/bin/codecept generate:cest",

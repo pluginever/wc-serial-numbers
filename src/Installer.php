@@ -2,8 +2,6 @@
 
 namespace WooCommerceSerialNumbers;
 
-use WooCommerceSerialNumbers\Lib\Singleton;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -12,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.4.2
  * @package WooCommerceSerialNumbers
  */
-class Installer extends Singleton {
+class Installer extends Lib\Singleton {
 
 	/**
 	 * Update callbacks.

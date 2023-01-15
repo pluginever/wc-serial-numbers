@@ -161,10 +161,9 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
-= 1.4.2 11th January 2023 =
+= 1.4.2 15th January 2023 =
 * Enhancement: New settings UI with performance improvements.
 * Enhancement: Optimized plugin assets.
-
 
 = 1.2.10 (20 May, 2022) =
 Fix - Compatibility with WP 6.1

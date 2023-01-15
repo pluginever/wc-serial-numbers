@@ -60,7 +60,7 @@ class WC_Serial_Numbers_Handler {
 
 					if ( $total_number < $needed_quantity ) {
 						$stock   = floor( $total_number / $per_item_quantity );
-						$message = sprintf( __( 'Sorry, There is not enough serial numbers available for %s, Please remove this item or lower the quantity, For now we have %s Serial Number for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
+						$message = sprintf( __( 'Sorry, there aren’t enough Serial Numbers for %s. Please remove this item or lower the quantity. For now, we have %s Serial Numbers for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
 						$notice  = apply_filters( 'wc_serial_numbers_low_stock_message', $message );
 						$notice  = str_replace( '{product_title}', $product->get_title(), $notice );
 						$notice  = str_replace( '{stock_quantity}', $stock, $notice );

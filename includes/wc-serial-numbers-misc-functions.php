@@ -86,7 +86,7 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 
 	echo sprintf( '<h2 class="woocommerce-order-downloads__title">%s</h2>', apply_filters( 'wc_serial_numbers_order_table_heading', esc_html__( "Serial Numbers", 'wc-serial-numbers' ) ) );
 	if ( empty( $serial_numbers ) ) {
-		echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order waiting for assigning serial numbers.', 'wc-serial-numbers' ) ) );
+		echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order is waiting for serial numbers to be assigned.', 'wc-serial-numbers' ) ) );
 
 		return;
 	}
