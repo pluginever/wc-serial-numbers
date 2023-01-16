@@ -97,7 +97,8 @@ class Admin extends Singleton {
 		$screen_id = sanitize_title( __( 'Serial Numbers', 'wc-serial-numbers' ) );
 		$screen_ids = [
 			'toplevel_page_'. $screen_id,
-			'toplevel_page_wc-'. $screen_id,
+			'toplevel_page_wc-serial-numbers',
+			$screen_id. '_page_wc-serial-numbers-activations',
 			$screen_id. '_page_wc-serial-numbers-products',
 			$screen_id. '_page_wc-serial-numbers-settings',
 		];

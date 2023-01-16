@@ -32,7 +32,7 @@ class AJAX extends Lib\Singleton {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
 		$search      = isset( $_REQUEST['search'] ) ? sanitize_text_field( $_REQUEST['search'] ) : '';
 		$page        = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
-		$per_page    = absint( 20 );
+		$per_page    = absint( 100 );
 		$args        = array(
 			'post_type'      => [ 'product' ],
 			'posts_per_page' => $per_page,

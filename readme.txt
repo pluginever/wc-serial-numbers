@@ -161,6 +161,10 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.4.3 (16 January 2023) =
+* Fix: Product select dropdown not working for non english languages.
+* Fix: Product select dropdown search limit increased to 100.
+
 = 1.4.3 (15 January 2023) =
 * Fix: Translation breaking page
 * Fix: Reuse license key not working
