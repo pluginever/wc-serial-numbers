@@ -75,24 +75,19 @@ We are constantly working on new innovative features to make your Instagram cont
 Generating and adding a license key is easy. You just need to click ‘Add New’ to generate a new license key.
 Next, follow these five steps:
 
-**1. Select A Product**
-Select your product from the dropdown menu by simply entering a few characters of the product name.
+**1. Select A Product:** Select your product from the dropdown menu by simply entering a few characters of the product name.
 
-**2. Generate Keys**
-You could use any combination of alphabets or numbers to generate a serial number/license key.
+**2. Generate Keys:** You can use any combination of alphabets or numbers to generate a serial number/license key.
 
-**3. Set Activation Limit**
-If you sell software that needs to be activated then you can limit the number of activations per license key. 
+**3. Set Activation Limit:** If you sell software that needs to be activated then you can limit the number of activations per license key. 
 
-**4. Set Validation Days**
-Input the number of days that your license key will be active, beginning with the date of purchase.
+**4. Set Validation Days:** Input the number of days that your license key will be active, beginning with the date of purchase.
 
-**5. Set Expiry Date**
-Set the date on which your license keys will become invalid for use.
+**5. Set Expiry Date:** Set the date on which your license keys will become invalid for use.
 
 If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
-== Why Store owners are Loving Serial Numbers for WooCommerce  ==
+== Why Store Owners are Loving Serial Numbers for WooCommerce  ==
 
 === 💝 User Reviews and Testimonials: ===
 
