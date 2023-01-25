@@ -92,16 +92,22 @@ Set the date on which your license keys will become invalid for use.
 
 If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
+== Why Store owners are Loving Serial Numbers for WooCommerce  ==
+
 === 💝 User Reviews and Testimonials: ===
-**Jose Varghese**
-***Developer***
-> [Thanks a lot for providing this super awesome plugin. It saved a lot of time while working on my client website. Good luck and keep up the work!!](https://wordpress.org/support/topic/awesome-plugin-4630/)
 
-**Gaurav Yadav**
-> [Best Serial code generator plugin ever!](https://wordpress.org/support/topic/best-serial-code-generator-plugin-ever/)
+Serial Numbers for WooCommerce helps tens of thousands of store owners selling and maanaging license keys/ serial numbers. Here are a few testimonials from our 50+ reviews.
 
-**Kajol Dave**
-> [Best Serial Numbers Pro Plugin](https://wordpress.org/support/topic/best-serial-numbers-pro-plugin/)
+Taken directly from the WordPress Plugin Repository…
+
+**Great product and outstanding support!**
+"we use this plugin now more then 3 years and today we upgraded another website. the plugin works fine and without errors over years – regular update and a great support team will help you if you have (but i dont think) a problem." - [@wowstuff](https://wordpress.org/support/topic/great-product-and-outstanding-support-5/)
+
+**Exactly what I need**
+"Exactly what I needed. As a digital Subscription seller, I needed to instantly deliver serials to the customers. I had run my shop for more than one year manually (I had to deliver serial details manually by adding a note to the customers) Until I found this plugin. Working perfectly, my customers are happy as they instantly get the serials. Also, they have an excellent support team, and their response is instant." - [@sachirakalhara](https://wordpress.org/support/topic/exactly-what-i-need-166/)
+
+**Great product, great support**
+"I have been using this plugin for several years now and it has always served me well. I found a small issue in the display of serial numbers awhile ago and the support team responded to my ticket very quickly and the issue was fixed in the next update. I recently renewed my yearly license, just before they introduced their Black Friday sale prices. They refunded that purchase in full no questions asked and I re-purchased at the new discounted rate." - [@allarmsllc](https://wordpress.org/support/topic/great-product-great-support-167/)
 
 === 💢 Supercharge Your WooCommerce Store With Our Other Plugins: ===
 
