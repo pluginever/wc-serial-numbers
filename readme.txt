@@ -49,7 +49,7 @@ Sell and manage license keys/serial numbers for digital and physical products on
 
 We provide support for both the free and premium versions of Serial Numbers for WooCommerce.
 
-We are constantly working on new innovative features to make your Instagram content work harder for your business. Whenever you have a question or want to request a new feature , we're just a quick message away.
+We are constantly working on new innovative features to make your Instagram content work harder for your business. Whenever you have a question or want to request a new feature, we're just a quick message away.
 
 - [Free support (forum)](https://wordpress.org/support/plugin/wc-serial-numbers/)
 - [Premium & pre-sales support (email)](https://pluginever.com/support/)
