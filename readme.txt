@@ -44,16 +44,6 @@ Sell and manage license keys/serial numbers for digital and physical products on
 * Supports WPML to sell license keys on multilingual sites.
 * Supports third-party PDF Invoice & Packing Slips plugins.
 
-
-== Fast and Helpful Support ==
-
-We provide support for both the free and premium versions of Serial Numbers for WooCommerce.
-
-We are constantly working on new innovative features to make your Instagram content work harder for your business. Whenever you have a question or want to request a new feature, we're just a quick message away.
-
-- [Free support (forum)](https://wordpress.org/support/plugin/wc-serial-numbers/)
-- [Premium & pre-sales support (email)](https://pluginever.com/support/)
-
 > ➡️ Looking for more features? [Get The PRO Version.](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
 === ⚡ Serial Numbers for WooCommerce PRO Features: ===
@@ -69,6 +59,8 @@ We are constantly working on new innovative features to make your Instagram cont
 * Manual delivery option to manually deliver license keys instead of automatic.
 * Email Template to easily and quickly customize the order confirmation & low stock alert email.
 * Dedicated product list.
+
+[➡️ Get The PRO Version.](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
 === 🔑 How To Generate/ Add A License Key: ===
 
@@ -87,7 +79,14 @@ Next, follow these five steps:
 
 If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
-== Why Store Owners are Loving Serial Numbers for WooCommerce  ==
+== Fast and Helpful Support: ==
+
+We provide support for both the free and premium versions of Serial Numbers for WooCommerce. We're constantly working on new innovative features to give you more power. Whether you have a question or want to request a new feature, we're just a quick message away.
+
+- [Free support (forum)](https://wordpress.org/support/plugin/wc-serial-numbers/)
+- [Premium & pre-sales support (email)](https://pluginever.com/support/)
+
+== Why Store Owners are Loving Serial Numbers for WooCommerce: ==
 
 === 💝 User Reviews and Testimonials: ===
 
