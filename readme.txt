@@ -79,14 +79,14 @@ Next, follow these five steps:
 
 If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
-== Fast and Helpful Support: ==
+== 🛠️ Fast and Friendly Support: ==
 
 We provide support for both the free and premium versions of Serial Numbers for WooCommerce. We're constantly working on new innovative features to give you more power. Whether you have a question or want to request a new feature, we're just a quick message away.
 
 - [Free support (forum)](https://wordpress.org/support/plugin/wc-serial-numbers/)
 - [Premium & pre-sales support (email)](https://pluginever.com/support/)
 
-== Why Store Owners are Loving Serial Numbers for WooCommerce: ==
+== 💚 Why Store Owners are Loving Serial Numbers for WooCommerce: ==
 
 **1. Unparalleled Features: **
 Our 'Serial Numbers for WooCommerce' plugin is second to none when it comes to generating serial numbers and license keys for your WooCommerce products. This plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API and so on.
