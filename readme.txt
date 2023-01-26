@@ -150,6 +150,23 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Frequently Asked Questions ==
 
+= What is the difference between Serial Numbers and License Keys? =
+
+Serial Numbers can be used as product labels or product identities. It helps to prevent product theft and ensures complete control over your products. 
+
+License Keys can be used for software activation purposes. It grants authorized users access and makes software usable. You can even set the validity date for usage and set the activation limit for user control.
+
+= Does this plugin generate serial numbers or license keys? =
+Serial Numbers for WooCommerce plugin generates both “serial numbers” and “license keys” depending on how you are going to use it. 
+
+= Can I sell my own serial numbers and license keys with this plugin? =
+
+Yes, you can import your own serial numbers or license keys in CSV or TXT format to use them on your WooCommerce products.
+
+= Is it possible to sell activation keys for the software/program I develop? =
+
+Yes, The plugin comes with REST API integration that make it easy for you to activate, deactivate, and check license keys for your software or program.
+
 = How does it work? =
 
 Primarily this plugin will enable you to sell and manage license keys. When a customer purchases a license enabled product, a license key will be added with the order when the order is complete. You can also set orders to auto-complete for your license enabled products. License keys are displayed on the order confirmation page and also added with the order confirmation email. Your customers will be able to find the serial numbers in their account section under the order details too.
