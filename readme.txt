@@ -21,7 +21,7 @@ Sell and manage license keys/serial numbers for digital and physical products on
 * Lottery tickets.
 
 
-[**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) || [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers)
+[**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers)
 
 
 === ✨ Serial Numbers for WooCommerce Features: ===
@@ -60,7 +60,7 @@ Sell and manage license keys/serial numbers for digital and physical products on
 * Email Template to easily and quickly customize the order confirmation & low stock alert email.
 * Dedicated product list.
 
-[➡️ Get The PRO Version.](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
+> [➡️ Get The PRO Version.](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
 === 🔑 How To Generate/ Add A License Key: ===
 
@@ -88,17 +88,13 @@ We provide support for both the free and premium versions of Serial Numbers for 
 
 == 💚 Why Store Owners are Loving Serial Numbers for WooCommerce: ==
 
-* **Unparalleled Features:**
-Our 'Serial Numbers for WooCommerce' plugin is second to none when it comes to generating serial numbers and license keys for your WooCommerce products. This plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API and so on.
+* **Unparalleled Features:** Serial Numbers for WooCommerce plugin is second to none when it comes to generating serial numbers and license keys for your WooCommerce products. This plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API and so on.
 
-* **Reduced Counterfeiting and Piracy:** 
-Our ‘Serial Numbers for WooCommerce’ plugin is incredibly helpful in preventing counterfeiting and piracy. It provides an added layer of protection by allowing store owners to confirm the product is genuine and unaltered. Customers can easily confirm that the product they purchased was not a fake or pirated copy.
+* **Reduced Counterfeiting and Piracy:** The plugin is incredibly helpful in preventing counterfeiting and piracy. It provides an added layer of protection by allowing store owners to confirm the product is genuine and unaltered. Customers can easily confirm that the product they purchased was not a fake or pirated copy.
 
-* **Regular Updates/Secured:**
-Our Serial Numbers for WooCommerce plugin is constantly being improved, and we make those improvements available to our customers at no extra cost. We release updates to ensure compatibility with WooCommerce as well as the latest version of PHP.
+* **Regular Updates/Secured:** The plugin is constantly being improved, and we make those improvements available to our customers at no extra cost. We release updates to ensure compatibility with WooCommerce as well as the latest version of PHP.
 
-* **Industry Leading Support:**
-The constant availability of our help desk and positive feedback on the reviews page for the Serial Numbers for WooCommerce plugin says a lot. We provide endless support for ensuring that everyone has a positive experience in terms of using our plugin.
+* **Industry Leading Support:** The constant availability of our help desk and positive feedback on the reviews page for the plugin says a lot. We provide endless support for ensuring that everyone has a positive experience in terms of using our plugin.
 
 
 === 💝 User Reviews and Testimonials: ===
@@ -116,12 +112,16 @@ Taken directly from the WordPress Plugin Repository…
 **Great product, great support**
 "I have been using this plugin for several years now and it has always served me well. I found a small issue in the display of serial numbers awhile ago and the support team responded to my ticket very quickly and the issue was fixed in the next update. I recently renewed my yearly license, just before they introduced their Black Friday sale prices. They refunded that purchase in full no questions asked and I re-purchased at the new discounted rate." - [@allarmsllc](https://wordpress.org/support/topic/great-product-great-support-167/)
 
+> See all the 5-star reviews from our users [here](https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5).
+
 === 💢 Supercharge Your WooCommerce Store With Our Other Plugins: ===
 
 * **[Product Category Slider for WooCommerce](https://wordpress.org/plugins/woo-category-slider-by-pluginever "Product Category Slider for WooCommerce")**
 * **[Product Category Showcase for WooCommerce](https://wordpress.org/plugins/wc-category-showcase "Product Category Showcase for WooCommerce")**
 * **[Min Max Quantities for WooCommerce](https://wordpress.org/plugins/wc-min-max-quantities "Min Max Quantities for WooCommerce")**
 * **[Product Variation Swatches for WooCommerce](https://wordpress.org/plugins/wc-variation-swatches "Product Variation Swatches for WooCommerce")**
+
+💻 Visit [PluginEver](https://pluginever.com) to learn from our WooCommerce tutorials and find out about other best [WooCommerce extensions](https://pluginever.com/plugins).
 
 == Installation ==
 
