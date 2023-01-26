@@ -92,7 +92,7 @@ We provide support for both the free and premium versions of Serial Numbers for 
 Our 'Serial Numbers for WooCommerce' plugin is second to none when it comes to generating serial numbers and license keys for your WooCommerce products. This plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API and so on.
 
 **2. Reduced Counterfeiting and Piracy: ** 
-Our ‘Serial Numbers for WooCommerce’ plugin is an incredibly helpful in preventing counterfeiting and piracy. It provide an added layer of protection by allowing store owners to confirm the product is genuine and unaltered. Customers can easily confirm that the product they purchased was not a fake or pirated copy.
+Our ‘Serial Numbers for WooCommerce’ plugin is incredibly helpful in preventing counterfeiting and piracy. It provides an added layer of protection by allowing store owners to confirm the product is genuine and unaltered. Customers can easily confirm that the product they purchased was not a fake or pirated copy.
 
 **3. Regular Updates/Secured: **
 Our Serial Numbers for WooCommerce plugin is constantly being improved, and we make those improvements available to our customers at no extra cost. We release updates to ensure compatibility with WooCommerce as well as the latest version of PHP.
@@ -165,7 +165,7 @@ Yes, you can import your own serial numbers or license keys in CSV or TXT format
 
 = Is it possible to sell activation keys for the software/program I develop? =
 
-Yes, The plugin comes with REST API integration that make it easy for you to activate, deactivate, and check license keys for your software or program.
+Yes, The plugin comes with REST API integration that makes it easy for you to activate, deactivate, and check license keys for your software or program.
 
 = How does it work? =
 
