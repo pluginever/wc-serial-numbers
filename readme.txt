@@ -67,7 +67,7 @@ Sell and manage license keys/serial numbers for digital and physical products on
 Generating and adding a license key is easy. You just need to click ‘Add New’ to generate a new license key.
 Next, follow these five steps:
 
-**1. Select A Product:** Select your product from the dropdown menu by simply entering a few characters of the product name.
+**1. Select A Product:** Choose your product from the dropdown menu by simply entering a few characters of the product name.
 
 **2. Generate Keys:** You can use any combination of alphabets or numbers to generate a serial number/license key.
 
@@ -87,6 +87,19 @@ We provide support for both the free and premium versions of Serial Numbers for 
 - [Premium & pre-sales support (email)](https://pluginever.com/support/)
 
 == Why Store Owners are Loving Serial Numbers for WooCommerce: ==
+
+**1. Unparalleled Features: **
+Our 'Serial Numbers for WooCommerce' plugin is second to none when it comes to generating serial numbers and license keys for your WooCommerce products. This plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API and so on.
+
+**2. Reduced Counterfeiting and Piracy: ** 
+Our ‘Serial Numbers for WooCommerce’ plugin is an incredibly helpful in preventing counterfeiting and piracy. It provide an added layer of protection by allowing store owners to confirm the product is genuine and unaltered. Customers can easily confirm that the product they purchased was not a fake or pirated copy.
+
+**3. Regular Updates/Secured: **
+Our Serial Numbers for WooCommerce plugin is constantly being improved, and we make those improvements available to our customers at no extra cost. We release updates to ensure compatibility with WooCommerce as well as the latest version of PHP.
+
+**4. Industry Leading Support: **
+The constant availability of our help desk and positive feedback on the reviews page for the Serial Numbers for WooCommerce plugin says a lot. We provide endless support for ensuring that everyone has a positive experience in terms of using our plugin.
+
 
 === 💝 User Reviews and Testimonials: ===
 
