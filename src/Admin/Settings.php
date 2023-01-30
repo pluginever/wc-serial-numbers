@@ -123,7 +123,7 @@ class Settings extends Lib\Settings {
 					array(
 						'title'   => __( 'Stock threshold', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_stock_threshold',
-						'desc'    => __( 'When stock goes below the above number, it will send notification email.', 'wc-serial-numbers' ),
+						'desc'    => __( 'When the stock goes below the above number, it will send a notification email.', 'wc-serial-numbers' ),
 						'type'    => 'number',
 						'default' => '5',
 					),
