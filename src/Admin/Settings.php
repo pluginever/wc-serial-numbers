@@ -51,7 +51,7 @@ class Settings extends Lib\Settings {
 					[
 						'title'   => __( 'Auto-complete order', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_autocomplete_order',
-						'desc'    => __( 'Automatically completes orders  after successfull payments.', 'wc-serial-numbers' ),
+						'desc'    => __( 'Automatically completes orders after successful payments.', 'wc-serial-numbers' ),
 						'type'    => 'checkbox',
 						'default' => 'no',
 					],
@@ -109,7 +109,7 @@ class Settings extends Lib\Settings {
 					[
 						'title' => __( 'Stock notification', 'wc-serial-numbers' ),
 						'type'  => 'title',
-						'desc'  => __( 'The following options affects how stock notification will work.', 'wc-serial-numbers' ),
+						'desc'  => __( 'The following options affect how the stock notification will work.', 'wc-serial-numbers' ),
 						'id'    => 'stock_section',
 					],
 					[
@@ -123,7 +123,7 @@ class Settings extends Lib\Settings {
 					array(
 						'title'   => __( 'Stock threshold', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_stock_threshold',
-						'desc'    => __( 'When stock goes below the above number, it will send notification email.', 'wc-serial-numbers' ),
+						'desc'    => __( 'When the stock goes below the above number, it will send a notification email.', 'wc-serial-numbers' ),
 						'type'    => 'number',
 						'default' => '5',
 					),
@@ -185,7 +185,7 @@ class Settings extends Lib\Settings {
 					<li>- <?php echo esc_html( $feature ); ?></li>
 				<?php endforeach; ?>
 			</ul>
-			<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/" class="button" target="_blank"><?php esc_html_e( 'Upgrade to PRO', 'wc-serial-numbers' ); ?></a>
+			<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=plugin-settings&utm_medium=banner&utm_campaign=upgrade&utm_id=wc-serial-numbers" class="button" target="_blank"><?php esc_html_e( 'Upgrade to PRO', 'wc-serial-numbers' ); ?></a>
 		</div>
 		<?php
 	}

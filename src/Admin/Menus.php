@@ -69,7 +69,7 @@ class Menus extends Singleton {
 	 */
 	public function go_pro_redirect() {
 		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
-			wp_redirect( 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=wp-menu&utm_campaign=gopro&utm_medium=wp-dash' );
+			wp_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
 			die;
 		}
 	}
