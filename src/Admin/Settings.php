@@ -109,7 +109,7 @@ class Settings extends Lib\Settings {
 					[
 						'title' => __( 'Stock notification', 'wc-serial-numbers' ),
 						'type'  => 'title',
-						'desc'  => __( 'The following options affects how stock notification will work.', 'wc-serial-numbers' ),
+						'desc'  => __( 'The following options affect how the stock notification will work.', 'wc-serial-numbers' ),
 						'id'    => 'stock_section',
 					],
 					[
