@@ -51,7 +51,7 @@ class Settings extends Lib\Settings {
 					[
 						'title'   => __( 'Auto-complete order', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_autocomplete_order',
-						'desc'    => __( 'Automatically completes orders  after successfull payments.', 'wc-serial-numbers' ),
+						'desc'    => __( 'Automatically completes orders after successful payments.', 'wc-serial-numbers' ),
 						'type'    => 'checkbox',
 						'default' => 'no',
 					],
