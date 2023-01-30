@@ -185,7 +185,7 @@ class Settings extends Lib\Settings {
 					<li>- <?php echo esc_html( $feature ); ?></li>
 				<?php endforeach; ?>
 			</ul>
-			<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/" class="button" target="_blank"><?php esc_html_e( 'Upgrade to PRO', 'wc-serial-numbers' ); ?></a>
+			<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=plugin-settings&utm_medium=banner&utm_campaign=upgrade&utm_id=wc-serial-numbers" class="button" target="_blank"><?php esc_html_e( 'Upgrade to PRO', 'wc-serial-numbers' ); ?></a>
 		</div>
 		<?php
 	}
