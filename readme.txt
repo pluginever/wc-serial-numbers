@@ -71,7 +71,7 @@ Next, follow these five steps:
 
 **2. Generate Keys:** You can use any combination of alphabets or numbers to generate a serial number/license key.
 
-**3. Set Activation Limit:** If you sell software that needs to be activated then you can limit the number of activations per license key. 
+**3. Set Activation Limit:** If you sell software that needs to be activated then you can limit the number of activations per license key.
 
 **4. Set Validation Days:** Input the number of days that your license key will be active, beginning with the date of purchase.
 
@@ -152,12 +152,12 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 = What is the difference between Serial Numbers and License Keys? =
 
-Serial Numbers can be used as product labels or product identities. It helps to prevent product theft and ensures complete control over your products. 
+Serial Numbers can be used as product labels or product identities. It helps to prevent product theft and ensures complete control over your products.
 
 License Keys can be used for software activation purposes. It grants authorized users access and makes software usable. You can even set the validity date for usage and set the activation limit for user control.
 
 = Does this plugin generate serial numbers or license keys? =
-Serial Numbers for WooCommerce plugin generates both “serial numbers” and “license keys” depending on how you are going to use it. 
+Serial Numbers for WooCommerce plugin generates both “serial numbers” and “license keys” depending on how you are going to use it.
 
 = Can I sell my own serial numbers and license keys with this plugin? =
 
@@ -198,6 +198,10 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.4.5 (30 January 2023) =
+* Fix: Few known issues fixed.
+* Enhance: Framework updated.
+
 = 1.4.4 (16 January 2023) =
 * Fix: Product select dropdown not working for non english languages.
 * Fix: Product select dropdown search limit increased to 100.
