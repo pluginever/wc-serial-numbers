@@ -99,9 +99,7 @@ We provide support for both the free and premium versions of Serial Numbers for 
 
 === 💝 User Reviews and Testimonials: ===
 
-Serial Numbers for WooCommerce helps tens of thousands of store owners selling and maanaging license keys/ serial numbers. Here are a few testimonials from our 50+ reviews.
-
-Taken directly from the WordPress Plugin Repository…
+Serial Numbers for WooCommerce helps tens of thousands of store owners selling and maanaging license keys/ serial numbers. Here are a few testimonials from our 50+ reviews, taken directly from the WordPress plugin repository…
 
 **Great product and outstanding support!**
 "we use this plugin now more then 3 years and today we upgraded another website. the plugin works fine and without errors over years – regular update and a great support team will help you if you have (but i dont think) a problem." - [@wowstuff](https://wordpress.org/support/topic/great-product-and-outstanding-support-5/)
