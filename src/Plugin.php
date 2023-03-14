@@ -38,7 +38,6 @@ class Plugin extends Lib\Plugin {
 		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-query.php';
 		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-encryption.php';
 		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-order-handler.php';
-		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-api.php';
 		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-cron.php';
 		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-compat.php';
 
@@ -88,12 +87,19 @@ class Plugin extends Lib\Plugin {
 	 */
 	public function init() {
 		Installer::instantiate();
+		API::instantiate();
 		Scripts::instantiate();
 		AJAX::instantiate();
+		Orders::instantiate();
+		Encryption::instantiate();
+		Controllers\Keys::instantiate();
+		Controllers\Activations::instantiate();
+		Shortcodes::instantiate();
 
 		if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 			Admin\Admin::instantiate();
 		}
+
 		// Init action.
 		do_action( 'wc_serial_numbers_loaded' );
 	}

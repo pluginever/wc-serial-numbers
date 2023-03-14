@@ -1,10 +1,12 @@
 <?php
 
+use WooCommerceSerialNumbers\Models\Key;
+
 defined( 'ABSPATH' ) || exit();
 
 // WP_List_Table is not loaded automatically so we need to load it in our application
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
@@ -19,6 +21,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	/**
 	 *
 	 * Total number of items
+	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
@@ -84,11 +87,13 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	 * Serial_Numbers_Table constructor.
 	 */
 	public function __construct() {
-		parent::__construct( array(
-			'singular' => __( 'Serial', 'wc-serial-numbers' ),
-			'plural'   => __( 'Serials', 'wc-serial-numbers' ),
-			'ajax'     => false,
-		) );
+		parent::__construct(
+			array(
+				'singular' => __( 'Serial', 'wc-serial-numbers' ),
+				'plural'   => __( 'Serials', 'wc-serial-numbers' ),
+				'ajax'     => false,
+			)
+		);
 	}
 
 	/**
@@ -139,7 +144,8 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 
 		$this->items = $data;
 
-		$this->set_pagination_args( array(
+		$this->set_pagination_args(
+			array(
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
 				'total_pages' => ceil( $total_items / $per_page ),
@@ -155,7 +161,6 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 *
 	 */
 	public function search_box( $text, $input_id ) {
 		if ( empty( $_REQUEST['s'] ) && ! $this->has_items() ) {
@@ -171,11 +176,11 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
 		}
 		?>
-        <p class="search-box">
-            <label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-            <input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>"/>
+		<p class="search-box">
+			<label class="screen-reader-text" for="<?php echo $input_id; ?>"><?php echo $text; ?>:</label>
+			<input type="search" id="<?php echo $input_id; ?>" name="s" value="<?php _admin_search_query(); ?>"/>
 			<?php submit_button( $text, 'button', false, false, array( 'ID' => 'search-submit' ) ); ?>
-        </p>
+		</p>
 		<?php
 	}
 
@@ -229,6 +234,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 
 	/**
 	 * since 1.0.0
+	 *
 	 * @return array
 	 */
 	public function get_columns() {
@@ -253,6 +259,7 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 
 	/**
 	 * since 1.0.0
+	 *
 	 * @return array
 	 */
 	function get_sortable_columns() {
@@ -276,7 +283,6 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	 * @return string Name of the primary column.
 	 * @since 1.0.0
 	 * @access protected
-	 *
 	 */
 	protected function get_primary_column_name() {
 		return 'key';
@@ -307,14 +313,28 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 				$actions           = array();
 				$actions['id']     = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), $item->id );
 				$actions['show']   = sprintf( '<a data-serial-id="%d" data-nonce="%s" class="wc-serial-numbers-decrypt-key"   href="#">%s</a>', $item->id, wp_create_nonce( 'wc_serial_numbers_decrypt_key' ), __( 'Show', 'wc-serial-numbers' ) );
-				$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [
-					'action' => 'edit',
-					'id'     => $item->id
-				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Edit', 'wc-serial-numbers' ) );
-				$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', add_query_arg( [
-					'action' => 'delete',
-					'id'     => $item->id
-				], admin_url( 'admin.php?page=wc-serial-numbers' ) ), __( 'Delete', 'wc-serial-numbers' ) );
+				$actions['edit']   = sprintf(
+					'<a href="%1$s">%2$s</a>',
+					add_query_arg(
+						[
+							'action' => 'edit',
+							'id'     => $item->id,
+						],
+						admin_url( 'admin.php?page=wc-serial-numbers' )
+					),
+					__( 'Edit', 'wc-serial-numbers' )
+				);
+				$actions['delete'] = sprintf(
+					'<a href="%1$s">%2$s</a>',
+					add_query_arg(
+						[
+							'action' => 'delete',
+							'id'     => $item->id,
+						],
+						admin_url( 'admin.php?page=wc-serial-numbers' )
+					),
+					__( 'Delete', 'wc-serial-numbers' )
+				);
 				$spinner           = sprintf( '<img class="serial-spinner" style="display: none;" src="%s"/>', admin_url( 'images/loading.gif' ) );
 				$class             = 'encrypted';
 				$serial_key        = '';
@@ -363,10 +383,13 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			case 'activation':
 				$limit = ! empty( $item->activation_limit ) ? $item->activation_limit : __( 'Unlimited', 'wc-serial-numbers' );
 				$count = intval( $item->activation_count );
-				$link  = add_query_arg( [
-					'key_id' => $item->id,
-					'page'   => 'serial-numbers-activations'
-				], admin_url( 'admin.php' ) );
+				$link  = add_query_arg(
+					[
+						'key_id' => $item->id,
+						'page'   => 'serial-numbers-activations',
+					],
+					admin_url( 'admin.php' )
+				);
 
 				$activated = sprintf( '<a href="%s">%s</a>', $link, $count );
 
@@ -374,7 +397,6 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 				break;
 
 			case 'validity':
-
 				return ! empty( $item->validity ) ? sprintf( _n( '<b>%s</b> Day <br><small>After purchase</small>', '<b>%s</b> Days <br><small>After purchase</small>', $item->validity, 'wc-serial-numbers' ), number_format_i18n( $item->validity ) ) : __( 'Lifetime', 'wc-serial-numbers' );
 
 				break;
@@ -406,9 +428,9 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 	/**
 	 * Retrieve all the data for all the discount codes
 	 *
-	 * @return object $get_results Array of all the data for the discount codes
 	 * @throws Exception
 	 * @since 1.0.0
+	 * @return \WooCommerceSerialNumbers\Models\Key[]
 	 */
 	public function get_results() {
 		$per_page   = $this->get_items_per_page( 'serials_per_page', $this->per_page );
@@ -430,50 +452,22 @@ class WC_Serial_Numbers_Serial_Numbers_List_Table extends \WP_List_Table {
 			'product_id' => $product_id,
 			'order_id'   => $order_id,
 			'include'    => $id,
-			'search'     => $search
+			'search'     => $search,
 		);
-
 
 		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' != $orderby ) {
 			$args['orderby'] = $orderby;
 		}
-		$query = WC_Serial_Numbers_Query::init()
-		                                ->from( 'serial_numbers' )
-		                                ->order_by( $orderby, $order )
-		                                ->page( $page, $per_page );
-		if ( ! empty( $product_id ) ) {
-			$query->where( 'product_id', $product_id );
-		}
-		if ( ! empty( $id ) ) {
-			$query->where( 'id', $id );
-		}
-		if ( ! empty( $order_id ) ) {
-			$query->where( 'order_id', $order_id );
-		}
 
-		if ( ! empty( $search ) ) {
-			$query->orWhere( 'serial_key', 'LIKE', '%' . apply_filters( 'wc_serial_numbers_maybe_encrypt', $search ) . '%' );
-			$query->search( $search, array( 'product_id', 'order_id' ), 'OR' );
-		}
+		$this->total_count     = Key::count( $args );
+		$this->available_count = Key::count( array_merge( $args, array( 'status' => 'available' ) ) );
+		$this->sold_count      = Key::count( array_merge( $args, array( 'status' => 'sold' ) ) );
+		$this->refunded_count  = Key::count( array_merge( $args, array( 'status' => 'refunded' ) ) );
+		$this->cancelled_count = Key::count( array_merge( $args, array( 'status' => 'cancelled' ) ) );
+		$this->failed_count    = Key::count( array_merge( $args, array( 'status' => 'failed' ) ) );
+		$this->expired_count   = Key::count( array_merge( $args, array( 'status' => 'expired' ) ) );
+		$this->inactive_count  = Key::count( array_merge( $args, array( 'status' => 'inactive' ) ) );
 
-		//save query before apply global
-		$pre_query = $query->copy();
-
-		if ( ! empty( $status ) ) {
-			$query->where( 'status', $status );
-		}
-
-		$this->total_count     = $pre_query->count();
-		$this->available_count = $pre_query->copy()->where( 'status', 'available' )->count();
-		$this->sold_count      = $pre_query->copy()->where( 'status', 'sold' )->count();
-		$this->refunded_count  = $pre_query->copy()->where( 'status', 'refunded' )->count();
-		$this->cancelled_count = $pre_query->copy()->where( 'status', 'cancelled' )->count();
-		$this->failed_count    = $pre_query->copy()->where( 'status', 'failed' )->count();
-		$this->expired_count   = $pre_query->copy()->where( 'status', 'expired' )->count();
-		$this->inactive_count  = $pre_query->copy()->where( 'status', 'inactive' )->count();
-
-		$results = $query->get();
-
-		return $results;
+		return Key::query( $args );
 	}
 }

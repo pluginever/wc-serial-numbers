@@ -33,34 +33,34 @@ class WC_Serial_Numbers_Admin_Menus {
 	 */
 	public function register_pages() {
 		$role               = wc_serial_numbers_get_user_role();
-		$serial_number_page = add_menu_page(
-			__( 'Serial Numbers', 'wc-serial-numbers' ),
-			__( 'Serial Numbers', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers',
-			array( 'WC_Serial_Numbers_Admin_Screen', 'output' ),
-			'dashicons-lock',
-			'55.9'
-		);
+//		$serial_number_page = add_menu_page(
+//			__( 'Serial Numbers', 'wc-serial-numbers' ),
+//			__( 'Serial Numbers', 'wc-serial-numbers' ),
+//			$role,
+//			'wc-serial-numbers',
+//			array( 'WC_Serial_Numbers_Admin_Screen', 'output' ),
+//			'dashicons-lock',
+//			'55.9'
+//		);
+//
+//		add_submenu_page(
+//			'wc-serial-numbers',
+//			__( 'Serial Numbers', 'wc-serial-numbers' ),
+//			__( 'Serial Numbers', 'wc-serial-numbers' ),
+//			$role,
+//			'wc-serial-numbers',
+//			array( 'WC_Serial_Numbers_Admin_Screen', 'output' )
+//		);
 
-		add_submenu_page(
-			'wc-serial-numbers',
-			__( 'Serial Numbers', 'wc-serial-numbers' ),
-			__( 'Serial Numbers', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers',
-			array( 'WC_Serial_Numbers_Admin_Screen', 'output' )
-		);
-
-		add_submenu_page(
-			'wc-serial-numbers',
-			__( 'Activations', 'wc-serial-numbers' ),
-			__( 'Activations', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers-activations',
-			array( 'WC_Serial_Numbers_Admin_Activations_Screen', 'output' )
-		);
-		add_action( 'load-' . $serial_number_page, array( $this, 'load_serial_numbers_page' ) );
+//		add_submenu_page(
+//			'wc-serial-numbers',
+//			__( 'Activations', 'wc-serial-numbers' ),
+//			__( 'Activations', 'wc-serial-numbers' ),
+//			$role,
+//			'wc-serial-numbers-activations',
+//			array( 'WC_Serial_Numbers_Admin_Activations_Screen', 'output' )
+//		);
+//		add_action( 'load-' . $serial_number_page, array( $this, 'load_serial_numbers_page' ) );
 	}
 
 	public function load_serial_numbers_page() {

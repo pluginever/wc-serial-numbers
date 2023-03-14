@@ -32,7 +32,19 @@ class Scripts extends Lib\Singleton {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts( $hook ) {
-
+		wc_serial_numbers()->enqueue_style( 'wc-serial-numbers-frontend', 'css/frontend-style.css' );
+		wc_serial_numbers()->enqueue_script( 'wc-serial-numbers-frontend', 'js/frontend-script.js', array( 'jquery' ) );
+		wp_localize_script(
+			'wc-serial-numbers-frontend',
+			'wc_serial_numbers_frontend_vars',
+			array(
+				'apiurl' => site_url( '?wc-api=serial-numbers-api' ),
+				'i18n'   => array(
+					'copied'  => __( 'Copied', 'wc-serial-numbers' ),
+					'loading' => __( 'Loading', 'wc-serial-numbers' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -58,13 +70,16 @@ class Scripts extends Lib\Singleton {
 			'wc_serial_numbers_vars',
 			array(
 				'i18n'         => array(
-					'search_product' => __( 'Search product by name', 'wc-serial-numbers' ),
-					'search_order'   => __( 'Search order', 'wc-serial-numbers' ),
-					'show'           => __( 'Show', 'wc-serial-numbers' ),
-					'hide'           => __( 'Hide', 'wc-serial-numbers' ),
+					'search_product'  => __( 'Search by product', 'wc-serial-numbers' ),
+					'search_order'    => __( 'Search by order', 'wc-serial-numbers' ),
+					'search_customer' => __( 'Search by customer', 'wc-serial-numbers' ),
+					'show'            => __( 'Show', 'wc-serial-numbers' ),
+					'hide'            => __( 'Hide', 'wc-serial-numbers' ),
+					'copied'          => __( 'Copied', 'wc-serial-numbers' ),
 				),
 				'search_nonce' => wp_create_nonce( 'wc_serial_numbers_search_nonce' ),
 				'ajaxurl'      => admin_url( 'admin-ajax.php' ),
+				'apiurl'       => site_url( '?wc-api=serial-numbers-api' ),
 			)
 		);
 	}

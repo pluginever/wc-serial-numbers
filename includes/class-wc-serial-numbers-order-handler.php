@@ -7,7 +7,7 @@ class WC_Serial_Numbers_Handler {
 	 * @since 1.2.0
 	 */
 	public static function init() {
-		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
+//		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
 
 		//autocomplete
 		add_action( 'template_redirect', array( __CLASS__, 'maybe_autocomplete_order' ) );

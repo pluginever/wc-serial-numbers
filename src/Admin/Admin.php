@@ -35,6 +35,7 @@ class Admin extends Singleton {
 		Settings::instantiate();
 		Menus::instantiate();
 		Notices::instantiate();
+		Actions::instantiate();
 	}
 
 	/**
@@ -94,13 +95,14 @@ class Admin extends Singleton {
 	 * @return array
 	 */
 	public static function get_screen_ids() {
-		$screen_id = sanitize_title( __( 'Serial Numbers', 'wc-serial-numbers' ) );
+		$screen_id  = sanitize_title( __( 'Serial Numbers', 'wc-serial-numbers' ) );
 		$screen_ids = [
-			'toplevel_page_'. $screen_id,
+			'toplevel_page_' . $screen_id,
 			'toplevel_page_wc-serial-numbers',
-			$screen_id. '_page_wc-serial-numbers-activations',
-			$screen_id. '_page_wc-serial-numbers-products',
-			$screen_id. '_page_wc-serial-numbers-settings',
+			$screen_id . '_page_wc-serial-numbers-activations',
+			$screen_id . '_page_wc-serial-numbers-products',
+			$screen_id . '_page_wc-serial-numbers-tools',
+			$screen_id . '_page_wc-serial-numbers-settings',
 		];
 
 		return apply_filters( 'wc_serial_numbers_screen_ids', $screen_ids );
@@ -116,9 +118,9 @@ class Admin extends Singleton {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function render( $view, $args = [], $path = '' ) {
+	public static function view( $view, $args = [], $path = '' ) {
 		if ( empty( $path ) ) {
-			$path = __DIR__ . '/views/';
+			$path = __DIR__ . '/Views/';
 		}
 		// replace .php extension if it was added.
 		$view = str_replace( '.php', '', $view );

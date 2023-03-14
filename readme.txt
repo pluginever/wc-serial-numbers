@@ -198,6 +198,19 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.4.6 (16 March 2023) =
+* Enhance: Enhanced API implementation.
+* Enhance: Update Serial Number statues.
+* Enhance: Add shortcodes for serial number verification and activation/deactivation.
+* Enhance: Add admin tools to verify and activate/deactivate serial numbers.
+* Enhance: Add plugin status page.
+* Enhance: Admin support clicking to copy serial number.
+* Enhance: UI improvements.
+* Deprecated: Duplicate serial number feature removed.
+
+
+
+
 = 1.4.5 (30 January 2023) =
 * Fix: Few known issues fixed.
 * Enhance: Framework updated.

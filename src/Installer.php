@@ -22,6 +22,7 @@ class Installer extends Lib\Singleton {
 		'1.1.2' => 'update_112',
 		'1.2.0' => 'update_120',
 		'1.2.1' => 'update_121',
+		'1.4.6' => 'update_146',
 	);
 
 	/**
@@ -144,7 +145,7 @@ class Installer extends Lib\Singleton {
 			activation_count int(9) NOT NULL  DEFAULT 0,
 			order_id bigint(20) DEFAULT NULL,
 			vendor_id bigint(20) DEFAULT NULL,
-			status varchar(50) DEFAULT 'available',
+			status varchar(50) DEFAULT 'instock',
 			validity varchar(200) DEFAULT NULL,
 			expire_date DATETIME NULL DEFAULT NULL,
 			order_date DATETIME NULL DEFAULT NULL,
@@ -272,31 +273,31 @@ class Installer extends Lib\Singleton {
 		$show_activation_limit = 'yes' === $this->update_1_2_0_get_option( 'show_activation_limit', 'yes', 'wsn_delivery_settings' );
 		$license               = get_option( 'woocommerce_serial_numbers_pro_pluginever_license' );
 		$options               = [
-			'wc_serial_numbers_autocomplete_order'        => $this->update_1_2_0_get_option( 'wsn_auto_complete_order', 'yes', 'wsn_delivery_settings' ),
-			'wc_serial_numbers_reuse_serial_number'       => $this->update_1_2_0_get_option( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ),
-			'wc_serial_numbers_disable_software_support'  => 'no',
-			'wc_serial_numbers_manual_delivery'           => 'no',
-			'wc_serial_numbers_hide_serial_number'        => 'yes',
-			'wc_serial_numbers_revoke_status_cancelled'   => in_array( 'cancelled', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true  ) ? 'yes' : 'no',
-			'wc_serial_numbers_revoke_status_refunded'    => in_array( 'refunded', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true  ) ? 'yes' : 'no',
-			'wc_serial_numbers_revoke_status_failed'      => in_array( 'failed', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true  ) ? 'yes' : 'no',
-			'wc_serial_numbers_enable_stock_notification' => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
-			'wc_serial_numbers_stock_threshold'           => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
-			'wc_serial_numbers_notification_recipient'    => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
-			'wc_serial_numbers_order_table_heading'       => $heading_text,
+			'wc_serial_numbers_autocomplete_order'            => $this->update_1_2_0_get_option( 'wsn_auto_complete_order', 'yes', 'wsn_delivery_settings' ),
+			'wc_serial_numbers_reuse_serial_number'           => $this->update_1_2_0_get_option( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ),
+			'wc_serial_numbers_disable_software_support'      => 'no',
+			'wc_serial_numbers_manual_delivery'               => 'no',
+			'wc_serial_numbers_hide_serial_number'            => 'yes',
+			'wc_serial_numbers_revoke_status_cancelled'       => in_array( 'cancelled', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
+			'wc_serial_numbers_revoke_status_refunded'        => in_array( 'refunded', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
+			'wc_serial_numbers_revoke_status_failed'          => in_array( 'failed', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
+			'wc_serial_numbers_enable_stock_notification'     => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
+			'wc_serial_numbers_stock_threshold'               => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
+			'wc_serial_numbers_notification_recipient'        => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
+			'wc_serial_numbers_order_table_heading'           => $heading_text,
 			'wc_serial_numbers_order_table_col_product_label' => 'Product',
-			'wc_serial_numbers_order_table_col_key_label' => $serial_key_label,
-			'wc_serial_numbers_order_table_col_email_label' => $serial_email_label,
-			'wc_serial_numbers_order_table_col_limit_label' => 'Activation Limit',
+			'wc_serial_numbers_order_table_col_key_label'     => $serial_key_label,
+			'wc_serial_numbers_order_table_col_email_label'   => $serial_email_label,
+			'wc_serial_numbers_order_table_col_limit_label'   => 'Activation Limit',
 			'wc_serial_numbers_order_table_col_expires_label' => 'Expire Date',
-			'wc_serial_numbers_order_table_col_product'   => 'yes',
-			'wc_serial_numbers_order_table_col_key'       => 'yes',
-			'wc_serial_numbers_order_table_col_email'     => 'no',
-			'wc_serial_numbers_order_table_col_limit'     => $show_activation_limit ? 'yes' : 'no',
-			'wc_serial_numbers_order_table_col_expires'   => $show_validity ? 'yes' : 'no',
-			'wc_serial_numbers_install_time'              => get_option( 'woocommerceserialnumbers_install_time' ),
-			'woocommerce-serial-numbers-pro_license_key'  => array_key_exists( 'key', $license ) ? $license['key'] : '',
-			'woocommerce-serial-numbers-pro_license_status' => array_key_exists( 'license', $license ) ? $license['license'] : '',
+			'wc_serial_numbers_order_table_col_product'       => 'yes',
+			'wc_serial_numbers_order_table_col_key'           => 'yes',
+			'wc_serial_numbers_order_table_col_email'         => 'no',
+			'wc_serial_numbers_order_table_col_limit'         => $show_activation_limit ? 'yes' : 'no',
+			'wc_serial_numbers_order_table_col_expires'       => $show_validity ? 'yes' : 'no',
+			'wc_serial_numbers_install_time'                  => get_option( 'woocommerceserialnumbers_install_time' ),
+			'woocommerce-serial-numbers-pro_license_key'      => array_key_exists( 'key', $license ) ? $license['key'] : '',
+			'woocommerce-serial-numbers-pro_license_status'   => array_key_exists( 'license', $license ) ? $license['license'] : '',
 		];
 		foreach ( $options as $key => $option ) {
 			add_option( $key, $option );
@@ -329,5 +330,36 @@ class Installer extends Lib\Singleton {
 		$prefix = $wpdb->prefix;
 		$wpdb->query( "ALTER TABLE {$prefix}serial_numbers CHANGE order_id order_id bigint(20) DEFAULT NULL" );
 		$wpdb->query( "ALTER TABLE {$prefix}serial_numbers CHANGE vendor_id vendor_id bigint(20) DEFAULT NULL" );
+	}
+
+	/**
+	 * Update to version 1.4.6
+	 *
+	 * @since 1.4.6
+	 * @return void
+	 */
+	protected function update_146() {
+		global $wpdb;
+		// Update key status default value to 'instock'.
+		// Change key status.
+		// Drop expired column.
+		$statuses_map = [
+			'available' => 'instock',
+			'refunded'  => 'cancelled',
+			'expired'   => 'expired',
+			'failed'    => 'cancelled',
+			'inactive'  => 'sold',
+		];
+		$prefix       = $wpdb->prefix;
+		$wpdb->query( "ALTER TABLE {$prefix}serial_numbers CHANGE status status varchar(50) DEFAULT 'instock'" );
+		foreach ( $statuses_map as $old_status => $new_status ) {
+			$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}serial_numbers SET status = %s WHERE status = %s", $new_status, $old_status ) );
+		}
+		$wpdb->query( "ALTER TABLE {$prefix}serial_numbers DROP expire_date" );
+
+		// Remove all inactive activations.
+		$wpdb->query( "DELETE FROM {$prefix}serial_numbers_activations WHERE active = 0" );
+		// Drop active column.
+		$wpdb->query( "ALTER TABLE {$prefix}serial_numbers_activations DROP active" );
 	}
 }
