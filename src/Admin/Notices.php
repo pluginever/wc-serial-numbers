@@ -46,7 +46,7 @@ class Notices extends Singleton {
 				'type'    => 'error',
 				'message' => sprintf(
 				/* translators: %1$s: link to the plugin page, %2$s: link to the plugin page */
-					__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.2.0 or higher.', 'wc-serial-numbers' ),
+					__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.2.1 or higher.', 'wc-serial-numbers' ),
 					'<a href="' . esc_url( wc_serial_numbers()->get_data( 'premium_url' ) ) . '" target="_blank">WooCommerce Serial Numbers Pro</a>'
 				),
 			);

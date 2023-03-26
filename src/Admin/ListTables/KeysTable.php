@@ -186,7 +186,7 @@ class KeysTable extends ListTable {
 		$url             = admin_url( 'admin.php?page=wc-serial-numbers' );
 		$views           = array(
 			'all'       => sprintf( '<a href="%s" title="%s" %s>%s</a>', remove_query_arg( 'status', $url ), __( 'All keys.', 'wc-serial-numbers' ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
-			'instock'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'instock', $url ), __( 'Available for sell.', 'wc-serial-numbers' ), $current === 'available' ? ' class="current"' : '', __( 'Instock', 'wc-serial-numbers' ) . $instock_count ),
+			'instock'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'instock', $url ), __( 'Available for sell.', 'wc-serial-numbers' ), $current === 'instock' ? ' class="current"' : '', __( 'Instock', 'wc-serial-numbers' ) . $instock_count ),
 			'onhold'    => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'onhold', $url ), __( 'Pending payment.', 'wc-serial-numbers' ), $current === 'onhold' ? ' class="current"' : '', __( 'Onhold', 'wc-serial-numbers' ) . $onhold_count ),
 			'sold'      => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'sold', $url ), __( 'Sold keys.', 'wc-serial-numbers' ), $current === 'sold' ? ' class="current"' : '', __( 'Sold', 'wc-serial-numbers' ) . $sold_count ),
 			'expired'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'expired', $url ), __( 'Expired keys.', 'wc-serial-numbers' ), $current === 'expired' ? ' class="current"' : '', __( 'Expired', 'wc-serial-numbers' ) . $expired_count ),
