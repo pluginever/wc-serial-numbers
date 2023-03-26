@@ -1,6 +1,12 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
+/**
+ * Class WC_Serial_Numbers_Query.
+ *
+ * @since 1.0.0
+ * @deprecated 1.4.6
+ */
 class WC_Serial_Numbers_Query {
 	/**
 	 * @var string

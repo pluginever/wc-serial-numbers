@@ -20,7 +20,7 @@ class Actions extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 * @since 1.0.0
 	 */
 	protected function __construct() {
-		add_action( 'admin_post_wcsn_edit_key', array( __CLASS__, 'handle_edit_key' ) );
+		add_action( 'admin_post_wc_serial_numbers_edit_key', array( __CLASS__, 'handle_edit_key' ) );
 	}
 
 	/**
@@ -30,7 +30,7 @@ class Actions extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 * @return void
 	 */
 	public static function handle_edit_key() {
-		check_admin_referer( 'wcsn_edit_key' );
+		check_admin_referer( 'wc_serial_numbers_edit_key' );
 		$data = wc_clean( wp_unslash( $_POST ) );
 		$key  = Key::insert( $data );
 		if ( is_wp_error( $key ) ) {

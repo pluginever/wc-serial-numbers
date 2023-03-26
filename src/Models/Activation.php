@@ -14,18 +14,28 @@ class Activation extends Model {
 	/**
 	 * Table name.
 	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	protected $table_name = 'serial_numbers_activations';
-
-	/**
-	 * Table name with prefix.
+	 * This is also used as table alias.
 	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $object_type = 'activation';
+	const TABLE_NAME = 'serial_numbers_activations';
+
+	/**
+	 * Object type.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	const OBJECT_TYPE = 'activation';
+
+	/**
+	 * Cache group.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	const CACHE_GROUP = 'serial_numbers_activations';
 
 	/**
 	 * Core data for this object. Name value pairs (name + default value).
@@ -245,7 +255,7 @@ class Activation extends Model {
 		$clauses = parent::prepare_where_query( $clauses, $args );
 		// If order_id or product_id is set, we need to join with the key table and filter by those.
 		if ( ! empty( $args['order_id'] ) || ! empty( $args['product_id'] ) ) {
-			$clauses['join'][] = " INNER JOIN {$wpdb->prefix}serial_numbers AS keys ON {$this->get_table_alias()}.serial_id = serial_numbers.id";
+			$clauses['join'][] = " INNER JOIN {$wpdb->prefix}" . Key::TABLE_NAME . " AS serial_numbers ON {$this->table_alias}.serial_id = serial_numbers.id";
 		}
 
 		if ( ! empty( $args['order_id'] ) ) {

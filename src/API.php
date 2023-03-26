@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class API extends \WooCommerceSerialNumbers\Lib\Singleton {
+class API extends Lib\Singleton {
 
 	/**
 	 * API constructor.

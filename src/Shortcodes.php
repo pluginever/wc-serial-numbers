@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Shortcodes extends \WooCommerceSerialNumbers\Lib\Singleton {
+class Shortcodes extends Lib\Singleton {
 
 	/**
 	 * Shortcodes constructor.
@@ -39,8 +39,8 @@ class Shortcodes extends \WooCommerceSerialNumbers\Lib\Singleton {
 				'title'                   => __( 'Serial Key Validation', 'wc-serial-numbers' ),
 				'product_field_label'     => __( 'Product', 'wc-serial-numbers' ),
 				'key_field_label'         => __( 'Serial Key', 'wc-serial-numbers' ),
-				'email_field_label'       => __( 'Email', 'wc-serial-numbers' ),
 				'key_field_placeholder'   => __( 'Enter your serial key', 'wc-serial-numbers' ),
+				'email_field_label'       => __( 'Email', 'wc-serial-numbers' ),
 				'email_field_placeholder' => __( 'Enter your email', 'wc-serial-numbers' ),
 				'button_label'            => __( 'Validate', 'wc-serial-numbers' ),
 			),
@@ -129,9 +129,7 @@ class Shortcodes extends \WooCommerceSerialNumbers\Lib\Singleton {
 		$atts     = shortcode_atts(
 			array(
 				'product_id'                 => 0,
-				'activation'                 => false,
-				'deactivation'               => false,
-				'action'                     => false,
+				'action'                     => '',
 				'email_field'                => 'yes',
 				'platform_field'             => 'yes',
 				'title'                      => __( 'Activate/Deactivate Serial Key', 'wc-serial-numbers' ),
@@ -231,7 +229,7 @@ class Shortcodes extends \WooCommerceSerialNumbers\Lib\Singleton {
 				</p>
 			<?php endif; ?>
 
-			<?php if ( ! empty( $atts['action'] ) ) : ?>
+			<?php if ( in_array( $atts['action'], array_keys( $actions ), true ) ) : ?>
 				<input type="hidden" name="request" value="<?php echo esc_attr( $atts['action'] ); ?>">
 			<?php else : ?>
 				<p class="wcsn-field">

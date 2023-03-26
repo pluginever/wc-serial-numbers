@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Encryption extends \WooCommerceSerialNumbers\Lib\Singleton {
+class Encryption extends Lib\Singleton {
 	/**
 	 * @var static
 	 */

@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class CLI extends \WooCommerceSerialNumbers\Lib\Singleton {
+class CLI extends Lib\Singleton {
 
 	/**
 	 * CLI constructor.
@@ -33,7 +33,7 @@ class CLI extends \WooCommerceSerialNumbers\Lib\Singleton {
 	public static function register_commands() {
 		WP_CLI::add_command( 'wcsn import', array( __CLASS__, 'import' ) );
 		WP_CLI::add_command( 'wcsn export', array( __CLASS__, 'export' ) );
-//		WP_CLI::add_command( 'wcsn make keys', array( __CLASS__, 'make_keys' ) );
+		WP_CLI::add_command( 'wcsn make keys', array( __CLASS__, 'make_keys' ) );
 //		WP_CLI::add_command( 'wcsn make generators', array( __CLASS__, 'make_generators' ) );
 	}
 
@@ -183,5 +183,120 @@ class CLI extends \WooCommerceSerialNumbers\Lib\Singleton {
 		$progress->finish();
 		// Show a nice message to the user with the number of exported keys.
 		WP_CLI::success( sprintf( 'Exported %d keys. File: %s', count( $keys ), $file ) );
+	}
+
+	/**
+	 * Make keys.
+	 *
+	 * ## OPTIONS
+	 * <count>
+	 * : Number of keys to make.
+	 * ---
+	 * default: 10
+	 * ---
+	 *
+	 * [--pattern=<pattern>]
+	 * : Serial Number pattern e.g. SERIAL-####-####-####-####
+	 * ---
+	 * default: 'SERIAL-####-####-####-####'
+	 * ---
+	 *
+	 * [--generator_id=<generator_id>]
+	 * : Generator id if generator id is passed it will use e.g --generator_id=10
+	 * ---
+	 * default: null
+	 * ---
+	 *
+	 * [--product_id=<product_id>]
+	 * : ID of the product to generate serial keys for.
+	 * ---
+	 * default: null
+	 * ---
+	 *
+	 * [--activation_limit=<activation_limit>]
+	 * : API activation limit
+	 * ---
+	 * default: 10
+	 * ---
+	 *
+	 * [--validity=<days_in_number>]
+	 * : Valid till x days after purchase
+	 * ---
+	 * default: 0
+	 * ---
+	 *
+	 * [--sequential=<sequential>]
+	 * : Is it sequential?
+	 * ---
+	 * default: false
+	 * ---
+	 *
+	 * [--start=<start>]
+	 * : Sequential start number
+	 * ---
+	 * default: 0
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 * wp wcsn make keys --pattern=SERIAL-####-####-####-####
+	 * wp wcsn make keys --pattern=SERIAL-####-####-####-#### --number=10 --product_id=10 --activation_limit=10 --validity=20 --sequential=true --start=0
+	 *
+	 * @param array $args WP-CLI positional arguments.
+	 * @param array $assoc_args WP-CLI associative arguments.
+	 *
+	 * @throws \Exception
+	 */
+	public static function make_keys( $args, $assoc_args ) {
+		$pattern = $assoc_args['pattern'];
+//		$generator_id     = $assoc_args['generator_id'];
+//		$product_id       = $assoc_args['product_id'];
+		$activation_limit = $assoc_args['activation_limit'];
+		$validity         = $assoc_args['validity'];
+//		$sequential       = $assoc_args['sequential'];
+//		$start            = $assoc_args['start'];
+		$count = $args[0];
+//
+//		if ( empty( $product_id ) ) {
+//			WP_CLI::error( "Product id is required" );
+//			return;
+//		}
+//
+//		// If pattern and generator id is not passed.
+//		if ( ! $pattern && ! $generator_id ) {
+//			WP_CLI::error(( 'Please pass pattern or generator id.' ));
+//		}
+//
+//		// If generator id is passed then get pattern from generator.
+//		if ( $generator_id ) {
+//			$generator = Generator::get( $generator_id );
+//			$pattern   = $generator->get_pattern();
+//		}
+
+		$random_product = wc_get_products( [
+			'limit'   => 1,
+			'orderby' => 'rand',
+		] );
+		$product_id     = $random_product[0]->get_id();
+		$progress       = WP_CLI\Utils\make_progress_bar( 'Making keys', $count );
+
+		// Make keys.
+		$keys = [];
+		for ( $i = 0; $i < $count; $i ++ ) {
+			$key = wc_serial_numbers_pro_generate_serial_keys( $pattern );
+			Key::insert( [
+				'serial_key'       => $key,
+				'product_id'       => $product_id,
+				'activation_limit' => $activation_limit,
+				'validity'         => $validity,
+				'status'           => 'instock',
+			] );
+			$progress->tick();
+		}
+
+		$progress->finish();
+
+		// Show a nice message to the user with the number of exported keys.
+		WP_CLI::success( sprintf( 'Made %d keys.', count( $keys ) ) );
 	}
 }

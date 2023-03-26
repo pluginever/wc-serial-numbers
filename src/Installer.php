@@ -136,6 +136,7 @@ class Installer extends Lib\Singleton {
 	public static function create_tables() {
 		global $wpdb;
 		$wpdb->hide_errors();
+		// todo rename table names to wcsn_keys and wcsn_activations.
 		$tables = [
 			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}serial_numbers(
          	id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -162,12 +163,10 @@ class Installer extends Lib\Singleton {
 			  id bigint(20) NOT NULL auto_increment,
 			  serial_id bigint(20) NOT NULL,
 			  instance varchar(200) NOT NULL,
-			  active int(1) NOT NULL DEFAULT 1,
 			  platform varchar(200) DEFAULT NULL,
 			  activation_time DATETIME NULL DEFAULT NULL,
 			  PRIMARY KEY  (id),
-			  key serial_id (serial_id),
-			  key active (active)
+			  key serial_id (serial_id)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
 		];
 

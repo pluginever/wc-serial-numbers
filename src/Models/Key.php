@@ -11,22 +11,31 @@ defined( 'ABSPATH' ) || exit;
  * @package WooCommerceSerialNumbers\Models
  */
 class Key extends Model {
-
 	/**
 	 * Table name.
 	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	protected $table_name = 'serial_numbers';
-
-	/**
-	 * Table name with prefix.
+	 * This is also used as table alias.
 	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $object_type = 'key';
+	const TABLE_NAME = 'serial_numbers';
+
+	/**
+	 * Object type.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	const OBJECT_TYPE = 'key';
+
+	/**
+	 * Cache group.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	const CACHE_GROUP = 'serial_numbers';
 
 	/**
 	 * Core data for this object. Name value pairs (name + default value).
@@ -229,6 +238,24 @@ class Key extends Model {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Get order title.
+	 *
+	 * @since 1.4.6
+	 *
+	 * @return string Order title.
+	 */
+	public function get_order_title() {
+		if( ! $this->get_order() ) {
+			return '';
+		}
+		return sprintf(
+			'(#%1$s) %2$s',
+			$this->get_order()->get_id(),
+			wp_strip_all_tags( $this->get_order()->get_formatted_billing_full_name() )
+		);
 	}
 
 	/**
@@ -464,10 +491,6 @@ class Key extends Model {
 			return new \WP_Error( 'invalid-data', __( 'Order id is invalid.', 'wc-serial-numbers' ) );
 		}
 
-		// If order is not set, order date should not be set.
-		if ( ( ! $this->get_order_id() || 'sold' === $this->get_status() ) && $this->get_order_date() ) {
-			$this->set_order_date( null );
-		}
 
 		// If status is instock, order date should not be set.
 		if ( 'instock' === $this->get_status() ) {
@@ -495,9 +518,9 @@ class Key extends Model {
 	/**
 	 * Retrieve the object instance.
 	 *
-	 * @param int    $id Object id to retrieve.
+	 * @param int $id Object id to retrieve.
 	 * @param string $by Optional. The field to retrieve the object by. Default 'id'.
-	 * @param array  $args Optional. Additional arguments to pass to the query.
+	 * @param array $args Optional. Additional arguments to pass to the query.
 	 *
 	 * @since 1.0.0
 	 *
@@ -530,13 +553,13 @@ class Key extends Model {
 			$order_ids   = wc_get_orders(
 				array(
 					'customer_id' => $customer_id,
-					'limit'       => -1,
+					'limit'       => - 1,
 					'return'      => 'ids',
 				)
 			);
 
 			if ( ! empty( $order_ids ) ) {
-				$clauses['where'][] = " AND {$this->get_table_alias()}.order_id IN (" . implode( ',', $order_ids ) . ')';
+				$clauses['where'][] = " AND {$this->table_alias}.order_id IN (" . implode( ',', $order_ids ) . ')';
 			} else {
 				$clauses['where'][] = ' AND 0';
 			}
@@ -593,11 +616,11 @@ class Key extends Model {
 				if ( 'serial_key' === $column ) {
 					$like = '%' . $wpdb->esc_like( wc_serial_numbers_encrypt_key( $search ) ) . '%';
 				}
-				$search_clauses[] = $wpdb->prepare( $this->get_table_alias() . '.' . $column . ' LIKE %s', $like ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				$search_clauses[] = $wpdb->prepare( $this->table_alias . '.' . $column . ' LIKE %s', $like ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			}
 
 			if ( ! empty( $search_clauses ) ) {
-				$clauses['where'][] = 'AND (' . implode( ' OR ', $search_clauses ) . ')';
+				$clauses['where'] .= ' AND (' . implode( ' OR ', $search_clauses ) . ')';
 			}
 		}
 
@@ -622,6 +645,50 @@ class Key extends Model {
 	| Common methods used by the class.
 	|
 	*/
+	/**
+	 * Get customer id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return int
+	 */
+	public function get_customer_id() {
+		if( ! $this->get_order() ) {
+			return 0;
+		}
+
+		return $this->get_order()->get_customer_id();
+	}
+
+	/**
+	 * Get customer email.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function get_customer_email() {
+		if( ! $this->get_order() ) {
+			return '';
+		}
+
+		return $this->get_order()->get_billing_email();
+	}
+
+	/**
+	 * Get customer name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function get_customer_name() {
+		if( ! $this->get_order() ) {
+			return '';
+		}
+
+		return $this->get_order()->get_formatted_billing_full_name();
+	}
 
 	/**
 	 * Get the expiry date.
@@ -684,7 +751,7 @@ class Key extends Model {
 		$activation_count = $this->get_activation_count();
 		$activation_limit = $this->get_activation_limit();
 		if ( ! $activation_limit ) {
-			return 0;
+			return 9999;
 		}
 
 		return $activation_limit - $activation_count;
@@ -710,4 +777,25 @@ class Key extends Model {
 		return Activation::query( $args );
 	}
 
+	/**
+	 * Display the serial key.
+	 *
+	 * @since 1.5.0
+	 * @return string
+	 */
+	public function print_key( $masked = false ) {
+		$key = $this->get_serial_key();
+		if ( $masked ) {
+			// Divide the length of the key by 3 and round up. Then mask the middle part of the key.
+			$mask_length = ceil( strlen( $key ) / 3 );
+			$mask_start  = ceil( ( strlen( $key ) - $mask_length ) / 2 );
+			$mask_end    = $mask_start + $mask_length;
+			$masked_key  = substr( $key, 0, $mask_start ) . str_repeat( '*', $mask_length ) . substr( $key, $mask_end );
+			$key         = sprintf( '<code class="wcsn-key masked" data-masked="%s" data-unmasked="%s">%s</code>', esc_attr( $masked_key ), esc_attr( $key ), $masked_key );
+		} else {
+			$key = sprintf( '<code class="wcsn-key" data-unmasked="%s" data-masked="%s">%s</code>', esc_attr( $key ), esc_attr( $key ), $key );
+		}
+
+		return apply_filters( $this->get_hook_prefix() . '_display_key', $key, $this );
+	}
 }

@@ -14,134 +14,32 @@ defined( 'ABSPATH' ) || exit;
  * @package WooCommerceSerialNumbers\Admin
  */
 class Menus extends Singleton {
-
-	/**
-	 * List table.
-	 *
-	 * @since 1.0.0
-	 * @var ListTables\ListTable;
-	 */
-	protected $list_table;
-
 	/**
 	 * Menus constructor.
 	 *
 	 * @since 1.0.0
 	 */
 	protected function __construct() {
-		add_action( 'admin_menu', array( $this, 'main_menu' ) );
-		add_action( 'admin_menu', array( $this, 'activations_menu' ), 40 );
-		add_action( 'admin_menu', array( $this, 'tools_menu' ), 50 );
-		add_action( 'admin_menu', array( $this, 'settings_menu' ), 100 );
-		add_action( 'admin_menu', array( $this, 'promo_menu' ), PHP_INT_MAX );
 		add_action( 'current_screen', array( $this, 'setup_screen' ) );
 		add_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
 		add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
 
+		// Register the menus.
+		add_action( 'admin_menu', array( $this, 'main_menu' ) );
+		add_action( 'admin_menu', array( $this, 'activations_menu' ), 40 );
+		add_action( 'admin_menu', array( $this, 'tools_menu' ), 50 );
+		add_action( 'admin_menu', array( $this, 'reports_menu' ), 60 );
+		add_action( 'admin_menu', array( $this, 'settings_menu' ), 100 );
+		add_action( 'admin_menu', array( $this, 'promo_menu' ), PHP_INT_MAX );
+
 		// Add tabs content.
+		add_filter( 'wc_serial_numbers_tools_tabs', array( __CLASS__, 'add_tools_status_tab' ), PHP_INT_MAX );
+		add_action( 'wc_serial_numbers_tools_tab_import', array( __CLASS__, 'import_tab' ) );
+		add_action( 'wc_serial_numbers_tools_tab_export', array( __CLASS__, 'export_tab' ) );
 		add_action( 'wc_serial_numbers_tools_tab_status', array( __CLASS__, 'status_tab' ) );
-		add_action( 'wc_serial_numbers_tools_tab_api', array( __CLASS__, 'api_tab' ) );
-		add_action( 'wc_serial_numbers_tools_tab_import', array( __CLASS__, 'csv_file_import' ) );
-		add_action( 'wc_serial_numbers_tools_tab_import', array( __CLASS__, 'text_file_import' ) );
-	}
-
-	/**
-	 * Add menu.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function main_menu() {
-		$role = wcsn_get_manager_role();
-		add_menu_page(
-			__( 'Serial Numbers', 'wc-serial-numbers' ),
-			__( 'Serial Numbers', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers',
-			null,
-			'dashicons-lock',
-			'55.9'
-		);
-
-		add_submenu_page(
-			'wc-serial-numbers',
-			__( 'Serial Keys', 'wc-serial-numbers' ),
-			__( 'Serial Keys', 'wc-serial-numbers' ),
-			$role,
-			'wc-serial-numbers',
-			array( $this, 'output_main_page' )
-		);
-	}
-
-	/**
-	 * Add activations menu.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function activations_menu() {
-		add_submenu_page(
-			'wc-serial-numbers',
-			__( 'Activations', 'wc-serial-numbers' ),
-			__( 'Activations', 'wc-serial-numbers' ),
-			wcsn_get_manager_role(),
-			'wc-serial-numbers-activations',
-			array( $this, 'output_activations_page' )
-		);
-	}
-
-	/**
-	 * Add tools menu.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function tools_menu() {
-		add_submenu_page(
-			'wc-serial-numbers',
-			__( 'Tools', 'wc-serial-numbers' ),
-			__( 'Tools', 'wc-serial-numbers' ),
-			wcsn_get_manager_role(),
-			'wc-serial-numbers-tools',
-			array( $this, 'output_tools_page' )
-		);
-	}
-
-	/**
-	 * Settings menu.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function settings_menu() {
-		add_submenu_page(
-			'wc-serial-numbers',
-			__( 'Settings', 'wc-serial-numbers' ),
-			__( 'Settings', 'wc-serial-numbers' ),
-			wcsn_get_manager_role(),
-			'wc-serial-numbers-settings',
-			array( Settings::class, 'output' )
-		);
-	}
-
-	/**
-	 * Add promo Menu.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function promo_menu() {
-		$role = wcsn_get_manager_role();
-		if ( ! wc_serial_numbers()->is_premium_active() ) {
-			add_submenu_page(
-				'wc-serial-numbers',
-				'',
-				'<span style="color:#ff7a03;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Go Pro', 'wc-serial-numbers' ) . '</span>',
-				$role,
-				'go_wcsn_pro',
-				array( $this, 'go_pro_redirect' )
-			);
-		}
+		add_action( 'wc_serial_numbers_tools_tab_api', array( __CLASS__, 'api_validation_section' ) );
+		add_action( 'wc_serial_numbers_tools_tab_api', array( __CLASS__, 'api_activation_deactivation_section' ) );
+		add_action( 'wc_serial_numbers_reports_tab_stock', array( __CLASS__, 'reports_stock_tab' ) );
 	}
 
 	/**
@@ -188,6 +86,125 @@ class Menus extends Singleton {
 	}
 
 	/**
+	 * Add menu.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function main_menu() {
+		$role = wcsn_get_manager_role();
+		add_menu_page(
+			__( 'Serial Numbers', 'wc-serial-numbers' ),
+			__( 'Serial Numbers', 'wc-serial-numbers' ),
+			$role,
+			'wc-serial-numbers',
+			null,
+			'dashicons-lock',
+			'55.9'
+		);
+
+		add_submenu_page(
+			'wc-serial-numbers',
+			__( 'Serial Keys', 'wc-serial-numbers' ),
+			__( 'Serial Keys', 'wc-serial-numbers' ),
+			$role,
+			'wc-serial-numbers',
+			array( $this, 'output_main_page' )
+		);
+	}
+
+	/**
+	 * Add activations menu.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function activations_menu() {
+		if( ! wcsn_is_software_support_enabled() ) {
+			return;
+		}
+		add_submenu_page(
+			'wc-serial-numbers',
+			__( 'Activations', 'wc-serial-numbers' ),
+			__( 'Activations', 'wc-serial-numbers' ),
+			wcsn_get_manager_role(),
+			'wc-serial-numbers-activations',
+			array( $this, 'output_activations_page' )
+		);
+	}
+
+	/**
+	 * Add tools menu.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function tools_menu() {
+		add_submenu_page(
+			'wc-serial-numbers',
+			__( 'Tools', 'wc-serial-numbers' ),
+			__( 'Tools', 'wc-serial-numbers' ),
+			wcsn_get_manager_role(),
+			'wc-serial-numbers-tools',
+			array( $this, 'output_tools_page' )
+		);
+	}
+
+	/**
+	 * Add reports menu.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function reports_menu() {
+		add_submenu_page(
+			'wc-serial-numbers',
+			__( 'Reports', 'wc-serial-numbers' ),
+			__( 'Reports', 'wc-serial-numbers' ),
+			wcsn_get_manager_role(),
+			'wc-serial-numbers-reports',
+			array( $this, 'output_reports_page' )
+		);
+	}
+
+	/**
+	 * Settings menu.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function settings_menu() {
+		add_submenu_page(
+			'wc-serial-numbers',
+			__( 'Settings', 'wc-serial-numbers' ),
+			__( 'Settings', 'wc-serial-numbers' ),
+			wcsn_get_manager_role(),
+			'wc-serial-numbers-settings',
+			array( Settings::class, 'output' )
+		);
+	}
+
+	/**
+	 * Add promo Menu.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function promo_menu() {
+		$role = wcsn_get_manager_role();
+		if ( ! wc_serial_numbers()->is_premium_active() ) {
+			add_submenu_page(
+				'wc-serial-numbers',
+				'',
+				'<span style="color:#ff7a03;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Go Pro', 'wc-serial-numbers' ) . '</span>',
+				$role,
+				'go_wcsn_pro',
+				array( $this, 'go_pro_redirect' )
+			);
+		}
+	}
+
+	/**
 	 * Output keys page.
 	 *
 	 * @since 1.0.0
@@ -217,6 +234,7 @@ class Menus extends Singleton {
 		Admin::view( 'html-list-activations.php' );
 	}
 
+
 	/**
 	 * Output tools page.
 	 *
@@ -225,19 +243,47 @@ class Menus extends Singleton {
 	 */
 	public function output_tools_page() {
 		$tabs = array(
-			'import' => __( 'Import', 'wc-serial-numbers' ),
-			'export' => __( 'Export', 'wc-serial-numbers' ),
-			'api'    => __( 'API', 'wc-serial-numbers' ),
-			'status' => __( 'Status', 'wc-serial-numbers' ),
+			'import'    => __( 'Import', 'wc-serial-numbers' ),
+			'export'    => __( 'Export', 'wc-serial-numbers' ),
+			'generators' => __( 'Generators', 'wc-serial-numbers' ),
+			'api'       => __( 'API', 'wc-serial-numbers' ),
 		);
 
-		$tabs        = apply_filters( 'wcsn_tools_tabs', $tabs );
+		$tabs        = apply_filters( 'wc_serial_numbers_tools_tabs', $tabs );
 		$tab_ids     = array_keys( $tabs );
 		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : reset( $tab_ids );
 		$page        = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
 
 		Admin::view(
 			'html-tools.php',
+			array(
+				'tabs'        => $tabs,
+				'current_tab' => $current_tab,
+				'page'        => $page,
+			)
+		);
+	}
+
+	/**
+	 * Output reports page.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function output_reports_page() {
+		$tabs = array(
+			'stock'       => __( 'Stock', 'wc-serial-numbers' ),
+			'sales'       => __( 'Sales', 'wc-serial-numbers' ),
+			'activations' => __( 'Activations', 'wc-serial-numbers' ),
+		);
+
+		$tabs        = apply_filters( 'wc_serial_numbers_reports_tabs', $tabs );
+		$tab_ids     = array_keys( $tabs );
+		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : reset( $tab_ids );
+		$page        = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
+
+		Admin::view(
+			'html-reports.php',
 			array(
 				'tabs'        => $tabs,
 				'current_tab' => $current_tab,
@@ -257,6 +303,43 @@ class Menus extends Singleton {
 			wp_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
 			die;
 		}
+	}
+
+	/**
+	 * Add status tab.
+	 *
+	 * @param array $tabs Tabs.
+	 *
+	 * @return array
+	 */
+	public static function add_tools_status_tab( $tabs ) {
+		$tabs['status'] = __( 'Status', 'wc-serial-numbers' );
+
+		return $tabs;
+	}
+
+	/**
+	 * Import tab content.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function import_tab() {
+		//todo import tab promotional content.
+
+		echo "Promotional content for import tab.";
+	}
+
+	/**
+	 * Export tab content.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function export_tab() {
+		//todo export tab promotional content.
+
+		echo "Promotional content for export tab.";
 	}
 
 	/**
@@ -324,12 +407,12 @@ class Menus extends Singleton {
 	}
 
 	/**
-	 * Debug tab content.
+	 * Validation section.
 	 *
 	 * @since 1.4.6
 	 * @return void
 	 */
-	public static function api_tab() {
+	public static function api_validation_section() {
 		$args        = array_merge(
 			wcsn_get_products_query_args(),
 			array(
@@ -347,284 +430,45 @@ class Menus extends Singleton {
 			}
 			$products[ $product->get_id() ] = sprintf( '%s (#%d)', $product->get_name(), $product->get_id() );
 		}
-		?>
-		<div class="wcsn-card card card__header"><h2><?php esc_html_e( 'Validation Tool', 'wc-serial-numbers' ); ?></h2></div>
-		<div class="wcsn-card card">
-			<p><?php esc_html_e( 'Here is how you can validate serial numbers for a product.', 'wc-serial-numbers' ); ?></p>
-			<ol>
-				<li><?php esc_html_e( 'Select a product from the dropdown below.', 'wc-serial-numbers' ); ?></li>
-				<li><?php esc_html_e( 'Enter the serial numbers you want to validate in the textarea below.', 'wc-serial-numbers' ); ?></li>
-				<li><?php esc_html_e( 'Click on the "Validate" button.', 'wc-serial-numbers' ); ?></li>
-				<li><?php esc_html_e( 'You will see the results within the API response box below.', 'wc-serial-numbers' ); ?></li>
-			</ol>
-			<form class="wcsn-api-form" method="post">
-				<table class="form-table">
-					<tbody>
-					<tr>
-						<th scope="row"><label for="product_id"><?php esc_html_e( 'Product', 'wc-serial-numbers' ); ?></label></th>
-						<td>
-							<select name="product_id" id="product_id" class="wc-enhanced-select">
-								<?php foreach ( $products as $product_id => $product_name ) : ?>
-									<option value="<?php echo esc_attr( $product_id ); ?>"><?php echo esc_html( $product_name ); ?></option>
-								<?php endforeach; ?>
-							</select>
-							<p class="description">
-								<?php esc_html_e( 'Select a product to validate serial numbers for.', 'wc-serial-numbers' ); ?>
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="serial_key"><?php esc_html_e( 'Key', 'wc-serial-numbers' ); ?></label></th>
-						<td>
-							<textarea name="serial_key" id="serial_key" rows="5" cols="50" placeholder="<?php esc_attr_e( 'Please enter serial numbers to validate', 'wc-serial-numbers' ); ?>"></textarea>
-							<p class="description">
-								<?php esc_html_e( 'Required field. Enter serial numbers to validate.', 'wc-serial-numbers' ); ?>
-							</p>
-						</td>
-					</tr>
 
-					<tr>
-						<th scope="row"><label for="email"><?php esc_html_e( 'Email', 'wc-serial-numbers' ); ?></label></th>
-						<td>
-							<input type="email" name="email" id="email" placeholder="<?php esc_attr_e( 'Please enter a valid email address', 'wc-serial-numbers' ); ?>">
-							<p class="description">
-								<?php esc_html_e( 'Optional field. If email is provided, only serial numbers that are assigned to the email will be validated otherwise ignored.', 'wc-serial-numbers' ); ?>
-							</p>
-						</td>
-					</tr>
-
-					<!--Show the JSON API response output nicely in a nice format-->
-					<tr>
-						<th scope="row"><label><?php esc_html_e( 'API Response', 'wc-serial-numbers' ); ?></label></th>
-						<td class="code">
-							<pre><span class="wcsn-api-response">&mdash;</span></pre>
-						</td>
-					</tbody>
-
-					<tfoot>
-					<tr>
-						<th scope="row"></th>
-						<td>
-							<input type="hidden" name="request" value="validate">
-							<?php submit_button( __( 'Validate', 'wc-serial-numbers' ), 'primary', 'submit', false ); ?>
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-		<div class="wcsn-card card card__header"><h2><?php esc_html_e( 'Activation/Deactivation Tool', 'wc-serial-numbers' ); ?></h2></div>
-		<div class="wcsn-card card">
-			<p><?php esc_html_e( 'Here is how you can activate/deactivate serial numbers for a product.', 'wc-serial-numbers' ); ?></p>
-			<ol>
-				<li><?php esc_html_e( 'Select a product from the dropdown below.', 'wc-serial-numbers' ); ?></li>
-				<li><?php esc_html_e( 'Enter the serial numbers you want to activate/deactivate in the textarea below.', 'wc-serial-numbers' ); ?></li>
-				<li><?php esc_html_e( 'Enter the instance you want to activate/deactivate in the textarea below.', 'wc-serial-numbers' ); ?></li>
-				<li><?php esc_html_e( 'Click on the "Activate/Deactivate" button.', 'wc-serial-numbers' ); ?></li>
-				<li><?php esc_html_e( 'You will see the results within the API response box below.', 'wc-serial-numbers' ); ?></li>
-			</ol>
-			<form class="wcsn-api-form" method="post">
-				<table class="form-table">
-					<tbody>
-					<tr>
-						<th scope="row"><label for="product_id"><?php esc_html_e( 'Product', 'wc-serial-numbers' ); ?></label></th>
-						<td>
-							<select name="product_id" id="product_id" class="wc-enhanced-select">
-								<?php foreach ( $products as $product_id => $product_name ) : ?>
-									<option value="<?php echo esc_attr( $product_id ); ?>"><?php echo esc_html( $product_name ); ?></option>
-								<?php endforeach; ?>
-							</select>
-							<p class="description">
-								<?php esc_html_e( 'Select a product to activate/deactivate serial numbers for.', 'wc-serial-numbers' ); ?>
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="serial_key"><?php esc_html_e( 'Key', 'wc-serial-numbers' ); ?></label></th>
-						<td>
-							<textarea name="serial_key" id="serial_key" rows="5" cols="50" placeholder="<?php esc_attr_e( 'Please enter serial numbers to activate/deactivate', 'wc-serial-numbers' ); ?>" required></textarea>
-							<p class="description">
-								<?php esc_html_e( 'Required field. Enter serial numbers to activate/deactivate.', 'wc-serial-numbers' ); ?>
-							</p>
-						</td>
-					</tr>
-
-					<tr>
-						<th scope="row"><label for="instance"><?php esc_html_e( 'Instance', 'wc-serial-numbers' ); ?></label></th>
-						<td>
-							<input type="text" name="instance" id="instance" placeholder="<?php esc_attr_e( 'Please enter a unique instance', 'wc-serial-numbers' ); ?>" value="<?php echo esc_attr( time() ); ?>" required>
-							<p class="description">
-								<?php esc_html_e( 'Required field. Instance is the unique identifier of the activation record. It is used to identify the activation when activating/deactivating serial numbers.', 'wc-serial-numbers' ); ?>
-							</p>
-						</td>
-					</tr>
-
-					<tr>
-						<th scope="row"><label for="email"><?php esc_html_e( 'Email', 'wc-serial-numbers' ); ?></label></th>
-						<td>
-							<input type="email" name="email" id="email" placeholder="<?php esc_attr_e( 'Please enter a valid email address', 'wc-serial-numbers' ); ?>">
-							<p class="description">
-								<?php esc_html_e( 'Optional field. If email is provided, only serial numbers that are assigned to the email will be activated/deactivated otherwise ignored.', 'wc-serial-numbers' ); ?>
-							</p>
-						</td>
-					</tr>
-
-					<tr>
-						<th scope="row"><label for="request"><?php esc_html_e( 'Action', 'wc-serial-numbers' ); ?></label></th>
-						<td>
-							<select name="request" id="request">
-								<option value="activate"><?php esc_html_e( 'Activate', 'wc-serial-numbers' ); ?></option>
-								<option value="deactivate"><?php esc_html_e( 'Deactivate', 'wc-serial-numbers' ); ?></option>
-							</select>
-							<p class="description">
-								<?php esc_html_e( 'Select an action to perform on the serial numbers.', 'wc-serial-numbers' ); ?>
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label><?php esc_html_e( 'API Response', 'wc-serial-numbers' ); ?></label></th>
-						<td class="code">
-							<pre><span class="wcsn-api-response">&mdash;</span></pre>
-						</td>
-					</tbody>
-
-					<tfoot>
-					<tr>
-						<th scope="row"></th>
-						<td>
-							<?php submit_button( __( 'Submit', 'wc-serial-numbers' ), 'primary', 'submit', false ); ?>
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-		<?php
+		Admin::view( 'html-api-validation', array( 'products' => $products ) );
 	}
 
 	/**
-	 * CSV import.
+	 * Activation deactivation section.
 	 *
-	 * @since 1.0.0
-	 *
+	 * @since 1.4.6
 	 * @return void
 	 */
-	public static function csv_file_import() {
-		?>
-		<div class="wcsn-card">
-			<div class="wcsn-card__header"><h3><?php esc_html_e( 'CSV Import', 'wc-serial-numbers' ); ?></h3></div>
-			<div class="wcsn-card__body">
-				<form>
-					<p>
-						<?php echo sprintf( __( 'Upload a csv file containing serial number to import the serial numbers. Download %1$s sample file %2$s to learn how to format your csv file', 'wc-serial-numbers-pro' ), '<a target="_blank" href="' . wc_serial_numbers_pro()->plugin_url() . '/data/sample.csv' . '">', '</a>' ); ?>
-					</p>
-					<h3>List of Fields</h3>
-					<ul>
-						<li><strong>'sliced_title'</strong> - the title of the quote or invoice (required)  </li>
-						<li><strong>'sliced_description'</strong> - the description of the quote or invoice   </li>
-						<li><strong>'sliced_author_id'</strong> - the id of the author. Leave blank for current user</li>
-						<li><strong>'sliced_number'</strong> - invoice or quote number. Leave blank if auto increment is turned on</li>
-						<li><strong>'sliced_created'</strong> - created date. Leave blank for today</li>
-						<li><strong>'sliced_due'</strong> - invoice due date</li>
-						<li><strong>'sliced_valid'</strong> - quote valid until date</li>
-						<li><strong>'sliced_items'</strong> - individual line items</li>
-						<li><strong>'sliced_status'</strong> - invoice or quote status. ie sent, unpaid, paid, overdue. Defaults to Draft if left blank</li>
-						<li><strong>'sliced_client_email'</strong> - email of the client (required)</li>
-						<li><strong>'sliced_client_name'</strong> - name of the client (only use if client does not already exist)</li>
-						<li><strong>'sliced_client_business'</strong> - clients business name</li>
-						<li><strong>'sliced_client_address'</strong> - clients adress</li>
-						<li><strong>'sliced_client_extra'</strong> - clients extra info (phone number, business number etc)</li>
-					</ul>
-					<table class="form-table">
-						<tbody>
-						<tr>
-							<th scope="row"><label for="csv_file"><?php esc_html_e( 'CSV File', 'wc-serial-numbers' ); ?></label></th>
-							<td>
-								<input type="file" name="csv_file" id="csv_file" required>
-								<p class="description">
-									<?php esc_html_e( 'Required field. Select a csv file to import serial numbers.', 'wc-serial-numbers' ); ?>
-								</p>
-							</td>
-						</tr>
-						</tbody>
-						<tfoot>
-						<tr>
-							<th scope="row"></th>
-							<td>
-								<?php submit_button( __( 'Import', 'wc-serial-numbers' ), 'primary', 'submit', false ); ?>
-							</td>
-						</tr>
-						</tfoot>
-					</table>
-				</form>
-			</div>
-		</div>
-		<?php
+	public static function api_activation_deactivation_section() {
+		$args        = array_merge(
+			wcsn_get_products_query_args(),
+			array(
+				'posts_per_page' => - 1,
+				'fields'         => 'ids',
+			)
+		);
+		$the_query   = new \WP_Query( $args );
+		$product_ids = $the_query->get_posts();
+		$products    = array();
+		foreach ( $product_ids as $product_id ) {
+			$product = wc_get_product( $product_id );
+			if ( ! $product ) {
+				continue;
+			}
+			$products[ $product->get_id() ] = sprintf( '%s (#%d)', $product->get_name(), $product->get_id() );
+		}
+
+		Admin::view( 'html-api-actions', array( 'products' => $products ) );
 	}
 
 	/**
-	 * Text file import.
+	 * Stock section.
 	 *
-	 * @since 1.0.0
-	 *
+	 * @since 1.4.6
 	 * @return void
 	 */
-	public static function text_file_import() {
-		?>
-		<div class="wcsn-card">
-			<div class="wcsn-card__header"><h3><?php esc_html_e( 'Text File Export', 'wc-serial-numbers' ); ?></h3></div>
-			<div class="wcsn-card__body">
-				<form>
-					<p>
-						<?php esc_html_e( 'Export serial numbers to a text file. You can use this file to import serial numbers to another site.', 'wc-serial-numbers' ); ?>
-					</p>
-					<table class="form-table">
-						<tbody>
-						<tr>
-							<th scope="row"><label for="product_id"><?php esc_html_e( 'Product', 'wc-serial-numbers' ); ?></label></th>
-							<td>
-								<select name="product_id" id="product_id">
-									<option value=""><?php esc_html_e( 'All Products', 'wc-serial-numbers' ); ?></option>
-									<?php
-									$products = wc_serial_numbers()->get_products();
-									foreach ( $products as $product ) :
-										?>
-										<option value="<?php echo esc_attr( $product->ID ); ?>"><?php echo esc_html( $product->post_title ); ?></option>
-									<?php endforeach; ?>
-								</select>
-								<p class="description">
-									<?php esc_html_e( 'Select a product to export serial numbers for.', 'wc-serial-numbers' ); ?>
-								</p>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row"><label for="status"><?php esc_html_e( 'Status', 'wc-serial-numbers' ); ?></label></th>
-							<td>
-								<select name="status" id="status">
-									<option value=""><?php esc_html_e( 'All Statuses', 'wc-serial-numbers' ); ?></option>
-									<?php
-									$statuses = wc_serial_numbers()->get_statuses();
-									foreach ( $statuses as $status => $label ) :
-										?>
-										<option value="<?php echo esc_attr( $status ); ?>"><?php echo esc_html( $label ); ?></option>
-									<?php endforeach; ?>
-								</select>
-								<p class="description">
-									<?php esc_html_e( 'Select a status to export serial numbers for.', 'wc-serial-numbers' ); ?>
-								</p>
-							</td>
-						</tr>
-						</tbody>
-						<tfoot>
-						<tr>
-							<th scope="row"></th>
-							<td>
-								<?php submit_button( __( 'Export', 'wc-serial-numbers' ), 'primary', 'submit', false ); ?>
-							</td>
-						</tr>
-						</tfoot>
-					</table>
-				</form>
-			</div>
-		</div>
-		<?php
+	public static function reports_stock_tab() {
+		Admin::view( 'html-list-stock' );
 	}
 }

@@ -36,6 +36,9 @@ class Admin extends Singleton {
 		Menus::instantiate();
 		Notices::instantiate();
 		Actions::instantiate();
+		Metaboxes::instantiate();
+		Orders::instantiate();
+		Products::instantiate();
 	}
 
 	/**
@@ -112,7 +115,7 @@ class Admin extends Singleton {
 	 * Render a view.
 	 *
 	 * @param string $view The name of the view to render.
-	 * @param array  $args The arguments to pass to the view.
+	 * @param array $args The arguments to pass to the view.
 	 * @param string $path The path to the view file.
 	 *
 	 * @since 1.0.0

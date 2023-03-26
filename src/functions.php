@@ -13,7 +13,6 @@ use WooCommerceSerialNumbers\Models\Key;
 defined( 'ABSPATH' ) || exit;
 
 require_once __DIR__ . '/Functions/Template.php';
-require_once __DIR__ . '/Functions/Deprecated.php';
 
 /**
  * Get manager role.
@@ -23,6 +22,82 @@ require_once __DIR__ . '/Functions/Deprecated.php';
  */
 function wcsn_get_manager_role() {
 	return apply_filters( 'wc_serial_numbers_manager_role', 'manage_woocommerce' );
+}
+
+/**
+ * Check if software support is enabled or not.
+ *
+ * @since 1.4.6
+ * @return bool
+ */
+function wcsn_is_software_support_enabled() {
+	return 'yes' !== get_option( 'wc_serial_numbers_disable_software_support', 'no' );
+}
+
+/**
+ * Get serial number's statuses.
+ *
+ * since 1.2.0
+ *
+ * @return array
+ */
+function wcsn_get_key_statuses() {
+	$statuses = array(
+		'instock'   => __( 'In Stock', 'wc-serial-numbers' ), // when ready for selling.
+		'onhold'    => __( 'On Hold', 'wc-serial-numbers' ), // Assigned to an order but not paid yet.
+		'sold'      => __( 'Sold', 'wc-serial-numbers' ), // Assigned to an order and paid.
+		'expired'   => __( 'Expired', 'wc-serial-numbers' ), // when expired.
+		'cancelled' => __( 'Cancelled', 'wc-serial-numbers' ), // when cancelled.
+	);
+
+	return apply_filters( 'wc_serial_numbers_key_statuses', $statuses );
+}
+
+/**
+ * Check if serial number is reusing.
+ *
+ * @since 1.2.0
+ * @return bool
+ */
+function wcsn_is_reusing_keys() {
+	return 'yes' == get_option( 'wc_serial_numbers_reuse_serial_number', 'no' );
+}
+
+/**
+ * Get order revoke statuses.
+ *
+ * @since 1.4.6
+ * @return array
+ */
+function wcsn_get_revoke_statuses() {
+	$statues       = [];
+	$check_statues = [
+		'wc_serial_numbers_revoke_status_cancelled' => 'cancelled',
+		'wc_serial_numbers_revoke_status_refunded'  => 'refunded',
+		'wc_serial_numbers_revoke_status_failed'    => 'refunded',
+	];
+
+	foreach ( $check_statues as $option => $status ) {
+		if ( 'yes' === get_option( $option, 'yes' ) ) {
+			$statues[] = $status;
+		}
+	}
+
+	return $statues;
+}
+
+/**
+ * Get key sources.
+ *
+ * @since 1.2.0
+ * @return mixed|void
+ */
+function wcsn_get_key_sources() {
+	$sources = array(
+		'custom_source' => __( 'Instock', 'wc-serial-numbers' ),
+	);
+
+	return apply_filters( 'wc_serial_numbers_key_sources', $sources );
 }
 
 /**
@@ -81,35 +156,6 @@ function wcsn_get_customer_id( $order ) {
  */
 function wcsn_get_order_object( $order ) {
 	return is_object( $order ) ? $order : wc_get_order( $order );
-}
-
-/**
- * Check if software support is enabled or not.
- *
- * @since 1.4.6
- * @return bool
- */
-function wcsn_is_software_support_enabled() {
-	return 'yes' !== get_option( 'wc_serial_numbers_disable_software_support', 'no' );
-}
-
-/**
- * Get serial number's statuses.
- *
- * since 1.2.0
- *
- * @return array
- */
-function wcsn_get_key_statuses() {
-	$statuses = array(
-		'instock'   => __( 'In Stock', 'wc-serial-numbers' ), // when ready for selling.
-		'onhold'    => __( 'On Hold', 'wc-serial-numbers' ), // Assigned to an order but not paid yet.
-		'sold'      => __( 'Sold', 'wc-serial-numbers' ), // Assigned to an order and paid.
-		'expired'   => __( 'Expired', 'wc-serial-numbers' ), // when expired.
-		'cancelled' => __( 'Cancelled', 'wc-serial-numbers' ), // when cancelled.
-	);
-
-	return apply_filters( 'wc_serial_numbers_key_statuses', $statuses );
 }
 
 /**
@@ -236,13 +282,52 @@ function wcsn_is_product_enabled( $product_id ) {
 }
 
 /**
- * Check if serial number is reusing.
+ * Get order items.
+ *
+ * @param int $order_id Order ID.
+ * @param int $order_item_id Order item ID. If not provided it will return all order items.
  *
  * @since 1.2.0
- * @return bool
+ * @return array
  */
-function wcsn_is_reusing_keys() {
-	return 'yes' == get_option( 'wc_serial_numbers_reuse_serial_number', 'no' );
+function wcsn_get_order_line_items_data( $order_id, $order_item_id = null ) {
+	// Cache the line items.
+	$line_items = array();
+	$order      = wcsn_get_order_object( $order_id );
+	$items      = $order->get_items();
+	if ( is_object( $order ) && count( $items ) > 0 ) {
+		foreach ( $items as $item_id => $item ) {
+			$product = $item->get_product();
+			if ( ! $product ) {
+				continue;
+			}
+			$product_id = $product->get_id();
+			if ( ! wcsn_is_product_enabled( $product_id ) ) {
+				continue;
+			}
+			if ( $order_item_id && absint( $order_item_id ) !== absint( $item_id ) ) {
+				continue;
+			}
+			$quantity   = ! empty( $item->get_quantity() ) ? $item->get_quantity() : 0;
+			$refund_qty = $order->get_qty_refunded_for_item( $item_id );
+			// Deprecated filter.
+			// todo: remove this filter in the future.
+			$sources  = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id );
+			$quantity = $quantity * apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id, $order_id );
+
+			$data = array(
+				'product_id'    => $product_id,
+				'order_item_id' => ! empty( $item_id ) ? (int) $item_id : 0,
+				'refunded_qty'  => $refund_qty,
+				'quantity'      => apply_filters( 'wc_serial_numbers_order_item_quantity', $quantity, $product_id, $order_id ),
+				'key_source'    => $sources,
+			);
+
+			$line_items[] = $data;
+		}
+	}
+
+	return apply_filters( 'wc_serial_numbers_order_line_items_data', $line_items, $order_id );
 }
 
 /**
@@ -254,212 +339,337 @@ function wcsn_is_reusing_keys() {
  * @return bool True if order contains product that enabled for selling serial numbers, false otherwise.
  */
 function wcsn_order_has_products( $order_id ) {
-	$order = wc_get_order( $order_id );
-
-	if ( ! $order ) {
-		return false;
-	}
-
-	$items = $order->get_items();
-
-	if ( ! $items ) {
-		return false;
-	}
-
-	foreach ( $items as $item ) {
-		$product_id = $item->get_product_id();
-
-		if ( wcsn_is_product_enabled( $product_id ) ) {
-			return true;
-		}
-	}
-
-	return false;
+	return ! empty( wcsn_get_order_line_items_data( $order_id ) );
 }
 
 /**
- * Add keys to order.
+ * Get order keys.
  *
  * @param int $order_id Order ID.
- * @param int $order_item_id Order item ID. If not provided it will assign to all order items.
  *
  * @since 1.0.0
- * @return bool|int Number of keys added to order or false on failure.
+ * @return array
  */
-function wcsn_order_add_keys( $order_id, $order_item_id = null ) {
-	$order = wc_get_order( $order_id );
-
-	if ( ! $order ) {
-		return false;
+function wcsn_order_get_keys( $order_id ) {
+	if ( ! wcsn_order_has_products( $order_id ) ) {
+		return array();
 	}
 
-	$items = $order->get_items();
-
-	if ( ! $items ) {
-		return false;
-	}
-
-	$count_added = 0;
-	foreach ( $items as $item ) {
-		if ( $order_item_id && $order_item_id !== $item->get_id() ) {
-			continue;
-		}
-
-		$product = $item->get_product();
-
-		if ( ! $product ) {
-			continue;
-		}
-
-		$product_id = $product->get_variation_id() ? $product->get_variation_id() : $product->get_product_id();
-		$quantity   = $item->get_quantity();
-		if ( ! wcsn_is_product_enabled( $product_id ) ) {
-			continue;
-		}
-		$per_product_delivery_qty       = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
-		$per_product_total_delivery_qty = $quantity * $per_product_delivery_qty;
-		$delivered_qty                  = Key::count(
-			array(
-				'product_id' => $product_id,
-				'order_id'   => $order_id,
-				// todo add order_item_id to query when database supports it.
-			)
-		);
-		if ( $delivered_qty >= $per_product_total_delivery_qty ) {
-			continue;
-		}
-		$total_delivery_qty = $per_product_total_delivery_qty - $delivered_qty;
-		$source             = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $total_delivery_qty );
-		// Deprecated. use wc_serial_numbers_pre_order_add_keys instead. Will be removed in 1.5.0.
-		do_action( 'wc_serial_numbers_pre_order_item_connect_serial_numbers', $product_id, $total_delivery_qty, $source, $order_id );
-		do_action( 'wc_serial_numbers_pre_order_add_keys', $product_id, $total_delivery_qty, $source, $order_id );
-		$keys = Key::query(
-			array(
-				'product_id' => $product_id,
-				'status'     => 'instock',
-				'source'     => $source,
-				'number'     => $total_delivery_qty,
-			)
-		);
-		// If the order does not require payment then we need to mark the keys as sold.
-		$status     = $order->has_status( 'completed' ) ? 'sold' : 'onhold';
-		$order_date = $order->get_date_created() ? $order->get_date_created()->getTimestamp() : current_time( 'mysql' );
-		foreach ( $keys as $key ) {
-			$key->set_order_id( $order_id );
-			// todo $key->set_order_item_id( $item->get_id() );
-			$key->set_status( $status );
-			$key->set_order_date( $order_date );
-			if ( ! is_wp_error( $key->save() ) ) {
-				$count_added ++;
-			}
-		}
-	}
-
-	// Now go through all the keys and mark them as sold if the order is completed.
-	$keys = Key::query(
+	return Key::query(
 		array(
 			'order_id' => $order_id,
+			'limit'    => - 1,
 		)
 	);
-	foreach ( $keys as $key ) {
-		if ( $order->has_status( 'completed' ) && 'onhold' === $key->get_status() ) {
-			$key->set_status( 'sold' );
-			$key->save();
-		}
-	}
-
-	// Deprecated. use wc_serial_numbers_order_add_keys instead. Will be removed in 1.5.0.
-	do_action( 'wc_serial_numbers_order_connect_serial_numbers', $order_id, $count_added );
-	do_action( 'wc_serial_numbers_order_add_keys', $order_id, $count_added );
-
-	return $count_added;
 }
 
 /**
- * Remove keys from order.
+ * Determine if the order is fullfilled.
  *
  * @param int $order_id Order ID.
- * @param int $order_item_id Order item ID. If not provided it will assign to all order items.
  *
- * @since 1.0.0
+ * @since 1.2.0
+ * @return bool True if order is fullfilled, false otherwise.
  */
-function wcsn_order_remove_keys( $order_id, $order_item_id = null ) {
-	$order = wc_get_order( $order_id );
-
-	if ( ! $order ) {
-		return false;
-	}
-
-	// If the order does not contain any serial numbers then we don't need to do anything.
+function wcsn_order_is_fullfilled( $order_id ) {
 	if ( ! wcsn_order_has_products( $order_id ) ) {
-		return false;
+		return true;
 	}
 
-	$items = $order->get_items();
-
-	if ( ! $items ) {
-		return false;
+	$keys       = wcsn_order_get_keys( $order_id );
+	$line_items = wcsn_get_order_line_items_data( $order_id );
+	$total_qty  = 0;
+	foreach ( $line_items as $line_item ) {
+		$total_qty += $line_item['quantity'];
 	}
 
-	// Deprecated. use wc_serial_numbers_pre_order_remove_keys instead. Will be removed in 1.5.0.
-	do_action( 'wc_serial_numbers_pre_order_disconnect_serial_numbers', $order_id );
-	do_action( 'wc_serial_numbers_pre_order_remove_keys', $order_id );
+	return count( $keys ) >= $total_qty;
+}
 
-	$count_removed = 0;
-	$is_reusing    = wcsn_is_reusing_keys();
-	$keys          = Key::query(
+/**
+ * Order get unfulfilled items.
+ *
+ * @param int $order_id Order ID.
+ *
+ * @since 1.2.0
+ * @return array
+ */
+function wcsn_order_get_unfulfilled_items( $order_id ) {
+	if ( ! wcsn_order_has_products( $order_id ) ) {
+		return array();
+	}
+
+	$line_items = wcsn_get_order_line_items_data( $order_id );
+	$keys       = wcsn_order_get_keys( $order_id );
+	$items      = array();
+
+	foreach ( $line_items as $line_item ) {
+		$qty = $line_item['quantity'];
+		foreach ( $keys as $key ) {
+			if ( $key->get_product_id() !== $line_item['product_id'] ) {
+				continue;
+			}
+//          todo uncomment this when we will support for order item id.
+//			if ( $key->get_variation_id() !== $line_item['variation_id'] ) {
+//				continue;
+//			}
+//			if ( $key->get_order_item_id() !== $line_item['order_item_id'] ) {
+//				continue;
+//			}
+			$qty --;
+		}
+		if ( $qty > 0 ) {
+			$items[] = array_merge( $line_item, array( 'quantity' => $qty ) );
+		}
+	}
+
+	return $items;
+}
+
+/**
+ * Update order keys.
+ *
+ * @param int $order_id Order ID.
+ *
+ * @since 1.4.6
+ * @return void
+ */
+function wcsn_order_update_keys( $order_id ) {
+	$order          = wcsn_get_order_object( $order_id );
+	$customer_id    = $order->get_customer_id();
+	$line_items     = wcsn_get_order_line_items_data( $order );
+	$revoke_statues = wcsn_get_revoke_statuses();
+	$order_status   = $order->get_status( 'edit' );
+	if ( empty( $line_items ) ) {
+		return;
+	}
+
+	if ( ! apply_filters( 'wc_serial_numbers_update_order_keys', true, $order_id, $line_items, $order_status ) ) {
+		return;
+	}
+
+	/**
+	 * Action hook to pre update order keys.
+	 *
+	 * @param int $order_id Order ID.
+	 * @param array $line_items Order line items.
+	 *
+	 * @since 1.4.6
+	 */
+	do_action( 'wc_serial_numbers_pre_update_order_keys', $order_id, $line_items );
+
+	$do_add = apply_filters( 'wc_serial_numbers_add_order_keys', true, $order_id, $line_items, $order_status );
+
+
+	if ( in_array( $order_status, [ 'processing', 'completed' ], true ) && ! wcsn_order_is_fullfilled( $order_id ) && $do_add ) {
+
+		/**
+		 * Action hook to pre add order keys.
+		 *
+		 * @param int $order_id Order ID.
+		 * @param array $line_items Order line items.
+		 * @param string $order_status Order status.
+		 *
+		 * @since 1.4.6
+		 */
+		do_action( 'wc_serial_numbers_pre_add_order_keys', $order_id, $line_items, $order_status );
+		$added = 0;
+
+		foreach ( $line_items as $k => $item ) {
+			if ( ! apply_filters( 'wc_serial_numbers_add_order_item_keys', true, $item, $order_id ) ) {
+				continue;
+			}
+
+			$delivered_qty = Key::count( array(
+				'order_id'       => $order_id,
+				'product_id'     => $item['product_id'],
+				'status__not_in' => $revoke_statues,
+			) );
+			if ( $item['refunded_qty'] >= $item['quantity'] ) {
+				continue;
+			}
+			$needed_count = $item['quantity'] - $delivered_qty - $item['refunded_qty'];
+			if ( $delivered_qty >= $needed_count || empty( $needed_count ) ) {
+				continue;
+			}
+
+			/**
+			 * Action hook to pre add keys to order item.
+			 *
+			 * @param array $line_item Order line item.
+			 * @param int $order_id Order ID.
+			 * @param int $needed_count Needed count.
+			 */
+			do_action( 'wc_serial_numbers_pre_add_order_item_eys', $item, $order_id, $needed_count );
+
+			// Deprecated. use wc_serial_numbers_pre_order_add_keys instead. Will be removed in 1.5.0.
+			apply_filters( 'wc_serial_numbers_pre_order_item_connect_serial_numbers', $item['product_id'], $needed_count, $item['key_source'], $order_id );
+
+			// Get new keys.
+			$keys = Key::query(
+				array(
+					'product_id' => $item['product_id'],
+					'status'     => 'instock',
+					'number'     => $needed_count,
+					'orderby'    => 'id',
+					'order'      => 'ASC'
+				)
+			);
+			if ( count( $keys ) < $needed_count ) {
+				$order->add_order_note(
+					sprintf(
+					/* translators: 1: product title 2: source and 3: Quantity */
+						esc_html__( 'There is not enough serial numbers for the product %1$s from selected source %2$s, needed total %3$d.', 'wc-serial-numbers' ),
+						wcsn_get_product_title( $item['product_id'] ),
+						$item['key_source'],
+						$needed_count
+					),
+					false
+				);
+
+				continue;
+			}
+
+			// Assign keys to order.
+			foreach ( $keys as $key ) {
+				$key->set_props( array(
+					'order_id'      => $order_id,
+					'order_item_id' => $item['order_item_id'],
+					'order_date'    => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : current_time( 'mysql' ),
+					'customer_id'   => $customer_id,
+					'status'        => 'processing' === $order_status ? 'onhold' : 'sold',
+				) );
+				if ( ! is_wp_error( $key->save() ) ) {
+					$added ++;
+				}
+			}
+
+			/**
+			 * Action hook to post add keys to order item.
+			 *
+			 * @param array $line_item Order line item.
+			 * @param int $order_id Order ID.
+			 * @param int $needed_count Needed count.
+			 */
+			do_action( 'wc_serial_numbers_add_order_item_keys', $item, $order_id, $needed_count );
+
+			// Deprecated. use wc_serial_numbers_pre_order_add_keys instead. Will be removed in 1.5.0.
+			do_action( 'wc_serial_numbers_order_connect_serial_numbers', $order_id, count( $keys ) );
+
+			return;
+		}
+
+		if ( $added > 0 ) {
+			/**
+			 * Action hook to post add order keys.
+			 *
+			 * @param int $order_id Order ID.
+			 * @param array $line_items Order line items.
+			 * @param string $order_status Order status.
+			 *
+			 * @since 1.4.6
+			 */
+			do_action( 'wc_serial_numbers_add_order_keys', $order_id, $line_items, $order_status );
+		}
+	}
+
+	// Revoke keys.
+	$keys = Key::query(
 		array(
 			'order_id' => $order_id,
 			'number'   => - 1,
 		)
 	);
-
 	foreach ( $keys as $key ) {
-		$key->set_order_id( 0 );
-		// todo $key->set_order_item_id( 0 );
-		$key->set_status( $is_reusing ? 'instock' : 'cancelled' );
-		$key->set_order_date( 0 );
-		if ( ! is_wp_error( $key->save() ) ) {
-			$count_removed ++;
+		$is_expired = $key->is_expired();
+		if ( $is_expired && 'expired' !== $key->get_status() ) {
+			$key->set_status( 'expired' );
+			$key->save();
+		} elseif ( 'completed' === $order_status && ! $is_expired && 'sold' !== $key->get_status() ) {
+			$key->set_status( 'sold' );
+			$key->save();
+		} elseif ( 'processing' === $order_status && ! $is_expired && 'onhold' !== $key->get_status() ) {
+			$key->set_status( 'onhold' );
+			$key->save();
+		} elseif ( in_array( $order_status, $revoke_statues, true ) && ! $is_expired && apply_filters( 'wc_serial_numbers_revoke_order_item_keys', true, $line_items, $order_id ) ) {
+			wcsn_order_revoke_keys( $order_id );
 		}
 	}
 
-	// Deprecated. use wc_serial_numbers_order_remove_keys instead. Will be removed in 1.5.0.
-	do_action( 'wc_serial_numbers_order_disconnect_serial_numbers', $order_id, $count_removed );
-	do_action( 'wc_serial_numbers_order_remove_keys', $order_id, $count_removed );
-
-	return $count_removed;
+	/**
+	 * Action hook to post add keys to order item.
+	 *
+	 * @param int $order_id Order ID.
+	 * @param array $line_items Order line items.
+	 *
+	 * @since 1.4.6
+	 */
+	do_action( 'wc_serial_numbers_order_update_keys', $order_id, $line_items );
 }
 
 /**
- * Order sync keys.
+ * Order remove keys.
  *
  * @param int $order_id Order ID.
+ * @param array $line_items Order line items.
  *
- * @since 1.0.0
+ * @since 1.4.6
+ *
+ * @return array|false Array of keys or false if no keys found.
  */
-function wcsn_order_sync_keys( $order_id ) {
-	$order = wc_get_order( $order_id );
+function wcsn_order_revoke_keys( $order_id, $product_id = null ) {
+	$is_reusing = wcsn_is_reusing_keys();
+	$args       = array(
+		'order_id' => $order_id,
+		'number'   => - 1,
+	);
 
-	if ( ! $order ) {
-		return;
+	if ( ! empty( $product_id ) ) {
+		$args['product_id'] = $product_id;
 	}
 
-	$items = $order->get_items();
+	$keys = Key::query( $args );
 
-	if ( ! $items ) {
-		return;
+	if ( ! $keys ) {
+		return false;
 	}
 
-	// based on the order status we need to add or remove keys.
-	if ( wcsn_order_has_products( $order_id ) ) {
-		// If processing or completed then we need to add keys.
-		if ( $order->has_status( array( 'processing', 'completed' ) ) ) {
-			wcsn_order_add_keys( $order_id );
-		} else {
-			wcsn_order_remove_keys( $order_id );
+	/**
+	 * Action hook to pre revoke keys from order item.
+	 *
+	 * @param int $order_id Order ID.
+	 * @param int $product_id Product ID.
+	 * @param array $keys Order keys.
+	 *
+	 * @since 1.4.6
+	 */
+	do_action( 'wc_serial_numbers_pre_revoke_order_keys', $order_id, $product_id, $keys );
+
+	foreach ( $keys as $key ) {
+		$props = array(
+			'status' => $is_reusing ? 'instock' : 'cancelled'
+		);
+		if ( ! $is_reusing ) {
+			$props['order_id']      = 0;
+			$props['order_item_id'] = 0;
+			$props['order_date']    = null;
 		}
+		$key->set_props( $props );
+		$key->save();
 	}
+
+	/**
+	 * Action hook to post revoke keys from order item.
+	 *
+	 * @param int $order_id Order ID.
+	 * @param int $product_id Product ID.
+	 * @param array $keys Order keys.
+	 *
+	 * @since 1.4.6
+	 */
+	do_action( 'wc_serial_numbers_revoke_order_keys', $order_id, $product_id, $keys );
+
+	return $keys;
 }
 
 /**
@@ -509,6 +719,33 @@ function wcsn_get_products_query_args() {
 }
 
 /**
+ * Get enabled products.
+ *
+ * @since 1.4.6
+ * @return array|int List of products or number of products.
+ */
+function wcsn_get_products( $args = array() ) {
+	$args = wp_parse_args( $args, wcsn_get_products_query_args() );
+	if ( empty( $args['meta_query'] ) ) {
+		$args['meta_query'] = [];
+	}
+	$args['meta_query'][] = array(
+		'key'     => '_is_serial_number',
+		'value'   => 'yes',
+		'compare' => '=',
+	);
+
+	$is_count = isset( $args['count'] ) && $args['count'];
+	unset( $args['count'] );
+	$query = new \WP_Query( $args );
+	if ( $is_count ) {
+		return $query->found_posts;
+	}
+
+	return $query->posts;
+}
+
+/**
  * Encrypt serial number.
  *
  * @param string $key Key.
@@ -532,3 +769,66 @@ function wcsn_decrypt_key( $key ) {
 	return Encryption::maybeDecrypt( $key );
 }
 
+/**
+ * Get product stocks
+ *
+ * @param int $stock_limit Stock limit.
+ * @param bool $force Force.
+ *
+ * @since 1.4.6
+ *
+ * @return array
+ */
+function wcsn_get_stocks_count( $stock_limit = null, $force = false ) {
+	$transient_key = 'wcsn_products_stock_count';
+	$counts        = get_transient( $transient_key );
+
+	if ( $force || false === $counts ) {
+		$counts   = array();
+		$post_ids = wcsn_get_products( array(
+			'posts_per_page' => - 1,
+			'fields'         => 'ids',
+			'meta_query'     => array( // @codingStandardsIgnoreLine
+				'relation' => 'AND',
+				array(
+					'key'     => '_serial_key_source',
+					'value'   => 'custom_source',
+					'compare' => '=',
+				)
+			),
+		) );
+		foreach ( $post_ids as $post_id ) {
+			$counts[ $post_id ] = wcsn_get_keys( [
+				'product_id' => $post_id,
+				'status'     => 'instock',
+				'count'      => true,
+			] );
+		}
+		set_transient( $transient_key, $counts, 60 * 60 * 24 );
+	}
+	if ( $stock_limit > 0 ) {
+		// get the results where value is equal or less than max.
+		$counts = array_filter( $counts, function ( $value ) use ( $stock_limit ) {
+			return $value <= $stock_limit;
+		} );
+	}
+
+	return $counts;
+}
+
+/**
+ * Get stock of product.
+ *
+ * @param int $product_id Product ID.
+ *
+ * @since 1.4.6
+ * @retun int
+ */
+function wcsn_get_product_stock( $product_id ) {
+	$counts = wcsn_get_stocks_count();
+	if ( isset( $counts[ $product_id ] ) ) {
+		return $counts[ $product_id ];
+	}
+
+	return 0;
+}

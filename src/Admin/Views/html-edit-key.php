@@ -125,7 +125,14 @@ defined( 'ABSPATH' ) || exit;
 						</label>
 					</th>
 					<td>
-						<?php echo sprintf( '<input name="order_id" id="order_id" class="regular-text" type="number" value="%d" autocomplete="off">', esc_attr( $key->get_order_id() ) ); ?>
+						<select name="order_id" id="order_id" class="regular-text wcsn_search_order" required="required" placeholder="<?php esc_html_e( 'Select Order', 'wc-serial-numbers' ); ?>">
+							<?php
+							echo sprintf(
+								'<option value="%d" selected="selected">%s</option>',
+								esc_attr( $key->get_order_id() ),
+								esc_html( $key->get_order_title() )
+							);
+							?>
 						<p class="description"><?php esc_html_e( 'The order to which the serial number will be assigned.', 'wc-serial-numbers' ); ?></p>
 					</td>
 				</tr>
@@ -134,12 +141,13 @@ defined( 'ABSPATH' ) || exit;
 			<tfoot>
 			<tr>
 				<td colspan="2">
-					<input type="hidden" name="action" value="wcsn_edit_key">
+					<input type="hidden" name="action" value="wc_serial_numbers_edit_key">
 					<input type="hidden" name="id" value="<?php echo esc_attr( $key->get_id() ); ?>">
-					<?php wp_nonce_field( 'wcsn_edit_key' ); ?>
-					<?php submit_button( $key->exists() ? esc_html__( 'Update', 'wc-serial-numbers' ) : esc_html__( 'Create', 'wc-serial-numbers' ), 'primary', 'wcsn_edit_key' ); ?>
+					<?php wp_nonce_field( 'wc_serial_numbers_edit_key' ); ?>
+					<?php submit_button( $key->exists() ? esc_html__( 'Update', 'wc-serial-numbers' ) : esc_html__( 'Create', 'wc-serial-numbers' ), 'primary' ); ?>
 				</td>
 			</tr>
+			</tfoot>
 		</table>
 	</form>
 

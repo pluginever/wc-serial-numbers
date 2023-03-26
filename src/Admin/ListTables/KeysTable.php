@@ -208,6 +208,8 @@ class KeysTable extends ListTable {
 			$this->product_dropdown();
 			$this->customer_dropdown();
 			submit_button( __( 'Filter', 'wc-serial-numbers' ), '', 'filter-action', false );
+
+
 			echo '</div>';
 		}
 	}
@@ -270,11 +272,11 @@ class KeysTable extends ListTable {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'       => '<input type="checkbox" />',
-			'key'      => __( 'Key', 'wc-serial-numbers' ),
-			'product'  => __( 'Product', 'wc-serial-numbers' ),
-			'order'    => __( 'Order', 'wc-serial-numbers' ),
-			'customer' => __( 'Customer', 'wc-serial-numbers' ),
+			'cb'      => '<input type="checkbox" />',
+			'key'     => __( 'Key', 'wc-serial-numbers' ),
+			'product' => __( 'Product', 'wc-serial-numbers' ),
+			'order'   => __( 'Order', 'wc-serial-numbers' ),
+//			'customer' => __( 'Customer', 'wc-serial-numbers' ),
 		);
 
 		if ( wcsn_is_software_support_enabled() ) {
@@ -339,14 +341,15 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_key( $item ) {
+		$is_hidden         = 'yes' === get_option( 'wc_serial_numbers_hide_serial_number', 'yes' );
 		$edit_url          = add_query_arg( [ 'edit' => $item->id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
 		$delete_url        = add_query_arg( [ 'id' => $item->id, 'action' => 'delete' ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
 		$actions['id']     = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), $item->id );
-		$actions['show']   = sprintf( '<a class="wcsn_unmask_key" href="#" data-key="%s">%s</a>', $item->key, __( 'Show', 'wc-serial-numbers' ) );
 		$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', $edit_url, __( 'Edit', 'wc-serial-numbers' ) );
 		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', $delete_url, __( 'Delete', 'wc-serial-numbers' ) );
 
-		return sprintf( '<code class="wcsn-key %1$s"></code> %2$s', 'masked', $this->row_actions( $actions ) );
+
+		return sprintf( '%1$s %2$s', $item->print_key( $is_hidden ), $this->row_actions( $actions ) );
 	}
 
 	/**
@@ -372,7 +375,12 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_order( $item ) {
-		return ! empty( $item->order_id ) ? sprintf( '<a href="%s">#%s</a>', get_edit_post_link( $item->order_id ), $item->order_id ) : '&mdash;';
+		$order = $item->get_order();
+		if ( empty( $order ) ) {
+			return '&mdash;';
+		}
+
+		return sprintf( '<a href="%s">#%d - %s</a>', get_edit_post_link( $order->get_id() ), $order->get_id(), $order->get_formatted_billing_full_name() );
 	}
 
 	/**
@@ -412,7 +420,7 @@ class KeysTable extends ListTable {
 		$count = (int) $key->activation_count;
 		$link  = add_query_arg(
 			[
-				'key_id' => $key->id,
+				'serial_id' => $key->id,
 				'page'   => 'wc-serial-numbers-activations',
 			],
 			admin_url( 'admin.php' )
@@ -431,7 +439,7 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_valid_for( $key ) {
-		return ! empty( $key->valid_for ) ? sprintf( _n( '<b>%s</b> Day <br><small>After purchase</small>', '<b>%s</b> Days <br><small>After purchase</small>', $key->valid_for, 'wc-serial-numbers' ), number_format_i18n( $key->valid_for ) ) : __( 'Lifetime', 'wc-serial-numbers' );
+		return ! empty( $key->get_validity() ) ? sprintf( _n( '<b>%s</b> Day <br><small>After purchase</small>', '<b>%s</b> Days <br><small>After purchase</small>', $key->get_validity(), 'wc-serial-numbers' ), number_format_i18n( $key->get_validity() ) ) : __( 'Lifetime', 'wc-serial-numbers' );
 	}
 
 	/**

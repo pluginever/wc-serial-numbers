@@ -15,35 +15,29 @@
 
 	$(document).ready(function () {
 		$(document)
-			.on('click', '.wcsn_unmask_key', function (e) {
-				e.preventDefault();
-				const self = $(this);
-				const key = self.data('key');
-				const $key = self.closest('td').find('.wcsn-key');
-				console.log($key)
-				if ($key.hasClass('masked')) {
-					$key.text(key).removeClass('masked');
-					self.text(wc_serial_numbers_vars.i18n.hide);
-				} else {
-					$key.text('').addClass('masked');
-					self.text(wc_serial_numbers_vars.i18n.show);
-				}
-			})
-			.on('click', '.wcsn-key:not(.masked), .wcsn-key-copy', function () {
+			.on('click', '.wcsn-key', function () {
 				const $this = $(this);
 				if ($this.hasClass('copying')) {
 					return;
 				}
 				const $temp = $('<input>');
 				$('body').append($temp);
-				$temp.val($this.text()).select();
+				$temp.val($this.data('unmasked')).select();
 				document.execCommand('copy');
 				$temp.remove();
-				$this.attr('data-key', $this.text());
 				$this.text(wc_serial_numbers_vars.i18n.copied).addClass('copying');
 				setTimeout(function () {
-					$this.text($this.data('key')).removeClass('copying');
+					$this.text($this.data('masked')).removeClass('copying');
 				}, 1000);
+			})
+			.on('mouseenter mouseleave', '.wcsn-key:not(.copying)', function (e) {
+				const $this = $(this);
+				// If enter show the unmasked key and leave show the masked key.
+				if (e.type === 'mouseenter') {
+					$this.text($this.data('unmasked'));
+				} else {
+					$this.text($this.data('masked'));
+				}
 			})
 			.on('submit', '.wcsn-api-form', function (e) {
 				e.preventDefault();
@@ -69,7 +63,7 @@
 				});
 			});
 
-		$('.wcsn_search_product').select2({
+		$('.wcsn_search_product, .wc-serial-numbers-select-product').select2({
 			ajax: {
 				cache: true,
 				delay: 500,

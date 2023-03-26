@@ -1,12 +1,23 @@
 <?php
-defined( 'ABSPATH' ) || exit();
 
-class WC_Serial_Numbers_Admin_MetaBoxes {
+namespace WooCommerceSerialNumbers\Admin;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class Metaboxes.
+ *
+ * @since   1.0.0
+ * @package WooCommerceSerialNumbers\Admin
+ */
+class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 
 	/**
-	 * WC_Serial_Numbers_Admin_MetaBoxes constructor.
+	 * Metaboxes constructor.
+	 *
+	 * @since 1.0.0
 	 */
-	public function __construct() {
+	protected function __construct() {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'register_metaboxes' ) );
 		add_filter( 'woocommerce_product_data_tabs', array( __CLASS__, 'product_data_tab' ) );
 		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );
@@ -14,6 +25,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'variable_product_content' ), 10, 3 );
 		//add_action( 'woocommerce_after_order_itemmeta', array( $this, 'order_itemmeta' ), 10, 3 );
 	}
+
 
 	/**
 	 * Register metaboxes.
@@ -46,7 +58,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 		global $post, $woocommerce;
 		?>
 		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
-			 style="padding-bottom: 50px;display: none;">
+		     style="padding-bottom: 50px;display: none;">
 			<?php
 			woocommerce_wp_checkbox(
 				array(
@@ -75,21 +87,21 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 
 			$source  = get_post_meta( $post->ID, '_serial_key_source', true );
 			$sources = wc_serial_numbers_get_key_sources();
-			woocommerce_wp_radio( array(
-				'id'            => "_serial_key_source",
-				'name'          => "_serial_key_source",
-				'class'         => "serial_key_source",
-				'label'         => __( 'Serial key source', 'wc-serial-numbers' ),
-				'value'         => empty( $source ) ? 'custom_source' : $source,
-				'wrapper_class' => 'options_group',
-				'options'       => $sources,
-			) );
-
-			foreach ( array_keys( $sources ) as $key_source ) {
-				do_action( 'wc_serial_numbers_source_settings_' . $key_source, $post->ID );
-				do_action( 'wc_serial_numbers_source_settings', $key_source, $post->ID );
+			if( count( $sources ) > 1 ) {
+				woocommerce_wp_radio( array(
+					'id'            => "_serial_key_source",
+					'name'          => "_serial_key_source",
+					'class'         => "serial_key_source",
+					'label'         => __( 'Serial key source', 'wc-serial-numbers' ),
+					'value'         => empty( $source ) ? 'custom_source' : $source,
+					'wrapper_class' => 'options_group',
+					'options'       => $sources,
+				) );
+				foreach ( array_keys( $sources ) as $key_source ) {
+					do_action( 'wc_serial_numbers_source_settings_' . $key_source, $post->ID );
+					do_action( 'wc_serial_numbers_source_settings', $key_source, $post->ID );
+				}
 			}
-
 
 			do_action( 'wc_serial_numbers_simple_product_metabox', $post );
 
@@ -105,17 +117,15 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 					)
 				);
 			}
-			if ( 'custom_source' == $source ) {
-				$available_serial_numbers = WC_Serial_Numbers_Query::init()->table( 'serial_numbers' )->where( [
-					'product_id' => $post->ID,
-					'status'     => 'available'
-				] )->count();
+			if ( 'custom_source' == $source || empty( $source )) {
+				$stocks = wcsn_get_stocks_count();
+				$stock = isset( $stocks[ $post->ID ] ) ? $stocks[ $post->ID ] : 0;
 
 				echo sprintf(
 					'<p class="form-field options_group"><label>%s</label><span class="description">%d %s</span></p>',
 					__( 'Available', 'wc-serial-numbers' ),
-					$available_serial_numbers,
-					__( 'serial number'. ( ( 1 == $available_serial_numbers || 0 == $available_serial_numbers ) ? '' : 's' ). ' available for sale', 'wc-serial-numbers' )
+					$stock,
+					_n( 'serial key', 'serial keys', $stock, 'wc-serial-numbers' )
 				);
 			}
 			if ( ! wc_serial_numbers()->is_pro_active() ) {
@@ -200,10 +210,10 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			return false;
 		}
 
-		$items = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( [
+		$items = wcsn_get_keys(array(
 			'order_id'   => $post->ID,
 			'product_id' => $product->get_id(),
-		] )->get();
+		));
 
 		if ( empty( $items ) && $order ) {
 			echo sprintf( '<div class="wcsn-missing-serial-number">%s</div>', __( 'Order missing serial numbers for this item.', 'wc-serial-numbers' ) );
@@ -223,8 +233,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 
 		foreach ( $items as $item ) {
 			$li .= sprintf( '<li><a href="%s">&rarr;</a>&nbsp;%s</li>', add_query_arg( [
-				'action' => 'edit',
-				'id'     => $item->id
+				'edit' => $item->id,
 			], $url ), wc_serial_numbers_decrypt_key( $item->serial_key ) );
 		}
 
@@ -266,7 +275,9 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 			return false;
 		}
 
-		$serial_numbers = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order->get_id() ) )->get();
+		$serial_numbers = wcsn_get_keys(array(
+			'order_id' => $order->get_id(),
+		) );
 
 		if ( empty( $serial_numbers ) ) {
 			echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order waiting for assigning serial numbers.', 'wc-serial-numbers' ) ) );
@@ -327,7 +338,7 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 						</td>
 					<?php endforeach; ?>
 					<td>
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-serial-numbers&action=edit&id=' . $serial_number->id ) ) ?>"><?php _e( 'Edit', 'wc-serial-numbers' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $serial_number->id ) ) ?>"><?php _e( 'Edit', 'wc-serial-numbers' ); ?></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -339,7 +350,4 @@ class WC_Serial_Numbers_Admin_MetaBoxes {
 
 		return true;
 	}
-
 }
-
-new WC_Serial_Numbers_Admin_MetaBoxes();

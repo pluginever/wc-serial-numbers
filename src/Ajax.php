@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.4.2
  * @package WooCommerceSerialNumbers
  */
-class AJAX extends Lib\Singleton {
+class Ajax extends Lib\Singleton {
 
 	/**
 	 * AJAX constructor.
@@ -91,24 +91,32 @@ class AJAX extends Lib\Singleton {
 		$page     = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
 		$per_page = absint( 100 );
 
-		$query = new \WP_Query(
-			array(
-				'post_type'      => 'shop_order',
-				'post_status'    => 'any',
-				'posts_per_page' => - 1,
-				'fields'         => 'ids',
-				's'              => $search,
-			)
-		);
+		$ids = array();
+		if ( is_numeric( $search ) ) {
+			$order = wc_get_order( intval( $search ) );
 
-		// todo need to add cache.
-		$order_ids = $query->get_posts();
-		$more      = false;
-		if ( $query->found_posts > ( $per_page * $page ) ) {
-			$more = true;
+			// Order does exists.
+			if( $order && 0 !== $order->get_id() ) {
+				$ids[] = $order->get_id();
+			}
 		}
+
+		if( empty( $ids ) ) {
+			$data_store = \WC_Data_Store::load( 'order' );
+			if ( 3 > strlen( $search ) ) {
+				$per_page = 20;
+			}
+			$ids        = $data_store->search_orders(
+				$search,
+				array(
+					'limit' => $per_page,
+					'page'  => $page,
+				)
+			);
+		}
+
 		$results = array();
-		foreach ( $order_ids as $order_id ) {
+		foreach ( $ids as $order_id ) {
 			$order = wc_get_order( $order_id );
 
 			if ( ! $order_id ) {
@@ -132,7 +140,7 @@ class AJAX extends Lib\Singleton {
 				'page'       => $page,
 				'results'    => $results,
 				'pagination' => array(
-					'more' => $more,
+					'more' => false,
 				),
 			)
 		);
@@ -151,38 +159,42 @@ class AJAX extends Lib\Singleton {
 		$page     = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
 		$per_page = absint( 100 );
 
-		// Search woo customers.
-		$customer_query = new \WP_User_Query(
-			array(
-				'limit'  => $per_page,
-				'offset' => ( $page - 1 ) * $per_page,
-				'search' => $search,
-				'fields' => 'ids',
-			)
-		);
+		$ids = array();
+		// Search by ID.
+		if ( is_numeric( $search ) ) {
+			$customer = new \WC_Customer( intval( $search ) );
 
-		$customer_ids = $customer_query->get_results();
-		$more         = false;
-		if ( $customer_query->get_total() > ( $per_page * $page ) ) {
-			$more = true;
+			// Customer does not exists.
+			if ( $customer && 0 !== $customer->get_id() ) {
+				$ids = array( $customer->get_id() );
+			}
+		}
+
+		// Usernames can be numeric so we first check that no users was found by ID before searching for numeric username, this prevents performance issues with ID lookups.
+		if ( empty( $ids ) ) {
+			$data_store = \WC_Data_Store::load( 'customer' );
+
+			// If search is smaller than 3 characters, limit result set to avoid
+			// too many rows being returned.
+			if ( 3 > strlen( $search ) ) {
+				$per_page = 20;
+			}
+			$ids = $data_store->search_customers( $search, $per_page );
 		}
 
 		$results = array();
-		foreach ( $customer_ids as $customer_id ) {
-			$customer = new \WC_Customer( $customer_id );
-
-			if ( ! $customer ) {
-				continue;
-			}
-
+		foreach ( $ids as $id ) {
+			$customer = new \WC_Customer( $id );
 			$text = sprintf(
-				'(#%1$s) %2$s',
+				/* translators: $1: customer name, $2 customer id, $3: customer email */
+				esc_html__( '%1$s (#%2$s - %3$s)', 'wc-serial-numbers' ),
+				$customer->get_first_name() . ' ' . $customer->get_last_name(),
 				$customer->get_id(),
-				wp_strip_all_tags( $customer->get_billing_first_name() . ' ' . $customer->get_billing_last_name() )
+				$customer->get_email()
 			);
 
 			$results[] = array(
-				'id'   => $customer->get_id(),
+				'id'   => $id,
 				'text' => $text,
 			);
 		}
@@ -192,7 +204,7 @@ class AJAX extends Lib\Singleton {
 				'page'       => $page,
 				'results'    => $results,
 				'pagination' => array(
-					'more' => $more,
+					'more' => false,
 				),
 			)
 		);

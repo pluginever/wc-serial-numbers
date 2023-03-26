@@ -62,6 +62,7 @@ class ActivationsTable extends ListTable {
 		$order_id              = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
 		$customer_id           = isset( $_GET['customer_id'] ) ? absint( $_GET['customer_id'] ) : '';
 		$id                    = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : '';
+		$serial_id             = isset( $_GET['serial_id'] ) ? absint( $_GET['serial_id'] ) : '';
 
 		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' !== $orderby ) {
 			$args['orderby'] = $orderby;
@@ -77,6 +78,7 @@ class ActivationsTable extends ListTable {
 			'customer_id' => $customer_id,
 			'include'     => $id,
 			'search'      => $search,
+			'serial_id'   => $serial_id,
 		);
 
 		$this->items       = Activation::query( $args );
@@ -186,7 +188,7 @@ class ActivationsTable extends ListTable {
 			'cb'              => '<input type="checkbox" />',
 			'instance'        => __( 'Instance', 'wc-serial-numbers' ),
 			'product'         => __( 'Product', 'wc-serial-numbers' ),
-			'key_id'          => __( 'Key', 'wc-serial-numbers' ),
+			'serial_id'       => __( 'Key', 'wc-serial-numbers' ),
 			'platform'        => __( 'Platform', 'wc-serial-numbers' ),
 			'activation_time' => __( 'Activation Time', 'wc-serial-numbers' ),
 		);
@@ -202,7 +204,7 @@ class ActivationsTable extends ListTable {
 	function get_sortable_columns() {
 		$sortable_columns = array(
 			'instance'        => array( 'instance', false ),
-			'key_id'          => array( 'serial_id', false ),
+			'serial_id'       => array( 'serial_id', false ),
 			'platform'        => array( 'platform', false ),
 			'activation_time' => array( 'activation_time', false ),
 		);
@@ -270,7 +272,7 @@ class ActivationsTable extends ListTable {
 	 *
 	 * @since 1.4.6
 	 */
-	protected function column_key_id( $activation ) {
+	protected function column_serial_id( $activation ) {
 		$edit_url = admin_url( 'admin.php?page=wc-serial-numbers&id=' . $activation->get_serial_id() );
 
 		return sprintf( '<a href="%1$s">#%2$s</a>', esc_url( $edit_url ), esc_html( $activation->get_serial_id() ) );
@@ -284,7 +286,7 @@ class ActivationsTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_platform( $activation ) {
-		return esc_html( $activation->get_platform() );
+		return empty( $activation->get_platform() ) ? '&mdash;' : esc_html( $activation->get_platform() );
 	}
 
 	/**
@@ -295,7 +297,7 @@ class ActivationsTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_activation_time( $activation ) {
-		return esc_html( $activation->get_activation_time() );
+		return empty( $activation->get_activation_time() ) ? '&mdash;' : esc_html( $activation->get_activation_time() );
 	}
 
 }

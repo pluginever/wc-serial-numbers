@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Cron extends \WooCommerceSerialNumbers\Lib\Singleton {
+class Cron extends Lib\Singleton {
 
 	/**
 	 * Cron constructor.
@@ -50,7 +50,7 @@ class Cron extends \WooCommerceSerialNumbers\Lib\Singleton {
 			return false;
 		}
 
-		$low_stock_products = wc_serial_numbers_get_low_stock_products( true, $stock_threshold );
+		$low_stock_products = wcsn_get_stocks_count( $stock_threshold );
 		if ( empty( $low_stock_products ) ) {
 			return false;
 		}
@@ -61,12 +61,12 @@ class Cron extends \WooCommerceSerialNumbers\Lib\Singleton {
 		$mailer = $woocommerce->mailer();
 
 		ob_start();
-		include dirname( __FILE__ ) . '/admin/views/email-notification-body.php';
+		wcsn_get_template( 'email-stock-notification.php', array( 'low_stock_products' => $low_stock_products ) );
 		$message = ob_get_contents();
 		ob_get_clean();
 
 		$message = $mailer->wrap_message( $subject, $message );
-		$headers = apply_filters( 'woocommerce_email_headers', '', 'rewards_message', 'null' );
+		$headers = apply_filters( 'woocommerce_email_headers', '', 'wc_serial_numbers_low_stock_notification', $mailer );
 		$mailer->send( $to, $subject, $message, $headers, array() );
 
 		exit();

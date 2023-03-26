@@ -1,6 +1,12 @@
 <?php
 defined( 'ABSPATH' ) || exit();
 
+/**
+ * Class WC_Serial_Numbers_Encryption
+ *
+ * @since 1.2.0
+ * @deprecated 1.4.6
+ */
 class WC_Serial_Numbers_Encryption {
 	/**
 	 * @var static
@@ -201,5 +207,3 @@ class WC_Serial_Numbers_Encryption {
 		);
 	}
 }
-
-WC_Serial_Numbers_Encryption::init();

@@ -56,7 +56,7 @@ class Activations extends Controller {
 			array(
 				'args'   => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the item.', 'wp-ever-accounting' ),
+						'description' => __( 'Unique identifier for the item.', 'wc-serial-numbers' ),
 					),
 				),
 				array(
@@ -115,7 +115,7 @@ class Activations extends Controller {
 		if ( ! empty( $request['orderby'] ) && 'include' === $request['orderby'] && empty( $request['include'] ) ) {
 			return new \WP_Error(
 				'rest_orderby_include_missing_include',
-				__( 'You need to define an include parameter to order by include.', 'wp-ever-accounting' ),
+				__( 'You need to define an include parameter to order by include.', 'wc-serial-numbers' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -136,7 +136,7 @@ class Activations extends Controller {
 		if ( $page > $max_pages && $total > 0 ) {
 			return new \WP_Error(
 				'rest_category_invalid_page_number',
-				__( 'The page number requested is larger than the number of pages available.', 'wp-ever-accounting' ),
+				__( 'The page number requested is larger than the number of pages available.', 'wc-serial-numbers' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -180,7 +180,7 @@ class Activations extends Controller {
 		if ( empty( $resource ) ) {
 			return new \WP_Error(
 				'rest_invalid_id',
-				__( 'Invalid ID.', 'wp-ever-accounting' ),
+				__( 'Invalid ID.', 'wc-serial-numbers' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -209,7 +209,7 @@ class Activations extends Controller {
 		if ( empty( $item ) ) {
 			return new \WP_Error(
 				'rest_invalid_id',
-				__( 'Invalid ID.', 'wp-ever-accounting' ),
+				__( 'Invalid ID.', 'wc-serial-numbers' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -231,7 +231,7 @@ class Activations extends Controller {
 		if ( ! empty( $request['id'] ) ) {
 			return new \WP_Error(
 				'rest_item_exists',
-				__( 'Cannot create existing item.', 'wp-ever-accounting' ),
+				__( 'Cannot create existing item.', 'wc-serial-numbers' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -239,7 +239,7 @@ class Activations extends Controller {
 		if ( ! current_user_can( 'ea_manage_category' ) ) {
 			return new \WP_Error(
 				'rest_cannot_create',
-				__( 'Sorry, you are not allowed to create item.', 'wp-ever-accounting' ),
+				__( 'Sorry, you are not allowed to create item.', 'wc-serial-numbers' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -259,7 +259,7 @@ class Activations extends Controller {
 		if ( ! empty( $request['id'] ) ) {
 			return new \WP_Error(
 				'rest_category_exists',
-				__( 'Cannot create existing category.', 'wp-ever-accounting' ),
+				__( 'Cannot create existing category.', 'wc-serial-numbers' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -305,7 +305,7 @@ class Activations extends Controller {
 		if ( empty( $category ) ) {
 			return new \WP_Error(
 				'rest_invalid_id',
-				__( 'Invalid ID.', 'wp-ever-accounting' ),
+				__( 'Invalid ID.', 'wc-serial-numbers' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -313,7 +313,7 @@ class Activations extends Controller {
 		if ( ! current_user_can( 'ea_manage_category' ) ) {
 			return new \WP_Error(
 				'rest_cannot_edit',
-				__( 'Sorry, you are not allowed to edit this item.', 'wp-ever-accounting' ),
+				__( 'Sorry, you are not allowed to edit this item.', 'wc-serial-numbers' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -367,7 +367,7 @@ class Activations extends Controller {
 		if ( empty( $item ) ) {
 			return new \WP_Error(
 				'rest_invalid_id',
-				__( 'Invalid ID.', 'wp-ever-accounting' ),
+				__( 'Invalid ID.', 'wc-serial-numbers' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -375,7 +375,7 @@ class Activations extends Controller {
 		if ( ! current_user_can( 'ea_manage_category' ) ) {
 			return new \WP_Error(
 				'rest_cannot_delete',
-				__( 'Sorry, you are not allowed to delete item.', 'wp-ever-accounting' ),
+				__( 'Sorry, you are not allowed to delete item.', 'wc-serial-numbers' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -397,7 +397,7 @@ class Activations extends Controller {
 		$data = $this->prepare_item_for_response( $category, $request );
 
 		if ( ! $category->delete() ) {
-			return new \WP_Error( 'rest_cannot_delete', __( 'The category cannot be deleted.', 'wp-ever-accounting' ), array( 'status' => 500 ) );
+			return new \WP_Error( 'rest_cannot_delete', __( 'The category cannot be deleted.', 'wc-serial-numbers' ), array( 'status' => 500 ) );
 		}
 
 		$response = new \WP_REST_Response();
@@ -493,11 +493,11 @@ class Activations extends Controller {
 	public function get_item_schema() {
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => __( 'Category', 'wp-ever-accounting' ),
+			'title'      => __( 'Category', 'wc-serial-numbers' ),
 			'type'       => 'object',
 			'properties' => array(
 				'id'           => array(
-					'description' => __( 'Unique identifier for the category.', 'wp-ever-accounting' ),
+					'description' => __( 'Unique identifier for the category.', 'wc-serial-numbers' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'embed', 'edit' ),
 					'readonly'    => true,
@@ -506,7 +506,7 @@ class Activations extends Controller {
 					),
 				),
 				'name'         => array(
-					'description' => __( 'Name of the category.', 'wp-ever-accounting' ),
+					'description' => __( 'Name of the category.', 'wc-serial-numbers' ),
 					'type'        => 'string',
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'arg_options' => array(
@@ -525,7 +525,7 @@ class Activations extends Controller {
 				// ),
 				// ),
 					'color'    => array(
-						'description' => __( 'Color of the category.', 'wp-ever-accounting' ),
+						'description' => __( 'Color of the category.', 'wc-serial-numbers' ),
 						'type'        => 'string',
 						'context'     => array( 'view', 'embed', 'edit' ),
 						'arg_options' => array(
@@ -533,12 +533,12 @@ class Activations extends Controller {
 						),
 					),
 				'enabled'      => array(
-					'description' => __( 'Status of the item.', 'wp-ever-accounting' ),
+					'description' => __( 'Status of the item.', 'wc-serial-numbers' ),
 					'type'        => 'boolean',
 					'context'     => array( 'embed', 'view', 'edit' ),
 				),
 				'date_created' => array(
-					'description' => __( 'Created date of the account.', 'wp-ever-accounting' ),
+					'description' => __( 'Created date of the account.', 'wc-serial-numbers' ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view' ),
@@ -563,7 +563,7 @@ class Activations extends Controller {
 		$query_params['context']['default'] = 'view';
 
 		$query_params['orderby'] = array(
-			'description'       => __( 'Sort collection by object attribute.', 'wp-ever-accounting' ),
+			'description'       => __( 'Sort collection by object attribute.', 'wc-serial-numbers' ),
 			'type'              => 'string',
 			'default'           => 'id',
 			'enum'              => array(

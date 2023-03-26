@@ -33,18 +33,11 @@ class Plugin extends Lib\Plugin {
 	 */
 	public function includes() {
 		require_once __DIR__ . '/functions.php';
-		require_once dirname( __FILE__, 2 ) . '/includes/wc-serial-numbers-functions.php';
-		require_once dirname( __FILE__, 2 ) . '/includes/wc-serial-numbers-misc-functions.php';
-		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-query.php';
-		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-encryption.php';
-		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-order-handler.php';
-		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-cron.php';
-		require_once dirname( __FILE__, 2 ) . '/includes/class-wc-serial-numbers-compat.php';
+		require_once dirname( __FILE__ ) . '/Deprecated/Functions.php';
 
-		if ( is_admin() ) {
-			require_once dirname( __FILE__, 2 ) . '/includes/admin/class-wc-serial-numbers-admin.php';
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			CLI::instantiate();
 		}
-		do_action( 'wc_serial_numbers__loaded' );
 	}
 
 	/**
@@ -87,14 +80,20 @@ class Plugin extends Lib\Plugin {
 	 */
 	public function init() {
 		Installer::instantiate();
-		API::instantiate();
+		Cache::instantiate();
 		Scripts::instantiate();
-		AJAX::instantiate();
+		Ajax::instantiate();
 		Orders::instantiate();
 		Encryption::instantiate();
+		Stocks::instantiate();
+		Cron::instantiate();
 		Controllers\Keys::instantiate();
-		Controllers\Activations::instantiate();
 		Shortcodes::instantiate();
+
+		if ( wcsn_is_software_support_enabled() ) {
+			Controllers\Activations::instantiate();
+			API::instantiate();
+		}
 
 		if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 			Admin\Admin::instantiate();
