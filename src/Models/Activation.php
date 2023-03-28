@@ -255,15 +255,15 @@ class Activation extends Model {
 		$clauses = parent::prepare_where_query( $clauses, $args );
 		// If order_id or product_id is set, we need to join with the key table and filter by those.
 		if ( ! empty( $args['order_id'] ) || ! empty( $args['product_id'] ) ) {
-			$clauses['join'][] = " INNER JOIN {$wpdb->prefix}" . Key::TABLE_NAME . " AS serial_numbers ON {$this->table_alias}.serial_id = serial_numbers.id";
+			$clauses['join'] .= " INNER JOIN {$wpdb->prefix}" . Key::TABLE_NAME . " AS serial_numbers ON {$this->table_alias}.serial_id = serial_numbers.id";
 		}
 
 		if ( ! empty( $args['order_id'] ) ) {
-			$clauses['where'][] = $wpdb->prepare( ' AND serial_numbers.order_id = %d', $args['order_id'] );
+			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.order_id = %d', $args['order_id'] );
 		}
 
 		if ( ! empty( $args['product_id'] ) ) {
-			$clauses['where'][] .= $wpdb->prepare( ' AND serial_numbers.product_id = %d', $args['product_id'] );
+			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.product_id = %d', $args['product_id'] );
 		}
 
 		return $clauses;
