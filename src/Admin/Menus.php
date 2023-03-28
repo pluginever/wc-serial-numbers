@@ -273,8 +273,8 @@ class Menus extends Singleton {
 	public function output_reports_page() {
 		$tabs = array(
 			'stock'       => __( 'Stock', 'wc-serial-numbers' ),
-			'sales'       => __( 'Sales', 'wc-serial-numbers' ),
-			'activations' => __( 'Activations', 'wc-serial-numbers' ),
+//			'sales'       => __( 'Sales', 'wc-serial-numbers' ),
+//			'activations' => __( 'Activations', 'wc-serial-numbers' ),
 		);
 
 		$tabs        = apply_filters( 'wc_serial_numbers_reports_tabs', $tabs );
