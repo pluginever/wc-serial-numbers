@@ -23,7 +23,7 @@ $api_url = add_query_arg(
 
 	<div class="wcsn-card__body">
 		<p>
-			<?php esc_html_e( 'You can use the API to perform actions on serial keys. You can use the API to perform actions on your website or on another website.', 'wc-serial-numbers' ); ?>
+			<?php esc_html_e( 'You can use the API to perform actions on serial key. You can use the API to perform actions on your website or on another website.', 'wc-serial-numbers' ); ?>
 		</p>
 		<p>
 			<?php esc_html_e( 'To perform an action, you need to send a POST request to the following URL:', 'wc-serial-numbers' ); ?>
@@ -109,16 +109,16 @@ $api_url = add_query_arg(
 							<?php endforeach; ?>
 						</select>
 						<p class="description">
-							<?php esc_html_e( 'Select a product to activate/deactivate serial numbers for.', 'wc-serial-numbers' ); ?>
+							<?php esc_html_e( 'Select a product to activate/deactivate serial key for.', 'wc-serial-numbers' ); ?>
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row"><label for="serial_key"><?php esc_html_e( 'Key', 'wc-serial-numbers' ); ?></label></th>
 					<td>
-						<input type="text" name="serial_key" id="serial_key" rows="5" cols="50" placeholder="<?php esc_attr_e( 'Please enter serial numbers to activate/deactivate', 'wc-serial-numbers' ); ?>" required/>
+						<input type="text" name="serial_key" id="serial_key" placeholder="<?php esc_attr_e( 'Please enter serial key to activate/deactivate', 'wc-serial-numbers' ); ?>" required/>
 						<p class="description">
-							<?php esc_html_e( 'Required field. Enter serial numbers to activate/deactivate.', 'wc-serial-numbers' ); ?>
+							<?php esc_html_e( 'Required field. Enter serial key to activate/deactivate.', 'wc-serial-numbers' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -128,7 +128,7 @@ $api_url = add_query_arg(
 					<td>
 						<input type="text" name="instance" id="instance" placeholder="<?php esc_attr_e( 'Please enter a unique instance', 'wc-serial-numbers' ); ?>" value="<?php echo esc_attr( time() ); ?>" required>
 						<p class="description">
-							<?php esc_html_e( 'Required field. Instance is the unique identifier of the activation record. It is used to identify the activation when activating/deactivating serial numbers.', 'wc-serial-numbers' ); ?>
+							<?php esc_html_e( 'Required field. Instance is the unique identifier of the activation record. It is used to identify the activation when activating/deactivating serial key.', 'wc-serial-numbers' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -138,7 +138,7 @@ $api_url = add_query_arg(
 					<td>
 						<input type="email" name="email" id="email" placeholder="<?php esc_attr_e( 'Please enter a valid email address', 'wc-serial-numbers' ); ?>">
 						<p class="description">
-							<?php esc_html_e( 'Optional field. If email is provided, only serial numbers that are assigned to the email will be activated/deactivated otherwise ignored.', 'wc-serial-numbers' ); ?>
+							<?php esc_html_e( 'Optional field. If email is provided, only serial key that are assigned to the email will be activated/deactivated otherwise ignored.', 'wc-serial-numbers' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -151,7 +151,7 @@ $api_url = add_query_arg(
 							<option value="deactivate"><?php esc_html_e( 'Deactivate', 'wc-serial-numbers' ); ?></option>
 						</select>
 						<p class="description">
-							<?php esc_html_e( 'Select an action to perform on the serial numbers.', 'wc-serial-numbers' ); ?>
+							<?php esc_html_e( 'Select an action to perform on the serial key.', 'wc-serial-numbers' ); ?>
 						</p>
 					</td>
 				</tr>
