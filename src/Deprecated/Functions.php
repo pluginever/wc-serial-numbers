@@ -28,6 +28,7 @@ function wc_serial_numbers_get_manager_role() {
  * Get serial number's statuses.
  *
  * since 1.2.0
+ *
  * @return array
  * @deprecated 1.4.6
  */
@@ -292,6 +293,7 @@ function wc_serial_numbers_get_low_stock_products( $force = false, $stock = 10 )
 
 /**
  * Check if software disabled.
+ *
  * @since 1.2.0
  * @return bool
  * @deprecated 1.4.6
@@ -302,6 +304,7 @@ function wc_serial_numbers_software_support_disabled() {
 
 /**
  * Get refund statuses.
+ *
  * @since 1.2.0
  * @return array|bool|mixed
  * @deprecated 1.4.6
@@ -312,6 +315,7 @@ function wc_serial_numbers_get_revoke_statuses() {
 
 /**
  * Get serial number user role.
+ *
  * @since 1.2.0
  * @return mixed|void
  * @deprecated 1.4.6
@@ -368,8 +372,8 @@ function wc_serial_numbers_get_order_table_columns() {
  * @param $product_id
  *
  * @since 1.2.0
- * @deprecated 1.4.6
  * @return int
+ * @deprecated 1.4.6
  */
 function wc_serial_numbers_get_stock_quantity( $product_id ) {
 	$source = get_post_meta( $product_id, '_serial_key_source', true );
@@ -389,11 +393,11 @@ function wc_serial_numbers_get_stock_quantity( $product_id ) {
 /**
  * Get order table.
  *
- * @since 1.2.0
- *
- * @param bool $return
+ * @param bool  $return
  *
  * @param      $order
+ *
+ * @since 1.2.0
  *
  * @return false|string|void
  */
@@ -403,16 +407,20 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 		return;
 	}
 
-	//no serial numbers ordered so bail @since 1.2.1
-	$total_ordered_serial_numbers = wc_serial_numbers_order_has_serial_numbers( $order );
+	// no serial numbers ordered so bail @since 1.2.1
+	$total_ordered_serial_numbers = wcsn_order_has_products( $order );
 
 	if ( empty( $total_ordered_serial_numbers ) ) {
 		return;
 	}
 
-	$serial_numbers = WC_Serial_Numbers_Query::init()->from( 'serial_numbers' )->where( 'order_id', intval( $order_id ) )->get();
+	$serial_numbers = wcsn_get_keys(
+		array(
+			'order_id' => $order_id,
+		)
+	);
 
-	echo sprintf( '<h2 class="woocommerce-order-downloads__title">%s</h2>', apply_filters( 'wc_serial_numbers_order_table_heading', esc_html__( "Serial Numbers", 'wc-serial-numbers' ) ) );
+	echo sprintf( '<h2 class="woocommerce-order-downloads__title">%s</h2>', apply_filters( 'wc_serial_numbers_order_table_heading', esc_html__( 'Serial Numbers', 'wc-serial-numbers' ) ) );
 	if ( empty( $serial_numbers ) ) {
 		echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order is waiting for serial numbers to be assigned.', 'wc-serial-numbers' ) ) );
 
@@ -428,9 +436,11 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 		cellspacing="0" cellpadding="6" border="1">
 		<thead>
 		<tr>
-			<?php foreach ( $columns as $key => $label ) {
+			<?php
+			foreach ( $columns as $key => $label ) {
 				echo sprintf( '<th class="td %s" scope="col" style="text-align:left;">%s</th>', sanitize_html_class( $key ), $label );
-			} ?>
+			}
+			?>
 		</tr>
 		</thead>
 		<tbody>
@@ -444,7 +454,7 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 						echo sprintf( '<a href="%s">%s</a>', esc_url( get_permalink( $serial_number->product_id ) ), get_the_title( $serial_number->product_id ) );
 						break;
 					case 'serial_key':
-						echo wc_serial_numbers_decrypt_key( $serial_number->serial_key );
+						echo esc_html( $serial_number->serial_key );
 						break;
 					case 'activation_email':
 						echo $order->get_billing_email();
@@ -453,7 +463,7 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 						if ( empty( $serial_number->activation_limit ) ) {
 							echo __( 'Unlimited', 'wc-serial-numbers' );
 						} else {
-							echo $serial_number->activation_limit;
+							echo esc_html( $serial_number->activation_limit );
 						}
 						break;
 					case 'expire_date':
@@ -470,7 +480,8 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 				echo '</td>';
 			}
 			echo '</tr>';
-		} ?>
+		}
+		?>
 
 		</tbody>
 	</table>

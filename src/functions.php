@@ -333,7 +333,7 @@ function wcsn_get_order_line_items_data( $order_id, $order_item_id = null ) {
 /**
  * Determine if the order contains product that enabled for selling serial numbers.
  *
- * @param int $order_id Order ID.
+ * @param int|WC_Order  $order_id Order ID.
  *
  * @since 1.2.0
  * @return bool True if order contains product that enabled for selling serial numbers, false otherwise.

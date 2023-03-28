@@ -12,7 +12,12 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <div class="wrap woocommerce">
 	<?php if ( $key->exists() ) : ?>
-		<h2><?php esc_html_e( 'Edit serial key', 'wc-serial-numbers' ); ?></h2>
+		<h2>
+			<?php esc_html_e( 'Edit serial key', 'wc-serial-numbers' ); ?>
+			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ); ?>" class="add-serial-title page-title-action">
+				<?php esc_html_e( 'Add New', 'wc-serial-numbers' ); ?>
+			</a>
+		</h2>
 	<?php else : ?>
 		<h2><?php esc_html_e( 'Add serial key', 'wc-serial-numbers' ); ?></h2>
 	<?php endif; ?>

@@ -21,12 +21,13 @@ class Orders extends Lib\Singleton {
 	 */
 	protected function __construct() {
 		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
-		add_filter( 'woocommerce_payment_complete_order_status', array( __CLASS__, 'maybe_autocomplete_order' ), 10, 3 );
-		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ), 10, 3 );
-		add_action( 'wc_serial_numbers_recover_keys', array( __CLASS__, 'recover_keys' ) );
+		add_filter( 'woocommerce_payment_complete_order_status', array( __CLASS__, 'maybe_autocomplete_order' ), 5, 3 );
+		add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'handle_order_status_changed' ), 5 );
+		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ), 5 );
+		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ), 5 );
 
-		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ), 20 );
-		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), 20 );
+		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ), PHP_INT_MAX );
+		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), PHP_INT_MAX );
 	}
 
 	/**
@@ -34,6 +35,7 @@ class Orders extends Lib\Singleton {
 	 * serial numbers available otherwise disable checkout
 	 *
 	 * since 1.2.0
+	 *
 	 * @return void
 	 */
 	public static function validate_checkout() {
@@ -58,7 +60,7 @@ class Orders extends Lib\Singleton {
 					$total_found = Key::count( $args );
 					if ( $total_found < $needed_quantity ) {
 						$stock   = floor( $total_found / $per_item_quantity );
-						$message = sprintf( __( 'Sorry, there aren’t enough Serial Keys for %s. Please remove this item or lower the quantity. For now, we have %s Serial Keys for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
+						$message = sprintf( __( 'Sorry, there aren’t enough Serial Keys for %1$s. Please remove this item or lower the quantity. For now, we have %2$s Serial Keys for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
 						$notice  = apply_filters( 'wc_serial_numbers_low_stock_message', $message );
 						$notice  = str_replace( '{product_title}', $product->get_title(), $notice );
 						$notice  = str_replace( '{stock_quantity}', $stock, $notice );
@@ -77,8 +79,8 @@ class Orders extends Lib\Singleton {
 	/**
 	 * Automatically set the order's status to complete.
 	 *
-	 * @param string $new_order_status
-	 * @param int $order_id
+	 * @param string    $new_order_status
+	 * @param int       $order_id
 	 * @param \WC_Order $order
 	 *
 	 * @since 1.4.6
@@ -95,7 +97,7 @@ class Orders extends Lib\Singleton {
 			add_filter( 'woocommerce_payment_complete_order_status', __METHOD__, 10, 3 );
 		}
 
-		if ( wcsn_order_has_products( $order ) && $order->has_status( 'processing' ) ) {
+		if ( wcsn_order_has_products( $order ) ) {
 			$new_order_status = 'completed';
 			// Add a note to the order mentioning that the order has been automatically completed by the plugin.
 			$order->add_order_note(
@@ -114,49 +116,22 @@ class Orders extends Lib\Singleton {
 	 * Handle order status changed.
 	 *
 	 * @param int|\WC_Order $order_id The order ID or WC_Order object.
-	 * @param string $old_status The old order status.
-	 * @param string $new_status The new order status.
 	 *
 	 * @since 1.4.6
 	 */
-	public static function handle_order_status_changed( $order_id, $old_status, $new_status ) {
-		if ( 'completed' === $new_status && apply_filters( 'wc_serial_numbers_maybe_manual_delivery', false, $order_id ) ) {
+	public static function handle_order_status_changed( $order_id ) {
+		$order = wc_get_order( $order_id );
+		if ( $order->has_status( 'completed' ) && apply_filters( 'wc_serial_numbers_maybe_manual_delivery', false, $order_id ) ) {
 			return;
 		}
-
 		wcsn_order_update_keys( $order_id );
-
-		if ( 'completed' !== $new_status && function_exists( 'as_schedule_single_action' ) ) {
-//			// schedule a woocommerce scheduled action to recover the keys after 30 minutes.
-//			$timestamp = time() + 30 * MINUTE_IN_SECONDS;
-//			$args      = array( $order_id );
-//			$hook      = 'wc_serial_numbers_recover_keys';
-//			as_schedule_single_action( $timestamp, $hook, $args );
-		}
-	}
-
-	/**
-	 * Recover keys for an order.
-	 *
-	 * @param int $order_id The order ID.
-	 *
-	 * @since 1.4.6
-	 */
-	public static function recover_keys( $order_id ) {
-		// If the order is still not paid then recover the keys.
-//		$order = wc_get_order( $order_id );
-//		if ( $order && ! $order->is_paid() && wcsn_order_has_products( $order ) ) {
-//			// set order status to cancel.
-//			$order->update_status( 'cancelled' );
-//		}
 	}
 
 	/**
 	 * Print ordered serials
 	 *
-	 * @param $order
+	 * @param \WC_Order $order The order object.
 	 *
-	 * @throws \Exception
 	 * @since 1.2.0
 	 */
 	public static function order_print_items( $order ) {
