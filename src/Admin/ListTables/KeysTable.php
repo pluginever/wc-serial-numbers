@@ -124,8 +124,8 @@ class KeysTable extends ListTable {
 		);
 
 		$this->items           = Key::query( $args );
-		$this->available_count   = Key::count( array_merge( $args, [ 'status' => 'available' ] ) );
-		$this->pending_count    = Key::count( array_merge( $args, [ 'status' => 'pending' ] ) );
+		$this->available_count = Key::count( array_merge( $args, [ 'status' => 'available' ] ) );
+		$this->pending_count   = Key::count( array_merge( $args, [ 'status' => 'pending' ] ) );
 		$this->sold_count      = Key::count( array_merge( $args, [ 'status' => 'sold' ] ) );
 		$this->expired_count   = Key::count( array_merge( $args, [ 'status' => 'expired' ] ) );
 		$this->cancelled_count = Key::count( array_merge( $args, [ 'status' => 'cancelled' ] ) );
@@ -166,7 +166,40 @@ class KeysTable extends ListTable {
 	 * No items found text.
 	 */
 	public function no_items() {
-		esc_html_e( 'No keys found.', 'wc-serial-numbers' );
+		echo sprintf('%s %s', esc_html__( 'No keys found.', 'wc-serial-numbers' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ) . '">' . esc_html__( 'Add new key', 'wc-serial-numbers' ) . '</a>' );
+		// Show a documentation about key's statuses.
+		?>
+		<h4>
+			<?php esc_attr_e( 'Keys can have one of the following statuses:', 'wc-serial-numbers' ); ?>
+		</h4>
+		<ul>
+			<li>
+				<strong><?php esc_attr_e( 'Available', 'wc-serial-numbers' ); ?></strong>
+				&dash;
+				<?php esc_attr_e( 'This means the key is available for purchase.', 'wc-serial-numbers' ); ?>
+			</li>
+			<li>
+				<strong><?php esc_attr_e( 'Pending', 'wc-serial-numbers' ); ?></strong>
+				&dash;
+				<?php esc_attr_e( 'This means the key has been sold, but the order has not been completed yet.', 'wc-serial-numbers' ); ?>
+			</li>
+			<li>
+				<strong><?php esc_attr_e( 'Sold', 'wc-serial-numbers' ); ?></strong>
+				&dash;
+				<?php esc_attr_e( 'This means the key has been sold, and the order has been completed.', 'wc-serial-numbers' ); ?>
+			</li>
+			<li>
+				<strong><?php esc_attr_e( 'Expired', 'wc-serial-numbers' ); ?></strong>
+				&dash;
+				<?php esc_attr_e( 'This means the key has expired and is no longer valid.', 'wc-serial-numbers' ); ?>
+			</li>
+			<li>
+				<strong><?php esc_attr_e( 'Cancelled', 'wc-serial-numbers' ); ?></strong>
+				&dash;
+				<?php esc_attr_e( 'This means the key has been cancelled and is no longer available for purchase or use.', 'wc-serial-numbers' ); ?>
+			</li>
+		</ul>
+		<?php
 	}
 
 	/**
@@ -177,8 +210,8 @@ class KeysTable extends ListTable {
 	 */
 	public function get_views() {
 		$current         = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
-		$available_count   = '&nbsp;<span class="count">(' . $this->available_count . ')</span>';
-		$pending_count    = '&nbsp;<span class="count">(' . $this->pending_count . ')</span>';
+		$available_count = '&nbsp;<span class="count">(' . $this->available_count . ')</span>';
+		$pending_count   = '&nbsp;<span class="count">(' . $this->pending_count . ')</span>';
 		$sold_count      = '&nbsp;<span class="count">(' . $this->sold_count . ')</span>';
 		$expired_count   = '&nbsp;<span class="count">(' . $this->expired_count . ')</span>';
 		$cancelled_count = '&nbsp;<span class="count">(' . $this->cancelled_count . ')</span>';
@@ -186,8 +219,8 @@ class KeysTable extends ListTable {
 		$url             = admin_url( 'admin.php?page=wc-serial-numbers' );
 		$views           = array(
 			'all'       => sprintf( '<a href="%s" title="%s" %s>%s</a>', remove_query_arg( 'status', $url ), __( 'All keys.', 'wc-serial-numbers' ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
-			'available'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'available', $url ), __( 'Available for sell.', 'wc-serial-numbers' ), $current === 'available' ? ' class="current"' : '', __( 'Available', 'wc-serial-numbers' ) . $available_count ),
-			'pending'    => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'pending', $url ), __( 'Pending payment.', 'wc-serial-numbers' ), $current === 'pending' ? ' class="current"' : '', __( 'Pending', 'wc-serial-numbers' ) . $pending_count ),
+			'available' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'available', $url ), __( 'Available for sell.', 'wc-serial-numbers' ), $current === 'available' ? ' class="current"' : '', __( 'Available', 'wc-serial-numbers' ) . $available_count ),
+			'pending'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'pending', $url ), __( 'Pending payment.', 'wc-serial-numbers' ), $current === 'pending' ? ' class="current"' : '', __( 'Pending', 'wc-serial-numbers' ) . $pending_count ),
 			'sold'      => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'sold', $url ), __( 'Sold keys.', 'wc-serial-numbers' ), $current === 'sold' ? ' class="current"' : '', __( 'Sold', 'wc-serial-numbers' ) . $sold_count ),
 			'expired'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'expired', $url ), __( 'Expired keys.', 'wc-serial-numbers' ), $current === 'expired' ? ' class="current"' : '', __( 'Expired', 'wc-serial-numbers' ) . $expired_count ),
 			'cancelled' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'cancelled', $url ), __( 'Cancelled keys.', 'wc-serial-numbers' ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'wc-serial-numbers' ) . $cancelled_count )
@@ -272,16 +305,15 @@ class KeysTable extends ListTable {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'      => '<input type="checkbox" />',
-			'key'     => __( 'Key', 'wc-serial-numbers' ),
-			'product' => __( 'Product', 'wc-serial-numbers' ),
-			'order'   => __( 'Order', 'wc-serial-numbers' ),
-//			'customer' => __( 'Customer', 'wc-serial-numbers' ),
+			'cb'        => '<input type="checkbox" />',
+			'key'       => __( 'Key', 'wc-serial-numbers' ),
+			'product'   => __( 'Product', 'wc-serial-numbers' ),
+			'order'     => __( 'Order', 'wc-serial-numbers' ),
+			'valid_for' => __( 'Validity', 'wc-serial-numbers' )
 		);
 
 		if ( wcsn_is_software_support_enabled() ) {
 			$columns['activation'] = __( 'Activation', 'wc-serial-numbers' );
-			$columns['valid_for']  = __( 'Validity', 'wc-serial-numbers' );
 		}
 
 		$columns['order_date'] = __( 'Order Date', 'wc-serial-numbers' );
@@ -421,7 +453,7 @@ class KeysTable extends ListTable {
 		$link  = add_query_arg(
 			[
 				'serial_id' => $key->id,
-				'page'   => 'wc-serial-numbers-activations',
+				'page'      => 'wc-serial-numbers-activations',
 			],
 			admin_url( 'admin.php' )
 		);

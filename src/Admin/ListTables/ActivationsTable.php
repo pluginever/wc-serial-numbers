@@ -98,7 +98,7 @@ class ActivationsTable extends ListTable {
 	 * No items found text.
 	 */
 	public function no_items() {
-		esc_html_e( 'No activations found.', 'wc-serial-numbers' );
+		esc_html_e( 'No activations found. Once a serial key is activated, it will appear here.', 'wc-serial-numbers' );
 	}
 
 	/**
