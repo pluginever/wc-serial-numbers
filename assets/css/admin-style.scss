@@ -106,13 +106,13 @@
 		line-height: 1;
 		border: 1px solid transparent;
 
-		&.instock {
+		&.available {
 			color: #155724;
 			background-color: #d4edda;
 			border-color: #c3e6cb
 		}
 
-		&.onhold {
+		&.pending {
 			color: #856404;
 			background-color: #fff3cd;
 			border-color: #ffeeba;

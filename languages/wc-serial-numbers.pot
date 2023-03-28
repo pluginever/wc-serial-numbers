@@ -1217,7 +1217,7 @@ msgstr ""
 
 #: src/Orders.php:61
 msgid ""
-"Sorry, there aren’t enough Serial Numbers for %s. Please remove this item "
+"Sorry, there aren’t enough Serial Keys for %s. Please remove this item "
 "or lower the quantity. For now, we have %s Serial Numbers for this product."
 msgstr ""
 

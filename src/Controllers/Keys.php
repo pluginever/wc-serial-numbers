@@ -23,8 +23,6 @@ class Keys extends \WooCommerceSerialNumbers\Lib\Singleton {
 		add_action( 'wc_serial_numbers_key_db_data', array( __CLASS__, 'decrypt_key' ) );
 		add_action( 'wc_serial_numbers_key_insert_data', array( __CLASS__, 'encrypt_key' ) );
 		add_action( 'wc_serial_numbers_key_update_data', array( __CLASS__, 'encrypt_key' ) );
-		add_action( 'wc_serial_numbers_key_insert_data', array( __CLASS__, 'handle_old_status' ) );
-		add_action( 'wc_serial_numbers_key_update_data', array( __CLASS__, 'handle_old_status' ) );
 		add_action( 'wc_serial_numbers_key_insert', array( __CLASS__, 'enable_product' ) );
 		add_action( 'wc_serial_numbers_key_deleted', array( __CLASS__, 'delete_activations' ) );
 	}
@@ -54,21 +52,6 @@ class Keys extends \WooCommerceSerialNumbers\Lib\Singleton {
 	public static function encrypt_key( $data ) {
 		if ( ! empty( $data['serial_key'] ) ) {
 			$data['serial_key'] = wc_serial_numbers_encrypt_key( $data['serial_key'] );
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Handle old status.
-	 *
-	 * @param array $data The key data.
-	 *
-	 * @since 1.4.6
-	 */
-	public static function handle_old_status( $data ) {
-		if ( ! empty( $data['status'] ) && 'available' === $data['status'] ) {
-			$data['status'] = 'instock';
 		}
 
 		return $data;

@@ -50,7 +50,7 @@ class Key extends Model {
 		'activation_count' => 0,
 		'order_id'         => 0,
 		'vendor_id'        => 0,
-		'status'           => 'instock',
+		'status'           => 'available',
 		'validity'         => 0,
 		'order_date'       => '',
 		'source'           => 'custom_source',
@@ -492,8 +492,8 @@ class Key extends Model {
 		}
 
 
-		// If status is instock, order date should not be set.
-		if ( 'instock' === $this->get_status() ) {
+		// If status is available, order date should not be set.
+		if ( 'available' === $this->get_status() ) {
 			$this->set_order_id( 0 );
 			$this->set_order_date( null );
 			$this->set_activation_count( 0 );

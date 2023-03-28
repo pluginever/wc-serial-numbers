@@ -146,7 +146,7 @@ class Installer extends Lib\Singleton {
 			activation_count int(9) NOT NULL  DEFAULT 0,
 			order_id bigint(20) DEFAULT NULL,
 			vendor_id bigint(20) DEFAULT NULL,
-			status varchar(50) DEFAULT 'instock',
+			status varchar(50) DEFAULT 'available',
 			validity varchar(200) DEFAULT NULL,
 			expire_date DATETIME NULL DEFAULT NULL,
 			order_date DATETIME NULL DEFAULT NULL,
@@ -339,18 +339,16 @@ class Installer extends Lib\Singleton {
 	 */
 	protected function update_146() {
 		global $wpdb;
-		// Update key status default value to 'instock'.
+		// Update key status default value to 'available'.
 		// Change key status.
 		// Drop expired column.
 		$statuses_map = [
-			'available' => 'instock',
 			'refunded'  => 'cancelled',
 			'expired'   => 'expired',
 			'failed'    => 'cancelled',
 			'inactive'  => 'sold',
 		];
 		$prefix       = $wpdb->prefix;
-		$wpdb->query( "ALTER TABLE {$prefix}serial_numbers CHANGE status status varchar(50) DEFAULT 'instock'" );
 		foreach ( $statuses_map as $old_status => $new_status ) {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$prefix}serial_numbers SET status = %s WHERE status = %s", $new_status, $old_status ) );
 		}

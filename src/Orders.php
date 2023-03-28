@@ -25,8 +25,8 @@ class Orders extends Lib\Singleton {
 		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ), 10, 3 );
 		add_action( 'wc_serial_numbers_recover_keys', array( __CLASS__, 'recover_keys' ) );
 
-		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ) );
-		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), 10 );
+		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ), 20 );
+		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), 20 );
 	}
 
 	/**
@@ -45,20 +45,20 @@ class Orders extends Lib\Singleton {
 			$quantity        = $cart_product['quantity'];
 			$allow_backorder = apply_filters( 'wc_serial_numbers_allow_backorder', false, $product_id );
 
-			if ( wc_serial_numbers_product_serial_enabled( $product_id ) && ! $allow_backorder ) {
+			if ( wcsn_is_product_enabled( $product_id ) && ! $allow_backorder ) {
 				$per_item_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
 				$needed_quantity   = $quantity * ( empty( $per_item_quantity ) ? 1 : absint( $per_item_quantity ) );
 				$source            = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $needed_quantity );
 				if ( 'custom_source' == $source ) {
 					$args        = array(
 						'product_id' => $product_id,
-						'status'     => 'instock',
+						'status'     => 'available',
 						'source'     => $source,
 					);
 					$total_found = Key::count( $args );
 					if ( $total_found < $needed_quantity ) {
 						$stock   = floor( $total_found / $per_item_quantity );
-						$message = sprintf( __( 'Sorry, there aren’t enough Serial Numbers for %s. Please remove this item or lower the quantity. For now, we have %s Serial Numbers for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
+						$message = sprintf( __( 'Sorry, there aren’t enough Serial Keys for %s. Please remove this item or lower the quantity. For now, we have %s Serial Keys for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
 						$notice  = apply_filters( 'wc_serial_numbers_low_stock_message', $message );
 						$notice  = str_replace( '{product_title}', $product->get_title(), $notice );
 						$notice  = str_replace( '{stock_quantity}', $stock, $notice );

@@ -30,12 +30,12 @@ class KeysTable extends ListTable {
 	 */
 	public $total_count = 0;
 	/**
-	 * instock number
+	 * available number
 	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $instock_count = 0;
+	public $available_count = 0;
 
 	/**
 	 * On hold number
@@ -43,7 +43,7 @@ class KeysTable extends ListTable {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $onhold_count = 0;
+	public $pending_count = 0;
 
 	/**
 	 * Sold number
@@ -124,18 +124,18 @@ class KeysTable extends ListTable {
 		);
 
 		$this->items           = Key::query( $args );
-		$this->instock_count   = Key::count( array_merge( $args, [ 'status' => 'instock' ] ) );
-		$this->onhold_count    = Key::count( array_merge( $args, [ 'status' => 'onhold' ] ) );
+		$this->available_count   = Key::count( array_merge( $args, [ 'status' => 'available' ] ) );
+		$this->pending_count    = Key::count( array_merge( $args, [ 'status' => 'pending' ] ) );
 		$this->sold_count      = Key::count( array_merge( $args, [ 'status' => 'sold' ] ) );
 		$this->expired_count   = Key::count( array_merge( $args, [ 'status' => 'expired' ] ) );
 		$this->cancelled_count = Key::count( array_merge( $args, [ 'status' => 'cancelled' ] ) );
-		$this->total_count     = array_sum( [ $this->instock_count, $this->sold_count, $this->onhold_count, $this->expired_count, $this->cancelled_count ] );
+		$this->total_count     = array_sum( [ $this->available_count, $this->sold_count, $this->pending_count, $this->expired_count, $this->cancelled_count ] );
 		switch ( $status ) {
-			case 'instock':
-				$total_items = $this->instock_count;
+			case 'available':
+				$total_items = $this->available_count;
 				break;
-			case 'onhold':
-				$total_items = $this->onhold_count;
+			case 'pending':
+				$total_items = $this->pending_count;
 				break;
 			case 'sold':
 				$total_items = $this->sold_count;
@@ -177,8 +177,8 @@ class KeysTable extends ListTable {
 	 */
 	public function get_views() {
 		$current         = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
-		$instock_count   = '&nbsp;<span class="count">(' . $this->instock_count . ')</span>';
-		$onhold_count    = '&nbsp;<span class="count">(' . $this->onhold_count . ')</span>';
+		$available_count   = '&nbsp;<span class="count">(' . $this->available_count . ')</span>';
+		$pending_count    = '&nbsp;<span class="count">(' . $this->pending_count . ')</span>';
 		$sold_count      = '&nbsp;<span class="count">(' . $this->sold_count . ')</span>';
 		$expired_count   = '&nbsp;<span class="count">(' . $this->expired_count . ')</span>';
 		$cancelled_count = '&nbsp;<span class="count">(' . $this->cancelled_count . ')</span>';
@@ -186,8 +186,8 @@ class KeysTable extends ListTable {
 		$url             = admin_url( 'admin.php?page=wc-serial-numbers' );
 		$views           = array(
 			'all'       => sprintf( '<a href="%s" title="%s" %s>%s</a>', remove_query_arg( 'status', $url ), __( 'All keys.', 'wc-serial-numbers' ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
-			'instock'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'instock', $url ), __( 'Available for sell.', 'wc-serial-numbers' ), $current === 'instock' ? ' class="current"' : '', __( 'Instock', 'wc-serial-numbers' ) . $instock_count ),
-			'onhold'    => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'onhold', $url ), __( 'Pending payment.', 'wc-serial-numbers' ), $current === 'onhold' ? ' class="current"' : '', __( 'Onhold', 'wc-serial-numbers' ) . $onhold_count ),
+			'available'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'available', $url ), __( 'Available for sell.', 'wc-serial-numbers' ), $current === 'available' ? ' class="current"' : '', __( 'Available', 'wc-serial-numbers' ) . $available_count ),
+			'pending'    => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'pending', $url ), __( 'Pending payment.', 'wc-serial-numbers' ), $current === 'pending' ? ' class="current"' : '', __( 'Pending', 'wc-serial-numbers' ) . $pending_count ),
 			'sold'      => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'sold', $url ), __( 'Sold keys.', 'wc-serial-numbers' ), $current === 'sold' ? ' class="current"' : '', __( 'Sold', 'wc-serial-numbers' ) . $sold_count ),
 			'expired'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'expired', $url ), __( 'Expired keys.', 'wc-serial-numbers' ), $current === 'expired' ? ' class="current"' : '', __( 'Expired', 'wc-serial-numbers' ) . $expired_count ),
 			'cancelled' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'cancelled', $url ), __( 'Cancelled keys.', 'wc-serial-numbers' ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'wc-serial-numbers' ) . $cancelled_count )

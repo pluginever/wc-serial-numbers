@@ -20,7 +20,7 @@ class CLI extends Lib\Singleton {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		WP_CLI::add_hook( 'after_wp_load', [ __CLASS__, 'register_commands' ] );
 	}
 
@@ -31,10 +31,48 @@ class CLI extends Lib\Singleton {
 	 * @return void
 	 */
 	public static function register_commands() {
+		WP_CLI::add_command( 'wcsn reset', array( __CLASS__, 'reset' ) );
 		WP_CLI::add_command( 'wcsn import', array( __CLASS__, 'import' ) );
 		WP_CLI::add_command( 'wcsn export', array( __CLASS__, 'export' ) );
 		WP_CLI::add_command( 'wcsn make keys', array( __CLASS__, 'make_keys' ) );
-//		WP_CLI::add_command( 'wcsn make generators', array( __CLASS__, 'make_generators' ) );
+	}
+
+	/**
+	 * Reset plugin.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--yes]
+	 *
+	 * ## EXAMPLES
+	 *
+	 * wp wcsn reset
+	 */
+	public static function reset( $args, $assoc_args ) {
+		global $wpdb;
+		if ( ! isset( $assoc_args['yes'] ) ) {
+			WP_CLI::error( 'Please use --yes to confirm.' );
+		}
+
+		// Delete all tables.
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}serial_numbers" );
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}serial_numbers_activations" );
+
+		// Delete all options.
+		$tabs = Admin\Settings::get_instance()->get_tabs();
+		foreach ( $tabs as $tab => $label ) {
+			$options = Admin\Settings::get_instance()->get_settings( $tab );
+
+			foreach ( $options as $option ) {
+				if ( isset( $option['default'] ) && isset( $option['id'] ) ) {
+					delete_option( $option['id'] );
+				}
+			}
+		}
+
+		// Run install script.
+		$installer = Installer::get_instance();
+		$installer->install();
 	}
 
 	/**
@@ -289,7 +327,7 @@ class CLI extends Lib\Singleton {
 				'product_id'       => $product_id,
 				'activation_limit' => $activation_limit,
 				'validity'         => $validity,
-				'status'           => 'instock',
+				'status'           => 'available',
 			] );
 			$progress->tick();
 		}

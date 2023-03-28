@@ -43,8 +43,8 @@ function wcsn_is_software_support_enabled() {
  */
 function wcsn_get_key_statuses() {
 	$statuses = array(
-		'instock'   => __( 'In Stock', 'wc-serial-numbers' ), // when ready for selling.
-		'onhold'    => __( 'On Hold', 'wc-serial-numbers' ), // Assigned to an order but not paid yet.
+		'available'   => __( 'Available', 'wc-serial-numbers' ), // when ready for selling.
+		'pending'    => __( 'Pending', 'wc-serial-numbers' ), // Assigned to an order but not paid yet.
 		'sold'      => __( 'Sold', 'wc-serial-numbers' ), // Assigned to an order and paid.
 		'expired'   => __( 'Expired', 'wc-serial-numbers' ), // when expired.
 		'cancelled' => __( 'Cancelled', 'wc-serial-numbers' ), // when cancelled.
@@ -94,7 +94,7 @@ function wcsn_get_revoke_statuses() {
  */
 function wcsn_get_key_sources() {
 	$sources = array(
-		'custom_source' => __( 'Instock', 'wc-serial-numbers' ),
+		'custom_source' => __( 'Available', 'wc-serial-numbers' ),
 	);
 
 	return apply_filters( 'wc_serial_numbers_key_sources', $sources );
@@ -509,7 +509,7 @@ function wcsn_order_update_keys( $order_id ) {
 			$keys = Key::query(
 				array(
 					'product_id' => $item['product_id'],
-					'status'     => 'instock',
+					'status'     => 'available',
 					'number'     => $needed_count,
 					'orderby'    => 'id',
 					'order'      => 'ASC'
@@ -537,7 +537,7 @@ function wcsn_order_update_keys( $order_id ) {
 					'order_item_id' => $item['order_item_id'],
 					'order_date'    => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : current_time( 'mysql' ),
 					'customer_id'   => $customer_id,
-					'status'        => 'processing' === $order_status ? 'onhold' : 'sold',
+					'status'        => 'processing' === $order_status ? 'pending' : 'sold',
 				) );
 				if ( ! is_wp_error( $key->save() ) ) {
 					$added ++;
@@ -588,8 +588,8 @@ function wcsn_order_update_keys( $order_id ) {
 		} elseif ( 'completed' === $order_status && ! $is_expired && 'sold' !== $key->get_status() ) {
 			$key->set_status( 'sold' );
 			$key->save();
-		} elseif ( 'processing' === $order_status && ! $is_expired && 'onhold' !== $key->get_status() ) {
-			$key->set_status( 'onhold' );
+		} elseif ( 'processing' === $order_status && ! $is_expired && 'pending' !== $key->get_status() ) {
+			$key->set_status( 'pending' );
 			$key->save();
 		} elseif ( in_array( $order_status, $revoke_statues, true ) && ! $is_expired && apply_filters( 'wc_serial_numbers_revoke_order_item_keys', true, $line_items, $order_id ) ) {
 			wcsn_order_revoke_keys( $order_id );
@@ -647,7 +647,7 @@ function wcsn_order_revoke_keys( $order_id, $product_id = null ) {
 
 	foreach ( $keys as $key ) {
 		$props = array(
-			'status' => $is_reusing ? 'instock' : 'cancelled'
+			'status' => $is_reusing ? 'available' : 'cancelled'
 		);
 		if ( ! $is_reusing ) {
 			$props['order_id']      = 0;
@@ -797,13 +797,15 @@ function wcsn_get_stocks_count( $stock_limit = null, $force = false ) {
 				)
 			),
 		) );
+
 		foreach ( $post_ids as $post_id ) {
 			$counts[ $post_id ] = wcsn_get_keys( [
 				'product_id' => $post_id,
-				'status'     => 'instock',
+				'status'     => 'available',
 				'count'      => true,
 			] );
 		}
+
 		set_transient( $transient_key, $counts, 60 * 60 );
 	}
 	if ( $stock_limit > 0 ) {
