@@ -20,9 +20,9 @@ class Menus extends Singleton {
 	 * @since 1.0.0
 	 */
 	protected function __construct() {
-		add_action( 'current_screen', array( $this, 'setup_screen' ) );
-		add_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
-		add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
+		//add_action( 'current_screen', array( $this, 'setup_screen' ) );
+		//add_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
+		//add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
 
 		// Register the menus.
 		add_action( 'admin_menu', array( $this, 'main_menu' ) );

@@ -41,6 +41,11 @@ class Actions extends \WooCommerceSerialNumbers\Lib\Singleton {
 		}
 		$add = empty( $data['id'] ) ? true : false;
 		if ( $add ) {
+			// Adding manually so let's enable to product and set the source.
+			$product_id = $key->get_product_id();
+			update_post_meta( $product_id, '_is_serial_number', 'yes' );
+			update_post_meta( $product_id, '_serial_key_source', 'instock' );
+
 			wc_serial_numbers()->add_notice( __( 'Key added successfully.', 'wc-serial-numbers' ) );
 		} else {
 			wc_serial_numbers()->add_notice( __( 'Key updated successfully.', 'wc-serial-numbers' ) );

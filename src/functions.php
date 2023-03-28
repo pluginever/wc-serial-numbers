@@ -804,7 +804,7 @@ function wcsn_get_stocks_count( $stock_limit = null, $force = false ) {
 				'count'      => true,
 			] );
 		}
-		set_transient( $transient_key, $counts, 60 * 60 * 24 );
+		set_transient( $transient_key, $counts, 60 * 60 );
 	}
 	if ( $stock_limit > 0 ) {
 		// get the results where value is equal or less than max.

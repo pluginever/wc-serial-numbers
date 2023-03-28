@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Cache  extends Lib\Singleton {
+class Cache extends Lib\Singleton {
 
 	/**
 	 * Cache constructor.
@@ -18,8 +18,10 @@ class Cache  extends Lib\Singleton {
 	 * @since 1.0.0
 	 */
 	protected function __construct() {
-		add_action( 'wc_serial_numbers_order_remove_keys', array( __CLASS__, 'clear_order_keys_cache' ));
-		add_action( 'wc_serial_numbers_order_add_keys', array( __CLASS__, 'clear_order_keys_cache' ));
+		add_action( 'wc_serial_numbers_key_saved', array( __CLASS__, 'clear_order_keys_cache' ) );
+		add_action( 'wc_serial_numbers_key_deleted', array( __CLASS__, 'clear_order_keys_cache' ) );
+		add_action( 'wc_serial_numbers_order_remove_keys', array( __CLASS__, 'clear_order_keys_cache' ) );
+		add_action( 'wc_serial_numbers_order_add_keys', array( __CLASS__, 'clear_order_keys_cache' ) );
 	}
 
 	/**
