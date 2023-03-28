@@ -18,8 +18,50 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 * @since 1.0.0
 	 */
 	protected function __construct() {
+		// add custom order action.
+		add_filter( 'woocommerce_order_actions', array( $this, 'add_order_action' ) );
+		// handle custom order action.
+		add_action( 'woocommerce_order_action_wcsn_add_keys', array( $this, 'handle_order_action' ) );
+		add_action( 'woocommerce_order_action_wcsn_remove_keys', array( $this, 'handle_order_action' ) );
 		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_serial_column' ) );
 		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'add_order_serial_column_content' ), 20, 2 );
+	}
+
+	/**
+	 * Add custom order action.
+	 *
+	 * @param array $actions Order actions.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function add_order_action( $actions ) {
+		$actions['wcsn_add_keys']    = __( 'Add serial keys', 'wc-serial-numbers' );
+		$actions['wcsn_remove_keys'] = __( 'Remove serial keys', 'wc-serial-numbers' );
+
+		return $actions;
+	}
+
+	/**
+	 * Handle custom order action.
+	 *
+	 * @param \WC_Order $order Order object.
+	 *
+	 * @since 1.0.0
+	 */
+	public function handle_order_action( $order ) {
+		$order_id = $order->get_id();
+		$action   = current_action();
+		$action   = str_replace( 'woocommerce_order_action_', '', $action );
+		if ( 'wcsn_add_keys' === $action ) {
+			wcsn_order_update_keys( $order_id );
+			// add a notice.
+			wc_serial_numbers()->add_notice( __( 'Serial keys added successfully to the order.', 'wc-serial-numbers' ) );
+		} elseif ( 'wcsn_remove_keys' === $action ) {
+			wcsn_order_remove_keys( $order_id );
+			// add a notice.
+			wc_serial_numbers()->add_notice( __( 'Serial keys removed successfully from the order.', 'wc-serial-numbers' ) );
+		}
 	}
 
 	/**
@@ -30,7 +72,7 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 */
 	public static function add_order_serial_column( $columns ) {
 		$postition = 3;
-		$new       = array_slice( $columns, 0, $postition, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $postition, count( $columns ) - $postition, true );;
+		$new       = array_slice( $columns, 0, $postition, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $postition, count( $columns ) - $postition, true );
 
 		return $new;
 	}
@@ -48,11 +90,11 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 				echo '&mdash;';
 			} else {
 				if ( wcsn_order_is_fullfilled( $order_id ) ) {
-					$style = "color:green";
-					$title = __( 'Order fullfilled.', 'wc-serial-numbers' );
+					$style = 'color:green';
+					$title = __( 'Order is fullfilled.', 'wc-serial-numbers' );
 				} else {
-					$style = "color:red";
-					$title = __( 'Order not fullfilled.', 'wc-serial-numbers' );
+					$style = 'color:red';
+					$title = __( 'Order is not fullfilled.', 'wc-serial-numbers' );
 				}
 				$url = add_query_arg( [ 'order_id' => $order_id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
 				echo sprintf( '<a href="%s" title="%s"><span class="dashicons dashicons-lock" style="%s"></span></a>', $url, $title, $style );

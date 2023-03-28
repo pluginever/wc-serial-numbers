@@ -592,7 +592,7 @@ function wcsn_order_update_keys( $order_id ) {
 			$key->set_status( 'pending' );
 			$key->save();
 		} elseif ( in_array( $order_status, $revoke_statues, true ) && ! $is_expired && apply_filters( 'wc_serial_numbers_revoke_order_item_keys', true, $line_items, $order_id ) ) {
-			wcsn_order_revoke_keys( $order_id );
+			wcsn_order_remove_keys( $order_id );
 		}
 	}
 
@@ -617,7 +617,7 @@ function wcsn_order_update_keys( $order_id ) {
  *
  * @return array|false Array of keys or false if no keys found.
  */
-function wcsn_order_revoke_keys( $order_id, $product_id = null ) {
+function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 	$is_reusing = wcsn_is_reusing_keys();
 	$args       = array(
 		'order_id' => $order_id,
