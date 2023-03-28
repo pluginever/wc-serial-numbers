@@ -152,5 +152,6 @@ $api_url = add_query_arg(
 					</td>
 				</tr>
 			</table>
+		</form>
 	</div>
 </div>
