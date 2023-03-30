@@ -43,8 +43,8 @@ function wcsn_is_software_support_enabled() {
  */
 function wcsn_get_key_statuses() {
 	$statuses = array(
-		'available'   => __( 'Available', 'wc-serial-numbers' ), // when ready for selling.
-		'pending'    => __( 'Pending', 'wc-serial-numbers' ), // Assigned to an order but not paid yet.
+		'available' => __( 'Available', 'wc-serial-numbers' ), // when ready for selling.
+		'pending'   => __( 'Pending', 'wc-serial-numbers' ), // Assigned to an order but not paid yet.
 		'sold'      => __( 'Sold', 'wc-serial-numbers' ), // Assigned to an order and paid.
 		'expired'   => __( 'Expired', 'wc-serial-numbers' ), // when expired.
 		'cancelled' => __( 'Cancelled', 'wc-serial-numbers' ), // when cancelled.
@@ -70,20 +70,14 @@ function wcsn_is_reusing_keys() {
  * @return array
  */
 function wcsn_get_revoke_statuses() {
-	$statues       = [];
-	$check_statues = [
-		'wc_serial_numbers_revoke_status_cancelled' => 'cancelled',
-		'wc_serial_numbers_revoke_status_refunded'  => 'refunded',
-		'wc_serial_numbers_revoke_status_failed'    => 'refunded',
+	$statues = [
+		'cancelled',
+		'refunded',
+		'failed',
+		'pending',
 	];
 
-	foreach ( $check_statues as $option => $status ) {
-		if ( 'yes' === get_option( $option, 'yes' ) ) {
-			$statues[] = $status;
-		}
-	}
-
-	return $statues;
+	return apply_filters( 'wc_serial_numbers_revoke_statuses', $statues );
 }
 
 /**
@@ -333,7 +327,7 @@ function wcsn_get_order_line_items_data( $order_id, $order_item_id = null ) {
 /**
  * Determine if the order contains product that enabled for selling serial numbers.
  *
- * @param int|WC_Order  $order_id Order ID.
+ * @param int|WC_Order $order_id Order ID.
  *
  * @since 1.2.0
  * @return bool True if order contains product that enabled for selling serial numbers, false otherwise.
