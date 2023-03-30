@@ -27,7 +27,7 @@ $api_url = add_query_arg(
 					echo wp_kses_post(
 						sprintf(
 							/* translators: %s: link to the pro version */
-							__( 'You are using the free version of WooCommerce Serial Numbers. <a href="%s" target="_blank">Upgrade to Pro</a> to get more features.', 'wc-serial-numbers' ),
+							__( 'You are using the free version of Serial Numbers for WooCommerce. <a href="%s" target="_blank">Upgrade to Pro</a> to get more features.', 'wc-serial-numbers' ),
 							esc_url( wc_serial_numbers()->get_premium_url() . '?utm_source=create_serial_page&utm_medium=button&utm_campaign=wc-serial-numbers&utm_content=View%20Details' )
 						)
 					);
@@ -113,7 +113,7 @@ $api_url = add_query_arg(
 							<?php endforeach; ?>
 						</select>
 						<p class="description">
-							<?php esc_html_e( 'Select a product to validate serial numbers for.', 'wc-serial-numbers' ); ?>
+							<?php esc_html_e( 'Select a product to validate serial key for.', 'wc-serial-numbers' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -122,7 +122,7 @@ $api_url = add_query_arg(
 					<td>
 						<input type="text" name="serial_key" id="serial_key" placeholder="<?php esc_attr_e( 'Please enter serial numbers to validate', 'wc-serial-numbers' ); ?>" required/>
 						<p class="description">
-							<?php esc_html_e( 'Required field. Enter serial numbers to validate.', 'wc-serial-numbers' ); ?>
+							<?php esc_html_e( 'Required field. Enter serial key to validate.', 'wc-serial-numbers' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -132,7 +132,7 @@ $api_url = add_query_arg(
 					<td>
 						<input type="email" name="email" id="email" placeholder="<?php esc_attr_e( 'Please enter a valid email address', 'wc-serial-numbers' ); ?>">
 						<p class="description">
-							<?php esc_html_e( 'Optional field. If email is provided, only serial numbers that are assigned to the email will be validated otherwise ignored.', 'wc-serial-numbers' ); ?>
+							<?php esc_html_e( 'Optional field. If email is provided, only serial key that are assigned to the email will be validated otherwise ignored.', 'wc-serial-numbers' ); ?>
 						</p>
 					</td>
 				</tr>
