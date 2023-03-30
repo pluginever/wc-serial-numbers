@@ -249,6 +249,11 @@ class Menus extends Singleton {
 			'api'       => __( 'API', 'wc-serial-numbers' ),
 		);
 
+		// If software support is disabled, remove the activations tab.
+		if( ! wcsn_is_software_support_enabled() ) {
+			unset( $tabs['api'] );
+		}
+
 		$tabs        = apply_filters( 'wc_serial_numbers_tools_tabs', $tabs );
 		$tab_ids     = array_keys( $tabs );
 		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : reset( $tab_ids );
