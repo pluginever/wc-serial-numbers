@@ -14,6 +14,7 @@ on:
         default: 'master'
 env:
   SSH_USER: manik
+  SSH_PORT: 21098
   PHP_VERSION: 7.4
   DOMAIN: ${{ github.ref == 'refs/heads/master' && 'trunk.pluginever.com' || 'test.pluginever.com' }}
 
