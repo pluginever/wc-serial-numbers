@@ -2,7 +2,7 @@
 Contributors: manikmist09, pluginever, b-07
 Tags: license, license number, license manager, serial number, activation number, key, serial key, license key, activation key, product key, digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, product identification number, digital product license, virtual product key, virtual product license, subscription product license, serial number generator, unique number, license key generator, auto generate serial number, woocommerce, woocommerce license manager, woocommerce key
 Requires at least: 4.4
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -198,7 +198,7 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
-= 1.4.6 (16 March 2023) =
+= 1.4.6 (1 April 2023) =
 * Enhance: Enhanced API implementation.
 * Enhance: Update Serial Number statues.
 * Enhance: Add shortcodes for serial number verification and activation/deactivation.
@@ -207,9 +207,7 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 * Enhance: Admin support clicking to copy serial number.
 * Enhance: UI improvements.
 * Deprecated: Duplicate serial number feature removed.
-
-
-
+* Fix: Few known issues fixed.
 
 = 1.4.5 (30 January 2023) =
 * Fix: Few known issues fixed.

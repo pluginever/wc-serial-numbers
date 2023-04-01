@@ -10,9 +10,9 @@
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /languages
- * Tested up to: 6.1
+ * Tested up to: 6.2
  * WC requires at least: 3.0.0
- * WC tested up to: 7.2
+ * WC tested up to: 7.5
  *
  * @package WooCommerceSerialNumbers
  *

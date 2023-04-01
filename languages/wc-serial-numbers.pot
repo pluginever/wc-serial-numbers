@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serial Numbers for WooCommerce 1.4.6\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-03-31 18:17:15+00:00\n"
+"POT-Creation-Date: 2023-04-01 16:44:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -303,7 +303,7 @@ msgstr ""
 
 #: src/Admin/Admin.php:101 src/Admin/Menus.php:57 src/Admin/Menus.php:98
 #: src/Admin/Menus.php:99 src/Admin/Menus.php:434 src/Admin/Metaboxes.php:36
-#: src/Admin/Metaboxes.php:45 src/Admin/Metaboxes.php:228
+#: src/Admin/Metaboxes.php:45 src/Admin/Metaboxes.php:226
 #: src/Deprecated/Functions.php:423
 msgid "Serial Numbers"
 msgstr ""
@@ -385,8 +385,7 @@ msgid "Keys can have one of the following statuses:"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:177
-#: src/Admin/ListTables/KeysTable.php:222 src/Admin/Metaboxes.php:126
-#: src/functions.php:46 src/functions.php:91
+#: src/Admin/ListTables/KeysTable.php:222 src/functions.php:46
 msgid "Available"
 msgstr ""
 
@@ -482,7 +481,7 @@ msgid "ID: %d"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:380
-#: src/Admin/ListTables/StockTable.php:157 src/Admin/Metaboxes.php:341
+#: src/Admin/ListTables/StockTable.php:157 src/Admin/Metaboxes.php:339
 msgid "Edit"
 msgstr ""
 
@@ -492,7 +491,7 @@ msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/ListTables/KeysTable.php:474 src/Admin/Metaboxes.php:328
+#: src/Admin/ListTables/KeysTable.php:474 src/Admin/Metaboxes.php:326
 #: src/Deprecated/Functions.php:471
 msgid "Lifetime"
 msgstr ""
@@ -606,11 +605,11 @@ msgid "Not scheduled"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:66
-msgid "Sell serial numbers"
+msgid "Sell serial keys"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:67
-msgid "Enable this if you are selling serial numbers for this product."
+msgid "Enable this if you are selling serial keys for this product."
 msgstr ""
 
 #: src/Admin/Metaboxes.php:77
@@ -637,47 +636,51 @@ msgstr ""
 msgid "e.g. 1.0"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:128
+#: src/Admin/Metaboxes.php:125
+msgid "Stock status"
+msgstr ""
+
+#: src/Admin/Metaboxes.php:127
 msgid "serial key"
 msgid_plural "serial keys"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/Metaboxes.php:132
+#: src/Admin/Metaboxes.php:130
 msgid ""
 "Want serial numbers to be generated automatically and auto assign with "
 "order and many more?"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:132 src/Admin/Metaboxes.php:151
+#: src/Admin/Metaboxes.php:130 src/Admin/Metaboxes.php:149
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:151
+#: src/Admin/Metaboxes.php:149
 msgid "WooCommerce Serial Number Free version does not support product variation."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:219
+#: src/Admin/Metaboxes.php:217
 msgid "Order missing serial numbers for this item."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:266
+#: src/Admin/Metaboxes.php:264
 msgid "Order status is not completed."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:273
-msgid "No serial numbers associated with the order."
+#: src/Admin/Metaboxes.php:271
+msgid "No serial keys associated with the order."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:283
-msgid "Order waiting for assigning serial numbers."
+#: src/Admin/Metaboxes.php:281
+msgid "Order waiting for assigning serial keys."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:300
+#: src/Admin/Metaboxes.php:298
 msgid "Actions"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:321 src/Deprecated/Functions.php:464
+#: src/Admin/Metaboxes.php:319 src/Deprecated/Functions.php:464
 msgid "Unlimited"
 msgstr ""
 
@@ -1108,7 +1111,7 @@ msgid "Select a product to validate serial key for."
 msgstr ""
 
 #: src/Admin/Views/html-api-validation.php:123
-msgid "Please enter serial numbers to validate"
+msgid "Please enter serial key to validate"
 msgstr ""
 
 #: src/Admin/Views/html-api-validation.php:125
@@ -1360,6 +1363,10 @@ msgstr ""
 
 #: src/Shortcodes.php:186
 msgid "Could not find any products with serial numbers enabled."
+msgstr ""
+
+#: src/functions.php:91
+msgid "Manually Added"
 msgstr ""
 
 #: src/functions.php:516
