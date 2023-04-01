@@ -59,13 +59,13 @@ jobs:
               StrictHostKeyChecking no
           known_hosts: unnecessary
 
-      - name: Deploy at ${{ env.DOMAIN }}
+      - name: Deploy at trunk.pluginever.com
         if: github.ref == 'refs/heads/master'
         run: |
           rsync -avz --delete --no-o --no-g --exclude-from=./.distignore ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ env.SSH_USER }}/${{ env.DOMAIN }}/wp-content/plugins/wc-serial-numbers
         shell: bash
 
-      - name: Deploy at ${{ env.DOMAIN }}
+      - name: Deploy at test.pluginever.com
         if: github.ref != 'refs/heads/master'
         run: |
           rsync -avz --delete --no-o --no-g --exclude-from=./.distignore ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ env.SSH_USER }}/${{ env.DOMAIN }}/wp-content/plugins/wc-serial-numbers
