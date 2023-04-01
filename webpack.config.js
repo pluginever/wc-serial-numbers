@@ -2,6 +2,7 @@ const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const isProduction = process.env.NODE_ENV === 'production';
 const mode = isProduction ? 'production' : 'development';
@@ -60,6 +61,17 @@ module.exports = {
 			// multiple configurations returned to the webpack config.
 			cleanStaleWebpackAssets: false,
 		}),
+
+		// Copy images to the build folder.
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: path.resolve(__dirname, 'assets/images'),
+					to: path.resolve(__dirname, 'assets/dist/images'),
+				}
+			]
+		}),
+
 		// MiniCSSExtractPlugin to extract the CSS that's gets imported into JavaScript.
 		new MiniCSSExtractPlugin({
 			//esModule: false,

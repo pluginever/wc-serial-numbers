@@ -63,8 +63,8 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 			woocommerce_wp_checkbox(
 				array(
 					'id'            => '_is_serial_number',
-					'label'         => __( 'Sell serial numbers', 'wc-serial-numbers' ),
-					'description'   => __( 'Enable this if you are selling serial numbers for this product.', 'wc-serial-numbers' ),
+					'label'         => __( 'Sell serial keys', 'wc-serial-numbers' ),
+					'description'   => __( 'Enable this if you are selling serial keys for this product.', 'wc-serial-numbers' ),
 					'value'         => get_post_meta( $post->ID, '_is_serial_number', true ),
 					'wrapper_class' => 'options_group',
 					'desc_tip'      => true,
@@ -117,17 +117,15 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 					)
 				);
 			}
-			if ( 'custom_source' == $source || empty( $source )) {
-				$stocks = wcsn_get_stocks_count();
-				$stock = isset( $stocks[ $post->ID ] ) ? $stocks[ $post->ID ] : 0;
+			$stocks = wcsn_get_stocks_count();
+			$stock = isset( $stocks[ $post->ID ] ) ? $stocks[ $post->ID ] : 0;
 
-				echo sprintf(
-					'<p class="form-field options_group"><label>%s</label><span class="description">%d %s</span></p>',
-					__( 'Available', 'wc-serial-numbers' ),
-					$stock,
-					_n( 'serial key', 'serial keys', $stock, 'wc-serial-numbers' )
-				);
-			}
+			echo sprintf(
+				'<p class="wcsn-key-source-based-field form-field options_group" data-source="custom_source"><label>%s</label><span class="description">%d %s</span></p>',
+				__( 'Stock status', 'wc-serial-numbers' ),
+				$stock,
+				_n( 'serial key', 'serial keys', $stock, 'wc-serial-numbers' )
+			);
 			if ( ! wc_serial_numbers()->is_pro_active() ) {
 				echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Want serial numbers to be generated automatically and auto assign with order and many more?', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 			}
@@ -270,7 +268,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 
 		$total_ordered_serial_numbers = wc_serial_numbers_order_has_serial_numbers( $order );
 		if ( empty( $total_ordered_serial_numbers ) ) {
-			echo sprintf( '<p>%s</p>', __( 'No serial numbers associated with the order.', 'wc-serial-numbers' ) );
+			echo sprintf( '<p>%s</p>', __( 'No serial keys associated with the order.', 'wc-serial-numbers' ) );
 
 			return false;
 		}
@@ -280,7 +278,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 		) );
 
 		if ( empty( $serial_numbers ) ) {
-			echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order waiting for assigning serial numbers.', 'wc-serial-numbers' ) ) );
+			echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order waiting for assigning serial keys.', 'wc-serial-numbers' ) ) );
 
 			return false;
 		}

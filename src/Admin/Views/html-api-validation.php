@@ -120,7 +120,7 @@ $api_url = add_query_arg(
 				<tr>
 					<th scope="row"><label for="serial_key"><?php esc_html_e( 'Key', 'wc-serial-numbers' ); ?></label></th>
 					<td>
-						<input type="text" name="serial_key" id="serial_key" placeholder="<?php esc_attr_e( 'Please enter serial numbers to validate', 'wc-serial-numbers' ); ?>" required/>
+						<input type="text" name="serial_key" id="serial_key" placeholder="<?php esc_attr_e( 'Please enter serial key to validate', 'wc-serial-numbers' ); ?>" required/>
 						<p class="description">
 							<?php esc_html_e( 'Required field. Enter serial key to validate.', 'wc-serial-numbers' ); ?>
 						</p>

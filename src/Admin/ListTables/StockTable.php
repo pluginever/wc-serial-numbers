@@ -149,7 +149,8 @@ class StockTable extends ListTable {
 				return $item->get_sku();
 			case 'stock':
 				$stock = number_format_i18n( wcsn_get_product_stock( $item->get_id() ) );
-				return sprintf('<a href="%s">%s</a>', admin_url( 'admin.php?page=wc-serial-numbers&product_id=' . $item->get_id() ), $stock);
+				$link = admin_url( 'admin.php?page=wc-serial-numbers&status=available&product_id=' . $item->get_id() );
+				return sprintf('<a href="%s">%s</a>', esc_url( $link ), $stock);
 			case 'action':
 				$product_id = $item->get_id();
 				$edit_link  = get_edit_post_link( $product_id );

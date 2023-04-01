@@ -36,6 +36,7 @@ class Menus extends Singleton {
 		add_filter( 'wc_serial_numbers_tools_tabs', array( __CLASS__, 'add_tools_status_tab' ), PHP_INT_MAX );
 		add_action( 'wc_serial_numbers_tools_tab_import', array( __CLASS__, 'import_tab' ) );
 		add_action( 'wc_serial_numbers_tools_tab_export', array( __CLASS__, 'export_tab' ) );
+		add_action( 'wc_serial_numbers_tools_tab_generators', array( __CLASS__, 'generators_tab' ) );
 		add_action( 'wc_serial_numbers_tools_tab_status', array( __CLASS__, 'status_tab' ) );
 		add_action( 'wc_serial_numbers_tools_tab_api', array( __CLASS__, 'api_validation_section' ) );
 		add_action( 'wc_serial_numbers_tools_tab_api', array( __CLASS__, 'api_activation_deactivation_section' ) );
@@ -330,9 +331,22 @@ class Menus extends Singleton {
 	 * @return void
 	 */
 	public static function import_tab() {
-		//todo import tab promotional content.
-
-		echo "Promotional content for import tab.";
+		?>
+		<div class="wcsn-feature-promo-banner">
+			<div class="wcsn-feature-promo-banner__content">
+				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
+				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=import-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
+			</div>
+			<img src="<?php echo esc_url( wc_serial_numbers()->get_url() . 'assets/images/csv-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>" />
+		</div>
+		<div class="wcsn-feature-promo-banner">
+			<div class="wcsn-feature-promo-banner__content">
+				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
+				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=import-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
+			</div>
+			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/txt-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>" />
+		</div>
+		<?php
 	}
 
 	/**
@@ -342,9 +356,33 @@ class Menus extends Singleton {
 	 * @return void
 	 */
 	public static function export_tab() {
-		//todo export tab promotional content.
+		?>
+		<div class="wcsn-feature-promo-banner">
+			<div class="wcsn-feature-promo-banner__content">
+				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
+				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=export-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
+			</div>
+			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/csv-export.png' ); ?>" alt="<?php esc_attr_e( 'Export Serial Numbers', 'wc-serial-numbers' ); ?>" />
+		</div>
+		<?php
+	}
 
-		echo "Promotional content for export tab.";
+	/**
+	 * Getnerators tab content.
+	 *
+	 * @since 1.4.6
+	 * @return void
+	 */
+	public static function generators_tab() {
+		?>
+		<div class="wcsn-feature-promo-banner">
+			<div class="wcsn-feature-promo-banner__content">
+				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
+				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generators-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
+			</div>
+			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/add-generator.png' ); ?>" alt="<?php esc_attr_e( 'Generators', 'wc-serial-numbers' ); ?>" />
+		</div>
+		<?php
 	}
 
 	/**

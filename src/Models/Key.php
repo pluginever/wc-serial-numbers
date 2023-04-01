@@ -248,9 +248,10 @@ class Key extends Model {
 	 * @return string Order title.
 	 */
 	public function get_order_title() {
-		if( ! $this->get_order() ) {
+		if ( ! $this->get_order() ) {
 			return '';
 		}
+
 		return sprintf(
 			'(#%1$s) %2$s',
 			$this->get_order()->get_id(),
@@ -455,12 +456,12 @@ class Key extends Model {
 	|
 	*/
 	/**
-	 * Sanitizes the data.
+	 * Saves an object in the database.
 	 *
 	 * @since 1.0.0
-	 * @return \WP_Error|true
+	 * @return true|\WP_Error True on success, WP_Error on failure.
 	 */
-	protected function sanitize_data() {
+	public function save() {
 		// Product id is required.
 		if ( ! $this->get_product_id() ) {
 			return new \WP_Error( 'missing-required', __( 'Product id is required.', 'wc-serial-numbers' ) );
@@ -491,7 +492,6 @@ class Key extends Model {
 			return new \WP_Error( 'invalid-data', __( 'Order id is invalid.', 'wc-serial-numbers' ) );
 		}
 
-
 		// If status is available, order date should not be set.
 		if ( 'available' === $this->get_status() ) {
 			$this->set_order_id( 0 );
@@ -512,15 +512,23 @@ class Key extends Model {
 			$this->set_date_prop( 'created_date', wp_date( 'Y-m-d H:i:s' ) );
 		}
 
-		return parent::sanitize_data();
+		return parent::save();
 	}
+	/*
+	|--------------------------------------------------------------------------
+	| Query Methods
+	|--------------------------------------------------------------------------
+	|
+	| Methods for reading and manipulating the object properties.
+	|
+	*/
 
 	/**
 	 * Retrieve the object instance.
 	 *
-	 * @param int $id Object id to retrieve.
+	 * @param int    $id Object id to retrieve.
 	 * @param string $by Optional. The field to retrieve the object by. Default 'id'.
-	 * @param array $args Optional. Additional arguments to pass to the query.
+	 * @param array  $args Optional. Additional arguments to pass to the query.
 	 *
 	 * @since 1.0.0
 	 *
@@ -653,7 +661,7 @@ class Key extends Model {
 	 * @return int
 	 */
 	public function get_customer_id() {
-		if( ! $this->get_order() ) {
+		if ( ! $this->get_order() ) {
 			return 0;
 		}
 
@@ -668,7 +676,7 @@ class Key extends Model {
 	 * @return string
 	 */
 	public function get_customer_email() {
-		if( ! $this->get_order() ) {
+		if ( ! $this->get_order() ) {
 			return '';
 		}
 
@@ -683,7 +691,7 @@ class Key extends Model {
 	 * @return string
 	 */
 	public function get_customer_name() {
-		if( ! $this->get_order() ) {
+		if ( ! $this->get_order() ) {
 			return '';
 		}
 

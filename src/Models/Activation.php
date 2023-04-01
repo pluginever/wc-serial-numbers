@@ -217,12 +217,12 @@ class Activation extends Model {
 	|
 	*/
 	/**
-	 * Sanitizes the data.
+	 * Saves an object in the database.
 	 *
 	 * @since 1.0.0
-	 * @return \WP_Error|true
+	 * @return true|\WP_Error True on success, WP_Error on failure.
 	 */
-	protected function sanitize_data() {
+	public function save() {
 		// Serial id is required.
 		if ( empty( $this->get_serial_id() ) ) {
 			return new \WP_Error( 'missing_required', __( 'Serial id is required.', 'wc-serial-numbers' ) );
@@ -238,8 +238,17 @@ class Activation extends Model {
 			$this->set_activation_time( current_time( 'mysql' ) );
 		}
 
-		return parent::sanitize_data();
+		return parent::save();
 	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Query Methods
+	|--------------------------------------------------------------------------
+	|
+	| Methods for reading and manipulating the object properties.
+	|
+	*/
 
 	/**
 	 * Prepare where query.

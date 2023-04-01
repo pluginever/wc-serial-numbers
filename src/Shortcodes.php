@@ -65,7 +65,7 @@ class Shortcodes extends Lib\Singleton {
 				if ( ! $product ) {
 					continue;
 				}
-				$products[ $product->get_id() ] = $product->get_formatted_name();
+				$products[ $product->get_id() ] = $product->get_name();
 			}
 		}
 
@@ -175,7 +175,7 @@ class Shortcodes extends Lib\Singleton {
 				if ( ! $product ) {
 					continue;
 				}
-				$products[ $product->get_id() ] = $product->get_formatted_name();
+				$products[ $product->get_id() ] = $product->get_name();
 			}
 		}
 

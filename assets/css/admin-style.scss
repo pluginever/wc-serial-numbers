@@ -31,31 +31,43 @@
 	}
 }
 
-//.wcsn-card {
-//
-//	&.card__header {
-//		border-bottom: 0;
-//		padding-top: 1em;
-//
-//		h2, h3 {
-//			margin: 0;
-//		}
-//
-//		& + .card {
-//			margin-top: 0;
-//		}
-//	}
-//
-//	&.card__header,
-//	&.card {
-//		max-width: 100%;
-//	}
-//
-//	// If there is description text, limit width to the input field.
-//	.description {
-//		max-width: 400px;
-//	}
-//}
+// Feature promo section.
+.wcsn-feature-promo-banner {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	margin-top: 20px;
+	box-sizing: border-box;
+	max-width: 800px;
+	position: relative;
+
+	> img {
+		width: 100%;
+		height: auto;
+	}
+
+	&__content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		background: rgba(255, 255, 255, 0.7);
+		transition: opacity 0.3s ease-in-out;
+
+		h3 {
+			color: red;
+			font-size: 1.5em;
+			margin: 0 0 1em;
+			text-align: center;
+		}
+	}
+}
+
 
 // Key style.
 // Show the serial key in a nice box with a copy button.
