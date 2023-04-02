@@ -604,6 +604,7 @@ class Key extends Model {
 			if ( ! empty( $args['search_columns'] ) ) {
 				$search_columns = wp_parse_list( $args['search_columns'] );
 			} else {
+				$search_columns = is_null( $this->search_columns ) ? $this->get_columns() : $this->search_columns;
 				/**
 				 * Filter the columns to search in when performing a search query.
 				 *
@@ -614,7 +615,7 @@ class Key extends Model {
 				 * @since 1.0.0
 				 * @return array
 				 */
-				$search_columns = apply_filters( $this->get_hook_prefix() . '_search_columns', $this->get_searchable_columns(), $args, $this );
+				$search_columns = apply_filters( $this->get_hook_prefix() . '_search_columns', $search_columns, $args, $this );
 			}
 			$search_columns = array_filter( array_unique( $search_columns ) );
 			$like           = '%' . $wpdb->esc_like( $search ) . '%';
