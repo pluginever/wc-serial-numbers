@@ -201,6 +201,7 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 * Fix : Search key by customer name is not working.
 * Fix : Stock report is showing only 20 records.
 * Enhance: Order table add bulk action to add/remove serial keys.
+* Enhance : Add product filter in the stock report table.
 
 = 1.4.6 (1 April 2023) =
 * Enhance: Enhanced API implementation.
