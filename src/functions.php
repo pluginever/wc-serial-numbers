@@ -773,7 +773,7 @@ function wcsn_decrypt_key( $key ) {
  *
  * @return array
  */
-function wcsn_get_stocks_count( $stock_limit = null, $force = false ) {
+function wcsn_get_stocks_count( $stock_limit = null, $force = true ) {
 	$transient_key = 'wcsn_products_stock_count';
 	$counts        = get_transient( $transient_key );
 

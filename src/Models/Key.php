@@ -567,9 +567,9 @@ class Key extends Model {
 			);
 
 			if ( ! empty( $order_ids ) ) {
-				$clauses['where'][] = " AND {$this->table_alias}.order_id IN (" . implode( ',', $order_ids ) . ')';
+				$clauses['where'] .= " AND {$this->table_alias}.order_id IN (" . implode( ',', $order_ids ) . ')';
 			} else {
-				$clauses['where'][] = ' AND 0';
+				$clauses['where'] .= ' AND 0';
 			}
 		}
 

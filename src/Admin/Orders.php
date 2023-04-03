@@ -25,6 +25,10 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 		add_action( 'woocommerce_order_action_wcsn_remove_keys', array( $this, 'handle_order_action' ) );
 		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_serial_column' ) );
 		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'add_order_serial_column_content' ), 20, 2 );
+
+		// Add order bulk action.
+		add_filter( 'bulk_actions-edit-shop_order', array( $this, 'add_order_bulk_action' ) );
+		add_filter( 'handle_bulk_actions-edit-shop_order', array( $this, 'handle_order_bulk_action' ), 10, 3 );
 	}
 
 	/**
@@ -100,6 +104,51 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 				echo sprintf( '<a href="%s" title="%s"><span class="dashicons dashicons-lock" style="%s"></span></a>', $url, $title, $style );
 			}
 		}
+	}
+
+	/**
+	 * Add order bulk action.
+	 *
+	 * @param array $actions Order actions.
+	 *
+	 * @since 1.2.0
+	 * @return array
+	 */
+	public function add_order_bulk_action( $actions ) {
+		$actions['wcsn_add_keys']    = __( 'Add serial keys', 'wc-serial-numbers' );
+		$actions['wcsn_remove_keys'] = __( 'Remove serial keys', 'wc-serial-numbers' );
+
+
+		return $actions;
+	}
+
+	/**
+	 * Handle order bulk action.
+	 *
+	 * @param string $redirect_to Redirect URL.
+	 * @param string $action      Action name.
+	 * @param array  $order_ids   Order IDs.
+	 *
+	 * @since 1.2.0
+	 * @return string
+	 */
+	public function handle_order_bulk_action( $redirect_to, $action, $order_ids ) {
+		if ( in_array( $action, [ 'wcsn_add_keys', 'wcsn_remove_keys' ] ) ) {
+			foreach ( $order_ids as $order_id ) {
+				switch ( $action ) {
+					case 'wcsn_add_keys':
+						wcsn_order_update_keys( $order_id );
+						break;
+					case 'wcsn_remove_keys':
+						wcsn_order_remove_keys( $order_id );
+						break;
+				}
+			}
+			wc_serial_numbers()->add_notice( sprintf( __( '%d orders updated successfully.', 'wc-serial-numbers' ), count( $order_ids ) ) );
+			$redirect_to = add_query_arg( 'bulk_action', $action, $redirect_to );
+		}
+
+		return $redirect_to;
 	}
 
 }

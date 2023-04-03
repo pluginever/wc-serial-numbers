@@ -17,6 +17,15 @@ if ( ! class_exists( '\WP_List_Table' ) ) {
  */
 class ListTable extends \WP_List_Table {
 	/**
+	 *
+	 * Total number of items
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	public $total_count = 0;
+
+	/**
 	 * Get a request var, or return the default if not set.
 	 *
 	 * @param string $var Request var name.
@@ -170,7 +179,7 @@ class ListTable extends \WP_List_Table {
 	 */
 	public function customer_dropdown() {
 		$customer_id = filter_input( INPUT_GET, 'customer_id', FILTER_SANITIZE_NUMBER_INT );
-		$customer    = get_user_by( 'ID', $customer_id );
+		$customer    = new \WC_Customer( $customer_id );
 		?>
 		<label for="filter-by-customer-id" class="screen-reader-text">
 			<?php esc_html_e( 'Filter by customer', 'wc-serial-numbers' ); ?>
@@ -178,7 +187,7 @@ class ListTable extends \WP_List_Table {
 		<select class="wcsn_search_customer" name="customer_id" id="filter-by-customer-id">
 			<?php if ( ! empty( $customer ) ) : ?>
 				<option selected="selected" value="<?php echo esc_attr( $customer->get_id() ); ?>">
-					<?php echo esc_html( $customer->get_name() ); ?>
+					<?php echo esc_html( sprintf( '%s (%s)', $customer->get_first_name() . ' ' . $customer->get_last_name(), $customer->get_email() ) ); ?>
 				</option>
 			<?php endif; ?>
 		</select>

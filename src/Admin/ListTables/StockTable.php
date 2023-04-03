@@ -30,7 +30,7 @@ class StockTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	public function prepare_items() {
-		$per_page              = $this->get_items_per_page( 'wcsn_stocks_per_page' );
+		$per_page              = 20;
 		$columns               = $this->get_columns();
 		$hidden                = [];
 		$sortable              = $this->get_sortable_columns();
@@ -40,16 +40,13 @@ class StockTable extends ListTable {
 		$order                 = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'desc';
 		$search                = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
 		$product_id            = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
-		$order_id              = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
-		$customer_id           = isset( $_GET['customer_id'] ) ? absint( $_GET['customer_id'] ) : '';
-		$id                    = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : '';
 
 		$query_args = array(
 			'posts_per_page' => $per_page,
 			'fields'         => 'ids',
 			'search'         => $search,
 			'paged'          => $current_page,
-			'post__in'       => $id ? wp_parse_id_list( $id ) : array(),
+			'post__in'       => $product_id ? wp_parse_id_list( $product_id ) : array(),
 			'meta_query'     => array( // @codingStandardsIgnoreLine
 				'relation' => 'AND',
 				array(
@@ -63,7 +60,6 @@ class StockTable extends ListTable {
 
 		$this->items       = array_map( 'wc_get_product', $post_ids );
 		$this->total_count = wcsn_get_products( array_merge( $query_args, array( 'count' => true ) ) );
-
 		$this->set_pagination_args(
 			array(
 				'total_items' => $this->total_count,
@@ -88,6 +84,22 @@ class StockTable extends ListTable {
 	 */
 	public function get_views() {
 		return parent::get_views();
+	}
+
+	/**
+	 * Adds the order and product filters to the licenses list.
+	 *
+	 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
+	 */
+	protected function extra_tablenav( $which ) {
+		if ( $which === 'top' ) {
+			echo '<div class="alignleft actions">';
+			$this->product_dropdown();
+			submit_button( __( 'Filter', 'wc-serial-numbers' ), '', 'filter-action', false );
+
+
+			echo '</div>';
+		}
 	}
 
 	/**
