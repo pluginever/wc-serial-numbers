@@ -45,7 +45,7 @@ class Settings extends Lib\Settings {
 					[
 						'title' => __( 'General settings', 'wc-serial-numbers' ),
 						'type'  => 'title',
-						'desc'  => __( 'The following options affect how the serial numbers will work.', 'wc-serial-numbers' ),
+						'desc'  => __( 'The following options affect how the serial keys will work.', 'wc-serial-numbers' ),
 						'id'    => 'section_serial_numbers',
 					],
 					[
@@ -56,44 +56,29 @@ class Settings extends Lib\Settings {
 						'default' => 'no',
 					],
 					[
-						'title'    => __( 'Reuse serial number', 'wc-serial-numbers' ),
+						'title'    => __( 'Reuse serial key', 'wc-serial-numbers' ),
 						'id'       => 'wc_serial_numbers_reuse_serial_number',
-						'desc'     => __( 'Recover failed, refunded serial numbers for selling again.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'If you enable this option, the serial number will be available for selling again if the order is refunded or failed.', 'wc-serial-numbers' ),
+						'desc'     => __( 'Recover failed, refunded serial keys for selling again.', 'wc-serial-numbers' ),
+						'desc_tip' => __( 'If you enable this option, the serial keys will be available for selling again if the order is refunded or failed.', 'wc-serial-numbers' ),
+						'type'     => 'checkbox',
+						'default'  => 'no',
+					],
+					// Revoke serial keys.
+					[
+						'title'    => __( 'Revoke serial keys', 'wc-serial-numbers' ),
+						'id'       => 'wc_serial_numbers_revoke_keys',
+						'desc'     => __( 'Revoke serial keys when the order status changes to cancelled or refunded.', 'wc-serial-numbers' ),
+						'desc_tip' => __( 'If you enable this option, the serial keys will be revoked when the order status changes to cancelled or refunded.', 'wc-serial-numbers' ),
 						'type'     => 'checkbox',
 						'default'  => 'no',
 					],
 					[
-						'title'           => __( 'Revoke status', 'wc-serial-numbers' ),
-						'desc'            => __( 'Cancelled', 'wc-serial-numbers' ),
-						'id'              => 'wc_serial_numbers_revoke_status_cancelled',
-						'default'         => 'yes',
-						'type'            => 'checkbox',
-						'checkboxgroup'   => 'start',
-						'show_if_checked' => 'option',
-					],
-					[
-						'desc'          => __( 'Refunded', 'wc-serial-numbers' ),
-						'id'            => 'wc_serial_numbers_revoke_status_refunded',
-						'default'       => 'yes',
-						'type'          => 'checkbox',
-						'checkboxgroup' => '',
-
-					],
-					[
-						'desc'          => __( 'Failed', 'wc-serial-numbers' ),
-						'id'            => 'wc_serial_numbers_revoke_status_failed',
-						'default'       => 'yes',
-						'type'          => 'checkbox',
-						'checkboxgroup' => 'end',
-
-					],
-					[
-						'title'   => __( 'Hide serial number', 'wc-serial-numbers' ),
-						'id'      => 'wc_serial_numbers_hide_serial_number',
-						'desc'    => __( 'All serial numbers will be hidden and only displayed when the "Show" button is clicked.', 'wc-serial-numbers' ),
-						'default' => 'yes',
-						'type'    => 'checkbox',
+						'title'    => __( 'Hide serial key', 'wc-serial-numbers' ),
+						'id'       => 'wc_serial_numbers_hide_serial_number',
+						'desc_tip' => __( 'When keys are hidden, you can still view them by clicking on the show button.', 'wc-serial-numbers' ),
+						'desc'     => __( 'Serial keys will be masked in the list table.', 'wc-serial-numbers' ),
+						'default'  => 'yes',
+						'type'     => 'checkbox',
 					],
 					[
 						'title'   => __( 'Disable software support', 'wc-serial-numbers' ),

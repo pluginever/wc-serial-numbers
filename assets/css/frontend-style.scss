@@ -1,0 +1,13 @@
+.wcsn-api-form {
+	select,
+	input[type="text"],
+	input[type="email"] {
+		display: block;
+		box-sizing: border-box;
+		width: 100%;
+	}
+	.required {
+		border-bottom: 0 !important;
+		color: #e2401c;
+	}
+}

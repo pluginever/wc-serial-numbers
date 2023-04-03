@@ -1,0 +1,88 @@
+name: Deploy Plugin
+# When pushing to master or release/* branches
+
+on:
+  push:
+    branches:
+      - master
+      - release/*
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'The branch to deploy the plugin from'
+        required: false
+        default: 'master'
+env:
+  SSH_USER: manik
+  SSH_PORT: 21098
+  PHP_VERSION: 7.4
+  DOMAIN: ${{ github.ref == 'refs/heads/master' && 'trunk.pluginever.com' || 'test.pluginever.com' }}
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          tools: composer
+
+      - name: Setup GITHUB token
+        run: |
+          composer config -g github-oauth.github.com ${ACCESS_TOKEN}
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Build Project
+        run: |
+          npm install && npm run build
+          composer install
+          composer update --no-dev --no-scripts
+        shell: bash
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          config: |
+            Host *
+              HostName ${{ secrets.SSH_HOST }}
+              Port ${{ env.SSH_PORT }}
+              IdentityFile ~/.ssh/id_rsa
+              HostKeyAlgorithms +ssh-rsa
+              PubkeyAcceptedAlgorithms +ssh-rsa
+              StrictHostKeyChecking no
+          known_hosts: unnecessary
+
+      - name: Deploy at trunk.pluginever.com
+        if: github.ref == 'refs/heads/master'
+        run: |
+          rsync -avz --delete --no-o --no-g --exclude-from=./.distignore ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ env.SSH_USER }}/${{ env.DOMAIN }}/wp-content/plugins/wc-serial-numbers
+        shell: bash
+
+      - name: Deploy at test.pluginever.com
+        if: github.ref != 'refs/heads/master'
+        run: |
+          rsync -avz --delete --no-o --no-g --exclude-from=./.distignore ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ env.SSH_USER }}/${{ env.DOMAIN }}/wp-content/plugins/wc-serial-numbers
+        shell: bash
+
+      # Post message to slack channel
+      - name: Slack Notification
+        if: github.ref == 'refs/heads/master'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: announcement
+          # Post github commit message to slack
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png?size=48
+          SLACK_MESSAGE: "Check it out here: https://${{ env.DOMAIN }}"
+          SLACK_TITLE: "WooCommerce Serial Numbers Plugin Deployed"
+          SLACK_USERNAME: deploybot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_FOOTER: '${{ github.event.head_commit.message }}'
+          MSG_MINIMAL: true

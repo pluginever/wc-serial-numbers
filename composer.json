@@ -18,6 +18,10 @@
     {
       "url": "git@github.com:pluginever/framework-settings.git",
       "type": "github"
+    },
+    {
+      "url": "git@github.com:pluginever/framework-model.git",
+      "type": "github"
     }
   ],
   "require": {
@@ -39,7 +43,8 @@
     "lucatume/wp-browser": "^3.1",
     "phpcompatibility/php-compatibility": "9.3.5",
     "pluginever/framework-plugin": "^1.0.0",
-    "pluginever/framework-settings": "^1.0.0"
+    "pluginever/framework-settings": "^1.0.0",
+    "pluginever/framework-model": "dev-master"
   },
   "config": {
     "optimize-autoloader": true,
@@ -91,7 +96,8 @@
       "delete_vendor_directories": true,
       "packages": [
         "pluginever/framework-plugin",
-        "pluginever/framework-settings"
+        "pluginever/framework-settings",
+        "pluginever/framework-model"
       ]
     }
   }

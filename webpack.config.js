@@ -1,25 +1,29 @@
-const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
-const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
-const MiniCSSExtractPlugin = require( 'mini-css-extract-plugin' );
-const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
-const path = require( 'path' );
+const defaultConfig = require('@wordpress/scripts/config/webpack.config');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
 const isProduction = process.env.NODE_ENV === 'production';
 const mode = isProduction ? 'production' : 'development';
 
 module.exports = {
 	...defaultConfig,
 	entry: {
+		'js/admin-script': './assets/js/admin-script.js',
+		'js/frontend-script': './assets/js/frontend-script.js',
+		'blocks/blocks': './assets/blocks/index.js',
 		'css/admin-style': './assets/css/admin-style.scss',
-		'js/admin-script': './assets/js/admin-script.js'
+		'css/frontend-style': './assets/css/frontend-style.scss',
 	},
 	output: {
 		clean: true,
-		path: path.resolve( __dirname, 'assets/dist' ),
+		path: path.resolve(__dirname, 'assets/dist'),
 		chunkFilename: 'chunks/[name].js',
 	},
 	performance: {
-		maxAssetSize: ( isProduction ? 100 : 10000 ) * 1024,
-		maxEntrypointSize: ( isProduction ? 400 : 40000 ) * 1024,
+		maxAssetSize: (isProduction ? 100 : 10000) * 1024,
+		maxEntrypointSize: (isProduction ? 400 : 40000) * 1024,
 		hints: 'warning',
 	},
 	module: {
@@ -28,7 +32,7 @@ module.exports = {
 			{
 				test: /\.svg$/,
 				issuer: /\.(j|t)sx?$/,
-				use: [ '@svgr/webpack', 'url-loader' ],
+				use: ['@svgr/webpack', 'url-loader'],
 				type: 'javascript/auto',
 			},
 			{
@@ -51,18 +55,29 @@ module.exports = {
 		// removed automatically. There is an exception added in watch mode for
 		// fonts and images. It is a known limitations:
 		// https://github.com/johnagan/clean-webpack-plugin/issues/159
-		new CleanWebpackPlugin( {
-			cleanAfterEveryBuildPatterns: [ '!fonts/**', '!images/**' ],
+		new CleanWebpackPlugin({
+			cleanAfterEveryBuildPatterns: ['!fonts/**', '!images/**'],
 			// Prevent it from deleting webpack assets during builds that have
 			// multiple configurations returned to the webpack config.
 			cleanStaleWebpackAssets: false,
-		} ),
+		}),
+
+		// Copy images to the build folder.
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: path.resolve(__dirname, 'assets/images'),
+					to: path.resolve(__dirname, 'assets/dist/images'),
+				}
+			]
+		}),
+
 		// MiniCSSExtractPlugin to extract the CSS that's gets imported into JavaScript.
-		new MiniCSSExtractPlugin( {
+		new MiniCSSExtractPlugin({
 			//esModule: false,
 			filename: '[name].css',
 			chunkFilename: '[id].css',
-		} ),
+		}),
 		// WP_NO_EXTERNALS global variable controls whether scripts' assets get
 		// generated, and the default externals set.
 		new RemoveEmptyScriptsPlugin(),

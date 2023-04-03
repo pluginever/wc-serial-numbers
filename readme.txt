@@ -1,17 +1,19 @@
-=== Serial Numbers for WooCommerce - License Key Manager ===
+=== Serial Numbers for WooCommerce - License Manager ===
 Contributors: manikmist09, pluginever, b-07
-Tags: license, license number, license manager, serial number, activation number, key, serial key, license key, activation key, product key, digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, product identification number, digital product license, virtual product key, virtual product license, subscription product license, serial number generator, unique number, license key generator, auto generate serial number, woocommerce, woocommerce license manager, woocommerce key
+Tags: license, license number, license manager, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, product identification number, digital product license, virtual product key, virtual product license, subscription product license, serial number generator, unique number, license key generator, auto generate serial number, woocommerce, woocommerce license manager, woocommerce key
 Requires at least: 4.4
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Sell and manage license keys/serial numbers for digital and physical products on your WooCommerce store with ease.
+Sell and manage license keys/serial numbers on your WooCommerce store with ease.
 
 == Description ==
-**[Serial Numbers for WooCommerce](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license key manager plugin for WooCommerce. You can generate, sell, and manage software, games and digital product's license keys easily with this plugin.
+**[Serial Numbers for WooCommerce](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license manager plugin for WooCommerce designed to help online store owners manage product licenses and activations efficiently. This plugin works seamlessly with WooCommerce and provides an easy-to-use interface to manage licenses, assign license keys to products, and track customer activations. 
+
+Serial Numbers for WooCommerce is an essential tool for any online store owner looking to streamline license management and improve customer experience. With its intuitive interface and powerful features, this plugin makes it easy to manage licenses, reduce piracy, and grow your business.
 
 === 💵 With Serial Numbers for WooCommerce You Can Sell: ===
 
@@ -58,9 +60,8 @@ Sell and manage license keys/serial numbers for digital and physical products on
 * Custom deliverable quantity to deliver multiple keys with a single product.
 * Manual delivery option to manually deliver license keys instead of automatic.
 * Email Template to easily and quickly customize the order confirmation & low stock alert email.
-* Dedicated product list.
 
-> [➡️ Get The PRO Version.](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
+<pre><a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
 
 === 🔑 How To Generate/ Add A License Key: ===
 
@@ -196,6 +197,17 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.4.6 (1 April 2023) =
+* Enhance: Enhanced API implementation.
+* Enhance: Update Serial Number statues.
+* Enhance: Add shortcodes for serial number verification and activation/deactivation.
+* Enhance: Add admin tools to verify and activate/deactivate serial numbers.
+* Enhance: Add plugin status page.
+* Enhance: Admin support clicking to copy serial number.
+* Enhance: UI improvements.
+* Deprecated: Duplicate serial number feature removed.
+* Fix: Few known issues fixed.
+
 = 1.4.5 (30 January 2023) =
 * Fix: Few known issues fixed.
 * Enhance: Framework updated.

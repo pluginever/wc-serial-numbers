@@ -1,7 +1,7 @@
 {
   "name": "wc-serial-numbers",
   "title": "Serial Numbers for WooCommerce",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "The best WooCommerce extension to sell license & serial keys, gift cards and other secret numbers!",
   "homepage": "https://pluginever.com/plugins/wc-serial-numbers/",
   "license": "GPL-3.0+",
@@ -27,6 +27,7 @@
     "@wordpress/prettier-config": "^1.4.0",
     "@wordpress/scripts": "^23.3.0",
     "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
     "grunt": "^1.5.3",
     "grunt-checktextdomain": "^1.0.1",
     "grunt-wp-i18n": "^1.0.3",
