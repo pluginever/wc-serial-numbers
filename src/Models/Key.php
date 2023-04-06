@@ -478,9 +478,8 @@ class Key extends Model {
 		}
 
 		// Duplicate serial key is not allowed.
-		if ( ! apply_filters( 'wc_serial_numbers_allow_duplicate_serial_number', false ) ) {
-			$encrypted_key = wc_serial_numbers_encrypt_key( $this->get_serial_key() );
-			$existing      = self::get( $encrypted_key, 'serial_key' );
+		if ( ! wcsn_is_duplicate_key_allowed() ) {
+			$existing      = self::get( $this->get_serial_key(), 'serial_key' );
 
 			if ( $existing && $existing->get_id() !== $this->get_id() ) {
 				return new \WP_Error( 'invalid-data', __( 'Serial key already exists. Duplicate serial keys are not allowed.', 'wc-serial-numbers' ) );

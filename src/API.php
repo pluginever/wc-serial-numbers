@@ -126,7 +126,7 @@ class API extends Lib\Singleton {
 		}
 
 		// If email is provided, check if it is valid.
-		if ( $email && $order->get_billing_email() !== $email ) {
+		if ( ( $email || wcsn_is_duplicate_key_allowed() ) && $order->get_billing_email() !== $email ) {
 			wp_send_json_error(
 				array(
 					'code'    => 'invalid_email',

@@ -161,7 +161,7 @@ function wcsn_get_order_object( $order ) {
  * @since 1.4.6
  * @return Key|WP_Error object on success, WP_Error object on failure.
  */
-function wcsn_insert_key( $args, $wp_error = false ) {
+function wcsn_insert_key( $args, $wp_error = true ) {
 	return Key::insert( $args, $wp_error );
 }
 
@@ -834,7 +834,7 @@ function wcsn_get_product_stock( $product_id ) {
  * @since 1.4.8
  * @retun string
  */
-function wcsn_get_edit_product_link( $product_id  ){
+function wcsn_get_edit_product_link( $product_id ) {
 	// If the product is a variation, get the parent product.
 
 	$product = wc_get_product( $product_id );
@@ -843,4 +843,15 @@ function wcsn_get_edit_product_link( $product_id  ){
 	}
 
 	return get_edit_post_link( $product_id );
+}
+
+
+/**
+ * Is duplicate serial key allowed.
+ *
+ * @since 1.4.8
+ * @return bool
+ */
+function wcsn_is_duplicate_key_allowed() {
+	return apply_filters( 'wc_serial_numbers_allow_duplicate_key', false );
 }

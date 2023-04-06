@@ -75,7 +75,6 @@ class Settings extends Lib\Settings {
 					[
 						'title'    => __( 'Hide serial key', 'wc-serial-numbers' ),
 						'id'       => 'wc_serial_numbers_hide_serial_number',
-						'desc_tip' => __( 'When keys are hidden, you can still view them by clicking on the show button.', 'wc-serial-numbers' ),
 						'desc'     => __( 'Serial keys will be masked in the list table.', 'wc-serial-numbers' ),
 						'default'  => 'yes',
 						'type'     => 'checkbox',
