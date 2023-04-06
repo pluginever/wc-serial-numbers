@@ -133,12 +133,23 @@ $api_url = add_query_arg(
 					</td>
 				</tr>
 
+				<!--platform-->
+				<tr>
+					<th scope="row"><label for="platform"><?php esc_html_e( 'Platform', 'wc-serial-numbers' ); ?></label></th>
+					<td>
+						<input type="text" name="platform" id="platform" placeholder="<?php esc_attr_e( 'Please enter a platform. e.g. Windows', 'wc-serial-numbers' ); ?>"/>
+						<p class="description">
+							<?php esc_html_e( 'Optional field. Platform is the extra information of the activation record. You can use it to identify the platform of the activation.', 'wc-serial-numbers' ); ?>
+						</p>
+					</td>
+				</tr>
+
 				<tr>
 					<th scope="row"><label for="email"><?php esc_html_e( 'Email', 'wc-serial-numbers' ); ?></label></th>
 					<td>
 						<input type="email" name="email" id="email" placeholder="<?php esc_attr_e( 'Please enter a valid email address', 'wc-serial-numbers' ); ?>">
 						<p class="description">
-							<?php esc_html_e( 'Optional field. If email is provided, only serial key that are assigned to the email will be activated/deactivated otherwise ignored.', 'wc-serial-numbers' ); ?>
+							<?php esc_html_e( 'Optional field when duplicate key is off. If email is provided, only serial key that are assigned to the email will be activated/deactivated otherwise ignored.', 'wc-serial-numbers' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -155,6 +166,7 @@ $api_url = add_query_arg(
 						</p>
 					</td>
 				</tr>
+
 				<tr>
 					<th scope="row"><label><?php esc_html_e( 'API Response', 'wc-serial-numbers' ); ?></label></th>
 					<td class="code">

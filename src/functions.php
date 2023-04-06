@@ -161,7 +161,7 @@ function wcsn_get_order_object( $order ) {
  * @since 1.4.6
  * @return Key|WP_Error object on success, WP_Error object on failure.
  */
-function wcsn_insert_key( $args, $wp_error = false ) {
+function wcsn_insert_key( $args, $wp_error = true ) {
 	return Key::insert( $args, $wp_error );
 }
 
@@ -468,7 +468,6 @@ function wcsn_order_update_keys( $order_id ) {
 		 */
 		do_action( 'wc_serial_numbers_pre_add_order_keys', $order_id, $line_items, $order_status );
 		$added = 0;
-
 		foreach ( $line_items as $k => $item ) {
 			if ( ! apply_filters( 'wc_serial_numbers_add_order_item_keys', true, $item, $order_id ) ) {
 				continue;
@@ -545,12 +544,10 @@ function wcsn_order_update_keys( $order_id ) {
 			 * @param int $order_id Order ID.
 			 * @param int $needed_count Needed count.
 			 */
-			do_action( 'wc_serial_numbers_add_order_item_keys', $item, $order_id, $needed_count );
+			do_action( 'wc_serial_numbers_added_order_item_keys', $item, $order_id, $needed_count );
 
 			// Deprecated. use wc_serial_numbers_pre_order_add_keys instead. Will be removed in 1.5.0.
 			do_action( 'wc_serial_numbers_order_connect_serial_numbers', $order_id, count( $keys ) );
-
-			return;
 		}
 
 		if ( $added > 0 ) {
@@ -773,7 +770,7 @@ function wcsn_decrypt_key( $key ) {
  *
  * @return array
  */
-function wcsn_get_stocks_count( $stock_limit = null, $force = false ) {
+function wcsn_get_stocks_count( $stock_limit = null, $force = true ) {
 	$transient_key = 'wcsn_products_stock_count';
 	$counts        = get_transient( $transient_key );
 
@@ -827,4 +824,34 @@ function wcsn_get_product_stock( $product_id ) {
 	}
 
 	return 0;
+}
+
+/**
+ * Get product edit link.
+ *
+ * @param int $product_id Product ID.
+ *
+ * @since 1.4.8
+ * @retun string
+ */
+function wcsn_get_edit_product_link( $product_id ) {
+	// If the product is a variation, get the parent product.
+
+	$product = wc_get_product( $product_id );
+	if ( $product && $product->is_type( 'variation' ) ) {
+		$product_id = $product->get_parent_id();
+	}
+
+	return get_edit_post_link( $product_id );
+}
+
+
+/**
+ * Is duplicate serial key allowed.
+ *
+ * @since 1.4.8
+ * @return bool
+ */
+function wcsn_is_duplicate_key_allowed() {
+	return apply_filters( 'wc_serial_numbers_allow_duplicate_key', false );
 }

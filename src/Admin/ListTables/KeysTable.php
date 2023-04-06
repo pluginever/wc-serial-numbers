@@ -393,10 +393,7 @@ class KeysTable extends ListTable {
 	 */
 	protected function column_product( $item ) {
 		$product     = wc_get_product( $item->product_id );
-		$post_parent = wp_get_post_parent_id( $item->product_id );
-		$post_id     = $post_parent ? $post_parent : $item->product_id;
-
-		return empty( $item->product_id ) || empty( $product ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', get_edit_post_link( $post_id ), $product->get_id(), $product->get_formatted_name() );
+		return empty( $item->product_id ) || empty( $product ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', wcsn_get_edit_product_link( $product->get_id() ), $product->get_id(), $product->get_formatted_name() );
 	}
 
 	/**

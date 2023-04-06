@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Sell and manage license keys/serial numbers on your WooCommerce store with ease.
 
 == Description ==
-**[Serial Numbers for WooCommerce](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license manager plugin for WooCommerce designed to help online store owners manage product licenses and activations efficiently. This plugin works seamlessly with WooCommerce and provides an easy-to-use interface to manage licenses, assign license keys to products, and track customer activations. 
+**[Serial Numbers for WooCommerce](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful license manager plugin for WooCommerce designed to help online store owners manage product licenses and activations efficiently. This plugin works seamlessly with WooCommerce and provides an easy-to-use interface to manage licenses, assign license keys to products, and track customer activations.
 
 Serial Numbers for WooCommerce is an essential tool for any online store owner looking to streamline license management and improve customer experience. With its intuitive interface and powerful features, this plugin makes it easy to manage licenses, reduce piracy, and grow your business.
 
@@ -197,6 +197,21 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.4.8 (6 April 2023) =
+* Fix : Only 20 records are showing when bought more than 20 serial keys.
+* Fix : Serial keys assigned only for first 2 products when bought more than 2 products.
+* Fix : Action 'Edit' is not working for variable products on Report menu.
+* Enhance: Add search option for serial number in the stock report table.
+* Enhance: Fix duplicate key issue when importing.
+* Enhance: UI improvements.
+
+
+= 1.4.7 (3 April 2023) =
+* Fix : Search key by customer name is not working.
+* Fix : Stock report is showing only 20 records.
+* Enhance: Order table add bulk action to add/remove serial keys.
+* Enhance : Add product filter in the stock report table.
+
 = 1.4.6 (1 April 2023) =
 * Enhance: Enhanced API implementation.
 * Enhance: Update Serial Number statues.
