@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.4.6\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.4.7\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-04-01 16:44:20+00:00\n"
+"POT-Creation-Date: 2023-04-03 15:15:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -324,6 +324,7 @@ msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:125
 #: src/Admin/ListTables/KeysTable.php:243
+#: src/Admin/ListTables/StockTable.php:98
 msgid "Filter"
 msgstr ""
 
@@ -341,7 +342,7 @@ msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:190
 #: src/Admin/ListTables/KeysTable.php:310
-#: src/Admin/ListTables/StockTable.php:100
+#: src/Admin/ListTables/StockTable.php:112
 #: src/Admin/Views/html-api-actions.php:104
 #: src/Admin/Views/html-api-validation.php:108
 #: src/Admin/Views/html-edit-key.php:47 src/Deprecated/Functions.php:359
@@ -481,7 +482,7 @@ msgid "ID: %d"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:380
-#: src/Admin/ListTables/StockTable.php:157 src/Admin/Metaboxes.php:339
+#: src/Admin/ListTables/StockTable.php:169 src/Admin/Metaboxes.php:339
 msgid "Edit"
 msgstr ""
 
@@ -496,15 +497,15 @@ msgstr[1] ""
 msgid "Lifetime"
 msgstr ""
 
-#: src/Admin/ListTables/ListTable.php:130
+#: src/Admin/ListTables/ListTable.php:139
 msgid "Filter by order"
 msgstr ""
 
-#: src/Admin/ListTables/ListTable.php:153
+#: src/Admin/ListTables/ListTable.php:162
 msgid "Filter by product"
 msgstr ""
 
-#: src/Admin/ListTables/ListTable.php:176
+#: src/Admin/ListTables/ListTable.php:185
 msgid "Filter by customer"
 msgstr ""
 
@@ -516,19 +517,19 @@ msgstr ""
 msgid "stocks"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:80
+#: src/Admin/ListTables/StockTable.php:76
 msgid "No products selling serial keys from \"stock\" found."
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:101
+#: src/Admin/ListTables/StockTable.php:113
 msgid "SKU"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:102 src/Admin/Menus.php:281
+#: src/Admin/ListTables/StockTable.php:114 src/Admin/Menus.php:281
 msgid "Stock"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:103
+#: src/Admin/ListTables/StockTable.php:115
 #: src/Admin/Views/html-api-actions.php:147 src/Shortcodes.php:145
 msgid "Action"
 msgstr ""
@@ -691,28 +692,32 @@ msgid ""
 "please update to the version 1.2.1 or higher."
 msgstr ""
 
-#: src/Admin/Orders.php:39
+#: src/Admin/Orders.php:43 src/Admin/Orders.php:118
 msgid "Add serial keys"
 msgstr ""
 
-#: src/Admin/Orders.php:40
+#: src/Admin/Orders.php:44 src/Admin/Orders.php:119
 msgid "Remove serial keys"
 msgstr ""
 
-#: src/Admin/Orders.php:59
+#: src/Admin/Orders.php:63
 msgid "Serial keys added successfully to the order."
 msgstr ""
 
-#: src/Admin/Orders.php:63
+#: src/Admin/Orders.php:67
 msgid "Serial keys removed successfully from the order."
 msgstr ""
 
-#: src/Admin/Orders.php:94
+#: src/Admin/Orders.php:98
 msgid "Order is fullfilled."
 msgstr ""
 
-#: src/Admin/Orders.php:97
+#: src/Admin/Orders.php:101
 msgid "Order is not fullfilled."
+msgstr ""
+
+#: src/Admin/Orders.php:147
+msgid "%d orders updated successfully."
 msgstr ""
 
 #: src/Admin/Settings.php:25
@@ -1217,6 +1222,16 @@ msgstr ""
 
 #: src/Admin/Views/html-list-keys.php:33
 msgid "Generate"
+msgstr ""
+
+#: src/Admin/Views/html-list-stock.php:23
+msgid "Note:"
+msgstr ""
+
+#: src/Admin/Views/html-list-stock.php:24
+msgid ""
+"The following report displays a comprehensive list of products whose source "
+"for serial keys has been set to \"Manually Added.\"."
 msgstr ""
 
 #: src/Ajax.php:190
