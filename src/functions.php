@@ -468,7 +468,6 @@ function wcsn_order_update_keys( $order_id ) {
 		 */
 		do_action( 'wc_serial_numbers_pre_add_order_keys', $order_id, $line_items, $order_status );
 		$added = 0;
-
 		foreach ( $line_items as $k => $item ) {
 			if ( ! apply_filters( 'wc_serial_numbers_add_order_item_keys', true, $item, $order_id ) ) {
 				continue;
@@ -545,12 +544,10 @@ function wcsn_order_update_keys( $order_id ) {
 			 * @param int $order_id Order ID.
 			 * @param int $needed_count Needed count.
 			 */
-			do_action( 'wc_serial_numbers_add_order_item_keys', $item, $order_id, $needed_count );
+			do_action( 'wc_serial_numbers_added_order_item_keys', $item, $order_id, $needed_count );
 
 			// Deprecated. use wc_serial_numbers_pre_order_add_keys instead. Will be removed in 1.5.0.
 			do_action( 'wc_serial_numbers_order_connect_serial_numbers', $order_id, count( $keys ) );
-
-			return;
 		}
 
 		if ( $added > 0 ) {
