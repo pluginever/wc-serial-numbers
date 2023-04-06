@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.4.7\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.4.8\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-04-03 15:15:20+00:00\n"
+"POT-Creation-Date: 2023-04-06 13:39:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,7 +36,7 @@ msgstr ""
 msgid "Go Pro"
 msgstr ""
 
-#: lib/Lib/Plugin.php:545 src/Admin/Settings.php:189
+#: lib/Lib/Plugin.php:545 src/Admin/Settings.php:188
 msgid "Documentation"
 msgstr ""
 
@@ -304,7 +304,7 @@ msgstr ""
 #: src/Admin/Admin.php:101 src/Admin/Menus.php:57 src/Admin/Menus.php:98
 #: src/Admin/Menus.php:99 src/Admin/Menus.php:434 src/Admin/Metaboxes.php:36
 #: src/Admin/Metaboxes.php:45 src/Admin/Metaboxes.php:226
-#: src/Deprecated/Functions.php:423
+#: src/Deprecated/Functions.php:424
 msgid "Serial Numbers"
 msgstr ""
 
@@ -324,7 +324,7 @@ msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:125
 #: src/Admin/ListTables/KeysTable.php:243
-#: src/Admin/ListTables/StockTable.php:98
+#: src/Admin/ListTables/StockTable.php:90
 msgid "Filter"
 msgstr ""
 
@@ -342,7 +342,7 @@ msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:190
 #: src/Admin/ListTables/KeysTable.php:310
-#: src/Admin/ListTables/StockTable.php:112
+#: src/Admin/ListTables/StockTable.php:104
 #: src/Admin/Views/html-api-actions.php:104
 #: src/Admin/Views/html-api-validation.php:108
 #: src/Admin/Views/html-edit-key.php:47 src/Deprecated/Functions.php:359
@@ -357,7 +357,8 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#: src/Admin/ListTables/ActivationsTable.php:192 src/Shortcodes.php:143
+#: src/Admin/ListTables/ActivationsTable.php:192
+#: src/Admin/Views/html-api-actions.php:138 src/Shortcodes.php:143
 msgid "Platform"
 msgstr ""
 
@@ -482,18 +483,18 @@ msgid "ID: %d"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:380
-#: src/Admin/ListTables/StockTable.php:169 src/Admin/Metaboxes.php:339
+#: src/Admin/ListTables/StockTable.php:185 src/Admin/Metaboxes.php:339
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:474
+#: src/Admin/ListTables/KeysTable.php:471
 msgid "<b>%s</b> Day <br><small>After purchase</small>"
 msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/ListTables/KeysTable.php:474 src/Admin/Metaboxes.php:326
-#: src/Deprecated/Functions.php:471
+#: src/Admin/ListTables/KeysTable.php:471 src/Admin/Metaboxes.php:326
+#: src/Deprecated/Functions.php:472
 msgid "Lifetime"
 msgstr ""
 
@@ -517,21 +518,41 @@ msgstr ""
 msgid "stocks"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:76
+#: src/Admin/ListTables/StockTable.php:68
 msgid "No products selling serial keys from \"stock\" found."
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:113
+#: src/Admin/ListTables/StockTable.php:105
 msgid "SKU"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:114 src/Admin/Menus.php:281
+#: src/Admin/ListTables/StockTable.php:106
+msgid "Source"
+msgstr ""
+
+#: src/Admin/ListTables/StockTable.php:107 src/Admin/Menus.php:281
 msgid "Stock"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:115
-#: src/Admin/Views/html-api-actions.php:147 src/Shortcodes.php:145
+#: src/Admin/ListTables/StockTable.php:108
+#: src/Admin/Views/html-api-actions.php:158 src/Shortcodes.php:145
 msgid "Action"
+msgstr ""
+
+#: src/Admin/ListTables/StockTable.php:159
+msgid "Manual"
+msgstr ""
+
+#: src/Admin/ListTables/StockTable.php:161
+msgid "Generator Rule"
+msgstr ""
+
+#: src/Admin/ListTables/StockTable.php:163
+msgid "Auto Generated"
+msgstr ""
+
+#: src/Admin/ListTables/StockTable.php:165
+msgid "Unknown"
 msgstr ""
 
 #: src/Admin/Menus.php:109 src/Admin/Menus.php:110
@@ -681,15 +702,22 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:319 src/Deprecated/Functions.php:464
+#: src/Admin/Metaboxes.php:319 src/Deprecated/Functions.php:465
 msgid "Unlimited"
 msgstr ""
 
-#: src/Admin/Notices.php:49
+#: src/Admin/Notices.php:51
 #. translators: %1$s: link to the plugin page, %2$s: link to the plugin page
 msgid ""
 "%s is not functional because you are using outdated version of the plugin, "
 "please update to the version 1.2.1 or higher."
+msgstr ""
+
+#: src/Admin/Notices.php:65
+#. translators: %1$s: link to the plugin page, %2$s: link to the plugin page
+msgid ""
+"Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s "
+"discount by using the promo code %2$s %3$s Upgrade Now %4$s."
 msgstr ""
 
 #: src/Admin/Orders.php:43 src/Admin/Orders.php:118
@@ -773,118 +801,112 @@ msgid "Hide serial key"
 msgstr ""
 
 #: src/Admin/Settings.php:78
-msgid ""
-"When keys are hidden, you can still view them by clicking on the show "
-"button."
-msgstr ""
-
-#: src/Admin/Settings.php:79
 msgid "Serial keys will be masked in the list table."
 msgstr ""
 
-#: src/Admin/Settings.php:84
+#: src/Admin/Settings.php:83
 msgid "Disable software support"
 msgstr ""
 
-#: src/Admin/Settings.php:86
+#: src/Admin/Settings.php:85
 msgid "Disable Software Licensing support & API functionalities."
 msgstr ""
 
-#: src/Admin/Settings.php:95
+#: src/Admin/Settings.php:94
 msgid "Stock notification"
 msgstr ""
 
-#: src/Admin/Settings.php:97
+#: src/Admin/Settings.php:96
 msgid "The following options affect how the stock notification will work."
 msgstr ""
 
-#: src/Admin/Settings.php:101
+#: src/Admin/Settings.php:100
 msgid "Stock notification email"
 msgstr ""
 
-#: src/Admin/Settings.php:103
+#: src/Admin/Settings.php:102
 msgid "Sends notification emails when product stock is low."
 msgstr ""
 
-#: src/Admin/Settings.php:109
+#: src/Admin/Settings.php:108
 msgid "Stock threshold"
 msgstr ""
 
-#: src/Admin/Settings.php:111
+#: src/Admin/Settings.php:110
 msgid ""
 "When the stock goes below the above number, it will send a notification "
 "email."
 msgstr ""
 
-#: src/Admin/Settings.php:116
+#: src/Admin/Settings.php:115
 msgid "Notification recipient email"
 msgstr ""
 
-#: src/Admin/Settings.php:118
+#: src/Admin/Settings.php:117
 msgid "The email address to be used for sending the email notifications."
 msgstr ""
 
-#: src/Admin/Settings.php:152
+#: src/Admin/Settings.php:151
 msgid "Create and assign license keys for WooCommerce variable products."
 msgstr ""
 
-#: src/Admin/Settings.php:153
+#: src/Admin/Settings.php:152
 msgid "Generate bulk license keys with your custom key generator rule."
 msgstr ""
 
-#: src/Admin/Settings.php:154
+#: src/Admin/Settings.php:153
 msgid "Random & sequential order for the generator rules."
 msgstr ""
 
-#: src/Admin/Settings.php:155
+#: src/Admin/Settings.php:154
 msgid "Automatic license key generator to auto-create & assign keys with orders."
 msgstr ""
 
-#: src/Admin/Settings.php:156
+#: src/Admin/Settings.php:155
 msgid "License key management option from the order page with required actions."
 msgstr ""
 
-#: src/Admin/Settings.php:157
+#: src/Admin/Settings.php:156
 msgid "Support for bulk import/export of license keys from/to CSV."
 msgstr ""
 
-#: src/Admin/Settings.php:158
+#: src/Admin/Settings.php:157
 msgid ""
 "Option to sell license keys even if there are no available keys in the "
 "stock."
 msgstr ""
 
-#: src/Admin/Settings.php:159
+#: src/Admin/Settings.php:158
 msgid "Custom deliverable quantity to deliver multiple keys with a single product."
 msgstr ""
 
-#: src/Admin/Settings.php:160
+#: src/Admin/Settings.php:159
 msgid ""
 "Manual delivery option to manually deliver license keys instead of "
 "automatic."
 msgstr ""
 
-#: src/Admin/Settings.php:161
+#: src/Admin/Settings.php:160
 msgid ""
 "Email Template to easily and quickly customize the order confirmation & low "
 "stock alert email."
 msgstr ""
 
-#: src/Admin/Settings.php:162
+#: src/Admin/Settings.php:161
 msgid "Many more ..."
 msgstr ""
 
-#: src/Admin/Settings.php:166
+#: src/Admin/Settings.php:165
 msgid "Want More?"
 msgstr ""
 
-#: src/Admin/Settings.php:167
+#: src/Admin/Settings.php:166
 msgid ""
 "This plugin offers a premium version which comes with the following "
 "features:"
 msgstr ""
 
-#: src/Admin/Settings.php:173
+#: src/Admin/Settings.php:172
 msgid "Upgrade to PRO"
 msgstr ""
 
@@ -1032,41 +1054,52 @@ msgid ""
 "key."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:137
+#: src/Admin/Views/html-api-actions.php:140
+msgid "Please enter a platform. e.g. Windows"
+msgstr ""
+
+#: src/Admin/Views/html-api-actions.php:142
+msgid ""
+"Optional field. Platform is the extra information of the activation record. "
+"You can use it to identify the platform of the activation."
+msgstr ""
+
+#: src/Admin/Views/html-api-actions.php:148
 #: src/Admin/Views/html-api-validation.php:131 src/Deprecated/Functions.php:361
 #: src/Shortcodes.php:43 src/Shortcodes.php:139
 msgid "Email"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:139
+#: src/Admin/Views/html-api-actions.php:150
 #: src/Admin/Views/html-api-validation.php:133
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:141
+#: src/Admin/Views/html-api-actions.php:152
 msgid ""
-"Optional field. If email is provided, only serial key that are assigned to "
-"the email will be activated/deactivated otherwise ignored."
+"Optional field when duplicate key is off. If email is provided, only serial "
+"key that are assigned to the email will be activated/deactivated otherwise "
+"ignored."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:150 src/Shortcodes.php:152
+#: src/Admin/Views/html-api-actions.php:161 src/Shortcodes.php:152
 msgid "Activate"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:151 src/Shortcodes.php:153
+#: src/Admin/Views/html-api-actions.php:162 src/Shortcodes.php:153
 msgid "Deactivate"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:154
+#: src/Admin/Views/html-api-actions.php:165
 msgid "Select an action to perform on the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:159
+#: src/Admin/Views/html-api-actions.php:171
 #: src/Admin/Views/html-api-validation.php:140
 msgid "API Response"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:169 src/Shortcodes.php:146
+#: src/Admin/Views/html-api-actions.php:181 src/Shortcodes.php:146
 msgid "Submit"
 msgstr ""
 
@@ -1224,11 +1257,15 @@ msgstr ""
 msgid "Generate"
 msgstr ""
 
-#: src/Admin/Views/html-list-stock.php:23
-msgid "Note:"
+#: src/Admin/Views/html-list-stock.php:17
+msgid "Search"
 msgstr ""
 
 #: src/Admin/Views/html-list-stock.php:24
+msgid "Note:"
+msgstr ""
+
+#: src/Admin/Views/html-list-stock.php:25
 msgid ""
 "The following report displays a comprehensive list of products whose source "
 "for serial keys has been set to \"Manually Added.\"."
@@ -1259,7 +1296,7 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
-#: src/Deprecated/Functions.php:425
+#: src/Deprecated/Functions.php:426
 msgid "Order is waiting for serial numbers to be assigned."
 msgstr ""
 
@@ -1288,11 +1325,11 @@ msgstr ""
 msgid "Product id is invalid."
 msgstr ""
 
-#: src/Models/Key.php:486
+#: src/Models/Key.php:485
 msgid "Serial key already exists. Duplicate serial keys are not allowed."
 msgstr ""
 
-#: src/Models/Key.php:492
+#: src/Models/Key.php:491
 msgid "Order id is invalid."
 msgstr ""
 
@@ -1384,7 +1421,7 @@ msgstr ""
 msgid "Manually Added"
 msgstr ""
 
-#: src/functions.php:516
+#: src/functions.php:515
 #. translators: 1: product title 2: source and 3: Quantity
 msgid ""
 "There is not enough serial numbers for the product %1$s from selected "
