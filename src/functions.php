@@ -825,3 +825,22 @@ function wcsn_get_product_stock( $product_id ) {
 
 	return 0;
 }
+
+/**
+ * Get product edit link.
+ *
+ * @param int $product_id Product ID.
+ *
+ * @since 1.4.8
+ * @retun string
+ */
+function wcsn_get_edit_product_link( $product_id  ){
+	// If the product is a variation, get the parent product.
+
+	$product = wc_get_product( $product_id );
+	if ( $product && $product->is_type( 'variation' ) ) {
+		$product_id = $product->get_parent_id();
+	}
+
+	return get_edit_post_link( $product_id );
+}

@@ -44,17 +44,9 @@ class StockTable extends ListTable {
 		$query_args = array(
 			'posts_per_page' => $per_page,
 			'fields'         => 'ids',
-			'search'         => $search,
+			's'              => $search,
 			'paged'          => $current_page,
 			'post__in'       => $product_id ? wp_parse_id_list( $product_id ) : array(),
-			'meta_query'     => array( // @codingStandardsIgnoreLine
-				'relation' => 'AND',
-				array(
-					'key'     => '_serial_key_source',
-					'value'   => 'custom_source',
-					'compare' => '=',
-				)
-			),
 		);
 		$post_ids   = wcsn_get_products( $query_args );
 
@@ -111,6 +103,7 @@ class StockTable extends ListTable {
 		$columns = array(
 			'product' => __( 'Product', 'wc-serial-numbers' ),
 			'sku'     => __( 'SKU', 'wc-serial-numbers' ),
+			'source'  => __( 'Source', 'wc-serial-numbers' ),
 			'stock'   => __( 'Stock', 'wc-serial-numbers' ),
 			'action'  => __( 'Action', 'wc-serial-numbers' ),
 		);
@@ -156,16 +149,39 @@ class StockTable extends ListTable {
 				$title      = $product->get_title();
 				$edit_link  = get_edit_post_link( $product_id );
 
-				return sprintf( '<a href="%s">%s</a>', $edit_link, $title);
+				return sprintf( '<a href="%s">%s</a>', $edit_link, $title );
 			case 'sku':
 				return $item->get_sku();
+
+			case 'source':
+				$source = get_post_meta( $item->get_id(), '_serial_key_source', true );
+				if ( 'custom_source' === $source ) {
+					$label = esc_html__( 'Manual', 'wc-serial-numbers' );
+				} elseif ( 'generator_rule' === $source ) {
+					$label = esc_html__( 'Generator Rule', 'wc-serial-numbers' );
+				} elseif ( 'auto_generated' === $source ) {
+					$label = esc_html__( 'Auto Generated', 'wc-serial-numbers' );
+				} else {
+					$label = esc_html__( 'Unknown', 'wc-serial-numbers' );
+				}
+
+				return $label;
+
 			case 'stock':
-				$stock = number_format_i18n( wcsn_get_product_stock( $item->get_id() ) );
-				$link = admin_url( 'admin.php?page=wc-serial-numbers&status=available&product_id=' . $item->get_id() );
-				return sprintf('<a href="%s">%s</a>', esc_url( $link ), $stock);
+				$stocks = wcsn_get_stocks_count();
+				if ( array_key_exists( $item->get_id(), $stocks ) ) {
+					$stock = number_format_i18n( $stocks[ $item->get_id() ] );
+					$link  = admin_url( 'admin.php?page=wc-serial-numbers&status=available&product_id=' . $item->get_id() );
+
+					return sprintf( '<a href="%s">%s</a>', esc_url( $link ), $stock );
+				}else {
+					return '&mdash;';
+				}
+
 			case 'action':
 				$product_id = $item->get_id();
-				$edit_link  = get_edit_post_link( $product_id );
+				$edit_link  = wcsn_get_edit_product_link( $product_id );
+
 				return sprintf( '<a href="%s">%s</a>', $edit_link, __( 'Edit', 'wc-serial-numbers' ) );
 			default:
 				return '';

@@ -103,43 +103,64 @@
 }
 
 // Fix width of the key column.
-.wp-list-table.keys {
-	.column-key {
-		width: 15%
+.wp-list-table {
+
+	// Keys table.
+	&.keys {
+		.column-key {
+			width: 15%
+		}
+
+		.wcsn-key-status {
+			color: #fff;
+			padding: 3px 10px;
+			font-size: 14px;
+			white-space: nowrap;
+			background-color: silver;
+			border-radius: 3px;
+			line-height: 1;
+			border: 1px solid transparent;
+
+			&.available {
+				color: #155724;
+				background-color: #d4edda;
+				border-color: #c3e6cb
+			}
+
+			&.pending {
+				color: #856404;
+				background-color: #fff3cd;
+				border-color: #ffeeba;
+			}
+
+			&.sold {
+				background: #cce5ff;
+				color: #004085;
+				border-color: #b8daff
+			}
+
+			&.cancelled {
+				color: #1b1e21;
+				background-color: #d6d8d9;
+				border-color: #c6c8ca
+			}
+
+		}
 	}
 
-	.wcsn-key-status {
-		color: #fff;
-		padding: 3px 10px;
-		font-size: 14px;
-		white-space: nowrap;
-		background-color: silver;
-		border-radius: 3px;
-		line-height: 1;
-		border: 1px solid transparent;
-
-		&.available {
-			color: #155724;
-			background-color: #d4edda;
-			border-color: #c3e6cb
+	&.stocks {
+		.column-action,
+		.column-stock {
+			width: 10%
 		}
 
-		&.pending {
-			color: #856404;
-			background-color: #fff3cd;
-			border-color: #ffeeba;
-		}
-		&.sold {
-			background: #cce5ff;
-			color: #004085;
-			border-color: #b8daff
-		}
-		&.cancelled {
-			color: #1b1e21;
-			background-color: #d6d8d9;
-			border-color: #c6c8ca
+		.column-source {
+			width: 20%;
 		}
 
+		.column-sku {
+			width: 25%;
+		}
 	}
 }
 
