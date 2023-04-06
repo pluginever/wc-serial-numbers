@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
+class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 
 	/**
 	 * Metaboxes constructor.
@@ -58,7 +58,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 		global $post, $woocommerce;
 		?>
 		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
-		     style="padding-bottom: 50px;display: none;">
+			 style="padding-bottom: 50px;display: none;">
 			<?php
 			woocommerce_wp_checkbox(
 				array(
@@ -87,7 +87,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 
 			$source  = get_post_meta( $post->ID, '_serial_key_source', true );
 			$sources = wc_serial_numbers_get_key_sources();
-			if( count( $sources ) > 1 ) {
+			if ( count( $sources ) > 1 ) {
 				woocommerce_wp_radio( array(
 					'id'            => "_serial_key_source",
 					'name'          => "_serial_key_source",
@@ -118,7 +118,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 				);
 			}
 			$stocks = wcsn_get_stocks_count();
-			$stock = isset( $stocks[ $post->ID ] ) ? $stocks[ $post->ID ] : 0;
+			$stock  = isset( $stocks[ $post->ID ] ) ? $stocks[ $post->ID ] : 0;
 
 			echo sprintf(
 				'<p class="wcsn-key-source-based-field form-field options_group" data-source="custom_source"><label>%s</label><span class="description">%d %s</span></p>',
@@ -137,12 +137,13 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 	/**
 	 * Show promo box.
 	 *
-	 * @since 1.2.0
-	 *
 	 * @param $variation_data
 	 * @param $variation
 	 *
 	 * @param $loop
+	 *
+	 * @since 1.2.0
+	 *
 	 */
 	public static function variable_product_content( $loop, $variation_data, $variation ) {
 		if ( ! wc_serial_numbers()->is_pro_active() ) {
@@ -171,12 +172,12 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 
 	/**
 	 *
-	 * @since 1.1.6
-	 *
 	 * @param $o_item
 	 * @param $product
 	 *
 	 * @param $o_item_id
+	 *
+	 * @since 1.1.6
 	 *
 	 * @return bool|string
 	 */
@@ -208,10 +209,10 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 			return false;
 		}
 
-		$items = wcsn_get_keys(array(
+		$items = wcsn_get_keys( array(
 			'order_id'   => $post->ID,
 			'product_id' => $product->get_id(),
-		));
+		) );
 
 		if ( empty( $items ) && $order ) {
 			echo sprintf( '<div class="wcsn-missing-serial-number">%s</div>', __( 'Order missing serial numbers for this item.', 'wc-serial-numbers' ) );
@@ -243,9 +244,9 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 	 *
 	 * The metabox shows all ordered serial numbers.
 	 *
-	 * @since 1.2.6
-	 *
 	 * @param $post
+	 *
+	 * @since 1.2.6
 	 *
 	 * @return bool
 	 */
@@ -260,20 +261,14 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 			return false;
 		}
 
-		if ( 'completed' !== $order->get_status( 'edit' ) ) {
-			echo sprintf( '<p>%s</p>', __( 'Order status is not completed.', 'wc-serial-numbers' ) );
-
-			return false;
-		}
-
-		$total_ordered_serial_numbers = wc_serial_numbers_order_has_serial_numbers( $order );
-		if ( empty( $total_ordered_serial_numbers ) ) {
+		$order_keys = wcsn_order_has_products( $order );
+		if ( empty( $order_keys ) ) {
 			echo sprintf( '<p>%s</p>', __( 'No serial keys associated with the order.', 'wc-serial-numbers' ) );
 
 			return false;
 		}
 
-		$serial_numbers = wcsn_get_keys(array(
+		$serial_numbers = wcsn_get_keys( array(
 			'order_id' => $order->get_id(),
 		) );
 
@@ -309,7 +304,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton{
 									echo sprintf( '<a href="%s">%s</a>', esc_url( get_permalink( $serial_number->product_id ) ), get_the_title( $serial_number->product_id ) );
 									break;
 								case 'serial_key':
-									echo wc_serial_numbers_decrypt_key( $serial_number->serial_key );
+									echo esc_html( $serial_number->get_key() );
 									break;
 								case 'activation_email':
 									echo $order->get_billing_email();
