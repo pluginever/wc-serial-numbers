@@ -393,7 +393,7 @@ function wc_serial_numbers_get_stock_quantity( $product_id ) {
 /**
  * Get order table.
  *
- * @param bool  $return
+ * @param bool $return
  *
  * @param      $order
  *
@@ -417,6 +417,7 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 	$serial_numbers = wcsn_get_keys(
 		array(
 			'order_id' => $order_id,
+			'limit'    => - 1,
 		)
 	);
 
@@ -430,20 +431,20 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 	ob_start();
 	$columns = wc_serial_numbers_get_order_table_columns();
 	?>
-	<table
-		class="woocommerce-table woocommerce-table--order-details shop_table order_details wc-serial-numbers-order-items"
-		style="width: 100%; margin-bottom: 40px;"
-		cellspacing="0" cellpadding="6" border="1">
-		<thead>
-		<tr>
+    <table
+            class="woocommerce-table woocommerce-table--order-details shop_table order_details wc-serial-numbers-order-items"
+            style="width: 100%; margin-bottom: 40px;"
+            cellspacing="0" cellpadding="6" border="1">
+        <thead>
+        <tr>
 			<?php
 			foreach ( $columns as $key => $label ) {
 				echo sprintf( '<th class="td %s" scope="col" style="text-align:left;">%s</th>', sanitize_html_class( $key ), $label );
 			}
 			?>
-		</tr>
-		</thead>
-		<tbody>
+        </tr>
+        </thead>
+        <tbody>
 		<?php
 		foreach ( $serial_numbers as $serial_number ) {
 			echo '<tr>';
@@ -483,8 +484,8 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
 		}
 		?>
 
-		</tbody>
-	</table>
+        </tbody>
+    </table>
 	<?php
 	$output = ob_get_contents();
 	ob_get_clean();
