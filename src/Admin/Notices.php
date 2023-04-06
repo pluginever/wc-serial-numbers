@@ -54,7 +54,7 @@ class Notices extends Singleton {
 			);
 		}
 
-		if ( ! $this->is_notice_dismissed( 'wc_serial_numbers_upgrade_to_pro_wcsnpro10' ) ) {
+		if ( ! $this->is_notice_dismissed( 'wc_serial_numbers_upgrade_to_pro_wcsnpro10' ) && !function_exists( 'wc_serial_numbers_pro' ) ) {
 			$this->notices[] = array(
 				'type'        => 'info',
 				'classes'     => 'notice-alt notice-large',
