@@ -44,7 +44,7 @@
     "phpcompatibility/php-compatibility": "9.3.5",
     "pluginever/framework-plugin": "^1.0.0",
     "pluginever/framework-settings": "^1.0.0",
-    "pluginever/framework-model": "dev-master"
+    "pluginever/framework-model": "^1.0.1"
   },
   "config": {
     "optimize-autoloader": true,
