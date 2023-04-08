@@ -89,6 +89,7 @@ class Plugin extends Lib\Plugin {
 		Cron::instantiate();
 		Controllers\Keys::instantiate();
 		Shortcodes::instantiate();
+		Frontend::instantiate();
 
 		if ( wcsn_is_software_support_enabled() ) {
 			Controllers\Activations::instantiate();

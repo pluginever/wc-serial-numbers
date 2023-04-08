@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serial Numbers for WooCommerce 1.4.8\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-04-06 13:39:13+00:00\n"
+"POT-Creation-Date: 2023-04-07 18:46:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -303,8 +303,8 @@ msgstr ""
 
 #: src/Admin/Admin.php:101 src/Admin/Menus.php:57 src/Admin/Menus.php:98
 #: src/Admin/Menus.php:99 src/Admin/Menus.php:434 src/Admin/Metaboxes.php:36
-#: src/Admin/Metaboxes.php:45 src/Admin/Metaboxes.php:226
-#: src/Deprecated/Functions.php:424
+#: src/Admin/Metaboxes.php:45 src/Admin/Metaboxes.php:227
+#: src/Functions/Template.php:219 templates/order-keys.php:16
 msgid "Serial Numbers"
 msgstr ""
 
@@ -353,7 +353,7 @@ msgstr ""
 #: src/Admin/ListTables/ActivationsTable.php:191
 #: src/Admin/ListTables/KeysTable.php:309
 #: src/Admin/Views/html-api-actions.php:117
-#: src/Admin/Views/html-api-validation.php:121
+#: src/Admin/Views/html-api-validation.php:121 src/Functions/Template.php:42
 msgid "Key"
 msgstr ""
 
@@ -414,7 +414,8 @@ msgid "This means the key has been sold, and the order has been completed."
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:192
-#: src/Admin/ListTables/KeysTable.php:225 src/functions.php:49
+#: src/Admin/ListTables/KeysTable.php:225 src/Functions/Template.php:72
+#: src/functions.php:49
 msgid "Expired"
 msgstr ""
 
@@ -474,7 +475,7 @@ msgid "Order Date"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:320 src/Admin/Menus.php:322
-#: src/Admin/Views/html-edit-key.php:113
+#: src/Admin/Views/html-edit-key.php:113 src/Functions/Template.php:78
 msgid "Status"
 msgstr ""
 
@@ -483,7 +484,7 @@ msgid "ID: %d"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:380
-#: src/Admin/ListTables/StockTable.php:185 src/Admin/Metaboxes.php:339
+#: src/Admin/ListTables/StockTable.php:185 src/Admin/Metaboxes.php:334
 msgid "Edit"
 msgstr ""
 
@@ -493,8 +494,8 @@ msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/ListTables/KeysTable.php:471 src/Admin/Metaboxes.php:326
-#: src/Deprecated/Functions.php:472
+#: src/Admin/ListTables/KeysTable.php:471 src/Admin/Metaboxes.php:321
+#: src/Functions/Template.php:63
 msgid "Lifetime"
 msgstr ""
 
@@ -674,35 +675,31 @@ msgid ""
 "order and many more?"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:130 src/Admin/Metaboxes.php:149
+#: src/Admin/Metaboxes.php:130 src/Admin/Metaboxes.php:150
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:149
+#: src/Admin/Metaboxes.php:150
 msgid "WooCommerce Serial Number Free version does not support product variation."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:217
+#: src/Admin/Metaboxes.php:218
 msgid "Order missing serial numbers for this item."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:264
-msgid "Order status is not completed."
-msgstr ""
-
-#: src/Admin/Metaboxes.php:271
+#: src/Admin/Metaboxes.php:266
 msgid "No serial keys associated with the order."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:281
+#: src/Admin/Metaboxes.php:276
 msgid "Order waiting for assigning serial keys."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:298
+#: src/Admin/Metaboxes.php:293
 msgid "Actions"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:319 src/Deprecated/Functions.php:465
+#: src/Admin/Metaboxes.php:314
 msgid "Unlimited"
 msgstr ""
 
@@ -1288,7 +1285,7 @@ msgstr ""
 msgid "Serial Number"
 msgstr ""
 
-#: src/Deprecated/Functions.php:362
+#: src/Deprecated/Functions.php:362 src/Functions/Template.php:52
 msgid "Activation Limit"
 msgstr ""
 
@@ -1296,7 +1293,27 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
-#: src/Deprecated/Functions.php:426
+#: src/Functions/Template.php:47
+msgid "Activation Email"
+msgstr ""
+
+#: src/Functions/Template.php:53 src/Functions/Template.php:58
+msgid "None"
+msgstr ""
+
+#: src/Functions/Template.php:57
+msgid "Activation Count"
+msgstr ""
+
+#: src/Functions/Template.php:62
+msgid "Expire Date"
+msgstr ""
+
+#: src/Functions/Template.php:70
+msgid "Active"
+msgstr ""
+
+#: src/Functions/Template.php:297 templates/order-key.php:31
 msgid "Order is waiting for serial numbers to be assigned."
 msgstr ""
 

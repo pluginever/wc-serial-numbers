@@ -845,7 +845,6 @@ function wcsn_get_edit_product_link( $product_id ) {
 	return get_edit_post_link( $product_id );
 }
 
-
 /**
  * Is duplicate serial key allowed.
  *
@@ -854,4 +853,40 @@ function wcsn_get_edit_product_link( $product_id ) {
  */
 function wcsn_is_duplicate_key_allowed() {
 	return apply_filters( 'wc_serial_numbers_allow_duplicate_key', false );
+}
+
+/**
+ * Get product link.
+ *
+ * @param int $product_id Product ID.
+ *
+ * @since 1.4.8
+ * @retun string
+ */
+function wcsn_get_product_link( $product_id ) {
+	// If the product is a variation, get the parent product.
+	$product = wc_get_product( $product_id );
+	if ( $product && $product->is_type( 'variation' ) ) {
+		$product_id = $product->get_parent_id();
+	}
+
+	return get_permalink( $product_id );
+}
+
+/**
+ * Sort array by priority.
+ *
+ * @param array $array Array.
+ *
+ * @since 1.4.9
+ * @return array
+ */
+function wcsn_sort_by_priority( $array ) {
+	$priority = array();
+	foreach ( $array as $key => $row ) {
+		$priority[ $key ] = isset( $row['priority'] ) ? $row['priority'] : 10;
+	}
+	array_multisort( $priority, SORT_ASC, $array );
+
+	return $array;
 }
