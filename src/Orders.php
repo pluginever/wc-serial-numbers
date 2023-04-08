@@ -26,8 +26,8 @@ class Orders extends Lib\Singleton {
 		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ), 5 );
 		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ), 5 );
 
-		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_print_items' ), PHP_INT_MAX );
-		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_print_items' ), PHP_INT_MAX );
+		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_email_keys' ), PHP_INT_MAX );
+		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_display_keys' ), PHP_INT_MAX );
 	}
 
 	/**
@@ -79,8 +79,8 @@ class Orders extends Lib\Singleton {
 	/**
 	 * Automatically set the order's status to complete.
 	 *
-	 * @param string    $new_order_status
-	 * @param int       $order_id
+	 * @param string $new_order_status
+	 * @param int $order_id
 	 * @param \WC_Order $order
 	 *
 	 * @since 1.4.6
@@ -134,9 +134,42 @@ class Orders extends Lib\Singleton {
 	 *
 	 * @since 1.2.0
 	 */
-	public static function order_print_items( $order ) {
-		if ( wcsn_order_has_products( $order ) ) {
-			wc_serial_numbers_get_order_table( $order );
+	public static function order_display_keys( $order ) {
+		/**
+		 * Filter to allow or disallow displaying keys in order details.
+		 *
+		 * @param bool $allow Whether to allow or disallow displaying serial numbers in order details.
+		 * @param \WC_Order $order The order object.
+		 */
+		$allow = apply_filters( 'wc_serial_numbers_allow_order_display_keys', $order->has_status( 'completed' ), $order );
+
+		if ( ! $allow || ! wcsn_order_has_products( $order ) ) {
+			return;
 		}
+
+		wcsn_display_order_keys( $order );
+	}
+
+	/**
+	 * Order email keys.
+	 *
+	 * @param \WC_Order $order The order object.
+	 *
+	 * @since 1.2.0
+	 */
+	public static function order_email_keys( $order ) {
+		/**
+		 * Filter to allow or disallow sending serial numbers in order emails.
+		 *
+		 * @param bool $allow Whether to allow or disallow sending serial numbers in order emails.
+		 * @param \WC_Order $order The order object.
+		 */
+		$allow = apply_filters( 'wc_serial_numbers_allow_order_email_keys', $order->has_status( 'completed' ), $order );
+
+		if ( ! $allow || ! wcsn_order_has_products( $order ) ) {
+			return;
+		}
+
+		wcsn_display_order_keys( $order );
 	}
 }

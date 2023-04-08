@@ -197,6 +197,10 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.4.9 (8 April 2023) =
+* Fix : Serial keys list table not showing pagination when status is sold.
+* Enhance: Enhance the UI of sold serial keys in the order details page and order complete email.
+
 = 1.4.8 (6 April 2023) =
 * Fix : Only 20 records are showing when bought more than 20 serial keys.
 * Fix : Serial keys assigned only for first 2 products when bought more than 2 products.
@@ -204,7 +208,6 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 * Enhance: Add search option for serial number in the stock report table.
 * Enhance: Fix duplicate key issue when importing.
 * Enhance: UI improvements.
-
 
 = 1.4.7 (3 April 2023) =
 * Fix : Search key by customer name is not working.

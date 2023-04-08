@@ -122,7 +122,7 @@ class KeysTable extends ListTable {
 			'include'     => $id,
 			'search'      => $search,
 		);
-
+		//var_dump( Key::count( array_merge( $args, [ 'status' => 'sold' ] ) ));
 		$this->items           = Key::query( $args );
 		$this->available_count = Key::count( array_merge( $args, [ 'status' => 'available' ] ) );
 		$this->pending_count   = Key::count( array_merge( $args, [ 'status' => 'pending' ] ) );
@@ -130,6 +130,7 @@ class KeysTable extends ListTable {
 		$this->expired_count   = Key::count( array_merge( $args, [ 'status' => 'expired' ] ) );
 		$this->cancelled_count = Key::count( array_merge( $args, [ 'status' => 'cancelled' ] ) );
 		$this->total_count     = array_sum( [ $this->available_count, $this->sold_count, $this->pending_count, $this->expired_count, $this->cancelled_count ] );
+
 		switch ( $status ) {
 			case 'available':
 				$total_items = $this->available_count;

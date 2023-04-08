@@ -77,4 +77,5 @@ class Products extends \WooCommerceSerialNumbers\Lib\Singleton {
 		ob_get_clean();
 		echo $style;
 	}
+
 }
