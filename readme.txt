@@ -197,6 +197,10 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.5.0 (9 April 2023) =
+* Fix : Serial keys list table not working when filter by status.
+* Fix : Stock report product link not working when variable product.
+
 = 1.4.9 (8 April 2023) =
 * Fix : Serial keys list table not showing pagination when status is sold.
 * Enhance: Enhance the UI of sold serial keys in the order details page and order complete email.

@@ -147,7 +147,7 @@ class StockTable extends ListTable {
 				$product_id = $item->get_id();
 				$product    = wc_get_product( $product_id );
 				$title      = $product->get_title();
-				$edit_link  = get_edit_post_link( $product_id );
+				$edit_link  = wcsn_get_edit_product_link( $product_id );
 
 				return sprintf( '<a href="%s">%s</a>', $edit_link, $title );
 			case 'sku':
