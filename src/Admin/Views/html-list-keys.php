@@ -37,11 +37,13 @@ $list_table->process_bulk_actions( $doaction );
 
 	<form id="wcsn-keys-table" method="get">
 		<?php
+		$status = isset( $_GET['status'] ) ? sanitize_text_field( wp_unslash( $_GET['status'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$list_table->prepare_items();
 		$list_table->views();
 		$list_table->search_box( __( 'Search key', 'wc-serial-numbers' ), 'key' );
 		$list_table->display();
 		?>
+		<input type="hidden" name="status" value="<?php echo esc_attr( $status ); ?>">
 		<input type="hidden" name="page" value="wc-serial-numbers">
 	</form>
 </div>

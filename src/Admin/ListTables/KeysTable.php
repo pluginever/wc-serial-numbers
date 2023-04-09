@@ -122,7 +122,7 @@ class KeysTable extends ListTable {
 			'include'     => $id,
 			'search'      => $search,
 		);
-		//var_dump( Key::count( array_merge( $args, [ 'status' => 'sold' ] ) ));
+
 		$this->items           = Key::query( $args );
 		$this->available_count = Key::count( array_merge( $args, [ 'status' => 'available' ] ) );
 		$this->pending_count   = Key::count( array_merge( $args, [ 'status' => 'pending' ] ) );
