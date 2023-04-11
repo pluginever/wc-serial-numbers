@@ -250,7 +250,6 @@ function wcsn_display_order_keys_table( $order, $line_items ) {
 		) );
 
 		$keys = wcsn_get_keys( $args );
-
 		?>
 		<table class="woocommerce-table woocommerce-table--order-details shop_table order_details wcsn-order-table" style="width: 100%;" cellspacing="0" cellpadding="6">
 			<thead>

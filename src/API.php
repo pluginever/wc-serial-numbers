@@ -106,7 +106,7 @@ class API extends Lib\Singleton {
 
 		// Check if order status is completed.
 		$order = wc_get_order( $serial_key->get_order_id() );
-		if ( ! $order || ! $order->has_status( 'completed' ) ) {
+		if ( ! $order || ! apply_filters( 'wc_serial_numbers_api_validate_order_status', 'completed' === $order->get_status(), $order ) ) {
 			wp_send_json_error(
 				array(
 					'code'    => 'order_invalid',

@@ -270,6 +270,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 
 		$serial_numbers = wcsn_get_keys( array(
 			'order_id' => $order->get_id(),
+			'limit'    => - 1,
 		) );
 
 		if ( empty( $serial_numbers ) ) {

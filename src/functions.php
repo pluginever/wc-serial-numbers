@@ -455,7 +455,10 @@ function wcsn_order_update_keys( $order_id ) {
 	$do_add = apply_filters( 'wc_serial_numbers_add_order_keys', true, $order_id, $line_items, $order_status );
 
 
-	if ( in_array( $order_status, [ 'processing', 'completed' ], true ) && ! wcsn_order_is_fullfilled( $order_id ) && $do_add ) {
+	if ( in_array( $order_status, [
+			'processing',
+			'completed'
+		], true ) && ! wcsn_order_is_fullfilled( $order_id ) && $do_add ) {
 
 		/**
 		 * Action hook to pre add order keys.
@@ -476,7 +479,7 @@ function wcsn_order_update_keys( $order_id ) {
 			$delivered_qty = Key::count( array(
 				'order_id'       => $order_id,
 				'product_id'     => $item['product_id'],
-				'status__not_in' => $revoke_statues,
+				'status__not_in' => [ 'cancelled' ],
 			) );
 			if ( $item['refunded_qty'] >= $item['quantity'] ) {
 				continue;
@@ -530,7 +533,7 @@ function wcsn_order_update_keys( $order_id ) {
 					'order_item_id' => $item['order_item_id'],
 					'order_date'    => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : current_time( 'mysql' ),
 					'customer_id'   => $customer_id,
-					'status'        => 'processing' === $order_status ? 'pending' : 'sold',
+					'status'        => 'sold',
 				) );
 				if ( ! is_wp_error( $key->save() ) ) {
 					$added ++;
@@ -571,15 +574,19 @@ function wcsn_order_update_keys( $order_id ) {
 			'number'   => - 1,
 		)
 	);
+
 	foreach ( $keys as $key ) {
 		$is_expired = $key->is_expired();
 		if ( $is_expired && 'expired' !== $key->get_status() ) {
 			$key->set_status( 'expired' );
 			$key->save();
-		} elseif ( 'completed' === $order_status && ! $is_expired && 'sold' !== $key->get_status() ) {
+		} elseif ( ! $is_expired && in_array( $order_status, [
+				'processing',
+				'complete'
+			], true ) && 'sold' !== $key->get_status() ) {
 			$key->set_status( 'sold' );
 			$key->save();
-		} elseif ( 'processing' === $order_status && ! $is_expired && 'pending' !== $key->get_status() ) {
+		} elseif ( 'on-hold' === $order_status && ! $is_expired && 'pending' !== $key->get_status() ) {
 			$key->set_status( 'pending' );
 			$key->save();
 		} elseif ( in_array( $order_status, $revoke_statues, true ) && ! $is_expired && apply_filters( 'wc_serial_numbers_revoke_order_item_keys', true, $line_items, $order_id ) ) {
