@@ -250,6 +250,9 @@ function wcsn_display_order_keys_table( $order, $line_items ) {
 		) );
 
 		$keys = wcsn_get_keys( $args );
+		global $wpdb;
+		error_log(print_r($keys, true));
+		error_log(print_r($wpdb->get_results("SELECT * FROM wp_serial_numbers"), true));
 
 		?>
 		<table class="woocommerce-table woocommerce-table--order-details shop_table order_details wcsn-order-table" style="width: 100%;" cellspacing="0" cellpadding="6">

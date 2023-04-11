@@ -21,10 +21,12 @@ class Orders extends Lib\Singleton {
 	 */
 	protected function __construct() {
 		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
-		add_filter( 'woocommerce_payment_complete_order_status', array( __CLASS__, 'maybe_autocomplete_order' ), 5, 3 );
-		add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'handle_order_status_changed' ), 5 );
-		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ), 5 );
-		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ), 5 );
+		add_filter( 'woocommerce_payment_complete_order_status', array( __CLASS__, 'maybe_autocomplete_order' ), 10, 3 );
+		add_action( 'woocommerce_order_status_processing', array( __CLASS__, 'handle_order_status_changed' ));
+		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ));
+		add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'handle_order_status_changed' ));
+		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ));
+		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ));
 
 		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_email_keys' ), PHP_INT_MAX );
 		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_display_keys' ), PHP_INT_MAX );
@@ -87,6 +89,7 @@ class Orders extends Lib\Singleton {
 	 * @return string $new_order_status
 	 */
 	public static function maybe_autocomplete_order( $new_order_status, $order_id, $order = null ) {
+		error_log('maybe_autocomplete_order');
 		// Exit early if the order has no ID, or if the new order status is not 'processing'.
 		if ( 'yes' !== get_option( 'wc_serial_numbers_autocomplete_order' ) || 0 === $order_id || 'processing' !== $new_order_status ) {
 			return $new_order_status;
@@ -120,8 +123,8 @@ class Orders extends Lib\Singleton {
 	 * @since 1.4.6
 	 */
 	public static function handle_order_status_changed( $order_id ) {
-		$order = wc_get_order( $order_id );
-		if ( $order->has_status( 'completed' ) && apply_filters( 'wc_serial_numbers_maybe_manual_delivery', false, $order_id ) ) {
+		error_log('handle_order_status_changed');
+		if ( apply_filters( 'wc_serial_numbers_maybe_manual_delivery', false, $order_id ) ) {
 			return;
 		}
 		wcsn_order_update_keys( $order_id );
