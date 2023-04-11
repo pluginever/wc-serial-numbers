@@ -81,21 +81,6 @@ function wcsn_get_revoke_statuses() {
 }
 
 /**
- * Delivery statuses
- *
- * @since 1.5.1
- * @return array
- */
-function wcsn_get_delivery_statuses() {
-	$statues = [
-		'processing',
-		'completed',
-	];
-
-	return apply_filters( 'wc_serial_numbers_delivery_statuses', $statues );
-}
-
-/**
  * Get key sources.
  *
  * @since 1.2.0
