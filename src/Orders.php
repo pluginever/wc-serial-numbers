@@ -89,7 +89,6 @@ class Orders extends Lib\Singleton {
 	 * @return string $new_order_status
 	 */
 	public static function maybe_autocomplete_order( $new_order_status, $order_id, $order = null ) {
-		error_log('maybe_autocomplete_order');
 		// Exit early if the order has no ID, or if the new order status is not 'processing'.
 		if ( 'yes' !== get_option( 'wc_serial_numbers_autocomplete_order' ) || 0 === $order_id || 'processing' !== $new_order_status ) {
 			return $new_order_status;
@@ -123,7 +122,6 @@ class Orders extends Lib\Singleton {
 	 * @since 1.4.6
 	 */
 	public static function handle_order_status_changed( $order_id ) {
-		error_log('handle_order_status_changed');
 		if ( apply_filters( 'wc_serial_numbers_maybe_manual_delivery', false, $order_id ) ) {
 			return;
 		}
