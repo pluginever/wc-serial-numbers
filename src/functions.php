@@ -455,10 +455,7 @@ function wcsn_order_update_keys( $order_id ) {
 	$do_add = apply_filters( 'wc_serial_numbers_add_order_keys', true, $order_id, $line_items, $order_status );
 
 
-	if ( in_array( $order_status, [
-			'processing',
-			'completed'
-		], true ) && ! wcsn_order_is_fullfilled( $order_id ) && $do_add ) {
+	if ( in_array( $order_status, [ 'processing', 'completed' ], true ) && ! wcsn_order_is_fullfilled( $order_id ) && $do_add ) {
 
 		/**
 		 * Action hook to pre add order keys.
@@ -671,6 +668,87 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 }
 
 /**
+ * Replace keys.
+ *
+ * @param int $order_id Order ID.
+ * @param int $product_id Product ID.
+ * @param int $key_id Key ID.
+ *
+ * @since 1.4.7
+ *
+ * @return bool
+ */
+function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null ) {
+	$is_reusing = wcsn_is_reusing_keys();
+	$args = array(
+		'order_id'   => $order_id,
+		'number'     => - 1,
+		'no_count'   => true,
+	);
+
+	if ( ! empty( $product_id ) ) {
+		$args['product_id'] = $product_id;
+	}
+
+	if ( ! empty( $key_id ) ) {
+		$args['include'] = $key_id;
+	}
+
+	$keys = Key::query( $args );
+
+	if ( ! $keys ) {
+		return false;
+	}
+
+	/**
+	 * Action hook to pre replace keys from order item.
+	 *
+	 * @param int $order_id Order ID.
+	 * @param int $product_id Product ID.
+	 * @param array $keys Order keys.
+	 *
+	 * @since 1.4.7
+	 */
+	do_action( 'wc_serial_numbers_pre_replace_order_keys', $order_id, $product_id, $keys );
+
+	$replaced = 0;
+
+	foreach ( $keys as $key ) {
+		$props = array(
+			'status' => $is_reusing ? 'available' : 'cancelled'
+		);
+		if ( ! $is_reusing ) {
+			$props['order_id']      = 0;
+			$props['order_item_id'] = 0;
+			$props['order_date']    = null;
+		}
+		$key->set_props( $props );
+		if ( $key->save() ) {
+			$replaced ++;
+		}
+	}
+
+	if( $replaced > 0  ) {
+		wcsn_order_update_keys( $order_id );
+
+		/**
+		 * Action hook to post replace keys from order item.
+		 *
+		 * @param int $order_id Order ID.
+		 * @param int $product_id Product ID.
+		 * @param array $keys Order keys.
+		 *
+		 * @since 1.4.7
+		 */
+		do_action( 'wc_serial_numbers_replace_order_keys', $order_id, $product_id, $keys );
+
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Get product title.
  *
  * @param \WC_Product| int $product Product title.
@@ -878,22 +956,4 @@ function wcsn_get_product_link( $product_id ) {
 	}
 
 	return get_permalink( $product_id );
-}
-
-/**
- * Sort array by priority.
- *
- * @param array $array Array.
- *
- * @since 1.4.9
- * @return array
- */
-function wcsn_sort_by_priority( $array ) {
-	$priority = array();
-	foreach ( $array as $key => $row ) {
-		$priority[ $key ] = isset( $row['priority'] ) ? $row['priority'] : 10;
-	}
-	array_multisort( $priority, SORT_ASC, $array );
-
-	return $array;
 }

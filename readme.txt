@@ -197,6 +197,10 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.5.2 (24 May 2023) =
+* Fix : Key properties is not sorting properly.
+* Fix : Optimized the code for better performance.
+
 = 1.5.1 (11 April 2023) =
 * Fix : Admin order details showing only 20 serial keys when bought more than 20 serial keys.
 * Fix : When order status is changed from 'completed' to 'on-hold' to 'completed' serial keys added twice.

@@ -3,7 +3,7 @@
  * Plugin Name: Serial Numbers for WooCommerce
  * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
  * Description: The best WooCommerce extension to sell license & serial keys, gift cards and other secret numbers!
- * Version:     1.5.1
+ * Version:     1.5.2
  * Author:      PluginEver
  * Author URI:  http://pluginever.com
  * Donate link: https://pluginever.com/contact
@@ -12,7 +12,7 @@
  * Domain Path: /languages
  * Tested up to: 6.2
  * WC requires at least: 3.0.0
- * WC tested up to: 7.5
+ * WC tested up to: 7.7
  *
  * @package WooCommerceSerialNumbers
  *

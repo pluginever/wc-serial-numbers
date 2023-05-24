@@ -88,7 +88,11 @@ function wcsn_display_key_html( $key, $echo = true ) {
 	 *
 	 * @since 1.4.9
 	 */
-	$properties = apply_filters( 'wc_serial_numbers_display_key_props', wcsn_sort_by_priority( $properties ), $key );
+	$properties = apply_filters( 'wc_serial_numbers_display_key_props',$properties, $key );
+
+	usort( $properties, function( $a, $b ) {
+		return $a['priority'] - $b['priority'];
+	});
 
 	ob_start();
 
