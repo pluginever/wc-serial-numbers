@@ -1,7 +1,7 @@
 === Serial Numbers for WooCommerce - License Manager ===
-Contributors: manikmist09, pluginever, b-07
+Contributors: pluginever, manikmist09, b-07
 Tags: license, license number, license manager, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, product identification number, digital product license, virtual product key, virtual product license, subscription product license, serial number generator, unique number, license key generator, auto generate serial number, woocommerce, woocommerce license manager, woocommerce key
-Requires at least: 4.4
+Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6
 Stable tag: trunk
@@ -87,7 +87,7 @@ We provide support for both the free and premium versions of Serial Numbers for 
 - [Free support (forum)](https://wordpress.org/support/plugin/wc-serial-numbers/)
 - [Premium & pre-sales support (email)](https://pluginever.com/support/)
 
-== 💚 Why Store Owners are Loving Serial Numbers for WooCommerce: ==
+== 💚 Why Digital Product Sellers Love Serial Numbers for WooCommerce: ==
 
 * **Unparalleled Features:** Serial Numbers for WooCommerce plugin is second to none when it comes to generating serial numbers and license keys for your WooCommerce products. This plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API and so on.
 
@@ -126,8 +126,8 @@ Serial Numbers for WooCommerce helps tens of thousands of store owners selling a
 
 = Minimum requirements =
 
-* WordPress 4.9 or greater
-* WooCommerce 3.0 or greater
+* WordPress 5.0 or greater
+* WooCommerce 5.0 or greater
 * PHP version 5.6 or greater
 * MySQL version 5.6 or greater
 * MariaDB version 10 or later
