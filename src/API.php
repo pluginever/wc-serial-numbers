@@ -183,8 +183,8 @@ class API extends Lib\Singleton {
 			'product'          => $serial_key->get_product_title(),
 			'activations'      => $serial_key->get_activations(
 				array(
-					'number' => - 1,
-					'return' => 'raw',
+					'limit' => - 1,
+					'output' => OBJECT,
 				)
 			),
 
@@ -240,7 +240,7 @@ class API extends Lib\Singleton {
 					'remaining'        => $serial_key->get_activations_left(),
 					'activations'      => $serial_key->get_activations(
 						array(
-							'number' => - 1,
+							'limit' => - 1,
 							'output' => ARRAY_A,
 						)
 					),
@@ -281,7 +281,7 @@ class API extends Lib\Singleton {
 			'product'          => $serial_key->get_product_title(),
 			'activations'      => $serial_key->get_activations(
 				array(
-					'number' => - 1,
+					'limit' => - 1,
 					'output' => ARRAY_A,
 				)
 			),
@@ -348,7 +348,7 @@ class API extends Lib\Singleton {
 			'product'          => $serial_key->get_product_title(),
 			'activations'      => $serial_key->get_activations(
 				array(
-					'number' => - 1,
+					'limit' => - 1,
 					'output' => ARRAY_A,
 				)
 			),

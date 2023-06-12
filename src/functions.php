@@ -503,7 +503,7 @@ function wcsn_order_update_keys( $order_id ) {
 				array(
 					'product_id' => $item['product_id'],
 					'status'     => 'available',
-					'number'     => $needed_count,
+					'limit'     => $needed_count,
 					'orderby'    => 'id',
 					'order'      => 'ASC'
 				)
@@ -568,7 +568,7 @@ function wcsn_order_update_keys( $order_id ) {
 	$keys = Key::query(
 		array(
 			'order_id' => $order_id,
-			'number'   => - 1,
+			'limit'   => - 1,
 		)
 	);
 
@@ -616,7 +616,7 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 	$is_reusing = wcsn_is_reusing_keys();
 	$args       = array(
 		'order_id' => $order_id,
-		'number'   => - 1,
+		'limit'   => - 1,
 	);
 
 	if ( ! empty( $product_id ) ) {
@@ -682,7 +682,7 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 	$is_reusing = wcsn_is_reusing_keys();
 	$args = array(
 		'order_id'   => $order_id,
-		'number'     => - 1,
+		'limit'     => - 1,
 		'no_count'   => true,
 	);
 
