@@ -241,7 +241,7 @@ class API extends Lib\Singleton {
 					'activations'      => $serial_key->get_activations(
 						array(
 							'number' => - 1,
-							'return' => 'raw',
+							'output' => ARRAY_A,
 						)
 					),
 				)
@@ -282,7 +282,7 @@ class API extends Lib\Singleton {
 			'activations'      => $serial_key->get_activations(
 				array(
 					'number' => - 1,
-					'return' => 'raw',
+					'output' => ARRAY_A,
 				)
 			),
 
@@ -349,7 +349,7 @@ class API extends Lib\Singleton {
 			'activations'      => $serial_key->get_activations(
 				array(
 					'number' => - 1,
-					'return' => 'raw',
+					'output' => ARRAY_A,
 				)
 			),
 		);
