@@ -653,6 +653,18 @@ class Key extends Model {
 	| Common methods used by the class.
 	|
 	*/
+
+	/**
+	 * Reset activations.
+	 *
+	 * @since 1.0.0
+	 */
+	public function reset_activations() {
+		$activations = $this->get_activations();
+		foreach ( $activations as $activation ) {
+			$activation->delete();
+		}
+	}
 	/**
 	 * Get customer id.
 	 *

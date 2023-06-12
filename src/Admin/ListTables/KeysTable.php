@@ -167,7 +167,7 @@ class KeysTable extends ListTable {
 	 * No items found text.
 	 */
 	public function no_items() {
-		echo sprintf('%s %s', esc_html__( 'No keys found.', 'wc-serial-numbers' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ) . '">' . esc_html__( 'Add new key', 'wc-serial-numbers' ) . '</a>' );
+		echo sprintf( '%s %s', esc_html__( 'No keys found.', 'wc-serial-numbers' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ) . '">' . esc_html__( 'Add new key', 'wc-serial-numbers' ) . '</a>' );
 		// Show a documentation about key's statuses.
 		?>
 		<h4>
@@ -224,7 +224,7 @@ class KeysTable extends ListTable {
 			'pending'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'pending', $url ), __( 'Pending payment.', 'wc-serial-numbers' ), $current === 'pending' ? ' class="current"' : '', __( 'Pending', 'wc-serial-numbers' ) . $pending_count ),
 			'sold'      => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'sold', $url ), __( 'Sold keys.', 'wc-serial-numbers' ), $current === 'sold' ? ' class="current"' : '', __( 'Sold', 'wc-serial-numbers' ) . $sold_count ),
 			'expired'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'expired', $url ), __( 'Expired keys.', 'wc-serial-numbers' ), $current === 'expired' ? ' class="current"' : '', __( 'Expired', 'wc-serial-numbers' ) . $expired_count ),
-			'cancelled' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'cancelled', $url ), __( 'Cancelled keys.', 'wc-serial-numbers' ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'wc-serial-numbers' ) . $cancelled_count )
+			'cancelled' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'cancelled', $url ), __( 'Cancelled keys.', 'wc-serial-numbers' ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'wc-serial-numbers' ) . $cancelled_count ),
 		);
 
 		return $views;
@@ -242,7 +242,6 @@ class KeysTable extends ListTable {
 			$this->product_dropdown();
 			$this->customer_dropdown();
 			submit_button( __( 'Filter', 'wc-serial-numbers' ), '', 'filter-action', false );
-
 
 			echo '</div>';
 		}
@@ -276,6 +275,10 @@ class KeysTable extends ListTable {
 					case 'delete':
 						$key->delete();
 						break;
+					case 'reset_activations':
+						$key->reset_activations();
+						break;
+						break;
 				}
 			}
 
@@ -295,7 +298,8 @@ class KeysTable extends ListTable {
 	 */
 	public function get_bulk_actions() {
 		return array(
-			'delete' => __( 'Delete', 'wc-serial-numbers' ),
+			'delete'            => __( 'Delete', 'wc-serial-numbers' ),
+			'reset_activations' => __( 'Reset Activations', 'wc-serial-numbers' ),
 		);
 	}
 
@@ -310,7 +314,7 @@ class KeysTable extends ListTable {
 			'key'       => __( 'Key', 'wc-serial-numbers' ),
 			'product'   => __( 'Product', 'wc-serial-numbers' ),
 			'order'     => __( 'Order', 'wc-serial-numbers' ),
-			'valid_for' => __( 'Validity', 'wc-serial-numbers' )
+			'valid_for' => __( 'Validity', 'wc-serial-numbers' ),
 		);
 
 		if ( wcsn_is_software_support_enabled() ) {
@@ -376,11 +380,16 @@ class KeysTable extends ListTable {
 	protected function column_key( $item ) {
 		$is_hidden         = 'yes' === get_option( 'wc_serial_numbers_hide_serial_number', 'yes' );
 		$edit_url          = add_query_arg( [ 'edit' => $item->id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
-		$delete_url        = add_query_arg( [ 'id' => $item->id, 'action' => 'delete' ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
+		$delete_url        = add_query_arg(
+			[
+				'id'     => $item->id,
+				'action' => 'delete',
+			],
+			admin_url( 'admin.php?page=wc-serial-numbers' )
+		);
 		$actions['id']     = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), $item->id );
 		$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', $edit_url, __( 'Edit', 'wc-serial-numbers' ) );
 		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', $delete_url, __( 'Delete', 'wc-serial-numbers' ) );
-
 
 		return sprintf( '%1$s %2$s', $item->print_key( $is_hidden ), $this->row_actions( $actions ) );
 	}
@@ -393,7 +402,8 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_product( $item ) {
-		$product     = wc_get_product( $item->product_id );
+		$product = wc_get_product( $item->product_id );
+
 		return empty( $item->product_id ) || empty( $product ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', wcsn_get_edit_product_link( $product->get_id() ), $product->get_id(), $product->get_formatted_name() );
 	}
 

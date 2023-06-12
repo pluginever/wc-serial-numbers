@@ -342,7 +342,7 @@ function wcsn_order_has_products( $order_id ) {
  * @param int $order_id Order ID.
  *
  * @since 1.0.0
- * @return array
+ * @return Key[]
  */
 function wcsn_order_get_keys( $order_id ) {
 	if ( ! wcsn_order_has_products( $order_id ) ) {
