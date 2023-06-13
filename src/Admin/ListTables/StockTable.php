@@ -46,6 +46,8 @@ class StockTable extends ListTable {
 			'fields'         => 'ids',
 			's'              => $search,
 			'paged'          => $current_page,
+			'orderby'        => $orderby,
+			'order'          => $order,
 			'post__in'       => $product_id ? wp_parse_id_list( $product_id ) : array(),
 		);
 		$post_ids   = wcsn_get_products( $query_args );
@@ -101,10 +103,8 @@ class StockTable extends ListTable {
 	public function get_columns() {
 		$columns = array(
 			'product' => __( 'Product', 'wc-serial-numbers' ),
-			'sku'     => __( 'SKU', 'wc-serial-numbers' ),
 			'source'  => __( 'Source', 'wc-serial-numbers' ),
 			'stock'   => __( 'Stock', 'wc-serial-numbers' ),
-			'action'  => __( 'Action', 'wc-serial-numbers' ),
 		);
 
 		return apply_filters( 'wc_serial_numbers_stock_table_columns', $columns );
@@ -148,7 +148,8 @@ class StockTable extends ListTable {
 		$edit_link  = wcsn_get_edit_product_link( $product_id );
 
 		$actions = array(
-			'id' => sprintf( '<span>ID: %d</span>', esc_attr( $item->get_id() ) ),
+			'id'   => sprintf( '<span>ID: %d</span>', esc_attr( $item->get_id() ) ),
+			'edit' => sprintf( '<a href="%s">%s</a>', esc_url( $edit_link ), esc_html__( 'Edit', 'wc-serial-numbers' ) ),
 		);
 
 		return sprintf( '<a href="%s">%s</a> %s', esc_url( $edit_link ), wp_kses_post( $title ), $this->row_actions( $actions ) );
@@ -157,16 +158,13 @@ class StockTable extends ListTable {
 	/**
 	 * since 1.0.0
 	 *
-	 * @param \WC_Product $item 	  The current item.
+	 * @param \WC_Product $item       The current item.
 	 * @param string      $column_name The current column name.
 	 *
 	 * @return string
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
-			case 'sku':
-				return $item->get_sku();
-
 			case 'source':
 				$source = get_post_meta( $item->get_id(), '_serial_key_source', true );
 				if ( 'custom_source' === $source ) {
@@ -191,12 +189,6 @@ class StockTable extends ListTable {
 				} else {
 					return '&mdash;';
 				}
-
-			case 'action':
-				$product_id = $item->get_id();
-				$edit_link  = wcsn_get_edit_product_link( $product_id );
-
-				return sprintf( '<a href="%s">%s</a>', $edit_link, __( 'Edit', 'wc-serial-numbers' ) );
 			default:
 				return apply_filters( 'wc_serial_numbers_stock_table_column_content', '', $item, $column_name );
 		}
