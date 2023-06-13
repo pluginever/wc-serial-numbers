@@ -89,7 +89,6 @@ class StockTable extends ListTable {
 			$this->product_dropdown();
 			submit_button( __( 'Filter', 'wc-serial-numbers' ), '', 'filter-action', false );
 
-
 			echo '</div>';
 		}
 	}
@@ -136,20 +135,33 @@ class StockTable extends ListTable {
 	/**
 	 * since 1.0.0
 	 *
+	 * @param \WC_Product $item The current item.
+	 *
+	 * @return string
+	 */
+	public function column_product( $item ) {
+		$product_id = $item->get_id();
+		$product    = wc_get_product( $product_id );
+		$title      = $product->get_formatted_name();
+		$edit_link  = wcsn_get_edit_product_link( $product_id );
+
+		$actions = array(
+			'id' => sprintf( '<span>ID: %d</span>', esc_attr( $item->get_id() ) ),
+		);
+
+		return sprintf( '<a href="%s">%s</a> %s', esc_url( $edit_link ), wp_kses_post( $title ), $this->row_actions( $actions ) );
+	}
+
+	/**
+	 * since 1.0.0
+	 *
 	 * @param \WC_Product $item
-	 * @param string $column_name
+	 * @param string      $column_name
 	 *
 	 * @return string
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
-			case 'product':
-				$product_id = $item->get_id();
-				$product    = wc_get_product( $product_id );
-				$title      = $product->get_title();
-				$edit_link  = wcsn_get_edit_product_link( $product_id );
-
-				return sprintf( '<a href="%s">%s</a>', $edit_link, $title );
 			case 'sku':
 				return $item->get_sku();
 
@@ -174,7 +186,7 @@ class StockTable extends ListTable {
 					$link  = admin_url( 'admin.php?page=wc-serial-numbers&status=available&product_id=' . $item->get_id() );
 
 					return sprintf( '<a href="%s">%s</a>', esc_url( $link ), $stock );
-				}else {
+				} else {
 					return '&mdash;';
 				}
 
