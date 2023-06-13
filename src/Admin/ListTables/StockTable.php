@@ -116,9 +116,11 @@ class StockTable extends ListTable {
 	 * @return array
 	 */
 	function get_sortable_columns() {
-		return array(
+		$columns = array(
 			'product' => array( 'product_id', false ),
 		);
+
+		return apply_filters( 'wc_serial_numbers_stock_table_sortable_columns', $columns );
 	}
 
 	/**
@@ -155,8 +157,8 @@ class StockTable extends ListTable {
 	/**
 	 * since 1.0.0
 	 *
-	 * @param \WC_Product $item
-	 * @param string      $column_name
+	 * @param \WC_Product $item 	  The current item.
+	 * @param string      $column_name The current column name.
 	 *
 	 * @return string
 	 */
@@ -196,7 +198,7 @@ class StockTable extends ListTable {
 
 				return sprintf( '<a href="%s">%s</a>', $edit_link, __( 'Edit', 'wc-serial-numbers' ) );
 			default:
-				return '';
+				return apply_filters( 'wc_serial_numbers_stock_table_column_content', '', $item, $column_name );
 		}
 	}
 }
