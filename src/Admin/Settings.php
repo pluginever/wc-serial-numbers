@@ -73,11 +73,11 @@ class Settings extends Lib\Settings {
 						'default'  => 'no',
 					],
 					[
-						'title'    => __( 'Hide serial key', 'wc-serial-numbers' ),
-						'id'       => 'wc_serial_numbers_hide_serial_number',
-						'desc'     => __( 'Serial keys will be masked in the list table.', 'wc-serial-numbers' ),
-						'default'  => 'yes',
-						'type'     => 'checkbox',
+						'title'   => __( 'Hide serial key', 'wc-serial-numbers' ),
+						'id'      => 'wc_serial_numbers_hide_serial_number',
+						'desc'    => __( 'Serial keys will be masked in the list table.', 'wc-serial-numbers' ),
+						'default' => 'yes',
+						'type'    => 'checkbox',
 					],
 					[
 						'title'   => __( 'Disable software support', 'wc-serial-numbers' ),
