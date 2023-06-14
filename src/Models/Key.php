@@ -479,7 +479,7 @@ class Key extends Model {
 
 		// Duplicate serial key is not allowed.
 		if ( ! wcsn_is_duplicate_key_allowed() ) {
-			$existing      = self::get( $this->get_serial_key(), 'serial_key' );
+			$existing = self::get( $this->get_serial_key(), 'serial_key' );
 
 			if ( $existing && $existing->get_id() !== $this->get_id() ) {
 				return new \WP_Error( 'invalid-data', __( 'Serial key already exists. Duplicate serial keys are not allowed.', 'wc-serial-numbers' ) );
@@ -525,21 +525,19 @@ class Key extends Model {
 	/**
 	 * Retrieve the object instance.
 	 *
-	 * @param int    $id Object id to retrieve.
-	 * @param string $by Optional. The field to retrieve the object by. Default 'id'.
-	 * @param array  $args Optional. Additional arguments to pass to the query.
+	 * @param int|array|static $id Object ID or array of arguments.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return static|false Object instance on success, false on failure.
 	 */
-	public static function get( $id, $by = null, $args = array() ) {
+	public static function get( $id ) {
 		// If by is set to serial key, encrypt it.
-		if ( 'serial_key' === $by ) {
-			$id = wc_serial_numbers_encrypt_key( $id );
+		if ( is_array( $id ) && array_key_exists( 'serial_key', $id ) ) {
+			$id['serial_key'] = wcsn_encrypt_key( $id['serial_key'] );
 		}
 
-		return parent::get( $id, $by, $args );
+		return parent::get( $id );
 	}
 
 	/**

@@ -235,15 +235,13 @@ function wcsn_get_activations( $args = array() ) {
 /**
  * Get activation.
  *
- * @param int $activation_id Activation ID.
- * @param string $by Optional. Column name to query by. Default 'id'.
- * @param array $args Optional. Query arguments.
+ * @param mixed $activation Activation ID.
  *
  * @since 1.4.6
  * @return Activation|false
  */
-function wcsn_get_activation( $activation_id, $by = 'id', $args = array() ) {
-	return Activation::get( $activation_id, $by, $args );
+function wcsn_get_activation( $activation ) {
+	return Activation::get( $activation );
 }
 
 /**

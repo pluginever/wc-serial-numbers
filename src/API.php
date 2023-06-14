@@ -84,7 +84,12 @@ class API extends Lib\Singleton {
 		}
 
 		// Check if key exists.
-		$serial_key = Key::get( $key, 'serial_key', array( 'product_id' => $product_id ) );
+		$serial_key = Key::get(
+			array(
+				'serial_key' => $key,
+				'product_id' => $product_id,
+			)
+		);
 		if ( ! $serial_key ) {
 			wp_send_json_error(
 				array(

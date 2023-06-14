@@ -305,7 +305,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 									echo sprintf( '<a href="%s">%s</a>', esc_url( get_permalink( $serial_number->product_id ) ), get_the_title( $serial_number->product_id ) );
 									break;
 								case 'serial_key':
-									echo esc_html( $serial_number->get_key() );
+									echo esc_html( wp_unslash( $serial_number->get_key() ) );
 									break;
 								case 'activation_email':
 									echo $order->get_billing_email();

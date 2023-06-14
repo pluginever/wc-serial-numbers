@@ -104,6 +104,7 @@ class StockTable extends ListTable {
 		$columns = array(
 			'product' => __( 'Product', 'wc-serial-numbers' ),
 			'source'  => __( 'Source', 'wc-serial-numbers' ),
+			'sold'    => __( 'Sold', 'wc-serial-numbers' ),
 			'stock'   => __( 'Stock', 'wc-serial-numbers' ),
 		);
 
@@ -165,6 +166,15 @@ class StockTable extends ListTable {
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
+			case 'sold':
+				$sold_count = wcsn_get_keys(array(
+					'order_status' => 'sold',
+					'order_id'    => 'IS NOT NULL',
+					'count'       => true,
+					'product_id'  => $item->get_id(),
+				));
+
+				return number_format_i18n( $sold_count );
 			case 'source':
 				$source = get_post_meta( $item->get_id(), '_serial_key_source', true );
 				if ( 'custom_source' === $source ) {
