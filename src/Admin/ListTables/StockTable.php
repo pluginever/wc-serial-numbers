@@ -159,7 +159,7 @@ class StockTable extends ListTable {
 	/**
 	 * since 1.0.0
 	 *
-	 * @param \WC_Product $item       The current item.
+	 * @param \WC_Product $item The current item.
 	 * @param string      $column_name The current column name.
 	 *
 	 * @return string
@@ -167,12 +167,11 @@ class StockTable extends ListTable {
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
 			case 'sold':
-				$sold_count = wcsn_get_keys(array(
-					'order_status' => 'sold',
-					'order_id'    => 'IS NOT NULL',
-					'count'       => true,
-					'product_id'  => $item->get_id(),
-				));
+				$sold_count = wcsn_get_keys( array(
+					'status__in' => [ 'sold', 'expired' ],
+					'product_id' => $item->get_id(),
+					'count'      => true,
+				) );
 
 				return number_format_i18n( $sold_count );
 			case 'source':

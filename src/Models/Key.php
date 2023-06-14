@@ -340,7 +340,9 @@ class Key extends Model {
 	 * @return void
 	 */
 	public function set_status( $status ) {
-		$this->set_prop( 'status', $status );
+		if ( array_key_exists( $status, wcsn_get_key_statuses() ) ) {
+			$this->set_prop( 'status', $status );
+		}
 	}
 
 	/**
@@ -479,7 +481,11 @@ class Key extends Model {
 
 		// Duplicate serial key is not allowed.
 		if ( ! wcsn_is_duplicate_key_allowed() ) {
-			$existing = self::get( $this->get_serial_key(), 'serial_key' );
+			$existing = self::get(
+				array(
+					'serial_key' => $this->get_serial_key(),
+				)
+			);
 
 			if ( $existing && $existing->get_id() !== $this->get_id() ) {
 				return new \WP_Error( 'invalid-data', __( 'Serial key already exists. Duplicate serial keys are not allowed.', 'wc-serial-numbers' ) );

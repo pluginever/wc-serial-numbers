@@ -223,7 +223,12 @@ class API extends Lib\Singleton {
 		}
 
 		// Check if instance is already activated.
-		$activation = Activation::get( $instance, 'instance', array( 'serial_id' => $serial_key->get_id() ) );
+		$activation = Activation::get(
+			array(
+				'serial_id' => $serial_key->get_id(),
+				'instance'  => $instance,
+			)
+		);
 		if ( $activation ) {
 			wp_send_json_error(
 				array(
@@ -319,7 +324,12 @@ class API extends Lib\Singleton {
 		}
 
 		// Check if instance is already activated.
-		$activation = Activation::get( $instance, 'instance', array( 'serial_id' => $serial_key->get_id() ) );
+		$activation = Activation::get(
+			array(
+				'serial_id' => $serial_key->get_id(),
+				'instance'  => $instance,
+			)
+		);
 		if ( ! $activation ) {
 			wp_send_json_error(
 				array(

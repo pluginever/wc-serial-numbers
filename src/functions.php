@@ -180,15 +180,13 @@ function wcsn_get_keys( $args = array() ) {
 /**
  * Get key.
  *
- * @param int $key_id Key ID.
- * @param string $by Optional. Column name to query by. Default 'id'.
- * @param array $args Optional. Query arguments.
+ * @param mixed $key Key ID.
  *
  * @since 1.4.6
  * @return Key|false
  */
-function wcsn_get_key( $key_id, $by = 'id', $args = array() ) {
-	return Key::get( $key_id, $by, $args );
+function wcsn_get_key( $key ) {
+	return Key::get( $key );
 }
 
 /**
