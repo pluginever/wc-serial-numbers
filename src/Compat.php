@@ -46,7 +46,7 @@ class Compat extends Lib\Singleton {
 	 */
 	public static function woocommerce_pdf_invoice_support( $headers, $order_id ) {
 		$order   = wc_get_order( $order_id );
-		$content = wc_serial_numbers_get_order_table( $order, true );;
+		$content = wc_serial_numbers_get_order_table( $order, true );
 
 		return $content . $headers;
 	}
@@ -62,7 +62,6 @@ class Compat extends Lib\Singleton {
 	 *
 	 * @return array
 	 * @since 1.1.1
-	 *
 	 */
 	public static function wf_module_generate_template_html( $find_replace, $html, $template_type, $order ) {
 		if ( isset( $find_replace['[wfte_product_table_start]'] ) ) {

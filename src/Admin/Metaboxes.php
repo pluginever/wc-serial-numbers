@@ -23,7 +23,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );
 		add_filter( 'woocommerce_process_product_meta', array( __CLASS__, 'product_save_data' ) );
 		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'variable_product_content' ), 10, 3 );
-		//add_action( 'woocommerce_after_order_itemmeta', array( $this, 'order_itemmeta' ), 10, 3 );
+		// add_action( 'woocommerce_after_order_itemmeta', array( $this, 'order_itemmeta' ), 10, 3 );
 	}
 
 
@@ -45,7 +45,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 			'label'    => __( 'Serial Numbers', 'wc-serial-numbers' ),
 			'target'   => 'wc_serial_numbers_data',
 			'class'    => array( 'show_if_simple' ),
-			'priority' => 11
+			'priority' => 11,
 		);
 
 		return $tabs;
@@ -72,31 +72,38 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 			);
 
 			$delivery_quantity = (int) get_post_meta( $post->ID, '_delivery_quantity', true );
-			woocommerce_wp_text_input( apply_filters( 'wc_serial_numbers_delivery_quantity_field_args', array(
-				'id'                => '_delivery_quantity',
-				'label'             => __( 'Delivery quantity', 'wc-serial-numbers' ),
-				'description'       => __( 'Number of serial key(s) will be delivered per item. Available in PRO.', 'wc-serial-numbers' ),
-				'value'             => empty( $delivery_quantity ) ? 1 : $delivery_quantity,
-				'type'              => 'number',
-				'wrapper_class'     => 'options_group',
-				'desc_tip'          => true,
-				'custom_attributes' => array(
-					'disabled' => 'disabled'
-				),
-			) ) );
+			woocommerce_wp_text_input(
+				apply_filters(
+					'wc_serial_numbers_delivery_quantity_field_args',
+					array(
+						'id'                => '_delivery_quantity',
+						'label'             => __( 'Delivery quantity', 'wc-serial-numbers' ),
+						'description'       => __( 'Number of serial key(s) will be delivered per item. Available in PRO.', 'wc-serial-numbers' ),
+						'value'             => empty( $delivery_quantity ) ? 1 : $delivery_quantity,
+						'type'              => 'number',
+						'wrapper_class'     => 'options_group',
+						'desc_tip'          => true,
+						'custom_attributes' => array(
+							'disabled' => 'disabled',
+						),
+					)
+				)
+			);
 
 			$source  = get_post_meta( $post->ID, '_serial_key_source', true );
 			$sources = wc_serial_numbers_get_key_sources();
 			if ( count( $sources ) > 1 ) {
-				woocommerce_wp_radio( array(
-					'id'            => "_serial_key_source",
-					'name'          => "_serial_key_source",
-					'class'         => "serial_key_source",
-					'label'         => __( 'Serial key source', 'wc-serial-numbers' ),
-					'value'         => empty( $source ) ? 'custom_source' : $source,
-					'wrapper_class' => 'options_group',
-					'options'       => $sources,
-				) );
+				woocommerce_wp_radio(
+					array(
+						'id'            => '_serial_key_source',
+						'name'          => '_serial_key_source',
+						'class'         => 'serial_key_source',
+						'label'         => __( 'Serial key source', 'wc-serial-numbers' ),
+						'value'         => empty( $source ) ? 'custom_source' : $source,
+						'wrapper_class' => 'options_group',
+						'options'       => $sources,
+					)
+				);
 				foreach ( array_keys( $sources ) as $key_source ) {
 					do_action( 'wc_serial_numbers_source_settings_' . $key_source, $post->ID );
 					do_action( 'wc_serial_numbers_source_settings', $key_source, $post->ID );
@@ -143,7 +150,6 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 * @param $loop
 	 *
 	 * @since 1.2.0
-	 *
 	 */
 	public static function variable_product_content( $loop, $variation_data, $variation ) {
 		if ( ! wc_serial_numbers()->is_pro_active() ) {
@@ -161,7 +167,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( $_POST['_serial_key_source'] ) : 'custom_source';
 		update_post_meta( $post->ID, '_is_serial_number', $status );
 		update_post_meta( $post->ID, '_serial_key_source', $source );
-		//save only if software licensing enabled
+		// save only if software licensing enabled
 		if ( ! wc_serial_numbers_software_support_disabled() ) {
 			update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
 		}
@@ -198,7 +204,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 			return '';
 		}
 
-		//if this is not product then no need to process
+		// if this is not product then no need to process
 		if ( empty( $product ) ) {
 			return false;
 		}
@@ -209,10 +215,12 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 			return false;
 		}
 
-		$items = wcsn_get_keys( array(
-			'order_id'   => $post->ID,
-			'product_id' => $product->get_id(),
-		) );
+		$items = wcsn_get_keys(
+			array(
+				'order_id'   => $post->ID,
+				'product_id' => $product->get_id(),
+			)
+		);
 
 		if ( empty( $items ) && $order ) {
 			echo sprintf( '<div class="wcsn-missing-serial-number">%s</div>', __( 'Order missing serial numbers for this item.', 'wc-serial-numbers' ) );
@@ -221,19 +229,33 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 		}
 
 		$url = admin_url( 'admin.php?page=wc-serial-numbers' );
-		echo sprintf( '<br/><a href="%s">%s&rarr;</a>', add_query_arg( [
-			'order_id'   => $post->ID,
-			'product_id' => $product->get_id()
-		], $url ), __( 'Serial Numbers', 'wc-serial-numbers' ) );
+		echo sprintf(
+			'<br/><a href="%s">%s&rarr;</a>',
+			add_query_arg(
+				[
+					'order_id'   => $post->ID,
+					'product_id' => $product->get_id(),
+				],
+				$url
+			),
+			__( 'Serial Numbers', 'wc-serial-numbers' )
+		);
 
 		$url = admin_url( 'admin.php?page=wc-serial-numbers' );
 
 		$li = '';
 
 		foreach ( $items as $item ) {
-			$li .= sprintf( '<li><a href="%s">&rarr;</a>&nbsp;%s</li>', add_query_arg( [
-				'edit' => $item->id,
-			], $url ), wc_serial_numbers_decrypt_key( $item->serial_key ) );
+			$li .= sprintf(
+				'<li><a href="%s">&rarr;</a>&nbsp;%s</li>',
+				add_query_arg(
+					[
+						'edit' => $item->id,
+					],
+					$url
+				),
+				wc_serial_numbers_decrypt_key( $item->serial_key )
+			);
 		}
 
 		echo sprintf( '<ul>%s</ul>', $li );
@@ -268,10 +290,12 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 			return false;
 		}
 
-		$serial_numbers = wcsn_get_keys( array(
-			'order_id' => $order->get_id(),
-			'limit'    => - 1,
-		) );
+		$serial_numbers = wcsn_get_keys(
+			array(
+				'order_id' => $order->get_id(),
+				'limit'    => - 1,
+			)
+		);
 
 		if ( empty( $serial_numbers ) ) {
 			echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order waiting for assigning serial keys.', 'wc-serial-numbers' ) ) );
@@ -286,18 +310,20 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 		<table class="widefat striped">
 			<tbody>
 			<tr>
-				<?php foreach ( $columns as $key => $label ) {
+				<?php
+				foreach ( $columns as $key => $label ) {
 					echo sprintf( '<th class="td %s" scope="col" style="text-align:left;">%s</th>', sanitize_html_class( $key ), $label );
-				} ?>
+				}
+				?>
 
 				<th>
 					<?php _e( 'Actions', 'wc-serial-numbers' ); ?>
 				</th>
 			</tr>
 
-			<?php foreach ( $serial_numbers as $serial_number ): ?>
+			<?php foreach ( $serial_numbers as $serial_number ) : ?>
 				<tr>
-					<?php foreach ( $columns as $key => $column ): ?>
+					<?php foreach ( $columns as $key => $column ) : ?>
 						<td class="td" style="text-align:left;">
 							<?php
 							switch ( $key ) {
@@ -332,7 +358,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 						</td>
 					<?php endforeach; ?>
 					<td>
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $serial_number->id ) ) ?>"><?php _e( 'Edit', 'wc-serial-numbers' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $serial_number->id ) ); ?>"><?php _e( 'Edit', 'wc-serial-numbers' ); ?></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>

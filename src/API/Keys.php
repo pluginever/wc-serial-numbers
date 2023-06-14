@@ -414,7 +414,7 @@ class Keys extends Controller {
 	/**
 	 * Prepares a single item output for response.
 	 *
-	 * @param Category $item Category object.
+	 * @param Category         $item Category object.
 	 * @param \WP_REST_Request $request Request object.
 	 *
 	 * @since 1.4.6
@@ -466,7 +466,7 @@ class Keys extends Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @param Object $item Object data.
+	 * @param Object           $item Object data.
 	 * @param \WP_REST_Request $request Request object.
 	 *
 	 * @since 1.4.6

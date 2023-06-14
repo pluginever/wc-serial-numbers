@@ -1,7 +1,8 @@
 <?php
 require 'wp-blog-header.php';
 
-if ( ! current_user_can( 'manage_options' ) ) die();
+if ( ! current_user_can( 'manage_options' ) ) { die();
+}
 
 
 // API variables, please override.
@@ -24,10 +25,10 @@ function execute_request( $args ) {
 }
 
 $links = array(
-	'check'        => 'Check request',
-	'activation'   => 'Activation request',
-	'deactivation' => 'Deactivation',
-	'version_check'      => 'Version Check',
+	'check'         => 'Check request',
+	'activation'    => 'Activation request',
+	'deactivation'  => 'Deactivation',
+	'version_check' => 'Version Check',
 );
 
 foreach ( $links as $key => $value ) {
@@ -41,7 +42,7 @@ if ( $request == 'check' ) {
 		'request'    => 'check',
 		'email'      => $email,
 		'serial_key' => $license_key,
-		'product_id' => $product_id
+		'product_id' => $product_id,
 	);
 	echo '<br>';
 	echo '<br>';
@@ -57,7 +58,7 @@ if ( $request == 'activation' ) {
 		'email'      => $email,
 		'serial_key' => $license_key,
 		'product_id' => $product_id,
-		'instance'   => $instance
+		'instance'   => $instance,
 	);
 
 	echo '<b>Valid activation request:</b><br />';

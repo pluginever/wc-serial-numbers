@@ -20,9 +20,9 @@ class Menus extends Singleton {
 	 * @since 1.0.0
 	 */
 	protected function __construct() {
-		//add_action( 'current_screen', array( $this, 'setup_screen' ) );
-		//add_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
-		//add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
+		// add_action( 'current_screen', array( $this, 'setup_screen' ) );
+		// add_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
+		// add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
 
 		// Register the menus.
 		add_action( 'admin_menu', array( $this, 'main_menu' ) );
@@ -75,8 +75,8 @@ class Menus extends Singleton {
 	 * Validate screen options on update.
 	 *
 	 * @param bool|int $status Screen option value. Default false to skip.
-	 * @param string $option The option name.
-	 * @param int $value The number of rows to use.
+	 * @param string   $option The option name.
+	 * @param int      $value The number of rows to use.
 	 */
 	public function save_screen_options( $status, $option, $value ) {
 		if ( in_array( $option, array( 'wsn_keys_per_page', 'wsn_generators_per_page', 'wsn_activations_per_page' ), true ) ) {
@@ -121,7 +121,7 @@ class Menus extends Singleton {
 	 * @return void
 	 */
 	public function activations_menu() {
-		if( ! wcsn_is_software_support_enabled() ) {
+		if ( ! wcsn_is_software_support_enabled() ) {
 			return;
 		}
 		add_submenu_page(
@@ -244,14 +244,14 @@ class Menus extends Singleton {
 	 */
 	public function output_tools_page() {
 		$tabs = array(
-			'import'    => __( 'Import', 'wc-serial-numbers' ),
-			'export'    => __( 'Export', 'wc-serial-numbers' ),
+			'import'     => __( 'Import', 'wc-serial-numbers' ),
+			'export'     => __( 'Export', 'wc-serial-numbers' ),
 			'generators' => __( 'Generators', 'wc-serial-numbers' ),
-			'api'       => __( 'API', 'wc-serial-numbers' ),
+			'api'        => __( 'API', 'wc-serial-numbers' ),
 		);
 
 		// If software support is disabled, remove the activations tab.
-		if( ! wcsn_is_software_support_enabled() ) {
+		if ( ! wcsn_is_software_support_enabled() ) {
 			unset( $tabs['api'] );
 		}
 
@@ -278,9 +278,9 @@ class Menus extends Singleton {
 	 */
 	public function output_reports_page() {
 		$tabs = array(
-			'stock'       => __( 'Stock', 'wc-serial-numbers' ),
-//			'sales'       => __( 'Sales', 'wc-serial-numbers' ),
-//			'activations' => __( 'Activations', 'wc-serial-numbers' ),
+			'stock' => __( 'Stock', 'wc-serial-numbers' ),
+		// 'sales'       => __( 'Sales', 'wc-serial-numbers' ),
+		// 'activations' => __( 'Activations', 'wc-serial-numbers' ),
 		);
 
 		$tabs        = apply_filters( 'wc_serial_numbers_reports_tabs', $tabs );

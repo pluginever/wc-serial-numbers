@@ -96,17 +96,17 @@ class Ajax extends Lib\Singleton {
 			$order = wc_get_order( intval( $search ) );
 
 			// Order does exists.
-			if( $order && 0 !== $order->get_id() ) {
+			if ( $order && 0 !== $order->get_id() ) {
 				$ids[] = $order->get_id();
 			}
 		}
 
-		if( empty( $ids ) ) {
+		if ( empty( $ids ) ) {
 			$data_store = \WC_Data_Store::load( 'order' );
 			if ( 3 > strlen( $search ) ) {
 				$per_page = 20;
 			}
-			$ids        = $data_store->search_orders(
+			$ids = $data_store->search_orders(
 				$search,
 				array(
 					'limit' => $per_page,
@@ -185,7 +185,7 @@ class Ajax extends Lib\Singleton {
 		$results = array();
 		foreach ( $ids as $id ) {
 			$customer = new \WC_Customer( $id );
-			$text = sprintf(
+			$text     = sprintf(
 				/* translators: $1: customer name, $2 customer id, $3: customer email */
 				esc_html__( '%1$s (#%2$s - %3$s)', 'wc-serial-numbers' ),
 				$customer->get_first_name() . ' ' . $customer->get_last_name(),

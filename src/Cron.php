@@ -29,7 +29,7 @@ class Cron extends Lib\Singleton {
 	 */
 	public static function expire_outdated_serials() {
 		global $wpdb;
-		//$wpdb->query( "update {$wpdb->prefix}serial_numbers set status='expired' where expire_date != '0000-00-00 00:00:00' AND expire_date < NOW()" );
+		// $wpdb->query( "update {$wpdb->prefix}serial_numbers set status='expired' where expire_date != '0000-00-00 00:00:00' AND expire_date < NOW()" );
 		$wpdb->query( "update {$wpdb->prefix}serial_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
 	}
 

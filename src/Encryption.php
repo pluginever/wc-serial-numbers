@@ -193,13 +193,15 @@ class Encryption extends Lib\Singleton {
 		$password = substr( self::getComputedHash( $key ), 0, intval( self::MAXKEYSIZE ) );
 
 		if ( 'encrypt' === $mode ) {
-			return base64_encode( openssl_encrypt(
-				$string,
-				self::METHOD,
-				$password,
-				OPENSSL_RAW_DATA,
-				self::INITVECTOR
-			) );
+			return base64_encode(
+				openssl_encrypt(
+					$string,
+					self::METHOD,
+					$password,
+					OPENSSL_RAW_DATA,
+					self::INITVECTOR
+				)
+			);
 		}
 
 		return openssl_decrypt(
