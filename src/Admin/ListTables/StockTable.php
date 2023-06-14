@@ -46,6 +46,8 @@ class StockTable extends ListTable {
 			'fields'         => 'ids',
 			's'              => $search,
 			'paged'          => $current_page,
+			'orderby'        => $orderby,
+			'order'          => $order,
 			'post__in'       => $product_id ? wp_parse_id_list( $product_id ) : array(),
 		);
 		$post_ids   = wcsn_get_products( $query_args );
@@ -89,7 +91,6 @@ class StockTable extends ListTable {
 			$this->product_dropdown();
 			submit_button( __( 'Filter', 'wc-serial-numbers' ), '', 'filter-action', false );
 
-
 			echo '</div>';
 		}
 	}
@@ -102,10 +103,9 @@ class StockTable extends ListTable {
 	public function get_columns() {
 		$columns = array(
 			'product' => __( 'Product', 'wc-serial-numbers' ),
-			'sku'     => __( 'SKU', 'wc-serial-numbers' ),
 			'source'  => __( 'Source', 'wc-serial-numbers' ),
+			'sold'    => __( 'Sold', 'wc-serial-numbers' ),
 			'stock'   => __( 'Stock', 'wc-serial-numbers' ),
-			'action'  => __( 'Action', 'wc-serial-numbers' ),
 		);
 
 		return apply_filters( 'wc_serial_numbers_stock_table_columns', $columns );
@@ -117,9 +117,11 @@ class StockTable extends ListTable {
 	 * @return array
 	 */
 	function get_sortable_columns() {
-		return array(
+		$columns = array(
 			'product' => array( 'product_id', false ),
 		);
+
+		return apply_filters( 'wc_serial_numbers_stock_table_sortable_columns', $columns );
 	}
 
 	/**
@@ -136,23 +138,44 @@ class StockTable extends ListTable {
 	/**
 	 * since 1.0.0
 	 *
-	 * @param \WC_Product $item
-	 * @param string $column_name
+	 * @param \WC_Product $item The current item.
+	 *
+	 * @return string
+	 */
+	public function column_product( $item ) {
+		$product_id = $item->get_id();
+		$product    = wc_get_product( $product_id );
+		$title      = $product->get_formatted_name();
+		$edit_link  = wcsn_get_edit_product_link( $product_id );
+
+		$actions = array(
+			'id'   => sprintf( '<span>ID: %d</span>', esc_attr( $item->get_id() ) ),
+			'edit' => sprintf( '<a href="%s">%s</a>', esc_url( $edit_link ), esc_html__( 'Edit', 'wc-serial-numbers' ) ),
+		);
+
+		return sprintf( '<a href="%s">%s</a> %s', esc_url( $edit_link ), wp_kses_post( $title ), $this->row_actions( $actions ) );
+	}
+
+	/**
+	 * since 1.0.0
+	 *
+	 * @param \WC_Product $item The current item.
+	 * @param string      $column_name The current column name.
 	 *
 	 * @return string
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
-			case 'product':
-				$product_id = $item->get_id();
-				$product    = wc_get_product( $product_id );
-				$title      = $product->get_title();
-				$edit_link  = wcsn_get_edit_product_link( $product_id );
+			case 'sold':
+				$sold_count = wcsn_get_keys(
+					array(
+						'status__in' => [ 'sold', 'expired' ],
+						'product_id' => $item->get_id(),
+						'count'      => true,
+					)
+				);
 
-				return sprintf( '<a href="%s">%s</a>', $edit_link, $title );
-			case 'sku':
-				return $item->get_sku();
-
+				return number_format_i18n( $sold_count );
 			case 'source':
 				$source = get_post_meta( $item->get_id(), '_serial_key_source', true );
 				if ( 'custom_source' === $source ) {
@@ -174,17 +197,11 @@ class StockTable extends ListTable {
 					$link  = admin_url( 'admin.php?page=wc-serial-numbers&status=available&product_id=' . $item->get_id() );
 
 					return sprintf( '<a href="%s">%s</a>', esc_url( $link ), $stock );
-				}else {
+				} else {
 					return '&mdash;';
 				}
-
-			case 'action':
-				$product_id = $item->get_id();
-				$edit_link  = wcsn_get_edit_product_link( $product_id );
-
-				return sprintf( '<a href="%s">%s</a>', $edit_link, __( 'Edit', 'wc-serial-numbers' ) );
 			default:
-				return '';
+				return apply_filters( 'wc_serial_numbers_stock_table_column_content', '', $item, $column_name );
 		}
 	}
 }

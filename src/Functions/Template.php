@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * A wrapper function for wc_get_template.
  *
  * @param string $template_name Template name.
- * @param array $args Arguments. (default: array).
+ * @param array  $args Arguments. (default: array).
  *
  * @since 1.4.6
  * @return void
@@ -27,7 +27,7 @@ function wcsn_get_template( $template_name, $args = array() ) {
 /**
  * output key properties.
  *
- * @param Key $key Key object.
+ * @param Key  $key Key object.
  * @param bool $echo Echo or return.
  *
  * @since 1.4.9
@@ -68,7 +68,7 @@ function wcsn_display_key_html( $key, $echo = true ) {
 	$status = $key->get_status();
 	if ( 'sold' === $status ) {
 		$status = '<span style="color: #5b841b;">' . __( 'Active', 'wc-serial-numbers' ) . '</span>';
-	} else if ( 'expired' === $status ) {
+	} elseif ( 'expired' === $status ) {
 		$status = '<span style="color: #a00;">' . __( 'Expired', 'wc-serial-numbers' ) . '</span>';
 	} else {
 		$status = '&nbsp;';
@@ -88,11 +88,14 @@ function wcsn_display_key_html( $key, $echo = true ) {
 	 *
 	 * @since 1.4.9
 	 */
-	$properties = apply_filters( 'wc_serial_numbers_display_key_props',$properties, $key );
+	$properties = apply_filters( 'wc_serial_numbers_display_key_props', $properties, $key );
 
-	usort( $properties, function( $a, $b ) {
-		return $a['priority'] - $b['priority'];
-	});
+	usort(
+		$properties,
+		function( $a, $b ) {
+			return $a['priority'] - $b['priority'];
+		}
+	);
 
 	ob_start();
 
@@ -205,7 +208,7 @@ function wcsn_display_order_keys( $order ) {
  * Display order keys title.
  *
  * @param \WC_Order $order The order object.
- * @param array $line_items The line items data.
+ * @param array     $line_items The line items data.
  *
  * @since 1.4.6
  * @return void
@@ -230,7 +233,7 @@ function wcsn_display_order_keys_title( $order, $line_items ) {
  * Display order keys table.
  *
  * @param \WC_Order $order The order object.
- * @param array $line_items The line items data.
+ * @param array     $line_items The line items data.
  *
  * @since 1.4.6
  * @return void
@@ -246,12 +249,15 @@ function wcsn_display_order_keys_table( $order, $line_items ) {
 		 *
 		 * @since 1.4.6
 		 */
-		$args = apply_filters( 'wc_serial_numbers_display_order_keys_table_query_args', array(
-			'order_id'   => $order->get_id(),
-			'product_id' => $line_item['product_id'],
-			'status__in' => array( 'sold', 'expired' ),
-			'limit'      => - 1,
-		) );
+		$args = apply_filters(
+			'wc_serial_numbers_display_order_keys_table_query_args',
+			array(
+				'order_id'   => $order->get_id(),
+				'product_id' => $line_item['product_id'],
+				'status__in' => array( 'sold', 'expired' ),
+				'limit'      => - 1,
+			)
+		);
 
 		$keys = wcsn_get_keys( $args );
 		?>
@@ -294,7 +300,7 @@ function wcsn_display_order_keys_table( $order, $line_items ) {
 						</td>
 					</tr>
 				<?php endforeach; ?>
-			<?php else: ?>
+			<?php else : ?>
 				<tr>
 					<td class="td" scope="col"><?php echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', esc_html__( 'Order is waiting for serial numbers to be assigned.', 'wc-serial-numbers' ) ) ); ?></td>
 				</tr>

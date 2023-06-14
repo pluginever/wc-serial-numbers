@@ -84,7 +84,12 @@ class API extends Lib\Singleton {
 		}
 
 		// Check if key exists.
-		$serial_key = Key::get( $key, 'serial_key', array( 'product_id' => $product_id ) );
+		$serial_key = Key::get(
+			array(
+				'serial_key' => $key,
+				'product_id' => $product_id,
+			)
+		);
 		if ( ! $serial_key ) {
 			wp_send_json_error(
 				array(
@@ -183,8 +188,8 @@ class API extends Lib\Singleton {
 			'product'          => $serial_key->get_product_title(),
 			'activations'      => $serial_key->get_activations(
 				array(
-					'number' => - 1,
-					'return' => 'raw',
+					'limit'  => - 1,
+					'output' => ARRAY_A,
 				)
 			),
 
@@ -218,7 +223,12 @@ class API extends Lib\Singleton {
 		}
 
 		// Check if instance is already activated.
-		$activation = Activation::get( $instance, 'instance', array( 'serial_id' => $serial_key->get_id() ) );
+		$activation = Activation::get(
+			array(
+				'serial_id' => $serial_key->get_id(),
+				'instance'  => $instance,
+			)
+		);
 		if ( $activation ) {
 			wp_send_json_error(
 				array(
@@ -240,8 +250,8 @@ class API extends Lib\Singleton {
 					'remaining'        => $serial_key->get_activations_left(),
 					'activations'      => $serial_key->get_activations(
 						array(
-							'number' => - 1,
-							'return' => 'raw',
+							'limit'  => - 1,
+							'output' => ARRAY_A,
 						)
 					),
 				)
@@ -281,8 +291,8 @@ class API extends Lib\Singleton {
 			'product'          => $serial_key->get_product_title(),
 			'activations'      => $serial_key->get_activations(
 				array(
-					'number' => - 1,
-					'return' => 'raw',
+					'limit'  => - 1,
+					'output' => ARRAY_A,
 				)
 			),
 
@@ -314,7 +324,12 @@ class API extends Lib\Singleton {
 		}
 
 		// Check if instance is already activated.
-		$activation = Activation::get( $instance, 'instance', array( 'serial_id' => $serial_key->get_id() ) );
+		$activation = Activation::get(
+			array(
+				'serial_id' => $serial_key->get_id(),
+				'instance'  => $instance,
+			)
+		);
 		if ( ! $activation ) {
 			wp_send_json_error(
 				array(
@@ -348,8 +363,8 @@ class API extends Lib\Singleton {
 			'product'          => $serial_key->get_product_title(),
 			'activations'      => $serial_key->get_activations(
 				array(
-					'number' => - 1,
-					'return' => 'raw',
+					'limit'  => - 1,
+					'output' => ARRAY_A,
 				)
 			),
 		);

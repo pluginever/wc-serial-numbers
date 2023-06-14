@@ -22,11 +22,11 @@ class Orders extends Lib\Singleton {
 	protected function __construct() {
 		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
 		add_filter( 'woocommerce_payment_complete_order_status', array( __CLASS__, 'maybe_autocomplete_order' ), 10, 3 );
-		add_action( 'woocommerce_order_status_processing', array( __CLASS__, 'handle_order_status_changed' ));
-		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ));
-		add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'handle_order_status_changed' ));
-		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ));
-		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ));
+		add_action( 'woocommerce_order_status_processing', array( __CLASS__, 'handle_order_status_changed' ) );
+		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ) );
+		add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'handle_order_status_changed' ) );
+		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ) );
+		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ) );
 
 		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_email_keys' ), PHP_INT_MAX );
 		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_display_keys' ), PHP_INT_MAX );
@@ -81,8 +81,8 @@ class Orders extends Lib\Singleton {
 	/**
 	 * Automatically set the order's status to complete.
 	 *
-	 * @param string $new_order_status
-	 * @param int $order_id
+	 * @param string    $new_order_status
+	 * @param int       $order_id
 	 * @param \WC_Order $order
 	 *
 	 * @since 1.4.6

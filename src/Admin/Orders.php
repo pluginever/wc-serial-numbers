@@ -69,7 +69,9 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 	}
 
 	/**
-	 * @param $columns
+	 * Add order serial column.
+	 *
+	 * @param array $columns Order columns.
 	 *
 	 * @since 1.2.0
 	 * @return array|string[]
@@ -82,15 +84,17 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 	}
 
 	/**
-	 * @param $column
-	 * @param $order_id
+	 * Add order serial column content.
+	 *
+	 * @param string $column  Column name.
+	 * @param int    $order_id Order ID.
 	 *
 	 * @since 1.2.0
 	 */
 	public static function add_order_serial_column_content( $column, $order_id ) {
 		$order_status = wc_get_order( $order_id )->get_status();
-		if ( $column == 'order_serials' ) {
-			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, [ 'completed', 'processing' ] ) ) {
+		if ( 'order_serials' === $column ) {
+			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, [ 'completed', 'processing' ], true ) ) {
 				echo '&mdash;';
 			} else {
 				if ( wcsn_order_is_fullfilled( $order_id ) ) {
@@ -101,7 +105,7 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 					$title = __( 'Order is not fullfilled.', 'wc-serial-numbers' );
 				}
 				$url = add_query_arg( [ 'order_id' => $order_id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
-				echo sprintf( '<a href="%s" title="%s"><span class="dashicons dashicons-lock" style="%s"></span></a>', $url, $title, $style );
+				echo sprintf( '<a href="%s" title="%s"><span class="dashicons dashicons-lock" style="%s"></span></a>', esc_url( $url ), esc_html( $title ), esc_attr( $style ) );
 			}
 		}
 	}
@@ -118,7 +122,6 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 		$actions['wcsn_add_keys']    = __( 'Add serial keys', 'wc-serial-numbers' );
 		$actions['wcsn_remove_keys'] = __( 'Remove serial keys', 'wc-serial-numbers' );
 
-
 		return $actions;
 	}
 
@@ -133,7 +136,7 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 * @return string
 	 */
 	public function handle_order_bulk_action( $redirect_to, $action, $order_ids ) {
-		if ( in_array( $action, [ 'wcsn_add_keys', 'wcsn_remove_keys' ] ) ) {
+		if ( in_array( $action, [ 'wcsn_add_keys', 'wcsn_remove_keys' ], true ) ) {
 			foreach ( $order_ids as $order_id ) {
 				switch ( $action ) {
 					case 'wcsn_add_keys':
@@ -144,6 +147,7 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 						break;
 				}
 			}
+			// Translators: %d: number of orders.
 			wc_serial_numbers()->add_notice( sprintf( __( '%d orders updated successfully.', 'wc-serial-numbers' ), count( $order_ids ) ) );
 			$redirect_to = add_query_arg( 'bulk_action', $action, $redirect_to );
 		}

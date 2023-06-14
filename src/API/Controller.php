@@ -331,7 +331,7 @@ class Controller extends \WP_REST_Controller {
 	 * @since 1.1.0
 	 *
 	 * @param string|null context view, edit or embed
-	 * @param array $fields Array of fields
+	 * @param array                                   $fields Array of fields
 	 *
 	 * @return array
 	 */
@@ -625,7 +625,7 @@ class Controller extends \WP_REST_Controller {
 				'default'           => 'date_created',
 				'enum'              => array( 'code', 'name', 'rate', 'enabled', 'date_created' ),
 				'validate_callback' => 'rest_validate_request_arg',
-			)
+			),
 		);
 	}
 }

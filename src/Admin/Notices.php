@@ -54,7 +54,7 @@ class Notices extends Singleton {
 			);
 		}
 
-		if ( ! $this->is_notice_dismissed( 'wc_serial_numbers_upgrade_to_pro_wcsnpro10' ) && !function_exists( 'wc_serial_numbers_pro' ) ) {
+		if ( ! $this->is_notice_dismissed( 'wc_serial_numbers_upgrade_to_pro_wcsnpro10' ) && ! function_exists( 'wc_serial_numbers_pro' ) ) {
 			$this->notices[] = array(
 				'type'        => 'info',
 				'classes'     => 'notice-alt notice-large',
@@ -81,13 +81,16 @@ class Notices extends Singleton {
 	 */
 	public function output_notices() {
 		foreach ( $this->notices as $notice ) {
-			$notice = wp_parse_args( $notice, array(
-				'id'          => wp_generate_password( 12, false ),
-				'type'        => 'info',
-				'classes'     => '',
-				'message'     => '',
-				'dismissible' => false,
-			) );
+			$notice = wp_parse_args(
+				$notice,
+				array(
+					'id'          => wp_generate_password( 12, false ),
+					'type'        => 'info',
+					'classes'     => '',
+					'message'     => '',
+					'dismissible' => false,
+				)
+			);
 
 			$notice_classes = array( 'notice', 'notice-' . $notice['type'] );
 			if ( $notice['dismissible'] ) {

@@ -392,7 +392,7 @@ function wc_serial_numbers_get_stock_quantity( $product_id ) {
 /**
  * Get order table.
  *
- * @param bool $return
+ * @param bool  $return
  *
  * @param      $order
  *

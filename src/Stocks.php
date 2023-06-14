@@ -24,7 +24,7 @@ class Stocks extends Lib\Singleton {
 	/**
 	 * Get stock quantity.
 	 *
-	 * @param int $quantity Stock quantity.
+	 * @param int         $quantity Stock quantity.
 	 * @param \WC_Product $product Product object.
 	 *
 	 * @since 1.0.0

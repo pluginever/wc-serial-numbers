@@ -3,7 +3,6 @@
  * List all stocks
  *
  * @package WooCommerceSerialNumbers/Admin/Views
- *
  */
 
 defined( 'ABSPATH' ) || exit;

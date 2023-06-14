@@ -287,34 +287,36 @@ class CLI extends Lib\Singleton {
 	 */
 	public static function make_keys( $args, $assoc_args ) {
 		$pattern = $assoc_args['pattern'];
-//		$generator_id     = $assoc_args['generator_id'];
-//		$product_id       = $assoc_args['product_id'];
+		// $generator_id     = $assoc_args['generator_id'];
+		// $product_id       = $assoc_args['product_id'];
 		$activation_limit = $assoc_args['activation_limit'];
 		$validity         = $assoc_args['validity'];
-//		$sequential       = $assoc_args['sequential'];
-//		$start            = $assoc_args['start'];
+		// $sequential       = $assoc_args['sequential'];
+		// $start            = $assoc_args['start'];
 		$count = $args[0];
-//
-//		if ( empty( $product_id ) ) {
-//			WP_CLI::error( "Product id is required" );
-//			return;
-//		}
-//
-//		// If pattern and generator id is not passed.
-//		if ( ! $pattern && ! $generator_id ) {
-//			WP_CLI::error(( 'Please pass pattern or generator id.' ));
-//		}
-//
-//		// If generator id is passed then get pattern from generator.
-//		if ( $generator_id ) {
-//			$generator = Generator::get( $generator_id );
-//			$pattern   = $generator->get_pattern();
-//		}
+		//
+		// if ( empty( $product_id ) ) {
+		// WP_CLI::error( "Product id is required" );
+		// return;
+		// }
+		//
+		// If pattern and generator id is not passed.
+		// if ( ! $pattern && ! $generator_id ) {
+		// WP_CLI::error(( 'Please pass pattern or generator id.' ));
+		// }
+		//
+		// If generator id is passed then get pattern from generator.
+		// if ( $generator_id ) {
+		// $generator = Generator::get( $generator_id );
+		// $pattern   = $generator->get_pattern();
+		// }
 
-		$random_product = wc_get_products( [
-			'limit'   => 1,
-			'orderby' => 'rand',
-		] );
+		$random_product = wc_get_products(
+			[
+				'limit'   => 1,
+				'orderby' => 'rand',
+			]
+		);
 		$product_id     = $random_product[0]->get_id();
 		$progress       = WP_CLI\Utils\make_progress_bar( 'Making keys', $count );
 
@@ -322,13 +324,15 @@ class CLI extends Lib\Singleton {
 		$keys = [];
 		for ( $i = 0; $i < $count; $i ++ ) {
 			$key = wc_serial_numbers_pro_generate_serial_keys( $pattern );
-			Key::insert( [
-				'serial_key'       => $key,
-				'product_id'       => $product_id,
-				'activation_limit' => $activation_limit,
-				'validity'         => $validity,
-				'status'           => 'available',
-			] );
+			Key::insert(
+				[
+					'serial_key'       => $key,
+					'product_id'       => $product_id,
+					'activation_limit' => $activation_limit,
+					'validity'         => $validity,
+					'status'           => 'available',
+				]
+			);
 			$progress->tick();
 		}
 

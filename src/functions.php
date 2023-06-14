@@ -180,15 +180,13 @@ function wcsn_get_keys( $args = array() ) {
 /**
  * Get key.
  *
- * @param int $key_id Key ID.
- * @param string $by Optional. Column name to query by. Default 'id'.
- * @param array $args Optional. Query arguments.
+ * @param mixed $key Key ID.
  *
  * @since 1.4.6
  * @return Key|false
  */
-function wcsn_get_key( $key_id, $by = 'id', $args = array() ) {
-	return Key::get( $key_id, $by, $args );
+function wcsn_get_key( $key ) {
+	return Key::get( $key );
 }
 
 /**
@@ -235,15 +233,13 @@ function wcsn_get_activations( $args = array() ) {
 /**
  * Get activation.
  *
- * @param int $activation_id Activation ID.
- * @param string $by Optional. Column name to query by. Default 'id'.
- * @param array $args Optional. Query arguments.
+ * @param mixed $activation Activation ID.
  *
  * @since 1.4.6
  * @return Activation|false
  */
-function wcsn_get_activation( $activation_id, $by = 'id', $args = array() ) {
-	return Activation::get( $activation_id, $by, $args );
+function wcsn_get_activation( $activation ) {
+	return Activation::get( $activation );
 }
 
 /**
@@ -342,7 +338,7 @@ function wcsn_order_has_products( $order_id ) {
  * @param int $order_id Order ID.
  *
  * @since 1.0.0
- * @return array
+ * @return Key[]
  */
 function wcsn_order_get_keys( $order_id ) {
 	if ( ! wcsn_order_has_products( $order_id ) ) {
@@ -503,7 +499,7 @@ function wcsn_order_update_keys( $order_id ) {
 				array(
 					'product_id' => $item['product_id'],
 					'status'     => 'available',
-					'number'     => $needed_count,
+					'limit'     => $needed_count,
 					'orderby'    => 'id',
 					'order'      => 'ASC'
 				)
@@ -568,7 +564,7 @@ function wcsn_order_update_keys( $order_id ) {
 	$keys = Key::query(
 		array(
 			'order_id' => $order_id,
-			'number'   => - 1,
+			'limit'   => - 1,
 		)
 	);
 
@@ -616,7 +612,7 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 	$is_reusing = wcsn_is_reusing_keys();
 	$args       = array(
 		'order_id' => $order_id,
-		'number'   => - 1,
+		'limit'   => - 1,
 	);
 
 	if ( ! empty( $product_id ) ) {
@@ -682,7 +678,7 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 	$is_reusing = wcsn_is_reusing_keys();
 	$args = array(
 		'order_id'   => $order_id,
-		'number'     => - 1,
+		'limit'     => - 1,
 		'no_count'   => true,
 	);
 

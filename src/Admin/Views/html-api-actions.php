@@ -55,7 +55,21 @@ $api_url = add_query_arg(
 
 		<p>
 			<?php esc_html_e( 'Example:', 'wc-serial-numbers' ); ?>
-			<code><?php echo esc_html( add_query_arg( array( 'product_id' => 123, 'serial_key' => '123456789', 'request' => 'activate', 'instance' => 'example.com' ), $api_url ) ); ?></code>
+			<code>
+			<?php
+			echo esc_html(
+				add_query_arg(
+					array(
+						'product_id' => 123,
+						'serial_key' => '123456789',
+						'request'    => 'activate',
+						'instance'   => 'example.com',
+					),
+					$api_url
+				)
+			);
+			?>
+			</code>
 		</p>
 		<p>
 			<?php esc_html_e( 'The API will return a JSON response with the following parameters:', 'wc-serial-numbers' ); ?>
