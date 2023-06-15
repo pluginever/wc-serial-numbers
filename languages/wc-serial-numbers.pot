@@ -33,7 +33,7 @@ msgid "Could not update item in the database."
 msgstr ""
 
 #: lib/Lib/Plugin.php:239 src/Admin/Menus.php:200
-msgid "Go Pro"
+msgid "Upgrade to Pro"
 msgstr ""
 
 #: lib/Lib/Plugin.php:585 src/Admin/Settings.php:188
