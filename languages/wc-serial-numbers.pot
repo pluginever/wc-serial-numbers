@@ -750,7 +750,7 @@ msgid "General"
 msgstr ""
 
 #: src/Admin/Settings.php:46
-msgid "General settings"
+msgid "General Settings"
 msgstr ""
 
 #: src/Admin/Settings.php:48
@@ -810,7 +810,7 @@ msgid "Disable Software Licensing support & API functionalities."
 msgstr ""
 
 #: src/Admin/Settings.php:94
-msgid "Stock notification"
+msgid "Stock Notification"
 msgstr ""
 
 #: src/Admin/Settings.php:96

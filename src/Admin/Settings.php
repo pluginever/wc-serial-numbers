@@ -43,13 +43,13 @@ class Settings extends Lib\Settings {
 			case 'general':
 				$settings = array(
 					[
-						'title' => __( 'General settings', 'wc-serial-numbers' ),
+						'title' => __( 'General Settings', 'wc-serial-numbers' ),
 						'type'  => 'title',
-						'desc'  => __( 'The following options affect how the serial keys will work.', 'wc-serial-numbers' ),
+						'desc'  => __( 'These options determine the behavior and operation of the serial keys.', 'wc-serial-numbers' ),
 						'id'    => 'section_serial_numbers',
 					],
 					[
-						'title'   => __( 'Auto-complete order', 'wc-serial-numbers' ),
+						'title'   => __( 'Auto-complete orders', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_autocomplete_order',
 						'desc'    => __( 'Automatically completes orders after successful payments.', 'wc-serial-numbers' ),
 						'type'    => 'checkbox',
@@ -91,9 +91,9 @@ class Settings extends Lib\Settings {
 						'id'   => 'section_serial_numbers',
 					],
 					[
-						'title' => __( 'Stock notification', 'wc-serial-numbers' ),
+						'title' => __( 'Stock Notification', 'wc-serial-numbers' ),
 						'type'  => 'title',
-						'desc'  => __( 'The following options affect how the stock notification will work.', 'wc-serial-numbers' ),
+						'desc'  => __( 'These options determine the operation of the serial key stock notification.', 'wc-serial-numbers' ),
 						'id'    => 'stock_section',
 					],
 					[
@@ -107,7 +107,7 @@ class Settings extends Lib\Settings {
 					array(
 						'title'   => __( 'Stock threshold', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_stock_threshold',
-						'desc'    => __( 'When the stock goes below the above number, it will send a notification email.', 'wc-serial-numbers' ),
+						'desc'    => __( 'An email notification will be sent when the stock falls below the specified number.', 'wc-serial-numbers' ),
 						'type'    => 'number',
 						'default' => '5',
 					),
@@ -154,6 +154,7 @@ class Settings extends Lib\Settings {
 			__( 'Automatic license key generator to auto-create & assign keys with orders.', 'wc-serial-numbers' ),
 			__( 'License key management option from the order page with required actions.', 'wc-serial-numbers' ),
 			__( 'Support for bulk import/export of license keys from/to CSV.', 'wc-serial-numbers' ),
+			__( 'Send Serial Keys via SMS with Twilio SMS feature.', 'wc-serial-numbers' ),
 			__( 'Option to sell license keys even if there are no available keys in the stock.', 'wc-serial-numbers' ),
 			__( 'Custom deliverable quantity to deliver multiple keys with a single product.', 'wc-serial-numbers' ),
 			__( 'Manual delivery option to manually deliver license keys instead of automatic.', 'wc-serial-numbers' ),
