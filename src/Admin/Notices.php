@@ -62,7 +62,7 @@ class Notices extends Singleton {
 				'id'          => 'wc_serial_numbers_upgrade_to_pro_wcsnpro10',
 				'message'     => sprintf(
 				/* translators: %1$s: link to the plugin page, %2$s: link to the plugin page */
-					__( 'Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s discount by using the promo code %2$s %3$s Upgrade Now %4$s.', 'wc-serial-numbers' ),
+					__( 'New! Send Serial Keys via SMS with Twilio SMS feature. Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s discount by using the promo code %2$s %3$s Upgrade Now %4$s.', 'wc-serial-numbers' ),
 					'<strong>10%</strong>',
 					'<strong>WCSNPRO10</strong>',
 					'<a href="' . esc_url( wc_serial_numbers()->get_premium_url() ) . '" target="_blank">',
