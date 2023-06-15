@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 			</a>
 		</h2>
 	<?php else : ?>
-		<h2><?php esc_html_e( 'Add serial key', 'wc-serial-numbers' ); ?></h2>
+		<h2><?php esc_html_e( 'Add New Serial Key', 'wc-serial-numbers' ); ?></h2>
 	<?php endif; ?>
 	<hr class="wp-header-end">
 
