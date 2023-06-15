@@ -65,9 +65,9 @@ class Admin extends Singleton {
 		if ( wc_serial_numbers()->get_review_url() && in_array( get_current_screen()->id, self::get_screen_ids(), true ) ) {
 			$footer_text = sprintf(
 			/* translators: 1: Plugin name 2: WordPress */
-				__( 'Thank you for using %1$s! Share your appreciation with a five-star review here %2$s.', 'wc-serial-numbers' ),
+				__( 'Thank you for using %1$s! Share your appreciation with a five-star review %2$s.', 'wc-serial-numbers' ),
 				'<strong>' . esc_html( wc_serial_numbers()->get_name() ) . '</strong>',
-				'<a href="' . esc_url( wc_serial_numbers()->get_review_url() ) . '" target="_blank" class="wc-serial-numbers-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'wc-serial-numbers' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>'
+				'<a href="' . esc_url( wc_serial_numbers()->get_review_url() ) . '" target="_blank" class="wc-serial-numbers-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'wc-serial-numbers' ) . '">here</a>'
 			);
 		}
 
