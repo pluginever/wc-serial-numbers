@@ -197,7 +197,7 @@ class Menus extends Singleton {
 			add_submenu_page(
 				'wc-serial-numbers',
 				'',
-				'<span style="color:#ff7a03;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Go Pro', 'wc-serial-numbers' ) . '</span>',
+				'<span style="color:#fa5252;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Go Pro', 'wc-serial-numbers' ) . '</span>',
 				$role,
 				'go_wcsn_pro',
 				array( $this, 'go_pro_redirect' )
