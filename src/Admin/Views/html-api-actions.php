@@ -182,7 +182,7 @@ $api_url = add_query_arg(
 				</tr>
 
 				<tr>
-					<th scope="row"><label><?php esc_html_e( 'API Response', 'wc-serial-numbers' ); ?></label></th>
+					<th scope="row"><label><?php esc_html_e( 'API response', 'wc-serial-numbers' ); ?></label></th>
 					<td class="code">
 						<pre><span class="wcsn-api-response">&mdash;</span></pre>
 					</td>
