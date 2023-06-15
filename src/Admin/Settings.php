@@ -154,7 +154,7 @@ class Settings extends Lib\Settings {
 			__( 'Automatic license key generator to auto-create & assign keys with orders.', 'wc-serial-numbers' ),
 			__( 'License key management option from the order page with required actions.', 'wc-serial-numbers' ),
 			__( 'Support for bulk import/export of license keys from/to CSV.', 'wc-serial-numbers' ),
-			__( 'Send Serial Keys via SMS with Twilio SMS feature.', 'wc-serial-numbers' ),
+			__( 'Send Serial Keys via SMS with Twilio.', 'wc-serial-numbers' ),
 			__( 'Option to sell license keys even if there are no available keys in the stock.', 'wc-serial-numbers' ),
 			__( 'Custom deliverable quantity to deliver multiple keys with a single product.', 'wc-serial-numbers' ),
 			__( 'Manual delivery option to manually deliver license keys instead of automatic.', 'wc-serial-numbers' ),
