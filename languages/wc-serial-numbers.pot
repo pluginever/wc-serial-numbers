@@ -1173,7 +1173,7 @@ msgid "Add New"
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:22
-msgid "Add serial key"
+msgid "Add New Serial Key"
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:33
