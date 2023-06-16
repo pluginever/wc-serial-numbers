@@ -83,7 +83,7 @@ class Settings extends Lib\Settings {
 						'title'   => __( 'Disable software support', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_disable_software_support',
 						'desc'    => __( 'Disable Software Licensing support & API functionalities.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'if you enable this option, the activation menu and it’s functionality will be turned off.', 'wc-serial-numbers' ),
+						'desc_tip' => __( 'If you enable this option, the activation menu and it’s functionality will be turned off.', 'wc-serial-numbers' ),
 						'default' => 'no',
 						'type'    => 'checkbox',
 					],
