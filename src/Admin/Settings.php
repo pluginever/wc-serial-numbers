@@ -83,7 +83,7 @@ class Settings extends Lib\Settings {
 						'title'   => __( 'Disable software support', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_disable_software_support',
 						'desc'    => __( 'Disable Software Licensing support & API functionalities.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'Enable/Disable this option based on your requirements.', 'wc-serial-numbers' ),
+						'desc_tip' => __( 'if you enable this option, the activation menu and it’s functionality will be turned off.', 'wc-serial-numbers' ),
 						'default' => 'no',
 						'type'    => 'checkbox',
 					],
@@ -151,7 +151,7 @@ class Settings extends Lib\Settings {
 		$features = array(
 			__( 'Create and assign license keys for WooCommerce variable products.', 'wc-serial-numbers' ),
 			__( 'Generate bulk license keys with your custom key generator rule.', 'wc-serial-numbers' ),
-			__( 'Random & sequential order for the generator rules.', 'wc-serial-numbers' ),
+			__( 'Random & sequential key order for the generator rules.', 'wc-serial-numbers' ),
 			__( 'Automatic license key generator to auto-create & assign keys with orders.', 'wc-serial-numbers' ),
 			__( 'License key management option from the order page with required actions.', 'wc-serial-numbers' ),
 			__( 'Support for bulk import/export of license keys from/to CSV.', 'wc-serial-numbers' ),

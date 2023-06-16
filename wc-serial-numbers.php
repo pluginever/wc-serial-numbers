@@ -28,7 +28,7 @@
 
 use WooCommerceSerialNumbers\Plugin;
 
-// don't call the file directly.
+// Don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
 /**
