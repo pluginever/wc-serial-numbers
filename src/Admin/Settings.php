@@ -115,7 +115,7 @@ class Settings extends Lib\Settings {
 					array(
 						'title'   => __( 'Notification recipient email', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_notification_recipient',
-						'desc'    => __( 'The email address to be used for sending the email notifications.', 'wc-serial-numbers' ),
+						'desc'    => __( 'The email address which will be used to send email notifications.', 'wc-serial-numbers' ),
 						'type'    => 'text',
 						'default' => get_option( 'admin_email' ),
 					),
