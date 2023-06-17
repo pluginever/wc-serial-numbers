@@ -105,6 +105,7 @@ class Admin extends Singleton {
 			$screen_id . '_page_wc-serial-numbers-activations',
 			$screen_id . '_page_wc-serial-numbers-products',
 			$screen_id . '_page_wc-serial-numbers-tools',
+			$screen_id . '_page_wc-serial-numbers-reports',
 			$screen_id . '_page_wc-serial-numbers-settings',
 		];
 
