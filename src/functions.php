@@ -88,7 +88,7 @@ function wcsn_get_revoke_statuses() {
  */
 function wcsn_get_key_sources() {
 	$sources = array(
-		'custom_source' => __( 'Manually Added', 'wc-serial-numbers' ),
+		'custom_source' => __( 'Manually added', 'wc-serial-numbers' ),
 	);
 
 	return apply_filters( 'wc_serial_numbers_key_sources', $sources );

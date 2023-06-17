@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 			</a>
 		</h2>
 	<?php else : ?>
-		<h2><?php esc_html_e( 'Add serial key', 'wc-serial-numbers' ); ?></h2>
+		<h2><?php esc_html_e( 'Add New Serial Key', 'wc-serial-numbers' ); ?></h2>
 	<?php endif; ?>
 	<hr class="wp-header-end">
 
@@ -57,21 +57,21 @@ defined( 'ABSPATH' ) || exit;
 						?>
 					</select>
 					<p class="description">
-						<?php esc_html_e( 'Select the product for which this key is valid.', 'wc-serial-numbers' ); ?>
+						<?php esc_html_e( 'Select the product for which this key is applicable.', 'wc-serial-numbers' ); ?>
 					</p>
 				</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row">
 					<label for="serial_key">
-						<?php esc_html_e( 'Serial Key', 'wc-serial-numbers' ); ?>
+						<?php esc_html_e( 'Serial key', 'wc-serial-numbers' ); ?>
 					</label>
 				</th>
 
 				<td>
-					<textarea name="serial_key" id="serial_key" class="regular-text" required="required" placeholder="4CE0460D0G-4CE0460D1G-4CE0460D2G"><?php echo wp_kses_post( $key->get_key() ); ?></textarea>
+					<textarea name="serial_key" id="serial_key" class="regular-text" required="required" placeholder="serial-####-####-####"><?php echo wp_kses_post( $key->get_key() ); ?></textarea>
 					<p class="description">
-						<?php esc_html_e( 'Enter secret number, supports multiline. E.g., 4CE0460D0G-4CE0460D1G-4CE0460D2G', 'wc-serial-numbers' ); ?>
+						<?php esc_html_e( 'Enter your serial key, also supports multiline.  For example: 4CE0460D0G-4CE0460D1G-4CE0460D2G', 'wc-serial-numbers' ); ?>
 					</p>
 				</td>
 			</tr>
