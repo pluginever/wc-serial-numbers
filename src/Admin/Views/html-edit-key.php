@@ -90,21 +90,22 @@ defined( 'ABSPATH' ) || exit;
 						</p>
 					</td>
 				</tr>
-
-				<tr valign="top">
-					<th scope="row">
-						<label for="validity">
-							<?php esc_html_e( 'Valid for (days)', 'wc-serial-numbers' ); ?>
-						</label>
-					</th>
-					<td>
-						<?php echo sprintf( '<input name="validity" id="validity" class="regular-text" type="number" value="%d">', esc_attr( $key->get_validity() ) ); ?>
-						<p class="description">
-							<?php esc_html_e( 'Number of days the key will be valid from the purchase date. Leave blank for lifetime validity.', 'wc-serial-numbers' ); ?>
-						</p>
-					</td>
-				</tr>
 			<?php endif; ?>
+
+			<tr valign="top">
+				<th scope="row">
+					<label for="validity">
+						<?php esc_html_e( 'Valid for (days)', 'wc-serial-numbers' ); ?>
+					</label>
+				</th>
+				<td>
+					<?php echo sprintf( '<input name="validity" id="validity" class="regular-text" type="number" value="%d">', esc_attr( $key->get_validity() ) ); ?>
+					<p class="description">
+						<?php esc_html_e( 'Number of days the key will be valid from the purchase date. Leave blank for lifetime validity.', 'wc-serial-numbers' ); ?>
+					</p>
+				</td>
+			</tr>
+
 			<?php if ( $key->exists() ) : ?>
 				<!-- status -->
 				<tr>
