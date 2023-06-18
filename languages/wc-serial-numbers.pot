@@ -33,7 +33,7 @@ msgid "Could not update item in the database."
 msgstr ""
 
 #: lib/Lib/Plugin.php:239 src/Admin/Menus.php:200
-msgid "Go Pro"
+msgid "Upgrade to Pro"
 msgstr ""
 
 #: lib/Lib/Plugin.php:585 src/Admin/Settings.php:188
@@ -676,7 +676,7 @@ msgid "Upgrade to Pro"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:156
-msgid "WooCommerce Serial Number Free version does not support product variation."
+msgid "The free version of Serial Numbers for WooCommerce does not support product variation."
 msgstr ""
 
 #: src/Admin/Metaboxes.php:226
@@ -747,7 +747,7 @@ msgid "General"
 msgstr ""
 
 #: src/Admin/Settings.php:46
-msgid "General settings"
+msgid "General Settings"
 msgstr ""
 
 #: src/Admin/Settings.php:48
@@ -807,7 +807,7 @@ msgid "Disable Software Licensing support & API functionalities."
 msgstr ""
 
 #: src/Admin/Settings.php:94
-msgid "Stock notification"
+msgid "Stock Notification"
 msgstr ""
 
 #: src/Admin/Settings.php:96
@@ -1166,7 +1166,7 @@ msgid "Validate"
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:16
-msgid "Edit serial key"
+msgid "Edit Serial Key"
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:18 src/Admin/Views/html-list-keys.php:21
@@ -1174,7 +1174,7 @@ msgid "Add New"
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:22
-msgid "Add serial key"
+msgid "Add New Serial Key"
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:33
@@ -1224,7 +1224,7 @@ msgid ""
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:122
-msgid "Status of the serial number."
+msgid "Status of the serial key."
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:129

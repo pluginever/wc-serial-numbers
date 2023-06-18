@@ -23,7 +23,7 @@ $api_url = add_query_arg(
 
 	<div class="wcsn-card__body">
 		<p>
-			<?php esc_html_e( 'You can use the API to perform actions on serial key. You can use the API to perform actions on your website or on another website.', 'wc-serial-numbers' ); ?>
+			<?php esc_html_e( 'You can use the API to perform actions on your website or on another website.', 'wc-serial-numbers' ); ?>
 		</p>
 		<p>
 			<?php esc_html_e( 'To perform an action, you need to send a POST request to the following URL:', 'wc-serial-numbers' ); ?>
@@ -49,7 +49,7 @@ $api_url = add_query_arg(
 				<code>platform</code> - <?php esc_html_e( 'Optional. The platform on which the serial key is used. For example, "Windows" or "Mac".', 'wc-serial-numbers' ); ?>
 			</li>
 			<li>
-				<code>email</code> - <?php esc_html_e( 'Optional. If email is provided, the API will check if the serial key is assigned to the provided email address.', 'wc-serial-numbers' ); ?>
+				<code>email</code> - <?php esc_html_e( 'Using email is completely voluntary. The API will verify that the serial number is associated with the given email address.', 'wc-serial-numbers' ); ?>
 			</li>
 		</ol>
 
@@ -182,7 +182,7 @@ $api_url = add_query_arg(
 				</tr>
 
 				<tr>
-					<th scope="row"><label><?php esc_html_e( 'API Response', 'wc-serial-numbers' ); ?></label></th>
+					<th scope="row"><label><?php esc_html_e( 'API response', 'wc-serial-numbers' ); ?></label></th>
 					<td class="code">
 						<pre><span class="wcsn-api-response">&mdash;</span></pre>
 					</td>
