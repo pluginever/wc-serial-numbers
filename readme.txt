@@ -60,6 +60,7 @@ Serial Numbers for WooCommerce is an essential tool for any online store owner l
 * Custom deliverable quantity to deliver multiple keys with a single product.
 * Manual delivery option to manually deliver license keys instead of automatic.
 * Email Template to easily and quickly customize the order confirmation & low stock alert email.
+* Twilio SMS integration for better and safe key delivery through SMS.
 
 <pre><a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
 
@@ -76,8 +77,6 @@ Next, follow these five steps:
 
 **4. Set Validation Days:** Input the number of days that your license key will be active, beginning with the date of purchase.
 
-**5. Set Expiry Date:** Set the date on which your license keys will become invalid for use.
-
 If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
 == 🛠️ Fast and Friendly Support: ==
@@ -91,11 +90,11 @@ We provide support for both the free and premium versions of Serial Numbers for 
 
 * **Unparalleled Features:** Serial Numbers for WooCommerce plugin is second to none when it comes to generating serial numbers and license keys for your WooCommerce products. This plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API and so on.
 
-* **Reduced Counterfeiting and Piracy:** The plugin is incredibly helpful in preventing counterfeiting and piracy. It provides an added layer of protection by allowing store owners to confirm the product is genuine and unaltered. Customers can easily confirm that the product they purchased was not a fake or pirated copy.
+* **Prevent Counterfeiting and Piracy:** The plugin is incredibly helpful in preventing counterfeiting and piracy. It provides an added layer of protection by allowing store owners to confirm the product is genuine and unaltered. Customers can easily confirm that the product they purchased was not a fake or pirated copy.
 
-* **Regular Updates/Secured:** The plugin is constantly being improved, and we make those improvements available to our customers at no extra cost. We release updates to ensure compatibility with WooCommerce as well as the latest version of PHP.
+* **Regular Updates:** The plugin is constantly being improved, and we make those improvements available to our customers at no extra cost. We release updates to ensure compatibility with WooCommerce as well as the latest version of PHP.
 
-* **Industry Leading Support:** The constant availability of our help desk and positive feedback on the reviews page for the plugin says a lot. We provide endless support for ensuring that everyone has a positive experience in terms of using our plugin.
+* **Fast and Friendly Support:** The constant availability of our help desk and positive feedback on the reviews page for the plugin says a lot. We provide endless support for ensuring that everyone has a positive experience in terms of using our plugin.
 
 
 === 💝 User Reviews and Testimonials: ===
