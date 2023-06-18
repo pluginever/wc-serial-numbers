@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 <div class="wrap woocommerce">
 	<?php if ( $key->exists() ) : ?>
 		<h2>
-			<?php esc_html_e( 'Edit serial key', 'wc-serial-numbers' ); ?>
+			<?php esc_html_e( 'Edit Serial Key', 'wc-serial-numbers' ); ?>
 			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ); ?>" class="add-serial-title page-title-action">
 				<?php esc_html_e( 'Add New', 'wc-serial-numbers' ); ?>
 			</a>
@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
 				echo wp_kses_post(
 					sprintf(
 					/* translators: %s: link to the pro version */
-						__( 'You are using the free version of WooCommerce Serial Numbers. <a href="%s" target="_blank">Upgrade to Pro</a> to get more features.', 'wc-serial-numbers' ),
+						__( 'You are using the free version of Serial Numbers for WooCommerce. <a href="%s" target="_blank">Upgrade to Pro</a> to get more features.', 'wc-serial-numbers' ),
 						esc_url( wc_serial_numbers()->get_premium_url() . '?utm_source=create_serial_page&utm_medium=button&utm_campaign=wc-serial-numbers&utm_content=View%20Details' )
 					)
 				);
@@ -101,7 +101,7 @@ defined( 'ABSPATH' ) || exit;
 				<td>
 					<?php echo sprintf( '<input name="validity" id="validity" class="regular-text" type="number" value="%d">', esc_attr( $key->get_validity() ) ); ?>
 					<p class="description">
-						<?php esc_html_e( 'Number of days the key will be valid from the purchase date. Leave blank for lifetime validity.', 'wc-serial-numbers' ); ?>
+						<?php esc_html_e( 'Number of days the key will be valid from the purchase date. Leave it blank for lifetime validity.', 'wc-serial-numbers' ); ?>
 					</p>
 				</td>
 			</tr>
@@ -120,7 +120,7 @@ defined( 'ABSPATH' ) || exit;
 								<?php echo sprintf( '<option value="%s" %s>%s</option>', esc_attr( $status ), selected( $key->get_status(), $status, false ), esc_html( $option ) ); ?>
 							<?php endforeach; ?>
 						</select>
-						<p class="description"><?php esc_html_e( 'Status of the serial number.', 'wc-serial-numbers' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Status of the serial key.', 'wc-serial-numbers' ); ?></p>
 					</td>
 				</tr>
 				<!-- order -->
