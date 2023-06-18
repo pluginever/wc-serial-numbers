@@ -676,7 +676,7 @@ msgid "Upgrade to Pro"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:156
-msgid "WooCommerce Serial Number Free version does not support product variation."
+msgid "The free version of Serial Numbers for WooCommerce does not support product variation."
 msgstr ""
 
 #: src/Admin/Metaboxes.php:226
