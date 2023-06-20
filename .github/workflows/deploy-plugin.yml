@@ -4,8 +4,8 @@ name: Deploy Plugin
 on:
   push:
     branches:
-      - master
-      - release/*
+        #- master
+        #- release/*
   workflow_dispatch:
     inputs:
       ref:
