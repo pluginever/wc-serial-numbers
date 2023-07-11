@@ -1,4 +1,4 @@
-=== Serial Numbers for WooCommerce - License Manager ===
+=== WC Serial Numbers - Sell Digital Products and Manage Licenses in WooCommerce ===
 Contributors: pluginever, manikmist09, b-07
 Tags: license, license number, license manager, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, product identification number, digital product license, virtual product key, virtual product license, subscription product license, serial number generator, unique number, license key generator, auto generate serial number, woocommerce, woocommerce license manager, woocommerce key
 Requires at least: 5.0
@@ -8,7 +8,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Sell and manage license keys/serial numbers on your WooCommerce store with ease.
+The easiest way to sell digital products and manage licenses with WooCommerce. 
 
 == Description ==
 **[Serial Numbers for WooCommerce](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** the most powerful WordPress license manager plugin created for WooCommerce store owners. Manage licenses, assign licensing keys to products, and keep track of customer activations, all without leaving the WooCommerce dashboard.
@@ -80,7 +80,7 @@ And many more...
 === 🔑 How To Generate/ Add A License Key: ===
 
 Generating and adding a license key is easy. You just need to click ‘Add New’ to generate a new license key.
-Next, follow these five steps:
+Next, follow these four steps:
 
 **1. Select A Product:** Choose your product from the dropdown menu by simply entering a few characters of the product name.
 
@@ -92,23 +92,17 @@ Next, follow these five steps:
 
 If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
 
-== 🛠️ Fast and Friendly Support: ==
 
-We provide support for both the free and premium versions of Serial Numbers for WooCommerce. We're constantly working on new innovative features to give you more power. Whether you have a question or want to request a new feature, we're just a quick message away.
-
-- [Free support (forum)](https://wordpress.org/support/plugin/wc-serial-numbers/)
-- [Premium & pre-sales support (email)](https://pluginever.com/support/)
-
-== 💚 Why Digital Product Sellers Love Serial Numbers for WooCommerce: ==
+== 💚 Why Creators and Digital Product Sellers Love WC Serial Numbers: ==
 
 * **Unparalleled Features:** Serial Numbers for WooCommerce plugin is second to none when it comes to generating serial numbers and license keys for your WooCommerce products. This plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API, and so on.
 
-* **Prevent Counterfeiting and Piracy:** The plugin is incredibly helpful in preventing counterfeiting and piracy. It provides an added layer of protection by allowing store owners to confirm the product is genuine and unaltered. Customers can easily confirm that the product they purchased was not a fake or pirated copy.
-
 * **Regular Updates:** The plugin is constantly being improved, and we make those improvements available to our customers at no extra cost. We release updates to ensure compatibility with WooCommerce as well as the latest version of PHP.
 
-* **Fast and Friendly Support:** The constant availability of our help desk and positive feedback on the reviews page for the plugin says a lot. We provide endless support for ensuring that everyone has a positive experience in terms of using our plugin.
+* **Fast and Friendly Support:** The constant availability of our help desk and positive feedback on the reviews page for the plugin says a lot. We’re constantly working on new innovative features to give you more power. Whether you have a question or want to request a new feature, we’re just a quick message away.
 
+- [Free support (forum)](https://wordpress.org/support/plugin/wc-serial-numbers/)
+- [Premium & pre-sales support (email)](https://pluginever.com/support/)
 
 === 💝 User Reviews and Testimonials: ===
 
