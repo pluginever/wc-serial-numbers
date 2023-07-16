@@ -13,9 +13,9 @@ The easiest way to sell digital products and manage licenses with WooCommerce.
 == Description ==
 
 = Ultimate Solution for Selling Digital Products with WooCommerce =
-**[Serial Numbers for WooCommerce](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful WordPress license manager plugin created for WooCommerce store owners. Sell keys, manage licenses, assign serial keys to products, and keep track of customer activations, all without leaving the WooCommerce dashboard.
+**[WC Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful WordPress license manager plugin created for WooCommerce store owners. Sell keys, manage licenses, assign serial keys to products, and keep track of customer activations, all without leaving the WooCommerce dashboard.
 
-WooCommerce is the best eCommerce platform out there, but lacks key features for selling digital products. Serial Numbers plugin bridges this gap by seamlessly integrating all the necessary functionalities. Transform your WooCommerce store into a complete digital marketplace by incorporating license management and authorized distribution.
+WooCommerce is the best eCommerce platform out there, but lacks key features for selling digital products. WC Serial Numbers plugin bridges this gap by seamlessly integrating all the necessary functionalities. Transform your WooCommerce store into a complete digital marketplace by incorporating license management and authorized distribution.
 
 === 💵 With Serial Numbers for WooCommerce You Can Sell: ===
 
@@ -58,17 +58,28 @@ The following businesses may find this plugin particularly beneficial for their 
 
 
 
-=== ✨ Serial Numbers for WooCommerce Features: ===
+=== ✨ WC Serial Numbers Features: ===
 
 
-
+<pre>Maximize the potential of WC Serial Numbers by unlocking all its advanced features.<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
 > ➡️ Looking for more features? [Get The PRO Version.](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
-=== ⚡ Serial Numbers for WooCommerce PRO Features: ===
+=== ⚡ More Upcoming Features: ===
 
+We are constantly improving our plugin and bringing new enhancements for your connivance. We’re currently working on some exclusive features and will release them periodically. Have a look at what’s in our pipeline. 
 
+- **Subscription Support:** You’ll have the option to sell your subscription products with the WooCommerce subscription feature. It will give you all the features and functionalities to sell keys by managing subscriptions efficiently.
 
-<pre><a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
+- **Rest API:** You’ll be able to operate set of standard rules and conventions for communicating with other web-based applications and services. REST API treats everything as a resource, including a WC product. License keys are managed as resources and are accessed through endpoints that are also resources.
+
+- **Fast Checkout:** You’ll have the option to let your customers go through a fast checkout process if they only add digital products to their cart. With this option, customers won't have to worry about filling out fields they don't need to.
+
+- **Custom Emails:** You’ll have the full option to take control over sending emails to your customers. You’ll have options to disable sending emails and also you can send custom emails instead of sending default emails sent via WooCommerce itself. 
+
+- **Key Placements:** You’ll have the option to display keys for your customers depending on your preferences. On that note, you don’t have to stick with the default key placements by the plugin. You can also choose file formats for showing your keys. 
+
+- **Barcode Integration:** You’ll have the option to create fully functional barcodes as you know that a barcode is a visual representation of the ‘serial number’ that is located beneath it. You can input product-related data or information using available formats of barcodes.
+
 
 === 🔑 : ===
 
