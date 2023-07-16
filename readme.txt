@@ -17,7 +17,7 @@ The easiest way to sell digital products and manage licenses with WooCommerce.
 
 WooCommerce is the best eCommerce platform out there, but lacks key features for selling digital products. WC Serial Numbers plugin bridges this gap by seamlessly integrating all the necessary functionalities. Transform your WooCommerce store into a complete digital marketplace by incorporating license management and authorized distribution.
 
-=== This Plugin is Ideal for ===
+=== 👨‍💻 This Plugin is Ideal for ===
 
 * Content Creators
 * Developers and Digital Agencies
