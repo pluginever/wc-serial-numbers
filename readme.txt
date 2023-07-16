@@ -62,17 +62,17 @@ While the plugin was designed with digital products in mind, Serial Numbers for 
 
 - **Deliver Keys Automatically:** You have the option to auto-complete any order to send and show keys to your customer’s order details page after successful payment. This ensures a seamless and hassle-free purchase experience for your customers. 
 
-- **Detailed Reporting:** The plugin provides comprehensive reporting and logging features, allowing you to track the usage and activation of serial keys. This helps you monitor and analyze the performance of your products.
+- **Detailed Reporting:** The plugin provides comprehensive reporting and logging features, allowing you to track the usage and activation of the keys. This helps you monitor and analyze the performance of your products.
 
 - **Self-service:** Customers can manage their license keys and downloads for all of their associated orders at any time by logging into their accounts on the "My Account" page of your store.
 
-- **License Key Encryption:** To guarantee your security, the serial numbers kept in the database are encrypted. With this plugin, you may avoid headaches and second thoughts by knowing that your license keys are secure.
+- **License Key Encryption:** To guarantee your security, the keys kept in the database are encrypted. With this plugin, you may avoid headaches and second thoughts by knowing that your license keys are secure.
 
-- **Key Generator (PRO):** You can control how your license keys will be generated. Using the built-in license generator, you can customize your serial key interface rule to generate serial numbers. The generator will allow you to generate both sequential and random serial numbers.
+- **Key Generator (PRO):** You can control how your keys will be generated. Using the built-in license generator, you can customize your key interface rule to generate keys. The generator will allow you to generate both sequential and random keys.
 
 - **Automatically Generate Keys (PRO):** You can use the automatic key generation rule for a license-enabled product, our plugin will automatically generate and deliver a key to the customers whenever they purchase that product.
 
-- **Flexible Activation Options:** You can choose to require customers to activate their serial keys before accessing or using your digital products. This allows you to control access and prevent unauthorized usage.
+- **Flexible Activation Options:** You can choose to require customers to activate their keys before accessing or using your digital products. This allows you to control access and prevent unauthorized usage.
 
 - **API Form for Validation, Activation, Deactivation:** Serial Numbers for WooCommerce includes a built-in license key validator API form to validate, activate and deactivate keys without any complexity. You can also show an API form for your customers anywhere on your website using our predefined shortcode for the form.
 You can also use different methods that allow you to validate, activate, and deactivate license keys as well as access the software's current version number using HTTP requests. 
@@ -87,7 +87,7 @@ You can also use different methods that allow you to validate, activate, and dea
 
 - **Backorder Support (PRO):** You can sell keys even when the product is out of stock, and you can assign keys to orders with a single click when they become available.
 
-- **Support for Expiry Dates:** For products that require time-limited access or subscription-based licensing, this plugin allows you to set expiry dates for serial keys. This ensures that customers cannot use the keys beyond the specified period.
+- **Support for Expiry Dates:** For products that require time-limited access or subscription-based licensing, this plugin allows you to set expiry dates for keys. This ensures that customers cannot use the keys beyond the specified period.
 
 - **Bulk Import (PRO):** You may use our bulk import license for product update the serial key table with pre-existing or new keys. The bulk importer accepts CSV and TXT files. CSV importer works when you import several items at once, whereas TXT works when you import a single product with many product keys.
 
@@ -107,7 +107,7 @@ You can also use different methods that allow you to validate, activate, and dea
 
 - **License Key Stock Notification:** You can enable this option to receive an email notification when your stock is about to expire. You must configure your stock limit so that you receive notifications anytime a product drops below that quantity.
 
-- **Order Table Key Properties (PRO):** When an order is completed, your customer will receive a key both on the order page and via mail. The order details page and email both include a table with the serial numbers and other required data. You can decide which key fields to display and you can edit each field from the order table settings menu.
+- **Order Table Key Properties (PRO):** When an order is completed, your customer will receive a key both on the order page and via mail. The order details page and email both include a table with the keys and other required data. You can decide which key fields to display and you can edit each field from the order table settings menu.
 
 - **Powered by WooCommerce:** Enjoy the power of WooCommerce to use any payment gateway and manage orders natively. There's no need for third-party plugins, making it a seamless addition to your WooCommerce ecosystem.
 
