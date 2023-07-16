@@ -24,7 +24,7 @@ WooCommerce is the best eCommerce platform out there, but lacks key features for
 * Digital Entries (Event Tickets, Entry Pass for Conferences, or Workshops)
 * Digital Gifts (Gift Cards, Lottery, and Secret Number-based Products)
 * Custom Activation Codes, License Keys
-* Online Courses & Professional services (Tutorials, Coaching, Consultations)
+* Online Courses & Professional Services (Tutorials, Coaching, Consultations)
 * eBooks and Audiobooks
 * And many more.
 
@@ -42,15 +42,15 @@ While the plugin was designed with digital products in mind, Serial Numbers for 
 
 === How Store Owners can benefit from using Serial Numbers for WooCommerce for their businesses ===
 
-- **Generate Fast Revenue:** You can stop worrying about the licensing management system and put all of your energy into improving your products.
+- **Generate Fast Revenue:** Stop worrying about the licensing management system and put all of your energy into creating and improving your products.
 
 - **Self-Hosted, No Platform Fees:** This allows you comprehensive control over the selling process. You are not required to pay a percentage of your earnings to the platform regardless of how many digital products you sell.
 
-- **Streamlined Order Fulfilment:** You can automate the delivery process by generating and sending keys to customers after successful payment. This eliminates the need for manual intervention, saving time and reducing errors.
+- **Streamlined Order Fulfilment:** Automate the delivery process by generating and sending keys to customers after successful payment. This eliminates the need for manual intervention, saves time, and reduces errors.
 
-- **Customizable and Scalable:** You can customize the format and appearance of keys to align with your brand. Additionally, the plugin is scalable and can handle a large volume of orders, ensuring smooth operations even during peak periods.
+- **Customizable and Scalable:** Customize the format and appearance of keys to align with your brand. Additionally, the plugin is scalable and can handle a large volume of orders, ensuring smooth operations even during peak periods.
 
-- **Increased Customer Satisfaction:** Instant delivery of keys after purchase enhances the customer experience. Customers can immediately access and activate their digital products, resulting in higher satisfaction and reduced support requests.
+- **Increased Customer Satisfaction:** Instant delivery of keys after purchase enhances the customer experience. Customers can immediately access and activate their products, resulting in higher satisfaction and reduced support requests.
 
 - **Prevent Counterfeiting and Piracy:** The plugin is capable of avoiding piracy and fraud. It's a safety net since WooCommerce store owners can verify the product is authentic and hasn't been tampered with. Those who have bought a product online can check to see if it is a legitimate copy or a fake.
 
@@ -58,60 +58,60 @@ While the plugin was designed with digital products in mind, Serial Numbers for 
 
 === ✨ WC Serial Numbers Features: ===
 
-- **Add Serial Key Manually:** You can manually enter as many serial keys as you wish, or you can use our powerful built-in bulk importer to do the work for you.
+- **Add Keys Manually:** You can manually enter as many keys as you wish, or you can use our powerful built-in bulk importer to do the work for you.
 
 - **Deliver Keys Automatically:** You have the option to auto-complete any order to send and show keys to your customer’s order details page after successful payment. This ensures a seamless and hassle-free purchase experience for your customers. 
 
-- **Detailed Reporting:** The plugin provides comprehensive reporting and logging features, allowing you to track the usage and activation of serial keys. This helps you monitor and analyze the performance of your digital products.
+- **Detailed Reporting:** The plugin provides comprehensive reporting and logging features, allowing you to track the usage and activation of serial keys. This helps you monitor and analyze the performance of your products.
 
-- **Self-service:** Customers can manage their license keys and downloads for all of their Associated orders at any time by logging into their accounts on the "My Account" page of your store.
+- **Self-service:** Customers can manage their license keys and downloads for all of their associated orders at any time by logging into their accounts on the "My Account" page of your store.
 
 - **License Key Encryption:** To guarantee your security, the serial numbers kept in the database are encrypted. With this plugin, you may avoid headaches and second thoughts by knowing that your license keys are secure.
 
-- **Serial Key Generator (PRO):** You can control how your license keys will be generated. Using the built-in license generator, you can customize your serial key interface rule to generate serial numbers. The generator will allow you to generate both sequential and random serial numbers.
+- **Key Generator (PRO):** You can control how your license keys will be generated. Using the built-in license generator, you can customize your serial key interface rule to generate serial numbers. The generator will allow you to generate both sequential and random serial numbers.
 
-- **Automatically Generate Serial Key (PRO):** You can use the automatic serial number generation rule for a license-enabled product, our plugin will automatically generate and deliver a serial key to the customers whenever they purchase that particular product.
+- **Automatically Generate Keys (PRO):** You can use the automatic key generation rule for a license-enabled product, our plugin will automatically generate and deliver a key to the customers whenever they purchase that product.
 
 - **Flexible Activation Options:** You can choose to require customers to activate their serial keys before accessing or using your digital products. This allows you to control access and prevent unauthorized usage.
 
 - **API Form for Validation, Activation, Deactivation:** Serial Numbers for WooCommerce includes a built-in license key validator API form to validate, activate and deactivate keys without any complexity. You can also show an API form for your customers anywhere on your website using our predefined shortcode for the form.
 You can also use different methods that allow you to validate, activate, and deactivate license keys as well as access the software's current version number using HTTP requests. 
 
-- **Reuse Keys:** When a sold serial number is refunded or an order fails, activating this option allows you to reuse the refunded or failed serial number. You don't have to be concerned about which serial keys are refunded or failed.
+- **Reuse Keys:** When a sold key is refunded or an order fails, activating this option allows you to reuse the refunded or failed keys. You don't have to be concerned about which keys are refunded or failed.
 
-- **Revoke Keys:** When an order is canceled or reimbursed, the serial number can be revoked. The serial numbers will be invalidated if the order is canceled or refunded.
+- **Revoke Keys:** When an order is canceled or reimbursed, the key can be revoked. The key will be invalidated if the order is canceled or refunded.
 
-- **Simple Product Support:** Create and assign serial keys for simple products. You can sell keys for any of your products that fall into the group of "simple products.”
+- **Simple Product Support:** Create and assign keys for simple products. You can sell keys for any of your products that fall into the group of "simple products.”
 
-- **Variable Product Support (PRO):** This functionality allows you to generate and assign serial numbers for product variations of your variable products. As a result, it avoids the issue of selling license-enabled variable products.
+- **Variable Product Support (PRO):** This functionality allows you to generate and assign keys for product variations of your variable products. As a result, it avoids the issue of selling license-enabled variable products.
 
-- **Backorder Support (PRO):** You can sell serial numbers even when the product is out of stock, and you can assign serial numbers to orders with a single click when they become available.
+- **Backorder Support (PRO):** You can sell keys even when the product is out of stock, and you can assign keys to orders with a single click when they become available.
 
-- **Support for Expiry Dates:** For products that require time-limited access or subscription-based licensing, Serial Numbers for WooCommerce allows you to set expiry dates for serial keys. This ensures that customers cannot use the keys beyond the specified period.
+- **Support for Expiry Dates:** For products that require time-limited access or subscription-based licensing, this plugin allows you to set expiry dates for serial keys. This ensures that customers cannot use the keys beyond the specified period.
 
-- **Bulk Import (PRO):** You may use our bulk import license for product update the serial number table with pre-existing or new license numbers. The bulk importer accepts CSV and TXT files. CSV importer works when you import several items at once, whereas TXT works when you import a single product with many product keys.
+- **Bulk Import (PRO):** You may use our bulk import license for product update the serial key table with pre-existing or new keys. The bulk importer accepts CSV and TXT files. CSV importer works when you import several items at once, whereas TXT works when you import a single product with many product keys.
 
-- **Bulk Export (PRO):**You can export specific orders by entering Order IDs. You will be able to export licenses from products based on their status, such as **Available, Sold, Refunded**, etc. You will also have options to export from fields such as product ID, and activation limit.
+- **Bulk Export (PRO):**You can export specific orders by entering Order IDs. You will be able to export keys from products based on their status, such as **Available, Sold, Refunded**, etc. You will also have options to export from fields such as product ID, and activation limit.
 
 - **Keys For Older Orders:** Keys can be added to previous orders by simply assigning them, and activation settings can be applied if necessary. This will assist in delivering instant updates to existing customers.
 
-- **Assign Keys Manually (PRO):** You can stop assigning serial keys automatically with the orders and you can assign them manually. This way you can control the key delivery system on your own when you'll have to assign it manually.
+- **Assign Keys Manually (PRO):** You can stop assigning keys automatically with the orders and you can assign them manually. This way you can control the key delivery system on your own when you'll have to assign it manually.
 
-- **Automated Email Delivery:** You can automatically send an email containing the assigned serial key to the customer after a successful purchase. This eliminates the need for manual key distribution and ensures a smooth customer experience.
+- **Automated Email Delivery:** You can automatically send an email containing the assigned key to the customer after a successful purchase. This eliminates the need for manual key distribution and ensures a smooth customer experience.
 
-- **Twilio SMS (PRO):** Your serial keys can be automatically sent to your customers via SMS, courtesy of the amazing Twilio API. No more dependency on emails and no more delayed responses! Your customers will receive instant notifications with their product serial keys as soon as they make a purchase.
+- **Twilio SMS (PRO):** Your keys can be automatically sent to your customers via SMS, courtesy of the amazing Twilio API. No more dependency on emails and no more delayed responses! Your customers will receive instant notifications with their product keys as soon as they make a purchase.
 
-- **Allow Duplicate Keys (PRO):** You can add and sell duplicate keys depending on your use case. This will allow you to sell the same keys with different orders from the serial key database.
+- **Allow Duplicate Keys (PRO):** You can add and sell duplicate keys depending on your use case. This will allow you to sell the same keys with different orders from the key database.
 
 - **Translation (PRO):** You can translate the notification texts and warning labels as you wish. This gives you the freedom to communicate and guide your customers to proceed with operating their orders in your direction.
 
 - **License Key Stock Notification:** You can enable this option to receive an email notification when your stock is about to expire. You must configure your stock limit so that you receive notifications anytime a product drops below that quantity.
 
-- **Order Table Key Properties (PRO):** When an order is completed, your customer will receive a serial number/s both on the order page and via mail. The order details page and email both include a table with the serial numbers and other required data. You can decide which key fields to display and you can edit each field from the order table settings menu.
+- **Order Table Key Properties (PRO):** When an order is completed, your customer will receive a key both on the order page and via mail. The order details page and email both include a table with the serial numbers and other required data. You can decide which key fields to display and you can edit each field from the order table settings menu.
 
-- **WooCommerce Power:** Fully compatible with WooCommerce, this plugin allows you to use any payment gateway and manage orders natively. There's no need for third-party plugins, making it a seamless addition to your WooCommerce ecosystem.
+- **Powered by WooCommerce:** Enjoy the power of WooCommerce to use any payment gateway and manage orders natively. There's no need for third-party plugins, making it a seamless addition to your WooCommerce ecosystem.
 
-- **Integration with WPML, PDF Invoice & Packing Slip, and many more:** Enjoy compatibility with popular plugins like WPML for multilingual support, PDF Invoice & Packing Slips for easy documentation, and multivendor sites. This plugin is designed to integrate smoothly with a wide variety of tools and platforms to enhance your WooCommerce experience.
+- **Useful Integrations:** Enjoy compatibility with popular plugins like WPML for multilingual support, PDF Invoice & Packing Slips for easy documentation, and multivendor sites. This plugin is designed to integrate smoothly with a wide variety of tools and platforms to enhance your store experience.
 
 <pre>Maximize the potential of WC Serial Numbers by unlocking all its advanced features.<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
 
