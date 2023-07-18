@@ -1,0 +1,134 @@
+.pev-form-field {
+	display: flex;
+	flex-direction: column;
+	margin: 0 0 10px 0;
+	flex: 1 1 auto;
+
+	&:last-child {
+		border-bottom: 0;
+	}
+
+	&__addon {
+		display: flex;
+		align-items: center;
+		padding: 0 8px;
+		text-align: center;
+		white-space: nowrap;
+		background-color: #eee;
+		border: 1px solid #8c8f94;
+		border-radius: 4px;
+		user-select: none;
+	}
+
+	&__group {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap; // For form validation feedback
+		align-items: stretch;
+		width: 100%;
+
+		> input:not([type="checkbox"]):not([type="radio"]),
+		> select,
+		> textarea,
+		.select2-container {
+			position: relative;
+			flex: 1 1 auto;
+			width: 1%;
+			min-width: 0;
+			margin: 0;
+
+			&:focus {
+				z-index: 3;
+			}
+		}
+
+		.select2-container--focus {
+			z-index: 3;
+		}
+
+		// Ensure buttons are always above inputs for more visually pleasing borders.
+		// This isn't needed for `.input-group-text` since it shares the same border-color
+		// as our inputs.
+		.button, button {
+			position: relative;
+			z-index: 2;
+			display: flex;
+			align-items: center;
+			margin-left: 0;
+			border-width: 1px;
+
+			&:focus {
+				z-index: 3;
+			}
+		}
+
+		// anything but not the last child
+		& > :not(:last-child) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+
+			.select2-selection {
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+		}
+
+		& > :nth-last-child(n+3) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+
+		& > :not(:first-child) {
+			margin-left: -1px !important;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+
+			.select2-selection {
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+			}
+		}
+
+		// if the 2nd child is select2.
+		& > :nth-child(2) {
+			.select2-selection {
+				border-top-left-radius: 4px;
+				border-bottom-left-radius: 4px;
+			}
+		}
+	}
+
+	label{
+		text-align: left;
+		margin: 0 5px 5px 0;
+		padding: 0;
+		font-weight: bold;
+
+		abbr[title="required"] {
+			color: #ff0000;
+			text-decoration: none;
+		}
+
+		//reset the style for any input field.
+		input,select, .select2-search__field{
+			font-weight: normal;
+		}
+	}
+
+	input:not([type="checkbox"]):not([type="radio"]):not(.select2-search__field),
+	select,
+	textarea {
+		box-sizing: border-box;
+		max-width: none;
+		min-height: 32px;
+	}
+
+	textarea {
+		//resize: none;
+		//width: 100%;
+	}
+
+	p{
+		margin-bottom: 0;
+	}
+}

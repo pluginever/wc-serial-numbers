@@ -32,15 +32,18 @@ class Menus extends Singleton {
 		add_action( 'admin_menu', array( $this, 'settings_menu' ), 100 );
 		add_action( 'admin_menu', array( $this, 'promo_menu' ), PHP_INT_MAX );
 
+		// Keys page.
+		add_action( 'wc_serial_numbers_keys_content', array( __CLASS__, 'output_keys_content' ) );
+		add_action( 'wc_serial_numbers_activations_content', array( __CLASS__, 'output_activations_content' ) );
+
 		// Add tabs content.
-		add_filter( 'wc_serial_numbers_tools_tabs', array( __CLASS__, 'add_tools_status_tab' ), PHP_INT_MAX );
-		add_action( 'wc_serial_numbers_tools_tab_import', array( __CLASS__, 'import_tab' ) );
-		add_action( 'wc_serial_numbers_tools_tab_export', array( __CLASS__, 'export_tab' ) );
-		add_action( 'wc_serial_numbers_tools_tab_generators', array( __CLASS__, 'generators_tab' ) );
-		add_action( 'wc_serial_numbers_tools_tab_status', array( __CLASS__, 'status_tab' ) );
-		add_action( 'wc_serial_numbers_tools_tab_api', array( __CLASS__, 'api_validation_section' ) );
-		add_action( 'wc_serial_numbers_tools_tab_api', array( __CLASS__, 'api_activation_deactivation_section' ) );
-		add_action( 'wc_serial_numbers_reports_tab_stock', array( __CLASS__, 'reports_stock_tab' ) );
+		add_action( 'wc_serial_numbers_tools_import_content', array( __CLASS__, 'import_tab' ) );
+		add_action( 'wc_serial_numbers_tools_export_content', array( __CLASS__, 'export_tab' ) );
+		add_action( 'wc_serial_numbers_tools_generators_content', array( __CLASS__, 'generators_tab' ) );
+		add_action( 'wc_serial_numbers_tools_status_content', array( __CLASS__, 'status_tab' ) );
+		add_action( 'wc_serial_numbers_tools_api_content', array( __CLASS__, 'api_validation_section' ) );
+		add_action( 'wc_serial_numbers_tools_api_content', array( __CLASS__, 'api_activation_deactivation_section' ) );
+		add_action( 'wc_serial_numbers_reports_stock_content', array( __CLASS__, 'stock_report_content' ) );
 	}
 
 	/**
@@ -75,11 +78,15 @@ class Menus extends Singleton {
 	 * Validate screen options on update.
 	 *
 	 * @param bool|int $status Screen option value. Default false to skip.
-	 * @param string   $option The option name.
-	 * @param int      $value The number of rows to use.
+	 * @param string $option The option name.
+	 * @param int $value The number of rows to use.
 	 */
 	public function save_screen_options( $status, $option, $value ) {
-		if ( in_array( $option, array( 'wsn_keys_per_page', 'wsn_generators_per_page', 'wsn_activations_per_page' ), true ) ) {
+		if ( in_array( $option, array(
+			'wsn_keys_per_page',
+			'wsn_generators_per_page',
+			'wsn_activations_per_page'
+		), true ) ) {
 			return $value;
 		}
 
@@ -89,8 +96,8 @@ class Menus extends Singleton {
 	/**
 	 * Add menu.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function main_menu() {
 		$role = wcsn_get_manager_role();
@@ -117,8 +124,8 @@ class Menus extends Singleton {
 	/**
 	 * Add activations menu.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function activations_menu() {
 		if ( ! wcsn_is_software_support_enabled() ) {
@@ -137,8 +144,8 @@ class Menus extends Singleton {
 	/**
 	 * Add tools menu.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function tools_menu() {
 		add_submenu_page(
@@ -154,8 +161,8 @@ class Menus extends Singleton {
 	/**
 	 * Add reports menu.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function reports_menu() {
 		add_submenu_page(
@@ -171,8 +178,8 @@ class Menus extends Singleton {
 	/**
 	 * Settings menu.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function settings_menu() {
 		add_submenu_page(
@@ -188,8 +195,8 @@ class Menus extends Singleton {
 	/**
 	 * Add promo Menu.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function promo_menu() {
 		$role = wcsn_get_manager_role();
@@ -208,46 +215,39 @@ class Menus extends Singleton {
 	/**
 	 * Output keys page.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function output_main_page() {
-		if ( isset( $_GET['add'] ) || isset( $_GET['edit'] ) ) {
-			$id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
-			$key = new Key( $id );
-			if ( ! empty( $id ) && ! $key->exists() ) {
-				wp_safe_redirect( remove_query_arg( 'edit' ) );
-				exit();
-			}
-			Admin::view( 'html-edit-key.php', array( 'key' => $key ) );
-		} else {
-			Admin::view( 'html-list-keys.php' );
-		}
+		$page_hook = 'keys';
+		include dirname( __FILE__ ) . '/views/admin-page.php';
 	}
 
 	/**
 	 * Output activations page.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function output_activations_page() {
-		Admin::view( 'html-list-activations.php' );
+		$page_hook = 'activations';
+		include dirname( __FILE__ ) . '/views/admin-page.php';
 	}
 
 
 	/**
 	 * Output tools page.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function output_tools_page() {
 		$tabs = array(
-			'import'     => __( 'Import', 'wc-serial-numbers' ),
-			'export'     => __( 'Export', 'wc-serial-numbers' ),
 			'generators' => __( 'Generators', 'wc-serial-numbers' ),
 			'api'        => __( 'API', 'wc-serial-numbers' ),
+			'import'     => __( 'Import', 'wc-serial-numbers' ),
+			'export'     => __( 'Export', 'wc-serial-numbers' ),
+			'status'     => __( 'Status', 'wc-serial-numbers' ),
 		);
 
 		// If software support is disabled, remove the activations tab.
@@ -255,60 +255,66 @@ class Menus extends Singleton {
 			unset( $tabs['api'] );
 		}
 
-		$tabs        = apply_filters( 'wc_serial_numbers_tools_tabs', $tabs );
-		$tab_ids     = array_keys( $tabs );
-		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : reset( $tab_ids );
-		$page        = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
-
-		Admin::view(
-			'html-tools.php',
-			array(
-				'tabs'        => $tabs,
-				'current_tab' => $current_tab,
-				'page'        => $page,
-			)
-		);
+		$page_hook = 'tools';
+		include dirname( __FILE__ ) . '/views/admin-page.php';
 	}
 
 	/**
 	 * Output reports page.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function output_reports_page() {
 		$tabs = array(
 			'stock' => __( 'Stock', 'wc-serial-numbers' ),
-		// 'sales'       => __( 'Sales', 'wc-serial-numbers' ),
-		// 'activations' => __( 'Activations', 'wc-serial-numbers' ),
 		);
 
-		$tabs        = apply_filters( 'wc_serial_numbers_reports_tabs', $tabs );
-		$tab_ids     = array_keys( $tabs );
-		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : reset( $tab_ids );
-		$page        = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
-
-		Admin::view(
-			'html-reports.php',
-			array(
-				'tabs'        => $tabs,
-				'current_tab' => $current_tab,
-				'page'        => $page,
-			)
-		);
+		$page_hook = 'reports';
+		include dirname( __FILE__ ) . '/views/admin-page.php';
 	}
 
 	/**
 	 * Redirect to pro page.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public function go_pro_redirect() {
 		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
 			wp_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
 			die;
 		}
+	}
+
+	/**
+	 * Output keys content.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 */
+	public static function output_keys_content() {
+		if ( isset( $_GET['add'] ) || isset( $_GET['edit'] ) ) {
+			$id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
+			$key = new Key( $id );
+			if ( ! empty( $id ) && ! $key->exists() ) {
+				wp_safe_redirect( remove_query_arg( 'edit' ) );
+				exit();
+			}
+			include dirname( __FILE__ ) . '/views/edit-key.php';
+		} else {
+			include dirname( __FILE__ ) . '/views/list-key.php';
+		}
+	}
+
+	/**
+	 * Output activations content.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 */
+	public static function output_activations_content() {
+		include dirname( __FILE__ ) . '/views/list-activation.php';
 	}
 
 	/**
@@ -327,24 +333,30 @@ class Menus extends Singleton {
 	/**
 	 * Import tab content.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public static function import_tab() {
 		?>
 		<div class="wcsn-feature-promo-banner">
 			<div class="wcsn-feature-promo-banner__content">
 				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
-				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=import-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
+				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=import-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers"
+				   target="_blank"
+				   class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
 			</div>
-			<img src="<?php echo esc_url( wc_serial_numbers()->get_url() . 'assets/images/csv-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>" />
+			<img src="<?php echo esc_url( wc_serial_numbers()->get_url() . 'assets/images/csv-import.png' ); ?>"
+				 alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>"/>
 		</div>
 		<div class="wcsn-feature-promo-banner">
 			<div class="wcsn-feature-promo-banner__content">
 				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
-				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=import-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
+				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=import-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers"
+				   target="_blank"
+				   class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
 			</div>
-			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/txt-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>" />
+			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/txt-import.png' ); ?>"
+				 alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>"/>
 		</div>
 		<?php
 	}
@@ -352,17 +364,20 @@ class Menus extends Singleton {
 	/**
 	 * Export tab content.
 	 *
-	 * @since 1.0.0
 	 * @return void
+	 * @since 1.0.0
 	 */
 	public static function export_tab() {
 		?>
 		<div class="wcsn-feature-promo-banner">
 			<div class="wcsn-feature-promo-banner__content">
 				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
-				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=export-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
+				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=export-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers"
+				   target="_blank"
+				   class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
 			</div>
-			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/csv-export.png' ); ?>" alt="<?php esc_attr_e( 'Export Serial Numbers', 'wc-serial-numbers' ); ?>" />
+			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/csv-export.png' ); ?>"
+				 alt="<?php esc_attr_e( 'Export Serial Numbers', 'wc-serial-numbers' ); ?>"/>
 		</div>
 		<?php
 	}
@@ -370,17 +385,20 @@ class Menus extends Singleton {
 	/**
 	 * Getnerators tab content.
 	 *
-	 * @since 1.4.6
 	 * @return void
+	 * @since 1.4.6
 	 */
 	public static function generators_tab() {
 		?>
 		<div class="wcsn-feature-promo-banner">
 			<div class="wcsn-feature-promo-banner__content">
 				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
-				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generators-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
+				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generators-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers"
+				   target="_blank"
+				   class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
 			</div>
-			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/add-generator.png' ); ?>" alt="<?php esc_attr_e( 'Generators', 'wc-serial-numbers' ); ?>" />
+			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/add-generator.png' ); ?>"
+				 alt="<?php esc_attr_e( 'Generators', 'wc-serial-numbers' ); ?>"/>
 		</div>
 		<?php
 	}
@@ -388,8 +406,8 @@ class Menus extends Singleton {
 	/**
 	 * Debug tab content.
 	 *
-	 * @since 1.4.6
 	 * @return void
+	 * @since 1.4.6
 	 */
 	public static function status_tab() {
 		$statuses = array(
@@ -428,32 +446,33 @@ class Menus extends Singleton {
 		}
 		$statuses = apply_filters( 'wc_serial_numbers_plugin_statuses', $statuses );
 		?>
-		<table class="widefat wcsn-status" cellspacing="0" id="wcsn-status">
-			<thead>
-			<tr>
-				<th colspan="3" data-export-label="Serial Numbers"><h2><?php esc_html_e( 'Serial Numbers', 'wc-serial-numbers' ); ?></h2></th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php foreach ( $statuses as $name => $value ) : ?>
-				<tr>
-					<td data-export-label="<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $name ); ?></td>
-					<td class="help">&dash;</td>
-					<td><?php echo esc_html( $value ); ?></td>
-				</tr>
-			<?php endforeach; ?>
-			</tbody>
+		<div class="pev-card">
+			<div class="pev-card__header">
+				<h2><?php esc_html_e( 'Plugin Status', 'wc-serial-numbers' ); ?></h2>
+			</div>
+			<div class="pev-card__body">
+				<table class="widefat striped fixed" cellspacing="0">
+					<tbody>
+					<?php foreach ( $statuses as $name => $value ) : ?>
+						<tr>
+							<td data-export-label="<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $name ); ?></td>
+							<td class="help">&dash;</td>
+							<td><?php echo esc_html( $value ); ?></td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
 
-		</table>
-
+				</table>
+			</div>
+		</div>
 		<?php
 	}
 
 	/**
 	 * Validation section.
 	 *
-	 * @since 1.4.6
 	 * @return void
+	 * @since 1.4.6
 	 */
 	public static function api_validation_section() {
 		$args        = array_merge(
@@ -480,8 +499,8 @@ class Menus extends Singleton {
 	/**
 	 * Activation deactivation section.
 	 *
-	 * @since 1.4.6
 	 * @return void
+	 * @since 1.4.6
 	 */
 	public static function api_activation_deactivation_section() {
 		$args        = array_merge(
@@ -508,10 +527,10 @@ class Menus extends Singleton {
 	/**
 	 * Stock section.
 	 *
-	 * @since 1.4.6
 	 * @return void
+	 * @since 1.4.6
 	 */
-	public static function reports_stock_tab() {
-		Admin::view( 'html-list-stock' );
+	public static function stock_report_content() {
+		include dirname( __FILE__ ) . '/views/stock-report.php';
 	}
 }

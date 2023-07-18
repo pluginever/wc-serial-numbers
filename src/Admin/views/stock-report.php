@@ -8,7 +8,11 @@
 defined( 'ABSPATH' ) || exit;
 $list_table = new WooCommerceSerialNumbers\Admin\ListTables\StockTable();
 ?>
-
+<div class="pev-admin-page__header">
+	<h2 class="wp-heading-inline">
+		<?php esc_html_e( 'Stock Report', 'wc-serial-numbers' ); ?>
+	</h2>
+</div>
 <form id="wcsn-stock-table" method="get">
 	<?php
 	$list_table->prepare_items();

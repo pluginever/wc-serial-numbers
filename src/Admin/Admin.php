@@ -124,7 +124,7 @@ class Admin extends Singleton {
 	 */
 	public static function view( $view, $args = [], $path = '' ) {
 		if ( empty( $path ) ) {
-			$path = __DIR__ . '/Views/';
+			$path = __DIR__ . '/views/';
 		}
 		// replace .php extension if it was added.
 		$view = str_replace( '.php', '', $view );
@@ -142,5 +142,39 @@ class Admin extends Singleton {
 		}
 
 		include $file;
+	}
+
+	/**
+	 * Get list table.
+	 *
+	 * @param string $name List table name.
+	 *
+	 * @since 1.0.0
+	 * @return object
+	 */
+	public static function get_list_table( $name ) {
+		static $list_tables = [];
+
+		if ( ! isset( $list_tables[ $name ] ) ) {
+			switch ( $name ) {
+				case 'keys':
+					$list_tables[ $name ] = new Keys_List_Table();
+					break;
+				case 'activations':
+					$list_tables[ $name ] = new Activations_List_Table();
+					break;
+				case 'products':
+					$list_tables[ $name ] = new Products_List_Table();
+					break;
+				case 'tools':
+					$list_tables[ $name ] = new Tools_List_Table();
+					break;
+				case 'reports':
+					$list_tables[ $name ] = new Reports_List_Table();
+					break;
+			}
+		}
+
+		return $list_tables[ $name ];
 	}
 }

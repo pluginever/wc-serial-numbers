@@ -11,15 +11,14 @@ defined( 'ABSPATH' ) || exit;
  * @package WooCommerceSerialNumbers\Models
  */
 class Key extends Model {
+
 	/**
-	 * Table name.
+	 * The table associated with the model.
 	 *
-	 * This is also used as table alias.
-	 *
-	 * @since 1.0.0
 	 * @var string
+	 * @since 1.0.0
 	 */
-	const TABLE_NAME = 'serial_numbers';
+	public $table_name = 'serial_numbers';
 
 	/**
 	 * Object type.
@@ -27,15 +26,7 @@ class Key extends Model {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const OBJECT_TYPE = 'key';
-
-	/**
-	 * Cache group.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	const CACHE_GROUP = 'serial_numbers';
+	public $object_type = 'key';
 
 	/**
 	 * Core data for this object. Name value pairs (name + default value).
@@ -44,6 +35,7 @@ class Key extends Model {
 	 * @var array
 	 */
 	protected $core_data = array(
+		'id'               => null,
 		'serial_key'       => '',
 		'product_id'       => 0,
 		'activation_limit' => 0,
@@ -59,12 +51,234 @@ class Key extends Model {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Getters and Setters
+	| CRUD methods
 	|--------------------------------------------------------------------------
 	|
-	| Methods for getting and setting data.
+	| Methods which create, read, update and delete discounts from the database.
 	|
 	*/
+	/**
+	 * Saves an object in the database.
+	 *
+	 * @since 1.0.0
+	 * @return true|\WP_Error True on success, WP_Error on failure.
+	 */
+	public function save() {
+		// Product id is required.
+		if ( ! $this->get_product_id() ) {
+			return new \WP_Error( 'missing-required', __( 'Product id is required.', 'wc-serial-numbers' ) );
+		}
+
+		// Check if product id is valid.
+		if ( empty( wc_get_product( $this->get_product_id() ) ) ) {
+			return new \WP_Error( 'invalid-data', __( 'Product id is invalid.', 'wc-serial-numbers' ) );
+		}
+
+		// Serial key is required.
+		if ( ! $this->get_serial_key() ) {
+			return new \WP_Error( 'missing-required', __( 'Serial key is required.', 'wc-serial-numbers' ) );
+		}
+
+		// Duplicate serial key is not allowed.
+		if ( ! wcsn_is_duplicate_key_allowed() ) {
+			$existing = self::get(
+				array(
+					'serial_key' => $this->get_serial_key(),
+				)
+			);
+
+			if ( $existing && $existing->get_id() !== $this->get_id() ) {
+				return new \WP_Error( 'invalid-data', __( 'Serial key already exists. Duplicate serial keys are not allowed.', 'wc-serial-numbers' ) );
+			}
+		}
+
+		// If order id is set, check if it is valid.
+		if ( $this->get_order_id() && empty( wc_get_order( $this->get_order_id() ) ) ) {
+			return new \WP_Error( 'invalid-data', __( 'Order id is invalid.', 'wc-serial-numbers' ) );
+		}
+
+		// If status is available, order date should not be set.
+		if ( 'available' === $this->get_status() ) {
+			$this->set_order_id( 0 );
+			$this->set_order_date( null );
+			$this->set_activation_count( 0 );
+		}
+
+		// If order is set, order date should be set.
+		if ( $this->get_order_id() && ! $this->get_order_date() ) {
+			$order = wc_get_order( $this->get_order_id() );
+			// Get order confirmed date.
+			$order_date = $order->get_date_completed() ? $order->get_date_completed()->getTimestamp() : wp_date( 'Y-m-d H:i:s' );
+			$this->set_date_prop( 'order_date', $order_date );
+		}
+
+		// If key is not created yet, set created date.
+		if ( ! $this->get_created_date() ) {
+			$this->set_date_prop( 'created_date', wp_date( 'Y-m-d H:i:s' ) );
+		}
+
+		return parent::save();
+	}
+
+
+	/*
+	|--------------------------------------------------------------------------
+	| Query Methods
+	|--------------------------------------------------------------------------
+	|
+	| Methods for reading and manipulating the object properties.
+	|
+	*/
+
+	/**
+	 * Retrieve the object instance.
+	 *
+	 * @param int|array|static $id Object ID or array of arguments.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return static|false Object instance on success, false on failure.
+	 */
+	public static function get( $id ) {
+		// If by is set to serial key, encrypt it.
+		if ( is_array( $id ) && array_key_exists( 'serial_key', $id ) ) {
+			$id['serial_key'] = wcsn_encrypt_key( $id['serial_key'] );
+		}
+
+		return parent::get( $id );
+	}
+
+	/**
+	 * Prepare where query.
+	 *
+	 * @param array $clauses Query clauses.
+	 * @param array $args Array of args to pass to the query method.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	protected function prepare_where_query( $clauses, $args = array() ) {
+		$clauses = parent::prepare_where_query( $clauses, $args );
+
+		// If customer id is set, find the orders having that customer id and limit the results to those orders.
+		if ( ! empty( $args['customer_id'] ) ) {
+			$customer_id = absint( $args['customer_id'] );
+			$order_ids   = wc_get_orders(
+				array(
+					'customer_id' => $customer_id,
+					'limit'       => - 1,
+					'return'      => 'ids',
+				)
+			);
+
+			if ( ! empty( $order_ids ) ) {
+				$clauses['where'] .= " AND {$this->table_name}.order_id IN (" . implode( ',', $order_ids ) . ')';
+			} else {
+				$clauses['where'] .= ' AND 0';
+			}
+		}
+
+		return $clauses;
+	}
+
+	/**
+	 * Prepare search query.
+	 *
+	 * @param array $clauses Query clauses.
+	 * @param array $args Array of args to pass to the query method.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	protected function prepare_search_query( $clauses, $args = array() ) {
+		global $wpdb;
+		/**
+		 * Filter the search query before setting up the query.
+		 *
+		 * @param array $clauses Query clauses.
+		 * @param array $args Query arguments.
+		 * @param self $this Current instance of the class.
+		 *
+		 * @since 1.0.0
+		 * @return array
+		 */
+		$clauses = apply_filters( $this->get_hook_prefix() . '_pre_setup_search_query', $clauses, $args, $this );
+
+		if ( ! empty( $args['search'] ) ) {
+			$search = $args['search'];
+			if ( ! empty( $args['search_columns'] ) ) {
+				$search_columns = wp_parse_list( $args['search_columns'] );
+			} else {
+				$search_columns = is_null( $this->search_columns ) ? $this->get_core_data_keys() : $this->search_columns;
+				/**
+				 * Filter the columns to search in when performing a search query.
+				 *
+				 * @param array $search_columns Array of columns to search in.
+				 * @param array $args Query arguments.
+				 * @param self $this Current instance of the class.
+				 *
+				 * @since 1.0.0
+				 * @return array
+				 */
+				$search_columns = apply_filters( $this->get_hook_prefix() . '_search_columns', $search_columns, $args, $this );
+			}
+			$search_columns = array_filter( array_unique( $search_columns ) );
+			$like           = '%' . $wpdb->esc_like( $search ) . '%';
+
+			$search_clauses = array();
+			foreach ( $search_columns as $column ) {
+				if ( 'serial_key' === $column ) {
+					$like = '%' . $wpdb->esc_like( wcsn_encrypt_key( $search ) ) . '%';
+				}
+				$search_clauses[] = $wpdb->prepare( $this->table_name . '.' . $column . ' LIKE %s', $like ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			}
+
+			if ( ! empty( $search_clauses ) ) {
+				$clauses['where'] .= ' AND (' . implode( ' OR ', $search_clauses ) . ')';
+			}
+		}
+
+		/**
+		 * Filter the search query after setting up the query.
+		 *
+		 * @param array $clauses Query clauses.
+		 * @param array $args Query arguments.
+		 * @param self $this Current instance of the class.
+		 *
+		 * @since 1.0.0
+		 * @return array
+		 */
+		return apply_filters( $this->get_hook_prefix() . '_setup_search_query', $clauses, $args, $this );
+	}
+
+
+	/*
+	|--------------------------------------------------------------------------
+	| Core Getters and Setters
+	|--------------------------------------------------------------------------
+	| These are the core getters and setters for the class.
+	*/
+	/**
+	 * Get id.
+	 *
+	 * @return int
+	 * @since 1.0.0
+	 */
+	public function get_id() {
+		return (int) $this->get_prop( 'id' );
+	}
+
+	/**
+	 * Set id.
+	 *
+	 * @param int $id Id.
+	 *
+	 * @since 1.0.0
+	 */
+	public function set_id( $id ) {
+		$this->set_prop( 'id', absint( $id ) );
+	}
+
 	/**
 	 * Get the serial key.
 	 *
@@ -76,19 +290,6 @@ class Key extends Model {
 	 */
 	public function get_serial_key( $context = 'edit' ) {
 		return $this->get_prop( 'serial_key', $context );
-	}
-
-	/**
-	 * Get the key.
-	 *
-	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return string
-	 */
-	public function get_key( $context = 'edit' ) {
-		return $this->get_serial_key( $context );
 	}
 
 	/**
@@ -115,34 +316,6 @@ class Key extends Model {
 	 */
 	public function get_product_id( $context = 'edit' ) {
 		return $this->get_prop( 'product_id', $context );
-	}
-
-	/**
-	 * Get product.
-	 *
-	 * @since 1.4.6
-	 *
-	 * @return \WC_Product|null Product object or null if not found.
-	 */
-	public function get_product() {
-		$product_id = $this->get_product_id();
-
-		if ( $product_id ) {
-			return wc_get_product( $product_id );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Get product name.
-	 *
-	 * @since 1.4.6
-	 *
-	 * @return string Product name.
-	 */
-	public function get_product_title() {
-		return wcsn_get_product_title( $this->get_product_id() );
 	}
 
 	/**
@@ -224,42 +397,6 @@ class Key extends Model {
 	}
 
 	/**
-	 * Get order.
-	 *
-	 * @since 1.4.6
-	 *
-	 * @return \WC_Order|null Order object or null if not found.
-	 */
-	public function get_order() {
-		$order_id = $this->get_order_id();
-
-		if ( $order_id ) {
-			return wc_get_order( $order_id );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Get order title.
-	 *
-	 * @since 1.4.6
-	 *
-	 * @return string Order title.
-	 */
-	public function get_order_title() {
-		if ( ! $this->get_order() ) {
-			return '';
-		}
-
-		return sprintf(
-			'(#%1$s) %2$s',
-			$this->get_order()->get_id(),
-			wp_strip_all_tags( $this->get_order()->get_formatted_billing_full_name() )
-		);
-	}
-
-	/**
 	 * Set the order id.
 	 *
 	 * @param int $order_id Order id.
@@ -283,23 +420,6 @@ class Key extends Model {
 	 */
 	public function get_vendor_id( $context = 'edit' ) {
 		return $this->get_prop( 'vendor_id', $context );
-	}
-
-	/**
-	 * Get vendor.
-	 *
-	 * @since 1.4.6
-	 *
-	 * @return \WP_User|null Vendor object or null if not found.
-	 */
-	public function get_vendor() {
-		$vendor_id = $this->get_vendor_id();
-
-		if ( $vendor_id ) {
-			return get_user_by( 'id', $vendor_id );
-		}
-
-		return null;
 	}
 
 	/**
@@ -381,7 +501,7 @@ class Key extends Model {
 	 * @return string
 	 */
 	public function get_order_date( $context = 'edit' ) {
-		return $this->get_prop( 'order_date', $context );
+		return $this->get_date_prop( 'order_date', $context );
 	}
 
 	/**
@@ -451,212 +571,120 @@ class Key extends Model {
 
 	/*
 	|--------------------------------------------------------------------------
-	| CRUD methods
-	|--------------------------------------------------------------------------
-	|
-	| Methods which create, read, update and delete discounts from the database.
-	|
-	*/
-	/**
-	 * Saves an object in the database.
-	 *
-	 * @since 1.0.0
-	 * @return true|\WP_Error True on success, WP_Error on failure.
-	 */
-	public function save() {
-		// Product id is required.
-		if ( ! $this->get_product_id() ) {
-			return new \WP_Error( 'missing-required', __( 'Product id is required.', 'wc-serial-numbers' ) );
-		}
-
-		// Check if product id is valid.
-		if ( empty( wc_get_product( $this->get_product_id() ) ) ) {
-			return new \WP_Error( 'invalid-data', __( 'Product id is invalid.', 'wc-serial-numbers' ) );
-		}
-
-		// Serial key is required.
-		if ( ! $this->get_serial_key() ) {
-			return new \WP_Error( 'missing-required', __( 'Serial key is required.', 'wc-serial-numbers' ) );
-		}
-
-		// Duplicate serial key is not allowed.
-		if ( ! wcsn_is_duplicate_key_allowed() ) {
-			$existing = self::get(
-				array(
-					'serial_key' => $this->get_serial_key(),
-				)
-			);
-
-			if ( $existing && $existing->get_id() !== $this->get_id() ) {
-				return new \WP_Error( 'invalid-data', __( 'Serial key already exists. Duplicate serial keys are not allowed.', 'wc-serial-numbers' ) );
-			}
-		}
-
-		// If order id is set, check if it is valid.
-		if ( $this->get_order_id() && empty( wc_get_order( $this->get_order_id() ) ) ) {
-			return new \WP_Error( 'invalid-data', __( 'Order id is invalid.', 'wc-serial-numbers' ) );
-		}
-
-		// If status is available, order date should not be set.
-		if ( 'available' === $this->get_status() ) {
-			$this->set_order_id( 0 );
-			$this->set_order_date( null );
-			$this->set_activation_count( 0 );
-		}
-
-		// If order is set, order date should be set.
-		if ( $this->get_order_id() && ! $this->get_order_date() ) {
-			$order = wc_get_order( $this->get_order_id() );
-			// Get order confirmed date.
-			$order_date = $order->get_date_completed() ? $order->get_date_completed()->getTimestamp() : wp_date( 'Y-m-d H:i:s' );
-			$this->set_date_prop( 'order_date', $order_date );
-		}
-
-		// If key is not created yet, set created date.
-		if ( ! $this->get_created_date() ) {
-			$this->set_date_prop( 'created_date', wp_date( 'Y-m-d H:i:s' ) );
-		}
-
-		return parent::save();
-	}
-	/*
-	|--------------------------------------------------------------------------
-	| Query Methods
-	|--------------------------------------------------------------------------
-	|
-	| Methods for reading and manipulating the object properties.
-	|
-	*/
-
-	/**
-	 * Retrieve the object instance.
-	 *
-	 * @param int|array|static $id Object ID or array of arguments.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return static|false Object instance on success, false on failure.
-	 */
-	public static function get( $id ) {
-		// If by is set to serial key, encrypt it.
-		if ( is_array( $id ) && array_key_exists( 'serial_key', $id ) ) {
-			$id['serial_key'] = wcsn_encrypt_key( $id['serial_key'] );
-		}
-
-		return parent::get( $id );
-	}
-
-	/**
-	 * Prepare where query.
-	 *
-	 * @param array $clauses Query clauses.
-	 * @param array $args Array of args to pass to the query method.
-	 *
-	 * @since 1.0.0
-	 * @return array
-	 */
-	protected function prepare_where_query( $clauses, $args = array() ) {
-		$clauses = parent::prepare_where_query( $clauses, $args );
-
-		// If customer id is set, find the orders having that customer id and limit the results to those orders.
-		if ( ! empty( $args['customer_id'] ) ) {
-			$customer_id = absint( $args['customer_id'] );
-			$order_ids   = wc_get_orders(
-				array(
-					'customer_id' => $customer_id,
-					'limit'       => - 1,
-					'return'      => 'ids',
-				)
-			);
-
-			if ( ! empty( $order_ids ) ) {
-				$clauses['where'] .= " AND {$this->table_alias}.order_id IN (" . implode( ',', $order_ids ) . ')';
-			} else {
-				$clauses['where'] .= ' AND 0';
-			}
-		}
-
-		return $clauses;
-	}
-
-	/**
-	 * Prepare search query.
-	 *
-	 * @param array $clauses Query clauses.
-	 * @param array $args Array of args to pass to the query method.
-	 *
-	 * @since 1.0.0
-	 * @return array
-	 */
-	protected function prepare_search_query( $clauses, $args = array() ) {
-		global $wpdb;
-		/**
-		 * Filter the search query before setting up the query.
-		 *
-		 * @param array $clauses Query clauses.
-		 * @param array $args Query arguments.
-		 * @param self $this Current instance of the class.
-		 *
-		 * @since 1.0.0
-		 * @return array
-		 */
-		$clauses = apply_filters( $this->get_hook_prefix() . '_pre_setup_search_query', $clauses, $args, $this );
-
-		if ( ! empty( $args['search'] ) ) {
-			$search = $args['search'];
-			if ( ! empty( $args['search_columns'] ) ) {
-				$search_columns = wp_parse_list( $args['search_columns'] );
-			} else {
-				$search_columns = is_null( $this->search_columns ) ? $this->get_columns() : $this->search_columns;
-				/**
-				 * Filter the columns to search in when performing a search query.
-				 *
-				 * @param array $search_columns Array of columns to search in.
-				 * @param array $args Query arguments.
-				 * @param self $this Current instance of the class.
-				 *
-				 * @since 1.0.0
-				 * @return array
-				 */
-				$search_columns = apply_filters( $this->get_hook_prefix() . '_search_columns', $search_columns, $args, $this );
-			}
-			$search_columns = array_filter( array_unique( $search_columns ) );
-			$like           = '%' . $wpdb->esc_like( $search ) . '%';
-
-			$search_clauses = array();
-			foreach ( $search_columns as $column ) {
-				if ( 'serial_key' === $column ) {
-					$like = '%' . $wpdb->esc_like( wc_serial_numbers_encrypt_key( $search ) ) . '%';
-				}
-				$search_clauses[] = $wpdb->prepare( $this->table_alias . '.' . $column . ' LIKE %s', $like ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			}
-
-			if ( ! empty( $search_clauses ) ) {
-				$clauses['where'] .= ' AND (' . implode( ' OR ', $search_clauses ) . ')';
-			}
-		}
-
-		/**
-		 * Filter the search query after setting up the query.
-		 *
-		 * @param array $clauses Query clauses.
-		 * @param array $args Query arguments.
-		 * @param self $this Current instance of the class.
-		 *
-		 * @since 1.0.0
-		 * @return array
-		 */
-		return apply_filters( $this->get_hook_prefix() . '_setup_search_query', $clauses, $args, $this );
-	}
-
-	/*
-	|--------------------------------------------------------------------------
 	| Helpers Methods
 	|--------------------------------------------------------------------------
 	|
 	| Common methods used by the class.
 	|
 	*/
+
+	/**
+	 * Get the key.
+	 *
+	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
+	 *
+	 * @since  1.4.6
+	 *
+	 * @return string
+	 */
+	public function get_key( $context = 'edit' ) {
+		return $this->get_serial_key( $context );
+	}
+
+
+	/**
+	 * Get order.
+	 *
+	 * @since 1.4.6
+	 *
+	 * @return \WC_Order|null Order object or null if not found.
+	 */
+	public function get_order() {
+		$order_id = $this->get_order_id();
+
+		if ( $order_id ) {
+			return wc_get_order( $order_id );
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get order title.
+	 *
+	 * @since 1.4.6
+	 *
+	 * @return string Order title.
+	 */
+	public function get_order_title() {
+		if ( ! $this->get_order() ) {
+			return '';
+		}
+
+		return sprintf(
+			'(#%1$s) %2$s',
+			$this->get_order()->get_id(),
+			wp_strip_all_tags( $this->get_order()->get_formatted_billing_full_name() )
+		);
+	}
+
+	/**
+	 * Get product.
+	 *
+	 * @since 1.4.6
+	 *
+	 * @return \WC_Product|null Product object or null if not found.
+	 */
+	public function get_product() {
+		$product_id = $this->get_product_id();
+
+		if ( $product_id ) {
+			return wc_get_product( $product_id );
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get product name.
+	 *
+	 * @since 1.4.6
+	 *
+	 * @return string Product name.
+	 */
+	public function get_product_title() {
+		return wcsn_get_product_title( $this->get_product_id() );
+	}
+
+	/**
+	 * Get parent product.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return \WC_Product|false
+	 */
+	public function get_parent_product() {
+		if ( $this->get_product() && $this->get_product()->is_type( 'variation' ) ) {
+			return wc_get_product( $this->get_product()->get_parent_id() );
+		}
+
+		return $this->get_product();
+	}
+
+	/**
+	 * Get parent product id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return int
+	 */
+	public function get_parent_product_id() {
+		if ( $this->get_product() && $this->get_product()->is_type( 'variation' ) ) {
+			return $this->get_product()->get_parent_id();
+		}
+
+		return $this->get_product_id();
+	}
 
 	/**
 	 * Reset activations.
@@ -743,7 +771,7 @@ class Key extends Model {
 	 */
 	public function recount_remaining_activation() {
 		$count = $this->get_activations( array( 'count' => true ) );
-		if ( $count != $this->get_activation_count() ) {
+		if ( $count !== $this->get_activation_count() ) {
 			$this->set_activation_count( $count );
 			$this->save();
 		}
@@ -788,7 +816,7 @@ class Key extends Model {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return array|int Array of activations or count.
+	 * @return Activation[]|int Array of activations or count.
 	 */
 	public function get_activations( $args = array() ) {
 		$args = wp_parse_args(
@@ -803,6 +831,8 @@ class Key extends Model {
 
 	/**
 	 * Display the serial key.
+	 *
+	 * @param bool $masked Whether to mask the key or not.
 	 *
 	 * @since 1.5.0
 	 * @return string

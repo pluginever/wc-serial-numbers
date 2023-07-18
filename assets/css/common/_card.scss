@@ -1,0 +1,104 @@
+.pev-card {
+	display: block;
+	position: relative;
+	margin: 0 0 1.5em;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
+	min-width: auto;
+	min-height: 1px;
+	background: #fff;
+	border: 1px solid #e1e2e2;
+
+	&::after {
+		content: ".";
+		display: block;
+		height: 0;
+		width: 0;
+		clear: both;
+		visibility: hidden;
+		overflow: hidden;
+	}
+
+	& > &__header, & > &__footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.5em 1em;
+		margin: 0;
+		min-height: 25px;
+
+		p {
+			margin: 0;
+			padding: 0;
+		}
+
+		h2, h3 {
+			margin: 0;
+			padding: 0;
+		}
+
+		input, select, .select2, button {
+			margin-right: 5px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
+
+	 &__title, &__subtitle {
+		padding: 0;
+		margin: 0;
+		font-size: 1.2em;
+	}
+
+	&__title, h2 {
+		font-weight: normal;
+		line-height: 1.4;
+	}
+
+	&__subtitle {
+		font-size: 0.8em;
+	}
+
+	& > &__body {
+		box-sizing: border-box;
+		position: relative;
+		padding: 1em;
+		line-height: 1.4;
+		flex: 1 1 auto;
+
+		& > *:first-child {
+			margin-top: 0;
+		}
+
+		& > *:last-child {
+			margin-bottom: 0;
+		}
+
+		&:has(table) {
+			padding: 0;
+		}
+
+		& > table {
+			border: 0;
+			box-shadow: none;
+
+			th {
+				border-bottom-color: #e1e2e2;
+			}
+		}
+	}
+
+	// any class that contains
+	& > [class*=pev-card__] {
+		// child expect last item.
+		&:not(:last-child) {
+			border-bottom: 1px solid #e1e2e2;
+		}
+	}
+}
+
+
+

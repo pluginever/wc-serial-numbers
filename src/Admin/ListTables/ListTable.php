@@ -17,6 +17,14 @@ if ( ! class_exists( '\WP_List_Table' ) ) {
  */
 class ListTable extends \WP_List_Table {
 	/**
+	 * Current screen object.
+	 *
+	 * @since  1.0.2
+	 * @var    \WP_Screen
+	 */
+	public $screen;
+
+	/**
 	 *
 	 * Total number of items
 	 *
@@ -214,5 +222,27 @@ class ListTable extends \WP_List_Table {
 			);
 			exit;
 		}
+	}
+
+	/**
+	 * This function renders most of the columns in the list table.
+	 *
+	 * @param Object|array $item The current item.
+	 * @param string       $column_name The name of the column.
+	 *
+	 * @since 1.0.2
+	 * @return string The column value.
+	 */
+	public function column_default( $item, $column_name ) {
+
+		if ( is_object( $item ) && method_exists( $item, "get_$column_name" ) ) {
+			$getter = "get_$column_name";
+
+			return empty( $item->$getter( 'view' ) ) ? '&mdash;' : esc_html( $item->$getter( 'view' ) );
+		} elseif ( is_array( $item ) && isset( $item[ $column_name ] ) ) {
+			return empty( $item[ $column_name ] ) ? '&mdash;' : esc_html( $item[ $column_name ] );
+		}
+
+		return '&mdash;';
 	}
 }

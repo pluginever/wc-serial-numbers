@@ -1,0 +1,120 @@
+.pev-admin-page {
+	$parent: &;
+	position: relative;
+	width: 100%;
+	box-sizing: border-box;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	&.wrap {
+		box-sizing: border-box;
+		max-width: 1400px;
+		margin-left: auto;
+		margin-right: auto;
+		padding-right: 20px;
+	}
+
+	&__nav {
+		margin: 0 0 1em;
+
+		+ .subsubsub {
+			margin: -8px 0 0;
+		}
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin: 1.5em 0 1.5em;
+		min-height: 25px;
+		box-sizing: border-box;
+		flex-wrap: wrap;
+		gap: 10px;
+
+		h1, h2, h3 {
+			margin: 0 0 .25em 0;
+			font-size: 1.25rem;
+			font-size: 20px;
+			line-height: 1.7;
+			font-weight: 400;
+		}
+
+		&__subtitle {
+			font-size: 1.25rem;
+			font-weight: 400;
+			margin: 0;
+		}
+
+		& > div {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			box-sizing: border-box;
+			gap: 10px;
+		}
+
+		p {
+			margin: 0;
+			padding: 0;
+		}
+
+		input, select, .select2, button {
+			margin: 0;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.page-title-action {
+			top: 0;
+			margin-left: -5px;
+		}
+
+		.page-title-action:active,
+		.page-title-action:focus,
+		.page-title-action:hover {
+			top: 0;
+		}
+
+		hr{
+			align-self: center;
+			flex-grow: 1;
+			height: 1px;
+			margin: 0 10px;
+		}
+	}
+
+	> &__wrapper {
+		position: relative;
+		display: flex;
+		flex-wrap: nowrap;
+		gap: 20px;
+		@media screen and (max-width: 850px) {
+			flex-wrap: wrap;
+		}
+
+		> #{$parent}__body {
+			flex: 1;
+			width: 100%;
+			max-width: 100%;
+			margin: 0 0 1em;
+			box-sizing: border-box;
+			flex-direction: row-reverse;
+		}
+
+		> #{$parent}__sidebar {
+			flex: 0 0 320px;
+			gap: 20px;
+
+			@media only screen and (max-width: 850px) {
+				width: 100%;
+				margin: 0 0 1em;
+				flex: 0 0 auto;
+			}
+		}
+	}
+}

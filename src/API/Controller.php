@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class Controller.
  *
- * @since   1.0.0
+ * @since   1.5.5
  * @package WooCommerceSerialNumbers\API
  */
 class Controller extends \WP_REST_Controller {
@@ -26,9 +26,71 @@ class Controller extends \WP_REST_Controller {
 	protected $rest_base = '';
 
 	/**
+	 * Registers the routes for the objects of the controller.
+	 *
+	 * @see register_rest_route()
+	 * @since 1.5.5
+	 */
+	public function register_routes() {
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_items' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'args'                => $this->get_collection_params(),
+				),
+				array(
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'create_item' ),
+					'permission_callback' => array( $this, 'create_item_permissions_check' ),
+					'args'                => $this->get_endpoint_args_for_item_schema( \WP_REST_Server::CREATABLE ),
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
+
+		$get_item_args = array(
+			'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<id>[\d]+)',
+			array(
+				'args'   => array(
+					'id' => array(
+						'description' => __( 'Unique identifier for the account.', 'wc-serial-numbers' ),
+					),
+				),
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_item' ),
+					'permission_callback' => array( $this, 'get_item_permissions_check' ),
+					'args'                => $get_item_args,
+				),
+				array(
+					'methods'             => \WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'update_item' ),
+					'permission_callback' => array( $this, 'update_item_permissions_check' ),
+					'args'                => $this->get_endpoint_args_for_item_schema( \WP_REST_Server::EDITABLE ),
+				),
+				array(
+					'methods'             => \WP_REST_Server::DELETABLE,
+					'callback'            => array( $this, 'delete_item' ),
+					'permission_callback' => array( $this, 'delete_item_permissions_check' ),
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
+	}
+
+	/**
 	 * Get normalized rest base.
 	 *
-	 * @since 1.1.0
+	 * @since 1.5.5
 	 *
 	 * @return string
 	 */
@@ -37,276 +99,11 @@ class Controller extends \WP_REST_Controller {
 	}
 
 	/**
-	 * Fill batches.
-	 *
-	 * @param array array of request items.
-	 *
-	 * @return array
-	 */
-	protected function fill_batch_keys( $items ) {
-
-		$items['create'] = empty( $items['create'] ) ? array() : $items['create'];
-		$items['update'] = empty( $items['update'] ) ? array() : $items['update'];
-		$items['delete'] = empty( $items['delete'] ) ? array() : wp_parse_id_list( $items['delete'] );
-
-		return $items;
-
-	}
-
-	/**
-	 * Check batch limit.
-	 *
-	 * @param array $items Request items.
-	 *
-	 * @return bool|\WP_Error
-	 */
-	protected function check_batch_limit( $items ) {
-		$limit = apply_filters( 'wc_serial_numbers_rest_batch_items_limit', 100, $this->get_normalized_rest_base() );
-		$total = count( $items['create'] ) + count( $items['update'] ) + count( $items['delete'] );
-
-		if ( $total > $limit ) {
-			/* translators: %s: items limit */
-			return new \WP_Error( 'rest_request_entity_too_large', sprintf( __( 'Unable to accept more than %s items for this request.', 'wc-serial-numbers' ), $limit ), array( 'status' => 413 ) );
-		}
-
-		return true;
-	}
-
-	/**
-	 * Bulk create items.
-	 *
-	 * @param array            $items   Array of items to create.
-	 * @param \WP_REST_Request $request Full details about the request.
-	 * @param \WP_REST_Server  $wp_rest_server
-	 *
-	 * @return array
-	 */
-	protected function batch_create_items( $items, $request, $wp_rest_server ) {
-
-		$query  = $request->get_query_params();
-		$create = array();
-
-		foreach ( $items as $item ) {
-			$_item = new \WP_REST_Request( 'POST' );
-
-			// Default parameters.
-			$defaults = array();
-			$schema   = $this->get_public_item_schema();
-			foreach ( $schema['properties'] as $arg => $options ) {
-				if ( isset( $options['default'] ) ) {
-					$defaults[ $arg ] = $options['default'];
-				}
-			}
-			$_item->set_default_params( $defaults );
-
-			// Set request parameters.
-			$_item->set_body_params( $item );
-
-			// Set query (GET) parameters.
-			$_item->set_query_params( $query );
-
-			// Create the item.
-			$_response = $this->create_item( $_item );
-
-			// If an error occurred...
-			if ( is_wp_error( $_response ) ) {
-
-				$create[] = array(
-					'id'    => 0,
-					'error' => array(
-						'code'    => $_response->get_error_code(),
-						'message' => $_response->get_error_message(),
-						'data'    => $_response->get_error_data(),
-					),
-				);
-
-				continue;
-			}
-
-			$create[] = $wp_rest_server->response_to_data( /** @scrutinizer ignore-type */ $_response, false );
-
-		}
-
-		return $create;
-
-	}
-
-	/**
-	 * Bulk update items.
-	 *
-	 * @param array            $items   Array of items to update.
-	 * @param \WP_REST_Request $request Full details about the request.
-	 * @param \WP_REST_Server  $wp_rest_server
-	 *
-	 * @return array
-	 */
-	protected function batch_update_items( $items, $request, $wp_rest_server ) {
-
-		$query  = $request->get_query_params();
-		$update = array();
-
-		foreach ( $items as $item ) {
-
-			// Create a dummy request.
-			$_item = new \WP_REST_Request( 'PUT' );
-
-			// Add body params.
-			$_item->set_body_params( $item );
-
-			// Set query (GET) parameters.
-			$_item->set_query_params( $query );
-
-			// Update the item.
-			$_response = $this->update_item( $_item );
-
-			// If an error occured...
-			if ( is_wp_error( $_response ) ) {
-
-				$update[] = array(
-					'id'    => $item['id'],
-					'error' => array(
-						'code'    => $_response->get_error_code(),
-						'message' => $_response->get_error_message(),
-						'data'    => $_response->get_error_data(),
-					),
-				);
-
-				continue;
-
-			}
-
-			$update[] = $wp_rest_server->response_to_data( /** @scrutinizer ignore-type */ $_response, false );
-
-		}
-
-		return $update;
-
-	}
-
-	/**
-	 * Bulk delete items.
-	 *
-	 * @param array           $items Array of items to delete.
-	 * @param \WP_REST_Server $wp_rest_server
-	 *
-	 * @return array
-	 */
-	protected function batch_delete_items( $items, $wp_rest_server ) {
-
-		$delete = array();
-
-		foreach ( array_filter( $items ) as $id ) {
-
-			// Prepare the request.
-			$_item = new \WP_REST_Request( 'DELETE' );
-			$_item->set_query_params(
-				array(
-					'id'    => $id,
-					'force' => true,
-				)
-			);
-
-			// Delete the item.
-			$_response = $this->delete_item( $_item );
-
-			if ( is_wp_error( $_response ) ) {
-
-				$delete[] = array(
-					'id'    => $id,
-					'error' => array(
-						'code'    => $_response->get_error_code(),
-						'message' => $_response->get_error_message(),
-						'data'    => $_response->get_error_data(),
-					),
-				);
-
-				continue;
-			}
-
-			$delete[] = $wp_rest_server->response_to_data( /** @scrutinizer ignore-type */ $_response, false );
-
-		}
-
-		return $delete;
-
-	}
-
-	/**
-	 * Bulk create, update and delete items.
-	 *
-	 * @param \WP_REST_Request $request Full details about the request.
-	 *
-	 * @return \WP_Error|array.
-	 */
-	public function batch_items( $request ) {
-		global $wp_rest_server;
-
-		// Prepare the batch items.
-		$items = $this->fill_batch_keys( array_filter( $request->get_params() ) );
-
-		// Ensure that the batch has not exceeded the limit to prevent abuse.
-		$limit = $this->check_batch_limit( $items );
-		if ( is_wp_error( $limit ) ) {
-			return $limit;
-		}
-
-		// Process the items.
-		return array(
-			'create' => $this->batch_create_items( $items['create'], $request, $wp_rest_server ),
-			'update' => $this->batch_update_items( $items['update'], $request, $wp_rest_server ),
-			'delete' => $this->batch_delete_items( $items['delete'], $wp_rest_server ),
-		);
-
-	}
-
-	/**
-	 * Get the batch schema, conforming to JSON Schema.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @return array
-	 */
-	public function get_public_batch_schema() {
-		return array(
-			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'batch',
-			'type'       => 'object',
-			'properties' => array(
-				'create' => array(
-					'description' => __( 'List of created resources.', 'wc-serial-numbers' ),
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit' ),
-					'items'       => array(
-						'type' => 'object',
-					),
-				),
-				'update' => array(
-					'description' => __( 'List of updated resources.', 'wc-serial-numbers' ),
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit' ),
-					'items'       => array(
-						'type' => 'object',
-					),
-				),
-				'delete' => array(
-					'description' => __( 'List of delete resources.', 'wc-serial-numbers' ),
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit' ),
-					'items'       => array(
-						'type' => 'integer',
-					),
-				),
-			),
-		);
-	}
-
-	/**
 	 * Returns the value of schema['properties']
 	 *
 	 * i.e Schema fields.
 	 *
-	 * @since 1.1.0
-	 *
+	 * @since 1.5.5
 	 * @return array
 	 */
 	protected function get_schema_properties() {
@@ -328,11 +125,10 @@ class Controller extends \WP_REST_Controller {
 	/**
 	 * Filters fields by context.
 	 *
-	 * @since 1.1.0
+	 * @param array       $fields Array of fields.
+	 * @param string|null $context view, edit or embed.
 	 *
-	 * @param string|null context view, edit or embed
-	 * @param array                                   $fields Array of fields
-	 *
+	 * @since 1.5.5
 	 * @return array
 	 */
 	protected function filter_response_fields_by_context( $fields, $context ) {
@@ -354,11 +150,10 @@ class Controller extends \WP_REST_Controller {
 	/**
 	 * Filters fields by an array of requested fields.
 	 *
-	 * @since 1.1.0
-	 *
+	 * @param array $fields Array of available fields.
 	 * @param array $requested array of requested fields.
-	 * @param array $fields    Array of available fields
 	 *
+	 * @since 1.5.5
 	 * @return array
 	 */
 	protected function filter_response_fields_by_array( $fields, $requested ) {
@@ -407,10 +202,9 @@ class Controller extends \WP_REST_Controller {
 	 * Included fields are based on item schema and `_fields=` request argument.
 	 * Copied from WordPress 5.3 to support old versions.
 	 *
-	 * @since 1.1.0
-	 *
 	 * @param \WP_REST_Request $request Full details about the request.
 	 *
+	 * @since 1.5.5
 	 * @return array Fields to be included in the response.
 	 */
 	public function get_fields_for_response( $request ) {
@@ -438,11 +232,11 @@ class Controller extends \WP_REST_Controller {
 	 *
 	 * Included fields are based on the `_fields` request argument.
 	 *
-	 * @since 1.1.0
+	 * @param array  $data Fields to include in the response.
+	 * @param array  $fields Requested fields.
+	 * @param string $prefix Prefix for the current field.
 	 *
-	 * @param array $data   Fields to include in the response.
-	 * @param array $fields Requested fields.
-	 *
+	 * @since 1.5.5
 	 * @return array Fields to be included in the response.
 	 */
 	public function limit_object_to_requested_fields( $data, $fields, $prefix = '' ) {
@@ -477,6 +271,7 @@ class Controller extends \WP_REST_Controller {
 		return $data;
 	}
 
+
 	/**
 	 * Given an array of fields to include in a response, some of which may be
 	 * `nested.fields`, determine whether the provided field should be included
@@ -484,13 +279,12 @@ class Controller extends \WP_REST_Controller {
 	 *
 	 * Copied from WordPress 5.3 to support old versions.
 	 *
-	 * @since 1.1.0
+	 * @param string $field A field to test for inclusion in the response body.
+	 * @param array  $fields An array of string fields supported by the endpoint.
 	 *
 	 * @see   rest_is_field_included()
 	 *
-	 * @param array  $fields An array of string fields supported by the endpoint.
-	 * @param string $field  A field to test for inclusion in the response body.
-	 *
+	 * @since 1.5.5
 	 * @return bool Whether to include the field or not.
 	 */
 	public function is_field_included( $field, $fields ) {
@@ -517,7 +311,7 @@ class Controller extends \WP_REST_Controller {
 	/**
 	 * Only return writable props from schema.
 	 *
-	 * @param array $schema
+	 * @param array $schema Schema.
 	 *
 	 * @return bool
 	 */
@@ -531,7 +325,6 @@ class Controller extends \WP_REST_Controller {
 	 * @param string|null $date Date. Default null.
 	 *
 	 * @since 1.2.1
-	 *
 	 * @return string|null ISO8601/RFC3339 formatted datetime.
 	 */
 	protected function prepare_date_response( $date = null ) {
@@ -543,27 +336,6 @@ class Controller extends \WP_REST_Controller {
 		return null;
 	}
 
-
-	/**
-	 * Get query params.
-	 *
-	 * @param \WP_REST_Request $request
-	 *
-	 * @return array
-	 */
-	public function get_query_args( $request ) {
-		$params     = array();
-		$registered = $this->get_collection_params();
-
-		foreach ( array_keys( $registered ) as $param ) {
-			if ( $request->has_param( $param ) ) {
-				$params[ $param ] = $request->get_param( $param );
-			}
-		}
-		return $params;
-	}
-
-
 	/**
 	 * Retrieves the query params for the items collection.
 	 *
@@ -571,7 +343,7 @@ class Controller extends \WP_REST_Controller {
 	 * @return array Collection parameters.
 	 */
 	public function get_collection_params() {
-		return array(
+		$params = array(
 			'context'  => $this->get_context_param(),
 			'paged'    => array(
 				'description'       => __( 'Current page of the collection.', 'wc-serial-numbers' ),
@@ -580,7 +352,6 @@ class Controller extends \WP_REST_Controller {
 				'sanitize_callback' => 'absint',
 				'validate_callback' => 'rest_validate_request_arg',
 				'minimum'           => 1,
-				'required'          => 1,
 			),
 			'per_page' => array(
 				'description'       => __( 'Maximum number of items to be returned in result set.', 'wc-serial-numbers' ),
@@ -588,7 +359,6 @@ class Controller extends \WP_REST_Controller {
 				'default'           => 20,
 				'minimum'           => 1,
 				'maximum'           => 100,
-				'required'          => 100,
 				'sanitize_callback' => 'absint',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
@@ -605,13 +375,6 @@ class Controller extends \WP_REST_Controller {
 				'default'           => array(),
 				'sanitize_callback' => 'wp_parse_id_list',
 			),
-			'exclude'  => array(
-				'description'       => __( 'Exclude specific ids.', 'wc-serial-numbers' ),
-				'type'              => 'array',
-				'items'             => array( 'type' => 'integer' ),
-				'default'           => array(),
-				'sanitize_callback' => 'wp_parse_id_list',
-			),
 			'order'    => array(
 				'description'       => __( 'Order sort attribute ascending or descending.', 'wc-serial-numbers' ),
 				'type'              => 'string',
@@ -623,9 +386,16 @@ class Controller extends \WP_REST_Controller {
 				'description'       => __( 'Sort collection by object attribute.', 'wc-serial-numbers' ),
 				'type'              => 'string',
 				'default'           => 'date_created',
-				'enum'              => array( 'code', 'name', 'rate', 'enabled', 'date_created' ),
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'offset'   => array(
+				'description'       => __( 'Offset the result set by a specific number of items.', 'wc-serial-numbers' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'absint',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);
+
+		return $params;
 	}
 }

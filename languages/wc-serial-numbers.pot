@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serial Numbers for WooCommerce 1.5.4\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-06-18 12:00:35+00:00\n"
+"POT-Creation-Date: 2023-06-23 13:06:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -52,7 +52,7 @@ msgstr ""
 msgid "More Plugins"
 msgstr ""
 
-#: lib/Lib/Plugin.php:622 src/Admin/Menus.php:180 src/Admin/Menus.php:181
+#: lib/Lib/Plugin.php:622 src/Admin/Menus.php:188 src/Admin/Menus.php:189
 msgid "Settings"
 msgstr ""
 
@@ -301,10 +301,10 @@ msgstr ""
 msgid "Version %s"
 msgstr ""
 
-#: src/Admin/Admin.php:101 src/Admin/Menus.php:57 src/Admin/Menus.php:98
-#: src/Admin/Menus.php:99 src/Admin/Menus.php:434 src/Admin/Metaboxes.php:36
-#: src/Admin/Metaboxes.php:45 src/Admin/Metaboxes.php:241
-#: src/Functions/Template.php:226
+#: src/Admin/Admin.php:101 src/Admin/Menus.php:61 src/Admin/Menus.php:106
+#: src/Admin/Menus.php:107 src/Admin/Menus.php:483 src/Admin/Metaboxes.php:36
+#: src/Admin/Metaboxes.php:45 src/Admin/Metaboxes.php:256
+#: src/Admin/Products.php:38 src/Functions/Template.php:226
 msgid "Serial Numbers"
 msgstr ""
 
@@ -313,8 +313,8 @@ msgstr ""
 msgid "Activation"
 msgstr ""
 
-#: src/Admin/ListTables/ActivationsTable.php:40 src/Admin/Menus.php:129
-#: src/Admin/Menus.php:130 src/Admin/Views/html-list-activations.php:18
+#: src/Admin/ListTables/ActivationsTable.php:40 src/Admin/Menus.php:137
+#: src/Admin/Menus.php:138 src/Admin/Views/html-list-activations.php:18
 msgid "Activations"
 msgstr ""
 
@@ -331,7 +331,9 @@ msgstr ""
 #: src/Admin/ListTables/ActivationsTable.php:177
 #: src/Admin/ListTables/ActivationsTable.php:252
 #: src/Admin/ListTables/KeysTable.php:301
-#: src/Admin/ListTables/KeysTable.php:392
+#: src/Admin/ListTables/KeysTable.php:392 src/Admin/Views/html-edit-key.php:161
+#: src/Admin/Views/html-edit-key.php:178 src/Admin/Views/html-edit-key.php:195
+#: src/Admin/Views/html-edit-key.php:212 src/Admin/Views/html-edit-key.php:229
 msgid "Delete"
 msgstr ""
 
@@ -345,7 +347,7 @@ msgstr ""
 #: src/Admin/ListTables/StockTable.php:105
 #: src/Admin/Views/html-api-actions.php:118
 #: src/Admin/Views/html-api-validation.php:121
-#: src/Admin/Views/html-edit-key.php:47 src/Deprecated/Functions.php:359
+#: src/Admin/Views/html-edit-key.php:43 src/Deprecated/Functions.php:359
 #: src/Shortcodes.php:40 src/Shortcodes.php:136
 msgid "Product"
 msgstr ""
@@ -471,16 +473,16 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:317
+#: src/Admin/ListTables/KeysTable.php:317 src/Admin/Views/html-edit-key.php:81
 msgid "Validity"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:324
+#: src/Admin/ListTables/KeysTable.php:324 src/Admin/Views/html-edit-key.php:114
 msgid "Order Date"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:325 src/Admin/Menus.php:322
-#: src/Admin/Views/html-edit-key.php:114 src/Functions/Template.php:78
+#: src/Admin/ListTables/KeysTable.php:325 src/Admin/Menus.php:358
+#: src/Functions/Template.php:78
 msgid "Status"
 msgstr ""
 
@@ -489,17 +491,17 @@ msgid "ID: %d"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:391
-#: src/Admin/ListTables/StockTable.php:153 src/Admin/Metaboxes.php:361
+#: src/Admin/ListTables/StockTable.php:153 src/Admin/Metaboxes.php:376
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:482
+#: src/Admin/ListTables/KeysTable.php:492
 msgid "<b>%s</b> Day <br><small>After purchase</small>"
 msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/ListTables/KeysTable.php:482 src/Admin/Metaboxes.php:348
+#: src/Admin/ListTables/KeysTable.php:492 src/Admin/Metaboxes.php:363
 #: src/Functions/Template.php:63
 msgid "Lifetime"
 msgstr ""
@@ -532,7 +534,9 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:108 src/Admin/Menus.php:281
+#: src/Admin/ListTables/StockTable.php:108 src/Admin/Menus.php:284
+#: src/Admin/Products.php:94 src/Admin/Products.php:116
+#: src/Admin/Products.php:139
 msgid "Stock"
 msgstr ""
 
@@ -552,33 +556,33 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: src/Admin/Menus.php:109 src/Admin/Menus.php:110
-#: src/Admin/Views/html-list-keys.php:18
+#: src/Admin/Menus.php:117 src/Admin/Menus.php:118
+#: src/Admin/Views/html-list-keys.php:20
 msgid "Serial Keys"
 msgstr ""
 
-#: src/Admin/Menus.php:146 src/Admin/Menus.php:147
+#: src/Admin/Menus.php:154 src/Admin/Menus.php:155
 msgid "Tools"
 msgstr ""
 
-#: src/Admin/Menus.php:163 src/Admin/Menus.php:164
+#: src/Admin/Menus.php:171 src/Admin/Menus.php:172
 msgid "Reports"
 msgstr ""
 
-#: src/Admin/Menus.php:200 src/Admin/Metaboxes.php:137
-#: src/Admin/Metaboxes.php:156
+#: src/Admin/Menus.php:208 src/Admin/Metaboxes.php:152
+#: src/Admin/Metaboxes.php:171
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: src/Admin/Menus.php:247 src/Admin/Views/html-list-keys.php:25
+#: src/Admin/Menus.php:247 src/Admin/Views/html-list-keys.php:31
 msgid "Import"
 msgstr ""
 
-#: src/Admin/Menus.php:248 src/Admin/Views/html-list-keys.php:29
+#: src/Admin/Menus.php:248 src/Admin/Views/html-list-keys.php:35
 msgid "Export"
 msgstr ""
 
-#: src/Admin/Menus.php:249 src/Admin/Menus.php:383
+#: src/Admin/Menus.php:249 src/Admin/Menus.php:431
 msgid "Generators"
 msgstr ""
 
@@ -586,119 +590,124 @@ msgstr ""
 msgid "API"
 msgstr ""
 
-#: src/Admin/Menus.php:337 src/Admin/Menus.php:344 src/Admin/Menus.php:362
-#: src/Admin/Menus.php:380
+#: src/Admin/Menus.php:373 src/Admin/Menus.php:383 src/Admin/Menus.php:404
+#: src/Admin/Menus.php:425
 msgid "Available in Pro Version"
 msgstr ""
 
-#: src/Admin/Menus.php:338 src/Admin/Menus.php:345 src/Admin/Menus.php:363
-#: src/Admin/Menus.php:381
+#: src/Admin/Menus.php:376 src/Admin/Menus.php:386 src/Admin/Menus.php:407
+#: src/Admin/Menus.php:428
 msgid "Upgrade to Pro Now"
 msgstr ""
 
-#: src/Admin/Menus.php:340 src/Admin/Menus.php:347
+#: src/Admin/Menus.php:379 src/Admin/Menus.php:389
 msgid "Import Serial Numbers"
 msgstr ""
 
-#: src/Admin/Menus.php:365
+#: src/Admin/Menus.php:410
 msgid "Export Serial Numbers"
 msgstr ""
 
-#: src/Admin/Menus.php:410
+#: src/Admin/Menus.php:458
 msgid "Table exists"
 msgstr ""
 
-#: src/Admin/Menus.php:412
+#: src/Admin/Menus.php:460
 msgid "Table does not exist"
 msgstr ""
 
-#: src/Admin/Menus.php:418
+#: src/Admin/Menus.php:466
 msgid "Hourly cron"
 msgstr ""
 
-#: src/Admin/Menus.php:419
+#: src/Admin/Menus.php:467
 msgid "Daily cron"
 msgstr ""
 
-#: src/Admin/Menus.php:424
+#: src/Admin/Menus.php:472
 msgid "Next run: %s"
 msgstr ""
 
-#: src/Admin/Menus.php:426
+#: src/Admin/Menus.php:474
 msgid "Not scheduled"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:66
+#: src/Admin/Metaboxes.php:66 src/Admin/Metaboxes.php:81
+#: src/Admin/Products.php:62
 msgid "Sell serial keys"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:67
+#: src/Admin/Metaboxes.php:67 src/Admin/Products.php:63
+msgid "Sell serial keys for this product."
+msgstr ""
+
+#: src/Admin/Metaboxes.php:82
 msgid "Enable this if you are selling serial keys for this product."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:80
+#: src/Admin/Metaboxes.php:95 src/Admin/Products.php:70
 msgid "Delivery quantity"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:81
+#: src/Admin/Metaboxes.php:96
 msgid "Number of serial key(s) will be delivered per item. Available in PRO."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:101
+#: src/Admin/Metaboxes.php:116
 msgid "Serial key source"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:119
+#: src/Admin/Metaboxes.php:134
 msgid "Software version"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:120
+#: src/Admin/Metaboxes.php:135
 msgid "Version number for the software. Ignore if it's not a software product."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:121
+#: src/Admin/Metaboxes.php:136
 msgid "e.g. 1.0"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:132
+#: src/Admin/Metaboxes.php:147
 msgid "Stock status"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:134
+#: src/Admin/Metaboxes.php:149
 msgid "serial key"
 msgid_plural "serial keys"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/Metaboxes.php:137
+#: src/Admin/Metaboxes.php:152
 msgid ""
 "Want serial keys to be generated automatically and auto assign with order "
 "and many more?"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:156
+#: src/Admin/Metaboxes.php:171
 msgid ""
 "The free version of Serial Numbers for WooCommerce does not support product "
 "variation."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:226
+#: src/Admin/Metaboxes.php:241
 msgid "Order missing serial numbers for this item."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:288
+#: src/Admin/Metaboxes.php:303
 msgid "No serial keys associated with the order."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:301
+#: src/Admin/Metaboxes.php:316
 msgid "Order waiting for assigning serial keys."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:320
+#: src/Admin/Metaboxes.php:335
 msgid "Actions"
 msgstr ""
 
-#: src/Admin/Metaboxes.php:341
+#: src/Admin/Metaboxes.php:356
 msgid "Unlimited"
 msgstr ""
 
@@ -744,6 +753,39 @@ msgstr ""
 #: src/Admin/Orders.php:151
 #. Translators: %d: number of orders.
 msgid "%d orders updated successfully."
+msgstr ""
+
+#: src/Admin/Products.php:71
+msgid "Define the number of keys to be delivered to the customer."
+msgstr ""
+
+#: src/Admin/Products.php:87
+msgid "Sell from stock"
+msgstr ""
+
+#: src/Admin/Products.php:89
+msgid "Sell serial keys from the available stock."
+msgstr ""
+
+#: src/Admin/Products.php:101 src/Admin/Products.php:123
+#: src/Admin/Products.php:146
+msgid "Serial key(s) in stock and available for sale."
+msgstr ""
+
+#: src/Admin/Products.php:109
+msgid "Sell using generator"
+msgstr ""
+
+#: src/Admin/Products.php:111
+msgid "Generate keys on the fly when an order is placed using the generator."
+msgstr ""
+
+#: src/Admin/Products.php:132
+msgid "Sell autogenerated keys"
+msgstr ""
+
+#: src/Admin/Products.php:134
+msgid "Generate keys automatically from a pattern when an order is placed."
 msgstr ""
 
 #: src/Admin/Settings.php:25
@@ -1120,7 +1162,6 @@ msgid "API Validation"
 msgstr ""
 
 #: src/Admin/Views/html-api-validation.php:30
-#: src/Admin/Views/html-edit-key.php:33
 #. translators: %s: link to the pro version
 msgid ""
 "You are using the free version of Serial Numbers for WooCommerce. <a "
@@ -1179,86 +1220,130 @@ msgstr ""
 msgid "Validate"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:16
-msgid "Edit Serial Key"
+#: src/Admin/Views/html-edit-key.php:12
+msgid "Update Serial Key"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:18 src/Admin/Views/html-list-keys.php:21
-msgid "Add New"
+#: src/Admin/Views/html-edit-key.php:12
+msgid "Add Serial Key"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:22
-msgid "Add New Serial Key"
+#: src/Admin/Views/html-edit-key.php:24
+msgid "Save Serial Key"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:50
+#: src/Admin/Views/html-edit-key.php:36
+msgid "Serial Key Details"
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:44 src/Admin/Views/html-edit-key.php:45
 msgid "Select Product"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:60
-msgid "Select the product for which this key is applicable."
+#: src/Admin/Views/html-edit-key.php:51
+msgid "Select the product for which you want to generate the serial key."
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:55 src/Shortcodes.php:41
+#: src/Shortcodes.php:137
+msgid "Serial Key"
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:56
+msgid "Enter Serial Key"
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:58
+msgid "Enter the serial key you want to generate."
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:64 src/Deprecated/Functions.php:362
+#: src/Functions/Template.php:52
+msgid "Activation Limit"
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:65
+msgid "Enter Activation Limit"
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:67
-msgid "Serial key"
+msgid "Enter the activation limit for the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:74
-msgid ""
-"Enter your serial key, also supports multiline.  For example: "
-"4CE0460D0G-4CE0460D1G-4CE0460D2G"
+#: src/Admin/Views/html-edit-key.php:72 src/Functions/Template.php:62
+msgid "Expire Date"
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:73
+msgid "Enter Expire Date"
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:75
+msgid "Enter the expire date for the serial key."
 msgstr ""
 
 #: src/Admin/Views/html-edit-key.php:82
-msgid "Activation limit"
+msgid "Enter Validity"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:83 src/Admin/Views/html-edit-key.php:89
-msgid ""
-"Maximum number of times the key can be used to activate the software. If "
-"the product is not software, keep it blank."
+#: src/Admin/Views/html-edit-key.php:84
+msgid "Enter the validity for the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:98
-msgid "Valid for (days)"
+#: src/Admin/Views/html-edit-key.php:89
+msgid "Serial Key Status"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:104
-msgid ""
-"Number of days the key will be valid from the purchase date. Leave it blank "
-"for lifetime validity."
+#: src/Admin/Views/html-edit-key.php:90 src/Admin/Views/html-edit-key.php:91
+msgid "Select Serial Key Status"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:123
-msgid "Status of the serial key."
+#: src/Admin/Views/html-edit-key.php:92 src/Functions/Template.php:70
+msgid "Active"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:130
+#: src/Admin/Views/html-edit-key.php:93
+msgid "Inactive"
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:96
+msgid "Select the status of the serial key."
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:107
+msgid "Associated Orders"
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:113
 msgid "Order ID"
 msgstr ""
 
+#: src/Admin/Views/html-edit-key.php:115
+msgid "Order Status"
+msgstr ""
+
+#: src/Admin/Views/html-edit-key.php:116
+msgid "Order Total"
+msgstr ""
+
 #: src/Admin/Views/html-edit-key.php:134
-msgid "Select Order"
+msgid "Notes"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:142
-msgid "The order to which the serial number will be assigned."
-msgstr ""
-
-#: src/Admin/Views/html-edit-key.php:153
-msgid "Update"
-msgstr ""
-
-#: src/Admin/Views/html-edit-key.php:153
-msgid "Create"
+#: src/Admin/Views/html-edit-key.php:139 src/Admin/Views/html-edit-key.php:144
+msgid "Add Note"
 msgstr ""
 
 #: src/Admin/Views/html-list-activations.php:26
-#: src/Admin/Views/html-list-keys.php:43
+#: src/Admin/Views/html-list-keys.php:47
 msgid "Search key"
 msgstr ""
 
-#: src/Admin/Views/html-list-keys.php:33
+#: src/Admin/Views/html-list-keys.php:23
+msgid "Add New"
+msgstr ""
+
+#: src/Admin/Views/html-list-keys.php:27
 msgid "Generate"
 msgstr ""
 
@@ -1283,10 +1368,6 @@ msgstr ""
 msgid "Serial Number"
 msgstr ""
 
-#: src/Deprecated/Functions.php:362 src/Functions/Template.php:52
-msgid "Activation Limit"
-msgstr ""
-
 #: src/Deprecated/Functions.php:363
 msgid "Expires"
 msgstr ""
@@ -1301,14 +1382,6 @@ msgstr ""
 
 #: src/Functions/Template.php:57
 msgid "Activation Count"
-msgstr ""
-
-#: src/Functions/Template.php:62
-msgid "Expire Date"
-msgstr ""
-
-#: src/Functions/Template.php:70
-msgid "Active"
 msgstr ""
 
 #: src/Functions/Template.php:305
@@ -1397,10 +1470,6 @@ msgstr ""
 
 #: src/Shortcodes.php:39
 msgid "Serial Key Validation"
-msgstr ""
-
-#: src/Shortcodes.php:41 src/Shortcodes.php:137
-msgid "Serial Key"
 msgstr ""
 
 #: src/Shortcodes.php:42 src/Shortcodes.php:138

@@ -7,10 +7,33 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class Plugin.
  *
+ * @property-read Models\Key $keys Keys model.
+ * @property-read Models\Activation $activations Activations model.
+ *
  * @since 1.4.2
  * @package WooCommerceSerialNumbers
  */
 class Plugin extends Lib\Plugin {
+	/**
+	 * Magic method to get property.
+	 *
+	 * @param string $name Property name.
+	 *
+	 * @since 1.1.5
+	 * @return mixed|null
+	 */
+	public function __get( $name ) {
+		$props = array(
+			'keys'        => Models\Key::class,
+			'activations' => Models\Activation::class,
+		);
+
+		if ( isset( $props[ $name ] ) ) {
+			return new $props[ $name ]();
+		}
+
+		return null;
+	}
 
 	/**
 	 * Plugin constructor.
@@ -87,12 +110,11 @@ class Plugin extends Lib\Plugin {
 		Encryption::instantiate();
 		Stocks::instantiate();
 		Cron::instantiate();
-		Controllers\Keys::instantiate();
+		Actions::instantiate();
 		Shortcodes::instantiate();
 		Frontend::instantiate();
 
 		if ( wcsn_is_software_support_enabled() ) {
-			Controllers\Activations::instantiate();
 			API::instantiate();
 		}
 

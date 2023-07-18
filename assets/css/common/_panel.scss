@@ -1,0 +1,112 @@
+.pev-panel {
+	display: block;
+	position: relative;
+	margin: 20px auto 20px;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
+	min-width: auto;
+	min-height: 1px;
+	background: #fff;
+	border: 1px solid #e1e2e2;
+	padding: 1em;
+	font-size: inherit;
+	line-height: inherit;
+
+	&__title, h2, h3, h4 {
+		padding: 0;
+		margin: 0;
+		font-size: 1.2em;
+		font-weight: normal;
+		color: inherit;
+	}
+
+	> &__legend {
+		position: absolute;
+		right: -1px;
+		top: -1px;
+		color: #aaa;
+		font-size: 11px;
+		line-height: 1em;
+		background-color: transparent;
+		border-color: transparent transparent #e5e5e5 #e5e5e5;
+		border-style: solid;
+		border-width: 1px;
+		border-bottom-left-radius: 8px;
+		padding: 3px 2px 4px 7px;
+		z-index: 11;
+
+		.is-promo & {
+			color: #ffffff;
+			border-color: transparent transparent currentColor currentColor;
+		}
+	}
+
+	&__group {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 25px;
+		box-sizing: border-box;
+		flex-wrap: nowrap;
+		gap: 10px;
+		margin-bottom: 1em;
+
+		& > img {
+			width: 54px;
+			height: 54px;
+			border-radius: 6px;
+			-o-object-fit: cover;
+			object-fit: cover;
+		}
+
+		& > div {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+	}
+
+	&:has(&__badge) {
+		margin-top: 20px;
+	}
+
+	&:has(table) {
+		padding: 0;
+	}
+
+	& > table {
+		border: 0;
+		box-shadow: none;
+
+		th {
+			border-bottom-color: #e1e2e2;
+		}
+	}
+
+	&.is-highlighted{
+		border-color: #482ac9;
+		background-color: #482ac9;
+		color: #ffffff;
+
+		a:not(.button) {
+			color: #ffffff;
+		}
+
+		.button {
+			display: block;
+			text-align: center;
+			margin-top: 20px;
+			text-transform: uppercase;
+			font-weight: bold;
+			color: #482ac9;
+		}
+
+		> &__legend {
+			.is-highlighted & {
+				color: #ffffff;
+				border-color: transparent transparent currentColor currentColor;
+			}
+		}
+	}
+}

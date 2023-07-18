@@ -73,6 +73,7 @@ class KeysTable extends ListTable {
 	 * Serial_Keys_List_Table constructor.
 	 */
 	public function __construct() {
+		$this->screen = get_current_screen();
 		parent::__construct(
 			array(
 				'singular' => __( 'key', 'wc-serial-numbers' ),
@@ -94,14 +95,14 @@ class KeysTable extends ListTable {
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$current_page          = $this->get_pagenum();
-		$status                = isset( $_GET['status'] ) ? $_GET['status'] : '';
-		$orderby               = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'order_date';
-		$order                 = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'desc';
-		$search                = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
-		$product_id            = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
-		$order_id              = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
-		$customer_id           = isset( $_GET['customer_id'] ) ? absint( $_GET['customer_id'] ) : '';
-		$id                    = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : '';
+		$status                = $this->get_request_var( 'status' );
+		$orderby               = $this->get_request_var( 'orderby', 'order_date' );
+		$order                 = $this->get_request_var( 'order', 'desc' );
+		$search                = $this->get_search();
+		$product_id            = $this->get_request_var( 'product_id', '' );
+		$order_id              = $this->get_request_var( 'order_id', '' );
+		$customer_id           = $this->get_request_var( 'customer_id', '' );
+		$id                    = $this->get_request_var( 'id', '' );
 		if ( ! empty( $status ) && ! array_key_exists( $status, wcsn_get_key_statuses() ) ) {
 			$status = 'available';
 		}
@@ -266,20 +267,34 @@ class KeysTable extends ListTable {
 				exit;
 			}
 
-			foreach ( $ids as $id ) { // Check the permissions on each.
-				$key = Key::get( $id );
-				if ( ! $key ) {
-					continue;
-				}
-				switch ( $doaction ) {
-					case 'delete':
+			switch ( $doaction ) {
+				case 'delete':
+					$count = 0;
+					foreach ( $ids as $id ) {
+						$key = Key::get( $id );
+						if ( ! $key ) {
+							continue;
+						}
 						$key->delete();
-						break;
-					case 'reset_activations':
+						$count ++;
+					}
+					// translators: %d: number of keys.
+					wc_serial_numbers()->add_notice( sprintf( _n( '%d key deleted.', '%d keys deleted.', $count, 'wc-serial-numbers' ), $count ), 'success' );
+					break;
+
+				case 'reset_activations':
+					$count = 0;
+					foreach ( $ids as $id ) {
+						$key = Key::get( $id );
+						if ( ! $key ) {
+							continue;
+						}
 						$key->reset_activations();
-						break;
-						break;
-				}
+						$count ++;
+					}
+					// translators: %d: number of keys.
+					wc_serial_numbers()->add_notice( sprintf( _n( '%d key activation reset.', '%d keys activation reset.', $count, 'wc-serial-numbers' ), $count ), 'success' );
+					break;
 			}
 
 			wp_safe_redirect( wp_get_referer() );
@@ -320,9 +335,7 @@ class KeysTable extends ListTable {
 		if ( wcsn_is_software_support_enabled() ) {
 			$columns['activation'] = __( 'Activation', 'wc-serial-numbers' );
 		}
-
-		$columns['order_date'] = __( 'Order Date', 'wc-serial-numbers' );
-		$columns['status']     = __( 'Status', 'wc-serial-numbers' );
+		$columns['status'] = __( 'Status', 'wc-serial-numbers' );
 
 		return apply_filters( 'wc_serial_numbers_keys_table_columns', $columns );
 	}
@@ -332,7 +345,7 @@ class KeysTable extends ListTable {
 	 *
 	 * @return array
 	 */
-	function get_sortable_columns() {
+	public function get_sortable_columns() {
 		$sortable_columns = array(
 			'key'         => array( 'serial_key', false ),
 			'product'     => array( 'product_id', false ),
@@ -395,38 +408,9 @@ class KeysTable extends ListTable {
 	}
 
 	/**
-	 * Display column product.
-	 *
-	 * @param Key $key Key object.
-	 *
-	 * @since 1.4.6
-	 */
-	protected function column_product( $item ) {
-		$product = wc_get_product( $item->product_id );
-
-		return empty( $item->product_id ) || empty( $product ) ? '&mdash;' : sprintf( '<a href="%s" target="_blank">#%d - %s</a>', wcsn_get_edit_product_link( $product->get_id() ), $product->get_id(), $product->get_formatted_name() );
-	}
-
-	/**
-	 * Display column order.
-	 *
-	 * @param Key $key Key object.
-	 *
-	 * @since 1.4.6
-	 */
-	protected function column_order( $item ) {
-		$order = $item->get_order();
-		if ( empty( $order ) ) {
-			return '&mdash;';
-		}
-
-		return sprintf( '<a href="%s">#%d - %s</a>', get_edit_post_link( $order->get_id() ), $order->get_id(), $order->get_formatted_billing_full_name() );
-	}
-
-	/**
 	 * Display column customer.
 	 *
-	 * @param Key $key Key object.
+	 * @param Key $item Key object.
 	 *
 	 * @since 1.4.6
 	 */
@@ -472,28 +456,6 @@ class KeysTable extends ListTable {
 	}
 
 	/**
-	 * Display column valid for.
-	 *
-	 * @param Key $key Key object.
-	 *
-	 * @since 1.4.6
-	 */
-	protected function column_valid_for( $key ) {
-		return ! empty( $key->get_validity() ) ? sprintf( _n( '<b>%s</b> Day <br><small>After purchase</small>', '<b>%s</b> Days <br><small>After purchase</small>', $key->get_validity(), 'wc-serial-numbers' ), number_format_i18n( $key->get_validity() ) ) : __( 'Lifetime', 'wc-serial-numbers' );
-	}
-
-	/**
-	 * Display column order date.
-	 *
-	 * @param Key $key Key object.
-	 *
-	 * @since 1.4.6
-	 */
-	protected function column_order_date( $key ) {
-		return ! empty( $key->order_date ) && '0000-00-00 00:00:00' !== $key->order_date ? date( get_option( 'date_format' ), strtotime( $key->order_date ) ) : '&mdash;';
-	}
-
-	/**
 	 * Display column status.
 	 *
 	 * @param Key $key Key object.
@@ -502,5 +464,73 @@ class KeysTable extends ListTable {
 	 */
 	protected function column_status( $key ) {
 		return sprintf( "<span class='wcsn-key-status %s'>%s</span>", sanitize_html_class( $key->status ), ucfirst( $key->status ) );
+	}
+
+	/**
+	 * This function renders most of the columns in the list table.
+	 *
+	 * @param Key    $item The current account object.
+	 * @param string $column_name The name of the column.
+	 *
+	 * @since 1.0.2
+	 * @return string The column value.
+	 */
+	public function column_default( $item, $column_name ) {
+		switch ( $column_name ) {
+			case 'order':
+				$value = '&mdash;';
+				if ( $item->get_order() ) {
+					$order  = $item->get_order();
+					$value  = sprintf( '<a href="%s">#%d - %s</a>', get_edit_post_link( $order->get_id() ), $order->get_id(), esc_html( $order->get_formatted_billing_full_name() ) );
+					$value .= sprintf( '<div class="small">%s</div>', wp_date( get_option( 'date_format' ), strtotime( $item->get_order_date() ) ) );
+				}
+
+				break;
+
+			case 'product':
+				$value = '&mdash;';
+				if ( $item->get_product() ) {
+					$parent = $item->get_product();
+					if ( $parent->is_type( 'variation' ) ) {
+						$parent = wc_get_product( $parent->get_parent_id() );
+					}
+					$value = sprintf( '<a href="%s">#%d - %s</a>', get_edit_post_link( $parent->get_id() ), $parent->get_id(), esc_html( $parent->get_name() ) );
+					// If the product is a variation, show the variation tittle only.
+					if ( $item->get_product()->is_type( 'variation' ) ) {
+						$variation_name = wc_get_formatted_variation( $item->get_product(), true, false, false );
+						$value         .= sprintf( '<div class="small">#%d - %s</div>', $item->get_product()->get_id(), esc_html( $variation_name ) );
+					}
+				}
+				break;
+			case 'valid_for':
+				$value = esc_html__( 'Lifetime', 'wc-serial-numbers' );
+				if ( ! empty( $item->get_validity() ) && empty( $item->get_order() ) ) {
+					$value = sprintf(
+						'<b>%s</b> %s <div class="small">%s</div>',
+						number_format_i18n( $item->get_validity() ),
+						esc_html__( 'Days', 'wc-serial-numbers' ),
+						esc_html__( 'After purchase', 'wc-serial-numbers' )
+					);
+				} elseif ( ! empty( $item->get_validity() ) && ! empty( $item->get_order() ) ) {
+					$expire = $item->get_expire_date();
+					$value  = sprintf(
+						'<b>%s</b> %s <div class="small">%s</div>',
+						number_format_i18n( $item->get_validity() ),
+						esc_html__( 'Days', 'wc-serial-numbers' ),
+						sprintf(
+							/* translators: %s: expire date */
+							esc_html__( 'Expires on %s', 'wc-serial-numbers' ),
+							wp_date( 'Y-m-d', strtotime( $expire ) )
+						)
+					);
+				}
+				break;
+
+			default:
+				$value = parent::column_default( $item, $column_name );
+				break;
+		}
+
+		return $value;
 	}
 }

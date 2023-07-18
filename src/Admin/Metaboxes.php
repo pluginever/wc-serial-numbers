@@ -19,10 +19,10 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 */
 	protected function __construct() {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'register_metaboxes' ) );
-		add_filter( 'woocommerce_product_data_tabs', array( __CLASS__, 'product_data_tab' ) );
-		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );
-		add_filter( 'woocommerce_process_product_meta', array( __CLASS__, 'product_save_data' ) );
-		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'variable_product_content' ), 10, 3 );
+//		add_filter( 'woocommerce_product_data_tabs', array( __CLASS__, 'product_data_tab' ) );
+//		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );
+//		add_filter( 'woocommerce_process_product_meta', array( __CLASS__, 'product_save_data' ) );
+//		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'variable_product_content' ), 10, 3 );
 		// add_action( 'woocommerce_after_order_itemmeta', array( $this, 'order_itemmeta' ), 10, 3 );
 	}
 
@@ -56,6 +56,21 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 */
 	public static function product_write_panel() {
 		global $post, $woocommerce;
+		global $post, $woocommerce;
+		?>
+		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple">
+			<?php
+			woocommerce_wp_checkbox(
+				array(
+					'id'          => '_is_serial_number',
+					'label'       => __( 'Sell serial keys', 'wc-serial-numbers' ),
+					'description' => __( 'Sell serial keys for this product.', 'wc-serial-numbers' ),
+					'value'       => get_post_meta( $post->ID, '_is_serial_number', true ),
+				)
+			);
+			?>
+		</div>
+		<?php
 		?>
 		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
 			 style="padding-bottom: 50px;display: none;">

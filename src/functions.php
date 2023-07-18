@@ -169,11 +169,24 @@ function wcsn_insert_key( $args, $wp_error = true ) {
  * Query keys.
  *
  * @param array $args Query arguments.
- *
+ * @param bool  $count Return only the total found items.
  * @since 1.4.6
- * @return array
+ * @return array|int|Key[]
  */
-function wcsn_get_keys( $args = array() ) {
+function wcsn_get_keys( $args = array(), $count = false ) {
+	$defaults = array(
+		'limit'   => 20,
+		'offset'  => 0,
+		'orderby' => 'id',
+		'order'   => 'DESC',
+		'fields'  => 'all',
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+	if ( $count ) {
+		return Key::count( $args );
+	}
+
 	return Key::query( $args );
 }
 
@@ -222,11 +235,24 @@ function wcsn_insert_activation( $args ) {
  * Query activations.
  *
  * @param array $args Query arguments.
- *
+ * @param bool  $count Return only the total found items.
  * @since 1.4.6
- * @return array
+ * @return array|int|Activation[]
  */
-function wcsn_get_activations( $args = array() ) {
+function wcsn_get_activations( $args = array(), $count = false ) {
+	$defaults = array(
+		'limit'   => 20,
+		'offset'  => 0,
+		'orderby' => 'id',
+		'order'   => 'DESC',
+		'fields'  => 'all',
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+	if ( $count ) {
+		return Activation::count( $args );
+	}
+
 	return Activation::query( $args );
 }
 
@@ -759,7 +785,7 @@ function wcsn_get_product_title( $product ) {
 		return sprintf(
 			'(#%1$s) %2$s',
 			$product->get_id(),
-			html_entity_decode( $product->get_formatted_name() )
+			html_entity_decode( wp_strip_all_tags( $product->get_formatted_name() ) )
 		);
 	}
 

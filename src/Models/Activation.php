@@ -12,14 +12,12 @@ defined( 'ABSPATH' ) || exit;
  */
 class Activation extends Model {
 	/**
-	 * Table name.
+	 * The table associated with the model.
 	 *
-	 * This is also used as table alias.
-	 *
-	 * @since 1.0.0
 	 * @var string
+	 * @since 1.0.0
 	 */
-	const TABLE_NAME = 'serial_numbers_activations';
+	public $table_name = 'serial_numbers_activations';
 
 	/**
 	 * Object type.
@@ -27,15 +25,7 @@ class Activation extends Model {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const OBJECT_TYPE = 'activation';
-
-	/**
-	 * Cache group.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	const CACHE_GROUP = 'serial_numbers_activations';
+	public $object_type = 'activation';
 
 	/**
 	 * Core data for this object. Name value pairs (name + default value).
@@ -44,6 +34,7 @@ class Activation extends Model {
 	 * @var array
 	 */
 	protected $core_data = array(
+		'id'              => null,
 		'serial_id'       => '',
 		'instance'        => '',
 		'platform'        => '',
@@ -51,14 +42,106 @@ class Activation extends Model {
 		// todo add ip address support.
 	);
 
+
 	/*
 	|--------------------------------------------------------------------------
-	| Getters and Setters
+	| CRUD methods
+	|--------------------------------------------------------------------------
+	|
+	| Methods which create, read, update and delete discounts from the database.
+	|
+	*/
+	/**
+	 * Saves an object in the database.
+	 *
+	 * @since 1.0.0
+	 * @return true|\WP_Error True on success, WP_Error on failure.
+	 */
+	public function save() {
+		// Serial id is required.
+		if ( empty( $this->get_serial_id() ) ) {
+			return new \WP_Error( 'missing_required', __( 'Serial id is required.', 'wc-serial-numbers' ) );
+		}
+
+		// Instance is required.
+		if ( empty( $this->get_instance() ) ) {
+			return new \WP_Error( 'missing_required', __( 'Instance is required.', 'wc-serial-numbers' ) );
+		}
+
+		// If the activation time is empty, set it to now.
+		if ( empty( $this->get_activation_time() ) ) {
+			$this->set_activation_time( current_time( 'mysql' ) );
+		}
+
+		return parent::save();
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Query Methods
+	|--------------------------------------------------------------------------
+	|
+	| Methods for reading and manipulating the object properties.
+	|
+	*/
+
+	/**
+	 * Prepare where query.
+	 *
+	 * @param array $clauses Query clauses.
+	 * @param array $args Array of args to pass to the query method.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	protected function prepare_where_query( $clauses, $args = array() ) {
+		global $wpdb;
+		$clauses = parent::prepare_where_query( $clauses, $args );
+		// If order_id or product_id is set, we need to join with the key table and filter by those.
+		if ( ! empty( $args['order_id'] ) || ! empty( $args['product_id'] ) ) {
+			$clauses['join'] .= " INNER JOIN {$wpdb->{$this->table_name}} AS serial_numbers ON {$this->table_name}.serial_id = serial_numbers.id";
+		}
+
+		if ( ! empty( $args['order_id'] ) ) {
+			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.order_id = %d', $args['order_id'] );
+		}
+
+		if ( ! empty( $args['product_id'] ) ) {
+			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.product_id = %d', $args['product_id'] );
+		}
+
+		return $clauses;
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Core Getters and Setters
 	|--------------------------------------------------------------------------
 	|
 	| Methods for getting and setting data.
 	|
 	*/
+	/**
+	 * Get id.
+	 *
+	 * @return int
+	 * @since 1.0.0
+	 */
+	public function get_id() {
+		return (int) $this->get_prop( 'id' );
+	}
+
+	/**
+	 * Set id.
+	 *
+	 * @param int $id Id.
+	 *
+	 * @since 1.0.0
+	 */
+	public function set_id( $id ) {
+		$this->set_prop( 'id', absint( $id ) );
+	}
+
 	/**
 	 * Get the serial id
 	 *
@@ -70,51 +153,6 @@ class Activation extends Model {
 	 */
 	public function get_serial_id( $context = 'view' ) {
 		return $this->get_prop( 'serial_id', $context );
-	}
-
-	/**
-	 * Get the key object.
-	 *
-	 * @since 1.4.6
-	 *
-	 * @return Key
-	 */
-	public function get_key() {
-		if ( empty( $this->get_serial_id() ) ) {
-			return null;
-		}
-
-		return Key::get( $this->get_serial_id() );
-	}
-
-	/**
-	 * Get the product id.
-	 *
-	 * @since 1.4.6
-	 *
-	 * @return int
-	 */
-	public function get_product_id() {
-		if ( empty( $this->get_key() ) ) {
-			return null;
-		}
-
-		return $this->get_key()->get_product_id();
-	}
-
-	/**
-	 * Get the product title.
-	 *
-	 * @since 1.4.6
-	 *
-	 * @return string
-	 */
-	public function get_product_title() {
-		if ( empty( $this->get_key() ) ) {
-			return null;
-		}
-
-		return $this->get_key()->get_product_title();
 	}
 
 	/**
@@ -210,72 +248,56 @@ class Activation extends Model {
 
 	/*
 	|--------------------------------------------------------------------------
-	| CRUD methods
+	| Helpers Methods
 	|--------------------------------------------------------------------------
 	|
-	| Methods which create, read, update and delete discounts from the database.
+	| Common methods used by the class.
 	|
 	*/
+
 	/**
-	 * Saves an object in the database.
+	 * Get the key object.
 	 *
-	 * @since 1.0.0
-	 * @return true|\WP_Error True on success, WP_Error on failure.
+	 * @since 1.4.6
+	 *
+	 * @return Key
 	 */
-	public function save() {
-		// Serial id is required.
+	public function get_key() {
 		if ( empty( $this->get_serial_id() ) ) {
-			return new \WP_Error( 'missing_required', __( 'Serial id is required.', 'wc-serial-numbers' ) );
+			return null;
 		}
 
-		// Instance is required.
-		if ( empty( $this->get_instance() ) ) {
-			return new \WP_Error( 'missing_required', __( 'Instance is required.', 'wc-serial-numbers' ) );
-		}
-
-		// If the activation time is empty, set it to now.
-		if ( empty( $this->get_activation_time() ) ) {
-			$this->set_activation_time( current_time( 'mysql' ) );
-		}
-
-		return parent::save();
+		return Key::get( $this->get_serial_id() );
 	}
 
-	/*
-	|--------------------------------------------------------------------------
-	| Query Methods
-	|--------------------------------------------------------------------------
-	|
-	| Methods for reading and manipulating the object properties.
-	|
-	*/
 
 	/**
-	 * Prepare where query.
+	 * Get the product id.
 	 *
-	 * @param array $clauses Query clauses.
-	 * @param array $args Array of args to pass to the query method.
+	 * @since 1.4.6
 	 *
-	 * @since 1.0.0
-	 * @return array
+	 * @return int
 	 */
-	protected function prepare_where_query( $clauses, $args = array() ) {
-		global $wpdb;
-		$clauses = parent::prepare_where_query( $clauses, $args );
-		// If order_id or product_id is set, we need to join with the key table and filter by those.
-		if ( ! empty( $args['order_id'] ) || ! empty( $args['product_id'] ) ) {
-			$clauses['join'] .= " INNER JOIN {$wpdb->prefix}" . Key::TABLE_NAME . " AS serial_numbers ON {$this->table_alias}.serial_id = serial_numbers.id";
+	public function get_product_id() {
+		if ( empty( $this->get_key() ) ) {
+			return null;
 		}
 
-		if ( ! empty( $args['order_id'] ) ) {
-			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.order_id = %d', $args['order_id'] );
-		}
-
-		if ( ! empty( $args['product_id'] ) ) {
-			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.product_id = %d', $args['product_id'] );
-		}
-
-		return $clauses;
+		return $this->get_key()->get_product_id();
 	}
 
+	/**
+	 * Get the product title.
+	 *
+	 * @since 1.4.6
+	 *
+	 * @return string
+	 */
+	public function get_product_title() {
+		if ( empty( $this->get_key() ) ) {
+			return null;
+		}
+
+		return $this->get_key()->get_product_title();
+	}
 }

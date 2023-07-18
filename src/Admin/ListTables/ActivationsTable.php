@@ -118,7 +118,7 @@ class ActivationsTable extends ListTable {
 	 */
 	protected function extra_tablenav( $which ) {
 		if ( $which === 'top' ) {
-			echo '<div class="alignleft actions">';
+			echo '<div class="alignleft actions mb-2">';
 			$this->order_dropdown();
 			$this->product_dropdown();
 			// $this->customer_dropdown();

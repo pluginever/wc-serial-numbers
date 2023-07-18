@@ -1,3 +1,141 @@
+@import "common/layout";
+@import "common/grid";
+@import "common/card";
+@import "common/panel";
+@import "common/form";
+@import "common/dropdown";
+@import "common/utilities";
+
+// Admin area styles.
+@import "admin/list-table";
+
+#wcsn-notes {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	max-height: 400px;
+	overflow-y: auto;
+
+
+	li {
+		margin-bottom: 10px;
+	}
+
+	li:last-child {
+		margin-bottom: 0;
+	}
+
+	.note {
+		padding: 10px;
+		border: 1px solid #e1e2e2;
+		border-radius: 4px;
+		background: #f6f7f7;
+
+		&__header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 10px;
+		}
+
+
+		&__author {
+			font-weight: normal;
+			font-size: 12px;
+			color: #999;
+			display: flex;
+			align-items: center;
+
+
+			img {
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+				margin-right: 5px;
+			}
+
+			&-name {
+				display: inline-block;
+				margin-right: 5px;
+			}
+		}
+
+		&__date {
+			font-weight: normal;
+			font-size: 12px;
+			color: #999;
+		}
+
+		&__content {
+			font-size: 14px;
+			line-height: 1.4;
+		}
+
+		&__actions {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			margin-top: 10px;
+
+			a {
+				margin-right: 5px;
+				font-size: 12px;
+				color: #999;
+				text-decoration: none;
+				transition: all 0.3s ease-in-out;
+
+				&:hover {
+					color: #333;
+				}
+			}
+		}
+	}
+
+	.pagination {
+		margin-top: 20px;
+
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			li {
+				margin: 0;
+				padding: 0;
+				margin-right: 5px;
+				display: inline-block;
+
+				&:last-child {
+					margin-right: 0;
+				}
+
+				a {
+					display: block;
+					padding: 5px 10px;
+					border: 1px solid #ccc;
+					border-radius: 4px;
+					color: #333;
+					text-decoration: none;
+					transition: all 0.3s ease-in-out;
+
+					&:hover {
+						background: #f5f5f5;
+					}
+				}
+
+				&.active {
+					a {
+						background: #f5f5f5;
+					}
+				}
+			}
+		}
+	}
+}
+
 //
 // Elements
 // Styles for different elements within the admin area.
@@ -112,19 +250,19 @@
 		}
 
 		.wcsn-key-status {
-			color: #fff;
-			padding: 3px 10px;
-			font-size: 14px;
 			white-space: nowrap;
-			background-color: silver;
-			border-radius: 3px;
-			line-height: 1;
-			border: 1px solid transparent;
+			border-width: 1px;
+			border-style: solid;
+			padding: 2px 7px;
+			border-radius: 4px;
+			color: #50575e;
+			background: #e6e6e6;
+			border-color: #dcdcdc;
 
 			&.available {
-				color: #155724;
-				background-color: #d4edda;
-				border-color: #c3e6cb
+				color: #017d5c;
+				background-color: #e5f5f0;
+				border-color: #017d5c;
 			}
 
 			&.pending {
@@ -134,15 +272,33 @@
 			}
 
 			&.sold {
-				background: #cce5ff;
-				color: #004085;
-				border-color: #b8daff
+				color: #155724;
+				background-color: #d4edda;
+				border-color: #155724;
+
+				&:after {
+					color: #155724;
+					content: "\f147";
+					font-family: dashicons;
+					font-size: inherit;
+					font-weight: 400;
+					line-height: 1;
+					margin-left: 5px;
+					position: relative;
+					top: 1px;
+				}
+			}
+
+			&.expired {
+				color: #721c24;
+				background-color: #f8d7da;
+				border-color: #721c24
 			}
 
 			&.cancelled {
-				color: #1b1e21;
-				background-color: #d6d8d9;
-				border-color: #c6c8ca
+				color: #721c24;
+				background-color: #f8d7da;
+				border-color: #721c24
 			}
 
 		}

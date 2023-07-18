@@ -302,7 +302,9 @@ function wcsn_display_order_keys_table( $order, $line_items ) {
 				<?php endforeach; ?>
 			<?php else : ?>
 				<tr>
-					<td class="td" scope="col"><?php echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', esc_html__( 'Order is waiting for serial numbers to be assigned.', 'wc-serial-numbers' ) ) ); ?></td>
+					<td class="td" scope="col">
+						<?php echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', esc_html__( 'Order is waiting for serial numbers to be assigned.', 'wc-serial-numbers' ) ) ); ?>
+					</td>
 				</tr>
 			<?php endif; ?>
 			</tbody>

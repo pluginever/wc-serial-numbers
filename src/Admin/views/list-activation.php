@@ -13,12 +13,11 @@ $doaction   = $list_table->current_action();
 $list_table->process_bulk_actions( $doaction );
 ?>
 
-<div class="wrap">
-	<h1 class="wp-heading-inline">
-		<?php esc_html_e( 'Activations', 'wc-serial-numbers' ); ?>
-	</h1>
-
-	<hr class="wp-header-end">
+	<div class="pev-admin-page__header">
+		<h2 class="wp-heading-inline">
+			<?php esc_html_e( 'Activations', 'wc-serial-numbers' ); ?>
+		</h2>
+	</div>
 	<form id="wcsn-activations-table" method="get">
 		<?php
 		$list_table->prepare_items();
@@ -28,5 +27,4 @@ $list_table->process_bulk_actions( $doaction );
 		?>
 		<input type="hidden" name="page" value="wc-serial-numbers-activations">
 	</form>
-</div>
 <?php

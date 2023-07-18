@@ -55,8 +55,8 @@ module.exports = {
 		// removed automatically. There is an exception added in watch mode for
 		// fonts and images. It is a known limitations:
 		// https://github.com/johnagan/clean-webpack-plugin/issues/159
-		new CleanWebpackPlugin({
-			cleanAfterEveryBuildPatterns: ['!fonts/**', '!images/**'],
+		new CleanWebpackPlugin( {
+			cleanAfterEveryBuildPatterns: [ '!fonts/**', '!images/**' ],
 			// Prevent it from deleting webpack assets during builds that have
 			// multiple configurations returned to the webpack config.
 			cleanStaleWebpackAssets: false,

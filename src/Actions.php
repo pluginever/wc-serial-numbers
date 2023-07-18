@@ -1,23 +1,25 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Controllers;
+namespace WooCommerceSerialNumbers;
 
+use WooCommerceSerialNumbers\Models\Activation;
 use WooCommerceSerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Keys.
+ * Class Actions.
  *
- * @since   1.4.6
- * @package WooCommerceSerialNumbers\Controllers
+ * @since   1.0.0
+ * @package WooCommerceSerialNumbers
  */
-class Keys extends \WooCommerceSerialNumbers\Lib\Singleton {
+class Actions extends Lib\Singleton {
+
 
 	/**
-	 * Keys constructor.
+	 * Actions constructor.
 	 *
-	 * @since 1.4.6
+	 * @since 1.0.0
 	 */
 	protected function __construct() {
 		add_action( 'wc_serial_numbers_key_db_data', array( __CLASS__, 'decrypt_key' ) );
@@ -25,7 +27,10 @@ class Keys extends \WooCommerceSerialNumbers\Lib\Singleton {
 		add_action( 'wc_serial_numbers_key_update_data', array( __CLASS__, 'encrypt_key' ) );
 		add_action( 'wc_serial_numbers_key_insert', array( __CLASS__, 'enable_product' ) );
 		add_action( 'wc_serial_numbers_key_deleted', array( __CLASS__, 'delete_activations' ) );
+		add_action( 'wc_serial_numbers_activation_inserted', array( __CLASS__, 'update_activation_count' ) );
+		add_action( 'wc_serial_numbers_activation_deleted', array( __CLASS__, 'update_activation_count' ) );
 	}
+
 
 	/**
 	 * Decrypt key.
@@ -36,7 +41,7 @@ class Keys extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 */
 	public static function decrypt_key( $data ) {
 		if ( ! empty( $data['serial_key'] ) ) {
-			$data['serial_key'] = wc_serial_numbers_decrypt_key( $data['serial_key'] );
+			$data['serial_key'] = wcsn_decrypt_key( $data['serial_key'] );
 		}
 
 		return $data;
@@ -51,7 +56,7 @@ class Keys extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 */
 	public static function encrypt_key( $data ) {
 		if ( ! empty( $data['serial_key'] ) ) {
-			$data['serial_key'] = wc_serial_numbers_encrypt_key( $data['serial_key'] );
+			$data['serial_key'] = wcsn_encrypt_key( $data['serial_key'] );
 		}
 
 		return $data;
@@ -105,5 +110,20 @@ class Keys extends \WooCommerceSerialNumbers\Lib\Singleton {
 		}
 
 		return $revoke;
+	}
+
+
+	/**
+	 * Update activation count.
+	 *
+	 * @param Activation $activation The activation object.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function update_activation_count( $activation ) {
+		$key = Key::get( $activation->serial_id );
+		if ( $key ) {
+			$key->recount_remaining_activation();
+		}
 	}
 }

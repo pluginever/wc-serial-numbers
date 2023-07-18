@@ -1,0 +1,27 @@
+#wcsn-keys-table {
+	.check-column {
+		width: 40px;
+	}
+
+	.column-status,
+	.column-activation,
+	.column-order_date,
+	.column-valid_for {
+		width: 145px;
+	}
+
+	.column-product,
+	.column-order {
+		width: 210px;
+	}
+
+	.column-primary {
+		// take rest of the space
+		width: 100%;
+	}
+
+	.small {
+		font-size: .85em;
+		color: #888;
+	}
+}

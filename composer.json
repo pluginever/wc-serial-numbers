@@ -25,7 +25,7 @@
     }
   ],
   "require": {
-    "php": ">=7.0"
+    "php": ">=8.0"
   },
   "require-dev": {
     "byteever/byteever-sniffs": "dev-master",
@@ -42,8 +42,8 @@
     "level-level/wp-browser-woocommerce": "^0.1.8",
     "lucatume/wp-browser": "^3.1",
     "phpcompatibility/php-compatibility": "9.3.5",
-    "pluginever/framework-plugin": "^1.0.0",
-    "pluginever/framework-settings": "^1.0.0",
+    "pluginever/framework-plugin": "^1.0.3",
+    "pluginever/framework-settings": "^1.0.2",
     "pluginever/framework-model": "^1.0.1"
   },
   "config": {
@@ -55,13 +55,7 @@
     }
   },
   "autoload": {},
-  "autoload-dev": {
-    "psr-4": {
-      "WooCommerceSerialNumbers\\Tests\\WPUnit\\": "tests/wpunit",
-      "WooCommerceSerialNumbers\\Tests\\Unit\\": "tests/unit"
-    },
-    "classmap": []
-  },
+  "autoload-dev": {},
   "scripts": {
     "post-install-cmd": [
       "\"vendor/bin/mozart\" compose",
