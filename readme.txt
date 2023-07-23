@@ -263,14 +263,15 @@ You can purchase the premium version of the plugin from our [website](https://pl
 Yes, you are always welcome to [provide suggestions](https://github.com/pluginever/wc-serial-numbers/issues) for new features and enhancements.
 
 == Screenshots ==
-1. WooCommerce Serial Numbers list
-2. Add serial number
-3. Update serial number
-4. Activation log
-5. Settings page
-6. Product page serial number settings
-7. Order complete email with serial numbers
-8. order complete thank you page with serial numbers
+1. Serial Keys List
+2. Add New Key
+3. Validation Form
+4. Activation Log
+5. Reports Page
+6. Settings Page
+7. Product Page Options
+8. Order Complete Email with Keys
+9. Thank You Page with Keys
 
 
 == Changelog ==
