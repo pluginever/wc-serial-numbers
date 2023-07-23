@@ -112,7 +112,7 @@ You can also use different methods that allow you to validate, activate, and dea
 
 - **Useful Integrations:** Enjoy compatibility with popular plugins like WPML for multilingual support, PDF Invoice & Packing Slips for easy documentation, and multivendor sites. This plugin is designed to integrate smoothly with a wide variety of tools and platforms to enhance your store experience.
 
-<pre>Maximize the potential of Serial Numbers plugin by unlocking all its advanced features.<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
+> Maximize the potential of Serial Numbers plugin by unlocking all its advanced features. <a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
 
 
 === ⚡ More Upcoming Features: ===
