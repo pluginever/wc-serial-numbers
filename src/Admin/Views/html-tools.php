@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 
 $page_url = admin_url( 'admin.php?page=wc-serial-numbers-tools' );
 ?>
-<div class="wrap woocommerce">
+<div class="wrap pev-wrap woocommerce">
 	<?php if ( is_array( $tabs ) ) : ?>
 		<h2 class="nav-tab-wrapper wcsn-nav-tabs">
 			<?php foreach ( $tabs as $tab_id => $tab_title ) : ?>

@@ -521,7 +521,7 @@ function wcsn_order_update_keys( $order_id ) {
 
 			// Assign keys to order.
 			foreach ( $keys as $key ) {
-				$key->set_props( array(
+				$key->set_data( array(
 					'order_id'      => $order_id,
 					'order_item_id' => $item['order_item_id'],
 					'order_date'    => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : current_time( 'mysql' ),
@@ -645,7 +645,7 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 			$props['order_item_id'] = 0;
 			$props['order_date']    = null;
 		}
-		$key->set_props( $props );
+		$key->set_data( $props );
 		$key->save();
 	}
 
@@ -718,7 +718,7 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 			$props['order_item_id'] = 0;
 			$props['order_date']    = null;
 		}
-		$key->set_props( $props );
+		$key->set_data( $props );
 		if ( $key->save() ) {
 			$replaced ++;
 		}

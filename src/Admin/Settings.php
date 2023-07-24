@@ -163,7 +163,7 @@ class Settings extends Lib\Settings {
 			__( 'Many more ...', 'wc-serial-numbers' ),
 		);
 		?>
-		<div class="pluginever-settings__widget highlighted">
+		<div class="pev-panel promo-panel">
 			<h3><?php esc_html_e( 'Want More?', 'wc-serial-numbers' ); ?></h3>
 			<p><?php esc_attr_e( 'This plugin offers a premium version which comes with the following features:', 'wc-serial-numbers' ); ?></p>
 			<ul>

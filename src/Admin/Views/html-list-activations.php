@@ -13,7 +13,7 @@ $doaction   = $list_table->current_action();
 $list_table->process_bulk_actions( $doaction );
 ?>
 
-<div class="wrap">
+<div class="wrap pev-wrap">
 	<h1 class="wp-heading-inline">
 		<?php esc_html_e( 'Activations', 'wc-serial-numbers' ); ?>
 	</h1>

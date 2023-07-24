@@ -82,6 +82,7 @@ class Plugin extends Lib\Plugin {
 		$this->services['orders']     = new Orders();
 		$this->services['stocks']     = new Stocks();
 		$this->services['ajax']       = new Ajax();
+		$this->services['actions']    = new Actions();
 		$this->services['frontend']   = new Frontend\Frontend();
 
 		if ( wcsn_is_software_support_enabled() ) {

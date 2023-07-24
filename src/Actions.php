@@ -41,7 +41,7 @@ class Actions {
 	 */
 	public static function decrypt_key( $data ) {
 		if ( ! empty( $data['serial_key'] ) ) {
-			$data['serial_key'] = wc_serial_numbers_decrypt_key( $data['serial_key'] );
+			$data['serial_key'] = wcsn_decrypt_key( $data['serial_key'] );
 		}
 
 		return $data;
