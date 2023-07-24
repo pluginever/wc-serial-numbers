@@ -40,7 +40,7 @@ class API extends Lib\Singleton {
 		$action     = isset( $_REQUEST['request'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['request'] ) ) : '';
 		$email      = isset( $_REQUEST['email'] ) ? sanitize_email( wp_unslash( $_REQUEST['email'] ) ) : '';
 
-		wc_serial_numbers()->log(
+		WCSN()->log(
 			'API request',
 			'debug',
 			array(
@@ -53,7 +53,7 @@ class API extends Lib\Singleton {
 
 		// Check if action is valid.
 		if ( ! in_array( $action, array( 'check', 'validate', 'activate', 'deactivate', 'version_check' ), true ) ) {
-			wc_serial_numbers()->log( sprintf( 'Invalid action: %s', $action ), 'error' );
+			WCSN()->log( sprintf( 'Invalid action: %s', $action ), 'error' );
 			wp_send_json_error(
 				array(
 					'code'    => 'invalid_action',
@@ -64,7 +64,7 @@ class API extends Lib\Singleton {
 
 		// Check if product ID is valid.
 		if ( ! $product_id || ! get_post( $product_id ) ) {
-			wc_serial_numbers()->log( sprintf( 'Invalid product ID: %s', $product_id ), 'error' );
+			WCSN()->log( sprintf( 'Invalid product ID: %s', $product_id ), 'error' );
 			wp_send_json_error(
 				array(
 					'code'    => 'invalid_product_id',

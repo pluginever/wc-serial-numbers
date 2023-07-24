@@ -32,8 +32,8 @@ class Scripts extends Lib\Singleton {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts( $hook ) {
-		wc_serial_numbers()->enqueue_style( 'wc-serial-numbers-frontend', 'css/frontend-style.css' );
-		wc_serial_numbers()->enqueue_script( 'wc-serial-numbers-frontend', 'js/frontend-script.js', array( 'jquery' ) );
+		WCSN()->enqueue_style( 'wc-serial-numbers-frontend', 'css/frontend-style.css' );
+		WCSN()->enqueue_script( 'wc-serial-numbers-frontend', 'js/frontend-script.js', array( 'jquery' ) );
 		wp_localize_script(
 			'wc-serial-numbers-frontend',
 			'wc_serial_numbers_frontend_vars',
@@ -63,8 +63,8 @@ class Scripts extends Lib\Singleton {
 		wp_enqueue_style( 'select2' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 
-		wc_serial_numbers()->enqueue_style( 'wc-serial-numbers-admin', 'css/admin-style.css' );
-		wc_serial_numbers()->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', 'select2', 'wp-util' ) );
+		WCSN()->enqueue_style( 'wc-serial-numbers-admin', 'css/admin-style.css' );
+		WCSN()->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', 'select2', 'wp-util' ) );
 		wp_localize_script(
 			'wc-serial-numbers-admin',
 			'wc_serial_numbers_vars',

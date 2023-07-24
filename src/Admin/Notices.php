@@ -49,7 +49,7 @@ class Notices extends Singleton {
 				'message' => sprintf(
 				/* translators: %1$s: link to the plugin page, %2$s: link to the plugin page */
 					__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.2.1 or higher.', 'wc-serial-numbers' ),
-					'<a href="' . esc_url( wc_serial_numbers()->get_data( 'premium_url' ) ) . '" target="_blank">WooCommerce Serial Numbers Pro</a>'
+					'<a href="' . esc_url( WCSN()->get_data( 'premium_url' ) ) . '" target="_blank">WooCommerce Serial Numbers Pro</a>'
 				),
 			);
 		}
@@ -65,9 +65,9 @@ class Notices extends Singleton {
 					__( 'New! Send Serial Keys via SMS with Twilio. Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s discount by using the promo code %2$s %3$s Upgrade Now %4$s.', 'wc-serial-numbers' ),
 					'<strong>10%</strong>',
 					'<strong>WCSNPRO10</strong>',
-					'<a href="' . esc_url( wc_serial_numbers()->get_premium_url() ) . '" target="_blank">',
+					'<a href="' . esc_url( WCSN()->get_premium_url() ) . '" target="_blank">',
 					'</a>',
-					'<strong>' . wc_serial_numbers()->get_name() . '</strong>',
+					'<strong>' . WCSN()->get_name() . '</strong>',
 					'<strong>PRO</strong>'
 				),
 			);

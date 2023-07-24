@@ -34,7 +34,7 @@ class Actions extends \WooCommerceSerialNumbers\Lib\Singleton {
 		$data = wc_clean( wp_unslash( $_POST ) );
 		$key  = Key::insert( $data );
 		if ( is_wp_error( $key ) ) {
-			wc_serial_numbers()->add_notice( $key->get_error_message(), 'error' );
+			WCSN()->add_notice( $key->get_error_message(), 'error' );
 			// redirect to referrer.
 			wp_safe_redirect( wp_get_referer() );
 			exit();
@@ -46,9 +46,9 @@ class Actions extends \WooCommerceSerialNumbers\Lib\Singleton {
 			update_post_meta( $product_id, '_is_serial_number', 'yes' );
 			update_post_meta( $product_id, '_serial_key_source', 'custom_source' );
 
-			wc_serial_numbers()->add_notice( __( 'Key added successfully.', 'wc-serial-numbers' ) );
+			WCSN()->add_notice( __( 'Key added successfully.', 'wc-serial-numbers' ) );
 		} else {
-			wc_serial_numbers()->add_notice( __( 'Key updated successfully.', 'wc-serial-numbers' ) );
+			WCSN()->add_notice( __( 'Key updated successfully.', 'wc-serial-numbers' ) );
 		}
 
 		$redirect_to = admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->get_id() );

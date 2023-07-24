@@ -145,7 +145,7 @@ class Settings extends Lib\Settings {
 	 * @return void
 	 */
 	protected function output_premium_widget() {
-		if ( wc_serial_numbers()->is_premium_active() ) {
+		if ( WCSN()->is_premium_active() ) {
 			return;
 		}
 		$features = array(
@@ -186,8 +186,8 @@ class Settings extends Lib\Settings {
 	 */
 	public function output_tabs( $tabs ) {
 		parent::output_tabs( $tabs );
-		if ( wc_serial_numbers()->get_docs_url() ) {
-			echo sprintf( '<a href="%s" class="nav-tab" target="_blank">%s</a>', wc_serial_numbers()->get_docs_url(), __( 'Documentation', 'wc-serial-numbers' ) );
+		if ( WCSN()->get_docs_url() ) {
+			echo sprintf( '<a href="%s" class="nav-tab" target="_blank">%s</a>', WCSN()->get_docs_url(), __( 'Documentation', 'wc-serial-numbers' ) );
 		}
 	}
 }

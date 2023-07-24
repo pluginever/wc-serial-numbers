@@ -75,7 +75,7 @@ spl_autoload_register( 'wc_serial_numbers_autoload' );
  * @since 1.0.0
  * @return Plugin
  */
-function wc_serial_numbers() {
+function WCSN() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid.
 	$data = array(
 		'file'             => __FILE__,
 		'settings_url'     => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),
@@ -89,5 +89,16 @@ function wc_serial_numbers() {
 	return Plugin::create( $data );
 }
 
+/**
+ * Alias of WCSN().
+ *
+ * @since 1.5.6
+ * @return Plugin
+ * @deprecated 1.5.6
+ */
+function wc_serial_numbers() {
+	return WCSN();
+}
+
 // Initialize the plugin.
-wc_serial_numbers();
+WCSN();

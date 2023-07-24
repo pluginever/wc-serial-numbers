@@ -20,7 +20,7 @@ $api_url = add_query_arg(
 		<h2><?php esc_html_e( 'API Validation', 'wc-serial-numbers' ); ?></h2>
 	</div>
 	<div class="wcsn-card__body">
-		<?php if ( ! wc_serial_numbers()->is_premium_active() ) : ?>
+		<?php if ( ! WCSN()->is_premium_active() ) : ?>
 			<div class="notice notice-warning">
 				<p>
 					<?php
@@ -28,7 +28,7 @@ $api_url = add_query_arg(
 						sprintf(
 							/* translators: %s: link to the pro version */
 							__( 'You are using the free version of Serial Numbers for WooCommerce. <a href="%s" target="_blank">Upgrade to Pro</a> to get more features.', 'wc-serial-numbers' ),
-							esc_url( wc_serial_numbers()->get_premium_url() . '?utm_source=create_serial_page&utm_medium=button&utm_campaign=wc-serial-numbers&utm_content=View%20Details' )
+							esc_url( WCSN()->get_premium_url() . '?utm_source=create_serial_page&utm_medium=button&utm_campaign=wc-serial-numbers&utm_content=View%20Details' )
 						)
 					);
 					?>

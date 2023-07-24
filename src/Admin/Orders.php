@@ -60,11 +60,11 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 		if ( 'wcsn_add_keys' === $action ) {
 			wcsn_order_update_keys( $order_id );
 			// add a notice.
-			wc_serial_numbers()->add_notice( __( 'Serial keys added successfully to the order.', 'wc-serial-numbers' ) );
+			WCSN()->add_notice( __( 'Serial keys added successfully to the order.', 'wc-serial-numbers' ) );
 		} elseif ( 'wcsn_remove_keys' === $action ) {
 			wcsn_order_remove_keys( $order_id );
 			// add a notice.
-			wc_serial_numbers()->add_notice( __( 'Serial keys removed successfully from the order.', 'wc-serial-numbers' ) );
+			WCSN()->add_notice( __( 'Serial keys removed successfully from the order.', 'wc-serial-numbers' ) );
 		}
 	}
 
@@ -148,7 +148,7 @@ class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
 				}
 			}
 			// Translators: %d: number of orders.
-			wc_serial_numbers()->add_notice( sprintf( __( '%d orders updated successfully.', 'wc-serial-numbers' ), count( $order_ids ) ) );
+			WCSN()->add_notice( sprintf( __( '%d orders updated successfully.', 'wc-serial-numbers' ), count( $order_ids ) ) );
 			$redirect_to = add_query_arg( 'bulk_action', $action, $redirect_to );
 		}
 

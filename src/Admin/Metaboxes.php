@@ -133,7 +133,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 				$stock,
 				_n( 'serial key', 'serial keys', $stock, 'wc-serial-numbers' )
 			);
-			if ( ! wc_serial_numbers()->is_pro_active() ) {
+			if ( ! WCSN()->is_premium_active() ) {
 				echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Want serial keys to be generated automatically and auto assign with order and many more?', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 			}
 			?>
@@ -152,7 +152,7 @@ class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
 	 * @since 1.2.0
 	 */
 	public static function variable_product_content( $loop, $variation_data, $variation ) {
-		if ( ! wc_serial_numbers()->is_pro_active() ) {
+		if ( ! WCSN()->is_premium_active() ) {
 			echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'The free version of Serial Numbers for WooCommerce does not support product variation.', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 		}
 

@@ -62,12 +62,12 @@ class Admin extends Singleton {
 	 * @return string
 	 */
 	public function admin_footer_text( $footer_text ) {
-		if ( wc_serial_numbers()->get_review_url() && in_array( get_current_screen()->id, self::get_screen_ids(), true ) ) {
+		if ( WCSN()->get_review_url() && in_array( get_current_screen()->id, self::get_screen_ids(), true ) ) {
 			$footer_text = sprintf(
 			/* translators: 1: Plugin name 2: WordPress */
 				__( 'Thank you for using %1$s! Share your appreciation with a five-star review %2$s.', 'wc-serial-numbers' ),
-				'<strong>' . esc_html( wc_serial_numbers()->get_name() ) . '</strong>',
-				'<a href="' . esc_url( wc_serial_numbers()->get_review_url() ) . '" target="_blank" class="wc-serial-numbers-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'wc-serial-numbers' ) . '">here</a>'
+				'<strong>' . esc_html( WCSN()->get_name() ) . '</strong>',
+				'<a href="' . esc_url( WCSN()->get_review_url() ) . '" target="_blank" class="wc-serial-numbers-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'wc-serial-numbers' ) . '">here</a>'
 			);
 		}
 
@@ -85,7 +85,7 @@ class Admin extends Singleton {
 	public function update_footer( $footer_text ) {
 		if ( in_array( get_current_screen()->id, self::get_screen_ids(), true ) ) {
 			/* translators: 1: Plugin version */
-			$footer_text = sprintf( esc_html__( 'Version %s', 'wc-serial-numbers' ), wc_serial_numbers()->get_version() );
+			$footer_text = sprintf( esc_html__( 'Version %s', 'wc-serial-numbers' ), WCSN()->get_version() );
 		}
 
 		return $footer_text;
