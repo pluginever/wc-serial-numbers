@@ -155,7 +155,7 @@ function wcsn_get_order_object( $order ) {
 /**
  * Insert key.
  *
- * @param array $args Key arguments.
+ * @param array   $args Key arguments.
  * @param boolean $wp_error Optional. Whether to return a WP_Error on failure. Default false.
  *
  * @since 1.4.6
@@ -169,11 +169,24 @@ function wcsn_insert_key( $args, $wp_error = true ) {
  * Query keys.
  *
  * @param array $args Query arguments.
+ * @param bool  $count Optional. Whether to return only the total found count. Default false.
  *
  * @since 1.4.6
- * @return array
+ * @return Key[]|array|int Keys array or count of keys.
  */
-function wcsn_get_keys( $args = array() ) {
+function wcsn_get_keys( $args = array(), $count = false ) {
+	$defaults = array(
+		'limit'   => 20,
+		'offset'  => 0,
+		'orderby' => 'id',
+		'order'   => 'DESC',
+		'fields'  => 'all',
+	);
+	$args     = wp_parse_args( $args, $defaults );
+	if ( $count ) {
+		return Key::count( $args );
+	}
+
 	return Key::query( $args );
 }
 
@@ -222,11 +235,24 @@ function wcsn_insert_activation( $args ) {
  * Query activations.
  *
  * @param array $args Query arguments.
+ * @param bool  $count Optional. Whether to return only the total found count. Default false.
  *
  * @since 1.4.6
- * @return array
+ * @return Activation[]|array|int Activations array or count of activations.
  */
-function wcsn_get_activations( $args = array() ) {
+function wcsn_get_activations( $args = array(), $count = false ) {
+	$defaults = array(
+		'limit'   => 20,
+		'offset'  => 0,
+		'orderby' => 'id',
+		'order'   => 'DESC',
+		'fields'  => 'all',
+	);
+	$args     = wp_parse_args( $args, $defaults );
+	if ( $count ) {
+		return Activation::count( $args );
+	}
+
 	return Activation::query( $args );
 }
 
@@ -441,7 +467,7 @@ function wcsn_order_update_keys( $order_id ) {
 	/**
 	 * Action hook to pre update order keys.
 	 *
-	 * @param int $order_id Order ID.
+	 * @param int   $order_id Order ID.
 	 * @param array $line_items Order line items.
 	 *
 	 * @since 1.4.6
@@ -456,8 +482,8 @@ function wcsn_order_update_keys( $order_id ) {
 		/**
 		 * Action hook to pre add order keys.
 		 *
-		 * @param int $order_id Order ID.
-		 * @param array $line_items Order line items.
+		 * @param int    $order_id Order ID.
+		 * @param array  $line_items Order line items.
 		 * @param string $order_status Order status.
 		 *
 		 * @since 1.4.6
@@ -486,8 +512,8 @@ function wcsn_order_update_keys( $order_id ) {
 			 * Action hook to pre add keys to order item.
 			 *
 			 * @param array $line_item Order line item.
-			 * @param int $order_id Order ID.
-			 * @param int $needed_count Needed count.
+			 * @param int   $order_id Order ID.
+			 * @param int   $needed_count Needed count.
 			 */
 			do_action( 'wc_serial_numbers_pre_add_order_item_eys', $item, $order_id, $needed_count );
 
@@ -499,7 +525,7 @@ function wcsn_order_update_keys( $order_id ) {
 				array(
 					'product_id' => $item['product_id'],
 					'status'     => 'available',
-					'limit'     => $needed_count,
+					'limit'      => $needed_count,
 					'orderby'    => 'id',
 					'order'      => 'ASC'
 				)
@@ -537,8 +563,8 @@ function wcsn_order_update_keys( $order_id ) {
 			 * Action hook to post add keys to order item.
 			 *
 			 * @param array $line_item Order line item.
-			 * @param int $order_id Order ID.
-			 * @param int $needed_count Needed count.
+			 * @param int   $order_id Order ID.
+			 * @param int   $needed_count Needed count.
 			 */
 			do_action( 'wc_serial_numbers_added_order_item_keys', $item, $order_id, $needed_count );
 
@@ -550,8 +576,8 @@ function wcsn_order_update_keys( $order_id ) {
 			/**
 			 * Action hook to post add order keys.
 			 *
-			 * @param int $order_id Order ID.
-			 * @param array $line_items Order line items.
+			 * @param int    $order_id Order ID.
+			 * @param array  $line_items Order line items.
 			 * @param string $order_status Order status.
 			 *
 			 * @since 1.4.6
@@ -564,7 +590,7 @@ function wcsn_order_update_keys( $order_id ) {
 	$keys = Key::query(
 		array(
 			'order_id' => $order_id,
-			'limit'   => - 1,
+			'limit'    => - 1,
 		)
 	);
 
@@ -590,7 +616,7 @@ function wcsn_order_update_keys( $order_id ) {
 	/**
 	 * Action hook to post add keys to order item.
 	 *
-	 * @param int $order_id Order ID.
+	 * @param int   $order_id Order ID.
 	 * @param array $line_items Order line items.
 	 *
 	 * @since 1.4.6
@@ -601,7 +627,7 @@ function wcsn_order_update_keys( $order_id ) {
 /**
  * Order remove keys.
  *
- * @param int $order_id Order ID.
+ * @param int   $order_id Order ID.
  * @param array $line_items Order line items.
  *
  * @since 1.4.6
@@ -612,7 +638,7 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 	$is_reusing = wcsn_is_reusing_keys();
 	$args       = array(
 		'order_id' => $order_id,
-		'limit'   => - 1,
+		'limit'    => - 1,
 	);
 
 	if ( ! empty( $product_id ) ) {
@@ -628,8 +654,8 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 	/**
 	 * Action hook to pre revoke keys from order item.
 	 *
-	 * @param int $order_id Order ID.
-	 * @param int $product_id Product ID.
+	 * @param int   $order_id Order ID.
+	 * @param int   $product_id Product ID.
 	 * @param array $keys Order keys.
 	 *
 	 * @since 1.4.6
@@ -652,8 +678,8 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 	/**
 	 * Action hook to post revoke keys from order item.
 	 *
-	 * @param int $order_id Order ID.
-	 * @param int $product_id Product ID.
+	 * @param int   $order_id Order ID.
+	 * @param int   $product_id Product ID.
 	 * @param array $keys Order keys.
 	 *
 	 * @since 1.4.6
@@ -676,10 +702,10 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
  */
 function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null ) {
 	$is_reusing = wcsn_is_reusing_keys();
-	$args = array(
-		'order_id'   => $order_id,
-		'limit'     => - 1,
-		'no_count'   => true,
+	$args       = array(
+		'order_id' => $order_id,
+		'limit'    => - 1,
+		'no_count' => true,
 	);
 
 	if ( ! empty( $product_id ) ) {
@@ -699,8 +725,8 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 	/**
 	 * Action hook to pre replace keys from order item.
 	 *
-	 * @param int $order_id Order ID.
-	 * @param int $product_id Product ID.
+	 * @param int   $order_id Order ID.
+	 * @param int   $product_id Product ID.
 	 * @param array $keys Order keys.
 	 *
 	 * @since 1.4.7
@@ -724,14 +750,14 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 		}
 	}
 
-	if( $replaced > 0  ) {
+	if ( $replaced > 0 ) {
 		wcsn_order_update_keys( $order_id );
 
 		/**
 		 * Action hook to post replace keys from order item.
 		 *
-		 * @param int $order_id Order ID.
-		 * @param int $product_id Product ID.
+		 * @param int   $order_id Order ID.
+		 * @param int   $product_id Product ID.
 		 * @param array $keys Order keys.
 		 *
 		 * @since 1.4.7
@@ -844,7 +870,7 @@ function wcsn_decrypt_key( $key ) {
 /**
  * Get product stocks
  *
- * @param int $stock_limit Stock limit.
+ * @param int  $stock_limit Stock limit.
  * @param bool $force Force.
  *
  * @since 1.4.6

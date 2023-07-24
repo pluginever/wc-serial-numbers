@@ -12,10 +12,17 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <div class="wrap pev-wrap woocommerce">
 	<h1 class="wp-heading-inline">
-		<?php esc_html_e( 'Edit Serial Key', 'wc-serial-numbers' ); ?>
-		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ); ?>" class="page-title-action">
-			<?php esc_html_e( 'Add New', 'wc-serial-numbers' ); ?>
-		</a>
+		<?php if ( $key->exists() ) : ?>
+			<?php esc_html_e( 'Edit Serial Key', 'wc-serial-numbers' ); ?>
+			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ); ?>" class="page-title-action">
+				<?php esc_html_e( 'Add Another', 'wc-serial-numbers' ); ?>
+			</a>
+		<?php else: ?>
+			<?php esc_html_e( 'Add New Serial Key', 'wc-serial-numbers' ); ?>
+			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers' ) ); ?>" class="page-title-action">
+				<?php esc_html_e( 'Go Back', 'wc-serial-numbers' ); ?>
+			</a>
+		<?php endif; ?>
 	</h1>
 
 	<form method="post" action="<?php echo esc_html( admin_url( 'admin-post.php' ) ); ?>">
@@ -111,6 +118,7 @@ defined( 'ABSPATH' ) || exit;
 
 					</div>
 				</div>
+				<!--todo add recent activations-->
 			</div><!-- .column-1 -->
 
 			<div class="column-2">
@@ -119,65 +127,67 @@ defined( 'ABSPATH' ) || exit;
 						<h2 class="pev-card__title"><?php esc_html_e( 'Actions', 'wc-serial-numbers' ); ?></h2>
 					</div>
 					<div class="pev-card__footer">
-						<a class="del" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', admin_url( 'admin.php?page=wc-serial-numbers&id=' . $key->get_id() ) ), 'bulk-keys' ) ); ?>"><?php esc_html_e( 'Delete', 'wc-serial-numbers' ); ?></a>
+						<?php if ( $key->exists() ) : ?>
+							<a class="del" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', admin_url( 'admin.php?page=wc-serial-numbers&id=' . $key->get_id() ) ), 'bulk-keys' ) ); ?>"><?php esc_html_e( 'Delete', 'wc-serial-numbers' ); ?></a>
+						<?php endif; ?>
 						<button class="button button-primary"><?php esc_html_e( 'Save Key', 'wc-serial-numbers' ); ?></button>
 					</div>
 				</div>
 
-				<?php if( $key->get_order()):?>
-				<div class="pev-card">
-					<div class="pev-card__header">
-						<h2 class="pev-card__title"><?php esc_html_e( 'Customer details', 'wc-serial-numbers' ); ?></h2>
-					</div>
-					<div class="pev-card__body">
-						<table class="table-data">
-							<tbody>
-							<tr>
-								<th>
-									<?php esc_html_e( 'Name', 'wc-serial-numbers' ); ?>
-								</th>
-								<td>
-									<?php echo esc_html( $key->get_order()->get_formatted_billing_full_name() ); ?>
-								</td>
-							</tr>
-							<tr>
-								<th>
-									<?php esc_html_e( 'Email', 'wc-serial-numbers' ); ?>
-								</th>
-								<td>
-									<?php echo esc_html( $key->get_order()->get_billing_email() ); ?>
-								</td>
-							</tr>
-							<tr>
-								<th>
-									<?php esc_html_e( 'Address', 'wc-serial-numbers' ); ?>
-								</th>
-								<td>
-									<?php echo esc_html( $key->get_order()->get_formatted_billing_address() ); ?>
-								</td>
-							</tr>
+				<?php if ( $key->get_order() ): ?>
+					<div class="pev-card">
+						<div class="pev-card__header">
+							<h2 class="pev-card__title"><?php esc_html_e( 'Customer details', 'wc-serial-numbers' ); ?></h2>
+						</div>
+						<div class="pev-card__body">
+							<table class="table-data">
+								<tbody>
+								<tr>
+									<th>
+										<?php esc_html_e( 'Name', 'wc-serial-numbers' ); ?>
+									</th>
+									<td>
+										<?php echo esc_html( $key->get_order()->get_formatted_billing_full_name() ); ?>
+									</td>
+								</tr>
+								<tr>
+									<th>
+										<?php esc_html_e( 'Email', 'wc-serial-numbers' ); ?>
+									</th>
+									<td>
+										<?php echo esc_html( $key->get_order()->get_billing_email() ); ?>
+									</td>
+								</tr>
+								<tr>
+									<th>
+										<?php esc_html_e( 'Address', 'wc-serial-numbers' ); ?>
+									</th>
+									<td>
+										<?php echo wp_kses_post( $key->get_order()->get_formatted_billing_address() ); ?>
+									</td>
+								</tr>
 
-							<tr>
-								<th>
-									<?php esc_html_e( 'Phone', 'wc-serial-numbers' ); ?>
-								</th>
-								<td>
-									<?php echo esc_html( $key->get_order()->get_billing_phone() ); ?>
-								</td>
-							</tr>
-							<tr>
-								<th>&nbsp;</th>
-								<td>
-									<a href="<?php echo esc_url( admin_url( 'post.php?post=' . $key->get_order_id() . '&action=edit' ) ); ?>" class="button">
-										<?php esc_html_e( 'View Order', 'wc-serial-numbers' ); ?>
-									</a>
-								</td>
-							</tr>
-							</tbody>
-						</table>
+								<tr>
+									<th>
+										<?php esc_html_e( 'Phone', 'wc-serial-numbers' ); ?>
+									</th>
+									<td>
+										<?php echo esc_html( $key->get_order()->get_billing_phone() ); ?>
+									</td>
+								</tr>
+								<tr>
+									<th>&nbsp;</th>
+									<td>
+										<a href="<?php echo esc_url( admin_url( 'post.php?post=' . $key->get_order_id() . '&action=edit' ) ); ?>" class="button">
+											<?php esc_html_e( 'View Order', 'wc-serial-numbers' ); ?>
+										</a>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
-				</div>
-				<?php endif;?>
+				<?php endif; ?>
 
 			</div><!-- .column-2 -->
 		</div><!-- .pev-poststuff -->

@@ -29,6 +29,9 @@ class Orders {
 		// Add order bulk action.
 		add_filter( 'bulk_actions-edit-shop_order', array( $this, 'add_order_bulk_action' ) );
 		add_filter( 'handle_bulk_actions-edit-shop_order', array( $this, 'handle_order_bulk_action' ), 10, 3 );
+
+		// Display order keys in order details.
+		add_action( 'woocommerce_after_order_itemmeta', array( __CLASS__, 'display_order_item_meta' ), 10, 3 );
 	}
 
 	/**
@@ -86,7 +89,7 @@ class Orders {
 	/**
 	 * Add order serial column content.
 	 *
-	 * @param string $column  Column name.
+	 * @param string $column Column name.
 	 * @param int    $order_id Order ID.
 	 *
 	 * @since 1.2.0
@@ -129,8 +132,8 @@ class Orders {
 	 * Handle order bulk action.
 	 *
 	 * @param string $redirect_to Redirect URL.
-	 * @param string $action      Action name.
-	 * @param array  $order_ids   Order IDs.
+	 * @param string $action Action name.
+	 * @param array  $order_ids Order IDs.
 	 *
 	 * @since 1.2.0
 	 * @return string
@@ -155,4 +158,87 @@ class Orders {
 		return $redirect_to;
 	}
 
+	/**
+	 * Show order item meta.
+	 *
+	 * @param int            $item_id Item ID.
+	 * @param \WC_Order_Item $item Item.
+	 * @param \WC_Product    $product Product.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function display_order_item_meta( $item_id, $item, $product ) {
+		global $post;
+		$order   = wc_get_order( $post->ID );
+		$product = $item->get_product();
+
+		if ( 'completed' !== $order->get_status() || ! $product || ! wcsn_order_has_products( $order ) ) {
+			return;
+		}
+
+		$keys = wcsn_get_keys( array(
+			'order_id'   => $order->get_id(),
+			'product_id' => $product->get_id(),
+			'status__in' => array( 'sold', 'expired' ),
+			'limit'      => - 1,
+		) );
+
+		if ( empty( $keys ) ) {
+			return;
+		}
+
+		echo '<p style="color: #888;">'. __( 'Serial keys sold with this product:', 'wc-serial-numbers' ) . '</p>';
+
+		foreach ( $keys as $index => $key ) {
+			$data = array(
+				array(
+					'key'   => 'serial_key',
+					'label' => __( 'Serial key', 'wc-serial-numbers' ),
+					'value' => '<code>' . $key->get_key() . '</code>',
+				),
+				'expiry_date' => array(
+					'key'   => 'expiry_date',
+					'label' => __( 'Expiry date', 'wc-serial-numbers' ),
+					'value' => $key->get_expire_date() ? $key->get_expire_date() : __( 'Never', 'wc-serial-numbers' ),
+				),
+			);
+
+			if (wcsn_is_software_support_enabled()){
+				$data[] = array(
+					'key'   => 'activation_limit',
+					'label' => __( 'Activation limit', 'wc-serial-numbers' ),
+					'value' => $key->get_activation_limit() ? $key->get_activation_limit() : __( 'Unlimited', 'wc-serial-numbers' ),
+				);
+			}
+
+			$data = apply_filters( 'wc_serial_numbers_admin_order_item_data', $data, $key, $item, $product, $order );
+			if ( empty( $data ) ) {
+				continue;
+			}
+
+			?>
+			<table cellspacing="0" class="display_meta wcsn-admin-order-item-meta" style="margin-bottom: 10px;">
+				<tbody>
+				<tr>
+					<th colspan="2">
+						<?php // translators: %s is the item number. ?>
+						<?php echo sprintf( '#%s:', esc_html( $index + 1 ) ); ?>
+					</th>
+				</tr>
+				<?php foreach ( $data as $field ) : ?>
+					<tr class="<?php echo sanitize_html_class( $field['key'] ); ?>">
+						<th><?php echo esc_html( $field['label'] ); ?>:</th>
+						<td><?php echo wp_kses_post( $field['value'] ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+				<tr>
+					<td colspan="2">
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->get_id() ) ); ?>"><?php esc_html_e( 'View Details', 'wc-serial-numbers' ); ?></a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<?php
+		}
+	}
 }
