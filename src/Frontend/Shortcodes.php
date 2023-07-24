@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCommerceSerialNumbers;
+namespace WooCommerceSerialNumbers\Frontend;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Shortcodes extends Lib\Singleton {
+class Shortcodes {
 
 	/**
 	 * Shortcodes constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_shortcode( 'wc_serial_numbers_validation_form', array( $this, 'validation_form' ) );
 		add_shortcode( 'wc_serial_numbers_activation_form', array( $this, 'activation_form' ) );
 	}

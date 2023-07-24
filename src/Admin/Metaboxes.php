@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Metaboxes extends \WooCommerceSerialNumbers\Lib\Singleton {
+class Metaboxes {
 
 	/**
 	 * Metaboxes constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'register_metaboxes' ) );
 		add_filter( 'woocommerce_product_data_tabs', array( __CLASS__, 'product_data_tab' ) );
 		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );

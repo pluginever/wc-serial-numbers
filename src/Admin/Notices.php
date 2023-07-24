@@ -2,8 +2,6 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
-use WooCommerceSerialNumbers\Lib\Singleton;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -12,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Notices extends Singleton {
+class Notices {
 	/**
 	 * Notices container.
 	 *
@@ -26,7 +24,7 @@ class Notices extends Singleton {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'admin_init', [ $this, 'add_notices' ] );
 		add_action( 'admin_notices', [ $this, 'output_notices' ] );
 		add_action( 'wp_ajax_wc_serial_numbers_dismiss_notice', [ $this, 'dismiss_notice' ] );

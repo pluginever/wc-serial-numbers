@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Compat extends Lib\Singleton {
+class Compat {
 
 	/**
 	 * Compat constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'wpo_wcpdf_after_order_details', array( __CLASS__, 'wpo_wcpdf_after_order_details' ), 10, 2 );
 		add_action( 'pdf_template_table_headings', array( __CLASS__, 'woocommerce_pdf_invoice_support' ), 10, 2 );
 		add_action( 'wf_module_generate_template_html', array( __CLASS__, 'wf_module_generate_template_html' ), 10, 4 );

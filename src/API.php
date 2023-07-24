@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class API extends Lib\Singleton {
+class API {
 
 	/**
 	 * API constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'woocommerce_api_serial-numbers-api', array( __CLASS__, 'process_request' ) );
 		add_action( 'wc_serial_numbers_api_action_check', array( __CLASS__, 'validate_key' ) );
 		add_action( 'wc_serial_numbers_api_action_validate', array( __CLASS__, 'validate_key' ) );

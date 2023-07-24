@@ -12,14 +12,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Actions extends \WooCommerceSerialNumbers\Lib\Singleton {
+class Actions {
 
 	/**
 	 * Actions constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'admin_post_wc_serial_numbers_edit_key', array( __CLASS__, 'handle_edit_key' ) );
 	}
 

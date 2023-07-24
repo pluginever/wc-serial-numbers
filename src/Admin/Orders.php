@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Orders extends \WooCommerceSerialNumbers\Lib\Singleton {
+class Orders {
 
 	/**
 	 * Orders constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		// add custom order action.
 		add_filter( 'woocommerce_order_actions', array( $this, 'add_order_action' ) );
 		// handle custom order action.

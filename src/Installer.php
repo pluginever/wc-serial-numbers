@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.4.2
  * @package WooCommerceSerialNumbers
  */
-class Installer extends Lib\Singleton {
+class Installer {
 
 	/**
 	 * Update callbacks.
@@ -30,7 +30,7 @@ class Installer extends Lib\Singleton {
 	 *
 	 * @since 1.4.2
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_filter( 'cron_schedules', array( __CLASS__, 'custom_cron_schedules' ), 20 ); // phpcs:ignore WordPress.WP.CronInterval.CronSchedulesInterval
 		add_action( 'init', array( $this, 'check_update' ), 0 );
 	}

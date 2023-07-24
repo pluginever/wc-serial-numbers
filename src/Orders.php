@@ -12,14 +12,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Orders extends Lib\Singleton {
+class Orders {
 
 	/**
 	 * Orders constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
 		add_filter( 'woocommerce_payment_complete_order_status', array( __CLASS__, 'maybe_autocomplete_order' ), 10, 3 );
 		add_action( 'woocommerce_order_status_processing', array( __CLASS__, 'handle_order_status_changed' ) );

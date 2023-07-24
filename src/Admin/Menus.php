@@ -3,7 +3,6 @@
 namespace WooCommerceSerialNumbers\Admin;
 
 use WooCommerceSerialNumbers\Models\Key;
-use WooCommerceSerialNumbers\Lib\Singleton;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -13,13 +12,13 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Menus extends Singleton {
+class Menus {
 	/**
 	 * Menus constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		// add_action( 'current_screen', array( $this, 'setup_screen' ) );
 		// add_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
 		// add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );

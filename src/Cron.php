@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Cron extends Lib\Singleton {
+class Cron {
 
 	/**
 	 * Cron constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'wc_serial_numbers_hourly_event', array( __CLASS__, 'expire_outdated_serials' ) );
 		add_action( 'wc_serial_numbers_daily_event', array( __CLASS__, 'send_stock_alert_email' ) );
 	}
@@ -29,7 +29,6 @@ class Cron extends Lib\Singleton {
 	 */
 	public static function expire_outdated_serials() {
 		global $wpdb;
-		// $wpdb->query( "update {$wpdb->prefix}serial_numbers set status='expired' where expire_date != '0000-00-00 00:00:00' AND expire_date < NOW()" );
 		$wpdb->query( "update {$wpdb->prefix}serial_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
 	}
 

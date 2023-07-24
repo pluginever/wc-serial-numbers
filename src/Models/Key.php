@@ -14,12 +14,10 @@ class Key extends Model {
 	/**
 	 * Table name.
 	 *
-	 * This is also used as table alias.
-	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const TABLE_NAME = 'serial_numbers';
+	protected $table_name = 'serial_numbers';
 
 	/**
 	 * Object type.
@@ -27,15 +25,7 @@ class Key extends Model {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const OBJECT_TYPE = 'key';
-
-	/**
-	 * Cache group.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	const CACHE_GROUP = 'serial_numbers';
+	protected $object_type = 'key';
 
 	/**
 	 * Core data for this object. Name value pairs (name + default value).
@@ -44,6 +34,7 @@ class Key extends Model {
 	 * @var array
 	 */
 	protected $core_data = array(
+		'id'               => 0,
 		'serial_key'       => '',
 		'product_id'       => 0,
 		'activation_limit' => 0,
@@ -65,6 +56,30 @@ class Key extends Model {
 	| Methods for getting and setting data.
 	|
 	*/
+	/**
+	 * Get the key.
+	 *
+	 * @since  1.4.6
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return $this->get_prop( 'id' );
+	}
+
+	/**
+	 * Set the key.
+	 *
+	 * @param string $id Key.
+	 *
+	 * @since  1.4.6
+	 *
+	 * @return void
+	 */
+	public function set_id( $id ) {
+		$this->set_prop( 'id', absint( $id ) );
+	}
+
 	/**
 	 * Get the serial key.
 	 *
@@ -531,19 +546,19 @@ class Key extends Model {
 	/**
 	 * Retrieve the object instance.
 	 *
-	 * @param int|array|static $id Object ID or array of arguments.
+	 * @param int|array|static $data Object ID or array of arguments.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return static|false Object instance on success, false on failure.
 	 */
-	public static function get( $id ) {
+	public static function get( $data ) {
 		// If by is set to serial key, encrypt it.
-		if ( is_array( $id ) && array_key_exists( 'serial_key', $id ) ) {
-			$id['serial_key'] = wcsn_encrypt_key( $id['serial_key'] );
+		if ( is_array( $data ) && array_key_exists( 'serial_key', $data ) ) {
+			$data['serial_key'] = wcsn_encrypt_key( $data['serial_key'] );
 		}
 
-		return parent::get( $id );
+		return parent::get( $data );
 	}
 
 	/**
@@ -556,6 +571,7 @@ class Key extends Model {
 	 * @return array
 	 */
 	protected function prepare_where_query( $clauses, $args = array() ) {
+		global $wpdb;
 		$clauses = parent::prepare_where_query( $clauses, $args );
 
 		// If customer id is set, find the orders having that customer id and limit the results to those orders.
@@ -570,7 +586,7 @@ class Key extends Model {
 			);
 
 			if ( ! empty( $order_ids ) ) {
-				$clauses['where'] .= " AND {$this->table_alias}.order_id IN (" . implode( ',', $order_ids ) . ')';
+				$clauses['where'] .= " AND {$wpdb->{$this->table_name}}.order_id IN (" . implode( ',', $order_ids ) . ')';
 			} else {
 				$clauses['where'] .= ' AND 0';
 			}
@@ -595,10 +611,10 @@ class Key extends Model {
 		 *
 		 * @param array $clauses Query clauses.
 		 * @param array $args Query arguments.
-		 * @param self $this Current instance of the class.
+		 * @param static $this Current instance of the class.
 		 *
-		 * @since 1.0.0
 		 * @return array
+		 * @since 1.0.0
 		 */
 		$clauses = apply_filters( $this->get_hook_prefix() . '_pre_setup_search_query', $clauses, $args, $this );
 
@@ -607,18 +623,17 @@ class Key extends Model {
 			if ( ! empty( $args['search_columns'] ) ) {
 				$search_columns = wp_parse_list( $args['search_columns'] );
 			} else {
-				$search_columns = is_null( $this->search_columns ) ? $this->get_columns() : $this->search_columns;
 				/**
 				 * Filter the columns to search in when performing a search query.
 				 *
 				 * @param array $search_columns Array of columns to search in.
 				 * @param array $args Query arguments.
-				 * @param self $this Current instance of the class.
+				 * @param static $object Current instance of the class.
 				 *
-				 * @since 1.0.0
 				 * @return array
+				 * @since 1.0.0
 				 */
-				$search_columns = apply_filters( $this->get_hook_prefix() . '_search_columns', $search_columns, $args, $this );
+				$search_columns = apply_filters( $this->get_hook_prefix() . '_search_columns', $this->get_searchable_keys(), $args, $this );
 			}
 			$search_columns = array_filter( array_unique( $search_columns ) );
 			$like           = '%' . $wpdb->esc_like( $search ) . '%';
@@ -626,13 +641,13 @@ class Key extends Model {
 			$search_clauses = array();
 			foreach ( $search_columns as $column ) {
 				if ( 'serial_key' === $column ) {
-					$like = '%' . $wpdb->esc_like( wc_serial_numbers_encrypt_key( $search ) ) . '%';
+					$like = '%' . $wpdb->esc_like( wcsn_decrypt_key( $search ) ) . '%';
 				}
-				$search_clauses[] = $wpdb->prepare( $this->table_alias . '.' . $column . ' LIKE %s', $like ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				$search_clauses[] = $wpdb->prepare( $this->table_name . '.' . $column . ' LIKE %s', $like ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			}
 
 			if ( ! empty( $search_clauses ) ) {
-				$clauses['where'] .= ' AND (' . implode( ' OR ', $search_clauses ) . ')';
+				$clauses['where'] .= 'AND (' . implode( ' OR ', $search_clauses ) . ')';
 			}
 		}
 
@@ -641,10 +656,10 @@ class Key extends Model {
 		 *
 		 * @param array $clauses Query clauses.
 		 * @param array $args Query arguments.
-		 * @param self $this Current instance of the class.
+		 * @param static $this Current instance of the class.
 		 *
-		 * @since 1.0.0
 		 * @return array
+		 * @since 1.0.0
 		 */
 		return apply_filters( $this->get_hook_prefix() . '_setup_search_query', $clauses, $args, $this );
 	}

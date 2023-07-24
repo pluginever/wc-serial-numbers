@@ -42,9 +42,9 @@
     "level-level/wp-browser-woocommerce": "^0.1.8",
     "lucatume/wp-browser": "^3.1",
     "phpcompatibility/php-compatibility": "9.3.5",
-    "pluginever/framework-plugin": "^1.0.0",
-    "pluginever/framework-settings": "^1.0.0",
-    "pluginever/framework-model": "^1.0.1"
+    "pluginever/framework-plugin": "dev-master",
+    "pluginever/framework-settings": "dev-master",
+    "pluginever/framework-model": "dev-master"
   },
   "config": {
     "optimize-autoloader": true,
