@@ -23,9 +23,6 @@ jobs:
         with:
           php-version: 7.4
 
-      - name: Setup github token
-        run: composer config -g github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
-
       - name: Install Composer dependencies
         run: composer install --no-interaction --no-progress --no-suggest --optimize-autoloader
 
