@@ -58,7 +58,7 @@ defined( 'ABSPATH' ) || exit;
 								<?php esc_html_e( 'Serial key', 'wc-serial-numbers' ); ?>
 								<abbr title="required"></abbr>
 							</label>
-							<textarea name="serial_key" id="serial_key" required="required" placeholder="serial-####-####-####"><?php echo wp_kses_post( $key->get_key() ); ?></textarea>
+							<textarea name="serial_key" id="serial_key" required="required" placeholder="serial-####-####-####" required><?php echo wp_kses_post( $key->get_key() ); ?></textarea>
 							<p class="description">
 								<?php esc_html_e( 'Enter your serial key, also supports multiline.  For example: 4CE0460D0G-4CE0460D1G-4CE0460D2G', 'wc-serial-numbers' ); ?>
 							</p>
