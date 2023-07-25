@@ -37,8 +37,9 @@ defined( 'ABSPATH' ) || exit;
 						<div class="pev-form-field">
 							<label for="product_id">
 								<?php esc_html_e( 'Product', 'wc-serial-numbers' ); ?>
+								<abbr title="required"></abbr>
 							</label>
-							<select name="product_id" id="product_id" class="wcsn_search_product" required="required" placeholder="<?php esc_html_e( 'Select Product', 'wc-serial-numbers' ); ?>">
+							<select name="product_id" id="product_id" class="wcsn_search_product" required="required" placeholder="<?php esc_html_e( 'Select Product', 'wc-serial-numbers' ); ?>" required>
 								<?php
 								echo sprintf(
 									'<option value="%d" selected="selected">%s</option>',
