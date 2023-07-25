@@ -282,7 +282,7 @@ class Activation extends Model {
 		// If order_id or product_id is set, we need to join with the key table and filter by those.
 		if ( ! empty( $args['order_id'] ) || ! empty( $args['product_id'] ) ) {
 			$key_table        = ( new Key() )->get_table_name();
-			$clauses['join'] .= " INNER JOIN {$wpdb->prefix}" . $key_table . " AS serial_numbers ON {$wpdb->{$this->table_name}}.serial_id = serial_numbers.id";
+			$clauses['join'] .= " INNER JOIN {$wpdb->prefix}" . $key_table . " AS serial_numbers ON {$this->table_name}.serial_id = serial_numbers.id";
 		}
 
 		if ( ! empty( $args['order_id'] ) ) {
