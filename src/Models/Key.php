@@ -586,7 +586,7 @@ class Key extends Model {
 			);
 
 			if ( ! empty( $order_ids ) ) {
-				$clauses['where'] .= " AND {$wpdb->{$this->table_name}}.order_id IN (" . implode( ',', $order_ids ) . ')';
+				$clauses['where'] .= " AND {$this->table_name}.order_id IN (" . implode( ',', $order_ids ) . ')';
 			} else {
 				$clauses['where'] .= ' AND 0';
 			}
