@@ -34,6 +34,12 @@ class Plugin extends Lib\Plugin {
 	public function includes() {
 		require_once __DIR__ . '/functions.php';
 		require_once dirname( __FILE__ ) . '/Deprecated/Functions.php';
+		if ( ! class_exists( '\WP_Async_Request', false ) ) {
+			require_once dirname( __DIR__ ) . '/lib/classes/wp-async-request.php';
+		}
+		if ( ! class_exists( '\WP_Background_Process', false ) ) {
+			require_once dirname( __DIR__ ) . '/lib/classes/wp-background-process.php';
+		}
 	}
 
 	/**
@@ -83,6 +89,7 @@ class Plugin extends Lib\Plugin {
 		$this->services['stocks']     = new Stocks();
 		$this->services['ajax']       = new Ajax();
 		$this->services['actions']    = new Actions();
+		$this->services['utilities']  = new Utilities\Utilities();
 		$this->services['frontend']   = new Frontend\Frontend();
 
 		if ( wcsn_is_software_support_enabled() ) {

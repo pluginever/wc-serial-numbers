@@ -27,7 +27,5 @@ class Utilities {
 	 *
 	 * @since 1.5.6
 	 */
-	public function init() {
-
-	}
+	public function init() {}
 }

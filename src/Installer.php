@@ -386,6 +386,6 @@ class Installer {
 			$wpdb->query( "ALTER TABLE {$prefix}serial_numbers ADD UNIQUE KEY  uuid (uuid)" );
 			$wpdb->query( "UPDATE {$prefix}serial_numbers SET uuid = UUID()" );
 		}
-		return false;
+
 	}
 }
