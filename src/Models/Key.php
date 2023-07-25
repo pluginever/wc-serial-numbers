@@ -672,6 +672,20 @@ class Key extends Model {
 	| Common methods used by the class.
 	|
 	*/
+	/**
+	 * Get status label.
+	 *
+	 * @since 1.5.6
+	 * @return string
+	 */
+	public function get_status_label() {
+		$statuses = wcsn_get_key_statuses();
+		if ( array_key_exists( $this->get_status(), $statuses ) ) {
+			return $statuses[ $this->get_status() ];
+		}
+
+		return '&mdash;';
+	}
 
 	/**
 	 * Reset activations.

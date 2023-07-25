@@ -169,47 +169,43 @@ class Orders {
 	 */
 	public static function display_order_item_meta( $item_id, $item, $product ) {
 		global $post;
-		$order   = wc_get_order( $post->ID );
-		$product = $item->get_product();
-
-		if ( 'completed' !== $order->get_status() || ! $product || ! wcsn_order_has_products( $order ) ) {
+		$order = wc_get_order( $post->ID );
+		if ( ! wcsn_is_product_enabled( $product->get_id() ) ) {
 			return;
 		}
-
-		$keys = wcsn_get_keys( array(
-			'order_id'   => $order->get_id(),
-			'product_id' => $product->get_id(),
-			'status__in' => array( 'sold', 'expired' ),
-			'limit'      => - 1,
-		) );
+		$keys = wcsn_get_keys(
+			array(
+				'order_id'   => $order->get_id(),
+				'product_id' => $product->get_id(),
+				'limit'      => - 1,
+			)
+		);
 
 		if ( empty( $keys ) ) {
 			return;
 		}
 
-		echo '<p style="color: #888;">'. __( 'Serial keys sold with this product:', 'wc-serial-numbers' ) . '</p>';
+		echo '<p style="color: #888;">' . esc_html__( 'Serial keys sold with this product:', 'wc-serial-numbers' ) . '</p>';
 
 		foreach ( $keys as $index => $key ) {
 			$data = array(
-				array(
-					'key'   => 'serial_key',
-					'label' => __( 'Serial key', 'wc-serial-numbers' ),
+				'key'              => array(
+					'label' => __( 'Key', 'wc-serial-numbers' ),
 					'value' => '<code>' . $key->get_key() . '</code>',
 				),
-				'expiry_date' => array(
-					'key'   => 'expiry_date',
-					'label' => __( 'Expiry date', 'wc-serial-numbers' ),
-					'value' => $key->get_expire_date() ? $key->get_expire_date() : __( 'Never', 'wc-serial-numbers' ),
+				'expire_date'      => array(
+					'label' => __( 'Expire date', 'wc-serial-numbers' ),
+					'value' => $key->get_expire_date() ? $key->get_expire_date() : __( 'Lifetime', 'wc-serial-numbers' ),
 				),
-			);
-
-			if (wcsn_is_software_support_enabled()){
-				$data[] = array(
-					'key'   => 'activation_limit',
+				'activation_limit' => array(
 					'label' => __( 'Activation limit', 'wc-serial-numbers' ),
 					'value' => $key->get_activation_limit() ? $key->get_activation_limit() : __( 'Unlimited', 'wc-serial-numbers' ),
-				);
-			}
+				),
+				'status'           => array(
+					'label' => __( 'Status', 'wc-serial-numbers' ),
+					'value' => $key->get_status_label(),
+				),
+			);
 
 			$data = apply_filters( 'wc_serial_numbers_admin_order_item_data', $data, $key, $item, $product, $order );
 			if ( empty( $data ) ) {
@@ -225,8 +221,8 @@ class Orders {
 						<?php echo sprintf( '#%s:', esc_html( $index + 1 ) ); ?>
 					</th>
 				</tr>
-				<?php foreach ( $data as $field ) : ?>
-					<tr class="<?php echo sanitize_html_class( $field['key'] ); ?>">
+				<?php foreach ( $data as $prop => $field ) : ?>
+					<tr class="<?php echo sanitize_html_class( $prop ); ?>">
 						<th><?php echo esc_html( $field['label'] ); ?>:</th>
 						<td><?php echo wp_kses_post( $field['value'] ); ?></td>
 					</tr>

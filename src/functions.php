@@ -979,3 +979,72 @@ function wcsn_get_product_link( $product_id ) {
 
 	return get_permalink( $product_id );
 }
+
+/**
+ * Get product display properties.
+ *
+ * @param Key    $key Key object.
+ * @param string $context Context.
+ *
+ * @since 1.5.6
+ * @return array
+ */
+function wcsn_get_key_display_properties( $key, $context = 'order_details' ) {
+	if ( empty( $key ) || ! $key instanceof Key ) {
+		return array();
+	}
+	$properties = array(
+		'key'              => array(
+			'label'    => __( 'Key', 'wc-serial-numbers' ),
+			'value'    => '<code>' . $key->get_key() . '</code>',
+			'priority' => 10,
+		),
+		'activation_email' => array(
+			'label'    => __( 'Activation Email', 'wc-serial-numbers' ),
+			'value'    => $key->get_customer_email(),
+			'priority' => 20,
+		),
+		'activation_limit' => array(
+			'label'    => __( 'Activation Limit', 'wc-serial-numbers' ),
+			'value'    => ! empty( $key->get_activation_limit() ) ? number_format_i18n( $key->get_activation_limit() ) : __( 'None', 'wc-serial-numbers' ),
+			'priority' => 30,
+		),
+		'activation_count' => array(
+			'label'    => __( 'Activation Count', 'wc-serial-numbers' ),
+			'value'    => ! empty( $key->get_activation_count() ) ? number_format_i18n( $key->get_activation_count() ) : __( 'None', 'wc-serial-numbers' ),
+			'priority' => 40,
+		),
+		'expire_date'      => array(
+			'label'    => __( 'Expire Date', 'wc-serial-numbers' ),
+			'value'    => ! empty( $key->get_expire_date() ) ? $key->get_expire_date() : __( 'Lifetime', 'wc-serial-numbers' ),
+			'priority' => 50,
+		),
+		'status'           => array(
+			'label'    => __( 'Status', 'wc-serial-numbers' ),
+			'value'    => $key->get_status(),
+			'priority' => 100,
+		),
+	);
+
+	/**
+	 * Filter key properties.
+	 *
+	 * @param array $props Key properties.
+	 * @param Key $key Key object.
+	 * @param string $context Context.
+	 *
+	 * @since 1.4.9
+	 */
+	$properties = apply_filters( 'wc_serial_numbers_display_key_props', $properties, $key, $context );
+
+	usort(
+		$properties,
+		function( $a, $b ) {
+			$a_priority = isset( $a['priority'] ) ? $a['priority'] : 10;
+			$b_priority = isset( $b['priority'] ) ? $b['priority'] : 10;
+			return $a_priority - $b_priority;
+		}
+	);
+
+	return $properties;
+}
