@@ -168,14 +168,13 @@ class Orders {
 	 * @since 1.0.0
 	 */
 	public static function display_order_item_meta( $item_id, $item, $product ) {
-		global $post;
-		$order = wc_get_order( $post->ID );
-		if ( ! wcsn_is_product_enabled( $product->get_id() ) ) {
+		$order_id = wc_get_order_id_by_order_item_id( $item_id );
+		if ( ! $order_id || ! wcsn_is_product_enabled( $product->get_id() ) ) {
 			return;
 		}
 		$keys = wcsn_get_keys(
 			array(
-				'order_id'   => $order->get_id(),
+				'order_id'   => $order_id,
 				'product_id' => $product->get_id(),
 				'limit'      => - 1,
 			)
@@ -207,7 +206,7 @@ class Orders {
 				),
 			);
 
-			$data = apply_filters( 'wc_serial_numbers_admin_order_item_data', $data, $key, $item, $product, $order );
+			$data = apply_filters( 'wc_serial_numbers_admin_order_item_data', $data, $key, $item, $product, $order_id );
 			if ( empty( $data ) ) {
 				continue;
 			}
