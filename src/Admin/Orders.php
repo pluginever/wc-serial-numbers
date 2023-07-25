@@ -169,7 +169,7 @@ class Orders {
 	 */
 	public static function display_order_item_meta( $item_id, $item, $product ) {
 		$order_id = wc_get_order_id_by_order_item_id( $item_id );
-		if ( ! $order_id || ! wcsn_is_product_enabled( $product->get_id() ) ) {
+		if ( ! $order_id || ! $product || ! wcsn_is_product_enabled( $product->get_id() ) ) {
 			return;
 		}
 		$keys = wcsn_get_keys(
