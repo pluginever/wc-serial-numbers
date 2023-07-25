@@ -641,7 +641,7 @@ class Key extends Model {
 			$search_clauses = array();
 			foreach ( $search_columns as $column ) {
 				if ( 'serial_key' === $column ) {
-					$like = '%' . $wpdb->esc_like( wcsn_decrypt_key( $search ) ) . '%';
+					$like = '%' . $wpdb->esc_like( wcsn_encrypt_key( $search ) ) . '%';
 				}
 				$search_clauses[] = $wpdb->prepare( $this->table_name . '.' . $column . ' LIKE %s', $like ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			}
