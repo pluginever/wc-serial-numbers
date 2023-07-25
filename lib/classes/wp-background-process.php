@@ -650,9 +650,9 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		}
 
 		if ( 1 === $interval ) {
-			$display = __( 'Every Minute' );
+			$display = __( 'Every Minute', 'wc-serial-numbers' );
 		} else {
-			$display = sprintf( __( 'Every %d Minutes' ), $interval );
+			$display = sprintf( __( 'Every %d Minutes', 'wc-serial-numbers' ), $interval );
 		}
 
 		// Adds an "Every NNN Minute(s)" schedule to the existing cron schedules.
