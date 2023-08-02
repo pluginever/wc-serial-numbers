@@ -168,6 +168,26 @@ class Installer extends Lib\Singleton {
 			  PRIMARY KEY  (id),
 			  key serial_id (serial_id)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
+
+			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wcsn_generators(
+				`id` bigint(20) NOT NULL AUTO_INCREMENT,
+				`name` varchar(191) NOT NULL,
+				`pattern` varchar(191) NOT NULL,
+    			`charset` varchar(191) NOT NULL DEFAULT '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                `length` int(11) NOT NULL DEFAULT '32',
+    			`text_case` varchar(20) NOT NULL DEFAULT 'lowercase',
+				`is_sequential` tinyint(1) NOT NULL DEFAULT '0',
+				`activation_limit` int(11) NOT NULL,
+    			`validity` int(11) NOT NULL,
+				`date_created` DATETIME NULL DEFAULT NULL,
+				PRIMARY KEY  (id),
+    				KEY `name` (`name`),
+    				KEY `pattern` (`pattern`),
+    				KEY `activation_limit` (`activation_limit`),
+    				KEY `validity` (`validity`),
+    				KEY `is_sequential` (`is_sequential`),
+    				KEY `text_case` (`text_case`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8",
 		];
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';

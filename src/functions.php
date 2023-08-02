@@ -9,6 +9,7 @@
 use WooCommerceSerialNumbers\Encryption;
 use WooCommerceSerialNumbers\Models\Activation;
 use WooCommerceSerialNumbers\Models\Key;
+use WooCommerceSerialNumbers\Models\Generator;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -171,7 +172,7 @@ function wcsn_insert_key( $args, $wp_error = true ) {
  * @param array $args Query arguments.
  *
  * @since 1.4.6
- * @return array
+ * @return array|int Array of Key objects, otherwise the number of keys found.
  */
 function wcsn_get_keys( $args = array() ) {
 	return Key::query( $args );
@@ -952,4 +953,62 @@ function wcsn_get_product_link( $product_id ) {
 	}
 
 	return get_permalink( $product_id );
+}
+
+
+/**
+ * Get the generator.
+ *
+ * @since 1.2.1
+ * @return Generator|null
+ */
+function wcsn_get_generator( $id ) {
+	$generator = new Generator( $id );
+	if ( $generator->exists() ) {
+		return $generator;
+	}
+
+	return null;
+}
+
+/**
+ * Get generators.
+ *
+ * @since 1.2.1
+ * @return Generator[]|int
+ */
+function wcsn_get_generators( $args = array() ) {
+	return Generator::query( $args );
+}
+
+/**
+ * Insert a generator.
+ *
+ * @since 1.2.1
+ *
+ * @param array $data Generator data.
+ * @param bool  $wp_error Optional. Whether to return a WP_Error on failure. Default false.
+ *
+ * @return Generator|\WP_Error|bool
+ */
+function wcsn_insert_generator( $data, $wp_error = false ) {
+	return Generator::insert( $data, $wp_error );
+}
+
+/**
+ * Delete a generator.
+ *
+ * @since 1.2.1
+ *
+ * @param int $id Generator ID.
+ *
+ * @return bool
+ */
+function wcsn_delete_generator( $id ) {
+	$generator = wcsn_get_generator( $id );
+	if ( $generator ) {
+		return $generator->delete();
+	}
+
+	return false;
 }

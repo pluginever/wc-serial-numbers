@@ -19,7 +19,7 @@ class Key extends Model {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const TABLE_NAME = 'serial_numbers';
+	protected $table_name = 'serial_numbers';
 
 	/**
 	 * Object type.
@@ -27,15 +27,7 @@ class Key extends Model {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const OBJECT_TYPE = 'key';
-
-	/**
-	 * Cache group.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	const CACHE_GROUP = 'serial_numbers';
+	protected $object_type = 'key';
 
 	/**
 	 * Core data for this object. Name value pairs (name + default value).
@@ -44,6 +36,7 @@ class Key extends Model {
 	 * @var array
 	 */
 	protected $core_data = array(
+		'id'               => 0,
 		'serial_key'       => '',
 		'product_id'       => 0,
 		'activation_limit' => 0,
@@ -65,6 +58,30 @@ class Key extends Model {
 	| Methods for getting and setting data.
 	|
 	*/
+	/**
+	 * Get the key.
+	 *
+	 * @since  1.4.6
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return $this->get_prop( 'id' );
+	}
+
+	/**
+	 * Set the key.
+	 *
+	 * @param string $id Key.
+	 *
+	 * @since  1.4.6
+	 *
+	 * @return void
+	 */
+	public function set_id( $id ) {
+		$this->set_prop( 'id', absint( $id ) );
+	}
+
 	/**
 	 * Get the serial key.
 	 *

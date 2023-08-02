@@ -168,39 +168,6 @@ class KeysTable extends ListTable {
 	 */
 	public function no_items() {
 		echo sprintf( '%s %s', esc_html__( 'No keys found.', 'wc-serial-numbers' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ) . '">' . esc_html__( 'Add new key', 'wc-serial-numbers' ) . '</a>' );
-		// Show a documentation about key's statuses.
-		?>
-		<h4>
-			<?php esc_attr_e( 'Keys can have one of the following statuses:', 'wc-serial-numbers' ); ?>
-		</h4>
-		<ul>
-			<li>
-				<strong><?php esc_attr_e( 'Available', 'wc-serial-numbers' ); ?></strong>
-				&dash;
-				<?php esc_attr_e( 'This means the key is available for purchase.', 'wc-serial-numbers' ); ?>
-			</li>
-			<li>
-				<strong><?php esc_attr_e( 'Pending', 'wc-serial-numbers' ); ?></strong>
-				&dash;
-				<?php esc_attr_e( 'This means the key has been sold, but the order has not been completed yet.', 'wc-serial-numbers' ); ?>
-			</li>
-			<li>
-				<strong><?php esc_attr_e( 'Sold', 'wc-serial-numbers' ); ?></strong>
-				&dash;
-				<?php esc_attr_e( 'This means the key has been sold, and the order has been completed.', 'wc-serial-numbers' ); ?>
-			</li>
-			<li>
-				<strong><?php esc_attr_e( 'Expired', 'wc-serial-numbers' ); ?></strong>
-				&dash;
-				<?php esc_attr_e( 'This means the key has expired and is no longer valid.', 'wc-serial-numbers' ); ?>
-			</li>
-			<li>
-				<strong><?php esc_attr_e( 'Cancelled', 'wc-serial-numbers' ); ?></strong>
-				&dash;
-				<?php esc_attr_e( 'This means the key has been cancelled and is no longer available for purchase or use.', 'wc-serial-numbers' ); ?>
-			</li>
-		</ul>
-		<?php
 	}
 
 	/**
@@ -367,7 +334,7 @@ class KeysTable extends ListTable {
 	 * @return string|void
 	 */
 	protected function column_cb( $item ) {
-		return "<input type='checkbox' name='ids[]' id='id_{$item->id}' value='{$item->id}' />";
+		return "<input type='checkbox' name='ids[]' id='id_{$item->get_id()}' value='{$item->get_id()}' />";
 	}
 
 	/**
@@ -397,7 +364,7 @@ class KeysTable extends ListTable {
 	/**
 	 * Display column product.
 	 *
-	 * @param Key $key Key object.
+	 * @param Key $item Key object.
 	 *
 	 * @since 1.4.6
 	 */
@@ -410,7 +377,7 @@ class KeysTable extends ListTable {
 	/**
 	 * Display column order.
 	 *
-	 * @param Key $key Key object.
+	 * @param Key $item Key object.
 	 *
 	 * @since 1.4.6
 	 */

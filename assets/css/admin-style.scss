@@ -209,3 +209,21 @@
 		}
 	}
 }
+
+// Product page.
+#wc_serial_numbers_data{
+	padding-bottom: 20px !important;
+	.wc-radios {
+		display: inline-block;
+
+		li {
+			display: inline-block !important;
+			margin-right: 15px !important;
+		}
+
+		+ .description {
+			display: block;
+			clear: both;
+		}
+	}
+}

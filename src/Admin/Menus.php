@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\Models\Generator;
 use WooCommerceSerialNumbers\Models\Key;
 use WooCommerceSerialNumbers\Lib\Singleton;
 
@@ -374,15 +375,17 @@ class Menus extends Singleton {
 	 * @return void
 	 */
 	public static function generators_tab() {
-		?>
-		<div class="wcsn-feature-promo-banner">
-			<div class="wcsn-feature-promo-banner__content">
-				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
-				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generators-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
-			</div>
-			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/add-generator.png' ); ?>" alt="<?php esc_attr_e( 'Generators', 'wc-serial-numbers' ); ?>" />
-		</div>
-		<?php
+		if ( isset( $_GET['add'] ) || isset( $_GET['edit'] ) ) {
+			$id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
+			$generator = new Generator( $id );
+			if ( ! empty( $id ) && ! $generator->exists() ) {
+				wp_safe_redirect( remove_query_arg( 'edit' ) );
+				exit();
+			}
+			Admin::view( 'html-edit-generator.php', array( 'generator' => $generator ) );
+		} else {
+			Admin::view( 'html-list-generators.php' );
+		}
 	}
 
 	/**
