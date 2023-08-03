@@ -39,7 +39,7 @@ class Notices {
 	public function add_notices() {
 		$is_outdated_pro = defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) && version_compare( WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION, '1.2.1', '<' );
 		if ( ! $is_outdated_pro ) {
-			$is_outdated_pro = function_exists( 'wc_serial_numbers_pro' ) && is_callable( [ wc_serial_numbers_pro(), 'get_version' ] ) && wc_serial_numbers_pro()->get_version() && version_compare( wc_serial_numbers_pro()->get_version(), '1.2.1', '<' );
+			$is_outdated_pro = function_exists( 'wc_serial_numbers_pro' ) && is_callable( [ WCSN_PRO(), 'get_version' ] ) && WCSN_PRO()->get_version() && version_compare( WCSN_PRO()->get_version(), '1.2.1', '<' );
 		}
 		if ( $is_outdated_pro ) {
 			$this->notices[] = array(

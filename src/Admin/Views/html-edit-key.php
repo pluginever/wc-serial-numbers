@@ -17,12 +17,15 @@ defined( 'ABSPATH' ) || exit;
 			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ); ?>" class="page-title-action">
 				<?php esc_html_e( 'Add Another', 'wc-serial-numbers' ); ?>
 			</a>
-		<?php else: ?>
+		<?php else : ?>
 			<?php esc_html_e( 'Add New Serial Key', 'wc-serial-numbers' ); ?>
 			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers' ) ); ?>" class="page-title-action">
 				<?php esc_html_e( 'Go Back', 'wc-serial-numbers' ); ?>
 			</a>
 		<?php endif; ?>
+		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers' ) ); ?>" class="page-title-action">
+			<?php esc_html_e( 'Go Back', 'wc-serial-numbers' ); ?>
+		</a>
 	</h1>
 
 	<form method="post" action="<?php echo esc_html( admin_url( 'admin-post.php' ) ); ?>">
@@ -39,7 +42,7 @@ defined( 'ABSPATH' ) || exit;
 								<?php esc_html_e( 'Product', 'wc-serial-numbers' ); ?>
 								<abbr title="required"></abbr>
 							</label>
-							<select name="product_id" id="product_id" class="wcsn_search_product" required="required" placeholder="<?php esc_html_e( 'Select Product', 'wc-serial-numbers' ); ?>" required>
+							<select name="product_id" id="product_id" class="wcsn_search_product" required="required" placeholder="<?php esc_html_e( 'Select Product', 'wc-serial-numbers' ); ?>">
 								<?php
 								echo sprintf(
 									'<option value="%d" selected="selected">%s</option>',
@@ -58,7 +61,7 @@ defined( 'ABSPATH' ) || exit;
 								<?php esc_html_e( 'Serial key', 'wc-serial-numbers' ); ?>
 								<abbr title="required"></abbr>
 							</label>
-							<textarea name="serial_key" id="serial_key" required="required" placeholder="serial-####-####-####" required><?php echo wp_kses_post( $key->get_key() ); ?></textarea>
+							<textarea name="serial_key" id="serial_key" required="required" placeholder="serial-####-####-####"><?php echo wp_kses_post( $key->get_key() ); ?></textarea>
 							<p class="description">
 								<?php esc_html_e( 'Enter your serial key, also supports multiline.  For example: 4CE0460D0G-4CE0460D1G-4CE0460D2G', 'wc-serial-numbers' ); ?>
 							</p>
@@ -135,7 +138,7 @@ defined( 'ABSPATH' ) || exit;
 					</div>
 				</div>
 
-				<?php if ( $key->get_order() ): ?>
+				<?php if ( $key->get_order() ) : ?>
 					<div class="pev-card">
 						<div class="pev-card__header">
 							<h2 class="pev-card__title"><?php esc_html_e( 'Customer details', 'wc-serial-numbers' ); ?></h2>
@@ -193,9 +196,8 @@ defined( 'ABSPATH' ) || exit;
 			</div><!-- .column-2 -->
 		</div><!-- .pev-poststuff -->
 
-		<input type="hidden" name="action" value="wc_serial_numbers_edit_key">
+		<input type="hidden" name="action" value="wcsn_edit_key">
 		<input type="hidden" name="id" value="<?php echo esc_attr( $key->get_id() ); ?>">
-		<?php wp_nonce_field( 'wc_serial_numbers_edit_key' ); ?>
-
+		<?php wp_nonce_field( 'wcsn_edit_key' ); ?>
 	</form>
 </div>

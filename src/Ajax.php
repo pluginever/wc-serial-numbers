@@ -101,7 +101,7 @@ class Ajax {
 			}
 		}
 
-		if ( empty( $ids ) ) {
+		if ( empty( $ids ) && ! is_numeric( $search ) ) {
 			$data_store = \WC_Data_Store::load( 'order' );
 			if ( 3 > strlen( $search ) ) {
 				$per_page = 20;
@@ -119,7 +119,7 @@ class Ajax {
 		foreach ( $ids as $order_id ) {
 			$order = wc_get_order( $order_id );
 
-			if ( ! $order_id ) {
+			if ( ! $order ) {
 				continue;
 			}
 
