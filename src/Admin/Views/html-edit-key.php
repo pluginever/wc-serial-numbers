@@ -17,11 +17,6 @@ defined( 'ABSPATH' ) || exit;
 			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ); ?>" class="page-title-action">
 				<?php esc_html_e( 'Add Another', 'wc-serial-numbers' ); ?>
 			</a>
-		<?php else : ?>
-			<?php esc_html_e( 'Add New Serial Key', 'wc-serial-numbers' ); ?>
-			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers' ) ); ?>" class="page-title-action">
-				<?php esc_html_e( 'Go Back', 'wc-serial-numbers' ); ?>
-			</a>
 		<?php endif; ?>
 		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers' ) ); ?>" class="page-title-action">
 			<?php esc_html_e( 'Go Back', 'wc-serial-numbers' ); ?>
