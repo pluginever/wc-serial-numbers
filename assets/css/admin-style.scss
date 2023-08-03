@@ -1,3 +1,7 @@
+@import "../../lib/Lib/assets/css/layout";
+@import "../../lib/Lib/assets/css/card";
+@import "../../lib/Lib/assets/css/form";
+
 //
 // Elements
 // Styles for different elements within the admin area.
@@ -164,15 +168,19 @@
 	}
 }
 
+
+
 // Fix select2 width in filter
-.wcsn_search_product,
-.wcsn_search_customer,
-.wcsn_search_order {
-	+ .select2-container {
-		min-width: 200px !important;
-		font-size: 14px;
-		vertical-align: middle;
-		margin: 1px 6px 4px 1px;
+.tablenav {
+	.wcsn_search_product,
+	.wcsn_search_customer,
+	.wcsn_search_order {
+		+ .select2-container {
+			min-width: 200px !important;
+			font-size: 14px;
+			vertical-align: middle;
+			margin: 1px 6px 4px 1px;
+		}
 	}
 }
 

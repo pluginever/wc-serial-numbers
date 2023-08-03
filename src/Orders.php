@@ -12,14 +12,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Orders extends Lib\Singleton {
+class Orders {
 
 	/**
 	 * Orders constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'woocommerce_check_cart_items', array( __CLASS__, 'validate_checkout' ) );
 		add_filter( 'woocommerce_payment_complete_order_status', array( __CLASS__, 'maybe_autocomplete_order' ), 10, 3 );
 		add_action( 'woocommerce_order_status_processing', array( __CLASS__, 'handle_order_status_changed' ) );
@@ -27,9 +27,11 @@ class Orders extends Lib\Singleton {
 		add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'handle_order_status_changed' ) );
 		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ) );
 		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ) );
+		// todo handle order status change and order remove scenario.
+		// todo handle order again feature.
 
 		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_email_keys' ), PHP_INT_MAX );
-		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_display_keys' ), PHP_INT_MAX );
+		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_display_keys' ), 9 );
 	}
 
 	/**

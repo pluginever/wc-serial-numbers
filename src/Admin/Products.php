@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Products extends \WooCommerceSerialNumbers\Lib\Singleton {
+class Products {
 
 	/**
 	 * Products constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'admin_head', array( __CLASS__, 'print_style' ) );
 	}
 

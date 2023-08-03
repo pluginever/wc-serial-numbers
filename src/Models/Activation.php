@@ -19,7 +19,7 @@ class Activation extends Model {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const TABLE_NAME = 'serial_numbers_activations';
+	protected $table_name = 'serial_numbers_activations';
 
 	/**
 	 * Object type.
@@ -27,15 +27,7 @@ class Activation extends Model {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const OBJECT_TYPE = 'activation';
-
-	/**
-	 * Cache group.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	const CACHE_GROUP = 'serial_numbers_activations';
+	protected $object_type = 'activation';
 
 	/**
 	 * Core data for this object. Name value pairs (name + default value).
@@ -44,6 +36,7 @@ class Activation extends Model {
 	 * @var array
 	 */
 	protected $core_data = array(
+		'id'              => 0,
 		'serial_id'       => '',
 		'instance'        => '',
 		'platform'        => '',
@@ -59,6 +52,30 @@ class Activation extends Model {
 	| Methods for getting and setting data.
 	|
 	*/
+	/**
+	 * Get the key.
+	 *
+	 * @since  1.4.6
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return $this->get_prop( 'id' );
+	}
+
+	/**
+	 * Set the key.
+	 *
+	 * @param string $id Key.
+	 *
+	 * @since  1.4.6
+	 *
+	 * @return void
+	 */
+	public function set_id( $id ) {
+		$this->set_prop( 'id', absint( $id ) );
+	}
+
 	/**
 	 * Get the serial id
 	 *
@@ -264,7 +281,8 @@ class Activation extends Model {
 		$clauses = parent::prepare_where_query( $clauses, $args );
 		// If order_id or product_id is set, we need to join with the key table and filter by those.
 		if ( ! empty( $args['order_id'] ) || ! empty( $args['product_id'] ) ) {
-			$clauses['join'] .= " INNER JOIN {$wpdb->prefix}" . Key::TABLE_NAME . " AS serial_numbers ON {$this->table_alias}.serial_id = serial_numbers.id";
+			$key_table        = ( new Key() )->get_table_name();
+			$clauses['join'] .= " INNER JOIN {$wpdb->prefix}" . $key_table . " AS serial_numbers ON {$this->table_name}.serial_id = serial_numbers.id";
 		}
 
 		if ( ! empty( $args['order_id'] ) ) {

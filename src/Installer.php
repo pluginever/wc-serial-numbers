@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.4.2
  * @package WooCommerceSerialNumbers
  */
-class Installer extends Lib\Singleton {
+class Installer {
 
 	/**
 	 * Update callbacks.
@@ -23,6 +23,7 @@ class Installer extends Lib\Singleton {
 		'1.2.0' => 'update_120',
 		'1.2.1' => 'update_121',
 		'1.4.6' => 'update_146',
+		'1.5.6' => 'update_156',
 	);
 
 	/**
@@ -30,7 +31,7 @@ class Installer extends Lib\Singleton {
 	 *
 	 * @since 1.4.2
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_filter( 'cron_schedules', array( __CLASS__, 'custom_cron_schedules' ), 20 ); // phpcs:ignore WordPress.WP.CronInterval.CronSchedulesInterval
 		add_action( 'init', array( $this, 'check_update' ), 0 );
 	}
@@ -61,8 +62,8 @@ class Installer extends Lib\Singleton {
 	 * @return void
 	 */
 	public function check_update() {
-		$db_version      = wc_serial_numbers()->get_db_version();
-		$current_version = wc_serial_numbers()->get_version();
+		$db_version      = WCSN()->get_db_version();
+		$current_version = WCSN()->get_version();
 		$requires_update = version_compare( $db_version, $current_version, '<' );
 		$can_install     = ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) && ! defined( 'IFRAME_REQUEST' );
 		if ( $can_install && $requires_update ) {
@@ -73,7 +74,7 @@ class Installer extends Lib\Singleton {
 			if ( ! is_null( $db_version ) && version_compare( $db_version, end( $update_versions ), '<' ) ) {
 				$this->update();
 			} else {
-				wc_serial_numbers()->update_db_version( $current_version );
+				WCSN()->update_db_version( $current_version );
 			}
 		}
 	}
@@ -85,23 +86,23 @@ class Installer extends Lib\Singleton {
 	 * @return void
 	 */
 	public function update() {
-		$db_version = wc_serial_numbers()->get_db_version();
+		$db_version = WCSN()->get_db_version();
 		foreach ( $this->updates as $version => $callbacks ) {
 			$callbacks = (array) $callbacks;
 			if ( version_compare( $db_version, $version, '<' ) ) {
 				foreach ( $callbacks as $callback ) {
-					wc_serial_numbers()->log( sprintf( 'Updating to %s from %s', $version, $db_version ) );
+					WCSN()->log( sprintf( 'Updating to %s from %s', $version, $db_version ) );
 					// if the callback return false then we need to update the db version.
 					$continue = call_user_func( array( $this, $callback ) );
 					if ( ! $continue ) {
-						wc_serial_numbers()->update_db_version( $version );
+						WCSN()->update_db_version( $version );
 						$notice = sprintf(
 						/* translators: 1: plugin name 2: version number */
 							__( '%1$s updated to version %2$s successfully.', 'wc-serial-numbers' ),
 							'<strong>Serial Numbers for WooCommerce</strong>',
 							'<strong>' . $version . '</strong>'
 						);
-						wc_serial_numbers()->add_notice( $notice, 'success' );
+						WCSN()->add_notice( $notice, 'success' );
 					}
 				}
 			}
@@ -122,7 +123,7 @@ class Installer extends Lib\Singleton {
 		self::create_tables();
 		self::create_cron_jobs();
 		Admin\Settings::get_instance()->save_defaults();
-		wc_serial_numbers()->update_db_version( wc_serial_numbers()->get_version(), false );
+		WCSN()->update_db_version( WCSN()->get_version(), false );
 		add_option( 'wc_serial_numbers_install_date', current_time( 'mysql' ) );
 		set_transient( 'wc_serial_numbers_activated', true, 30 );
 		set_transient( 'wc_serial_numbers_activation_redirect', true, 30 );
@@ -145,11 +146,13 @@ class Installer extends Lib\Singleton {
 			activation_limit int(9) NOT NULL DEFAULT 0,
 			activation_count int(9) NOT NULL  DEFAULT 0,
 			order_id bigint(20) DEFAULT NULL,
+    		order_item_id bigint(20) DEFAULT NULL,
 			vendor_id bigint(20) DEFAULT NULL,
 			status varchar(50) DEFAULT 'available',
 			validity varchar(200) DEFAULT NULL,
 			expire_date DATETIME NULL DEFAULT NULL,
 			order_date DATETIME NULL DEFAULT NULL,
+    		uuid varchar(50) DEFAULT NULL,
 			source varchar(50) DEFAULT 'custom_source',
 			created_date DATETIME NULL DEFAULT NULL,
 			PRIMARY KEY  (id),
@@ -157,6 +160,8 @@ class Installer extends Lib\Singleton {
 			key order_id (order_id),
 			key vendor_id (vendor_id),
 			key activation_limit (activation_limit),
+    		KEY order_item_id (order_item_id),
+    		UNIQUE KEY uuid (uuid),
 			key status (status)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ",
 			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}serial_numbers_activations(
@@ -272,31 +277,31 @@ class Installer extends Lib\Singleton {
 		$show_activation_limit = 'yes' === $this->update_1_2_0_get_option( 'show_activation_limit', 'yes', 'wsn_delivery_settings' );
 		$license               = get_option( 'woocommerce_serial_numbers_pro_pluginever_license' );
 		$options               = [
-			'wc_serial_numbers_autocomplete_order'        => $this->update_1_2_0_get_option( 'wsn_auto_complete_order', 'yes', 'wsn_delivery_settings' ),
-			'wc_serial_numbers_reuse_serial_number'       => $this->update_1_2_0_get_option( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ),
-			'wc_serial_numbers_disable_software_support'  => 'no',
-			'wc_serial_numbers_manual_delivery'           => 'no',
-			'wc_serial_numbers_hide_serial_number'        => 'yes',
-			'wc_serial_numbers_revoke_status_cancelled'   => in_array( 'cancelled', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
-			'wc_serial_numbers_revoke_status_refunded'    => in_array( 'refunded', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
-			'wc_serial_numbers_revoke_status_failed'      => in_array( 'failed', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
-			'wc_serial_numbers_enable_stock_notification' => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
-			'wc_serial_numbers_stock_threshold'           => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
-			'wc_serial_numbers_notification_recipient'    => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
-			'wc_serial_numbers_order_table_heading'       => $heading_text,
+			'wc_serial_numbers_autocomplete_order'            => $this->update_1_2_0_get_option( 'wsn_auto_complete_order', 'yes', 'wsn_delivery_settings' ),
+			'wc_serial_numbers_reuse_serial_number'           => $this->update_1_2_0_get_option( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ),
+			'wc_serial_numbers_disable_software_support'      => 'no',
+			'wc_serial_numbers_manual_delivery'               => 'no',
+			'wc_serial_numbers_hide_serial_number'            => 'yes',
+			'wc_serial_numbers_revoke_status_cancelled'       => in_array( 'cancelled', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
+			'wc_serial_numbers_revoke_status_refunded'        => in_array( 'refunded', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
+			'wc_serial_numbers_revoke_status_failed'          => in_array( 'failed', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', [], 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
+			'wc_serial_numbers_enable_stock_notification'     => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
+			'wc_serial_numbers_stock_threshold'               => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
+			'wc_serial_numbers_notification_recipient'        => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
+			'wc_serial_numbers_order_table_heading'           => $heading_text,
 			'wc_serial_numbers_order_table_col_product_label' => 'Product',
-			'wc_serial_numbers_order_table_col_key_label' => $serial_key_label,
-			'wc_serial_numbers_order_table_col_email_label' => $serial_email_label,
-			'wc_serial_numbers_order_table_col_limit_label' => 'Activation Limit',
+			'wc_serial_numbers_order_table_col_key_label'     => $serial_key_label,
+			'wc_serial_numbers_order_table_col_email_label'   => $serial_email_label,
+			'wc_serial_numbers_order_table_col_limit_label'   => 'Activation Limit',
 			'wc_serial_numbers_order_table_col_expires_label' => 'Expire Date',
-			'wc_serial_numbers_order_table_col_product'   => 'yes',
-			'wc_serial_numbers_order_table_col_key'       => 'yes',
-			'wc_serial_numbers_order_table_col_email'     => 'no',
-			'wc_serial_numbers_order_table_col_limit'     => $show_activation_limit ? 'yes' : 'no',
-			'wc_serial_numbers_order_table_col_expires'   => $show_validity ? 'yes' : 'no',
-			'wc_serial_numbers_install_time'              => get_option( 'woocommerceserialnumbers_install_time' ),
-			'woocommerce-serial-numbers-pro_license_key'  => array_key_exists( 'key', $license ) ? $license['key'] : '',
-			'woocommerce-serial-numbers-pro_license_status' => array_key_exists( 'license', $license ) ? $license['license'] : '',
+			'wc_serial_numbers_order_table_col_product'       => 'yes',
+			'wc_serial_numbers_order_table_col_key'           => 'yes',
+			'wc_serial_numbers_order_table_col_email'         => 'no',
+			'wc_serial_numbers_order_table_col_limit'         => $show_activation_limit ? 'yes' : 'no',
+			'wc_serial_numbers_order_table_col_expires'       => $show_validity ? 'yes' : 'no',
+			'wc_serial_numbers_install_time'                  => get_option( 'woocommerceserialnumbers_install_time' ),
+			'woocommerce-serial-numbers-pro_license_key'      => array_key_exists( 'key', $license ) ? $license['key'] : '',
+			'woocommerce-serial-numbers-pro_license_status'   => array_key_exists( 'license', $license ) ? $license['license'] : '',
 		];
 		foreach ( $options as $key => $option ) {
 			add_option( $key, $option );
@@ -358,5 +363,29 @@ class Installer extends Lib\Singleton {
 		$wpdb->query( "DELETE FROM {$prefix}serial_numbers_activations WHERE active = 0" );
 		// Drop active column.
 		$wpdb->query( "ALTER TABLE {$prefix}serial_numbers_activations DROP active" );
+	}
+
+	/**
+	 * Update to version 1.5.6
+	 *
+	 * @since 1.5.6
+	 * @return bool
+	 */
+	protected function update_156() {
+		global $wpdb;
+		$prefix = $wpdb->prefix;
+		// if order_item_id column not exist then add it.
+		if ( ! $wpdb->get_var( "SHOW COLUMNS FROM {$prefix}serial_numbers LIKE 'order_item_id'" ) ) {
+			$wpdb->query( "ALTER TABLE {$prefix}serial_numbers ADD order_item_id bigint(20) DEFAULT NULL AFTER order_id" );
+			$wpdb->query( "ALTER TABLE {$prefix}serial_numbers ADD KEY order_item_id (order_item_id)" );
+		}
+
+		// if uuid column not exist then add it.
+		if ( ! $wpdb->get_var( "SHOW COLUMNS FROM {$prefix}serial_numbers LIKE 'uuid'" ) ) {
+			$wpdb->query( "ALTER TABLE {$prefix}serial_numbers ADD uuid varchar(50) DEFAULT NULL AFTER order_item_id" );
+			$wpdb->query( "ALTER TABLE {$prefix}serial_numbers ADD UNIQUE KEY  uuid (uuid)" );
+			$wpdb->query( "UPDATE {$prefix}serial_numbers SET uuid = UUID()" );
+		}
+
 	}
 }

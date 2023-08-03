@@ -3,7 +3,6 @@
 namespace WooCommerceSerialNumbers\Admin;
 
 use WooCommerceSerialNumbers\Models\Key;
-use WooCommerceSerialNumbers\Lib\Singleton;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -13,13 +12,13 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Menus extends Singleton {
+class Menus {
 	/**
 	 * Menus constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		// add_action( 'current_screen', array( $this, 'setup_screen' ) );
 		// add_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
 		// add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
@@ -193,7 +192,7 @@ class Menus extends Singleton {
 	 */
 	public function promo_menu() {
 		$role = wcsn_get_manager_role();
-		if ( ! wc_serial_numbers()->is_premium_active() ) {
+		if ( ! WCSN()->is_premium_active() ) {
 			add_submenu_page(
 				'wc-serial-numbers',
 				'',
@@ -212,16 +211,23 @@ class Menus extends Singleton {
 	 * @return void
 	 */
 	public function output_main_page() {
-		if ( isset( $_GET['add'] ) || isset( $_GET['edit'] ) ) {
-			$id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
-			$key = new Key( $id );
-			if ( ! empty( $id ) && ! $key->exists() ) {
+		$add  = isset( $_GET['add'] ) ? true : false;  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$edit = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( $edit ) {
+			$key = new Key( $edit );
+			if ( ! $key->exists() ) {
 				wp_safe_redirect( remove_query_arg( 'edit' ) );
 				exit();
 			}
-			Admin::view( 'html-edit-key.php', array( 'key' => $key ) );
+		}
+
+		if ( $add ) {
+			$key = new Key();
+			include dirname( __FILE__ ) . '/views/html-edit-key.php';
+		} elseif ( $edit ) {
+			include dirname( __FILE__ ) . '/views/html-edit-key.php';
 		} else {
-			Admin::view( 'html-list-keys.php' );
+			include dirname( __FILE__ ) . '/views/html-list-keys.php';
 		}
 	}
 
@@ -279,8 +285,8 @@ class Menus extends Singleton {
 	public function output_reports_page() {
 		$tabs = array(
 			'stock' => __( 'Stock', 'wc-serial-numbers' ),
-		// 'sales'       => __( 'Sales', 'wc-serial-numbers' ),
-		// 'activations' => __( 'Activations', 'wc-serial-numbers' ),
+			// 'sales'       => __( 'Sales', 'wc-serial-numbers' ),
+			// 'activations' => __( 'Activations', 'wc-serial-numbers' ),
 		);
 
 		$tabs        = apply_filters( 'wc_serial_numbers_reports_tabs', $tabs );
@@ -337,14 +343,14 @@ class Menus extends Singleton {
 				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
 				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=import-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
 			</div>
-			<img src="<?php echo esc_url( wc_serial_numbers()->get_url() . 'assets/images/csv-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>" />
+			<img src="<?php echo esc_url( WCSN()->get_dir_url() . 'assets/images/csv-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>"/>
 		</div>
 		<div class="wcsn-feature-promo-banner">
 			<div class="wcsn-feature-promo-banner__content">
 				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
 				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=import-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
 			</div>
-			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/txt-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>" />
+			<img src="<?php echo esc_url( WCSN()->get_assets_url() . 'images/txt-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>"/>
 		</div>
 		<?php
 	}
@@ -362,7 +368,7 @@ class Menus extends Singleton {
 				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
 				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=export-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
 			</div>
-			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/csv-export.png' ); ?>" alt="<?php esc_attr_e( 'Export Serial Numbers', 'wc-serial-numbers' ); ?>" />
+			<img src="<?php echo esc_url( WCSN()->get_assets_url() . 'images/csv-export.png' ); ?>" alt="<?php esc_attr_e( 'Export Serial Numbers', 'wc-serial-numbers' ); ?>"/>
 		</div>
 		<?php
 	}
@@ -380,7 +386,7 @@ class Menus extends Singleton {
 				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
 				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generators-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
 			</div>
-			<img src="<?php echo esc_url( wc_serial_numbers()->get_assets_url() . 'images/add-generator.png' ); ?>" alt="<?php esc_attr_e( 'Generators', 'wc-serial-numbers' ); ?>" />
+			<img src="<?php echo esc_url( WCSN()->get_assets_url() . 'images/add-generator.png' ); ?>" alt="<?php esc_attr_e( 'Generators', 'wc-serial-numbers' ); ?>"/>
 		</div>
 		<?php
 	}
@@ -393,10 +399,10 @@ class Menus extends Singleton {
 	 */
 	public static function status_tab() {
 		$statuses = array(
-			'Serial Numbers version' => wc_serial_numbers()->get_version(),
+			'Serial Numbers version' => WCSN()->get_version(),
 		);
-		if ( wc_serial_numbers()->is_premium_active() && function_exists( 'wc_serial_numbers_pro' ) ) {
-			$statuses['Serial Numbers Pro version'] = wc_serial_numbers_pro()->get_version();
+		if ( WCSN()->is_premium_active() && function_exists( 'wc_serial_numbers_pro' ) ) {
+			$statuses['Serial Numbers Pro version'] = WCSN_PRO()->get_version();
 		}
 
 		// Check if required tables exist.

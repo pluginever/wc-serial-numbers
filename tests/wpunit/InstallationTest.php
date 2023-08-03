@@ -8,13 +8,13 @@ class PluginTest extends \Codeception\TestCase\WPTestCase {
 
 
 	public function test_plugin_activation() {
-		$plugin = wc_serial_numbers();
+		$plugin = WCSN();
 		$this->assertTrue( $plugin->is_plugin_active( $plugin->get_basename() ) );
 		$this->assertEquals( $plugin->get_version(), get_option( 'wc_serial_numbers_version' ) );
 	}
 
 	public function test_plugin_data() {
-		$plugin = wc_serial_numbers();
+		$plugin = WCSN();
 		$this->assertNotEmpty( $plugin->get_name() );
 		$this->assertNotEmpty( $plugin->get_version() );
 		$this->assertNotEmpty( $plugin->get_text_domain() );

@@ -278,7 +278,6 @@ class KeysTable extends ListTable {
 					case 'reset_activations':
 						$key->reset_activations();
 						break;
-						break;
 				}
 			}
 

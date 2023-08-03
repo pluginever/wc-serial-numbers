@@ -209,11 +209,14 @@ Serial Numbers for WooCommerce has a dedicated page for Software API. [You can l
 
 
 == Changelog ==
+= 1.5.6 (2 Aug 2023) =
+* Enhance: Key edit page UI improvement.
+* Fix: Search by order ID not working in the serial numbers list page.
 
 = 1.5.4 (18 Jun 2023) =
 * Enhance: Labels and notice texts.
 * Fix: Sequential pointers with manual assigning not working properly.
-* Fix: Reports filter not working. 
+* Fix: Reports filter not working.
 
 = 1.5.3 (14 Jun 2023) =
 * Enhance: Added bulk reset action for serial keys.

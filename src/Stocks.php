@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Stocks extends Lib\Singleton {
+class Stocks {
 
 	/**
 	 * Stocks constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_filter( 'woocommerce_product_get_stock_quantity', array( __CLASS__, 'get_stock_quantity' ), 10, 2 );
 	}
 

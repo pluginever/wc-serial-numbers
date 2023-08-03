@@ -16,12 +16,12 @@ $api_url = add_query_arg(
 );
 
 ?>
-<div class="wcsn-card">
-	<div class="wcsn-card__header">
+<div class="pev-card">
+	<div class="pev-card__header">
 		<h2><?php esc_html_e( 'API Actions', 'wc-serial-numbers' ); ?></h2>
 	</div>
 
-	<div class="wcsn-card__body">
+	<div class="pev-card__body">
 		<p>
 			<?php esc_html_e( 'You can use the API to perform actions on your website or on another website.', 'wc-serial-numbers' ); ?>
 		</p>

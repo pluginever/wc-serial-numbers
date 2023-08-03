@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.4.2
  * @package WooCommerceSerialNumbers
  */
-class Ajax extends Lib\Singleton {
+class Ajax {
 
 	/**
 	 * AJAX constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'wp_ajax_wc_serial_numbers_search_product', [ __CLASS__, 'search_product' ] );
 		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( __CLASS__, 'search_orders' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_customers', array( __CLASS__, 'search_customers' ) );
@@ -95,13 +95,13 @@ class Ajax extends Lib\Singleton {
 		if ( is_numeric( $search ) ) {
 			$order = wc_get_order( intval( $search ) );
 
-			// Order does exists.
+			// Order does exist.
 			if ( $order && 0 !== $order->get_id() ) {
 				$ids[] = $order->get_id();
 			}
 		}
 
-		if ( empty( $ids ) ) {
+		if ( empty( $ids ) && ! is_numeric( $search ) ) {
 			$data_store = \WC_Data_Store::load( 'order' );
 			if ( 3 > strlen( $search ) ) {
 				$per_page = 20;
@@ -119,7 +119,7 @@ class Ajax extends Lib\Singleton {
 		foreach ( $ids as $order_id ) {
 			$order = wc_get_order( $order_id );
 
-			if ( ! $order_id ) {
+			if ( ! $order ) {
 				continue;
 			}
 

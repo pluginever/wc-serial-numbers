@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Encryption extends Lib\Singleton {
+class Encryption {
 	/**
 	 * @var static
 	 */
@@ -52,14 +52,14 @@ class Encryption extends Lib\Singleton {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'init', array( __CLASS__, 'setEncryptionKey' ) );
 	}
 
 	/**
 	 * Maybe encrypt key.
 	 *
-	 * @param $key
+	 * @param string  $key Key.
 	 *
 	 * @since 1.2.0
 	 * @return false|string

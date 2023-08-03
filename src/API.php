@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class API extends Lib\Singleton {
+class API {
 
 	/**
 	 * API constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function __construct() {
+	public function __construct() {
 		add_action( 'woocommerce_api_serial-numbers-api', array( __CLASS__, 'process_request' ) );
 		add_action( 'wc_serial_numbers_api_action_check', array( __CLASS__, 'validate_key' ) );
 		add_action( 'wc_serial_numbers_api_action_validate', array( __CLASS__, 'validate_key' ) );
@@ -40,7 +40,7 @@ class API extends Lib\Singleton {
 		$action     = isset( $_REQUEST['request'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['request'] ) ) : '';
 		$email      = isset( $_REQUEST['email'] ) ? sanitize_email( wp_unslash( $_REQUEST['email'] ) ) : '';
 
-		wc_serial_numbers()->log(
+		WCSN()->log(
 			'API request',
 			'debug',
 			array(
@@ -53,7 +53,7 @@ class API extends Lib\Singleton {
 
 		// Check if action is valid.
 		if ( ! in_array( $action, array( 'check', 'validate', 'activate', 'deactivate', 'version_check' ), true ) ) {
-			wc_serial_numbers()->log( sprintf( 'Invalid action: %s', $action ), 'error' );
+			WCSN()->log( sprintf( 'Invalid action: %s', $action ), 'error' );
 			wp_send_json_error(
 				array(
 					'code'    => 'invalid_action',
@@ -64,7 +64,7 @@ class API extends Lib\Singleton {
 
 		// Check if product ID is valid.
 		if ( ! $product_id || ! get_post( $product_id ) ) {
-			wc_serial_numbers()->log( sprintf( 'Invalid product ID: %s', $product_id ), 'error' );
+			WCSN()->log( sprintf( 'Invalid product ID: %s', $product_id ), 'error' );
 			wp_send_json_error(
 				array(
 					'code'    => 'invalid_product_id',

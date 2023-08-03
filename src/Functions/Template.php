@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function wcsn_get_template( $template_name, $args = array() ) {
 	$template_name = apply_filters( 'wcsn_get_template', $template_name, $args );
-	wc_get_template( $template_name, $args, 'wc-serial-numbers/', wc_serial_numbers()->get_template_path() );
+	wc_get_template( $template_name, $args, 'wc-serial-numbers/', WCSN()->get_template_path() );
 }
 
 /**

@@ -49,6 +49,8 @@ codeception.yml
 
 # Framework
 lib
+!lib/classes/wp-async-request.php
+!lib/classes/wp-background-process.php
 
 
 # Build

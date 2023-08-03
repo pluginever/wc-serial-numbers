@@ -138,7 +138,7 @@ class ListTable extends \WP_List_Table {
 		<label for="filter-by-order-id" class="screen-reader-text">
 			<?php esc_html_e( 'Filter by order', 'wc-serial-numbers' ); ?>
 		</label>
-		<select class="wcsn_search_order" name="order_id" id="filter-by-order-id">
+		<select class="wcsn_search_order" name="order_id" id="filter-by-order-id" data-placeholder="<?php esc_attr_e( 'Filter by order', 'wc-serial-numbers' ); ?>">
 			<?php if ( ! empty( $order ) ) : ?>
 				<option selected="selected" value="<?php echo esc_attr( $order->get_id() ); ?>">
 					<?php echo esc_html( $order->get_formatted_billing_full_name() ); ?>
