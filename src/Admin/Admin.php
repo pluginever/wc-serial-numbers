@@ -161,7 +161,7 @@ class Admin {
 	 */
 	public static function view( $view, $args = [], $path = '' ) {
 		if ( empty( $path ) ) {
-			$path = __DIR__ . '/Views/';
+			$path = __DIR__ . '/views/';
 		}
 		// replace .php extension if it was added.
 		$view = str_replace( '.php', '', $view );
