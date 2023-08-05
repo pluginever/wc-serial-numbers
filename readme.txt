@@ -1,4 +1,4 @@
-=== WC Serial Numbers - Ultimate license manager plugin for selling, licensing, and securely delivering digital files & content with WooCommerce ===
+=== WC Serial Numbers - Ultimate License Manager Plugin for Selling, Licensing & Securely Delivering Digital Products with WooCommerce ===
 Contributors: pluginever, manikmist09, b-07
 Tags: license manager, license, license number, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, product identification number, digital product license, virtual product key, virtual product license, subscription product license, serial number generator, unique number, license key generator, auto generate serial number, woocommerce, woocommerce license manager, woocommerce key, sell code
 Requires at least: 5.0
@@ -12,7 +12,7 @@ The easiest way to sell digital products and manage licenses with WooCommerce.
 
 == Description ==
 
-= Ultimate Solution for Selling Digital Products with WooCommerce =
+= Ultimate Solution for Selling Digital Files & Content with WooCommerce =
 **[WC Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful WordPress license manager plugin created for WooCommerce store owners. Sell keys, manage licenses, assign serial keys to products, and keep track of customer activations, all without leaving the WooCommerce dashboard.
 
 WooCommerce is the best eCommerce platform out there, but lacks key features for selling digital products. WC Serial Numbers plugin bridges this gap by seamlessly integrating all the necessary functionalities. Transform your WooCommerce store into a complete digital marketplace by incorporating license management, secured and authorized distribution.
