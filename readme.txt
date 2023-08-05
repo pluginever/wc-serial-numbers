@@ -157,18 +157,7 @@ If your license keys are not for games or software, you can skip options three a
 
 === 💝 User Reviews and Testimonials: ===
 
-WC Serial Numbers helps tens of thousands of store owners sell and manage keys. Here are a few testimonials from our 50+ reviews, taken directly from the WordPress plugin repository…
-
-**Great product and outstanding support!**
-"we use this plugin now more then 3 years and today we upgraded another website. the plugin works fine and without errors over years – regular update and a great support team will help you if you have (but i dont think) a problem." - [@wowstuff](https://wordpress.org/support/topic/great-product-and-outstanding-support-5/)
-
-**Exactly what I need**
-"Exactly what I needed. As a digital Subscription seller, I needed to instantly deliver serials to the customers. I had run my shop for more than one year manually (I had to deliver serial details manually by adding a note to the customers) Until I found this plugin. Working perfectly, my customers are happy as they instantly get the serials. Also, they have an excellent support team, and their response is instant." - [@sachirakalhara](https://wordpress.org/support/topic/exactly-what-i-need-166/)
-
-**Great product, great support**
-"I have been using this plugin for several years now and it has always served me well. I found a small issue in the display of serial numbers awhile ago and the support team responded to my ticket very quickly and the issue was fixed in the next update. I recently renewed my yearly license, just before they introduced their Black Friday sale prices. They refunded that purchase in full no questions asked and I re-purchased at the new discounted rate." - [@allarmsllc](https://wordpress.org/support/topic/great-product-great-support-167/)
-
-> See all the 5-star reviews from our users [here](https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5).
+WC Serial Numbers is helping tens of thousands of store owners sell and manage keys and they just love it! See all the 5-star reviews from our users [here](https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5).
 
 === 💢 Supercharge Your WooCommerce Store With Our Other Plugins: ===
 
