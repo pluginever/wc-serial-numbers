@@ -105,8 +105,8 @@ class Menus {
 
 		add_submenu_page(
 			'wc-serial-numbers',
-			__( 'Serial Keys', 'wc-serial-numbers' ),
-			__( 'Serial Keys', 'wc-serial-numbers' ),
+			__( 'Keys', 'wc-serial-numbers' ),
+			__( 'Keys', 'wc-serial-numbers' ),
 			$role,
 			'wc-serial-numbers',
 			array( $this, 'output_main_page' )
