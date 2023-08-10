@@ -772,10 +772,8 @@ class Key extends Model {
 	 */
 	public function recount_remaining_activation() {
 		$count = $this->get_activations( array( 'count' => true ) );
-		if ( $count != $this->get_activation_count() ) {
-			$this->set_activation_count( $count );
-			$this->save();
-		}
+		$this->set_activation_count( $count );
+		$this->save();
 
 		return $count;
 	}

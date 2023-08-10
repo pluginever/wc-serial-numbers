@@ -1,4 +1,4 @@
-=== WC Serial Numbers - Sell, license, and securely deliver digital content with WooCommerce ===
+=== WC Serial Numbers - Ultimate License Manager Plugin for Selling, Licensing & Securely Delivering Digital Products with WooCommerce ===
 Contributors: pluginever, manikmist09, b-07
 Tags: license manager, license, license number, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, product identification number, digital product license, virtual product key, virtual product license, subscription product license, serial number generator, unique number, license key generator, auto generate serial number, woocommerce, woocommerce license manager, woocommerce key, sell code
 Requires at least: 5.0
@@ -12,17 +12,18 @@ The easiest way to sell digital products and manage licenses with WooCommerce.
 
 == Description ==
 
-= Ultimate Solution for Selling Digital Products with WooCommerce =
+= Ultimate Solution for Selling Digital Files & Content with WooCommerce =
 **[WC Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful WordPress license manager plugin created for WooCommerce store owners. Sell keys, manage licenses, assign serial keys to products, and keep track of customer activations, all without leaving the WooCommerce dashboard.
 
 WooCommerce is the best eCommerce platform out there, but lacks key features for selling digital products. WC Serial Numbers plugin bridges this gap by seamlessly integrating all the necessary functionalities. Transform your WooCommerce store into a complete digital marketplace by incorporating license management, secured and authorized distribution.
 
-=== 👨‍💻 This License Manager Plugin is Ideal for ===
+=== 👨‍💻 This Digtal Downloads & License Manager Plugin is Ideal for: ===
 
 * Content Creators
 * Developers and Digital Agencies
 * Event Organizers
-* License/Product Key Resellers
+* License Key/Product Key Resellers
+* Any Kind of Digital Product Sellers 
 
 === 💵 With WC Serial Numbers You Can Sell: ===
 
@@ -30,7 +31,7 @@ WooCommerce is the best eCommerce platform out there, but lacks key features for
 * Digital Tools (Software, Apps, Games, Mockup)
 * Digital Entries (Event Tickets, Entry Pass for Conferences, or Workshops)
 * Digital Gifts (Gift Cards, Lottery, and Secret Number-based Products)
-* Custom Activation Codes, License Keys
+* Custom Activation Codes, License Keys, Secret Codes, Usernames & Passwords
 * Online Courses & Professional Services (Tutorials, Coaching, Consultations)
 * eBooks and Audiobooks
 * And many more.
@@ -39,7 +40,7 @@ Despite being the ultimate license manager for WooCommerce, Serial Numbers is ve
 
 [**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers)
 
-=== How You can benefit from using WC Serial Numbers for your businesses ===
+=== How You can benefit from using WC Serial Numbers for your businesses: ===
 
 - **Generate Fast Revenue:** Stop worrying about the licensing management system and put all of your energy into creating and improving your products.
 
@@ -132,19 +133,6 @@ We are constantly improving our plugin and bringing new enhancements for your co
 - **Barcode Integration:** You’ll have the option to create fully functional barcodes as you know that a barcode is a visual representation of the ‘serial number’ that is located beneath it. You can input product-related data or information using available formats of barcodes.
 
 
-=== 🔑 Start Selling Your Digital Products in 4 Easy Steps: ===
-
-- **1. Select A Product:** Choose your product from the dropdown menu by simply entering a few characters of the product name.
-
-- **2. Generate Keys:** You can use any combination of alphabets or numbers to generate a serial number/license key.
-
-- **3. Set Activation Limit:** If you sell software that needs to be activated then you can limit the number of activations per license key.
-
-- **4. Set Validation Days:** Input the number of days that your license key will be active, beginning with the date of purchase.
-
-If your license keys are not for games or software, you can skip options three and four. You can disable this from the Settings menu by clicking the ‘Disable software support’ checkbox.
-
-
 == 💚 Why Creators and Digital Product Sellers Love WC Serial Numbers: ==
 
 - **Unparalleled Features:** Serial Numbers plugin is second to none when it comes to generating serial numbers and managing licenses for your WooCommerce products. This license manager plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API, and so on.
@@ -157,27 +145,16 @@ If your license keys are not for games or software, you can skip options three a
 
 === 💝 User Reviews and Testimonials: ===
 
-WC Serial Numbers helps tens of thousands of store owners sell and manage keys. Here are a few testimonials from our 50+ reviews, taken directly from the WordPress plugin repository…
+WC Serial Numbers is helping tens of thousands of store owners sell and manage keys and they just love it! See all the 5-star reviews from our users [here](https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5).
 
-**Great product and outstanding support!**
-"we use this plugin now more then 3 years and today we upgraded another website. the plugin works fine and without errors over years – regular update and a great support team will help you if you have (but i dont think) a problem." - [@wowstuff](https://wordpress.org/support/topic/great-product-and-outstanding-support-5/)
+=== 💢 Supercharge Your Store with Our Other WooCommerce Plugins: ===
 
-**Exactly what I need**
-"Exactly what I needed. As a digital Subscription seller, I needed to instantly deliver serials to the customers. I had run my shop for more than one year manually (I had to deliver serial details manually by adding a note to the customers) Until I found this plugin. Working perfectly, my customers are happy as they instantly get the serials. Also, they have an excellent support team, and their response is instant." - [@sachirakalhara](https://wordpress.org/support/topic/exactly-what-i-need-166/)
-
-**Great product, great support**
-"I have been using this plugin for several years now and it has always served me well. I found a small issue in the display of serial numbers awhile ago and the support team responded to my ticket very quickly and the issue was fixed in the next update. I recently renewed my yearly license, just before they introduced their Black Friday sale prices. They refunded that purchase in full no questions asked and I re-purchased at the new discounted rate." - [@allarmsllc](https://wordpress.org/support/topic/great-product-great-support-167/)
-
-> See all the 5-star reviews from our users [here](https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5).
-
-=== 💢 Supercharge Your WooCommerce Store With Our Other Plugins: ===
-
+- **[Min Max Quantities for WooCommerce](https://wordpress.org/plugins/wc-min-max-quantities "Min Max Quantities for WooCommerce")**
 - **[Product Category Slider for WooCommerce](https://wordpress.org/plugins/woo-category-slider-by-pluginever "Product Category Slider for WooCommerce")**
 - **[Product Category Showcase for WooCommerce](https://wordpress.org/plugins/wc-category-showcase "Product Category Showcase for WooCommerce")**
-- **[Min Max Quantities for WooCommerce](https://wordpress.org/plugins/wc-min-max-quantities "Min Max Quantities for WooCommerce")**
 - **[Product Variation Swatches for WooCommerce](https://wordpress.org/plugins/wc-variation-swatches "Product Variation Swatches for WooCommerce")**
 
-💻 Visit [PluginEver](https://pluginever.com) to learn from our WooCommerce tutorials and find out about other best [WooCommerce extensions](https://pluginever.com/plugins).
+💻 Visit [PluginEver](https://pluginever.com) to learn from our WooCommerce tutorials and find out about other [WooCommerce plugins](https://pluginever.com/plugins).
 
 == Installation ==
 
@@ -275,6 +252,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.5.8 (10 Aug 2023) =
+* Fix: Reset activation is not showing correct activation count.
+* Fix: API email validation ignore the email case sensitivity.
+
 = 1.5.7 (2 Aug 2023) =
 * Fix: Keys page showing blank page.
 
