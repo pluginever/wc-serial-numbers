@@ -38,7 +38,7 @@ class API {
 		$product_id = isset( $_REQUEST['product_id'] ) ? absint( $_REQUEST['product_id'] ) : 0;
 		$key        = isset( $_REQUEST['serial_key'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['serial_key'] ) ) : '';
 		$action     = isset( $_REQUEST['request'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['request'] ) ) : '';
-		$email      = isset( $_REQUEST['email'] ) ? sanitize_email( wp_unslash( $_REQUEST['email'] ) ) : '';
+		$email      = isset( $_REQUEST['email'] ) ? sanitize_text_field( strtolower( wp_unslash( $_REQUEST['email'] ) ) ) : '';
 
 		WCSN()->log(
 			'API request',
