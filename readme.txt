@@ -252,6 +252,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.5.8 (10 Aug 2023) =
+* Fix: Reset activation is not showing correct activation count.
+* Fix: API email validation ignore the email case sensitivity.
+
 = 1.5.7 (2 Aug 2023) =
 * Fix: Keys page showing blank page.
 
