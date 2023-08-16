@@ -40,6 +40,7 @@ npm-debug.log
 .sass-cache*
 .husky
 *.lock
+!composer.lock
 
 # Tests
 codeception.yml
