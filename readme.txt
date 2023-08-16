@@ -23,7 +23,7 @@ WooCommerce is the best eCommerce platform out there, but lacks key features for
 * Developers and Digital Agencies
 * Event Organizers
 * License Key/Product Key Resellers
-* Any Kind of Digital Product Sellers 
+* Any Kind of Digital Product Sellers
 
 === 💵 With WC Serial Numbers You Can Sell: ===
 
@@ -252,6 +252,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.5.9 (16 Aug 2023) =
+* Fix: Email validation is not working when email contains uppercase letters.
+* Fix: Reset activations showing wrong activation count.
+
 = 1.5.8 (10 Aug 2023) =
 * Fix: Reset activation is not showing correct activation count.
 * Fix: API email validation ignore the email case sensitivity.
