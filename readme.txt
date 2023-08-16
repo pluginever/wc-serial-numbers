@@ -4,7 +4,7 @@ Tags: license manager, license, license number, serial number, activation number
 Requires at least: 5.0
 Tested up to: 6.3
 Requires PHP: 5.6
-Stable tag: trunk
+Stable tag: 1.5.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ The easiest way to sell digital products and manage licenses with WooCommerce.
 
 WooCommerce is the best eCommerce platform out there, but lacks key features for selling digital products. WC Serial Numbers plugin bridges this gap by seamlessly integrating all the necessary functionalities. Transform your WooCommerce store into a complete digital marketplace by incorporating license management, secured and authorized distribution.
 
-=== 👨‍💻 This Digtal Downloads & License Manager Plugin is Ideal for: ===
+=== 👨‍💻 This Plugin is Ideal for: ===
 
 * Content Creators
 * Developers and Digital Agencies
@@ -40,7 +40,7 @@ Despite being the ultimate license manager for WooCommerce, Serial Numbers is ve
 
 [**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers)
 
-=== How You can benefit from using WC Serial Numbers for your businesses: ===
+=== ✨ How You can benefit from using WC Serial Numbers for your businesses: ===
 
 - **Generate Fast Revenue:** Stop worrying about the licensing management system and put all of your energy into creating and improving your products.
 
@@ -154,7 +154,7 @@ WC Serial Numbers is helping tens of thousands of store owners sell and manage k
 - **[Product Category Showcase for WooCommerce](https://wordpress.org/plugins/wc-category-showcase "Product Category Showcase for WooCommerce")**
 - **[Product Variation Swatches for WooCommerce](https://wordpress.org/plugins/wc-variation-swatches "Product Variation Swatches for WooCommerce")**
 
-💻 Visit [PluginEver](https://pluginever.com) to learn from our WooCommerce tutorials and find out about other [WooCommerce plugins](https://pluginever.com/plugins).
+Visit [PluginEver](https://pluginever.com) to learn from our WooCommerce tutorials and find out about other [WooCommerce plugins](https://pluginever.com/plugins).
 
 == Installation ==
 
