@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.5.4\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.5.8\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-07-26 11:50:29+00:00\n"
+"POT-Creation-Date: 2023-08-10 08:50:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -175,11 +175,11 @@ msgstr ""
 msgid "Serial key is deactivated."
 msgstr ""
 
-#: src/Admin/Actions.php:49
+#: src/Admin/Actions.php:223
 msgid "Key added successfully."
 msgstr ""
 
-#: src/Admin/Actions.php:51
+#: src/Admin/Actions.php:225
 msgid "Key updated successfully."
 msgstr ""
 
@@ -207,35 +207,35 @@ msgstr ""
 msgid "Copied"
 msgstr ""
 
-#: src/Admin/Admin.php:104
+#: src/Admin/Admin.php:105
 #. translators: 1: Plugin name 2: WordPress
 msgid ""
 "Thank you for using %1$s! Share your appreciation with a five-star review "
 "%2$s."
 msgstr ""
 
-#: src/Admin/Admin.php:106
+#: src/Admin/Admin.php:107
 msgid "Thanks :)"
 msgstr ""
 
-#: src/Admin/Admin.php:124
+#: src/Admin/Admin.php:125
 #. translators: 1: Plugin version
 msgid "Version %s"
 msgstr ""
 
-#: src/Admin/Admin.php:137 src/Admin/Menus.php:56 src/Admin/Menus.php:97
-#: src/Admin/Menus.php:98 src/Admin/Menus.php:433 src/Admin/Metaboxes.php:33
+#: src/Admin/Admin.php:138 src/Admin/Menus.php:56 src/Admin/Menus.php:97
+#: src/Admin/Menus.php:98 src/Admin/Menus.php:440 src/Admin/Metaboxes.php:33
 #: src/Admin/Metaboxes.php:229 src/Functions/Template.php:226
 msgid "Serial Numbers"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:39
-#: src/Admin/ListTables/KeysTable.php:321
+#: src/Admin/ListTables/KeysTable.php:320
 msgid "Activation"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:40 src/Admin/Menus.php:128
-#: src/Admin/Menus.php:129 src/Admin/Views/html-list-activations.php:18
+#: src/Admin/Menus.php:129 src/Admin/views/html-list-activations.php:18
 msgid "Activations"
 msgstr ""
 
@@ -251,36 +251,36 @@ msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:177
 #: src/Admin/ListTables/ActivationsTable.php:252
-#: src/Admin/ListTables/KeysTable.php:301
-#: src/Admin/ListTables/KeysTable.php:392 src/Admin/Views/html-edit-key.php:132
+#: src/Admin/ListTables/KeysTable.php:300
+#: src/Admin/ListTables/KeysTable.php:391 src/Admin/views/html-edit-key.php:130
 msgid "Delete"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:189
-#: src/Admin/Views/html-api-actions.php:141 src/Frontend/Shortcodes.php:141
+#: src/Admin/views/html-api-actions.php:141 src/Frontend/Shortcodes.php:141
 msgid "Instance"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:190
-#: src/Admin/ListTables/KeysTable.php:315
-#: src/Admin/ListTables/StockTable.php:105
-#: src/Admin/Views/html-api-actions.php:118
-#: src/Admin/Views/html-api-validation.php:121
-#: src/Admin/Views/html-edit-key.php:39 src/Deprecated/Functions.php:359
+#: src/Admin/ListTables/KeysTable.php:314
+#: src/Admin/ListTables/StockTable.php:105 src/Admin/views/html-add-key.php:33
+#: src/Admin/views/html-api-actions.php:118
+#: src/Admin/views/html-api-validation.php:121
+#: src/Admin/views/html-edit-key.php:37 src/Deprecated/Functions.php:359
 #: src/Frontend/Shortcodes.php:40 src/Frontend/Shortcodes.php:136
 msgid "Product"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:191
-#: src/Admin/ListTables/KeysTable.php:314 src/Admin/Orders.php:192
-#: src/Admin/Views/html-api-actions.php:131
-#: src/Admin/Views/html-api-validation.php:134 src/Functions/Template.php:42
+#: src/Admin/ListTables/KeysTable.php:313 src/Admin/Orders.php:192
+#: src/Admin/views/html-api-actions.php:131
+#: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
 #: src/functions.php:998
 msgid "Key"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:192
-#: src/Admin/Views/html-api-actions.php:152 src/Frontend/Shortcodes.php:143
+#: src/Admin/views/html-api-actions.php:152 src/Frontend/Shortcodes.php:143
 msgid "Platform"
 msgstr ""
 
@@ -385,49 +385,51 @@ msgstr ""
 msgid "Cancelled keys."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:302
+#: src/Admin/ListTables/KeysTable.php:301
 msgid "Reset Activations"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:316
+#: src/Admin/ListTables/KeysTable.php:315 src/Admin/views/html-add-key.php:120
 msgid "Order"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:317
+#: src/Admin/ListTables/KeysTable.php:316
 msgid "Validity"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:324
+#: src/Admin/ListTables/KeysTable.php:323
 msgid "Order Date"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:325 src/Admin/Menus.php:321
-#: src/Admin/Orders.php:204 src/Admin/Views/html-edit-key.php:94
-#: src/Functions/Template.php:78 src/functions.php:1023
+#: src/Admin/ListTables/KeysTable.php:324 src/Admin/Menus.php:328
+#: src/Admin/Orders.php:204 src/Admin/views/html-add-key.php:91
+#: src/Admin/views/html-edit-key.php:92 src/Functions/Template.php:78
+#: src/functions.php:1023
 msgid "Status"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:390
+#: src/Admin/ListTables/KeysTable.php:389
 msgid "ID: %d"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:391
+#: src/Admin/ListTables/KeysTable.php:390
 #: src/Admin/ListTables/StockTable.php:153
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:482
+#: src/Admin/ListTables/KeysTable.php:481
 msgid "<b>%s</b> Day <br><small>After purchase</small>"
 msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/ListTables/KeysTable.php:482 src/Admin/Orders.php:197
+#: src/Admin/ListTables/KeysTable.php:481 src/Admin/Orders.php:197
 #: src/Functions/Template.php:63 src/functions.php:1019
 msgid "Lifetime"
 msgstr ""
 
 #: src/Admin/ListTables/ListTable.php:139
+#: src/Admin/ListTables/ListTable.php:141
 msgid "Filter by order"
 msgstr ""
 
@@ -455,7 +457,7 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:108 src/Admin/Menus.php:280
+#: src/Admin/ListTables/StockTable.php:108 src/Admin/Menus.php:287
 msgid "Stock"
 msgstr ""
 
@@ -476,7 +478,7 @@ msgid "Unknown"
 msgstr ""
 
 #: src/Admin/Menus.php:108 src/Admin/Menus.php:109
-#: src/Admin/Views/html-list-keys.php:18
+#: src/Admin/views/html-list-keys.php:18
 msgid "Serial Keys"
 msgstr ""
 
@@ -493,61 +495,61 @@ msgstr ""
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: src/Admin/Menus.php:246 src/Admin/Views/html-list-keys.php:25
+#: src/Admin/Menus.php:253 src/Admin/views/html-list-keys.php:25
 msgid "Import"
 msgstr ""
 
-#: src/Admin/Menus.php:247 src/Admin/Views/html-list-keys.php:29
+#: src/Admin/Menus.php:254 src/Admin/views/html-list-keys.php:29
 msgid "Export"
 msgstr ""
 
-#: src/Admin/Menus.php:248 src/Admin/Menus.php:382
+#: src/Admin/Menus.php:255 src/Admin/Menus.php:389
 msgid "Generators"
 msgstr ""
 
-#: src/Admin/Menus.php:249
+#: src/Admin/Menus.php:256
 msgid "API"
 msgstr ""
 
-#: src/Admin/Menus.php:336 src/Admin/Menus.php:343 src/Admin/Menus.php:361
-#: src/Admin/Menus.php:379
+#: src/Admin/Menus.php:343 src/Admin/Menus.php:350 src/Admin/Menus.php:368
+#: src/Admin/Menus.php:386
 msgid "Available in Pro Version"
 msgstr ""
 
-#: src/Admin/Menus.php:337 src/Admin/Menus.php:344 src/Admin/Menus.php:362
-#: src/Admin/Menus.php:380
+#: src/Admin/Menus.php:344 src/Admin/Menus.php:351 src/Admin/Menus.php:369
+#: src/Admin/Menus.php:387
 msgid "Upgrade to Pro Now"
 msgstr ""
 
-#: src/Admin/Menus.php:339 src/Admin/Menus.php:346
+#: src/Admin/Menus.php:346 src/Admin/Menus.php:353
 msgid "Import Serial Numbers"
 msgstr ""
 
-#: src/Admin/Menus.php:364
+#: src/Admin/Menus.php:371
 msgid "Export Serial Numbers"
 msgstr ""
 
-#: src/Admin/Menus.php:409
+#: src/Admin/Menus.php:416
 msgid "Table exists"
 msgstr ""
 
-#: src/Admin/Menus.php:411
+#: src/Admin/Menus.php:418
 msgid "Table does not exist"
 msgstr ""
 
-#: src/Admin/Menus.php:417
+#: src/Admin/Menus.php:424
 msgid "Hourly cron"
 msgstr ""
 
-#: src/Admin/Menus.php:418
+#: src/Admin/Menus.php:425
 msgid "Daily cron"
 msgstr ""
 
-#: src/Admin/Menus.php:423
+#: src/Admin/Menus.php:430
 msgid "Next run: %s"
 msgstr ""
 
-#: src/Admin/Menus.php:425
+#: src/Admin/Menus.php:432
 msgid "Not scheduled"
 msgstr ""
 
@@ -661,7 +663,8 @@ msgstr ""
 msgid "Expire date"
 msgstr ""
 
-#: src/Admin/Orders.php:200 src/Admin/Views/html-edit-key.php:69
+#: src/Admin/Orders.php:200 src/Admin/views/html-add-key.php:65
+#: src/Admin/views/html-edit-key.php:67
 msgid "Activation limit"
 msgstr ""
 
@@ -778,452 +781,543 @@ msgstr ""
 msgid "The email address which will be used to send email notifications."
 msgstr ""
 
-#: src/Admin/Settings.php:152
+#: src/Admin/Settings.php:152 src/Admin/views/html-add-key.php:170
 msgid "Create and assign license keys for WooCommerce variable products."
 msgstr ""
 
-#: src/Admin/Settings.php:153
+#: src/Admin/Settings.php:153 src/Admin/views/html-add-key.php:171
 msgid "Generate bulk license keys with your custom key generator rule."
 msgstr ""
 
-#: src/Admin/Settings.php:154
+#: src/Admin/Settings.php:154 src/Admin/views/html-add-key.php:172
 msgid "Random & sequential key order for the generator rules."
 msgstr ""
 
-#: src/Admin/Settings.php:155
+#: src/Admin/Settings.php:155 src/Admin/views/html-add-key.php:173
 msgid "Automatic license key generator to auto-create & assign keys with orders."
 msgstr ""
 
-#: src/Admin/Settings.php:156
+#: src/Admin/Settings.php:156 src/Admin/views/html-add-key.php:174
 msgid "License key management option from the order page with required actions."
 msgstr ""
 
-#: src/Admin/Settings.php:157
+#: src/Admin/Settings.php:157 src/Admin/views/html-add-key.php:175
 msgid "Support for bulk import/export of license keys from/to CSV."
 msgstr ""
 
-#: src/Admin/Settings.php:158
+#: src/Admin/Settings.php:158 src/Admin/views/html-add-key.php:176
 msgid "Send Serial Keys via SMS with Twilio."
 msgstr ""
 
-#: src/Admin/Settings.php:159
+#: src/Admin/Settings.php:159 src/Admin/views/html-add-key.php:177
 msgid ""
 "Option to sell license keys even if there are no available keys in the "
 "stock."
 msgstr ""
 
-#: src/Admin/Settings.php:160
+#: src/Admin/Settings.php:160 src/Admin/views/html-add-key.php:178
 msgid "Custom deliverable quantity to deliver multiple keys with a single product."
 msgstr ""
 
-#: src/Admin/Settings.php:161
+#: src/Admin/Settings.php:161 src/Admin/views/html-add-key.php:179
 msgid ""
 "Manual delivery option to manually deliver license keys instead of "
 "automatic."
 msgstr ""
 
-#: src/Admin/Settings.php:162
+#: src/Admin/Settings.php:162 src/Admin/views/html-add-key.php:180
 msgid ""
 "Email Template to easily and quickly customize the order confirmation & low "
 "stock alert email."
 msgstr ""
 
-#: src/Admin/Settings.php:163
+#: src/Admin/Settings.php:163 src/Admin/views/html-add-key.php:181
 msgid "Many more ..."
 msgstr ""
 
-#: src/Admin/Settings.php:167
+#: src/Admin/Settings.php:167 src/Admin/views/html-add-key.php:185
 msgid "Want More?"
 msgstr ""
 
-#: src/Admin/Settings.php:168
+#: src/Admin/Settings.php:168 src/Admin/views/html-add-key.php:186
 msgid ""
 "This plugin offers a premium version which comes with the following "
 "features:"
 msgstr ""
 
-#: src/Admin/Settings.php:174
+#: src/Admin/Settings.php:174 src/Admin/views/html-add-key.php:192
 msgid "Upgrade to PRO"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:21
+#: src/Admin/views/html-add-key.php:15
+msgid "Add Serial Key"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:17 src/Admin/views/html-edit-key.php:22
+msgid "Go Back"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:22
+msgid ""
+"This section allows you to add a new key that can be sold to customers. "
+"Additionally, you can choose to associate this key with either a new order "
+"or an existing order."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:38 src/Admin/views/html-add-key.php:39
+#: src/Admin/views/html-edit-key.php:40
+msgid "Select Product"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:42
+msgid ""
+"Choose the product to which this key is applicable. The key will be "
+"associated with this product for sale."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:50 src/Admin/views/html-edit-key.php:56
+msgid "Serial key"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:57
+msgid ""
+"Enter the unique serial key you want to sell. This key will be sent to the "
+"customer after the order status is marked as complete. e.g. "
+"4CE0460D0G-4CE0460D1G-4CE0460D2G"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:68
+msgid "e.g. 5"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:70
+msgid ""
+"For software products, specify the maximum number of times the key can be "
+"used to activate the software. If the product is not software, you can "
+"leave this field blank."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:78
+msgid "Valid for (days)"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:82
+msgid "e.g. 365"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:83
+msgid ""
+"For software products, enter the number of days the key will be valid from "
+"the purchase date. If the key should have a lifetime validity, leave this "
+"field blank."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:99
+msgid ""
+"Set as available for selling: The key will be available for purchase by "
+"customers."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:105
+msgid ""
+"Create a new corresponding order for this key: This option generates a new "
+"order specifically for this key."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:111
+msgid ""
+"Associate this key with an existing order: If the customer has already made "
+"a purchase and wants to associate this key with that order, select this "
+"option."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:125 src/Admin/views/html-add-key.php:126
+#: src/Admin/views/html-edit-key.php:106
+msgid "Select Order"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:129
+msgid ""
+"Select the order to which this key should be associated. The key will be "
+"sent to the customer after the order status is marked as complete."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:138
+msgid "Customer"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:143 src/Admin/views/html-add-key.php:144
+msgid "Select Customer"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:147
+msgid ""
+"Select the customer to which this key should be associated. The key will be "
+"sent to the customer after the order status is marked as complete."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:158
+msgid "Add Key"
+msgstr ""
+
+#: src/Admin/views/html-api-actions.php:21
 msgid "API Actions"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:26
+#: src/Admin/views/html-api-actions.php:26
 msgid ""
 "You can use the API to perform actions on your website or on another "
 "website."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:29
+#: src/Admin/views/html-api-actions.php:29
 msgid "To perform an action, you need to send a POST request to the following URL:"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:33
-#: src/Admin/Views/html-api-validation.php:46
+#: src/Admin/views/html-api-actions.php:33
+#: src/Admin/views/html-api-validation.php:46
 msgid "The request must contain the following parameters:"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:37
-#: src/Admin/Views/html-api-actions.php:104
-#: src/Admin/Views/html-api-validation.php:50
-#: src/Admin/Views/html-api-validation.php:105
+#: src/Admin/views/html-api-actions.php:37
+#: src/Admin/views/html-api-actions.php:104
+#: src/Admin/views/html-api-validation.php:50
+#: src/Admin/views/html-api-validation.php:105
 msgid "The ID of the product for which the serial key is valid."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:40
-#: src/Admin/Views/html-api-validation.php:53
+#: src/Admin/views/html-api-actions.php:40
+#: src/Admin/views/html-api-validation.php:53
 msgid "The serial key to validate."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:43
+#: src/Admin/views/html-api-actions.php:43
 msgid "The request type. Must be set to \"activate\" or \"deactivate\"."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:46
+#: src/Admin/views/html-api-actions.php:46
 msgid ""
 "Instance is the base of activation and deactivation. It is a unique "
 "identifier for the installation. For example, you can use the domain name "
 "of the website."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:49
+#: src/Admin/views/html-api-actions.php:49
 msgid ""
 "Optional. The platform on which the serial key is used. For example, "
 "\"Windows\" or \"Mac\"."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:52
-#: src/Admin/Views/html-api-validation.php:59
+#: src/Admin/views/html-api-actions.php:52
+#: src/Admin/views/html-api-validation.php:59
 msgid ""
 "Using email is completely voluntary. The API will verify that the serial "
 "number is associated with the given email address."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:57
-#: src/Admin/Views/html-api-validation.php:63
+#: src/Admin/views/html-api-actions.php:57
+#: src/Admin/views/html-api-validation.php:63
 msgid "Example:"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:75
-#: src/Admin/Views/html-api-validation.php:80
+#: src/Admin/views/html-api-actions.php:75
+#: src/Admin/views/html-api-validation.php:80
 msgid "The API will return a JSON response with the following parameters:"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:80
+#: src/Admin/views/html-api-actions.php:80
 msgid ""
 "The response code. \"key_activated\" or \"key_deactivated\" if the request "
 "was successful. \"invalid_key\" or \"invalid_request\" if the request was "
 "not successful."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:83
-#: src/Admin/Views/html-api-validation.php:87
+#: src/Admin/views/html-api-actions.php:83
+#: src/Admin/views/html-api-validation.php:87
 msgid ""
 "The response message. If the serial key is valid, the message will be "
 "\"Serial key is valid\"."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:86
+#: src/Admin/views/html-api-actions.php:86
 msgid "Activated or deactivated when the request is successful."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:89
-#: src/Admin/Views/html-api-validation.php:90
+#: src/Admin/views/html-api-actions.php:89
+#: src/Admin/views/html-api-validation.php:90
 msgid "The activation limit for the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:92
-#: src/Admin/Views/html-api-validation.php:93
+#: src/Admin/views/html-api-actions.php:92
+#: src/Admin/views/html-api-validation.php:93
 msgid "The number of activations for the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:95
-#: src/Admin/Views/html-api-validation.php:96
+#: src/Admin/views/html-api-actions.php:95
+#: src/Admin/views/html-api-validation.php:96
 msgid "The number of activations left for the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:98
-#: src/Admin/Views/html-api-validation.php:99
+#: src/Admin/views/html-api-actions.php:98
+#: src/Admin/views/html-api-validation.php:99
 msgid "The expiration date for the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:101
+#: src/Admin/views/html-api-actions.php:101
 msgid "The expiration date for the serial key in Unix timestamp format."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:107
-#: src/Admin/Views/html-api-validation.php:108
+#: src/Admin/views/html-api-actions.php:107
+#: src/Admin/views/html-api-validation.php:108
 msgid "The name of the product for which the serial key is valid."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:110
-#: src/Admin/Views/html-api-validation.php:111
+#: src/Admin/views/html-api-actions.php:110
+#: src/Admin/views/html-api-validation.php:111
 msgid "The list of activations for the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:113
+#: src/Admin/views/html-api-actions.php:113
 msgid "You can use the form below to test the API activation/deactivation."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:126
+#: src/Admin/views/html-api-actions.php:126
 msgid "Select a product to activate/deactivate serial key for."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:133
+#: src/Admin/views/html-api-actions.php:133
 msgid "Please enter serial key to activate/deactivate"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:135
+#: src/Admin/views/html-api-actions.php:135
 msgid "Required field. Enter serial key to activate/deactivate."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:143
+#: src/Admin/views/html-api-actions.php:143
 msgid "Please enter a unique instance"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:145
+#: src/Admin/views/html-api-actions.php:145
 msgid ""
 "Required field. Instance is the unique identifier of the activation record. "
 "It is used to identify the activation when activating/deactivating serial "
 "key."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:154
+#: src/Admin/views/html-api-actions.php:154
 msgid "Please enter a platform. e.g. Windows"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:156
+#: src/Admin/views/html-api-actions.php:156
 msgid ""
 "Optional field. Platform is the extra information of the activation record. "
 "You can use it to identify the platform of the activation."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:162
-#: src/Admin/Views/html-api-validation.php:144
-#: src/Admin/Views/html-edit-key.php:156 src/Deprecated/Functions.php:361
+#: src/Admin/views/html-api-actions.php:162
+#: src/Admin/views/html-api-validation.php:144
+#: src/Admin/views/html-edit-key.php:154 src/Deprecated/Functions.php:361
 #: src/Frontend/Shortcodes.php:43 src/Frontend/Shortcodes.php:139
 msgid "Email"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:164
-#: src/Admin/Views/html-api-validation.php:146
+#: src/Admin/views/html-api-actions.php:164
+#: src/Admin/views/html-api-validation.php:146
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:166
+#: src/Admin/views/html-api-actions.php:166
 msgid ""
 "Optional field when duplicate key is off. If email is provided, only serial "
 "key that are assigned to the email will be activated/deactivated otherwise "
 "ignored."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:172 src/Frontend/Shortcodes.php:145
+#: src/Admin/views/html-api-actions.php:172 src/Frontend/Shortcodes.php:145
 msgid "Action"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:175 src/Frontend/Shortcodes.php:152
+#: src/Admin/views/html-api-actions.php:175 src/Frontend/Shortcodes.php:152
 msgid "Activate"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:176 src/Frontend/Shortcodes.php:153
+#: src/Admin/views/html-api-actions.php:176 src/Frontend/Shortcodes.php:153
 msgid "Deactivate"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:179
+#: src/Admin/views/html-api-actions.php:179
 msgid "Select an action to perform on the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:185
-#: src/Admin/Views/html-api-validation.php:153
+#: src/Admin/views/html-api-actions.php:185
+#: src/Admin/views/html-api-validation.php:153
 msgid "API response"
 msgstr ""
 
-#: src/Admin/Views/html-api-actions.php:195 src/Frontend/Shortcodes.php:146
+#: src/Admin/views/html-api-actions.php:195 src/Frontend/Shortcodes.php:146
 #: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:284
 msgid "Submit"
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:20
+#: src/Admin/views/html-api-validation.php:20
 msgid "API Validation"
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:30
+#: src/Admin/views/html-api-validation.php:30
 #. translators: %s: link to the pro version
 msgid ""
 "You are using the free version of Serial Numbers for WooCommerce. <a "
 "href=\"%s\" target=\"_blank\">Upgrade to Pro</a> to get more features."
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:39
+#: src/Admin/views/html-api-validation.php:39
 msgid ""
 "You can use the API to validate serial keys on your website or on another "
 "website."
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:42
+#: src/Admin/views/html-api-validation.php:42
 msgid ""
 "To validate a serial key, you need to send a POST request to the following "
 "URL:"
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:56
+#: src/Admin/views/html-api-validation.php:56
 msgid "The request type. Must be set to \"validate\"."
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:84
+#: src/Admin/views/html-api-validation.php:84
 msgid ""
 "The response code. If the serial key is valid, the code will be "
 "\"key_valid\"."
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:102
+#: src/Admin/views/html-api-validation.php:102
 msgid "The status of the serial key."
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:115
+#: src/Admin/views/html-api-validation.php:115
 msgid "You can test the API using the form below."
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:129
+#: src/Admin/views/html-api-validation.php:129
 msgid "Select a product to validate serial key for."
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:136
+#: src/Admin/views/html-api-validation.php:136
 msgid "Please enter serial key to validate"
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:138
+#: src/Admin/views/html-api-validation.php:138
 msgid "Required field. Enter serial key to validate."
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:148
+#: src/Admin/views/html-api-validation.php:148
 msgid ""
 "Optional field. If email is provided, only serial key that are assigned to "
 "the email will be validated otherwise ignored."
 msgstr ""
 
-#: src/Admin/Views/html-api-validation.php:164 src/Frontend/Shortcodes.php:45
+#: src/Admin/views/html-api-validation.php:164 src/Frontend/Shortcodes.php:45
 msgid "Validate"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:16
+#: src/Admin/views/html-edit-key.php:16
 msgid "Edit Serial Key"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:18
+#: src/Admin/views/html-edit-key.php:18
 msgid "Add Another"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:21
-msgid "Add New Serial Key"
-msgstr ""
-
-#: src/Admin/Views/html-edit-key.php:23
-msgid "Go Back"
-msgstr ""
-
-#: src/Admin/Views/html-edit-key.php:33
+#: src/Admin/views/html-edit-key.php:31
 msgid "Key Details"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:42
-msgid "Select Product"
-msgstr ""
-
-#: src/Admin/Views/html-edit-key.php:52
+#: src/Admin/views/html-edit-key.php:50
 msgid "Select the product for which this key is applicable."
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:58
-msgid "Serial key"
-msgstr ""
-
-#: src/Admin/Views/html-edit-key.php:63
+#: src/Admin/views/html-edit-key.php:61
 msgid ""
 "Enter your serial key, also supports multiline.  For example: "
 "4CE0460D0G-4CE0460D1G-4CE0460D2G"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:73
+#: src/Admin/views/html-edit-key.php:71
 msgid ""
 "Maximum number of times the key can be used to activate the software. If "
 "the product is not software, keep it blank."
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:79
+#: src/Admin/views/html-edit-key.php:77
 msgid "Valid for"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:84
+#: src/Admin/views/html-edit-key.php:82
 msgid "Days"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:87
+#: src/Admin/views/html-edit-key.php:85
 msgid ""
 "Number of days the key will be valid from the purchase date. Leave it blank "
 "for lifetime validity."
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:101
+#: src/Admin/views/html-edit-key.php:99
 msgid "Serial key status auto-updates with order status. Avoid manual changes."
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:106
+#: src/Admin/views/html-edit-key.php:104
 msgid "Order ID"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:108
-msgid "Select Order"
-msgstr ""
-
-#: src/Admin/Views/html-edit-key.php:117
+#: src/Admin/views/html-edit-key.php:115
 msgid "The order to which the serial number will be assigned."
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:128
+#: src/Admin/views/html-edit-key.php:126
 msgid "Actions"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:134
+#: src/Admin/views/html-edit-key.php:132
 msgid "Save Key"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:141
+#: src/Admin/views/html-edit-key.php:139
 msgid "Customer details"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:148
+#: src/Admin/views/html-edit-key.php:146
 msgid "Name"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:164
+#: src/Admin/views/html-edit-key.php:162
 msgid "Address"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:173
+#: src/Admin/views/html-edit-key.php:171
 msgid "Phone"
 msgstr ""
 
-#: src/Admin/Views/html-edit-key.php:183
+#: src/Admin/views/html-edit-key.php:181
 msgid "View Order"
 msgstr ""
 
-#: src/Admin/Views/html-list-activations.php:26
-#: src/Admin/Views/html-list-keys.php:43
+#: src/Admin/views/html-list-activations.php:26
+#: src/Admin/views/html-list-keys.php:43
 msgid "Search key"
 msgstr ""
 
-#: src/Admin/Views/html-list-keys.php:21
+#: src/Admin/views/html-list-keys.php:21
 msgid "Add New"
 msgstr ""
 
-#: src/Admin/Views/html-list-keys.php:33
+#: src/Admin/views/html-list-keys.php:33
 msgid "Generate"
 msgstr ""
 
-#: src/Admin/Views/html-list-stock.php:16
+#: src/Admin/views/html-list-stock.php:16
 msgid "Search"
 msgstr ""
 

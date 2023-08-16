@@ -56,7 +56,7 @@ class Settings extends Lib\Settings {
 						'default' => 'no',
 					],
 					[
-						'title'    => __( 'Reuse serial key', 'wc-serial-numbers' ),
+						'title'    => __( 'Reuse serial keys', 'wc-serial-numbers' ),
 						'id'       => 'wc_serial_numbers_reuse_serial_number',
 						'desc'     => __( 'Recover failed, refunded serial keys for selling again.', 'wc-serial-numbers' ),
 						'desc_tip' => __( 'If you enable this option, the serial keys will be available for selling again if the order is refunded or failed.', 'wc-serial-numbers' ),
@@ -73,7 +73,7 @@ class Settings extends Lib\Settings {
 						'default'  => 'no',
 					],
 					[
-						'title'   => __( 'Hide serial key', 'wc-serial-numbers' ),
+						'title'   => __( 'Hide serial keys', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_hide_serial_number',
 						'desc'    => __( 'Serial keys will be masked in the list table.', 'wc-serial-numbers' ),
 						'default' => 'yes',
