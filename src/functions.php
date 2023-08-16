@@ -868,6 +868,18 @@ function wcsn_decrypt_key( $key ) {
 }
 
 /**
+ * Check if encryption is disabled (i.e, for real physical product serial numbers)
+ *
+ * @param $product_id
+ *
+ * @return bool
+ * @since 1.x.x
+ */
+function wc_serial_numbers_encryption_disabled() {
+	return 'yes' == get_option( 'wc_serial_numbers_disable_encryption' );
+}
+
+/**
  * Get product stocks
  *
  * @param int  $stock_limit Stock limit.
