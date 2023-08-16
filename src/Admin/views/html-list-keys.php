@@ -15,7 +15,7 @@ $list_table->process_bulk_actions( $doaction );
 
 <div class="wrap pev-wrap">
 	<h1 class="wp-heading-inline">
-		<?php esc_html_e( 'Serial Keys', 'wc-serial-numbers' ); ?>
+		<?php esc_html_e( 'Keys', 'wc-serial-numbers' ); ?>
 	</h1>
 	<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ); ?>" class="add-serial-title page-title-action">
 		<?php esc_html_e( 'Add New', 'wc-serial-numbers' ); ?>
