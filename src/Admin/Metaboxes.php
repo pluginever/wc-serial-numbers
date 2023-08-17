@@ -86,7 +86,7 @@ class Metaboxes {
 						'id'            => '_serial_key_source',
 						'name'          => '_serial_key_source',
 						'class'         => 'serial_key_source',
-						'label'         => __( 'Serial key source', 'wc-serial-numbers' ),
+						'label'         => __( 'Key source', 'wc-serial-numbers' ),
 						'value'         => empty( $source ) ? 'custom_source' : $source,
 						'wrapper_class' => 'options_group',
 						'options'       => $sources,
