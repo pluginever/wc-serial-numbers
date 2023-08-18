@@ -68,7 +68,7 @@ class Encryption {
 		if(self::isEncrypted( $key ) || 'yes' == wc_serial_numbers_encryption_disabled()) {
 			return $key;
 		}
-		
+
 		return self::encrypt( $key );
 	}
 
