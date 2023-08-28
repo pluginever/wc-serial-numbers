@@ -252,6 +252,11 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.6.0 (28 Aug 2023) =
+* Fix: Product dropdown showing HTML tags.
+* Fix: Fix typo.
+* Enhance: Improve `wc_serial_numbers_allow_backorder` filter.
+
 = 1.5.9 (16 Aug 2023) =
 * Fix: Email validation is not working when email contains uppercase letters.
 * Fix: Reset activations showing wrong activation count.
