@@ -43,13 +43,13 @@ class Orders {
 	 * @return void
 	 */
 	public static function validate_checkout() {
-		$car_products = WC()->cart->get_cart_contents();
-		foreach ( $car_products as $id => $cart_product ) {
+		$cart_products = WC()->cart->get_cart_contents();
+		foreach ( $cart_products as $id => $cart_product ) {
 			/** @var \WC_Product $product */
 			$product         = $cart_product['data'];
 			$product_id      = $product->get_id();
 			$quantity        = $cart_product['quantity'];
-			$allow_backorder = apply_filters( 'wc_serial_numbers_allow_backorder', false, $product_id );
+			$allow_backorder = apply_filters( 'wc_serial_numbers_allow_backorder', false, $product_id, $cart_product );
 
 			if ( wcsn_is_product_enabled( $product_id ) && ! $allow_backorder ) {
 				$per_item_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
