@@ -174,7 +174,7 @@ In the search field type "Serial Numbers" and click Search Plugins. Once you hav
 
 = Manual installation =
 
-1. Upload the plugin files to the `/wp-content/plugins/wc-serail-numbers` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/wc-serial-numbers` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 = Updating =
@@ -252,6 +252,11 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.6.0 (28 Aug 2023) =
+* Fix: Product dropdown showing HTML tags.
+* Fix: Fix typo.
+* Enhance: Improve `wc_serial_numbers_allow_backorder` filter.
+
 = 1.5.9 (16 Aug 2023) =
 * Fix: Email validation is not working when email contains uppercase letters.
 * Fix: Reset activations showing wrong activation count.
