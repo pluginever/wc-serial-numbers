@@ -785,7 +785,7 @@ function wcsn_get_product_title( $product ) {
 		return sprintf(
 			'(#%1$s) %2$s',
 			$product->get_id(),
-			html_entity_decode( $product->get_formatted_name() )
+			wp_strip_all_tags( $product->get_formatted_name() )
 		);
 	}
 

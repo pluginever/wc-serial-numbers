@@ -51,8 +51,8 @@ class Metaboxes {
 			woocommerce_wp_checkbox(
 				array(
 					'id'            => '_is_serial_number',
-					'label'         => __( 'Sell serial keys', 'wc-serial-numbers' ),
-					'description'   => __( 'Enable this if you are selling serial keys for this product.', 'wc-serial-numbers' ),
+					'label'         => __( 'Sell keys', 'wc-serial-numbers' ),
+					'description'   => __( 'Enable this if you are selling keys or licensing this product.', 'wc-serial-numbers' ),
 					'value'         => get_post_meta( $post->ID, '_is_serial_number', true ),
 					'wrapper_class' => 'options_group',
 					'desc_tip'      => true,
@@ -66,7 +66,7 @@ class Metaboxes {
 					array(
 						'id'                => '_delivery_quantity',
 						'label'             => __( 'Delivery quantity', 'wc-serial-numbers' ),
-						'description'       => __( 'Number of serial key(s) will be delivered per item. Available in PRO.', 'wc-serial-numbers' ),
+						'description'       => __( 'Number of key(s) will be delivered per item. Available in PRO.', 'wc-serial-numbers' ),
 						'value'             => empty( $delivery_quantity ) ? 1 : $delivery_quantity,
 						'type'              => 'number',
 						'wrapper_class'     => 'options_group',
@@ -86,7 +86,7 @@ class Metaboxes {
 						'id'            => '_serial_key_source',
 						'name'          => '_serial_key_source',
 						'class'         => 'serial_key_source',
-						'label'         => __( 'Serial key source', 'wc-serial-numbers' ),
+						'label'         => __( 'Key source', 'wc-serial-numbers' ),
 						'value'         => empty( $source ) ? 'custom_source' : $source,
 						'wrapper_class' => 'options_group',
 						'options'       => $sources,
@@ -105,7 +105,7 @@ class Metaboxes {
 					array(
 						'id'            => '_software_version',
 						'label'         => __( 'Software version', 'wc-serial-numbers' ),
-						'description'   => __( 'Version number for the software. Ignore if it\'s not a software product.', 'wc-serial-numbers' ),
+						'description'   => __( 'Version number for the software. Ignore if it\'s not a software.', 'wc-serial-numbers' ),
 						'placeholder'   => __( 'e.g. 1.0', 'wc-serial-numbers' ),
 						'wrapper_class' => 'options_group',
 						'desc_tip'      => true,
@@ -119,10 +119,10 @@ class Metaboxes {
 				'<p class="wcsn-key-source-based-field form-field options_group" data-source="custom_source"><label>%s</label><span class="description">%d %s</span></p>',
 				__( 'Stock status', 'wc-serial-numbers' ),
 				$stock,
-				_n( 'serial key', 'serial keys', $stock, 'wc-serial-numbers' )
+				_n( 'key available.', 'keys available.', $stock, 'wc-serial-numbers' )
 			);
 			if ( ! WCSN()->is_premium_active() ) {
-				echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Want serial keys to be generated automatically and auto assign with order and many more?', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
+				echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Want the keys to be generated automatically, auto assign with orders, and many more?', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
 			}
 			?>
 		</div>
