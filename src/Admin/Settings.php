@@ -90,7 +90,7 @@ class Settings extends Lib\Settings {
 					[
 						'title' => __( 'Disable encryption', 'wc-serial-numbers' ),
 						'id'    => 'wc_serial_numbers_disable_encryption',
-						'desc'  => __( 'Store serial keys unencrypted in database.', 'wc-serial-numbers' ),
+						'desc'  => __( 'Store serial keys in database as plaintext.', 'wc-serial-numbers' ),
 						'desc_tip' => __( 'If this options is enabled, keys will not be stored in encrypted form.', 'wc-serial-numbers' ),
 						'default' => 'no',
 						'type'  => 'checkbox',
