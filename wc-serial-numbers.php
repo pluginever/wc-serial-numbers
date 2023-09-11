@@ -3,7 +3,7 @@
  * Plugin Name: WC Serial Numbers
  * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
  * Description: Sell and manage license keys/ serial numbers/ secret keys easily within your WooCommerce store.
- * Version:     1.6.0
+ * Version:     1.6.1
  * Author:      PluginEver
  * Author URI:  http://pluginever.com
  * License:     GPLv2+
@@ -31,32 +31,25 @@ use WooCommerceSerialNumbers\Plugin;
 // Don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
-/**
- * Autoload function.
- *
- * @param string $class_name Class name.
- *
- * @since 1.0.0
- * @return void
- */
-function wc_serial_numbers_autoload( $class_name ) {
+// Autoload function.
+spl_autoload_register( function ( $class ) {
+	$prefix = 'WooCommerceSerialNumbers\\';
+	$len    = strlen( $prefix );
+
 	// Bail out if the class name doesn't start with our prefix.
-	if ( strpos( $class_name, 'WooCommerceSerialNumbers\\' ) !== 0 ) {
+	if ( strncmp( $prefix, $class, $len ) !== 0 ) {
 		return;
 	}
 
 	// Remove the prefix from the class name.
-	$class_name = substr( $class_name, strlen( 'WooCommerceSerialNumbers\\' ) );
-
+	$relative_class = substr( $class, $len );
 	// Replace the namespace separator with the directory separator.
-	$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
+	$file = str_replace( '\\', DIRECTORY_SEPARATOR, $relative_class ) . '.php';
 
-	// Add the .php extension.
-	$class_name = $class_name . '.php';
-
+	// Look for the file in the src and lib directories.
 	$file_paths = array(
-		__DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $class_name,
-		__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $class_name,
+		__DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $file,
+		__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file,
 	);
 
 	foreach ( $file_paths as $file_path ) {
@@ -65,9 +58,7 @@ function wc_serial_numbers_autoload( $class_name ) {
 			break;
 		}
 	}
-}
-
-spl_autoload_register( 'wc_serial_numbers_autoload' );
+} );
 
 /**
  * Get the plugin instance.
