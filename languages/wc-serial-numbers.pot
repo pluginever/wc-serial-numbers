@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serial Numbers for WooCommerce 1.6.0\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-08-28 13:56:57+00:00\n"
+"POT-Creation-Date: 2023-09-11 14:07:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,57 +33,57 @@ msgstr ""
 msgid "Could not update item in the database."
 msgstr ""
 
-#: lib/Lib/Plugin.php:294
+#: lib/Lib/Plugin.php:309
 msgid "Go Pro"
 msgstr ""
 
-#: lib/Lib/Plugin.php:640 src/Admin/Settings.php:190
+#: lib/Lib/Plugin.php:655 src/Admin/Settings.php:190
 msgid "Documentation"
 msgstr ""
 
-#: lib/Lib/Plugin.php:647
+#: lib/Lib/Plugin.php:662
 msgid "Support"
 msgstr ""
 
-#: lib/Lib/Plugin.php:654
+#: lib/Lib/Plugin.php:669
 msgid "Review"
 msgstr ""
 
-#: lib/Lib/Plugin.php:660
+#: lib/Lib/Plugin.php:675
 msgid "More Plugins"
 msgstr ""
 
-#: lib/Lib/Plugin.php:677 src/Admin/Menus.php:179 src/Admin/Menus.php:180
+#: lib/Lib/Plugin.php:692 src/Admin/Menus.php:179 src/Admin/Menus.php:180
 msgid "Settings"
 msgstr ""
 
-#: lib/Lib/Settings.php:84
+#: lib/Lib/Settings.php:96
 msgid "Settings saved."
 msgstr ""
 
-#: lib/Lib/Settings.php:248 lib/Lib/Settings.php:339 lib/Lib/Settings.php:348
-#: lib/Lib/Settings.php:357
+#: lib/Lib/Settings.php:260 lib/Lib/Settings.php:351 lib/Lib/Settings.php:360
+#: lib/Lib/Settings.php:369
 msgid "Recommended"
 msgstr ""
 
-#: lib/Lib/Settings.php:249 lib/Lib/Settings.php:340 lib/Lib/Settings.php:349
-#: lib/Lib/Settings.php:358
+#: lib/Lib/Settings.php:261 lib/Lib/Settings.php:352 lib/Lib/Settings.php:361
+#: lib/Lib/Settings.php:370
 msgid "Install Now"
 msgstr ""
 
-#: lib/Lib/Settings.php:310
+#: lib/Lib/Settings.php:322
 msgid "Need Help?"
 msgstr ""
 
-#: lib/Lib/Settings.php:372
+#: lib/Lib/Settings.php:384
 msgid "Join our Community"
 msgstr ""
 
-#: lib/Lib/Settings.php:376
+#: lib/Lib/Settings.php:388
 msgid "Request a Feature"
 msgstr ""
 
-#: lib/Lib/Settings.php:380
+#: lib/Lib/Settings.php:392
 msgid "Report a Bug"
 msgstr ""
 
@@ -554,11 +554,11 @@ msgid "Not scheduled"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:54
-msgid "Sell serial keys"
+msgid "Sell keys"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:55
-msgid "Enable this if you are selling serial keys for this product."
+msgid "Enable this if you are selling keys or licensing this product."
 msgstr ""
 
 #: src/Admin/Metaboxes.php:68
@@ -566,11 +566,11 @@ msgid "Delivery quantity"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:69
-msgid "Number of serial key(s) will be delivered per item. Available in PRO."
+msgid "Number of key(s) will be delivered per item. Available in PRO."
 msgstr ""
 
 #: src/Admin/Metaboxes.php:89
-msgid "Serial key source"
+msgid "Key source"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:107
@@ -578,7 +578,7 @@ msgid "Software version"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:108
-msgid "Version number for the software. Ignore if it's not a software product."
+msgid "Version number for the software. Ignore if it's not a software."
 msgstr ""
 
 #: src/Admin/Metaboxes.php:109
@@ -590,15 +590,15 @@ msgid "Stock status"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:122
-msgid "serial key"
-msgid_plural "serial keys"
+msgid "key available."
+msgid_plural "keys available."
 msgstr[0] ""
 msgstr[1] ""
 
 #: src/Admin/Metaboxes.php:125
 msgid ""
-"Want serial keys to be generated automatically and auto assign with order "
-"and many more?"
+"Want the keys to be generated automatically, auto assign with orders, and "
+"many more?"
 msgstr ""
 
 #: src/Admin/Metaboxes.php:144
@@ -685,7 +685,7 @@ msgid "General Settings"
 msgstr ""
 
 #: src/Admin/Settings.php:48
-msgid "These options determine the behavior and operation of the serial keys."
+msgid "These options determine the behavior and operation of the plugin."
 msgstr ""
 
 #: src/Admin/Settings.php:52
@@ -697,39 +697,39 @@ msgid "Automatically completes orders after successful payments."
 msgstr ""
 
 #: src/Admin/Settings.php:59
-msgid "Reuse serial keys"
+msgid "Reuse keys"
 msgstr ""
 
 #: src/Admin/Settings.php:61
-msgid "Recover failed, refunded serial keys for selling again."
+msgid "Recover failed, refunded keys for selling again."
 msgstr ""
 
 #: src/Admin/Settings.php:62
 msgid ""
-"If you enable this option, the serial keys will be available for selling "
-"again if the order is refunded or failed."
+"If you enable this option, the keys will be available for selling again if "
+"the order is refunded or failed."
 msgstr ""
 
 #: src/Admin/Settings.php:68
-msgid "Revoke serial keys"
+msgid "Revoke keys"
 msgstr ""
 
 #: src/Admin/Settings.php:70
-msgid "Revoke serial keys when the order status changes to cancelled or refunded."
+msgid "Revoke keys when the order status changes to cancelled or refunded."
 msgstr ""
 
 #: src/Admin/Settings.php:71
 msgid ""
-"If you enable this option, the serial keys will be revoked when the order "
-"status changes to cancelled or refunded."
+"If you enable this option, the keys will be revoked when the order status "
+"changes to cancelled or refunded."
 msgstr ""
 
 #: src/Admin/Settings.php:76
-msgid "Hide serial keys"
+msgid "Hide keys"
 msgstr ""
 
 #: src/Admin/Settings.php:78
-msgid "Serial keys will be masked in the list table."
+msgid "Keys will be masked in the list table."
 msgstr ""
 
 #: src/Admin/Settings.php:83
@@ -751,7 +751,7 @@ msgid "Stock Notification"
 msgstr ""
 
 #: src/Admin/Settings.php:97
-msgid "These options determine the operation of the serial key stock notification."
+msgid "These options determine the operation of the key's stock notification."
 msgstr ""
 
 #: src/Admin/Settings.php:101
@@ -759,7 +759,7 @@ msgid "Stock notification email"
 msgstr ""
 
 #: src/Admin/Settings.php:103
-msgid "Sends notification emails when product stock is low."
+msgid "Sends notification emails when key stock is low."
 msgstr ""
 
 #: src/Admin/Settings.php:109
@@ -768,8 +768,8 @@ msgstr ""
 
 #: src/Admin/Settings.php:111
 msgid ""
-"An email notification will be sent when the stock falls below the specified "
-"number."
+"An email notification will be sent when the key stock falls below the "
+"specified number."
 msgstr ""
 
 #: src/Admin/Settings.php:116
@@ -780,38 +780,36 @@ msgstr ""
 msgid "The email address which will be used to send email notifications."
 msgstr ""
 
-#: src/Admin/Settings.php:152 src/Admin/views/html-add-key.php:170
-msgid "Create and assign license keys for WooCommerce variable products."
+#: src/Admin/Settings.php:152
+msgid "Create and assign keys for WooCommerce variable products."
 msgstr ""
 
-#: src/Admin/Settings.php:153 src/Admin/views/html-add-key.php:171
-msgid "Generate bulk license keys with your custom key generator rule."
+#: src/Admin/Settings.php:153
+msgid "Generate bulk keys with your custom key generator rule."
 msgstr ""
 
 #: src/Admin/Settings.php:154 src/Admin/views/html-add-key.php:172
 msgid "Random & sequential key order for the generator rules."
 msgstr ""
 
-#: src/Admin/Settings.php:155 src/Admin/views/html-add-key.php:173
-msgid "Automatic license key generator to auto-create & assign keys with orders."
+#: src/Admin/Settings.php:155
+msgid "Automatic key generator to auto-create & assign keys with orders."
 msgstr ""
 
 #: src/Admin/Settings.php:156 src/Admin/views/html-add-key.php:174
 msgid "License key management option from the order page with required actions."
 msgstr ""
 
-#: src/Admin/Settings.php:157 src/Admin/views/html-add-key.php:175
-msgid "Support for bulk import/export of license keys from/to CSV."
+#: src/Admin/Settings.php:157
+msgid "Support for bulk import/export of keys from/to CSV."
 msgstr ""
 
-#: src/Admin/Settings.php:158 src/Admin/views/html-add-key.php:176
-msgid "Send Serial Keys via SMS with Twilio."
+#: src/Admin/Settings.php:158
+msgid "Send keys via SMS with Twilio."
 msgstr ""
 
-#: src/Admin/Settings.php:159 src/Admin/views/html-add-key.php:177
-msgid ""
-"Option to sell license keys even if there are no available keys in the "
-"stock."
+#: src/Admin/Settings.php:159
+msgid "Option to sell keys even if there are no available keys in the stock."
 msgstr ""
 
 #: src/Admin/Settings.php:160 src/Admin/views/html-add-key.php:178
@@ -824,9 +822,9 @@ msgid ""
 "automatic."
 msgstr ""
 
-#: src/Admin/Settings.php:162 src/Admin/views/html-add-key.php:180
+#: src/Admin/Settings.php:162
 msgid ""
-"Email Template to easily and quickly customize the order confirmation & low "
+"Email template to easily and quickly customize the order confirmation & low "
 "stock alert email."
 msgstr ""
 
@@ -957,6 +955,38 @@ msgstr ""
 
 #: src/Admin/views/html-add-key.php:158
 msgid "Add Key"
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:170
+msgid "Create and assign license keys for WooCommerce variable products."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:171
+msgid "Generate bulk license keys with your custom key generator rule."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:173
+msgid "Automatic license key generator to auto-create & assign keys with orders."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:175
+msgid "Support for bulk import/export of license keys from/to CSV."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:176
+msgid "Send Serial Keys via SMS with Twilio."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:177
+msgid ""
+"Option to sell license keys even if there are no available keys in the "
+"stock."
+msgstr ""
+
+#: src/Admin/views/html-add-key.php:180
+msgid ""
+"Email Template to easily and quickly customize the order confirmation & low "
+"stock alert email."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:21
@@ -1154,6 +1184,7 @@ msgid "API response"
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:195 src/Frontend/Shortcodes.php:146
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:284
 msgid "Submit"
 msgstr ""
 
@@ -1494,8 +1525,230 @@ msgid ""
 "WooCommerce</a>"
 msgstr ""
 
+#: vendor/lucatume/wp-browser/src/data/plugins/internationalized-plugin.php:11
+msgid "This is a dummy plugin"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:42
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:72
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:80
+msgid "There was an error when reading this WXR file"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:43
+msgid ""
+"Details are shown above. The importer will now try again with a different "
+"parser..."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:84
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:89
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:306
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/parsers.php:495
+msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:132
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:141
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:192
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:196
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:205
+msgid "Sorry, there has been an error."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:133
+msgid "The file does not exist, please try again."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:176
+msgid "All done."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:176
+msgid "Have fun!"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:177
+msgid "Remember to update the passwords and roles of imported users."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:197
+msgid ""
+"The export file could not be found at <code>%s</code>. It is likely that "
+"this was caused by a permissions problem."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:213
+msgid ""
+"This WXR file (version %s) may not be supported by this version of the "
+"importer. Please consider updating."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:238
+msgid ""
+"Failed to import author %s. Their posts will be attributed to the current "
+"user."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:264
+msgid "Assign Authors"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:265
+msgid ""
+"To make it easier for you to edit and save the imported content, you may "
+"want to reassign the author of the imported item to an existing user of "
+"this site. For example, you may want to import all the entries as "
+"<code>admin</code>s entries."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:267
+msgid ""
+"If a new user is created by WordPress, a new password will be randomly "
+"generated and the new user&#8217;s role will be set as %s. Manually "
+"changing the new user&#8217;s details will be necessary."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:277
+msgid "Import Attachments"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:280
+msgid "Download and import file attachments"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:297
+msgid "Import author:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:308
+msgid "or create new user with login name:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:311
+msgid "as a new user:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:319
+msgid "assign posts to an existing user:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:321
+msgid "or assign posts to an existing user:"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:322
+msgid "- Select -"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:372
+msgid ""
+"Failed to create new user for %s. Their posts will be attributed to the "
+"current user."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:424
+msgid "Failed to import category %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:467
+msgid "Failed to import post tag %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:516
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:738
+msgid "Failed to import %s %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:605
+msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:642
+msgid "%s &#8220;%s&#8221; already exists."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:704
+msgid "Failed to import %s &#8220;%s&#8221;"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:869
+msgid "Menu item skipped due to missing menu slug"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:876
+msgid "Menu item skipped due to invalid menu slug: %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:939
+msgid "Fetching attachments is not enabled"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:952
+msgid "Invalid file type"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:996
+msgid "Remote server did not respond"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1002
+msgid "Remote server returned error response %1$d %2$s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1009
+msgid "Remote file is incorrect size"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1014
+msgid "Zero size file downloaded"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1020
+msgid "Remote file is too large, limit is %s"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1119
+msgid "Import WordPress"
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1126
+msgid ""
+"A new version of this importer is available. Please update to version %s to "
+"ensure compatibility with newer export files."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1141
+msgid ""
+"Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import "
+"the posts, pages, comments, custom fields, categories, and tags into this "
+"site."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1142
+msgid "Choose a WXR (.xml) file to upload, then click Upload file and import."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/plugins/wordpress-importer/wordpress-importer.php:1216
+msgid ""
+"Import <strong>posts, pages, comments, custom fields, categories, and "
+"tags</strong> from a WordPress export file."
+msgstr ""
+
+#: vendor/lucatume/wp-browser/src/data/themedir1/internationalized-theme/functions.php:7
+msgid "This is a dummy theme"
+msgstr ""
+
+#: vendor/wp-cli/wp-cli/php/utils-wp.php:238
+msgid "Inactive Widgets"
+msgstr ""
+
+#: vendor/wp-cli/wp-cli/php/utils-wp.php:241
+msgid "Drag widgets here to remove them from the sidebar but keep their settings."
+msgstr ""
+
 #. Plugin Name of the plugin/theme
-msgid "Serial Numbers for WooCommerce"
+msgid "WC Serial Numbers"
 msgstr ""
 
 #. Plugin URI of the plugin/theme

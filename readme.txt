@@ -252,6 +252,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.6.1 (11 Sep 2023) =
+* Fix: Conflict PHP Autoloader with other plugins.
+
 = 1.6.0 (28 Aug 2023) =
 * Fix: Product dropdown showing HTML tags.
 * Fix: Fix typo.
