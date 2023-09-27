@@ -252,6 +252,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.6.2 (27 Sep 2023) =
+* Enhance: Add compatibility with WooCommerce HPOS.
+
 = 1.6.1 (11 Sep 2023) =
 * Fix: Conflict PHP Autoloader with other plugins.
 
