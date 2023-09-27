@@ -31,7 +31,7 @@ class Admin {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		WCSN()->services['admin/settings']  = Settings::get_instance();
+		WCSN()->services['admin/settings']  = Settings::instance();
 		WCSN()->services['admin/menus']     = new Menus();
 		WCSN()->services['admin/notices']   = new Notices();
 		WCSN()->services['admin/actions']   = new Actions();

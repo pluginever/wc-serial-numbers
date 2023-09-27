@@ -122,7 +122,7 @@ class Installer {
 
 		self::create_tables();
 		self::create_cron_jobs();
-		Admin\Settings::get_instance()->save_defaults();
+		Admin\Settings::instance()->save_defaults();
 		WCSN()->update_db_version( WCSN()->get_version(), false );
 		add_option( 'wc_serial_numbers_install_date', current_time( 'mysql' ) );
 		set_transient( 'wc_serial_numbers_activated', true, 30 );
