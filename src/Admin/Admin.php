@@ -75,6 +75,9 @@ class Admin {
 				'apiurl'       => site_url( '?wc-api=serial-numbers-api' ),
 			)
 		);
+
+		// add inline style for select2 --wp-admin-theme-color
+		wp_add_inline_style( 'common', ':root{--wp-admin-theme-color:#0073aa;}' );
 	}
 
 

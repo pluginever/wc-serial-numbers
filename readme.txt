@@ -4,7 +4,7 @@ Tags: license manager, license, license number, serial number, activation number
 Requires at least: 5.0
 Tested up to: 6.3
 Requires PHP: 5.6
-Stable tag: 1.6.1
+Stable tag: 1.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.6.3 (8 Oct 2023) =
+* Fix: Dropdown active color is not working.
+* Enhance: Allow keys to be sold without checking key source.
+
 = 1.6.2 (27 Sep 2023) =
 * Enhance: Add compatibility with WooCommerce HPOS.
 
