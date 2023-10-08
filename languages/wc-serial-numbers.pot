@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.6.2\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.6.3\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-10-08 05:27:05+00:00\n"
+"POT-Creation-Date: 2023-10-08 09:48:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -207,23 +207,23 @@ msgstr ""
 msgid "Copied"
 msgstr ""
 
-#: src/Admin/Admin.php:105
+#: src/Admin/Admin.php:108
 #. translators: 1: Plugin name 2: WordPress
 msgid ""
 "Thank you for using %1$s! Share your appreciation with a five-star review "
 "%2$s."
 msgstr ""
 
-#: src/Admin/Admin.php:107
+#: src/Admin/Admin.php:110
 msgid "Thanks :)"
 msgstr ""
 
-#: src/Admin/Admin.php:125
+#: src/Admin/Admin.php:128
 #. translators: 1: Plugin version
 msgid "Version %s"
 msgstr ""
 
-#: src/Admin/Admin.php:138 src/Admin/Menus.php:56 src/Admin/Menus.php:97
+#: src/Admin/Admin.php:141 src/Admin/Menus.php:56 src/Admin/Menus.php:97
 #: src/Admin/Menus.php:98 src/Admin/Menus.php:440 src/Admin/Metaboxes.php:33
 #: src/Admin/Metaboxes.php:229 src/Functions/Template.php:226
 msgid "Serial Numbers"
