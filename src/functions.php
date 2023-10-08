@@ -515,7 +515,7 @@ function wcsn_order_update_keys( $order_id ) {
 			 * @param int   $order_id Order ID.
 			 * @param int   $needed_count Needed count.
 			 */
-			do_action( 'wc_serial_numbers_pre_add_order_item_eys', $item, $order_id, $needed_count );
+			do_action( 'wc_serial_numbers_pre_add_order_item_keys', $item, $order_id, $needed_count );
 
 			// Deprecated. use wc_serial_numbers_pre_order_add_keys instead. Will be removed in 1.5.0.
 			apply_filters( 'wc_serial_numbers_pre_order_item_connect_serial_numbers', $item['product_id'], $needed_count, $item['key_source'], $order_id );

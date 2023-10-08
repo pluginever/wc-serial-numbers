@@ -59,7 +59,6 @@ class Orders {
 					$args        = array(
 						'product_id' => $product_id,
 						'status'     => 'available',
-						'source'     => $source,
 					);
 					$total_found = Key::count( $args );
 					if ( $total_found < $needed_quantity ) {
