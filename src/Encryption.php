@@ -65,11 +65,11 @@ class Encryption {
 	 * @return false|string
 	 */
 	public static function maybeEncrypt( $key ) {
-		if ( ! self::isEncrypted( $key ) ) {
-			return self::encrypt( $key );
+		if(self::isEncrypted( $key ) || 'yes' == wc_serial_numbers_encryption_disabled()) {
+			return $key;
 		}
 
-		return $key;
+		return self::encrypt( $key );
 	}
 
 	/**

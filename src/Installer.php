@@ -279,6 +279,7 @@ class Installer {
 		$options               = [
 			'wc_serial_numbers_autocomplete_order'            => $this->update_1_2_0_get_option( 'wsn_auto_complete_order', 'yes', 'wsn_delivery_settings' ),
 			'wc_serial_numbers_reuse_serial_number'           => $this->update_1_2_0_get_option( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ),
+			'wc_serial_numbers_disable_encryption'            => 'no',
 			'wc_serial_numbers_disable_software_support'      => 'no',
 			'wc_serial_numbers_manual_delivery'               => 'no',
 			'wc_serial_numbers_hide_serial_number'            => 'yes',
