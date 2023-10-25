@@ -21,6 +21,8 @@ class API {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+		// add query vars.
+		add_filter( 'query_vars', array( __CLASS__, 'add_query_vars' ), 0 );
 		add_action( 'woocommerce_api_serial-numbers-api', array( __CLASS__, 'process_request' ) );
 		add_action( 'wc_serial_numbers_api_action_check', array( __CLASS__, 'validate_key' ) );
 		add_action( 'wc_serial_numbers_api_action_validate', array( __CLASS__, 'validate_key' ) );
@@ -30,37 +32,36 @@ class API {
 	}
 
 	/**
+	 * Add query vars.
+	 *
+	 * @param array $vars Query vars.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	public static function add_query_vars( $vars ) {
+		$vars[] = 'product_id';
+		$vars[] = 'serial_key';
+		$vars[] = 'request';
+		$vars[] = 'email';
+		$vars[] = 'instance';
+		$vars[] = 'platform';
+
+		return $vars;
+	}
+
+	/**
 	 * Process request.
 	 *
 	 * @since 1.0.0
 	 */
 	public static function process_request() {
-		$method = filter_input( INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS );
-		if ( 'POST' === strtoupper( $method ) ) {
-			$product_id = filter_input( INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT );
-			$key        = filter_input( INPUT_POST, 'serial_key', FILTER_SANITIZE_SPECIAL_CHARS );
-			$action     = filter_input( INPUT_POST, 'request', FILTER_SANITIZE_SPECIAL_CHARS );
-			$email      = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS );
-		} elseif ( 'GET' === strtoupper( $method ) ) {
-			$product_id = filter_input( INPUT_GET, 'product_id', FILTER_SANITIZE_NUMBER_INT );
-			$key        = filter_input( INPUT_GET, 'serial_key', FILTER_SANITIZE_SPECIAL_CHARS );
-			$action     = filter_input( INPUT_GET, 'request', FILTER_SANITIZE_SPECIAL_CHARS );
-			$email      = filter_input( INPUT_GET, 'email', FILTER_SANITIZE_SPECIAL_CHARS );
-		} else {
-			// its unknown request method.
-			wp_send_json_error(
-				array(
-					'code'    => 'invalid_request_method',
-					'message' => __( 'Invalid request method.', 'wc-serial-numbers' ),
-				)
-			);
-		}
+		$product_id = self::get_query_var( 'product_id', 'absint' );
+		$key        = self::get_query_var( 'serial_key' );
+		$action     = self::get_query_var( 'request' );
+		$email      = strtolower( self::get_query_var( 'email' ) );
 
-		// Clean up properties.
-		$product_id = absint( $product_id );
-		$key        = sanitize_text_field( wp_unslash( $key ) );
-		$action     = sanitize_key( wp_unslash( $action ) );
-		$email      = strtolower( sanitize_email( wp_unslash( $email ) ) );
 		WCSN()->log(
 			'API request',
 			'debug',
@@ -230,8 +231,8 @@ class API {
 	 */
 	public static function activate_key( $serial_key ) {
 		$user_agent = ! empty( $_SERVER['HTTP_USER_AGENT'] ) ? md5( sanitize_textarea_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) . time() ) : md5( time() );
-		$instance   = ! empty( $_REQUEST['instance'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['instance'] ) ) : $user_agent; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$platform   = ! empty( $_REQUEST['platform'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['platform'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$instance   = self::get_query_var( 'instance', 'sanitize_text_field', $user_agent );
+		$platform   = self::get_query_var( 'platform' );
 
 		// Check if instance key is valid.
 		if ( empty( $instance ) ) {
@@ -332,7 +333,7 @@ class API {
 	 * @since 1.0.0
 	 */
 	public static function deactivate_key( $serial_key ) {
-		$instance = ! empty( $_REQUEST['instance'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['instance'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$instance = self::get_query_var( 'instance' );
 
 		// Check if instance key is valid.
 		if ( empty( $instance ) ) {
@@ -411,5 +412,25 @@ class API {
 				'version'    => get_post_meta( $serial_key->get_product_id(), '_software_version', true ),
 			)
 		);
+	}
+
+	/**
+	 * Get query var.
+	 *
+	 * @param string $key Query var key.
+	 * @param string $sanitize Sanitize method.
+	 * @param mixed  $fallback Fallback value.
+	 *
+	 * @since 1.0.0
+	 * @return mixed
+	 */
+	public static function get_query_var( $key, $sanitize = 'sanitize_text_field', $fallback = null ) {
+		global $wp;
+
+		if ( isset( $wp->query_vars[ $key ] ) ) {
+			return call_user_func( $sanitize, wp_unslash( $wp->query_vars[ $key ] ) );
+		}
+
+		return $fallback;
 	}
 }

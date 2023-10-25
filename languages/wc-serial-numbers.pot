@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.6.3\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.6.4\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-10-25 08:52:01+00:00\n"
+"POT-Creation-Date: 2023-10-25 09:14:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1734,11 +1734,11 @@ msgstr ""
 msgid "This is a dummy theme"
 msgstr ""
 
-#: vendor/wp-cli/wp-cli/php/utils-wp.php:238
+#: vendor/wp-cli/wp-cli/php/utils-wp.php:246
 msgid "Inactive Widgets"
 msgstr ""
 
-#: vendor/wp-cli/wp-cli/php/utils-wp.php:241
+#: vendor/wp-cli/wp-cli/php/utils-wp.php:249
 msgid "Drag widgets here to remove them from the sidebar but keep their settings."
 msgstr ""
 
