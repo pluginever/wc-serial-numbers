@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
 							</label>
 							<select name="product_id" id="product_id" class="wcsn_search_product" required="required" placeholder="<?php esc_html_e( 'Select Product', 'wc-serial-numbers' ); ?>">
 								<?php
-								echo sprintf(
+								printf(
 									'<option value="%d" selected="selected">%s</option>',
 									esc_attr( $key->get_product_id() ),
 									esc_html( $key->get_product_title() )
@@ -93,7 +93,7 @@ defined( 'ABSPATH' ) || exit;
 							</label>
 							<select id="status" name="status">
 								<?php foreach ( wcsn_get_key_statuses() as $status => $option ) : ?>
-									<?php echo sprintf( '<option value="%s" %s>%s</option>', esc_attr( $status ), selected( $key->get_status(), $status, false ), esc_html( $option ) ); ?>
+									<?php printf( '<option value="%s" %s>%s</option>', esc_attr( $status ), selected( $key->get_status(), $status, false ), esc_html( $option ) ); ?>
 								<?php endforeach; ?>
 							</select>
 							<p class="description"><?php esc_html_e( 'Serial key status auto-updates with order status. Avoid manual changes.', 'wc-serial-numbers' ); ?></p>
@@ -105,7 +105,7 @@ defined( 'ABSPATH' ) || exit;
 							</label>
 							<select name="order_id" id="order_id" class="wcsn_search_order" required="required" placeholder="<?php esc_html_e( 'Select Order', 'wc-serial-numbers' ); ?>">
 								<?php
-								echo sprintf(
+								printf(
 									'<option value="%d" selected="selected">%s</option>',
 									esc_attr( $key->get_order_id() ),
 									esc_html( $key->get_order_title() )

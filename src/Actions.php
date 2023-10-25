@@ -121,7 +121,6 @@ class Actions {
 	 * @since 1.0.0
 	 */
 	public static function update_activation_count( $activation ) {
-		error_log($activation->get_serial_id());
 		$key = Key::get( $activation->get_serial_id() );
 		if ( $key ) {
 			$key->recount_remaining_activation();

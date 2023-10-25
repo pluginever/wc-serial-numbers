@@ -8,10 +8,6 @@
   "minimum-stability": "dev",
   "repositories": [
     {
-      "url": "git@github.com:byteever/byteever-sniffs.git",
-      "type": "github"
-    },
-    {
       "url": "git@github.com:pluginever/framework-plugin.git",
       "type": "github"
     },
@@ -28,7 +24,7 @@
     "php": ">=7.0"
   },
   "require-dev": {
-    "byteever/byteever-sniffs": "dev-master",
+    "byteever/byteever-sniffs": "^1.0",
     "codeception/lib-innerbrowser": "^1.0",
     "codeception/module-asserts": "^1.1",
     "codeception/module-cli": "^1.0",
@@ -42,9 +38,9 @@
     "level-level/wp-browser-woocommerce": "^0.1.8",
     "lucatume/wp-browser": "^3.1",
     "phpcompatibility/php-compatibility": "9.3.5",
+    "pluginever/framework-model": "dev-master",
     "pluginever/framework-plugin": "dev-master",
-    "pluginever/framework-settings": "dev-master",
-    "pluginever/framework-model": "dev-master"
+    "pluginever/framework-settings": "dev-master"
   },
   "config": {
     "optimize-autoloader": true,

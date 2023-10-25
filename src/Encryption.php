@@ -1,4 +1,6 @@
 <?php
+// phpcs:ignoreFile WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase,WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+// phpcs:ignoreFile Squiz.Commenting.VariableComment.Missing
 
 namespace WooCommerceSerialNumbers;
 
@@ -11,14 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @package WooCommerceSerialNumbers
  */
 class Encryption {
-	/**
-	 * @var static
-	 */
 	private static $key;
-
-	/**
-	 * @var string
-	 */
 	const METHOD = 'AES-256-CBC';
 
 	/**
@@ -59,7 +54,7 @@ class Encryption {
 	/**
 	 * Maybe encrypt key.
 	 *
-	 * @param string  $key Key.
+	 * @param string $key Key.
 	 *
 	 * @since 1.2.0
 	 * @return false|string
@@ -75,7 +70,7 @@ class Encryption {
 	/**
 	 * May be decrypt key.
 	 *
-	 * @param $key
+	 * @param string $key string Key.
 	 *
 	 * @since 1.2.0
 	 * @return false|string
@@ -92,17 +87,19 @@ class Encryption {
 	/**
 	 * Check if the key is encrypted.
 	 *
-	 * @param $string
+	 * @param string $key Key.
 	 *
 	 * @since 1.2.0
 	 * @return bool
 	 */
-	public static function isEncrypted( $string ) {
-		return false !== self::decrypt( $string );
+	public static function isEncrypted( $key ) {
+		return false !== self::decrypt( $key );
 	}
 
 	/**
-	 * @param $plainText
+	 * Encrypt plain text.
+	 *
+	 * @param string $plainText Plain text.
 	 *
 	 * @since
 	 * @return false|string
@@ -117,7 +114,9 @@ class Encryption {
 	}
 
 	/**
-	 * @param $encryptedText
+	 * Decrypt encrypted text.
+	 *
+	 * @param string $encryptedText string Encrypted text.
 	 *
 	 * @since
 	 * @return false|string
@@ -129,6 +128,8 @@ class Encryption {
 	}
 
 	/**
+	 * Set encryption key.
+	 *
 	 * @since 1.2.0
 	 * @return bool|mixed|string|void
 	 */
@@ -151,7 +152,7 @@ class Encryption {
 	/**
 	 * Generate Random String
 	 *
-	 * @param integer $length
+	 * @param integer $length Length.
 	 *
 	 * @return string
 	 */
@@ -159,22 +160,24 @@ class Encryption {
 		$chars         = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_@$#';
 		$chars_length  = strlen( $chars );
 		$random_string = '';
-		for ( $i = 0; $i < $length; $i ++ ) {
-			$random_string .= $chars[ rand( 0, $chars_length - 1 ) ];
+		for ( $i = 0; $i < $length; $i++ ) {
+			$random_string .= $chars[ wp_rand( 0, $chars_length - 1 ) ];
 		}
 
 		return $random_string;
 	}
 
 	/**
-	 * @param $key
+	 * Get computed hash.
+	 *
+	 * @param string $key Key.
 	 *
 	 * @since
 	 * @return string
 	 */
 	private static function getComputedHash( $key ) {
 		$hash = $key;
-		for ( $i = 0; $i < intval( self::NUMBEROFITERATION ); $i ++ ) {
+		for ( $i = 0; $i < intval( self::NUMBEROFITERATION ); $i++ ) {
 			$hash = hash( self::ALGORITHM, $hash );
 		}
 
@@ -182,20 +185,22 @@ class Encryption {
 	}
 
 	/**
-	 * @param $mode
-	 * @param $string
-	 * @param $key
+	 * Encrypt or decrypt.
+	 *
+	 * @param string $mode Mode.
+	 * @param string $key String.
+	 * @param string $encrypt_key Key.
 	 *
 	 * @since
 	 * @return false|string
 	 */
-	private static function encryptOrDecrypt( $mode, $string, $key ) {
-		$password = substr( self::getComputedHash( $key ), 0, intval( self::MAXKEYSIZE ) );
+	private static function encryptOrDecrypt( $mode, $key, $encrypt_key ) {
+		$password = substr( self::getComputedHash( $encrypt_key ), 0, intval( self::MAXKEYSIZE ) );
 
 		if ( 'encrypt' === $mode ) {
-			return base64_encode(
+			return base64_encode( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 				openssl_encrypt(
-					$string,
+					$key,
 					self::METHOD,
 					$password,
 					OPENSSL_RAW_DATA,
@@ -205,7 +210,7 @@ class Encryption {
 		}
 
 		return openssl_decrypt(
-			base64_decode( $string ),
+			base64_decode( $key ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 			self::METHOD,
 			$password,
 			OPENSSL_RAW_DATA,

@@ -45,7 +45,7 @@ class Orders {
 	public static function validate_checkout() {
 		$cart_products = WC()->cart->get_cart_contents();
 		foreach ( $cart_products as $id => $cart_product ) {
-			/** @var \WC_Product $product */
+			// @var \WC_Product $product Product object.
 			$product         = $cart_product['data'];
 			$product_id      = $product->get_id();
 			$quantity        = $cart_product['quantity'];
@@ -55,16 +55,16 @@ class Orders {
 				$per_item_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
 				$needed_quantity   = $quantity * ( empty( $per_item_quantity ) ? 1 : absint( $per_item_quantity ) );
 				$source            = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $needed_quantity );
-				if ( 'custom_source' == $source ) {
+				if ( 'custom_source' === $source ) {
 					$args        = array(
 						'product_id' => $product_id,
 						'status'     => 'available',
-						'source'     => $source,
 					);
 					$total_found = Key::count( $args );
 					if ( $total_found < $needed_quantity ) {
-						$stock   = floor( $total_found / $per_item_quantity );
-						$message = sprintf( __( 'Sorry, there aren’t enough Serial Keys for %1$s. Please remove this item or lower the quantity. For now, we have %2$s Serial Keys for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
+						$stock = floor( $total_found / $per_item_quantity );
+						// translators: %1$s: product title, %2$s: stock quantity.
+						$message = sprintf( esc_html__( 'Sorry, there aren’t enough Serial Keys for %1$s. Please remove this item or lower the quantity. For now, we have %2$s Serial Keys for this product.', 'wc-serial-numbers' ), '{product_title}', '{stock_quantity}' );
 						$notice  = apply_filters( 'wc_serial_numbers_low_stock_message', $message );
 						$notice  = str_replace( '{product_title}', $product->get_title(), $notice );
 						$notice  = str_replace( '{stock_quantity}', $stock, $notice );
@@ -83,9 +83,9 @@ class Orders {
 	/**
 	 * Automatically set the order's status to complete.
 	 *
-	 * @param string    $new_order_status
-	 * @param int       $order_id
-	 * @param \WC_Order $order
+	 * @param string    $new_order_status The new order status.
+	 * @param int       $order_id      The order ID.
+	 * @param \WC_Order $order        The order object.
 	 *
 	 * @since 1.4.6
 	 * @return string $new_order_status

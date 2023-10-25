@@ -75,6 +75,9 @@ class Admin {
 				'apiurl'       => site_url( '?wc-api=serial-numbers-api' ),
 			)
 		);
+
+		// add inline style for select2 --wp-admin-theme-color.
+		wp_add_inline_style( 'common', ':root{--wp-admin-theme-color:#0073aa;}' );
 	}
 
 
@@ -136,7 +139,7 @@ class Admin {
 	 */
 	public static function get_screen_ids() {
 		$screen_id  = sanitize_title( __( 'Serial Numbers', 'wc-serial-numbers' ) );
-		$screen_ids = [
+		$screen_ids = array(
 			'toplevel_page_' . $screen_id,
 			'toplevel_page_wc-serial-numbers',
 			$screen_id . '_page_wc-serial-numbers-activations',
@@ -144,7 +147,7 @@ class Admin {
 			$screen_id . '_page_wc-serial-numbers-tools',
 			$screen_id . '_page_wc-serial-numbers-reports',
 			$screen_id . '_page_wc-serial-numbers-settings',
-		];
+		);
 
 		return apply_filters( 'wc_serial_numbers_screen_ids', $screen_ids );
 	}
@@ -159,7 +162,7 @@ class Admin {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function view( $view, $args = [], $path = '' ) {
+	public static function view( $view, $args = array(), $path = '' ) {
 		if ( empty( $path ) ) {
 			$path = __DIR__ . '/views/';
 		}

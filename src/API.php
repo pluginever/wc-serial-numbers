@@ -35,11 +35,32 @@ class API {
 	 * @since 1.0.0
 	 */
 	public static function process_request() {
-		$product_id = isset( $_REQUEST['product_id'] ) ? absint( $_REQUEST['product_id'] ) : 0;
-		$key        = isset( $_REQUEST['serial_key'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['serial_key'] ) ) : '';
-		$action     = isset( $_REQUEST['request'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['request'] ) ) : '';
-		$email      = isset( $_REQUEST['email'] ) ? sanitize_text_field( strtolower( wp_unslash( $_REQUEST['email'] ) ) ) : '';
+		$method = filter_input( INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS );
+		if ( 'POST' === strtoupper( $method ) ) {
+			$product_id = filter_input( INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT );
+			$key        = filter_input( INPUT_POST, 'serial_key', FILTER_SANITIZE_SPECIAL_CHARS );
+			$action     = filter_input( INPUT_POST, 'request', FILTER_SANITIZE_SPECIAL_CHARS );
+			$email      = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS );
+		} elseif ( 'GET' === strtoupper( $method ) ) {
+			$product_id = filter_input( INPUT_GET, 'product_id', FILTER_SANITIZE_NUMBER_INT );
+			$key        = filter_input( INPUT_GET, 'serial_key', FILTER_SANITIZE_SPECIAL_CHARS );
+			$action     = filter_input( INPUT_GET, 'request', FILTER_SANITIZE_SPECIAL_CHARS );
+			$email      = filter_input( INPUT_GET, 'email', FILTER_SANITIZE_SPECIAL_CHARS );
+		} else {
+			// its unknown request method.
+			wp_send_json_error(
+				array(
+					'code'    => 'invalid_request_method',
+					'message' => __( 'Invalid request method.', 'wc-serial-numbers' ),
+				)
+			);
+		}
 
+		// Clean up properties.
+		$product_id = absint( $product_id );
+		$key        = sanitize_text_field( wp_unslash( $key ) );
+		$action     = sanitize_key( wp_unslash( $action ) );
+		$email      = strtolower( sanitize_email( wp_unslash( $email ) ) );
 		WCSN()->log(
 			'API request',
 			'debug',
@@ -208,7 +229,7 @@ class API {
 	 * @since 1.0.0
 	 */
 	public static function activate_key( $serial_key ) {
-		$user_agent = ! empty( $_SERVER['HTTP_USER_AGENT'] ) ? md5( sanitize_textarea_field( $_SERVER['HTTP_USER_AGENT'] ) . time() ) : md5( time() );
+		$user_agent = ! empty( $_SERVER['HTTP_USER_AGENT'] ) ? md5( sanitize_textarea_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) . time() ) : md5( time() );
 		$instance   = ! empty( $_REQUEST['instance'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['instance'] ) ) : $user_agent; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$platform   = ! empty( $_REQUEST['platform'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['platform'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 

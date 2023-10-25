@@ -19,10 +19,6 @@ class Menus {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		// add_action( 'current_screen', array( $this, 'setup_screen' ) );
-		// add_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
-		// add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
-
 		// Register the menus.
 		add_action( 'admin_menu', array( $this, 'main_menu' ) );
 		add_action( 'admin_menu', array( $this, 'activations_menu' ), 40 );
@@ -48,7 +44,7 @@ class Menus {
 	 * @since 1.4.6
 	 */
 	public function setup_screen() {
-		if ( isset( $_GET['edit'] ) || isset( $_GET['delete'] ) || isset( $_GET['add'] ) || isset( $_GET['generate'] ) ) {
+		if ( isset( $_GET['edit'] ) || isset( $_GET['delete'] ) || isset( $_GET['add'] ) || isset( $_GET['generate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
@@ -58,12 +54,6 @@ class Menus {
 			$screen    = get_current_screen();
 			$screen_id = isset( $screen, $screen->id ) ? $screen->id : '';
 		}
-
-		// switch ( $screen_id ) {
-		// case $plugin_screen_id . '-page-wc-serial-numbers':
-		// $this->list_table = new ListTables\KeysTable();
-		// break;
-		// }
 
 		// Ensure the table handler is only loaded once. Prevents multiple loads if a plugin calls check_ajax_referer many times.
 		remove_action( 'current_screen', array( $this, 'setup_screen' ) );
@@ -223,11 +213,11 @@ class Menus {
 
 		if ( $add ) {
 			$key = new Key();
-			include dirname( __FILE__ ) . '/views/html-edit-key.php';
+			include __DIR__ . '/views/html-edit-key.php';
 		} elseif ( $edit ) {
-			include dirname( __FILE__ ) . '/views/html-edit-key.php';
+			include __DIR__ . '/views/html-edit-key.php';
 		} else {
-			include dirname( __FILE__ ) . '/views/html-list-keys.php';
+			include __DIR__ . '/views/html-list-keys.php';
 		}
 	}
 
@@ -263,8 +253,8 @@ class Menus {
 
 		$tabs        = apply_filters( 'wc_serial_numbers_tools_tabs', $tabs );
 		$tab_ids     = array_keys( $tabs );
-		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : reset( $tab_ids );
-		$page        = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
+		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		Admin::view(
 			'html-tools.php',
@@ -285,14 +275,12 @@ class Menus {
 	public function output_reports_page() {
 		$tabs = array(
 			'stock' => __( 'Stock', 'wc-serial-numbers' ),
-			// 'sales'       => __( 'Sales', 'wc-serial-numbers' ),
-			// 'activations' => __( 'Activations', 'wc-serial-numbers' ),
 		);
 
 		$tabs        = apply_filters( 'wc_serial_numbers_reports_tabs', $tabs );
 		$tab_ids     = array_keys( $tabs );
-		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : reset( $tab_ids );
-		$page        = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
+		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		Admin::view(
 			'html-reports.php',
@@ -311,8 +299,8 @@ class Menus {
 	 * @return void
 	 */
 	public function go_pro_redirect() {
-		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
-			wp_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
+		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			wp_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 			die;
 		}
 	}
@@ -427,7 +415,8 @@ class Menus {
 		foreach ( $cron_jobs as $cron_job => $cron_job_name ) {
 			$next_scheduled = wp_next_scheduled( $cron_job );
 			if ( $next_scheduled ) {
-				$statuses[ $cron_job_name ] = sprintf( __( 'Next run: %s', 'wc-serial-numbers' ), date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_scheduled ) );
+				// translators: %s: Next scheduled time.
+				$statuses[ $cron_job_name ] = sprintf( __( 'Next run: %s', 'wc-serial-numbers' ), esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_scheduled ) ) );
 			} else {
 				$statuses[ $cron_job_name ] = __( 'Not scheduled', 'wc-serial-numbers' );
 			}

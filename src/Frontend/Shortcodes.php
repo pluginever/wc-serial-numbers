@@ -110,6 +110,7 @@ class Shortcodes {
 				<input type="hidden" name="request" value="validate">
 				<input type="submit" value="<?php echo esc_attr( $atts['button_label'] ); ?>">
 			</p>
+			<?php wp_nonce_field( 'wcsn_user_action' ); ?>
 		</form>
 		<?php
 
@@ -159,7 +160,7 @@ class Shortcodes {
 				array(
 					'posts_per_page' => - 1,
 					'fields'         => 'ids',
-					'meta_query'     => array(
+					'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 						array(
 							'key'     => '_is_serial_number',
 							'value'   => 'yes',
@@ -245,9 +246,9 @@ class Shortcodes {
 			<p class="wcsn-field">
 				<input type="submit" value="<?php echo esc_attr( $atts['button_label'] ); ?>">
 			</p>
+			<?php wp_nonce_field( 'wcsn_user_action' ); ?>
 		</form>
 		<?php
-
 		return ob_get_clean();
 	}
 }

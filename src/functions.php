@@ -60,7 +60,7 @@ function wcsn_get_key_statuses() {
  * @return bool
  */
 function wcsn_is_reusing_keys() {
-	return 'yes' == get_option( 'wc_serial_numbers_reuse_serial_number', 'no' );
+	return 'yes' === get_option( 'wc_serial_numbers_reuse_serial_number', 'no' );
 }
 
 /**
@@ -70,12 +70,12 @@ function wcsn_is_reusing_keys() {
  * @return array
  */
 function wcsn_get_revoke_statuses() {
-	$statues = [
+	$statues = array(
 		'cancelled',
 		'refunded',
 		'failed',
 		'pending',
-	];
+	);
 
 	return apply_filters( 'wc_serial_numbers_revoke_statuses', $statues );
 }
@@ -294,7 +294,7 @@ function wcsn_delete_activation( $activation_id ) {
  * @return bool True if enabled, false otherwise.
  */
 function wcsn_is_product_enabled( $product_id ) {
-	return 'yes' == get_post_meta( $product_id, '_is_serial_number', true );
+	return 'yes' === get_post_meta( $product_id, '_is_serial_number', true );
 }
 
 /**
@@ -425,14 +425,9 @@ function wcsn_order_get_unfulfilled_items( $order_id ) {
 			if ( $key->get_product_id() !== $line_item['product_id'] ) {
 				continue;
 			}
-//          todo uncomment this when we will support for order item id.
-//			if ( $key->get_variation_id() !== $line_item['variation_id'] ) {
-//				continue;
-//			}
-//			if ( $key->get_order_item_id() !== $line_item['order_item_id'] ) {
-//				continue;
-//			}
-			$qty --;
+			// todo uncomment this when we will support for order item id.
+
+			--$qty;
 		}
 		if ( $qty > 0 ) {
 			$items[] = array_merge( $line_item, array( 'quantity' => $qty ) );
@@ -476,8 +471,7 @@ function wcsn_order_update_keys( $order_id ) {
 
 	$do_add = apply_filters( 'wc_serial_numbers_add_order_keys', true, $order_id, $line_items, $order_status );
 
-
-	if ( in_array( $order_status, [ 'processing', 'completed' ], true ) && ! wcsn_order_is_fullfilled( $order_id ) && $do_add ) {
+	if ( in_array( $order_status, array( 'processing', 'completed' ), true ) && ! wcsn_order_is_fullfilled( $order_id ) && $do_add ) {
 
 		/**
 		 * Action hook to pre add order keys.
@@ -495,11 +489,13 @@ function wcsn_order_update_keys( $order_id ) {
 				continue;
 			}
 
-			$delivered_qty = Key::count( array(
-				'order_id'       => $order_id,
-				'product_id'     => $item['product_id'],
-				'status__not_in' => [ 'cancelled' ],
-			) );
+			$delivered_qty = Key::count(
+				array(
+					'order_id'       => $order_id,
+					'product_id'     => $item['product_id'],
+					'status__not_in' => array( 'cancelled' ),
+				)
+			);
 			if ( $item['refunded_qty'] >= $item['quantity'] ) {
 				continue;
 			}
@@ -515,7 +511,7 @@ function wcsn_order_update_keys( $order_id ) {
 			 * @param int   $order_id Order ID.
 			 * @param int   $needed_count Needed count.
 			 */
-			do_action( 'wc_serial_numbers_pre_add_order_item_eys', $item, $order_id, $needed_count );
+			do_action( 'wc_serial_numbers_pre_add_order_item_keys', $item, $order_id, $needed_count );
 
 			// Deprecated. use wc_serial_numbers_pre_order_add_keys instead. Will be removed in 1.5.0.
 			apply_filters( 'wc_serial_numbers_pre_order_item_connect_serial_numbers', $item['product_id'], $needed_count, $item['key_source'], $order_id );
@@ -527,7 +523,7 @@ function wcsn_order_update_keys( $order_id ) {
 					'status'     => 'available',
 					'limit'      => $needed_count,
 					'orderby'    => 'id',
-					'order'      => 'ASC'
+					'order'      => 'ASC',
 				)
 			);
 			if ( count( $keys ) < $needed_count ) {
@@ -547,15 +543,17 @@ function wcsn_order_update_keys( $order_id ) {
 
 			// Assign keys to order.
 			foreach ( $keys as $key ) {
-				$key->set_data( array(
-					'order_id'      => $order_id,
-					'order_item_id' => $item['order_item_id'],
-					'order_date'    => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : current_time( 'mysql' ),
-					'customer_id'   => $customer_id,
-					'status'        => 'sold',
-				) );
+				$key->set_data(
+					array(
+						'order_id'      => $order_id,
+						'order_item_id' => $item['order_item_id'],
+						'order_date'    => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : current_time( 'mysql' ),
+						'customer_id'   => $customer_id,
+						'status'        => 'sold',
+					)
+				);
 				if ( ! is_wp_error( $key->save() ) ) {
-					$added ++;
+					++$added;
 				}
 			}
 
@@ -599,10 +597,14 @@ function wcsn_order_update_keys( $order_id ) {
 		if ( $is_expired && 'expired' !== $key->get_status() ) {
 			$key->set_status( 'expired' );
 			$key->save();
-		} elseif ( ! $is_expired && in_array( $order_status, [
+		} elseif ( ! $is_expired && in_array(
+			$order_status,
+			array(
 				'processing',
-				'complete'
-			], true ) && 'sold' !== $key->get_status() ) {
+				'complete',
+			),
+			true
+		) && 'sold' !== $key->get_status() ) {
 			$key->set_status( 'sold' );
 			$key->save();
 		} elseif ( 'on-hold' === $order_status && ! $is_expired && 'pending' !== $key->get_status() ) {
@@ -627,8 +629,8 @@ function wcsn_order_update_keys( $order_id ) {
 /**
  * Order remove keys.
  *
- * @param int   $order_id Order ID.
- * @param array $line_items Order line items.
+ * @param int $order_id Order ID.
+ * @param int $product_id Product ID.
  *
  * @since 1.4.6
  *
@@ -664,7 +666,7 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 
 	foreach ( $keys as $key ) {
 		$props = array(
-			'status' => $is_reusing ? 'available' : 'cancelled'
+			'status' => $is_reusing ? 'available' : 'cancelled',
 		);
 		if ( ! $is_reusing ) {
 			$props['order_id']      = 0;
@@ -737,7 +739,7 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 
 	foreach ( $keys as $key ) {
 		$props = array(
-			'status' => $is_reusing ? 'available' : 'cancelled'
+			'status' => $is_reusing ? 'available' : 'cancelled',
 		);
 		if ( ! $is_reusing ) {
 			$props['order_id']      = 0;
@@ -746,7 +748,7 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 		}
 		$key->set_data( $props );
 		if ( $key->save() ) {
-			$replaced ++;
+			++$replaced;
 		}
 	}
 
@@ -801,13 +803,13 @@ function wcsn_get_product_title( $product ) {
  */
 function wcsn_get_products_query_args() {
 	$args = array(
-		'post_type' => [ 'product' ],
+		'post_type' => array( 'product' ),
 		'tax_query' => array( // @codingStandardsIgnoreLine
 			'relation' => 'OR',
 			array(
 				'taxonomy' => 'product_type',
 				'field'    => 'slug',
-				'terms'    => [ 'simple' ],
+				'terms'    => array( 'simple' ),
 				'operator' => 'IN',
 			),
 		),
@@ -819,13 +821,15 @@ function wcsn_get_products_query_args() {
 /**
  * Get enabled products.
  *
+ * @param array $args Query args.
+ *
  * @since 1.4.6
  * @return array|int List of products or number of products.
  */
 function wcsn_get_products( $args = array() ) {
 	$args = wp_parse_args( $args, wcsn_get_products_query_args() );
 	if ( empty( $args['meta_query'] ) ) {
-		$args['meta_query'] = [];
+		$args['meta_query'] = array(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 	}
 	$args['meta_query'][] = array(
 		'key'     => '_is_serial_number',
@@ -883,34 +887,41 @@ function wcsn_get_stocks_count( $stock_limit = null, $force = true ) {
 
 	if ( $force || false === $counts ) {
 		$counts   = array();
-		$post_ids = wcsn_get_products( array(
-			'posts_per_page' => - 1,
-			'fields'         => 'ids',
-			'meta_query'     => array( // @codingStandardsIgnoreLine
-				'relation' => 'AND',
-				array(
-					'key'     => '_serial_key_source',
-					'value'   => 'custom_source',
-					'compare' => '=',
-				)
-			),
-		) );
+		$post_ids = wcsn_get_products(
+			array(
+				'posts_per_page' => - 1,
+				'fields'         => 'ids',
+				'meta_query'     => array( // @codingStandardsIgnoreLine
+					'relation' => 'AND',
+					array(
+						'key'     => '_serial_key_source',
+						'value'   => 'custom_source',
+						'compare' => '=',
+					),
+				),
+			)
+		);
 
 		foreach ( $post_ids as $post_id ) {
-			$counts[ $post_id ] = wcsn_get_keys( [
-				'product_id' => $post_id,
-				'status'     => 'available',
-				'count'      => true,
-			] );
+			$counts[ $post_id ] = wcsn_get_keys(
+				array(
+					'product_id' => $post_id,
+					'status'     => 'available',
+					'count'      => true,
+				)
+			);
 		}
 
 		set_transient( $transient_key, $counts, 60 * 60 );
 	}
 	if ( $stock_limit > 0 ) {
 		// get the results where value is equal or less than max.
-		$counts = array_filter( $counts, function ( $value ) use ( $stock_limit ) {
-			return $value <= $stock_limit;
-		} );
+		$counts = array_filter(
+			$counts,
+			function ( $value ) use ( $stock_limit ) {
+				return $value <= $stock_limit;
+			}
+		);
 	}
 
 	return $counts;
@@ -1029,8 +1040,8 @@ function wcsn_get_key_display_properties( $key, $context = 'order_details' ) {
 	/**
 	 * Filter key properties.
 	 *
-	 * @param array $props Key properties.
-	 * @param Key $key Key object.
+	 * @param array  $props Key properties.
+	 * @param Key    $key Key object.
 	 * @param string $context Context.
 	 *
 	 * @since 1.4.9
@@ -1039,9 +1050,10 @@ function wcsn_get_key_display_properties( $key, $context = 'order_details' ) {
 
 	usort(
 		$properties,
-		function( $a, $b ) {
+		function ( $a, $b ) {
 			$a_priority = isset( $a['priority'] ) ? $a['priority'] : 10;
 			$b_priority = isset( $b['priority'] ) ? $b['priority'] : 10;
+
 			return $a_priority - $b_priority;
 		}
 	);

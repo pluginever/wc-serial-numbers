@@ -18,7 +18,7 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_wc_serial_numbers_search_product', [ __CLASS__, 'search_product' ] );
+		add_action( 'wp_ajax_wc_serial_numbers_search_product', array( __CLASS__, 'search_product' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( __CLASS__, 'search_orders' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_customers', array( __CLASS__, 'search_customers' ) );
 	}
@@ -31,7 +31,7 @@ class Ajax {
 	 */
 	public static function search_product() {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
-		$search      = isset( $_REQUEST['search'] ) ? sanitize_text_field( $_REQUEST['search'] ) : '';
+		$search      = isset( $_REQUEST['search'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['search'] ) ) : '';
 		$page        = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
 		$per_page    = absint( 100 );
 		$args        = array_merge(
@@ -87,7 +87,7 @@ class Ajax {
 	 */
 	public static function search_orders() {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
-		$search   = isset( $_REQUEST['search'] ) ? sanitize_text_field( $_REQUEST['search'] ) : '';
+		$search   = isset( $_REQUEST['search'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['search'] ) ) : '';
 		$page     = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
 		$per_page = absint( 100 );
 
@@ -155,7 +155,7 @@ class Ajax {
 	 */
 	public static function search_customers() {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
-		$search   = isset( $_REQUEST['search'] ) ? sanitize_text_field( $_REQUEST['search'] ) : '';
+		$search   = isset( $_REQUEST['search'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['search'] ) ) : '';
 		$page     = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
 		$per_page = absint( 100 );
 

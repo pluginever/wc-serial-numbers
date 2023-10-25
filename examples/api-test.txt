@@ -4,7 +4,6 @@ require 'wp-blog-header.php';
 if ( ! current_user_can( 'manage_options' ) ) { die();
 }
 
-
 // API variables, please override.
 $base_url    = 'http://domain.com';
 $email       = 'example@domain.com';

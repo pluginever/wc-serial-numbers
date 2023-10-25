@@ -27,7 +27,6 @@ class Products {
 	 * @since 1.0.0
 	 */
 	public static function print_style() {
-		ob_start();
 		?>
 		<style>
 			#woocommerce-product-data ul.wc-tabs li.wc_serial_numbers_options a:before {
@@ -73,9 +72,5 @@ class Products {
 			}
 		</style>
 		<?php
-		$style = ob_get_contents();
-		ob_get_clean();
-		echo $style;
 	}
-
 }

@@ -90,18 +90,18 @@ class KeysTable extends ListTable {
 	public function prepare_items() {
 		$per_page              = $this->get_items_per_page( 'wc_serial_numbers_keys_per_page' );
 		$columns               = $this->get_columns();
-		$hidden                = [];
+		$hidden                = array();
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$current_page          = $this->get_pagenum();
-		$status                = isset( $_GET['status'] ) ? $_GET['status'] : '';
-		$orderby               = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'order_date';
-		$order                 = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'desc';
-		$search                = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
-		$product_id            = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
-		$order_id              = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
-		$customer_id           = isset( $_GET['customer_id'] ) ? absint( $_GET['customer_id'] ) : '';
-		$id                    = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : '';
+		$status                = filter_input( INPUT_GET, 'status', FILTER_SANITIZE_SPECIAL_CHARS );
+		$orderby               = filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_SPECIAL_CHARS );
+		$order                 = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_SPECIAL_CHARS );
+		$search                = filter_input( INPUT_GET, 's', FILTER_SANITIZE_SPECIAL_CHARS );
+		$product_id            = filter_input( INPUT_GET, 'product_id', FILTER_SANITIZE_NUMBER_INT );
+		$order_id              = filter_input( INPUT_GET, 'order_id', FILTER_SANITIZE_NUMBER_INT );
+		$customer_id           = filter_input( INPUT_GET, 'customer_id', FILTER_SANITIZE_NUMBER_INT );
+		$id                    = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT );
 		if ( ! empty( $status ) && ! array_key_exists( $status, wcsn_get_key_statuses() ) ) {
 			$status = 'available';
 		}
@@ -124,12 +124,12 @@ class KeysTable extends ListTable {
 		);
 
 		$this->items           = Key::query( $args );
-		$this->available_count = Key::count( array_merge( $args, [ 'status' => 'available' ] ) );
-		$this->pending_count   = Key::count( array_merge( $args, [ 'status' => 'pending' ] ) );
-		$this->sold_count      = Key::count( array_merge( $args, [ 'status' => 'sold' ] ) );
-		$this->expired_count   = Key::count( array_merge( $args, [ 'status' => 'expired' ] ) );
-		$this->cancelled_count = Key::count( array_merge( $args, [ 'status' => 'cancelled' ] ) );
-		$this->total_count     = array_sum( [ $this->available_count, $this->sold_count, $this->pending_count, $this->expired_count, $this->cancelled_count ] );
+		$this->available_count = Key::count( array_merge( $args, array( 'status' => 'available' ) ) );
+		$this->pending_count   = Key::count( array_merge( $args, array( 'status' => 'pending' ) ) );
+		$this->sold_count      = Key::count( array_merge( $args, array( 'status' => 'sold' ) ) );
+		$this->expired_count   = Key::count( array_merge( $args, array( 'status' => 'expired' ) ) );
+		$this->cancelled_count = Key::count( array_merge( $args, array( 'status' => 'cancelled' ) ) );
+		$this->total_count     = array_sum( array( $this->available_count, $this->sold_count, $this->pending_count, $this->expired_count, $this->cancelled_count ) );
 
 		switch ( $status ) {
 			case 'available':
@@ -160,14 +160,13 @@ class KeysTable extends ListTable {
 				'total_pages' => $total_items > 0 ? ceil( $total_items / $per_page ) : 0,
 			)
 		);
-
 	}
 
 	/**
 	 * No items found text.
 	 */
 	public function no_items() {
-		echo sprintf( '%s %s', esc_html__( 'No keys found.', 'wc-serial-numbers' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ) . '">' . esc_html__( 'Add new key', 'wc-serial-numbers' ) . '</a>' );
+		printf( '%s %s', esc_html__( 'No keys found.', 'wc-serial-numbers' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-serial-numbers&add' ) ) . '">' . esc_html__( 'Add new key', 'wc-serial-numbers' ) . '</a>' );
 		// Show a documentation about key's statuses.
 		?>
 		<h4>
@@ -210,7 +209,7 @@ class KeysTable extends ListTable {
 	 * @return array $views All the views sellable
 	 */
 	public function get_views() {
-		$current         = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : '';
+		$current         = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( $_GET['status'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$available_count = '&nbsp;<span class="count">(' . $this->available_count . ')</span>';
 		$pending_count   = '&nbsp;<span class="count">(' . $this->pending_count . ')</span>';
 		$sold_count      = '&nbsp;<span class="count">(' . $this->sold_count . ')</span>';
@@ -219,12 +218,48 @@ class KeysTable extends ListTable {
 		$total_count     = '&nbsp;<span class="count">(' . $this->total_count . ')</span>';
 		$url             = admin_url( 'admin.php?page=wc-serial-numbers' );
 		$views           = array(
-			'all'       => sprintf( '<a href="%s" title="%s" %s>%s</a>', remove_query_arg( 'status', $url ), __( 'All keys.', 'wc-serial-numbers' ), $current === 'all' || $current == '' ? ' class="current"' : '', __( 'All', 'wc-serial-numbers' ) . $total_count ),
-			'available' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'available', $url ), __( 'Available for sell.', 'wc-serial-numbers' ), $current === 'available' ? ' class="current"' : '', __( 'Available', 'wc-serial-numbers' ) . $available_count ),
-			'pending'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'pending', $url ), __( 'Pending payment.', 'wc-serial-numbers' ), $current === 'pending' ? ' class="current"' : '', __( 'Pending', 'wc-serial-numbers' ) . $pending_count ),
-			'sold'      => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'sold', $url ), __( 'Sold keys.', 'wc-serial-numbers' ), $current === 'sold' ? ' class="current"' : '', __( 'Sold', 'wc-serial-numbers' ) . $sold_count ),
-			'expired'   => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'expired', $url ), __( 'Expired keys.', 'wc-serial-numbers' ), $current === 'expired' ? ' class="current"' : '', __( 'Expired', 'wc-serial-numbers' ) . $expired_count ),
-			'cancelled' => sprintf( '<a href="%s" title="%s" %s>%s</a>', add_query_arg( 'status', 'cancelled', $url ), __( 'Cancelled keys.', 'wc-serial-numbers' ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'wc-serial-numbers' ) . $cancelled_count ),
+			'all'       => sprintf(
+				'<a href="%s" title="%s" %s>%s</a>',
+				remove_query_arg( 'status', $url ),
+				__( 'All keys.', 'wc-serial-numbers' ),
+				'all' === $current || '' === $current ? ' class="current"' : '',
+				__( 'All', 'wc-serial-numbers' ) . $total_count
+			),
+			'available' => sprintf(
+				'<a href="%s" title="%s" %s>%s</a>',
+				add_query_arg( 'status', 'available', $url ),
+				__( 'Available for sell.', 'wc-serial-numbers' ),
+				'available' === $current ? ' class="current"' : '',
+				__( 'Available', 'wc-serial-numbers' ) . $available_count
+			),
+			'pending'   => sprintf(
+				'<a href="%s" title="%s" %s>%s</a>',
+				add_query_arg( 'status', 'pending', $url ),
+				__( 'Pending payment.', 'wc-serial-numbers' ),
+				'pending' === $current ? ' class="current"' : '',
+				__( 'Pending', 'wc-serial-numbers' ) . $pending_count
+			),
+			'sold'      => sprintf(
+				'<a href="%s" title="%s" %s>%s</a>',
+				add_query_arg( 'status', 'sold', $url ),
+				__( 'Sold keys.', 'wc-serial-numbers' ),
+				'sold' === $current ? ' class="current"' : '',
+				__( 'Sold', 'wc-serial-numbers' ) . $sold_count
+			),
+			'expired'   => sprintf(
+				'<a href="%s" title="%s" %s>%s</a>',
+				add_query_arg( 'status', 'expired', $url ),
+				__( 'Expired keys.', 'wc-serial-numbers' ),
+				'expired' === $current ? ' class="current"' : '',
+				__( 'Expired', 'wc-serial-numbers' ) . $expired_count
+			),
+			'cancelled' => sprintf(
+				'<a href="%s" title="%s" %s>%s</a>',
+				add_query_arg( 'status', 'cancelled', $url ),
+				__( 'Cancelled keys.', 'wc-serial-numbers' ),
+				'cancelled' === $current ? ' class="current"' : '',
+				__( 'Cancelled', 'wc-serial-numbers' ) . $cancelled_count
+			),
 		);
 
 		return $views;
@@ -236,7 +271,7 @@ class KeysTable extends ListTable {
 	 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
 	 */
 	protected function extra_tablenav( $which ) {
-		if ( $which === 'top' ) {
+		if ( 'top' === $which ) {
 			echo '<div class="alignleft actions">';
 			$this->order_dropdown();
 			$this->product_dropdown();
@@ -255,9 +290,9 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	public function process_bulk_actions( $doaction ) {
-		if ( $doaction ) {
-			if ( isset( $_REQUEST['id'] ) ) {
-				$ids      = wp_parse_id_list( $_REQUEST['id'] );
+		if ( $doaction && check_ajax_referer( 'bulk-' . $this->_args['plural'] ) ) {
+			if ( wp_unslash( isset( $_REQUEST['id'] ) ) ) {
+				$ids      = wp_parse_id_list( wp_unslash( $_REQUEST['id'] ) );
 				$doaction = ( - 1 !== $_REQUEST['action'] ) ? $_REQUEST['action'] : $_REQUEST['action2']; // phpcs:ignore
 			} elseif ( isset( $_REQUEST['ids'] ) ) {
 				$ids = array_map( 'absint', $_REQUEST['ids'] );
@@ -331,7 +366,7 @@ class KeysTable extends ListTable {
 	 *
 	 * @return array
 	 */
-	function get_sortable_columns() {
+	public function get_sortable_columns() {
 		$sortable_columns = array(
 			'key'         => array( 'serial_key', false ),
 			'product'     => array( 'product_id', false ),
@@ -361,7 +396,7 @@ class KeysTable extends ListTable {
 	/**
 	 * since 1.0.0
 	 *
-	 * @param object $item
+	 * @param \StdClass $item Item.
 	 *
 	 * @return string|void
 	 */
@@ -372,23 +407,24 @@ class KeysTable extends ListTable {
 	/**
 	 * Display key.
 	 *
-	 * @param $item
+	 * @param Key $item Item.
 	 *
 	 * @since 1.4.6
 	 */
 	protected function column_key( $item ) {
-		$is_hidden         = 'yes' === get_option( 'wc_serial_numbers_hide_serial_number', 'yes' );
-		$edit_url          = add_query_arg( [ 'edit' => $item->id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
-		$delete_url        = add_query_arg(
-			[
+		$is_hidden  = 'yes' === get_option( 'wc_serial_numbers_hide_serial_number', 'yes' );
+		$edit_url   = add_query_arg( array( 'edit' => $item->id ), admin_url( 'admin.php?page=wc-serial-numbers' ) );
+		$delete_url = add_query_arg(
+			array(
 				'id'     => $item->id,
 				'action' => 'delete',
-			],
+			),
 			admin_url( 'admin.php?page=wc-serial-numbers' )
 		);
-		$actions['id']     = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), $item->id );
+		// translators: %d: key id.
+		$actions['id']     = sprintf( __( 'ID: %d', 'wc-serial-numbers' ), esc_html( $item->id ) );
 		$actions['edit']   = sprintf( '<a href="%1$s">%2$s</a>', $edit_url, __( 'Edit', 'wc-serial-numbers' ) );
-		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', $delete_url, __( 'Delete', 'wc-serial-numbers' ) );
+		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', wp_nonce_url( $delete_url, 'bulk-keys' ), __( 'Delete', 'wc-serial-numbers' ) );
 
 		return sprintf( '%1$s %2$s', $item->print_key( $is_hidden ), $this->row_actions( $actions ) );
 	}
@@ -396,7 +432,7 @@ class KeysTable extends ListTable {
 	/**
 	 * Display column product.
 	 *
-	 * @param Key $key Key object.
+	 * @param Key $item Item.
 	 *
 	 * @since 1.4.6
 	 */
@@ -409,7 +445,7 @@ class KeysTable extends ListTable {
 	/**
 	 * Display column order.
 	 *
-	 * @param Key $key Key object.
+	 * @param Key $item Item.
 	 *
 	 * @since 1.4.6
 	 */
@@ -425,7 +461,7 @@ class KeysTable extends ListTable {
 	/**
 	 * Display column customer.
 	 *
-	 * @param Key $key Key object.
+	 * @param \StdClass $item Item.
 	 *
 	 * @since 1.4.6
 	 */
@@ -458,10 +494,10 @@ class KeysTable extends ListTable {
 		$limit = ! empty( $key->activation_limit ) ? $key->activation_limit : '&infin;';
 		$count = (int) $key->activation_count;
 		$link  = add_query_arg(
-			[
+			array(
 				'serial_id' => $key->id,
 				'page'      => 'wc-serial-numbers-activations',
-			],
+			),
 			admin_url( 'admin.php' )
 		);
 
@@ -478,7 +514,21 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_valid_for( $key ) {
-		return ! empty( $key->get_validity() ) ? sprintf( _n( '<b>%s</b> Day <br><small>After purchase</small>', '<b>%s</b> Days <br><small>After purchase</small>', $key->get_validity(), 'wc-serial-numbers' ), number_format_i18n( $key->get_validity() ) ) : __( 'Lifetime', 'wc-serial-numbers' );
+		if ( ! empty( $key->get_validity() ) ) {
+			return wp_kses_post(
+				sprintf(
+					// translators: %1$s: validity, %2$s: validity.
+					_n(
+						'<b>%s</b> Day <br><small>After purchase</small>',
+						'<b>%s</b> Days <br><small>After purchase</small>',
+						$key->get_validity(),
+						'wc-serial-numbers'
+					),
+					number_format_i18n( $key->get_validity() )
+				)
+			);
+		}
+		return __( 'Lifetime', 'wc-serial-numbers' );
 	}
 
 	/**
@@ -489,7 +539,10 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_order_date( $key ) {
-		return ! empty( $key->order_date ) && '0000-00-00 00:00:00' !== $key->order_date ? date( get_option( 'date_format' ), strtotime( $key->order_date ) ) : '&mdash;';
+		if ( ! empty( $key->order_date ) && '0000-00-00 00:00:00' !== $key->order_date ) {
+			return wp_date( get_option( 'date_format' ), strtotime( $key->order_date ) );
+		}
+		return '&mdash;';
 	}
 
 	/**

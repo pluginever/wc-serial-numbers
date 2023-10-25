@@ -51,18 +51,18 @@ class ActivationsTable extends ListTable {
 	public function prepare_items() {
 		$per_page              = $this->get_items_per_page( 'wcsn_activations_per_page' );
 		$columns               = $this->get_columns();
-		$hidden                = [];
+		$hidden                = array();
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$current_page          = $this->get_pagenum();
-		$orderby               = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'order_date';
-		$order                 = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'desc';
-		$search                = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
-		$product_id            = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
-		$order_id              = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : '';
-		$customer_id           = isset( $_GET['customer_id'] ) ? absint( $_GET['customer_id'] ) : '';
-		$id                    = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : '';
-		$serial_id             = isset( $_GET['serial_id'] ) ? absint( $_GET['serial_id'] ) : '';
+		$orderby               = filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_SPECIAL_CHARS );
+		$order                 = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_SPECIAL_CHARS );
+		$search                = filter_input( INPUT_GET, 's', FILTER_SANITIZE_SPECIAL_CHARS );
+		$product_id            = filter_input( INPUT_GET, 'product_id', FILTER_SANITIZE_NUMBER_INT );
+		$order_id              = filter_input( INPUT_GET, 'order_id', FILTER_SANITIZE_NUMBER_INT );
+		$customer_id           = filter_input( INPUT_GET, 'customer_id', FILTER_SANITIZE_NUMBER_INT );
+		$id                    = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT );
+		$serial_id             = filter_input( INPUT_GET, 'serial_id', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' !== $orderby ) {
 			$args['orderby'] = $orderby;
@@ -91,7 +91,6 @@ class ActivationsTable extends ListTable {
 				'total_pages' => $this->total_count > 0 ? ceil( $this->total_count / $per_page ) : 0,
 			)
 		);
-
 	}
 
 	/**
@@ -102,26 +101,15 @@ class ActivationsTable extends ListTable {
 	}
 
 	/**
-	 * Retrieve the view types
-	 *
-	 * @since 1.0.0
-	 * @return array $views All the views sellable
-	 */
-	public function get_views() {
-		return parent::get_views();
-	}
-
-	/**
 	 * Adds the order and product filters to the licenses list.
 	 *
-	 * @param string $which
+	 * @param string $which Which nav.
 	 */
 	protected function extra_tablenav( $which ) {
-		if ( $which === 'top' ) {
+		if ( 'top' === $which ) {
 			echo '<div class="alignleft actions">';
 			$this->order_dropdown();
 			$this->product_dropdown();
-			// $this->customer_dropdown();
 			submit_button( __( 'Filter', 'wc-serial-numbers' ), '', 'filter-action', false );
 			echo '</div>';
 		}
@@ -135,9 +123,9 @@ class ActivationsTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	public function process_bulk_actions( $doaction ) {
-		if ( $doaction ) {
+		if ( $doaction && check_ajax_referer( 'bulk-activations' ) ) {
 			if ( isset( $_REQUEST['id'] ) ) {
-				$ids      = wp_parse_id_list( $_REQUEST['id'] );
+				$ids      = wp_parse_id_list( wp_unslash( $_REQUEST['id'] ) );
 				$doaction = ( - 1 !== $_REQUEST['action'] ) ? $_REQUEST['action'] : $_REQUEST['action2']; // phpcs:ignore
 			} elseif ( isset( $_REQUEST['ids'] ) ) {
 				$ids = array_map( 'absint', $_REQUEST['ids'] );
@@ -201,7 +189,7 @@ class ActivationsTable extends ListTable {
 	 *
 	 * @return array
 	 */
-	function get_sortable_columns() {
+	public function get_sortable_columns() {
 		$sortable_columns = array(
 			'instance'        => array( 'instance', false ),
 			'serial_id'       => array( 'serial_id', false ),
@@ -243,13 +231,13 @@ class ActivationsTable extends ListTable {
 	 */
 	protected function column_instance( $activation ) {
 		$delete_url        = add_query_arg(
-			[
+			array(
 				'id'     => $activation->id,
 				'action' => 'delete',
-			],
+			),
 			admin_url( 'admin.php?page=wc-serial-numbers-activations' )
 		);
-		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $delete_url ), __( 'Delete', 'wc-serial-numbers' ) );
+		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', wp_nonce_url( $delete_url, 'bulk-activations' ), __( 'Delete', 'wc-serial-numbers' ) );
 
 		return sprintf( '<code class="wcsn-activation-instance">%1$s</code> %2$s', esc_html( $activation->get_instance() ), $this->row_actions( $actions ) );
 	}
@@ -299,5 +287,4 @@ class ActivationsTable extends ListTable {
 	protected function column_activation_time( $activation ) {
 		return empty( $activation->get_activation_time() ) ? '&mdash;' : esc_html( $activation->get_activation_time() );
 	}
-
 }
