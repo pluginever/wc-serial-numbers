@@ -8,10 +8,6 @@
   "minimum-stability": "dev",
   "repositories": [
     {
-      "url": "git@github.com:byteever/byteever-sniffs.git",
-      "type": "github"
-    },
-    {
       "url": "git@github.com:pluginever/framework-plugin.git",
       "type": "github"
     },

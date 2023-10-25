@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0754e64a5fccfc9c1bfbe9128d8df80",
+    "content-hash": "9f823d44bf66207983a586d559f7920e",
     "packages": [],
     "packages-dev": [
         {
@@ -198,21 +198,7 @@
             },
             "default-branch": true,
             "type": "phpcodesniffer-standard",
-            "scripts": {
-                "config-cs": [
-                    "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
-                    "\"vendor/bin/phpcs\" --config-set default_standard ByteEver-Default"
-                ],
-                "post-install-cmd": [
-                    "@config-cs"
-                ],
-                "post-update-cmd": [
-                    "@config-cs"
-                ],
-                "lint": [
-                    "\"vendor/bin/phpcs\" . "
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0-only"
             ],
@@ -224,14 +210,14 @@
             ],
             "description": "ByteEver PHP Coding Standards",
             "keywords": [
-                "WordPress",
                 "byteever",
                 "phpcs",
-                "standards"
+                "standards",
+                "wordpress"
             ],
             "support": {
-                "source": "https://github.com/byteever/byteever-sniffs/tree/v1.0.1",
-                "issues": "https://github.com/byteever/byteever-sniffs/issues"
+                "issues": "https://github.com/byteever/byteever-sniffs/issues",
+                "source": "https://github.com/byteever/byteever-sniffs/tree/v1.0.1"
             },
             "time": "2023-10-25T04:55:22+00:00"
         },
