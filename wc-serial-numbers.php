@@ -32,33 +32,35 @@ use WooCommerceSerialNumbers\Plugin;
 defined( 'ABSPATH' ) || exit();
 
 // Autoload function.
-spl_autoload_register( function ( $class ) {
-	$prefix = 'WooCommerceSerialNumbers\\';
-	$len    = strlen( $prefix );
+spl_autoload_register(
+	function ( $class_name ) {
+		$prefix = 'WooCommerceSerialNumbers\\';
+		$len    = strlen( $prefix );
 
-	// Bail out if the class name doesn't start with our prefix.
-	if ( strncmp( $prefix, $class, $len ) !== 0 ) {
-		return;
-	}
+		// Bail out if the class name doesn't start with our prefix.
+		if ( strncmp( $prefix, $class_name, $len ) !== 0 ) {
+				return;
+		}
 
-	// Remove the prefix from the class name.
-	$relative_class = substr( $class, $len );
-	// Replace the namespace separator with the directory separator.
-	$file = str_replace( '\\', DIRECTORY_SEPARATOR, $relative_class ) . '.php';
+		// Remove the prefix from the class name.
+		$relative_class = substr( $class_name, $len );
+		// Replace the namespace separator with the directory separator.
+		$file = str_replace( '\\', DIRECTORY_SEPARATOR, $relative_class ) . '.php';
 
-	// Look for the file in the src and lib directories.
-	$file_paths = array(
-		__DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $file,
-		__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file,
-	);
+		// Look for the file in the src and lib directories.
+		$file_paths = array(
+			__DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $file,
+			__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file,
+		);
 
-	foreach ( $file_paths as $file_path ) {
-		if ( file_exists( $file_path ) ) {
-			require_once $file_path;
-			break;
+		foreach ( $file_paths as $file_path ) {
+			if ( file_exists( $file_path ) ) {
+				require_once $file_path;
+				break;
+			}
 		}
 	}
-} );
+);
 
 
 /**
@@ -82,7 +84,7 @@ add_action(
  * @since 1.0.0
  * @return Plugin
  */
-function WCSN() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid.
+function WCSN() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	$data = array(
 		'file'             => __FILE__,
 		'settings_url'     => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),

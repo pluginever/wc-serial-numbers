@@ -30,15 +30,16 @@ class StockTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	public function prepare_items() {
+		check_admin_referer( 'wc-serial-numbers-stock' );
 		$per_page              = 20;
 		$columns               = $this->get_columns();
-		$hidden                = [];
+		$hidden                = array();
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$current_page          = $this->get_pagenum();
 		$orderby               = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'order_date';
 		$order                 = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'desc';
-		$search                = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
+		$search                = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : null;
 		$product_id            = isset( $_GET['product_id'] ) ? absint( $_GET['product_id'] ) : '';
 
 		$query_args = array(
@@ -71,22 +72,12 @@ class StockTable extends ListTable {
 	}
 
 	/**
-	 * Retrieve the view types
-	 *
-	 * @since 1.0.0
-	 * @return array $views All the views sellable
-	 */
-	public function get_views() {
-		return parent::get_views();
-	}
-
-	/**
 	 * Adds the order and product filters to the licenses list.
 	 *
 	 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
 	 */
 	protected function extra_tablenav( $which ) {
-		if ( $which === 'top' ) {
+		if ( 'top' === $which ) {
 			echo '<div class="alignleft actions">';
 			$this->product_dropdown();
 			submit_button( __( 'Filter', 'wc-serial-numbers' ), '', 'filter-action', false );
@@ -116,7 +107,7 @@ class StockTable extends ListTable {
 	 *
 	 * @return array
 	 */
-	function get_sortable_columns() {
+	public function get_sortable_columns() {
 		$columns = array(
 			'product' => array( 'product_id', false ),
 		);
@@ -169,7 +160,7 @@ class StockTable extends ListTable {
 			case 'sold':
 				$sold_count = wcsn_get_keys(
 					array(
-						'status__in' => [ 'sold', 'expired' ],
+						'status__in' => array( 'sold', 'expired' ),
 						'product_id' => $item->get_id(),
 						'count'      => true,
 					)

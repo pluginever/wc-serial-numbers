@@ -26,8 +26,8 @@ class Compat {
 	/**
 	 * WooCommerce PDF Invoices & Packing Slips plugin support.
 	 *
-	 * @param $type
-	 * @param $order
+	 * @param string    $type Document type.
+	 * @param \WC_Order $order Order object.
 	 *
 	 * @since 1.2.0
 	 */
@@ -38,8 +38,8 @@ class Compat {
 	/**
 	 * WooCommerce PDF Invoices
 	 *
-	 * @param $headers
-	 * @param $order_id
+	 * @param string $headers Header content.
+	 * @param int    $order_id Order ID.
 	 *
 	 * @return string
 	 * @since 1.1.1
@@ -55,10 +55,10 @@ class Compat {
 	/**
 	 * Support WooCommerce PDF Invoices, Packing Slips, Delivery Notes & Shipping Labels plugin
 	 *
-	 * @param $find_replace
-	 * @param $html
-	 * @param $template_type
-	 * @param $order
+	 * @param array     $find_replace Find and replace array.
+	 * @param string    $html HTML content.
+	 * @param string    $template_type Template type.
+	 * @param \WC_Order $order Order object.
 	 *
 	 * @return array
 	 * @since 1.1.1

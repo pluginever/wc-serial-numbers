@@ -28,12 +28,12 @@ function wcsn_get_template( $template_name, $args = array() ) {
  * output key properties.
  *
  * @param Key  $key Key object.
- * @param bool $echo Echo or return.
+ * @param bool $output Echo or return.
  *
  * @since 1.4.9
- * @return void
+ * @return void|string Return html if $output is false.
  */
-function wcsn_display_key_html( $key, $echo = true ) {
+function wcsn_display_key_html( $key, $output = true ) {
 	$text_align  = is_rtl() ? 'right' : 'left';
 	$margin_side = is_rtl() ? 'left' : 'right';
 
@@ -92,7 +92,7 @@ function wcsn_display_key_html( $key, $echo = true ) {
 
 	usort(
 		$properties,
-		function( $a, $b ) {
+		function ( $a, $b ) {
 			return $a['priority'] - $b['priority'];
 		}
 	);
@@ -140,7 +140,7 @@ function wcsn_display_key_html( $key, $echo = true ) {
 	 */
 	$html = apply_filters( 'wc_serial_numbers_display_key_props_html', $html, $key );
 
-	if ( $echo ) {
+	if ( $output ) {
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	} else {
 		return $html;
@@ -264,7 +264,7 @@ function wcsn_display_order_keys_table( $order, $line_items ) {
 		<table class="woocommerce-table woocommerce-table--order-details shop_table order_details wcsn-order-table" style="width: 100%;" cellspacing="0" cellpadding="6">
 			<thead>
 			<tr>
-				<th class="td" scope="col"> <?php echo sprintf( '<a href="%s">%s</a>', esc_url( get_permalink( $line_item['product_id'] ) ), esc_html( get_the_title( $line_item['product_id'] ) ) ); ?>
+				<th class="td" scope="col"> <?php printf( '<a href="%s">%s</a>', esc_url( get_permalink( $line_item['product_id'] ) ), esc_html( get_the_title( $line_item['product_id'] ) ) ); ?>
 			</tr>
 			</thead>
 			<tbody>
@@ -302,7 +302,7 @@ function wcsn_display_order_keys_table( $order, $line_items ) {
 				<?php endforeach; ?>
 			<?php else : ?>
 				<tr>
-					<td class="td" scope="col"><?php echo sprintf( '<p>%s</p>', apply_filters( 'wc_serial_numbers_pending_notice', esc_html__( 'Order is waiting for serial numbers to be assigned.', 'wc-serial-numbers' ) ) ); ?></td>
+					<td class="td" scope="col"><?php printf( '<p>%s</p>', esc_html( apply_filters( 'wc_serial_numbers_pending_notice', __( 'Order is waiting for serial numbers to be assigned.', 'wc-serial-numbers' ) ) ) ); ?></td>
 				</tr>
 			<?php endif; ?>
 			</tbody>

@@ -97,7 +97,7 @@ class Orders {
 	public static function add_order_serial_column_content( $column, $order_id ) {
 		$order_status = wc_get_order( $order_id )->get_status();
 		if ( 'order_serials' === $column ) {
-			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, [ 'completed', 'processing' ], true ) ) {
+			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, array( 'completed', 'processing' ), true ) ) {
 				echo '&mdash;';
 			} else {
 				if ( wcsn_order_is_fullfilled( $order_id ) ) {
@@ -107,8 +107,8 @@ class Orders {
 					$style = 'color:red';
 					$title = __( 'Order is not fullfilled.', 'wc-serial-numbers' );
 				}
-				$url = add_query_arg( [ 'order_id' => $order_id ], admin_url( 'admin.php?page=wc-serial-numbers' ) );
-				echo sprintf( '<a href="%s" title="%s"><span class="dashicons dashicons-lock" style="%s"></span></a>', esc_url( $url ), esc_html( $title ), esc_attr( $style ) );
+				$url = add_query_arg( array( 'order_id' => $order_id ), admin_url( 'admin.php?page=wc-serial-numbers' ) );
+				printf( '<a href="%s" title="%s"><span class="dashicons dashicons-lock" style="%s"></span></a>', esc_url( $url ), esc_html( $title ), esc_attr( $style ) );
 			}
 		}
 	}
@@ -139,7 +139,7 @@ class Orders {
 	 * @return string
 	 */
 	public function handle_order_bulk_action( $redirect_to, $action, $order_ids ) {
-		if ( in_array( $action, [ 'wcsn_add_keys', 'wcsn_remove_keys' ], true ) ) {
+		if ( in_array( $action, array( 'wcsn_add_keys', 'wcsn_remove_keys' ), true ) ) {
 			foreach ( $order_ids as $order_id ) {
 				switch ( $action ) {
 					case 'wcsn_add_keys':
@@ -217,7 +217,7 @@ class Orders {
 				<tr>
 					<th colspan="2">
 						<?php // translators: %s is the item number. ?>
-						<?php echo sprintf( '#%s:', esc_html( $index + 1 ) ); ?>
+						<?php printf( '#%s:', esc_html( $index + 1 ) ); ?>
 					</th>
 				</tr>
 				<?php foreach ( $data as $prop => $field ) : ?>

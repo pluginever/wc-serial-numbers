@@ -2,7 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Utilities;
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Utilities.

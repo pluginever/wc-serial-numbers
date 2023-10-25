@@ -25,10 +25,10 @@ class Notices {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'admin_init', [ $this, 'add_notices' ] );
-		add_action( 'admin_notices', [ $this, 'output_notices' ] );
-		add_action( 'wp_ajax_wc_serial_numbers_dismiss_notice', [ $this, 'dismiss_notice' ] );
-		add_action( 'admin_footer', [ $this, 'add_notice_script' ] );
+		add_action( 'admin_init', array( $this, 'add_notices' ) );
+		add_action( 'admin_notices', array( $this, 'output_notices' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_dismiss_notice', array( $this, 'dismiss_notice' ) );
+		add_action( 'admin_footer', array( $this, 'add_notice_script' ) );
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Notices {
 	public function add_notices() {
 		$is_outdated_pro = defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) && version_compare( WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION, '1.2.1', '<' );
 		if ( ! $is_outdated_pro ) {
-			$is_outdated_pro = function_exists( 'wc_serial_numbers_pro' ) && is_callable( [ 'wc_serial_numbers_pro', 'get_version' ] ) && wc_serial_numbers_pro()->get_version() && version_compare( wc_serial_numbers_pro()->get_version(), '1.2.1', '<' );
+			$is_outdated_pro = function_exists( 'wc_serial_numbers_pro' ) && is_callable( array( 'wc_serial_numbers_pro', 'get_version' ) ) && wc_serial_numbers_pro()->get_version() && version_compare( wc_serial_numbers_pro()->get_version(), '1.2.1', '<' );
 		}
 		if ( $is_outdated_pro ) {
 			$this->notices[] = array(
