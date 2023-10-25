@@ -180,12 +180,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/byteever/byteever-sniffs.git",
-                "reference": "edea620f99832e84079dfdcda634d805a9573c62"
+                "reference": "8c20a95245a883bcbaea42e46653f7f788bf8290"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/byteever/byteever-sniffs/zipball/edea620f99832e84079dfdcda634d805a9573c62",
-                "reference": "edea620f99832e84079dfdcda634d805a9573c62",
+                "url": "https://api.github.com/repos/byteever/byteever-sniffs/zipball/8c20a95245a883bcbaea42e46653f7f788bf8290",
+                "reference": "8c20a95245a883bcbaea42e46653f7f788bf8290",
                 "shasum": ""
             },
             "require": {
@@ -230,10 +230,10 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/byteever/byteever-sniffs/tree/master",
+                "source": "https://github.com/byteever/byteever-sniffs/tree/v1.0.1",
                 "issues": "https://github.com/byteever/byteever-sniffs/issues"
             },
-            "time": "2023-10-12T09:08:28+00:00"
+            "time": "2023-10-25T04:55:22+00:00"
         },
         {
             "name": "codeception/codeception",
@@ -3539,12 +3539,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:pluginever/framework-model.git",
-                "reference": "b1ab33c420c06012ba7dd1ddb873d082d5e272cc"
+                "reference": "5a5de16e378f2a7a3b8ba95d1eb3569f7a3a6574"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pluginever/framework-model/zipball/b1ab33c420c06012ba7dd1ddb873d082d5e272cc",
-                "reference": "b1ab33c420c06012ba7dd1ddb873d082d5e272cc",
+                "url": "https://api.github.com/repos/pluginever/framework-model/zipball/5a5de16e378f2a7a3b8ba95d1eb3569f7a3a6574",
+                "reference": "5a5de16e378f2a7a3b8ba95d1eb3569f7a3a6574",
                 "shasum": ""
             },
             "require": {
@@ -3579,10 +3579,10 @@
             ],
             "description": "Model for the framework",
             "support": {
-                "source": "https://github.com/pluginever/framework-model/tree/master",
+                "source": "https://github.com/pluginever/framework-model/tree/v1.0.8",
                 "issues": "https://github.com/pluginever/framework-model/issues"
             },
-            "time": "2023-08-10T07:52:03+00:00"
+            "time": "2023-10-25T08:49:24+00:00"
         },
         {
             "name": "pluginever/framework-plugin",
@@ -3590,12 +3590,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:pluginever/framework-plugin.git",
-                "reference": "d24ae94397a74d334b450f02bfffb1c52d8cebc6"
+                "reference": "dd76127abd4a0c6dd8253fe6b885a807dfe8e4e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pluginever/framework-plugin/zipball/d24ae94397a74d334b450f02bfffb1c52d8cebc6",
-                "reference": "d24ae94397a74d334b450f02bfffb1c52d8cebc6",
+                "url": "https://api.github.com/repos/pluginever/framework-plugin/zipball/dd76127abd4a0c6dd8253fe6b885a807dfe8e4e0",
+                "reference": "dd76127abd4a0c6dd8253fe6b885a807dfe8e4e0",
                 "shasum": ""
             },
             "require": {
@@ -3630,10 +3630,10 @@
             ],
             "description": "A set of related classes to kick start WordPress plugin development.",
             "support": {
-                "source": "https://github.com/pluginever/framework-plugin/tree/master",
+                "source": "https://github.com/pluginever/framework-plugin/tree/v1.0.8",
                 "issues": "https://github.com/pluginever/framework-plugin/issues"
             },
-            "time": "2023-09-24T10:21:09+00:00"
+            "time": "2023-10-25T08:44:40+00:00"
         },
         {
             "name": "pluginever/framework-settings",
@@ -3641,12 +3641,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:pluginever/framework-settings.git",
-                "reference": "17aa1bebb38da0f4d8a9cbd791c2a2c4e282e493"
+                "reference": "f80a91b9a3aef06c56d85a5f3e097da7b9386a80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pluginever/framework-settings/zipball/17aa1bebb38da0f4d8a9cbd791c2a2c4e282e493",
-                "reference": "17aa1bebb38da0f4d8a9cbd791c2a2c4e282e493",
+                "url": "https://api.github.com/repos/pluginever/framework-settings/zipball/f80a91b9a3aef06c56d85a5f3e097da7b9386a80",
+                "reference": "f80a91b9a3aef06c56d85a5f3e097da7b9386a80",
                 "shasum": ""
             },
             "require": {
@@ -3681,10 +3681,10 @@
             ],
             "description": "A set of related classes to kick start WordPress plugin development.",
             "support": {
-                "source": "https://github.com/pluginever/framework-settings/tree/master",
+                "source": "https://github.com/pluginever/framework-settings/tree/v1.0.4",
                 "issues": "https://github.com/pluginever/framework-settings/issues"
             },
-            "time": "2023-09-27T10:14:00+00:00"
+            "time": "2023-10-25T08:44:07+00:00"
         },
         {
             "name": "psr/clock",

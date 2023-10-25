@@ -110,6 +110,7 @@ class Shortcodes {
 				<input type="hidden" name="request" value="validate">
 				<input type="submit" value="<?php echo esc_attr( $atts['button_label'] ); ?>">
 			</p>
+			<?php wp_nonce_field( 'wcsn_user_action' ); ?>
 		</form>
 		<?php
 
@@ -245,9 +246,9 @@ class Shortcodes {
 			<p class="wcsn-field">
 				<input type="submit" value="<?php echo esc_attr( $atts['button_label'] ); ?>">
 			</p>
+			<?php wp_nonce_field( 'wcsn_user_action' ); ?>
 		</form>
 		<?php
-
 		return ob_get_clean();
 	}
 }

@@ -12,9 +12,9 @@ fi
 echo "➤ Preparing zip for $VERSION of $SLUG..."
 
 echo "➤ Building plugin..."
-npm install && npm run build
 composer install
 composer update --no-dev --no-scripts
+npm install && npm run build
 echo "✓ Plugin built!"
 
 # if directory already exists, delete it

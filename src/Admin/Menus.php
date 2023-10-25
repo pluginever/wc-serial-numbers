@@ -44,7 +44,7 @@ class Menus {
 	 * @since 1.4.6
 	 */
 	public function setup_screen() {
-		if ( isset( $_GET['edit'] ) || isset( $_GET['delete'] ) || isset( $_GET['add'] ) || isset( $_GET['generate'] ) ) {
+		if ( isset( $_GET['edit'] ) || isset( $_GET['delete'] ) || isset( $_GET['add'] ) || isset( $_GET['generate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
@@ -253,8 +253,8 @@ class Menus {
 
 		$tabs        = apply_filters( 'wc_serial_numbers_tools_tabs', $tabs );
 		$tab_ids     = array_keys( $tabs );
-		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids );
-		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		Admin::view(
 			'html-tools.php',
@@ -279,8 +279,8 @@ class Menus {
 
 		$tabs        = apply_filters( 'wc_serial_numbers_reports_tabs', $tabs );
 		$tab_ids     = array_keys( $tabs );
-		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids );
-		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		Admin::view(
 			'html-reports.php',

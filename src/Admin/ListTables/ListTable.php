@@ -202,17 +202,6 @@ class ListTable extends \WP_List_Table {
 	 * @since 1.4.6
 	 */
 	public function process_bulk_actions( $doaction ) {
-		if ( isset( $_GET['_wp_http_referer'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			wp_safe_redirect(
-				remove_query_arg(
-					array(
-						'_wp_http_referer',
-						'_wpnonce',
-					),
-					wp_get_referer()
-				)
-			);
-			exit;
-		}
+		$referer = wp_get_referer();
 	}
 }
