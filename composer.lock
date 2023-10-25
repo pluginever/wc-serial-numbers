@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f823d44bf66207983a586d559f7920e",
+    "content-hash": "1708bb6e2309c5b3f2b0c1d7ea103daf",
     "packages": [],
     "packages-dev": [
         {
@@ -176,7 +176,7 @@
         },
         {
             "name": "byteever/byteever-sniffs",
-            "version": "dev-master",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/byteever/byteever-sniffs.git",
@@ -196,7 +196,6 @@
             "require-dev": {
                 "roave/security-advisories": "dev-latest"
             },
-            "default-branch": true,
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -7225,10 +7224,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "byteever/byteever-sniffs": 20,
+        "pluginever/framework-model": 20,
         "pluginever/framework-plugin": 20,
-        "pluginever/framework-settings": 20,
-        "pluginever/framework-model": 20
+        "pluginever/framework-settings": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
