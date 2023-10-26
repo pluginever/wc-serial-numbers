@@ -1,10 +1,10 @@
-=== WC Serial Numbers - Ultimate License Manager Plugin for Selling, Licensing & Securely Delivering Digital Products with WooCommerce ===
+=== WC Serial Numbers - Ultimate License Manager for Selling, Licensing & Securely Delivering Digital Products with WooCommerce ===
 Contributors: pluginever, manikmist09, b-07
-Tags: license manager, license, license number, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, product identification number, digital product license, virtual product key, virtual product license, subscription product license, serial number generator, unique number, license key generator, auto generate serial number, woocommerce, woocommerce license manager, woocommerce key, sell code
+Tags: license manager, license, license number, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code, digital, digital downloads, digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, digital product license, virtual product key, virtual product license, subscription product license, license key generator, woocommerce, woocommerce license manager, woocommerce key, sell code
 Requires at least: 5.0
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: trunk
+Stable tag: 1.6.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,13 +17,13 @@ The easiest way to sell digital products and manage licenses with WooCommerce.
 
 WooCommerce is the best eCommerce platform out there, but lacks key features for selling digital products. WC Serial Numbers plugin bridges this gap by seamlessly integrating all the necessary functionalities. Transform your WooCommerce store into a complete digital marketplace by incorporating license management, secured and authorized distribution.
 
-=== 👨‍💻 This Digtal Downloads & License Manager Plugin is Ideal for: ===
+=== 👨‍💻 This Plugin is Ideal for: ===
 
 * Content Creators
 * Developers and Digital Agencies
 * Event Organizers
 * License Key/Product Key Resellers
-* Any Kind of Digital Product Sellers 
+* Any Kind of Digital Product Sellers
 
 === 💵 With WC Serial Numbers You Can Sell: ===
 
@@ -40,7 +40,7 @@ Despite being the ultimate license manager for WooCommerce, Serial Numbers is ve
 
 [**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers)
 
-=== How You can benefit from using WC Serial Numbers for your businesses: ===
+=== ✨ How You can benefit from using WC Serial Numbers for your businesses: ===
 
 - **Generate Fast Revenue:** Stop worrying about the licensing management system and put all of your energy into creating and improving your products.
 
@@ -154,7 +154,7 @@ WC Serial Numbers is helping tens of thousands of store owners sell and manage k
 - **[Product Category Showcase for WooCommerce](https://wordpress.org/plugins/wc-category-showcase "Product Category Showcase for WooCommerce")**
 - **[Product Variation Swatches for WooCommerce](https://wordpress.org/plugins/wc-variation-swatches "Product Variation Swatches for WooCommerce")**
 
-💻 Visit [PluginEver](https://pluginever.com) to learn from our WooCommerce tutorials and find out about other [WooCommerce plugins](https://pluginever.com/plugins).
+Visit [PluginEver](https://pluginever.com) to learn from our WooCommerce tutorials and find out about other [WooCommerce plugins](https://pluginever.com/plugins).
 
 == Installation ==
 
@@ -252,6 +252,35 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.6.5 (25 Oct 2023) =
+* Fix: API request is not working.
+
+= 1.6.4 (25 Oct 2023) =
+* Enhance: Optimize and improve code for better performance & security.
+
+= 1.6.3 (8 Oct 2023) =
+* Fix: Dropdown active color is not working.
+* Enhance: Allow keys to be sold without checking key source.
+
+= 1.6.2 (27 Sep 2023) =
+* Enhance: Add compatibility with WooCommerce HPOS.
+
+= 1.6.1 (11 Sep 2023) =
+* Fix: Conflict PHP Autoloader with other plugins.
+
+= 1.6.0 (28 Aug 2023) =
+* Fix: Product dropdown showing HTML tags.
+* Fix: Fix typo.
+* Enhance: Improve `wc_serial_numbers_allow_backorder` filter.
+
+= 1.5.9 (16 Aug 2023) =
+* Fix: Email validation is not working when email contains uppercase letters.
+* Fix: Reset activations showing wrong activation count.
+
+= 1.5.8 (10 Aug 2023) =
+* Fix: Reset activation is not showing correct activation count.
+* Fix: API email validation ignore the email case sensitivity.
+
 = 1.5.7 (2 Aug 2023) =
 * Fix: Keys page showing blank page.
 
