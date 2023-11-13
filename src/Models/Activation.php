@@ -295,5 +295,4 @@ class Activation extends Model {
 
 		return $clauses;
 	}
-
 }

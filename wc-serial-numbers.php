@@ -1,17 +1,17 @@
 <?php
 /**
- * Plugin Name: Serial Numbers for WooCommerce
+ * Plugin Name: WC Serial Numbers
  * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
- * Description: Sell and manage license keys/ serial numbers/ secrect keys easily within your WooCommerce store.
- * Version:     1.5.7
+ * Description: Sell and manage license keys/ serial numbers/ secret keys easily within your WooCommerce store.
+ * Version: 1.6.5
  * Author:      PluginEver
  * Author URI:  http://pluginever.com
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /languages
- * Tested up to: 6.2
+ * Tested up to: 6.3
  * WC requires at least: 5.0
- * WC tested up to: 7.8
+ * WC tested up to: 8.2
  *
  * @package WooCommerceSerialNumbers
  *
@@ -31,43 +31,52 @@ use WooCommerceSerialNumbers\Plugin;
 // Don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
+// Autoload function.
+spl_autoload_register(
+	function ( $class_name ) {
+		$prefix = 'WooCommerceSerialNumbers\\';
+		$len    = strlen( $prefix );
+
+		// Bail out if the class name doesn't start with our prefix.
+		if ( strncmp( $prefix, $class_name, $len ) !== 0 ) {
+				return;
+		}
+
+		// Remove the prefix from the class name.
+		$relative_class = substr( $class_name, $len );
+		// Replace the namespace separator with the directory separator.
+		$file = str_replace( '\\', DIRECTORY_SEPARATOR, $relative_class ) . '.php';
+
+		// Look for the file in the src and lib directories.
+		$file_paths = array(
+			__DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $file,
+			__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file,
+		);
+
+		foreach ( $file_paths as $file_path ) {
+			if ( file_exists( $file_path ) ) {
+				require_once $file_path;
+				break;
+			}
+		}
+	}
+);
+
+
 /**
- * Autoload function.
- *
- * @param string $class_name Class name.
+ * Plugin compatibility with WooCommerce HPOS
  *
  * @since 1.0.0
  * @return void
  */
-function wc_serial_numbers_autoload( $class_name ) {
-	// Bail out if the class name doesn't start with our prefix.
-	if ( strpos( $class_name, 'WooCommerceSerialNumbers\\' ) !== 0 ) {
-		return;
-	}
-
-	// Remove the prefix from the class name.
-	$class_name = substr( $class_name, strlen( 'WooCommerceSerialNumbers\\' ) );
-
-	// Replace the namespace separator with the directory separator.
-	$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
-
-	// Add the .php extension.
-	$class_name = $class_name . '.php';
-
-	$file_paths = array(
-		__DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $class_name,
-		__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $class_name,
-	);
-
-	foreach ( $file_paths as $file_path ) {
-		if ( file_exists( $file_path ) ) {
-			require_once $file_path;
-			break;
+add_action(
+	'before_woocommerce_init',
+	function () {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 		}
 	}
-}
-
-spl_autoload_register( 'wc_serial_numbers_autoload' );
+);
 
 /**
  * Get the plugin instance.
@@ -75,7 +84,7 @@ spl_autoload_register( 'wc_serial_numbers_autoload' );
  * @since 1.0.0
  * @return Plugin
  */
-function WCSN() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid.
+function WCSN() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	$data = array(
 		'file'             => __FILE__,
 		'settings_url'     => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),

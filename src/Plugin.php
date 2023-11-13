@@ -33,13 +33,7 @@ class Plugin extends Lib\Plugin {
 	 */
 	public function includes() {
 		require_once __DIR__ . '/functions.php';
-		require_once dirname( __FILE__ ) . '/Deprecated/Functions.php';
-		if ( ! class_exists( '\WP_Async_Request', false ) ) {
-			require_once dirname( __DIR__ ) . '/lib/classes/wp-async-request.php';
-		}
-		if ( ! class_exists( '\WP_Background_Process', false ) ) {
-			require_once dirname( __DIR__ ) . '/lib/classes/wp-background-process.php';
-		}
+		require_once __DIR__ . '/Deprecated/Functions.php';
 	}
 
 	/**

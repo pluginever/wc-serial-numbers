@@ -194,7 +194,6 @@ class Actions {
 		update_post_meta( $product_id, '_is_serial_number', 'yes' );
 		update_post_meta( $product_id, '_serial_key_source', 'custom_source' );
 		$status = isset( $data['status'] ) ? $data['status'] : '';
-
 	}
 
 	/**

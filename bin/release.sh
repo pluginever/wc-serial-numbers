@@ -16,12 +16,6 @@ fi
 
 echo "Preparing release $VERSION for $SLUG..."
 
-echo "➤ Building plugin..."
-npm install && npm run build
-composer install
-composer update --no-dev --no-scripts
-echo "✓ Plugin built!"
-
 # Check if svn user name is provided with -u flag and password with -p flag
 while getopts u:p: flag; do
 	case "${flag}" in
@@ -35,6 +29,17 @@ if [ -z "$SVN_USER" ] || [ -z "$SVN_PASSWORD" ]; then
 	echo "Please provide svn user name and password with -u and -p flags."
 	exit 1
 fi
+
+# Replace the version in readme.txt
+sed -i '' "s/Stable tag: .*/Stable tag: $VERSION/" readme.txt
+# Replace the version in plugin file
+sed -i '' "s/Version: .*/Version: $VERSION/" $SLUG.php
+
+echo "➤ Building plugin..."
+npm install && npm run build
+composer install
+composer update --no-dev --no-scripts
+echo "✓ Plugin built!"
 
 # if directory already exists, delete it
 if [ -d "$SVN_DIR" ]; then
@@ -63,9 +68,9 @@ find "$SVN_DIR/trunk/" -type d -empty -delete
 
 # Copy assets
 # If .wordpress-org is a directory and contains files, copy them to the SVN repo.
-if [[ -d "$WORKSPACE/.wordpress-org" ]]; then
+if [[ -d "$WORKING_DIR/.wordpress-org" ]]; then
 	echo "➤ Copying assets..."
-	rsync -rc "$WORKSPACE/.wordpress-org/" "$SVN_DIR/assets/" --delete --delete-excluded
+	rsync -rc "$WORKING_DIR/.wordpress-org/" "$SVN_DIR/assets/" --delete --delete-excluded
 	# Fix screenshots getting force downloaded when clicking them
 	# https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/
 	if test -d "$SVN_DIR/assets" && test -n "$(find "$SVN_DIR/assets" -maxdepth 1 -name "*.png" -print -quit)"; then

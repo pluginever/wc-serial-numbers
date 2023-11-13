@@ -25,10 +25,10 @@ class Notices {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'admin_init', [ $this, 'add_notices' ] );
-		add_action( 'admin_notices', [ $this, 'output_notices' ] );
-		add_action( 'wp_ajax_wc_serial_numbers_dismiss_notice', [ $this, 'dismiss_notice' ] );
-		add_action( 'admin_footer', [ $this, 'add_notice_script' ] );
+		add_action( 'admin_init', array( $this, 'add_notices' ) );
+		add_action( 'admin_notices', array( $this, 'output_notices' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_dismiss_notice', array( $this, 'dismiss_notice' ) );
+		add_action( 'admin_footer', array( $this, 'add_notice_script' ) );
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Notices {
 	public function add_notices() {
 		$is_outdated_pro = defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) && version_compare( WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION, '1.2.1', '<' );
 		if ( ! $is_outdated_pro ) {
-			$is_outdated_pro = function_exists( 'wc_serial_numbers_pro' ) && is_callable( [ WCSN_PRO(), 'get_version' ] ) && WCSN_PRO()->get_version() && version_compare( WCSN_PRO()->get_version(), '1.2.1', '<' );
+			$is_outdated_pro = function_exists( 'wc_serial_numbers_pro' ) && is_callable( array( 'wc_serial_numbers_pro', 'get_version' ) ) && wc_serial_numbers_pro()->get_version() && version_compare( wc_serial_numbers_pro()->get_version(), '1.2.1', '<' );
 		}
 		if ( $is_outdated_pro ) {
 			$this->notices[] = array(
@@ -47,7 +47,7 @@ class Notices {
 				'message' => sprintf(
 				/* translators: %1$s: link to the plugin page, %2$s: link to the plugin page */
 					__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.2.1 or higher.', 'wc-serial-numbers' ),
-					'<a href="' . esc_url( WCSN()->get_data( 'premium_url' ) ) . '" target="_blank">WooCommerce Serial Numbers Pro</a>'
+					'<a href="' . esc_url( WCSN()->get_data( 'premium_url' ) ) . '" target="_blank">WC Serial Numbers Pro</a>'
 				),
 			);
 		}
@@ -60,7 +60,7 @@ class Notices {
 				'id'          => 'wc_serial_numbers_upgrade_to_pro_wcsnpro10',
 				'message'     => sprintf(
 				/* translators: %1$s: link to the plugin page, %2$s: link to the plugin page */
-					__( 'New! Send Serial Keys via SMS with Twilio. Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s discount by using the promo code %2$s %3$s Upgrade Now %4$s.', 'wc-serial-numbers' ),
+					__( 'Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s discount by using the promo code %2$s. %3$s Upgrade Now%4$s.', 'wc-serial-numbers' ),
 					'<strong>10%</strong>',
 					'<strong>WCSNPRO10</strong>',
 					'<a href="' . esc_url( WCSN()->get_premium_url() ) . '" target="_blank">',

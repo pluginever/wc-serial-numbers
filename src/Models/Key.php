@@ -534,6 +534,7 @@ class Key extends Model {
 
 		return parent::save();
 	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Query Methods
@@ -760,7 +761,7 @@ class Key extends Model {
 
 		$expiry_date = strtotime( "+{$validity} days", strtotime( $order_date ) );
 
-		return date( 'Y-m-d H:i:s', $expiry_date );
+		return wp_date( 'Y-m-d H:i:s', $expiry_date );
 	}
 
 	/**
@@ -772,10 +773,8 @@ class Key extends Model {
 	 */
 	public function recount_remaining_activation() {
 		$count = $this->get_activations( array( 'count' => true ) );
-		if ( $count != $this->get_activation_count() ) {
-			$this->set_activation_count( $count );
-			$this->save();
-		}
+		$this->set_activation_count( $count );
+		$this->save();
 
 		return $count;
 	}
@@ -832,6 +831,8 @@ class Key extends Model {
 
 	/**
 	 * Display the serial key.
+	 *
+	 * @param bool $masked Whether to mask the key or not.
 	 *
 	 * @since 1.5.0
 	 * @return string

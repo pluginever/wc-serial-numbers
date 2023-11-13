@@ -28,15 +28,15 @@ class ListTable extends \WP_List_Table {
 	/**
 	 * Get a request var, or return the default if not set.
 	 *
-	 * @param string $var Request var name.
-	 * @param mixed  $default Default value.
+	 * @param string $param Request var name.
+	 * @param mixed  $fallback Default value.
 	 *
 	 * @since 1.4.6
 	 *
 	 * @return mixed Un-sanitized request var
 	 */
-	protected function get_request_var( $var = '', $default = false ) {
-		return isset( $_REQUEST[ $var ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $var ] ) ) : $default; // phpcs:ignore WordPress.Security.NonceVerification
+	protected function get_request_var( $param = '', $fallback = false ) {
+		return isset( $_REQUEST[ $param ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $param ] ) ) : $fallback; // phpcs:ignore WordPress.Security.NonceVerification
 	}
 
 	/**
@@ -202,17 +202,6 @@ class ListTable extends \WP_List_Table {
 	 * @since 1.4.6
 	 */
 	public function process_bulk_actions( $doaction ) {
-		if ( ! empty( $_GET['_wp_http_referer'] ) ) {
-			wp_redirect(
-				remove_query_arg(
-					array(
-						'_wp_http_referer',
-						'_wpnonce',
-					),
-					wp_unslash( $_SERVER['REQUEST_URI'] )
-				)
-			);
-			exit;
-		}
+		$referer = wp_get_referer();
 	}
 }

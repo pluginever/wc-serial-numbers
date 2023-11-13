@@ -42,73 +42,73 @@ class Settings extends Lib\Settings {
 		switch ( $tab ) {
 			case 'general':
 				$settings = array(
-					[
+					array(
 						'title' => __( 'General Settings', 'wc-serial-numbers' ),
 						'type'  => 'title',
-						'desc'  => __( 'These options determine the behavior and operation of the serial keys.', 'wc-serial-numbers' ),
+						'desc'  => __( 'These options determine the behavior and operation of the plugin.', 'wc-serial-numbers' ),
 						'id'    => 'section_serial_numbers',
-					],
-					[
+					),
+					array(
 						'title'   => __( 'Auto-complete orders', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_autocomplete_order',
 						'desc'    => __( 'Automatically completes orders after successful payments.', 'wc-serial-numbers' ),
 						'type'    => 'checkbox',
 						'default' => 'no',
-					],
-					[
-						'title'    => __( 'Reuse serial key', 'wc-serial-numbers' ),
+					),
+					array(
+						'title'    => __( 'Reuse keys', 'wc-serial-numbers' ),
 						'id'       => 'wc_serial_numbers_reuse_serial_number',
-						'desc'     => __( 'Recover failed, refunded serial keys for selling again.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'If you enable this option, the serial keys will be available for selling again if the order is refunded or failed.', 'wc-serial-numbers' ),
+						'desc'     => __( 'Recover failed, refunded keys for selling again.', 'wc-serial-numbers' ),
+						'desc_tip' => __( 'If you enable this option, the keys will be available for selling again if the order is refunded or failed.', 'wc-serial-numbers' ),
 						'type'     => 'checkbox',
 						'default'  => 'no',
-					],
+					),
 					// Revoke serial keys.
-					[
-						'title'    => __( 'Revoke serial keys', 'wc-serial-numbers' ),
+					array(
+						'title'    => __( 'Revoke keys', 'wc-serial-numbers' ),
 						'id'       => 'wc_serial_numbers_revoke_keys',
-						'desc'     => __( 'Revoke serial keys when the order status changes to cancelled or refunded.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'If you enable this option, the serial keys will be revoked when the order status changes to cancelled or refunded.', 'wc-serial-numbers' ),
+						'desc'     => __( 'Revoke keys when the order status changes to cancelled or refunded.', 'wc-serial-numbers' ),
+						'desc_tip' => __( 'If you enable this option, the keys will be revoked when the order status changes to cancelled or refunded.', 'wc-serial-numbers' ),
 						'type'     => 'checkbox',
 						'default'  => 'no',
-					],
-					[
-						'title'   => __( 'Hide serial key', 'wc-serial-numbers' ),
+					),
+					array(
+						'title'   => __( 'Hide keys', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_hide_serial_number',
-						'desc'    => __( 'Serial keys will be masked in the list table.', 'wc-serial-numbers' ),
+						'desc'    => __( 'Keys will be masked in the list table.', 'wc-serial-numbers' ),
 						'default' => 'yes',
 						'type'    => 'checkbox',
-					],
-					[
-						'title'   => __( 'Disable software support', 'wc-serial-numbers' ),
-						'id'      => 'wc_serial_numbers_disable_software_support',
-						'desc'    => __( 'Disable Software Licensing support & API functionalities.', 'wc-serial-numbers' ),
+					),
+					array(
+						'title'    => __( 'Disable software support', 'wc-serial-numbers' ),
+						'id'       => 'wc_serial_numbers_disable_software_support',
+						'desc'     => __( 'Disable Software Licensing support & API functionalities.', 'wc-serial-numbers' ),
 						'desc_tip' => __( 'If you enable this option, the activation menu and it’s functionality will be turned off.', 'wc-serial-numbers' ),
-						'default' => 'no',
-						'type'    => 'checkbox',
-					],
-					[
+						'default'  => 'no',
+						'type'     => 'checkbox',
+					),
+					array(
 						'type' => 'sectionend',
 						'id'   => 'section_serial_numbers',
-					],
-					[
+					),
+					array(
 						'title' => __( 'Stock Notification', 'wc-serial-numbers' ),
 						'type'  => 'title',
-						'desc'  => __( 'These options determine the operation of the serial key stock notification.', 'wc-serial-numbers' ),
+						'desc'  => __( 'These options determine the operation of the key\'s stock notification.', 'wc-serial-numbers' ),
 						'id'    => 'stock_section',
-					],
-					[
+					),
+					array(
 						'title'             => __( 'Stock notification email', 'wc-serial-numbers' ),
 						'id'                => 'wc_serial_numbers_enable_stock_notification',
-						'desc'              => __( 'Sends notification emails when product stock is low.', 'wc-serial-numbers' ),
+						'desc'              => __( 'Sends notification emails when key stock is low.', 'wc-serial-numbers' ),
 						'type'              => 'checkbox',
 						'sanitize_callback' => 'intval',
 						'default'           => 'yes',
-					],
+					),
 					array(
 						'title'   => __( 'Stock threshold', 'wc-serial-numbers' ),
 						'id'      => 'wc_serial_numbers_stock_threshold',
-						'desc'    => __( 'An email notification will be sent when the stock falls below the specified number.', 'wc-serial-numbers' ),
+						'desc'    => __( 'An email notification will be sent when the key stock falls below the specified number.', 'wc-serial-numbers' ),
 						'type'    => 'number',
 						'default' => '5',
 					),
@@ -119,10 +119,10 @@ class Settings extends Lib\Settings {
 						'type'    => 'text',
 						'default' => get_option( 'admin_email' ),
 					),
-					[
+					array(
 						'type' => 'sectionend',
 						'id'   => 'stock_section',
-					],
+					),
 				);
 				break;
 		}
@@ -149,17 +149,17 @@ class Settings extends Lib\Settings {
 			return;
 		}
 		$features = array(
-			__( 'Create and assign license keys for WooCommerce variable products.', 'wc-serial-numbers' ),
-			__( 'Generate bulk license keys with your custom key generator rule.', 'wc-serial-numbers' ),
+			__( 'Create and assign keys for WooCommerce variable products.', 'wc-serial-numbers' ),
+			__( 'Generate bulk keys with your custom key generator rule.', 'wc-serial-numbers' ),
 			__( 'Random & sequential key order for the generator rules.', 'wc-serial-numbers' ),
-			__( 'Automatic license key generator to auto-create & assign keys with orders.', 'wc-serial-numbers' ),
+			__( 'Automatic key generator to auto-create & assign keys with orders.', 'wc-serial-numbers' ),
 			__( 'License key management option from the order page with required actions.', 'wc-serial-numbers' ),
-			__( 'Support for bulk import/export of license keys from/to CSV.', 'wc-serial-numbers' ),
-			__( 'Send Serial Keys via SMS with Twilio.', 'wc-serial-numbers' ),
-			__( 'Option to sell license keys even if there are no available keys in the stock.', 'wc-serial-numbers' ),
+			__( 'Support for bulk import/export of keys from/to CSV.', 'wc-serial-numbers' ),
+			__( 'Send keys via SMS with Twilio.', 'wc-serial-numbers' ),
+			__( 'Option to sell keys even if there are no available keys in the stock.', 'wc-serial-numbers' ),
 			__( 'Custom deliverable quantity to deliver multiple keys with a single product.', 'wc-serial-numbers' ),
 			__( 'Manual delivery option to manually deliver license keys instead of automatic.', 'wc-serial-numbers' ),
-			__( 'Email Template to easily and quickly customize the order confirmation & low stock alert email.', 'wc-serial-numbers' ),
+			__( 'Email template to easily and quickly customize the order confirmation & low stock alert email.', 'wc-serial-numbers' ),
 			__( 'Many more ...', 'wc-serial-numbers' ),
 		);
 		?>
@@ -187,7 +187,7 @@ class Settings extends Lib\Settings {
 	public function output_tabs( $tabs ) {
 		parent::output_tabs( $tabs );
 		if ( WCSN()->get_docs_url() ) {
-			echo sprintf( '<a href="%s" class="nav-tab" target="_blank">%s</a>', WCSN()->get_docs_url(), __( 'Documentation', 'wc-serial-numbers' ) );
+			printf( '<a href="%s" class="nav-tab" target="_blank">%s</a>', esc_url( WCSN()->get_docs_url() ), esc_html__( 'Documentation', 'wc-serial-numbers' ) );
 		}
 	}
 }

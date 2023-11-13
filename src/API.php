@@ -21,6 +21,8 @@ class API {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+		// add query vars.
+		add_filter( 'query_vars', array( __CLASS__, 'add_query_vars' ), 0 );
 		add_action( 'woocommerce_api_serial-numbers-api', array( __CLASS__, 'process_request' ) );
 		add_action( 'wc_serial_numbers_api_action_check', array( __CLASS__, 'validate_key' ) );
 		add_action( 'wc_serial_numbers_api_action_validate', array( __CLASS__, 'validate_key' ) );
@@ -30,15 +32,35 @@ class API {
 	}
 
 	/**
+	 * Add query vars.
+	 *
+	 * @param array $vars Query vars.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	public static function add_query_vars( $vars ) {
+		$vars[] = 'product_id';
+		$vars[] = 'serial_key';
+		$vars[] = 'request';
+		$vars[] = 'email';
+		$vars[] = 'instance';
+		$vars[] = 'platform';
+
+		return $vars;
+	}
+
+	/**
 	 * Process request.
 	 *
 	 * @since 1.0.0
 	 */
 	public static function process_request() {
-		$product_id = isset( $_REQUEST['product_id'] ) ? absint( $_REQUEST['product_id'] ) : 0;
-		$key        = isset( $_REQUEST['serial_key'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['serial_key'] ) ) : '';
-		$action     = isset( $_REQUEST['request'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['request'] ) ) : '';
-		$email      = isset( $_REQUEST['email'] ) ? sanitize_email( wp_unslash( $_REQUEST['email'] ) ) : '';
+		$product_id = self::get_query_var( 'product_id', 'absint' );
+		$key        = self::get_query_var( 'serial_key' );
+		$action     = self::get_query_var( 'request' );
+		$email      = strtolower( self::get_query_var( 'email' ) );
 
 		WCSN()->log(
 			'API request',
@@ -131,7 +153,7 @@ class API {
 		}
 
 		// If email is provided, check if it is valid.
-		if ( ( $email || wcsn_is_duplicate_key_allowed() ) && $order->get_billing_email() !== $email ) {
+		if ( ( $email || wcsn_is_duplicate_key_allowed() ) && strtolower( $order->get_billing_email() ) !== $email ) {
 			wp_send_json_error(
 				array(
 					'code'    => 'invalid_email',
@@ -208,9 +230,9 @@ class API {
 	 * @since 1.0.0
 	 */
 	public static function activate_key( $serial_key ) {
-		$user_agent = ! empty( $_SERVER['HTTP_USER_AGENT'] ) ? md5( sanitize_textarea_field( $_SERVER['HTTP_USER_AGENT'] ) . time() ) : md5( time() );
-		$instance   = ! empty( $_REQUEST['instance'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['instance'] ) ) : $user_agent; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$platform   = ! empty( $_REQUEST['platform'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['platform'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$user_agent = ! empty( $_SERVER['HTTP_USER_AGENT'] ) ? md5( sanitize_textarea_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) . time() ) : md5( time() );
+		$instance   = self::get_query_var( 'instance', 'sanitize_text_field', $user_agent );
+		$platform   = self::get_query_var( 'platform' );
 
 		// Check if instance key is valid.
 		if ( empty( $instance ) ) {
@@ -311,7 +333,7 @@ class API {
 	 * @since 1.0.0
 	 */
 	public static function deactivate_key( $serial_key ) {
-		$instance = ! empty( $_REQUEST['instance'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['instance'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$instance = self::get_query_var( 'instance' );
 
 		// Check if instance key is valid.
 		if ( empty( $instance ) ) {
@@ -390,5 +412,25 @@ class API {
 				'version'    => get_post_meta( $serial_key->get_product_id(), '_software_version', true ),
 			)
 		);
+	}
+
+	/**
+	 * Get query var.
+	 *
+	 * @param string $key Query var key.
+	 * @param string $sanitize Sanitize method.
+	 * @param mixed  $fallback Fallback value.
+	 *
+	 * @since 1.0.0
+	 * @return mixed
+	 */
+	public static function get_query_var( $key, $sanitize = 'sanitize_text_field', $fallback = null ) {
+		global $wp;
+
+		if ( isset( $wp->query_vars[ $key ] ) ) {
+			return call_user_func( $sanitize, wp_unslash( $wp->query_vars[ $key ] ) );
+		}
+
+		return $fallback;
 	}
 }

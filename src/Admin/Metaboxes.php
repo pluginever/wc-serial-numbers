@@ -25,8 +25,11 @@ class Metaboxes {
 	}
 
 	/**
-	 * product
-	 * since 1.0.0
+	 * Add product data tab.
+	 *
+	 * @param array $tabs product data tabs.
+	 *
+	 * @return mixed
 	 */
 	public static function product_data_tab( $tabs ) {
 		$tabs['wc_serial_numbers'] = array(
@@ -46,13 +49,13 @@ class Metaboxes {
 		global $post, $woocommerce;
 		?>
 		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
-			 style="padding-bottom: 50px;display: none;">
+			style="padding-bottom: 50px;display: none;">
 			<?php
 			woocommerce_wp_checkbox(
 				array(
 					'id'            => '_is_serial_number',
-					'label'         => __( 'Sell serial keys', 'wc-serial-numbers' ),
-					'description'   => __( 'Enable this if you are selling serial keys for this product.', 'wc-serial-numbers' ),
+					'label'         => __( 'Sell keys', 'wc-serial-numbers' ),
+					'description'   => __( 'Enable this if you are selling keys or licensing this product.', 'wc-serial-numbers' ),
 					'value'         => get_post_meta( $post->ID, '_is_serial_number', true ),
 					'wrapper_class' => 'options_group',
 					'desc_tip'      => true,
@@ -66,7 +69,7 @@ class Metaboxes {
 					array(
 						'id'                => '_delivery_quantity',
 						'label'             => __( 'Delivery quantity', 'wc-serial-numbers' ),
-						'description'       => __( 'Number of serial key(s) will be delivered per item. Available in PRO.', 'wc-serial-numbers' ),
+						'description'       => __( 'Number of key(s) will be delivered per item. Available in PRO.', 'wc-serial-numbers' ),
 						'value'             => empty( $delivery_quantity ) ? 1 : $delivery_quantity,
 						'type'              => 'number',
 						'wrapper_class'     => 'options_group',
@@ -79,14 +82,14 @@ class Metaboxes {
 			);
 
 			$source  = get_post_meta( $post->ID, '_serial_key_source', true );
-			$sources = wc_serial_numbers_get_key_sources();
+			$sources = wcsn_get_key_sources();
 			if ( count( $sources ) > 1 ) {
 				woocommerce_wp_radio(
 					array(
 						'id'            => '_serial_key_source',
 						'name'          => '_serial_key_source',
 						'class'         => 'serial_key_source',
-						'label'         => __( 'Serial key source', 'wc-serial-numbers' ),
+						'label'         => __( 'Key source', 'wc-serial-numbers' ),
 						'value'         => empty( $source ) ? 'custom_source' : $source,
 						'wrapper_class' => 'options_group',
 						'options'       => $sources,
@@ -100,12 +103,12 @@ class Metaboxes {
 
 			do_action( 'wc_serial_numbers_simple_product_metabox', $post );
 
-			if ( ! wc_serial_numbers_software_support_disabled() ) {
+			if ( wcsn_is_software_support_enabled() ) {
 				woocommerce_wp_text_input(
 					array(
 						'id'            => '_software_version',
 						'label'         => __( 'Software version', 'wc-serial-numbers' ),
-						'description'   => __( 'Version number for the software. Ignore if it\'s not a software product.', 'wc-serial-numbers' ),
+						'description'   => __( 'Version number for the software. Ignore if it\'s not a software.', 'wc-serial-numbers' ),
 						'placeholder'   => __( 'e.g. 1.0', 'wc-serial-numbers' ),
 						'wrapper_class' => 'options_group',
 						'desc_tip'      => true,
@@ -115,14 +118,24 @@ class Metaboxes {
 			$stocks = wcsn_get_stocks_count();
 			$stock  = isset( $stocks[ $post->ID ] ) ? $stocks[ $post->ID ] : 0;
 
-			echo sprintf(
-				'<p class="wcsn-key-source-based-field form-field options_group" data-source="custom_source"><label>%s</label><span class="description">%d %s</span></p>',
-				__( 'Stock status', 'wc-serial-numbers' ),
-				$stock,
-				_n( 'serial key', 'serial keys', $stock, 'wc-serial-numbers' )
+			echo wp_kses_post(
+				sprintf(
+					'<p class="wcsn-key-source-based-field form-field options_group" data-source="custom_source"><label>%s</label><span class="description">%d %s</span></p>',
+					__( 'Key source', 'wc-serial-numbers' ),
+					$stock,
+					_n( 'key available.', 'keys available.', $stock, 'wc-serial-numbers' )
+				)
 			);
+
 			if ( ! WCSN()->is_premium_active() ) {
-				echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'Want serial keys to be generated automatically and auto assign with order and many more?', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
+				echo wp_kses_post(
+					sprintf(
+						'<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>',
+						__( 'Want to sell keys for variable products?', 'wc-serial-numbers' ),
+						'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro',
+						__( 'Upgrade to Pro', 'wc-serial-numbers' ),
+					)
+				);
 			}
 			?>
 		</div>
@@ -132,18 +145,19 @@ class Metaboxes {
 	/**
 	 * Show promo box.
 	 *
-	 * @param $variation_data
-	 * @param $variation
-	 *
-	 * @param $loop
-	 *
 	 * @since 1.2.0
 	 */
-	public static function variable_product_content( $loop, $variation_data, $variation ) {
+	public static function variable_product_content() {
 		if ( ! WCSN()->is_premium_active() ) {
-			echo sprintf( '<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>', __( 'The free version of Serial Numbers for WooCommerce does not support product variation.', 'wc-serial-numbers' ), 'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro', __( 'Upgrade to Pro', 'wc-serial-numbers' ) );
+			echo wp_kses_post(
+				sprintf(
+					'<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>',
+					__( 'The free version of Serial Numbers for WooCommerce does not support product variation.', 'wc-serial-numbers' ),
+					'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro',
+					__( 'Upgrade to Pro', 'wc-serial-numbers' )
+				)
+			);
 		}
-
 	}
 
 	/**
@@ -151,13 +165,17 @@ class Metaboxes {
 	 */
 	public static function product_save_data() {
 		global $post;
+		if ( ! isset( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ), 'woocommerce_save_data' ) ) {
+			return;
+		}
 		$status = isset( $_POST['_is_serial_number'] ) ? 'yes' : 'no';
-		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( $_POST['_serial_key_source'] ) : 'custom_source';
+		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( wp_unslash( $_POST['_serial_key_source'] ) ) : 'custom_source';
 		update_post_meta( $post->ID, '_is_serial_number', $status );
 		update_post_meta( $post->ID, '_serial_key_source', $source );
-		// save only if software licensing enabled
-		if ( ! wc_serial_numbers_software_support_disabled() ) {
-			update_post_meta( $post->ID, '_software_version', ! empty( $_POST['_software_version'] ) ? sanitize_text_field( $_POST['_software_version'] ) : '' );
+		// save only if software licensing enabled.
+		if ( wcsn_is_software_support_enabled() ) {
+			$software_version = isset( $_POST['_software_version'] ) ? sanitize_text_field( wp_unslash( $_POST['_software_version'] ) ) : '';
+			update_post_meta( $post->ID, '_software_version', $software_version );
 		}
 
 		do_action( 'wcsn_save_simple_product_meta', $post );
@@ -165,42 +183,40 @@ class Metaboxes {
 
 
 	/**
+	 * Display serial numbers in order item meta.
 	 *
-	 * @param $o_item
-	 * @param $product
-	 *
-	 * @param $o_item_id
+	 * @param int            $o_item_id order item id.
+	 * @param \WC_Order_Item $o_item order item object.
+	 * @param \WC_Product    $product product object.
 	 *
 	 * @since 1.1.6
 	 *
-	 * @return bool|string
+	 * @return void
 	 */
 	public function order_itemmeta( $o_item_id, $o_item, $product ) {
 		global $post;
 		if ( ! is_object( $post ) || ! isset( $post->ID ) ) {
-			return false;
+			return;
 		}
 
 		$order = wc_get_order( $post->ID );
 
-		// bail for no order
+		// bail for no order.
 		if ( ! $order ) {
-			return false;
+			return;
 		}
 
 		if ( 'completed' !== $order->get_status( 'edit' ) ) {
-			return '';
+			return;
 		}
 
-		// if this is not product then no need to process
+		// if this is not product then no need to process.
 		if ( empty( $product ) ) {
-			return false;
+			return;
 		}
 
-		$is_serial_product = 'yes' == get_post_meta( $product->get_id(), '_is_serial_number', true );
-
-		if ( ! $is_serial_product ) {
-			return false;
+		if ( 'yes' !== get_post_meta( $product->get_id(), '_is_serial_number', true ) ) {
+			return;
 		}
 
 		$items = wcsn_get_keys(
@@ -211,22 +227,28 @@ class Metaboxes {
 		);
 
 		if ( empty( $items ) && $order ) {
-			echo sprintf( '<div class="wcsn-missing-serial-number">%s</div>', __( 'Order missing serial numbers for this item.', 'wc-serial-numbers' ) );
-
-			return true;
+			echo wp_kses_post(
+				sprintf(
+					'<div class="wcsn-missing-serial-number">%s</div>',
+					__( 'Order missing serial numbers for this item.', 'wc-serial-numbers' )
+				)
+			);
+			return;
 		}
 
 		$url = admin_url( 'admin.php?page=wc-serial-numbers' );
-		echo sprintf(
+		printf(
 			'<br/><a href="%s">%s&rarr;</a>',
-			add_query_arg(
-				[
-					'order_id'   => $post->ID,
-					'product_id' => $product->get_id(),
-				],
-				$url
+			esc_url(
+				add_query_arg(
+					array(
+						'order_id'   => $post->ID,
+						'product_id' => $product->get_id(),
+					),
+					$url
+				)
 			),
-			__( 'Serial Numbers', 'wc-serial-numbers' )
+			esc_html__( 'Serial Numbers', 'wc-serial-numbers' )
 		);
 
 		$url = admin_url( 'admin.php?page=wc-serial-numbers' );
@@ -237,15 +259,19 @@ class Metaboxes {
 			$li .= sprintf(
 				'<li><a href="%s">&rarr;</a>&nbsp;%s</li>',
 				add_query_arg(
-					[
+					array(
 						'edit' => $item->id,
-					],
+					),
 					$url
 				),
-				wc_serial_numbers_decrypt_key( $item->serial_key )
+				wcsn_decrypt_key( $item->serial_key )
 			);
 		}
-
-		echo sprintf( '<ul>%s</ul>', $li );
+		echo wp_kses_post(
+			sprintf(
+				'<ul>%s</ul>',
+				$li
+			)
+		);
 	}
 }

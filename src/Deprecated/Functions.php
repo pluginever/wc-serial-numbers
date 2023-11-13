@@ -1,4 +1,6 @@
 <?php
+// phpcs:ignoreFile Generic.Commenting.DocComment.MissingShort
+
 /**
  * Deprecated functions.
  *
@@ -7,9 +9,6 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-
-require_once dirname( __FILE__ ) . '/class-encryption.php';
-require_once dirname( __FILE__ ) . '/class-query.php';
 
 /**
  * Get manager role.
@@ -414,7 +413,7 @@ function wc_serial_numbers_get_order_table( $order, $return = false ) {
  */
 function wc_serial_numbers_control_order_table_columns( $columns ) {
 	if ( wc_serial_numbers_software_support_disabled() ) {
-		$software_columns = [ 'activation_email', 'activation_limit', 'expire_date' ];
+		$software_columns = array( 'activation_email', 'activation_limit', 'expire_date' );
 		foreach ( $columns as $key => $label ) {
 			if ( in_array( $key, $software_columns ) ) {
 				unset( $columns[ $key ] );
