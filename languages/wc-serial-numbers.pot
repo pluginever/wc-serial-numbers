@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.6.5\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.6.6\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2023-10-25 10:44:49+00:00\n"
+"POT-Creation-Date: 2023-11-13 14:10:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -217,12 +217,12 @@ msgstr ""
 
 #: src/Admin/Admin.php:141 src/Admin/Menus.php:52 src/Admin/Menus.php:87
 #: src/Admin/Menus.php:88 src/Admin/Menus.php:429 src/Admin/Metaboxes.php:36
-#: src/Admin/Metaboxes.php:248 src/Functions/Template.php:226
+#: src/Admin/Metaboxes.php:251 src/Functions/Template.php:226
 msgid "Serial Numbers"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:39
-#: src/Admin/ListTables/KeysTable.php:355
+#: src/Admin/ListTables/KeysTable.php:356
 msgid "Activation"
 msgstr ""
 
@@ -236,15 +236,15 @@ msgid "No activations found. Once a serial key is activated, it will appear here
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:113
-#: src/Admin/ListTables/KeysTable.php:279
+#: src/Admin/ListTables/KeysTable.php:280
 #: src/Admin/ListTables/StockTable.php:82
 msgid "Filter"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:165
 #: src/Admin/ListTables/ActivationsTable.php:240
-#: src/Admin/ListTables/KeysTable.php:335
-#: src/Admin/ListTables/KeysTable.php:427 src/Admin/views/html-edit-key.php:130
+#: src/Admin/ListTables/KeysTable.php:336
+#: src/Admin/ListTables/KeysTable.php:428 src/Admin/views/html-edit-key.php:130
 msgid "Delete"
 msgstr ""
 
@@ -254,7 +254,7 @@ msgid "Instance"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:178
-#: src/Admin/ListTables/KeysTable.php:349
+#: src/Admin/ListTables/KeysTable.php:350
 #: src/Admin/ListTables/StockTable.php:95 src/Admin/views/html-add-key.php:33
 #: src/Admin/views/html-api-actions.php:118
 #: src/Admin/views/html-api-validation.php:121
@@ -264,7 +264,7 @@ msgid "Product"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:179
-#: src/Admin/ListTables/KeysTable.php:348 src/Admin/Orders.php:192
+#: src/Admin/ListTables/KeysTable.php:349 src/Admin/Orders.php:192
 #: src/Admin/views/html-api-actions.php:131
 #: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
 #: src/functions.php:1009
@@ -288,136 +288,136 @@ msgstr ""
 msgid "keys"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:169
+#: src/Admin/ListTables/KeysTable.php:170
 msgid "No keys found."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:169
+#: src/Admin/ListTables/KeysTable.php:170
 msgid "Add new key"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:173
+#: src/Admin/ListTables/KeysTable.php:174
 msgid "Keys can have one of the following statuses:"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:177
-#: src/Admin/ListTables/KeysTable.php:233 src/functions.php:46
+#: src/Admin/ListTables/KeysTable.php:178
+#: src/Admin/ListTables/KeysTable.php:234 src/functions.php:46
 msgid "Available"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:179
+#: src/Admin/ListTables/KeysTable.php:180
 msgid "This means the key is available for purchase."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:182
-#: src/Admin/ListTables/KeysTable.php:240 src/functions.php:47
+#: src/Admin/ListTables/KeysTable.php:183
+#: src/Admin/ListTables/KeysTable.php:241 src/functions.php:47
 msgid "Pending"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:184
+#: src/Admin/ListTables/KeysTable.php:185
 msgid "This means the key has been sold, but the order has not been completed yet."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:187
-#: src/Admin/ListTables/KeysTable.php:247
+#: src/Admin/ListTables/KeysTable.php:188
+#: src/Admin/ListTables/KeysTable.php:248
 #: src/Admin/ListTables/StockTable.php:97 src/functions.php:48
 msgid "Sold"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:189
+#: src/Admin/ListTables/KeysTable.php:190
 msgid "This means the key has been sold, and the order has been completed."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:192
-#: src/Admin/ListTables/KeysTable.php:254 src/Functions/Template.php:72
+#: src/Admin/ListTables/KeysTable.php:193
+#: src/Admin/ListTables/KeysTable.php:255 src/Functions/Template.php:72
 #: src/functions.php:49
 msgid "Expired"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:194
+#: src/Admin/ListTables/KeysTable.php:195
 msgid "This means the key has expired and is no longer valid."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:197
-#: src/Admin/ListTables/KeysTable.php:261 src/functions.php:50
+#: src/Admin/ListTables/KeysTable.php:198
+#: src/Admin/ListTables/KeysTable.php:262 src/functions.php:50
 msgid "Cancelled"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:199
+#: src/Admin/ListTables/KeysTable.php:200
 msgid ""
 "This means the key has been cancelled and is no longer available for "
 "purchase or use."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:224
+#: src/Admin/ListTables/KeysTable.php:225
 msgid "All keys."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:226
+#: src/Admin/ListTables/KeysTable.php:227
 msgid "All"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:231
+#: src/Admin/ListTables/KeysTable.php:232
 msgid "Available for sell."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:238
+#: src/Admin/ListTables/KeysTable.php:239
 msgid "Pending payment."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:245
+#: src/Admin/ListTables/KeysTable.php:246
 msgid "Sold keys."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:252
+#: src/Admin/ListTables/KeysTable.php:253
 msgid "Expired keys."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:259
+#: src/Admin/ListTables/KeysTable.php:260
 msgid "Cancelled keys."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:336
+#: src/Admin/ListTables/KeysTable.php:337
 msgid "Reset Activations"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:350 src/Admin/views/html-add-key.php:120
+#: src/Admin/ListTables/KeysTable.php:351 src/Admin/views/html-add-key.php:120
 msgid "Order"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:351
+#: src/Admin/ListTables/KeysTable.php:352
 msgid "Validity"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:358
+#: src/Admin/ListTables/KeysTable.php:359
 msgid "Order Date"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:359 src/Admin/Menus.php:316
+#: src/Admin/ListTables/KeysTable.php:360 src/Admin/Menus.php:316
 #: src/Admin/Orders.php:204 src/Admin/views/html-add-key.php:91
 #: src/Admin/views/html-edit-key.php:92 src/Functions/Template.php:78
 #: src/functions.php:1034
 msgid "Status"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:425
+#: src/Admin/ListTables/KeysTable.php:426
 #. translators: %d: key id.
 msgid "ID: %d"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:426
+#: src/Admin/ListTables/KeysTable.php:427
 #: src/Admin/ListTables/StockTable.php:143
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:521
+#: src/Admin/ListTables/KeysTable.php:522
 #. translators: %1$s: validity, %2$s: validity.
 msgid "<b>%s</b> Day <br><small>After purchase</small>"
 msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/ListTables/KeysTable.php:531 src/Admin/Orders.php:197
+#: src/Admin/ListTables/KeysTable.php:532 src/Admin/Orders.php:197
 #: src/Functions/Template.php:63 src/functions.php:1030
 msgid "Lifetime"
 msgstr ""
@@ -596,7 +596,7 @@ msgid ""
 "variation."
 msgstr ""
 
-#: src/Admin/Metaboxes.php:230
+#: src/Admin/Metaboxes.php:233
 msgid "Order missing serial numbers for this item."
 msgstr ""
 

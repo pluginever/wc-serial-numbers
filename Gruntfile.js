@@ -64,7 +64,7 @@ module.exports = function( grunt ) {
 				target: {
 					options: {
 						domainPath: 'languages',
-						exclude: [ 'packages/*', '.git/*', 'node_modules/*', 'tests/*' ],
+						exclude: [ 'packages/*', '.git/*', 'node_modules/*', 'tests/*', 'vendor/*' ],
 						mainFile: '<%= package.name %>.php',
 						potFilename: '<%= package.name %>.pot',
 						potHeaders: {
