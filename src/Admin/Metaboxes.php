@@ -82,7 +82,7 @@ class Metaboxes {
 			);
 
 			$source  = get_post_meta( $post->ID, '_serial_key_source', true );
-			$sources = wc_serial_numbers_get_key_sources();
+			$sources = wcsn_get_key_sources();
 			if ( count( $sources ) > 1 ) {
 				woocommerce_wp_radio(
 					array(
@@ -165,6 +165,9 @@ class Metaboxes {
 	 */
 	public static function product_save_data() {
 		global $post;
+		if ( ! isset( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ), 'woocommerce_save_data' ) ) {
+			return;
+		}
 		$status = isset( $_POST['_is_serial_number'] ) ? 'yes' : 'no';
 		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( wp_unslash( $_POST['_serial_key_source'] ) ) : 'custom_source';
 		update_post_meta( $post->ID, '_is_serial_number', $status );

@@ -1,4 +1,4 @@
-=== WC Serial Numbers - Ultimate License Manager Plugin for Selling, Licensing & Securely Delivering Digital Products with WooCommerce ===
+=== WC Serial Numbers - Ultimate License Manager for Selling, Licensing & Securely Delivering Digital Products with WooCommerce ===
 Contributors: pluginever, manikmist09, b-07
 Tags: license manager, license, license number, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code, digital, digital downloads, digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, digital product license, virtual product key, virtual product license, subscription product license, license key generator, woocommerce, woocommerce license manager, woocommerce key, sell code
 Requires at least: 5.0
