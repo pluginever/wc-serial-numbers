@@ -4,7 +4,7 @@ Tags: license manager, license, license number, serial number, activation number
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 1.6.7
+Stable tag: 1.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.6.8 (18 Feb 2024) =
+* Fix: Compatibility with WooCommerce 8.6
+
 = 1.6.7 (23 Jan 2024) =
 * Fix: Compatibility with WooCommerce 8.5
 
