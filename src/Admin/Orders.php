@@ -23,12 +23,19 @@ class Orders {
 		// handle custom order action.
 		add_action( 'woocommerce_order_action_wcsn_add_keys', array( $this, 'handle_order_action' ) );
 		add_action( 'woocommerce_order_action_wcsn_remove_keys', array( $this, 'handle_order_action' ) );
+
 		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_serial_column' ) );
 		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'add_order_serial_column_content' ), 20, 2 );
+		// HPOS compatibility action.
+		add_filter( 'manage_woocommerce_page_wc-orders_columns', array( __CLASS__, 'add_order_serial_column' ), 20 );
+		add_action( 'manage_woocommerce_page_wc-orders_custom_column', array( __CLASS__, 'hpos_add_order_serial_column_content' ), 20, 2 );
 
 		// Add order bulk action.
 		add_filter( 'bulk_actions-edit-shop_order', array( $this, 'add_order_bulk_action' ) );
 		add_filter( 'handle_bulk_actions-edit-shop_order', array( $this, 'handle_order_bulk_action' ), 10, 3 );
+		// HPOS compatibility filter.
+		add_filter( 'bulk_actions-woocommerce_page_wc-orders', array( $this, 'add_order_bulk_action' ) );
+		add_filter( 'handle_bulk_actions-woocommerce_page_wc-orders', array( $this, 'handle_order_bulk_action' ), 10, 3 );
 
 		// Display order keys in order details.
 		add_action( 'woocommerce_after_order_itemmeta', array( __CLASS__, 'display_order_item_meta' ), 10, 3 );
@@ -80,8 +87,8 @@ class Orders {
 	 * @return array|string[]
 	 */
 	public static function add_order_serial_column( $columns ) {
-		$postition = 3;
-		$new       = array_slice( $columns, 0, $postition, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $postition, count( $columns ) - $postition, true );
+		$position = 3;
+		$new      = array_slice( $columns, 0, $position, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $position, count( $columns ) - $position, true );
 
 		return $new;
 	}
@@ -95,7 +102,41 @@ class Orders {
 	 * @since 1.2.0
 	 */
 	public static function add_order_serial_column_content( $column, $order_id ) {
+
 		$order_status = wc_get_order( $order_id )->get_status();
+
+		if ( 'order_serials' === $column ) {
+			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, array( 'completed', 'processing' ), true ) ) {
+				echo '&mdash;';
+			} else {
+				if ( wcsn_order_is_fullfilled( $order_id ) ) {
+					$style = 'color:green';
+					$title = __( 'Order is fullfilled.', 'wc-serial-numbers' );
+				} else {
+					$style = 'color:red';
+					$title = __( 'Order is not fullfilled.', 'wc-serial-numbers' );
+				}
+				$url = add_query_arg( array( 'order_id' => $order_id ), admin_url( 'admin.php?page=wc-serial-numbers' ) );
+				printf( '<a href="%s" title="%s"><span class="dashicons dashicons-lock" style="%s"></span></a>', esc_url( $url ), esc_html( $title ), esc_attr( $style ) );
+			}
+		}
+	}
+
+	/**
+	 * HPOS Add order serial column content.
+	 *
+	 * @param string $column Column name.
+	 * @param int    $order_id Order ID.
+	 *
+	 * @since 1.6.9
+	 */
+	public static function hpos_add_order_serial_column_content( $column, $order_id ) {
+
+		$order = wc_get_order( $order_id );
+
+		$order_id     = $order->get_id();
+		$order_status = $order->get_status();
+
 		if ( 'order_serials' === $column ) {
 			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, array( 'completed', 'processing' ), true ) ) {
 				echo '&mdash;';

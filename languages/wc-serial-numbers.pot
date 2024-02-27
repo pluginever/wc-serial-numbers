@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serial Numbers for WooCommerce 1.6.8\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2024-02-18 07:28:26+00:00\n"
+"POT-Creation-Date: 2024-02-27 08:39:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -57,33 +57,31 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/Lib/Settings.php:96
+#: lib/Lib/Settings.php:97
 msgid "Settings saved."
 msgstr ""
 
-#: lib/Lib/Settings.php:310 lib/Lib/Settings.php:398 lib/Lib/Settings.php:406
-#: lib/Lib/Settings.php:414
+#: lib/Lib/Settings.php:236 lib/Lib/Settings.php:324
 msgid "Recommended"
 msgstr ""
 
-#: lib/Lib/Settings.php:311 lib/Lib/Settings.php:399 lib/Lib/Settings.php:407
-#: lib/Lib/Settings.php:415
+#: lib/Lib/Settings.php:237 lib/Lib/Settings.php:325
 msgid "Install Now"
 msgstr ""
 
-#: lib/Lib/Settings.php:370
+#: lib/Lib/Settings.php:296
 msgid "Need Help?"
 msgstr ""
 
-#: lib/Lib/Settings.php:429
+#: lib/Lib/Settings.php:339
 msgid "Join our Community"
 msgstr ""
 
-#: lib/Lib/Settings.php:433
+#: lib/Lib/Settings.php:343
 msgid "Request a Feature"
 msgstr ""
 
-#: lib/Lib/Settings.php:437
+#: lib/Lib/Settings.php:347
 msgid "Report a Bug"
 msgstr ""
 
@@ -264,7 +262,7 @@ msgid "Product"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:179
-#: src/Admin/ListTables/KeysTable.php:349 src/Admin/Orders.php:192
+#: src/Admin/ListTables/KeysTable.php:349 src/Admin/Orders.php:233
 #: src/Admin/views/html-api-actions.php:131
 #: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
 #: src/functions.php:1009
@@ -394,7 +392,7 @@ msgid "Order Date"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:360 src/Admin/Menus.php:316
-#: src/Admin/Orders.php:204 src/Admin/views/html-add-key.php:91
+#: src/Admin/Orders.php:245 src/Admin/views/html-add-key.php:91
 #: src/Admin/views/html-edit-key.php:92 src/Functions/Template.php:78
 #: src/functions.php:1034
 msgid "Status"
@@ -417,7 +415,7 @@ msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/ListTables/KeysTable.php:532 src/Admin/Orders.php:197
+#: src/Admin/ListTables/KeysTable.php:532 src/Admin/Orders.php:238
 #: src/Functions/Template.php:63 src/functions.php:1030
 msgid "Lifetime"
 msgstr ""
@@ -614,53 +612,53 @@ msgid ""
 "discount by using the promo code %2$s. %3$s Upgrade Now%4$s."
 msgstr ""
 
-#: src/Admin/Orders.php:46 src/Admin/Orders.php:125
+#: src/Admin/Orders.php:53 src/Admin/Orders.php:166
 msgid "Add serial keys"
 msgstr ""
 
-#: src/Admin/Orders.php:47 src/Admin/Orders.php:126
+#: src/Admin/Orders.php:54 src/Admin/Orders.php:167
 msgid "Remove serial keys"
 msgstr ""
 
-#: src/Admin/Orders.php:66
+#: src/Admin/Orders.php:73
 msgid "Serial keys added successfully to the order."
 msgstr ""
 
-#: src/Admin/Orders.php:70
+#: src/Admin/Orders.php:77
 msgid "Serial keys removed successfully from the order."
 msgstr ""
 
-#: src/Admin/Orders.php:105
+#: src/Admin/Orders.php:114 src/Admin/Orders.php:146
 msgid "Order is fullfilled."
 msgstr ""
 
-#: src/Admin/Orders.php:108
+#: src/Admin/Orders.php:117 src/Admin/Orders.php:149
 msgid "Order is not fullfilled."
 msgstr ""
 
-#: src/Admin/Orders.php:154
+#: src/Admin/Orders.php:195
 #. Translators: %d: number of orders.
 msgid "%d orders updated successfully."
 msgstr ""
 
-#: src/Admin/Orders.php:187
+#: src/Admin/Orders.php:228
 msgid "Serial keys sold with this product:"
 msgstr ""
 
-#: src/Admin/Orders.php:196
+#: src/Admin/Orders.php:237
 msgid "Expire date"
 msgstr ""
 
-#: src/Admin/Orders.php:200 src/Admin/views/html-add-key.php:65
+#: src/Admin/Orders.php:241 src/Admin/views/html-add-key.php:65
 #: src/Admin/views/html-edit-key.php:67
 msgid "Activation limit"
 msgstr ""
 
-#: src/Admin/Orders.php:201
+#: src/Admin/Orders.php:242
 msgid "Unlimited"
 msgstr ""
 
-#: src/Admin/Orders.php:231
+#: src/Admin/Orders.php:272
 #. translators: %s is the item number.
 msgid "View Details"
 msgstr ""
