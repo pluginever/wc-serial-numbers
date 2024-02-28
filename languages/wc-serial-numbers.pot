@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.6.8\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.6.9\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2024-02-27 08:39:16+00:00\n"
+"POT-Creation-Date: 2024-02-28 13:50:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -57,31 +57,33 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/Lib/Settings.php:97
+#: lib/Lib/Settings.php:96
 msgid "Settings saved."
 msgstr ""
 
-#: lib/Lib/Settings.php:236 lib/Lib/Settings.php:324
+#: lib/Lib/Settings.php:310 lib/Lib/Settings.php:398 lib/Lib/Settings.php:406
+#: lib/Lib/Settings.php:414
 msgid "Recommended"
 msgstr ""
 
-#: lib/Lib/Settings.php:237 lib/Lib/Settings.php:325
+#: lib/Lib/Settings.php:311 lib/Lib/Settings.php:399 lib/Lib/Settings.php:407
+#: lib/Lib/Settings.php:415
 msgid "Install Now"
 msgstr ""
 
-#: lib/Lib/Settings.php:296
+#: lib/Lib/Settings.php:370
 msgid "Need Help?"
 msgstr ""
 
-#: lib/Lib/Settings.php:339
+#: lib/Lib/Settings.php:429
 msgid "Join our Community"
 msgstr ""
 
-#: lib/Lib/Settings.php:343
+#: lib/Lib/Settings.php:433
 msgid "Request a Feature"
 msgstr ""
 
-#: lib/Lib/Settings.php:347
+#: lib/Lib/Settings.php:437
 msgid "Report a Bug"
 msgstr ""
 
