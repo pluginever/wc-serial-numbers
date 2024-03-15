@@ -125,8 +125,7 @@ class ActivationsTable extends ListTable {
 	public function process_bulk_actions( $doaction ) {
 		if ( $doaction && check_ajax_referer( 'bulk-activations' ) ) {
 			if ( isset( $_REQUEST['id'] ) ) {
-				$ids      = wp_parse_id_list( wp_unslash( $_REQUEST['id'] ) );
-				$doaction = ( - 1 !== $_REQUEST['action'] ) ? $_REQUEST['action'] : $_REQUEST['action2']; // phpcs:ignore
+				$ids = wp_parse_id_list( wp_unslash( $_REQUEST['id'] ) );
 			} elseif ( isset( $_REQUEST['ids'] ) ) {
 				$ids = array_map( 'absint', $_REQUEST['ids'] );
 			} elseif ( wp_get_referer() ) {

@@ -4,7 +4,7 @@ Tags: license manager, license, license number, serial number, activation number
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 1.6.9
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,12 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.7.1 (15 Mar 2024) =
+* Fix: Few known issues fixed.
+
+= 1.7.0 (7 Mar 2024) =
+* Fix: Few known issues fixed.
+
 = 1.6.9 (28 Feb 2024) =
 * Fix: The keys column is missing on the order table.
 * Fix: Add serial keys, Remove serial keys actions missing on the order table.

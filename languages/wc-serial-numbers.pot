@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.6.9\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.7.0\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2024-02-28 13:50:15+00:00\n"
+"POT-Creation-Date: 2024-03-13 12:51:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -57,114 +57,32 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/Lib/Settings.php:96
+#: lib/Lib/Settings.php:97
 msgid "Settings saved."
 msgstr ""
 
-#: lib/Lib/Settings.php:310 lib/Lib/Settings.php:398 lib/Lib/Settings.php:406
-#: lib/Lib/Settings.php:414
+#: lib/Lib/Settings.php:236 lib/Lib/Settings.php:324
 msgid "Recommended"
 msgstr ""
 
-#: lib/Lib/Settings.php:311 lib/Lib/Settings.php:399 lib/Lib/Settings.php:407
-#: lib/Lib/Settings.php:415
+#: lib/Lib/Settings.php:237 lib/Lib/Settings.php:325
 msgid "Install Now"
 msgstr ""
 
-#: lib/Lib/Settings.php:370
+#: lib/Lib/Settings.php:296
 msgid "Need Help?"
 msgstr ""
 
-#: lib/Lib/Settings.php:429
+#: lib/Lib/Settings.php:339
 msgid "Join our Community"
 msgstr ""
 
-#: lib/Lib/Settings.php:433
+#: lib/Lib/Settings.php:343
 msgid "Request a Feature"
 msgstr ""
 
-#: lib/Lib/Settings.php:437
+#: lib/Lib/Settings.php:347
 msgid "Report a Bug"
-msgstr ""
-
-#: src/API.php:82
-msgid "Invalid action."
-msgstr ""
-
-#: src/API.php:93
-msgid "Invalid product ID."
-msgstr ""
-
-#: src/API.php:103 src/Models/Key.php:494
-msgid "Serial key is required."
-msgstr ""
-
-#: src/API.php:119
-msgid "Serial key is invalid."
-msgstr ""
-
-#: src/API.php:129
-msgid "Serial key is not authorized to use."
-msgstr ""
-
-#: src/API.php:140
-msgid "Please complete your order to activate the serial key."
-msgstr ""
-
-#: src/API.php:150
-msgid "Serial key is not valid for this product."
-msgstr ""
-
-#: src/API.php:160
-msgid "Invalid email address."
-msgstr ""
-
-#: src/API.php:170
-msgid "Serial key is expired."
-msgstr ""
-
-#: src/API.php:177
-msgid "Serial key is cancelled."
-msgstr ""
-
-#: src/API.php:184
-msgid "Invalid serial key."
-msgstr ""
-
-#: src/API.php:203
-msgid "Serial key is valid."
-msgstr ""
-
-#: src/API.php:242 src/API.php:343
-msgid "Instance is  missing, You must provide an instance to deactivate license"
-msgstr ""
-
-#: src/API.php:258
-msgid "Instance is already activated."
-msgstr ""
-
-#: src/API.php:268
-msgid "Activation limit reached"
-msgstr ""
-
-#: src/API.php:295
-msgid "Activation failed."
-msgstr ""
-
-#: src/API.php:304
-msgid "Serial key is activated."
-msgstr ""
-
-#: src/API.php:359
-msgid "Instance is not activated."
-msgstr ""
-
-#: src/API.php:369
-msgid "Deactivation failed."
-msgstr ""
-
-#: src/API.php:378
-msgid "Serial key is deactivated."
 msgstr ""
 
 #: src/Admin/Actions.php:222
@@ -222,7 +140,7 @@ msgid "Serial Numbers"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:39
-#: src/Admin/ListTables/KeysTable.php:356
+#: src/Admin/ListTables/KeysTable.php:355
 msgid "Activation"
 msgstr ""
 
@@ -241,20 +159,20 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: src/Admin/ListTables/ActivationsTable.php:165
-#: src/Admin/ListTables/ActivationsTable.php:240
-#: src/Admin/ListTables/KeysTable.php:336
-#: src/Admin/ListTables/KeysTable.php:428 src/Admin/views/html-edit-key.php:130
+#: src/Admin/ListTables/ActivationsTable.php:164
+#: src/Admin/ListTables/ActivationsTable.php:239
+#: src/Admin/ListTables/KeysTable.php:335
+#: src/Admin/ListTables/KeysTable.php:427 src/Admin/views/html-edit-key.php:130
 msgid "Delete"
 msgstr ""
 
-#: src/Admin/ListTables/ActivationsTable.php:177
+#: src/Admin/ListTables/ActivationsTable.php:176
 #: src/Admin/views/html-api-actions.php:141 src/Frontend/Shortcodes.php:142
 msgid "Instance"
 msgstr ""
 
-#: src/Admin/ListTables/ActivationsTable.php:178
-#: src/Admin/ListTables/KeysTable.php:350
+#: src/Admin/ListTables/ActivationsTable.php:177
+#: src/Admin/ListTables/KeysTable.php:349
 #: src/Admin/ListTables/StockTable.php:95 src/Admin/views/html-add-key.php:33
 #: src/Admin/views/html-api-actions.php:118
 #: src/Admin/views/html-api-validation.php:121
@@ -263,20 +181,20 @@ msgstr ""
 msgid "Product"
 msgstr ""
 
-#: src/Admin/ListTables/ActivationsTable.php:179
-#: src/Admin/ListTables/KeysTable.php:349 src/Admin/Orders.php:233
+#: src/Admin/ListTables/ActivationsTable.php:178
+#: src/Admin/ListTables/KeysTable.php:348 src/Admin/Orders.php:233
 #: src/Admin/views/html-api-actions.php:131
 #: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
 #: src/functions.php:1009
 msgid "Key"
 msgstr ""
 
-#: src/Admin/ListTables/ActivationsTable.php:180
+#: src/Admin/ListTables/ActivationsTable.php:179
 #: src/Admin/views/html-api-actions.php:152 src/Frontend/Shortcodes.php:144
 msgid "Platform"
 msgstr ""
 
-#: src/Admin/ListTables/ActivationsTable.php:181
+#: src/Admin/ListTables/ActivationsTable.php:180
 msgid "Activation Time"
 msgstr ""
 
@@ -377,47 +295,47 @@ msgstr ""
 msgid "Cancelled keys."
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:337
+#: src/Admin/ListTables/KeysTable.php:336
 msgid "Reset Activations"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:351 src/Admin/views/html-add-key.php:120
+#: src/Admin/ListTables/KeysTable.php:350 src/Admin/views/html-add-key.php:120
 msgid "Order"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:352
+#: src/Admin/ListTables/KeysTable.php:351
 msgid "Validity"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:359
+#: src/Admin/ListTables/KeysTable.php:358
 msgid "Order Date"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:360 src/Admin/Menus.php:316
+#: src/Admin/ListTables/KeysTable.php:359 src/Admin/Menus.php:316
 #: src/Admin/Orders.php:245 src/Admin/views/html-add-key.php:91
 #: src/Admin/views/html-edit-key.php:92 src/Functions/Template.php:78
 #: src/functions.php:1034
 msgid "Status"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:426
+#: src/Admin/ListTables/KeysTable.php:425
 #. translators: %d: key id.
 msgid "ID: %d"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:427
+#: src/Admin/ListTables/KeysTable.php:426
 #: src/Admin/ListTables/StockTable.php:143
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:522
+#: src/Admin/ListTables/KeysTable.php:521
 #. translators: %1$s: validity, %2$s: validity.
 msgid "<b>%s</b> Day <br><small>After purchase</small>"
 msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/ListTables/KeysTable.php:532 src/Admin/Orders.php:238
+#: src/Admin/ListTables/KeysTable.php:531 src/Admin/Orders.php:238
 #: src/Functions/Template.php:63 src/functions.php:1030
 msgid "Lifetime"
 msgstr ""
@@ -1457,6 +1375,10 @@ msgstr ""
 
 #: src/Models/Key.php:489
 msgid "Product id is invalid."
+msgstr ""
+
+#: src/Models/Key.php:494
+msgid "Serial key is required."
 msgstr ""
 
 #: src/Models/Key.php:506
