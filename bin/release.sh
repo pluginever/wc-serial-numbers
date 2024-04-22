@@ -36,9 +36,9 @@ sed -i '' "s/Stable tag: .*/Stable tag: $VERSION/" readme.txt
 sed -i '' "s/Version: .*/Version: $VERSION/" $SLUG.php
 
 echo "➤ Building plugin..."
-npm install && npm run build
 composer install
 composer update --no-dev --no-scripts
+npm install && npm run build
 echo "✓ Plugin built!"
 
 # if directory already exists, delete it

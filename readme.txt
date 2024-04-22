@@ -2,9 +2,9 @@
 Contributors: pluginever, manikmist09
 Tags: license manager, license, license number, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code, digital, digital downloads, digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, digital product license, virtual product key, virtual product license, subscription product license, license key generator, woocommerce
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 1.7.0
+Stable tag: 1.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.7.2 (19 Apr 2024) =
+* Fix: Text domain issue fixed.
+
 = 1.7.1 (15 Mar 2024) =
 * Fix: Few known issues fixed.
 

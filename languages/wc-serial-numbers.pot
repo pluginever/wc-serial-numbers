@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.7.0\n"
+"Project-Id-Version: Serial Numbers for WooCommerce 1.7.2\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2024-03-13 12:51:59+00:00\n"
+"POT-Creation-Date: 2024-04-21 15:05:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -83,6 +83,86 @@ msgstr ""
 
 #: lib/Lib/Settings.php:347
 msgid "Report a Bug"
+msgstr ""
+
+#: src/API.php:82
+msgid "Invalid action."
+msgstr ""
+
+#: src/API.php:93
+msgid "Invalid product ID."
+msgstr ""
+
+#: src/API.php:103 src/Models/Key.php:494
+msgid "Serial key is required."
+msgstr ""
+
+#: src/API.php:119
+msgid "Serial key is invalid."
+msgstr ""
+
+#: src/API.php:129
+msgid "Serial key is not authorized to use."
+msgstr ""
+
+#: src/API.php:140
+msgid "Please complete your order to activate the serial key."
+msgstr ""
+
+#: src/API.php:150
+msgid "Serial key is not valid for this product."
+msgstr ""
+
+#: src/API.php:160
+msgid "Invalid email address."
+msgstr ""
+
+#: src/API.php:170
+msgid "Serial key is expired."
+msgstr ""
+
+#: src/API.php:177
+msgid "Serial key is cancelled."
+msgstr ""
+
+#: src/API.php:184
+msgid "Invalid serial key."
+msgstr ""
+
+#: src/API.php:203
+msgid "Serial key is valid."
+msgstr ""
+
+#: src/API.php:242 src/API.php:343
+msgid "Instance is  missing, You must provide an instance to deactivate license"
+msgstr ""
+
+#: src/API.php:258
+msgid "Instance is already activated."
+msgstr ""
+
+#: src/API.php:268
+msgid "Activation limit reached"
+msgstr ""
+
+#: src/API.php:295
+msgid "Activation failed."
+msgstr ""
+
+#: src/API.php:304
+msgid "Serial key is activated."
+msgstr ""
+
+#: src/API.php:359
+msgid "Instance is not activated."
+msgstr ""
+
+#: src/API.php:369
+msgid "Deactivation failed."
+msgstr ""
+
+#: src/API.php:378
+msgid "Serial key is deactivated."
 msgstr ""
 
 #: src/Admin/Actions.php:222
@@ -1375,10 +1455,6 @@ msgstr ""
 
 #: src/Models/Key.php:489
 msgid "Product id is invalid."
-msgstr ""
-
-#: src/Models/Key.php:494
-msgid "Serial key is required."
 msgstr ""
 
 #: src/Models/Key.php:506
