@@ -39,7 +39,7 @@ $api_url = add_query_arg(
 			<?php esc_html_e( 'You can use the API to validate serial keys on your website or on another website.', 'wc-serial-numbers' ); ?>
 		</p>
 		<p>
-			<?php esc_html_e( 'To validate a serial key, you need to send a POST request to the following URL:', 'wc-serial-numbers' ); ?>
+			<?php esc_html_e( 'To validate a serial key, you need to send a GET request to the following URL:', 'wc-serial-numbers' ); ?>
 		</p>
 		<pre><?php echo esc_html( $api_url ); ?></pre>
 		<p>
