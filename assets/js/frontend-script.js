@@ -22,9 +22,10 @@
 					complete(response) {
 						// get response data.
 						const json = response.responseJSON;
+						console.log(json);
 						// If there is a message, display it.
-						if (json && json.data.message) {
-							window.alert(json.data.message);
+						if (json && json.message) {
+							window.alert(json.message);
 						}
 						$submit.removeAttr('disabled').val($submit.attr('data-label'));
 						$form.removeClass('loading');
