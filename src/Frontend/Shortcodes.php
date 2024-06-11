@@ -20,6 +20,10 @@ class Shortcodes {
 	public function __construct() {
 		add_shortcode( 'wc_serial_numbers_validation_form', array( $this, 'validation_form' ) );
 		add_shortcode( 'wc_serial_numbers_activation_form', array( $this, 'activation_form' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_validate_key', array( $this, 'validate_serial_key' ) );
+		add_action( 'wp_ajax_nopriv_wc_serial_numbers_validate_key', array( $this, 'validate_serial_key' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_activate_key', array( $this, 'activate_serial_key' ) );
+		add_action( 'wp_ajax_nopriv_wc_serial_numbers_activate_key', array( $this, 'activate_serial_key' ) );
 	}
 
 	/**
@@ -107,7 +111,7 @@ class Shortcodes {
 			<?php endif; ?>
 
 			<p class="wcsn-field">
-				<input type="hidden" name="request" value="validate">
+				<input type="hidden" name="action" value="wc_serial_numbers_validate_key">
 				<input type="submit" value="<?php echo esc_attr( $atts['button_label'] ); ?>">
 			</p>
 			<?php wp_nonce_field( 'wcsn_user_action' ); ?>
@@ -246,9 +250,66 @@ class Shortcodes {
 			<p class="wcsn-field">
 				<input type="submit" value="<?php echo esc_attr( $atts['button_label'] ); ?>">
 			</p>
+			<input type="hidden" name="action" value="wc_serial_numbers_activate_key">
 			<?php wp_nonce_field( 'wcsn_user_action' ); ?>
 		</form>
 		<?php
 		return ob_get_clean();
+	}
+
+	/**
+	 * Validate serial key.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function validate_serial_key() {
+		// Check if nonce is set.
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'wcsn_user_action' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid request.', 'wc-serial-numbers' ) ) );
+		}
+
+		// perform a rest api request internally.
+		wp_send_json( $this->rest_api_request( 'validate', $_POST ) );
+	}
+
+	/**
+	 * Activate serial key.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function activate_serial_key() {
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'wcsn_user_action' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid request.', 'wc-serial-numbers' ) ) );
+		}
+
+		$request = isset( $_POST['request'] ) ? sanitize_text_field( wp_unslash( $_POST['request'] ) ) : 'activate';
+
+		// perform a rest api request internally.
+		wp_send_json( $this->rest_api_request( $request, $_POST ) );
+	}
+
+	/**
+	 * Perform a rest API request.
+	 *
+	 * @param string $route The route to request.
+	 * @param array  $params The request parameters.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function rest_api_request( $route, $params ) {
+		$namespace = '/wcsn/';
+		$endpoint  = wp_normalize_path( $namespace . '/' . $route );
+		$request   = new \WP_REST_Request( 'GET', $endpoint );
+		$request->set_query_params( $params );
+		$response = rest_do_request( $request );
+		$server   = rest_get_server();
+		$json     = $server->response_to_data( $response, false );
+
+		return $json;
 	}
 }

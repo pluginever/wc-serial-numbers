@@ -11,7 +11,7 @@
 					return false;
 				}
 				$.ajax({
-					url: wc_serial_numbers_frontend_vars.apiurl,
+					url: wc_serial_numbers_frontend_vars.ajax_url,
 					method: 'POST',
 					data: $form.serialize(),
 					dataType: 'json',
@@ -22,9 +22,9 @@
 					complete(response) {
 						// get response data.
 						const json = response.responseJSON;
-						// If there is a message, display it.
-						if (json && json.data.message) {
-							window.alert(json.data.message);
+						//If there is a message, display it.
+						if (json && json.message) {
+							window.alert(json.message);
 						}
 						$submit.removeAttr('disabled').val($submit.attr('data-label'));
 						$form.removeClass('loading');

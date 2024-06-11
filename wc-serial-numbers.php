@@ -3,13 +3,13 @@
  * Plugin Name: WC Serial Numbers
  * Plugin URI:  https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/
  * Description: Sell and manage license keys/ serial numbers/ secret keys easily within your WooCommerce store.
- * Version: 1.7.2
+ * Version:     1.7.4
  * Author:      PluginEver
  * Author URI:  http://pluginever.com
  * License:     GPLv2+
  * Text Domain: wc-serial-numbers
  * Domain Path: /languages
- * Tested up to: 6.4
+ * Tested up to: 6.5
  * WC requires at least: 5.0
  * WC tested up to: 8.6
  *

@@ -51,8 +51,8 @@ class Frontend {
 			'wc-serial-numbers-frontend',
 			'wc_serial_numbers_frontend_vars',
 			array(
-				'apiurl' => site_url( '?wc-api=serial-numbers-api' ),
-				'i18n'   => array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'i18n'     => array(
 					'copied'  => __( 'Copied', 'wc-serial-numbers' ),
 					'loading' => __( 'Loading', 'wc-serial-numbers' ),
 				),

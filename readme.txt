@@ -4,7 +4,7 @@ Tags: license manager, license, license number, serial number, activation number
 Requires at least: 5.0
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 1.7.2
+Stable tag: 1.7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,14 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 
 == Changelog ==
+= 1.7.4 (11 Jun 2024) =
+Fix: Vulnerability issue.
+Fix: Shortcode permission issue.
+
+= 1.7.3 (12 May 2024) =
+Enhance: Move query arg based API to REST API
+Fix: Few known issues fixed.
+
 = 1.7.2 (19 Apr 2024) =
 * Fix: Text domain issue fixed.
 
