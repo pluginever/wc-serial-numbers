@@ -37,7 +37,7 @@ class RestAPI {
 				'args'                => array(
 					'product_id' => array(
 						'required' => true,
-						'type'     => 'string',
+						'type'     => array( 'string', 'integer' ),
 					),
 					'serial_key' => array(
 						'required' => true,
@@ -126,7 +126,6 @@ class RestAPI {
 			)
 		);
 	}
-
 
 	/**
 	 * Check if a given request has access to create an item.

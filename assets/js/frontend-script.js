@@ -11,7 +11,7 @@
 					return false;
 				}
 				$.ajax({
-					url: wc_serial_numbers_frontend_vars.apiurl,
+					url: wc_serial_numbers_frontend_vars.ajax_url,
 					method: 'POST',
 					data: $form.serialize(),
 					dataType: 'json',
@@ -22,8 +22,7 @@
 					complete(response) {
 						// get response data.
 						const json = response.responseJSON;
-						console.log(json);
-						// If there is a message, display it.
+						//If there is a message, display it.
 						if (json && json.message) {
 							window.alert(json.message);
 						}
