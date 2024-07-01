@@ -34,7 +34,7 @@ class Actions {
 	public static function handle_ajax_search() {
 		check_ajax_referer( 'wcsn_ajax_search' );
 
-		// must have WCKM_MANAGER_ROLE to access this endpoint.
+		// Must have WC Serial Numbers manager role to access this endpoint.
 		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
 		}
@@ -188,7 +188,7 @@ class Actions {
 	public static function handle_add_key() {
 		check_admin_referer( 'wcsn_add_key' );
 
-		// Must have WC Serial Numbers role to access this endpoint.
+		// Must have WC Serial Numbers manager role to access this endpoint.
 		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
 			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
 			wp_safe_redirect( wp_get_referer() );
@@ -219,7 +219,7 @@ class Actions {
 	public static function handle_edit_key() {
 		check_admin_referer( 'wcsn_edit_key' );
 
-		// Must have WC Serial Numbers role to access this endpoint.
+		// Must have WC Serial Numbers manager role to access this endpoint.
 		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
 			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
 			wp_safe_redirect( wp_get_referer() );
