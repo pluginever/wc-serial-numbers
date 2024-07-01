@@ -250,10 +250,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 8. Order Complete Email with Keys
 9. Thank You Page with Keys
 
-
 == Changelog ==
 = 1.7.4 (01 Jul 2024) =
-Enhance: Security.
+Enhance: Enhanced security to handle form actions.
+Enhance: Enhanced security to handle Ajax search.
 Fix: Few known issues fixed.
 
 = 1.7.4 (11 Jun 2024) =
