@@ -81,7 +81,7 @@
 				},
 				processResults(data, params) {
 					if (false === data.success){
-						alert(data.data);
+						alert(data.data.message);
 					}
 					params.page = params.page || 1;
 					return {
@@ -113,7 +113,7 @@
 				},
 				processResults(data, params) {
 					if (false === data.success){
-						alert(data.data);
+						alert(data.data.message);
 					}
 					params.page = params.page || 1;
 					return {
@@ -145,7 +145,7 @@
 				},
 				processResults(data, params) {
 					if (false === data.success){
-						alert(data.data);
+						alert(data.data.message);
 					}
 					params.page = params.page || 1;
 					return {

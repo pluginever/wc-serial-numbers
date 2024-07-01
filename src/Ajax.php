@@ -33,8 +33,8 @@ class Ajax {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
 
 		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( current_user_can( wcsn_get_manager_role() ) ) {
-			wp_send_json_error( esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) );
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
 			wp_die();
 		}
 
@@ -97,7 +97,7 @@ class Ajax {
 
 		// Must have WC Serial Numbers manager role to access this endpoint.
 		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
-			wp_send_json_error( esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) );
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
 			wp_die();
 		}
 
@@ -172,7 +172,7 @@ class Ajax {
 
 		// Must have WC Serial Numbers manager role to access this endpoint.
 		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
-			wp_send_json_error( esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) );
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
 			wp_die();
 		}
 
