@@ -1,10 +1,10 @@
 <?php
 /**
- * WCSerialNumberPro Uninstall
+ * WooCommerceSerialNumbers Uninstall
  *
- * Uninstalling WCSerialNumberPro deletes user roles, pages, tables, and options.
+ * Uninstalling WooCommerceSerialNumbers deletes user roles, pages, tables, and options.
  *
- * @package WCSerialNumberPro\Uninstaller
+ * @package WooCommerceSerialNumbers\Uninstaller
  * @version 1.0.0
  */
 
