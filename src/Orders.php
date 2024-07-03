@@ -25,7 +25,6 @@ class Orders {
 		add_action( 'woocommerce_order_status_processing', array( __CLASS__, 'handle_order_status_changed' ) );
 		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ) );
 		add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'handle_order_status_changed' ) );
-		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ) );
 		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ) );
 		// todo handle order status change and order remove scenario.
 		// todo handle order again feature.
