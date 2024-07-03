@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers for WooCommerce 1.7.2\n"
+"Project-Id-Version: WC Serial Numbers 1.7.5\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/plugins/wc-serial-numbers/\n"
-"POT-Creation-Date: 2024-04-21 15:05:25+00:00\n"
+"POT-Creation-Date: 2024-07-03 03:38:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -85,91 +85,23 @@ msgstr ""
 msgid "Report a Bug"
 msgstr ""
 
-#: src/API.php:82
-msgid "Invalid action."
+#: src/API.php:68
+msgid "Missing data."
 msgstr ""
 
-#: src/API.php:93
-msgid "Invalid product ID."
+#: src/Admin/Actions.php:39 src/Ajax.php:37 src/Ajax.php:100 src/Ajax.php:175
+msgid "You do not have permission to access this endpoint."
 msgstr ""
 
-#: src/API.php:103 src/Models/Key.php:494
-msgid "Serial key is required."
+#: src/Admin/Actions.php:193 src/Admin/Actions.php:224
+msgid "You do not have permission to perform this action."
 msgstr ""
 
-#: src/API.php:119
-msgid "Serial key is invalid."
-msgstr ""
-
-#: src/API.php:129
-msgid "Serial key is not authorized to use."
-msgstr ""
-
-#: src/API.php:140
-msgid "Please complete your order to activate the serial key."
-msgstr ""
-
-#: src/API.php:150
-msgid "Serial key is not valid for this product."
-msgstr ""
-
-#: src/API.php:160
-msgid "Invalid email address."
-msgstr ""
-
-#: src/API.php:170
-msgid "Serial key is expired."
-msgstr ""
-
-#: src/API.php:177
-msgid "Serial key is cancelled."
-msgstr ""
-
-#: src/API.php:184
-msgid "Invalid serial key."
-msgstr ""
-
-#: src/API.php:203
-msgid "Serial key is valid."
-msgstr ""
-
-#: src/API.php:242 src/API.php:343
-msgid "Instance is  missing, You must provide an instance to deactivate license"
-msgstr ""
-
-#: src/API.php:258
-msgid "Instance is already activated."
-msgstr ""
-
-#: src/API.php:268
-msgid "Activation limit reached"
-msgstr ""
-
-#: src/API.php:295
-msgid "Activation failed."
-msgstr ""
-
-#: src/API.php:304
-msgid "Serial key is activated."
-msgstr ""
-
-#: src/API.php:359
-msgid "Instance is not activated."
-msgstr ""
-
-#: src/API.php:369
-msgid "Deactivation failed."
-msgstr ""
-
-#: src/API.php:378
-msgid "Serial key is deactivated."
-msgstr ""
-
-#: src/Admin/Actions.php:222
+#: src/Admin/Actions.php:244
 msgid "Key added successfully."
 msgstr ""
 
-#: src/Admin/Actions.php:224
+#: src/Admin/Actions.php:246
 msgid "Key updated successfully."
 msgstr ""
 
@@ -247,7 +179,7 @@ msgid "Delete"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:176
-#: src/Admin/views/html-api-actions.php:141 src/Frontend/Shortcodes.php:142
+#: src/Admin/views/html-api-actions.php:141 src/Frontend/Shortcodes.php:146
 msgid "Instance"
 msgstr ""
 
@@ -257,7 +189,7 @@ msgstr ""
 #: src/Admin/views/html-api-actions.php:118
 #: src/Admin/views/html-api-validation.php:121
 #: src/Admin/views/html-edit-key.php:37 src/Deprecated/Functions.php:358
-#: src/Frontend/Shortcodes.php:40 src/Frontend/Shortcodes.php:137
+#: src/Frontend/Shortcodes.php:44 src/Frontend/Shortcodes.php:141
 msgid "Product"
 msgstr ""
 
@@ -270,7 +202,7 @@ msgid "Key"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:179
-#: src/Admin/views/html-api-actions.php:152 src/Frontend/Shortcodes.php:144
+#: src/Admin/views/html-api-actions.php:152 src/Frontend/Shortcodes.php:148
 msgid "Platform"
 msgstr ""
 
@@ -1133,7 +1065,7 @@ msgstr ""
 #: src/Admin/views/html-api-actions.php:162
 #: src/Admin/views/html-api-validation.php:144
 #: src/Admin/views/html-edit-key.php:154 src/Deprecated/Functions.php:360
-#: src/Frontend/Shortcodes.php:43 src/Frontend/Shortcodes.php:140
+#: src/Frontend/Shortcodes.php:47 src/Frontend/Shortcodes.php:144
 msgid "Email"
 msgstr ""
 
@@ -1149,15 +1081,15 @@ msgid ""
 "ignored."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:172 src/Frontend/Shortcodes.php:146
+#: src/Admin/views/html-api-actions.php:172 src/Frontend/Shortcodes.php:150
 msgid "Action"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:175 src/Frontend/Shortcodes.php:153
+#: src/Admin/views/html-api-actions.php:175 src/Frontend/Shortcodes.php:157
 msgid "Activate"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:176 src/Frontend/Shortcodes.php:154
+#: src/Admin/views/html-api-actions.php:176 src/Frontend/Shortcodes.php:158
 msgid "Deactivate"
 msgstr ""
 
@@ -1170,7 +1102,7 @@ msgstr ""
 msgid "API response"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:195 src/Frontend/Shortcodes.php:147
+#: src/Admin/views/html-api-actions.php:195 src/Frontend/Shortcodes.php:151
 msgid "Submit"
 msgstr ""
 
@@ -1193,7 +1125,7 @@ msgstr ""
 
 #: src/Admin/views/html-api-validation.php:42
 msgid ""
-"To validate a serial key, you need to send a POST request to the following "
+"To validate a serial key, you need to send a GET request to the following "
 "URL:"
 msgstr ""
 
@@ -1233,7 +1165,7 @@ msgid ""
 "the email will be validated otherwise ignored."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:164 src/Frontend/Shortcodes.php:45
+#: src/Admin/views/html-api-validation.php:164 src/Frontend/Shortcodes.php:49
 msgid "Validate"
 msgstr ""
 
@@ -1320,8 +1252,7 @@ msgid "View Order"
 msgstr ""
 
 #: src/Admin/views/html-list-activations.php:26
-#: src/Admin/views/html-list-keys.php:43
-msgid "Search key"
+msgid "Search activation"
 msgstr ""
 
 #: src/Admin/views/html-list-keys.php:21
@@ -1332,11 +1263,15 @@ msgstr ""
 msgid "Generate"
 msgstr ""
 
+#: src/Admin/views/html-list-keys.php:43
+msgid "Search key"
+msgstr ""
+
 #: src/Admin/views/html-list-stock.php:16
 msgid "Search"
 msgstr ""
 
-#: src/Ajax.php:190
+#: src/Ajax.php:211
 #. translators: $1: customer name, $2 customer id, $3: customer email
 msgid "%1$s (#%2$s - %3$s)"
 msgstr ""
@@ -1366,45 +1301,49 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:39
+#: src/Frontend/Shortcodes.php:43
 msgid "Serial Key Validation"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:41 src/Frontend/Shortcodes.php:138
+#: src/Frontend/Shortcodes.php:45 src/Frontend/Shortcodes.php:142
 msgid "Serial Key"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:42 src/Frontend/Shortcodes.php:139
+#: src/Frontend/Shortcodes.php:46 src/Frontend/Shortcodes.php:143
 msgid "Enter your serial key"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:44 src/Frontend/Shortcodes.php:105
-#: src/Frontend/Shortcodes.php:141 src/Frontend/Shortcodes.php:217
+#: src/Frontend/Shortcodes.php:48 src/Frontend/Shortcodes.php:109
+#: src/Frontend/Shortcodes.php:145 src/Frontend/Shortcodes.php:221
 msgid "Enter your email"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:76
+#: src/Frontend/Shortcodes.php:80
 msgid "No products found."
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:90 src/Frontend/Shortcodes.php:201
+#: src/Frontend/Shortcodes.php:94 src/Frontend/Shortcodes.php:205
 msgid "Select a product"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:136
+#: src/Frontend/Shortcodes.php:140
 msgid "Activate/Deactivate Serial Key"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:143
+#: src/Frontend/Shortcodes.php:147
 msgid "Enter your instance"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:145
+#: src/Frontend/Shortcodes.php:149
 msgid "Enter platform"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:187
+#: src/Frontend/Shortcodes.php:191
 msgid "Could not find any products with serial numbers enabled."
+msgstr ""
+
+#: src/Frontend/Shortcodes.php:270 src/Frontend/Shortcodes.php:286
+msgid "Invalid request."
 msgstr ""
 
 #: src/Functions/Template.php:47 src/functions.php:1014
@@ -1457,6 +1396,10 @@ msgstr ""
 msgid "Product id is invalid."
 msgstr ""
 
+#: src/Models/Key.php:494 src/RestAPI.php:148
+msgid "Serial key is required."
+msgstr ""
+
 #: src/Models/Key.php:506
 msgid "Serial key already exists. Duplicate serial keys are not allowed."
 msgstr ""
@@ -1483,6 +1426,70 @@ msgstr ""
 
 #: src/Plugin.php:65
 msgid "WooCommerce"
+msgstr ""
+
+#: src/RestAPI.php:144
+msgid "Invalid product ID."
+msgstr ""
+
+#: src/RestAPI.php:159
+msgid "Serial key is invalid."
+msgstr ""
+
+#: src/RestAPI.php:164
+msgid "Serial key is not authorized to use."
+msgstr ""
+
+#: src/RestAPI.php:170
+msgid "Please complete your order to activate the serial key."
+msgstr ""
+
+#: src/RestAPI.php:175
+msgid "Serial key is not valid for this product."
+msgstr ""
+
+#: src/RestAPI.php:180
+msgid "Invalid email address."
+msgstr ""
+
+#: src/RestAPI.php:185
+msgid "Serial key is expired."
+msgstr ""
+
+#: src/RestAPI.php:187
+msgid "Serial key is cancelled."
+msgstr ""
+
+#: src/RestAPI.php:190
+msgid "Invalid serial key."
+msgstr ""
+
+#: src/RestAPI.php:216
+msgid "Serial key is valid."
+msgstr ""
+
+#: src/RestAPI.php:274
+msgid "Instance is already activated."
+msgstr ""
+
+#: src/RestAPI.php:279
+msgid "Activation limit reached."
+msgstr ""
+
+#: src/RestAPI.php:295
+msgid "Serial key is activated."
+msgstr ""
+
+#: src/RestAPI.php:333
+msgid "Instance is  missing, You must provide an instance to deactivate license."
+msgstr ""
+
+#: src/RestAPI.php:351
+msgid "Instance not found."
+msgstr ""
+
+#: src/RestAPI.php:359
+msgid "Serial key is deactivated."
 msgstr ""
 
 #: src/functions.php:91
