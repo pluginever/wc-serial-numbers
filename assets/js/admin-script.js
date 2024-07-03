@@ -80,6 +80,9 @@
 					};
 				},
 				processResults(data, params) {
+					if (false === data.success){
+						alert(data.data.message);
+					}
 					params.page = params.page || 1;
 					return {
 						results: data.results,
@@ -109,6 +112,9 @@
 					};
 				},
 				processResults(data, params) {
+					if (false === data.success){
+						alert(data.data.message);
+					}
 					params.page = params.page || 1;
 					return {
 						results: data.results,
@@ -138,6 +144,9 @@
 					};
 				},
 				processResults(data, params) {
+					if (false === data.success){
+						alert(data.data.message);
+					}
 					params.page = params.page || 1;
 					return {
 						results: data.results,

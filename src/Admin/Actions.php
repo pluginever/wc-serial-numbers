@@ -33,6 +33,12 @@ class Actions {
 	 */
 	public static function handle_ajax_search() {
 		check_ajax_referer( 'wcsn_ajax_search' );
+
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
+		}
+
 		$type    = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '';
 		$term    = isset( $_POST['term'] ) ? sanitize_text_field( wp_unslash( $_POST['term'] ) ) : '';
 		$limit   = isset( $_POST['limit'] ) ? absint( $_POST['limit'] ) : 20;
@@ -181,6 +187,14 @@ class Actions {
 	 */
 	public static function handle_add_key() {
 		check_admin_referer( 'wcsn_add_key' );
+
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			wp_safe_redirect( wp_get_referer() );
+			exit;
+		}
+
 		$data = wc_clean( wp_unslash( $_POST ) );
 		$key  = Key::insert( $data );
 		if ( is_wp_error( $key ) ) {
@@ -204,6 +218,14 @@ class Actions {
 	 */
 	public static function handle_edit_key() {
 		check_admin_referer( 'wcsn_edit_key' );
+
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			wp_safe_redirect( wp_get_referer() );
+			exit;
+		}
+
 		$data = wc_clean( wp_unslash( $_POST ) );
 		$key  = Key::insert( $data );
 		if ( is_wp_error( $key ) ) {

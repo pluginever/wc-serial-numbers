@@ -23,7 +23,7 @@ $list_table->process_bulk_actions( $doaction );
 		<?php
 		$list_table->prepare_items();
 		$list_table->views();
-		$list_table->search_box( __( 'Search key', 'wc-serial-numbers' ), 'activation' );
+		$list_table->search_box( __( 'Search activation', 'wc-serial-numbers' ), 'activation' );
 		$list_table->display();
 		?>
 		<input type="hidden" name="page" value="wc-serial-numbers-activations">
