@@ -21,23 +21,11 @@
     }
   ],
   "require": {
-    "php": ">=7.0"
+    "php": ">=7.4"
   },
   "require-dev": {
     "byteever/byteever-sniffs": "^1.0",
-    "codeception/lib-innerbrowser": "^1.0",
-    "codeception/module-asserts": "^1.1",
-    "codeception/module-cli": "^1.0",
-    "codeception/module-db": "^1.0",
-    "codeception/module-filesystem": "^1.0",
-    "codeception/module-phpbrowser": "^1.0",
-    "codeception/module-rest": "^1.2",
-    "codeception/module-webdriver": "^1.0",
-    "codeception/util-universalframework": "^1.0",
     "coenjacobs/mozart": "^0.7.1",
-    "level-level/wp-browser-woocommerce": "^0.1.8",
-    "lucatume/wp-browser": "^3.1",
-    "phpcompatibility/php-compatibility": "9.3.5",
     "pluginever/framework-model": "dev-master",
     "pluginever/framework-plugin": "dev-master",
     "pluginever/framework-settings": "dev-master"
@@ -51,13 +39,6 @@
     }
   },
   "autoload": {},
-  "autoload-dev": {
-    "psr-4": {
-      "WooCommerceSerialNumbers\\Tests\\WPUnit\\": "tests/wpunit",
-      "WooCommerceSerialNumbers\\Tests\\Unit\\": "tests/unit"
-    },
-    "classmap": []
-  },
   "scripts": {
     "post-install-cmd": [
       "\"vendor/bin/mozart\" compose",
@@ -68,20 +49,7 @@
       "composer dump-autoload"
     ],
     "phpcs": "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -v",
-    "phpcbf": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -v",
-    "selenium:start": "selenium-server -port 4444",
-    "test:build": "@php ./vendor/bin/codecept build",
-    "test:acceptance": "@php ./vendor/bin/codecept run acceptance",
-    "test:functional": "@php ./vendor/bin/codecept run functional",
-    "test:wpunit": "@php ./vendor/bin/codecept run wpunit",
-    "test": "composer test:acceptance && composer test:functional && composer test:wpunit",
-    "test:gen:acceptance": "@php vendor/bin/codecept generate:cept",
-    "test:gen:func": "@php vendor/bin/codecept generate:cest",
-    "test:gen:wpunit": "@php vendor/bin/codecept generate:wpunit wpunit",
-    "test:clean": "@php ./vendor/bin/codecept clean",
-    "test:coverage": "@php ./vendor/bin/codecept run wpunit --coverage --coverage-xml --coverage-html",
-    "test:generate": "@php vendor/bin/codecept generate:scenarios",
-    "codecept": "@php vendor/bin/codecept"
+    "phpcbf": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -v"
   },
   "extra": {
     "mozart": {

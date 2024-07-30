@@ -1,0 +1,35 @@
+name: "Build and Release plugin"
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          coverage: none
+          tools: composer
+
+      - name: Setup github token
+        run: composer config -g github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Build
+        run: |
+          composer install
+          composer install --no-dev --no-scripts
+          npm install && npm run build
+
+      - name: Release
+        id: release
+        uses: sultann/wordpress-plugin-deploy@master
+        with:
+          username: ${{ secrets.SVN_USERNAME }}
+          password: ${{ secrets.SVN_PASSWORD }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}

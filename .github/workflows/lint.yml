@@ -1,0 +1,44 @@
+name: Linting
+
+on:
+  pull_request:
+    branches:
+      - master
+      - feature/*
+      - release/*
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'The branch to run the workflow on'
+        required: false
+        default: 'master'
+
+jobs:
+  phpcs:
+    name: PHP Code Sniffer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          coverage: none
+          tools: composer, cs2pr
+
+      - name: Install dependencies
+        run: composer install
+
+      - id: changes
+        run: |
+          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"
+          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | xargs)
+          echo "{files}={$FILES}" >> $GITHUB_OUTPUT
+
+      - name: Test changed files
+        run: ./vendor/bin/phpcs ${{ steps.changes.outputs.files }} --report-full --report-checkstyle=./.github/phpcs-report.xml --runtime-set testVersion 8.0
+
+      - name: Upload PHPCS report
+        if: ${{ always() }}
+        run: cs2pr ./.github/phpcs-report.xml
