@@ -44,7 +44,9 @@ class Menus {
 	 * @since 1.4.6
 	 */
 	public function setup_screen() {
-		if ( isset( $_GET['edit'] ) || isset( $_GET['delete'] ) || isset( $_GET['add'] ) || isset( $_GET['generate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		wp_verify_nonce( '_nonce' );
+
+		if ( isset( $_GET['edit'] ) || isset( $_GET['delete'] ) || isset( $_GET['add'] ) || isset( $_GET['generate'] ) ) {
 			return;
 		}
 
@@ -201,8 +203,9 @@ class Menus {
 	 * @return void
 	 */
 	public function output_main_page() {
-		$add  = isset( $_GET['add'] ) ? true : false;  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$edit = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		wp_verify_nonce( '_nonce' );
+		$add  = isset( $_GET['add'] ) ? true : false;
+		$edit = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
 		if ( $edit ) {
 			$key = new Key( $edit );
 			if ( ! $key->exists() ) {
@@ -239,6 +242,7 @@ class Menus {
 	 * @return void
 	 */
 	public function output_tools_page() {
+		wp_verify_nonce( '_nonce' );
 		$tabs = array(
 			'generators' => __( 'Generators', 'wc-serial-numbers' ),
 			'api'        => __( 'API Toolkit', 'wc-serial-numbers' ),
@@ -253,8 +257,8 @@ class Menus {
 
 		$tabs        = apply_filters( 'wc_serial_numbers_tools_tabs', $tabs );
 		$tab_ids     = array_keys( $tabs );
-		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids );
+		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
 
 		Admin::view(
 			'html-tools.php',
@@ -273,14 +277,15 @@ class Menus {
 	 * @return void
 	 */
 	public function output_reports_page() {
+		wp_verify_nonce( '_nonce' );
 		$tabs = array(
 			'stock' => __( 'Stock', 'wc-serial-numbers' ),
 		);
 
 		$tabs        = apply_filters( 'wc_serial_numbers_reports_tabs', $tabs );
 		$tab_ids     = array_keys( $tabs );
-		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : reset( $tab_ids );
+		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
 
 		Admin::view(
 			'html-reports.php',
@@ -299,8 +304,9 @@ class Menus {
 	 * @return void
 	 */
 	public function go_pro_redirect() {
-		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			wp_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+		wp_verify_nonce( '_nonce' );
+		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
+			wp_safe_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
 			die;
 		}
 	}

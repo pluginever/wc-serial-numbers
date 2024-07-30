@@ -37,7 +37,8 @@ $list_table->process_bulk_actions( $doaction );
 
 	<form id="wcsn-keys-table" method="get">
 		<?php
-		$status = isset( $_GET['status'] ) ? sanitize_text_field( wp_unslash( $_GET['status'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		wp_verify_nonce( '_nonce' );
+		$status = isset( $_GET['status'] ) ? sanitize_text_field( wp_unslash( $_GET['status'] ) ) : '';
 		$list_table->prepare_items();
 		$list_table->views();
 		$list_table->search_box( __( 'Search key', 'wc-serial-numbers' ), 'key' );
