@@ -168,6 +168,12 @@ class Metaboxes {
 		if ( ! isset( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ), 'woocommerce_save_data' ) ) {
 			return;
 		}
+
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			return;
+		}
+
 		$status = isset( $_POST['_is_serial_number'] ) ? 'yes' : 'no';
 		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( wp_unslash( $_POST['_serial_key_source'] ) ) : 'custom_source';
 		update_post_meta( $post->ID, '_is_serial_number', $status );

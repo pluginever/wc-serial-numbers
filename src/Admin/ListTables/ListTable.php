@@ -36,7 +36,8 @@ class ListTable extends \WP_List_Table {
 	 * @return mixed Un-sanitized request var
 	 */
 	protected function get_request_var( $param = '', $fallback = false ) {
-		return isset( $_REQUEST[ $param ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $param ] ) ) : $fallback; // phpcs:ignore WordPress.Security.NonceVerification
+		wp_verify_nonce( '_nonce' );
+		return isset( $_REQUEST[ $param ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $param ] ) ) : $fallback;
 	}
 
 	/**
