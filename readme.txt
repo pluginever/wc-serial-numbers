@@ -2,9 +2,9 @@
 Contributors: pluginever, manikmist09
 Tags: license manager, license, license number, serial number, activation number, key, serial key, license key, activation key, product key, serial code, license code, activation code, digital, digital downloads, digital product key, digital license, product license, software license, software license key, software activation, license key for digital products, digital product license, virtual product key, virtual product license, subscription product license, license key generator, woocommerce
 Requires at least: 5.0
-Tested up to: 6.5
-Requires PHP: 5.6
-Stable tag: 1.7.5
+Tested up to: 6.6
+Requires PHP: 7.4
+Stable tag: 1.7.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -162,7 +162,7 @@ Visit [PluginEver](https://pluginever.com) to learn from our WooCommerce tutoria
 
 * WordPress 5.0 or greater
 * WooCommerce 5.0 or greater
-* PHP version 5.6 or greater
+* PHP version 7.4 or greater
 * MySQL version 5.6 or greater
 * MariaDB version 10 or later
 
@@ -251,7 +251,14 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 9. Thank You Page with Keys
 
 == Changelog ==
-= 1.7.4 (01 Jul 2024) =
+= 1.7.6 (30 Jul 2024) =
+Enhance: Enhanced security to handle form actions.
+Enhance: Enhanced security to handle Ajax search.
+Enhance: Enhanced security to handle the GET & POST supper global variables.
+Fix: Vulnerability security issue.
+Fix: Few other known issues.
+
+= 1.7.5 (01 Jul 2024) =
 Enhance: Enhanced security to handle form actions.
 Enhance: Enhanced security to handle Ajax search.
 Fix: Few known issues fixed.
