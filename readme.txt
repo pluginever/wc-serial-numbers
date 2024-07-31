@@ -253,9 +253,6 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 == Changelog ==
 = 1.7.7 (31 Jul 2024) =
 Enhance: Enhance optimized code for better autoload classes.
-Enhance: Enhanced security.
-Update: Update the WooCommence HPOS support
-Fix: Few known issues.
 
 = 1.7.6 (30 Jul 2024) =
 Enhance: Enhanced security to handle form actions.
