@@ -30,6 +30,11 @@
     "pluginever/framework-plugin": "dev-master",
     "pluginever/framework-settings": "dev-master"
   },
+  "autoload": {
+    "psr-4": {
+      "WooCommerceSerialNumbers\\": ["src/","lib/"]
+    }
+  },
   "config": {
     "optimize-autoloader": true,
     "sort-packages": true,
@@ -38,7 +43,6 @@
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
-  "autoload": {},
   "scripts": {
     "post-install-cmd": [
       "\"vendor/bin/mozart\" compose",

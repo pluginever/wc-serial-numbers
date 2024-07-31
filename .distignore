@@ -29,7 +29,6 @@ bower.json
 bower_components
 .*
 
-
 # Test related files
 phpunit.xml
 phpunit.xml.dist
@@ -41,7 +40,6 @@ codeception.yml
 # PHPCS related files
 phpcs.xml
 phpcs.xml.dist
-
 
 # IDE related files
 .idea
@@ -61,7 +59,6 @@ phpcs.xml.dist
 *.zip
 /bin/
 
-
 # OS related files
 .DS_Store
 .DS_Store?
@@ -70,7 +67,6 @@ phpcs.xml.dist
 .Trashes
 ehthumbs.db
 Thumbs.db
-
 
 # Action related files
 .wordpress-org
@@ -82,4 +78,3 @@ Thumbs.db
 # Build related files
 /assets/js
 /assets/css
-vendor
