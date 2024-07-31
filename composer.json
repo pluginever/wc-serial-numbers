@@ -35,7 +35,6 @@
       "WooCommerceSerialNumbers\\": ["src/","lib/"]
     }
   },
-  "autoload-dev": {},
   "config": {
     "optimize-autoloader": true,
     "sort-packages": true,
