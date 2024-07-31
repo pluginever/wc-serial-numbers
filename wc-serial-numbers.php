@@ -34,52 +34,8 @@ use WooCommerceSerialNumbers\Plugin;
 // Don't call the file directly.
 defined( 'ABSPATH' ) || exit();
 
-// Autoload function.
-spl_autoload_register(
-	function ( $class_name ) {
-		$prefix = 'WooCommerceSerialNumbers\\';
-		$len    = strlen( $prefix );
-
-		// Bail out if the class name doesn't start with our prefix.
-		if ( strncmp( $prefix, $class_name, $len ) !== 0 ) {
-				return;
-		}
-
-		// Remove the prefix from the class name.
-		$relative_class = substr( $class_name, $len );
-		// Replace the namespace separator with the directory separator.
-		$file = str_replace( '\\', DIRECTORY_SEPARATOR, $relative_class ) . '.php';
-
-		// Look for the file in the src and lib directories.
-		$file_paths = array(
-			__DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $file,
-			__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file,
-		);
-
-		foreach ( $file_paths as $file_path ) {
-			if ( file_exists( $file_path ) ) {
-				require_once $file_path;
-				break;
-			}
-		}
-	}
-);
-
-
-/**
- * Plugin compatibility with WooCommerce HPOS
- *
- * @since 1.0.0
- * @return void
- */
-add_action(
-	'before_woocommerce_init',
-	function () {
-		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
-		}
-	}
-);
+// Require the autoloader.
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
  * Get the plugin instance.

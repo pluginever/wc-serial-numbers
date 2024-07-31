@@ -45,7 +45,20 @@ class Plugin extends Lib\Plugin {
 	public function init_hooks() {
 		register_activation_hook( $this->get_file(), array( Installer::class, 'install' ) );
 		add_action( 'admin_notices', array( $this, 'dependencies_notices' ) );
+		add_action( 'before_woocommerce_init', array( $this, 'on_before_woocommerce_init' ) );
 		add_action( 'woocommerce_loaded', array( $this, 'init' ), 0 );
+	}
+
+	/**
+	 * Run on before WooCommerce init.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function on_before_woocommerce_init() {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', $this->get_file(), true );
+		}
 	}
 
 	/**
