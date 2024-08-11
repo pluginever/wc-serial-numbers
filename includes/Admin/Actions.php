@@ -20,165 +20,14 @@ class Actions {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		// TODO: WCSN Ajax search is not used.
-		// add_action( 'wp_ajax_wcsn_ajax_search', array( __CLASS__, 'handle_ajax_search' ) );
 		// TODO: Add key action is not used.
 		// add_action( 'admin_post_wcsn_add_key', array( __CLASS__, 'handle_add_key' ) );
 		add_action( 'admin_post_wcsn_edit_key', array( __CLASS__, 'handle_edit_key' ) );
-	}
 
-	/**
-	 * Handle ajax search.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function handle_ajax_search() {
-		check_ajax_referer( 'wcsn_ajax_search' );
-
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
-			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
-		}
-
-		$type    = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '';
-		$term    = isset( $_POST['term'] ) ? sanitize_text_field( wp_unslash( $_POST['term'] ) ) : '';
-		$limit   = isset( $_POST['limit'] ) ? absint( $_POST['limit'] ) : 20;
-		$page    = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
-		$results = array();
-		$total   = 0;
-		$offset  = ( $page - 1 ) * $limit;
-
-		switch ( $type ) {
-			case 'product':
-				$args = array_merge(
-					wcsn_get_products_query_args(),
-					array(
-						'paged'          => $page,
-						'posts_per_page' => $limit,
-						's'              => $term,
-						'fields'         => 'ids',
-					)
-				);
-				// if the term is numeric then search by product id.
-				if ( is_numeric( $term ) ) {
-					$args['post__in'] = array( $term );
-					unset( $args['s'] );
-				}
-
-				$the_query   = new \WP_Query( $args );
-				$product_ids = $the_query->get_posts();
-				$total       = $the_query->found_posts;
-				foreach ( $product_ids as $product_id ) {
-					$product = wc_get_product( $product_id );
-
-					if ( ! $product ) {
-						continue;
-					}
-
-					$text = sprintf(
-						'(#%1$s) %2$s',
-						$product->get_id(),
-						wp_strip_all_tags( $product->get_formatted_name() )
-					);
-
-					$results[] = array(
-						'id'   => $product->get_id(),
-						'text' => $text,
-					);
-				}
-				break;
-			case 'order':
-				$args = array(
-					'paged'          => $page,
-					'posts_per_page' => $limit,
-					's'              => $term,
-					'fields'         => 'ids',
-					'post_type'      => 'shop_order',
-					'post_status'    => array_keys( wc_get_order_statuses() ),
-				);
-				// if the term is numeric then search by order id.
-				if ( is_numeric( $term ) ) {
-					$args['post__in'] = array( $term );
-					unset( $args['s'] );
-				}
-
-				$the_query = new \WP_Query( $args );
-				$order_ids = $the_query->get_posts();
-				$total     = $the_query->found_posts;
-				foreach ( $order_ids as $order_id ) {
-					$order = wc_get_order( $order_id );
-
-					if ( ! $order ) {
-						continue;
-					}
-
-					$text = sprintf(
-						'(#%1$s) %2$s - %3$s',
-						$order->get_id(),
-						wp_strip_all_tags( $order->get_formatted_billing_full_name() ),
-						wp_strip_all_tags( wc_format_datetime( $order->get_date_created() ) )
-					);
-
-					$results[] = array(
-						'id'   => $order->get_id(),
-						'text' => $text,
-					);
-				}
-				break;
-
-			case 'customer':
-			case 'user':
-				// query wp users.
-				$args = array(
-					'paged'          => $page,
-					'number'         => $limit,
-					'search'         => '*' . $term . '*',
-					'search_columns' => array( 'user_login', 'user_email', 'user_nicename' ),
-					'fields'         => 'ID',
-				);
-				// if the term is numeric then search by user id.
-				if ( is_numeric( $term ) ) {
-					$args['include'] = array( $term );
-					unset( $args['search'] );
-				}
-
-				$user_query = new \WP_User_Query( $args );
-				$user_ids   = $user_query->get_results();
-				$total      = $user_query->get_total();
-
-				foreach ( $user_ids as $user_id ) {
-					$user = get_user_by( 'id', $user_id );
-
-					if ( ! $user ) {
-						continue;
-					}
-
-					$text = sprintf(
-						'(#%1$s) %2$s - %3$s',
-						$user->ID,
-						wp_strip_all_tags( $user->display_name ),
-						wp_strip_all_tags( $user->user_email )
-					);
-
-					$results[] = array(
-						'id'   => $user->ID,
-						'text' => $text,
-					);
-				}
-
-				break;
-		}
-
-		wp_send_json(
-			array(
-				'page'       => $page,
-				'results'    => $results,
-				'pagination' => array(
-					'more' => $total > ( $offset + $limit ),
-				),
-			)
-		);
+		// Ajax Search.
+		add_action( 'wp_ajax_wc_serial_numbers_search_product', array( __CLASS__, 'search_product' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( __CLASS__, 'search_orders' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_search_customers', array( __CLASS__, 'search_customers' ) );
 	}
 
 	/**
@@ -251,5 +100,213 @@ class Actions {
 		$redirect_to = admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->get_id() );
 		wp_safe_redirect( $redirect_to );
 		exit;
+	}
+
+	/**
+	 * Search product.
+	 *
+	 * @since 1.3.1
+	 * @return void
+	 */
+	public static function search_product() {
+		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
+
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
+			wp_die();
+		}
+
+		$search      = isset( $_REQUEST['search'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['search'] ) ) : '';
+		$page        = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
+		$per_page    = absint( 100 );
+		$args        = array_merge(
+			wcsn_get_products_query_args(),
+			array(
+				'posts_per_page' => $per_page,
+				's'              => $search,
+				'fields'         => 'ids',
+			)
+		);
+		$the_query   = new \WP_Query( $args );
+		$product_ids = $the_query->get_posts();
+		$results     = array();
+		foreach ( $product_ids as $product_id ) {
+			$product = wc_get_product( $product_id );
+
+			if ( ! $product ) {
+				continue;
+			}
+
+			$text = sprintf(
+				'(#%1$s) %2$s',
+				$product->get_id(),
+				wp_strip_all_tags( $product->get_formatted_name() )
+			);
+
+			$results[] = array(
+				'id'   => $product->get_id(),
+				'text' => $text,
+			);
+		}
+		$more = false;
+		if ( $the_query->found_posts > ( $per_page * $page ) ) {
+			$more = true;
+		}
+		wp_send_json(
+			array(
+				'page'       => $page,
+				'results'    => $results,
+				'pagination' => array(
+					'more' => $more,
+				),
+			)
+		);
+		wp_die();
+	}
+
+	/**
+	 * Search orders.
+	 *
+	 * @since 1.3.1
+	 * @return void
+	 */
+	public static function search_orders() {
+		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
+
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
+			wp_die();
+		}
+
+		$search   = isset( $_REQUEST['search'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['search'] ) ) : '';
+		$page     = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
+		$per_page = absint( 100 );
+
+		$ids = array();
+		if ( is_numeric( $search ) ) {
+			$order = wc_get_order( intval( $search ) );
+
+			// Order does exist.
+			if ( $order && 0 !== $order->get_id() ) {
+				$ids[] = $order->get_id();
+			}
+		}
+
+		if ( empty( $ids ) && ! is_numeric( $search ) ) {
+			$data_store = \WC_Data_Store::load( 'order' );
+			if ( 3 > strlen( $search ) ) {
+				$per_page = 20;
+			}
+			$ids = $data_store->search_orders(
+				$search,
+				array(
+					'limit' => $per_page,
+					'page'  => $page,
+				)
+			);
+		}
+
+		$results = array();
+		foreach ( $ids as $order_id ) {
+			$order = wc_get_order( $order_id );
+
+			if ( ! $order ) {
+				continue;
+			}
+
+			$text = sprintf(
+				'(#%1$s) %2$s',
+				$order->get_id(),
+				wp_strip_all_tags( $order->get_formatted_billing_full_name() )
+			);
+
+			$results[] = array(
+				'id'   => $order->get_id(),
+				'text' => $text,
+			);
+		}
+
+		wp_send_json(
+			array(
+				'page'       => $page,
+				'results'    => $results,
+				'pagination' => array(
+					'more' => false,
+				),
+			)
+		);
+		wp_die();
+	}
+
+	/**
+	 * Search customers.
+	 *
+	 * @since 1.3.1
+	 * @return void
+	 */
+	public static function search_customers() {
+		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
+
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
+			wp_die();
+		}
+
+		$search   = isset( $_REQUEST['search'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['search'] ) ) : '';
+		$page     = isset( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : 1;
+		$per_page = absint( 100 );
+
+		$ids = array();
+		// Search by ID.
+		if ( is_numeric( $search ) ) {
+			$customer = new \WC_Customer( intval( $search ) );
+
+			// Customer does not exists.
+			if ( $customer && 0 !== $customer->get_id() ) {
+				$ids = array( $customer->get_id() );
+			}
+		}
+
+		// Usernames can be numeric so we first check that no users was found by ID before searching for numeric username, this prevents performance issues with ID lookups.
+		if ( empty( $ids ) ) {
+			$data_store = \WC_Data_Store::load( 'customer' );
+
+			// If search is smaller than 3 characters, limit result set to avoid
+			// too many rows being returned.
+			if ( 3 > strlen( $search ) ) {
+				$per_page = 20;
+			}
+			$ids = $data_store->search_customers( $search, $per_page );
+		}
+
+		$results = array();
+		foreach ( $ids as $id ) {
+			$customer = new \WC_Customer( $id );
+			$text     = sprintf(
+			/* translators: $1: customer name, $2 customer id, $3: customer email */
+				esc_html__( '%1$s (#%2$s - %3$s)', 'wc-serial-numbers' ),
+				$customer->get_first_name() . ' ' . $customer->get_last_name(),
+				$customer->get_id(),
+				$customer->get_email()
+			);
+
+			$results[] = array(
+				'id'   => $id,
+				'text' => $text,
+			);
+		}
+
+		wp_send_json(
+			array(
+				'page'       => $page,
+				'results'    => $results,
+				'pagination' => array(
+					'more' => false,
+				),
+			)
+		);
 	}
 }
