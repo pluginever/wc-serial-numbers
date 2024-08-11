@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 1.7.6\n"
+"Project-Id-Version: WC Serial Numbers 1.7.7\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2024-07-30 09:41:06+00:00\n"
+"POT-Creation-Date: 2024-08-11 09:25:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1408,23 +1408,23 @@ msgstr ""
 msgid "Order id is invalid."
 msgstr ""
 
-#: src/Orders.php:67
+#: src/Orders.php:66
 #. translators: %1$s: product title, %2$s: stock quantity.
 msgid ""
 "Sorry, there aren’t enough Serial Keys for %1$s. Please remove this item or "
 "lower the quantity. For now, we have %2$s Serial Keys for this product."
 msgstr ""
 
-#: src/Orders.php:110
+#: src/Orders.php:109
 msgid "Order automatically completed by the Serial Numbers for WooCommerce."
 msgstr ""
 
-#: src/Plugin.php:63
+#: src/Plugin.php:76
 #. translators: 1: plugin name 2: WooCommerce
 msgid "%1$s requires %2$s to be installed and active."
 msgstr ""
 
-#: src/Plugin.php:65
+#: src/Plugin.php:78
 msgid "WooCommerce"
 msgstr ""
 
