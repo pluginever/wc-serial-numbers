@@ -94,7 +94,6 @@ class Plugin extends Lib\Plugin {
 		$this->services['encryption'] = new Encryption();
 		$this->services['orders']     = new Orders();
 		$this->services['stocks']     = new Stocks();
-		$this->services['ajax']       = new Ajax();
 		$this->services['actions']    = new Actions();
 		$this->services['restapi']    = new RestAPI();
 		$this->services['utilities']  = new Utilities\Utilities();

@@ -34,7 +34,7 @@ class Admin {
 		WCSN()->services['admin/settings']  = Settings::instance();
 		WCSN()->services['admin/menus']     = new Menus();
 		WCSN()->services['admin/notices']   = new Notices();
-		WCSN()->services['admin/actions']   = new Actions();
+		WCSN()->services['admin/actions']   = new Requests();
 		WCSN()->services['admin/metaboxes'] = new Metaboxes();
 		WCSN()->services['admin/orders']    = new Orders();
 		WCSN()->services['admin/products']  = new Products();

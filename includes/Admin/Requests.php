@@ -1,26 +1,105 @@
 <?php
 
-namespace WooCommerceSerialNumbers;
+namespace WooCommerceSerialNumbers\Admin;
+
+use WooCommerceSerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class AJAX.
+ * Class Requests.
  *
- * @since   1.4.2
- * @package WooCommerceSerialNumbers
+ * @since   1.0.0
+ * @package WooCommerceSerialNumbers\Admin
  */
-class Ajax {
+class Requests {
 
 	/**
-	 * AJAX constructor.
+	 * Requests constructor.
 	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+		// TODO: Add key action is not used.
+		// add_action( 'admin_post_wcsn_add_key', array( __CLASS__, 'handle_add_key' ) );
+		add_action( 'admin_post_wcsn_edit_key', array( __CLASS__, 'handle_edit_key' ) );
+
+		// Ajax Search.
 		add_action( 'wp_ajax_wc_serial_numbers_search_product', array( __CLASS__, 'search_product' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( __CLASS__, 'search_orders' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_customers', array( __CLASS__, 'search_customers' ) );
+	}
+
+	/**
+	 * Handle add key.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function handle_add_key() {
+		check_admin_referer( 'wcsn_add_key' );
+
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			wp_safe_redirect( wp_get_referer() );
+			exit;
+		}
+
+		$data = wc_clean( wp_unslash( $_POST ) );
+		$key  = Key::insert( $data );
+		if ( is_wp_error( $key ) ) {
+			WCSN()->add_notice( $key->get_error_message(), 'error' );
+			// redirect to referrer.
+			wp_safe_redirect( wp_get_referer() );
+			exit();
+		}
+		// Adding manually so let's enable to product and set the source.
+		$product_id = $key->get_product_id();
+		update_post_meta( $product_id, '_is_serial_number', 'yes' );
+		update_post_meta( $product_id, '_serial_key_source', 'custom_source' );
+		$status = isset( $data['status'] ) ? $data['status'] : '';
+	}
+
+	/**
+	 * Handle edit key.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function handle_edit_key() {
+		check_admin_referer( 'wcsn_edit_key' );
+
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			wp_safe_redirect( wp_get_referer() );
+			exit;
+		}
+
+		$data = wc_clean( wp_unslash( $_POST ) );
+		$key  = Key::insert( $data );
+		if ( is_wp_error( $key ) ) {
+			WCSN()->add_notice( $key->get_error_message(), 'error' );
+			// redirect to referrer.
+			wp_safe_redirect( wp_get_referer() );
+			exit();
+		}
+		$add = empty( $data['id'] ) ? true : false;
+		if ( $add ) {
+			// Adding manually so let's enable to product and set the source.
+			$product_id = $key->get_product_id();
+			update_post_meta( $product_id, '_is_serial_number', 'yes' );
+			update_post_meta( $product_id, '_serial_key_source', 'custom_source' );
+
+			WCSN()->add_notice( __( 'Key added successfully.', 'wc-serial-numbers' ) );
+		} else {
+			WCSN()->add_notice( __( 'Key updated successfully.', 'wc-serial-numbers' ) );
+		}
+
+		$redirect_to = admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->get_id() );
+		wp_safe_redirect( $redirect_to );
+		exit;
 	}
 
 	/**
@@ -207,7 +286,7 @@ class Ajax {
 		foreach ( $ids as $id ) {
 			$customer = new \WC_Customer( $id );
 			$text     = sprintf(
-				/* translators: $1: customer name, $2 customer id, $3: customer email */
+			/* translators: $1: customer name, $2 customer id, $3: customer email */
 				esc_html__( '%1$s (#%2$s - %3$s)', 'wc-serial-numbers' ),
 				$customer->get_first_name() . ' ' . $customer->get_last_name(),
 				$customer->get_id(),
