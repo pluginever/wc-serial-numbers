@@ -12,7 +12,6 @@ module.exports = {
 	entry: {
 		'js/admin-script': './assets/js/admin-script.js',
 		'js/frontend-script': './assets/js/frontend-script.js',
-		'blocks/blocks': './assets/blocks/index.js',
 		'css/admin-style': './assets/css/admin-style.scss',
 		'css/frontend-style': './assets/css/frontend-style.scss',
 	},

@@ -29,7 +29,7 @@ class Requests {
 	}
 
 	/**
-	 * Handle edit key.
+	 * Handle add/edit key.
 	 *
 	 * @since 1.0.0
 	 * @return void
