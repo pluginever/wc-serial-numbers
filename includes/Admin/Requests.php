@@ -20,45 +20,12 @@ class Requests {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		// TODO: Add key action is not used.
-		// add_action( 'admin_post_wcsn_add_key', array( __CLASS__, 'handle_add_key' ) );
 		add_action( 'admin_post_wcsn_edit_key', array( __CLASS__, 'handle_edit_key' ) );
 
 		// Ajax Search.
 		add_action( 'wp_ajax_wc_serial_numbers_search_product', array( __CLASS__, 'search_product' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( __CLASS__, 'search_orders' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_customers', array( __CLASS__, 'search_customers' ) );
-	}
-
-	/**
-	 * Handle add key.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function handle_add_key() {
-		check_admin_referer( 'wcsn_add_key' );
-
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
-			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
-			wp_safe_redirect( wp_get_referer() );
-			exit;
-		}
-
-		$data = wc_clean( wp_unslash( $_POST ) );
-		$key  = Key::insert( $data );
-		if ( is_wp_error( $key ) ) {
-			WCSN()->add_notice( $key->get_error_message(), 'error' );
-			// redirect to referrer.
-			wp_safe_redirect( wp_get_referer() );
-			exit();
-		}
-		// Adding manually so let's enable to product and set the source.
-		$product_id = $key->get_product_id();
-		update_post_meta( $product_id, '_is_serial_number', 'yes' );
-		update_post_meta( $product_id, '_serial_key_source', 'custom_source' );
-		$status = isset( $data['status'] ) ? $data['status'] : '';
 	}
 
 	/**
@@ -77,8 +44,25 @@ class Requests {
 			exit;
 		}
 
-		$data = wc_clean( wp_unslash( $_POST ) );
-		$key  = Key::insert( $data );
+		$product_id       = isset( $_POST['product_id'] ) ? absint( wp_unslash( $_POST['product_id'] ) ) : 0;
+		$order_id         = isset( $_POST['order_id'] ) ? absint( wp_unslash( $_POST['order_id'] ) ) : 0;
+		$id               = isset( $_POST['id'] ) ? absint( wp_unslash( $_POST['id'] ) ) : 0;
+		$serial_key       = isset( $_POST['serial_key'] ) ? sanitize_text_field( wp_unslash( $_POST['serial_key'] ) ) : '';
+		$activation_limit = isset( $_POST['activation_limit'] ) ? absint( wp_unslash( $_POST['activation_limit'] ) ) : 0;
+		$validity         = isset( $_POST['validity'] ) ? absint( wp_unslash( $_POST['validity'] ) ) : 0;
+		$status           = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : 'available';
+
+		$data = array(
+			'id'               => $id,
+			'product_id'       => $product_id,
+			'order_id'         => $order_id,
+			'serial_key'       => $serial_key,
+			'activation_limit' => $activation_limit,
+			'validity'         => $validity,
+			'status'           => $status,
+		);
+
+		$key = Key::insert( $data );
 		if ( is_wp_error( $key ) ) {
 			WCSN()->add_notice( $key->get_error_message(), 'error' );
 			// redirect to referrer.
