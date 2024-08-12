@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 1.7.7\n"
+"Project-Id-Version: WC Serial Numbers 2.0.0\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2024-08-11 09:25:28+00:00\n"
+"POT-Creation-Date: 2024-08-12 05:26:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,6 +23,28 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
+
+#: includes/Admin/Requests.php:42
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/Admin/Requests.php:79
+msgid "Key added successfully."
+msgstr ""
+
+#: includes/Admin/Requests.php:81
+msgid "Key updated successfully."
+msgstr ""
+
+#: includes/Admin/Requests.php:100 includes/Admin/Requests.php:163
+#: includes/Admin/Requests.php:238
+msgid "You do not have permission to access this endpoint."
+msgstr ""
+
+#: includes/Admin/Requests.php:274
+#. translators: $1: customer name, $2 customer id, $3: customer email
+msgid "%1$s (#%2$s - %3$s)"
+msgstr ""
 
 #: lib/Lib/Model.php:424
 #. translators: %s: database error message.
@@ -87,22 +109,6 @@ msgstr ""
 
 #: src/API.php:68
 msgid "Missing data."
-msgstr ""
-
-#: src/Admin/Actions.php:39 src/Ajax.php:37 src/Ajax.php:100 src/Ajax.php:175
-msgid "You do not have permission to access this endpoint."
-msgstr ""
-
-#: src/Admin/Actions.php:193 src/Admin/Actions.php:224
-msgid "You do not have permission to perform this action."
-msgstr ""
-
-#: src/Admin/Actions.php:244
-msgid "Key added successfully."
-msgstr ""
-
-#: src/Admin/Actions.php:246
-msgid "Key updated successfully."
 msgstr ""
 
 #: src/Admin/Admin.php:65
@@ -185,7 +191,7 @@ msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:177
 #: src/Admin/ListTables/KeysTable.php:350
-#: src/Admin/ListTables/StockTable.php:95 src/Admin/views/html-add-key.php:33
+#: src/Admin/ListTables/StockTable.php:95
 #: src/Admin/views/html-api-actions.php:118
 #: src/Admin/views/html-api-validation.php:121
 #: src/Admin/views/html-edit-key.php:37 src/Deprecated/Functions.php:358
@@ -311,7 +317,7 @@ msgstr ""
 msgid "Reset Activations"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:351 src/Admin/views/html-add-key.php:120
+#: src/Admin/ListTables/KeysTable.php:351
 msgid "Order"
 msgstr ""
 
@@ -324,9 +330,8 @@ msgid "Order Date"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:360 src/Admin/Menus.php:322
-#: src/Admin/Orders.php:245 src/Admin/views/html-add-key.php:91
-#: src/Admin/views/html-edit-key.php:92 src/Functions/Template.php:78
-#: src/functions.php:1034
+#: src/Admin/Orders.php:245 src/Admin/views/html-edit-key.php:92
+#: src/Functions/Template.php:78 src/functions.php:1034
 msgid "Status"
 msgstr ""
 
@@ -581,8 +586,7 @@ msgstr ""
 msgid "Expire date"
 msgstr ""
 
-#: src/Admin/Orders.php:241 src/Admin/views/html-add-key.php:65
-#: src/Admin/views/html-edit-key.php:67
+#: src/Admin/Orders.php:241 src/Admin/views/html-edit-key.php:67
 msgid "Activation limit"
 msgstr ""
 
@@ -707,7 +711,7 @@ msgstr ""
 msgid "Generate bulk keys with your custom key generator rule."
 msgstr ""
 
-#: src/Admin/Settings.php:154 src/Admin/views/html-add-key.php:172
+#: src/Admin/Settings.php:154
 msgid "Random & sequential key order for the generator rules."
 msgstr ""
 
@@ -715,7 +719,7 @@ msgstr ""
 msgid "Automatic key generator to auto-create & assign keys with orders."
 msgstr ""
 
-#: src/Admin/Settings.php:156 src/Admin/views/html-add-key.php:174
+#: src/Admin/Settings.php:156
 msgid "License key management option from the order page with required actions."
 msgstr ""
 
@@ -731,11 +735,11 @@ msgstr ""
 msgid "Option to sell keys even if there are no available keys in the stock."
 msgstr ""
 
-#: src/Admin/Settings.php:160 src/Admin/views/html-add-key.php:178
+#: src/Admin/Settings.php:160
 msgid "Custom deliverable quantity to deliver multiple keys with a single product."
 msgstr ""
 
-#: src/Admin/Settings.php:161 src/Admin/views/html-add-key.php:179
+#: src/Admin/Settings.php:161
 msgid ""
 "Manual delivery option to manually deliver license keys instead of "
 "automatic."
@@ -747,165 +751,22 @@ msgid ""
 "stock alert email."
 msgstr ""
 
-#: src/Admin/Settings.php:163 src/Admin/views/html-add-key.php:181
+#: src/Admin/Settings.php:163
 msgid "Many more ..."
 msgstr ""
 
-#: src/Admin/Settings.php:167 src/Admin/views/html-add-key.php:185
+#: src/Admin/Settings.php:167
 msgid "Want More?"
 msgstr ""
 
-#: src/Admin/Settings.php:168 src/Admin/views/html-add-key.php:186
+#: src/Admin/Settings.php:168
 msgid ""
 "This plugin offers a premium version which comes with the following "
 "features:"
 msgstr ""
 
-#: src/Admin/Settings.php:174 src/Admin/views/html-add-key.php:192
+#: src/Admin/Settings.php:174
 msgid "Upgrade to PRO"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:15
-msgid "Add Serial Key"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:17 src/Admin/views/html-edit-key.php:22
-msgid "Go Back"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:22
-msgid ""
-"This section allows you to add a new key that can be sold to customers. "
-"Additionally, you can choose to associate this key with either a new order "
-"or an existing order."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:38 src/Admin/views/html-add-key.php:39
-#: src/Admin/views/html-edit-key.php:40
-msgid "Select Product"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:42
-msgid ""
-"Choose the product to which this key is applicable. The key will be "
-"associated with this product for sale."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:50 src/Admin/views/html-edit-key.php:56
-msgid "Serial key"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:57
-msgid ""
-"Enter the unique serial key you want to sell. This key will be sent to the "
-"customer after the order status is marked as complete. e.g. "
-"4CE0460D0G-4CE0460D1G-4CE0460D2G"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:68
-msgid "e.g. 5"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:70
-msgid ""
-"For software products, specify the maximum number of times the key can be "
-"used to activate the software. If the product is not software, you can "
-"leave this field blank."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:78
-msgid "Valid for (days)"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:82
-msgid "e.g. 365"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:83
-msgid ""
-"For software products, enter the number of days the key will be valid from "
-"the purchase date. If the key should have a lifetime validity, leave this "
-"field blank."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:99
-msgid ""
-"Set as available for selling: The key will be available for purchase by "
-"customers."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:105
-msgid ""
-"Create a new corresponding order for this key: This option generates a new "
-"order specifically for this key."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:111
-msgid ""
-"Associate this key with an existing order: If the customer has already made "
-"a purchase and wants to associate this key with that order, select this "
-"option."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:125 src/Admin/views/html-add-key.php:126
-#: src/Admin/views/html-edit-key.php:106
-msgid "Select Order"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:129
-msgid ""
-"Select the order to which this key should be associated. The key will be "
-"sent to the customer after the order status is marked as complete."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:138
-msgid "Customer"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:143 src/Admin/views/html-add-key.php:144
-msgid "Select Customer"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:147
-msgid ""
-"Select the customer to which this key should be associated. The key will be "
-"sent to the customer after the order status is marked as complete."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:158
-msgid "Add Key"
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:170
-msgid "Create and assign license keys for WooCommerce variable products."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:171
-msgid "Generate bulk license keys with your custom key generator rule."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:173
-msgid "Automatic license key generator to auto-create & assign keys with orders."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:175
-msgid "Support for bulk import/export of license keys from/to CSV."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:176
-msgid "Send Serial Keys via SMS with Twilio."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:177
-msgid ""
-"Option to sell license keys even if there are no available keys in the "
-"stock."
-msgstr ""
-
-#: src/Admin/views/html-add-key.php:180
-msgid ""
-"Email Template to easily and quickly customize the order confirmation & low "
-"stock alert email."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:21
@@ -1177,12 +1038,24 @@ msgstr ""
 msgid "Add Another"
 msgstr ""
 
+#: src/Admin/views/html-edit-key.php:22
+msgid "Go Back"
+msgstr ""
+
 #: src/Admin/views/html-edit-key.php:31
 msgid "Key Details"
 msgstr ""
 
+#: src/Admin/views/html-edit-key.php:40
+msgid "Select Product"
+msgstr ""
+
 #: src/Admin/views/html-edit-key.php:50
 msgid "Select the product for which this key is applicable."
+msgstr ""
+
+#: src/Admin/views/html-edit-key.php:56
+msgid "Serial key"
 msgstr ""
 
 #: src/Admin/views/html-edit-key.php:61
@@ -1217,6 +1090,10 @@ msgstr ""
 
 #: src/Admin/views/html-edit-key.php:104
 msgid "Order ID"
+msgstr ""
+
+#: src/Admin/views/html-edit-key.php:106
+msgid "Select Order"
 msgstr ""
 
 #: src/Admin/views/html-edit-key.php:115
@@ -1269,11 +1146,6 @@ msgstr ""
 
 #: src/Admin/views/html-list-stock.php:16
 msgid "Search"
-msgstr ""
-
-#: src/Ajax.php:211
-#. translators: $1: customer name, $2 customer id, $3: customer email
-msgid "%1$s (#%2$s - %3$s)"
 msgstr ""
 
 #: src/Cron.php:57
