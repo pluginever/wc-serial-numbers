@@ -7,15 +7,15 @@ use WooCommerceSerialNumbers\Models\Key;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Actions.
+ * Class Requests.
  *
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Actions {
+class Requests {
 
 	/**
-	 * Actions constructor.
+	 * Requests constructor.
 	 *
 	 * @since 1.0.0
 	 */
