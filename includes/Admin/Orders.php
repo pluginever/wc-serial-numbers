@@ -2,7 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
-defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Class Orders.

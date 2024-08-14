@@ -31,13 +31,12 @@ class Admin {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		WCSN()->services['admin/settings']  = Settings::instance();
-		WCSN()->services['admin/menus']     = new Menus();
-		WCSN()->services['admin/notices']   = new Notices();
-		WCSN()->services['admin/requests']  = new Requests();
-		WCSN()->services['admin/metaboxes'] = new Metaboxes();
-		WCSN()->services['admin/orders']    = new Orders();
-		WCSN()->services['admin/products']  = new Products();
+		WCSN()->services['admin/settings'] = Settings::instance();
+		WCSN()->services['admin/menus']    = new Menus();
+		WCSN()->services['admin/notices']  = new Notices();
+		WCSN()->services['admin/requests'] = new Requests();
+		WCSN()->services['admin/orders']   = new Orders();
+		WCSN()->services['admin/products'] = new Products();
 	}
 
 	/**
