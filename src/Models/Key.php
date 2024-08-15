@@ -41,6 +41,7 @@ class Key extends Model {
 		'activation_count' => 0,
 		'order_id'         => 0,
 		'vendor_id'        => 0,
+		'subscription_id'  => 0,
 		'status'           => 'available',
 		'validity'         => 0,
 		'order_date'       => '',
@@ -328,6 +329,32 @@ class Key extends Model {
 	 */
 	public function set_vendor_id( $vendor_id ) {
 		$this->set_prop( 'vendor_id', absint( $vendor_id ) );
+	}
+
+	/**
+	 * Get the subscription id.
+	 *
+	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
+	 *
+	 * @since  1.4.6
+	 *
+	 * @return int
+	 */
+	public function get_subscription_id( $context = 'edit' ) {
+		return $this->get_prop( 'subscription_id', $context );
+	}
+
+	/**
+	 * Set the subscription id.
+	 *
+	 * @param int $subscription_id Subscription id.
+	 *
+	 * @since  2.0.1
+	 *
+	 * @return void
+	 */
+	public function set_subscription_id( $subscription_id ) {
+		$this->set_prop( 'subscription_id', absint( $subscription_id ) );
 	}
 
 	/**
