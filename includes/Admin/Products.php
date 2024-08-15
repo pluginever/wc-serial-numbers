@@ -86,11 +86,14 @@ class Products {
 	 * @return mixed
 	 */
 	public static function product_data_tab( $tabs ) {
-		$tabs['wc_serial_numbers'] = array(
-			'label'    => __( 'Serial Numbers', 'wc-serial-numbers' ),
-			'target'   => 'wc_serial_numbers_data',
-			'class'    => array( 'show_if_simple' ),
-			'priority' => 11,
+		$tabs['wc_serial_numbers'] = apply_filters(
+			'wc_serial_numbers_product_data_tab',
+			array(
+				'label'    => __( 'Serial Numbers', 'wc-serial-numbers' ),
+				'target'   => 'wc_serial_numbers_data',
+				'class'    => array( 'show_if_simple', 'hide_if_subscription', 'hide_if_variable-subscription' ),
+				'priority' => 11,
+			)
 		);
 
 		return $tabs;
