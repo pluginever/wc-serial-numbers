@@ -4,7 +4,7 @@
   "version": "2.0.2",
   "description": "Sell and manage license keys/ serial numbers/ secret keys easily within your WooCommerce store.",
   "homepage": "https://pluginever.com/plugins/wc-serial-numbers/",
-  "license": "GPL-3.0+",
+  "license": "GPL v2 or later",
   "prettier": "@wordpress/prettier-config",
   "scripts": {
     "build": "wp-scripts build && grunt build",
