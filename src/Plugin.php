@@ -34,6 +34,10 @@ class Plugin extends Lib\Plugin {
 	public function includes() {
 		require_once __DIR__ . '/functions.php';
 		require_once __DIR__ . '/Deprecated/Functions.php';
+
+		// Include functions from includes folder.
+		require_once __DIR__ . '/../includes/functions.php';
+		require_once __DIR__ . '/../includes/Deprecated/functions.php';
 	}
 
 	/**
