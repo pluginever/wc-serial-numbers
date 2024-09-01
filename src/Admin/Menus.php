@@ -306,8 +306,8 @@ class Menus {
 	public function go_pro_redirect() {
 		wp_verify_nonce( '_nonce' );
 		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
-			wp_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
-			die;
+			wp_safe_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
+			exit;
 		}
 	}
 
