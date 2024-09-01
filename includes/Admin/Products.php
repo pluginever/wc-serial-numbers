@@ -109,10 +109,10 @@ class Products {
 				array(
 					'id'            => '_is_serial_number',
 					'label'         => __( 'Sell keys', 'wc-serial-numbers' ),
-					'description'   => __( 'Enable this if you are selling keys or licensing this product.', 'wc-serial-numbers' ),
+					'description'   => __( 'Enable this if you are selling keys with this product.', 'wc-serial-numbers' ),
 					'value'         => get_post_meta( $post->ID, '_is_serial_number', true ),
 					'wrapper_class' => 'options_group',
-					'desc_tip'      => true,
+					'desc_tip'      => false,
 				)
 			);
 
