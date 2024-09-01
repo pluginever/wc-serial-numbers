@@ -3,7 +3,7 @@
   "description": "WC Serial Numbers",
   "homepage": "https://pluginever.com/plugins/wc-serial-numbers/",
   "type": "wordpress-plugin",
-  "license": "GPL-3.0-or-later",
+  "license": "GPL-v2 or later",
   "prefer-stable": true,
   "minimum-stability": "dev",
   "repositories": [
