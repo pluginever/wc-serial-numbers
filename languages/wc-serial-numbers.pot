@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.0.1\n"
+"Project-Id-Version: WC Serial Numbers 2.0.2\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2024-08-14 08:44:01+00:00\n"
+"POT-Creation-Date: 2024-09-01 09:28:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -93,67 +93,67 @@ msgstr ""
 msgid "View Details"
 msgstr ""
 
-#: includes/Admin/Products.php:90 includes/Admin/Products.php:311
-#: src/Admin/Admin.php:140 src/Admin/Menus.php:54 src/Admin/Menus.php:89
+#: includes/Admin/Products.php:92 includes/Admin/Products.php:314
+#: src/Admin/Admin.php:141 src/Admin/Menus.php:54 src/Admin/Menus.php:89
 #: src/Admin/Menus.php:90 src/Admin/Menus.php:435
 #: src/Functions/Template.php:226
 msgid "Serial Numbers"
 msgstr ""
 
-#: includes/Admin/Products.php:111
+#: includes/Admin/Products.php:114
 msgid "Sell keys"
 msgstr ""
 
-#: includes/Admin/Products.php:112
-msgid "Enable this if you are selling keys or licensing this product."
+#: includes/Admin/Products.php:115
+msgid "Enable this if you are selling keys with this product."
 msgstr ""
 
-#: includes/Admin/Products.php:125
+#: includes/Admin/Products.php:128
 msgid "Delivery quantity"
 msgstr ""
 
-#: includes/Admin/Products.php:126
+#: includes/Admin/Products.php:129
 msgid "Number of key(s) will be delivered per item. Available in PRO."
 msgstr ""
 
-#: includes/Admin/Products.php:146 includes/Admin/Products.php:178
+#: includes/Admin/Products.php:149 includes/Admin/Products.php:181
 msgid "Key source"
 msgstr ""
 
-#: includes/Admin/Products.php:164
+#: includes/Admin/Products.php:167
 msgid "Software version"
 msgstr ""
 
-#: includes/Admin/Products.php:165
+#: includes/Admin/Products.php:168
 msgid "Version number for the software. Ignore if it's not a software."
 msgstr ""
 
-#: includes/Admin/Products.php:166
+#: includes/Admin/Products.php:169
 msgid "e.g. 1.0"
 msgstr ""
 
-#: includes/Admin/Products.php:180
+#: includes/Admin/Products.php:183
 msgid "key available."
 msgid_plural "keys available."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Admin/Products.php:188
+#: includes/Admin/Products.php:191
 msgid "Want to sell keys for variable products?"
 msgstr ""
 
-#: includes/Admin/Products.php:190 includes/Admin/Products.php:211
+#: includes/Admin/Products.php:193 includes/Admin/Products.php:214
 #: src/Admin/Menus.php:191
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: includes/Admin/Products.php:209
+#: includes/Admin/Products.php:212
 msgid ""
 "The free version of Serial Numbers for WooCommerce does not support product "
 "variation."
 msgstr ""
 
-#: includes/Admin/Products.php:293
+#: includes/Admin/Products.php:296
 msgid "Order missing serial numbers for this item."
 msgstr ""
 
@@ -244,42 +244,42 @@ msgstr ""
 msgid "Missing data."
 msgstr ""
 
-#: src/Admin/Admin.php:64
+#: src/Admin/Admin.php:65
 msgid "Search by product"
 msgstr ""
 
-#: src/Admin/Admin.php:65
+#: src/Admin/Admin.php:66
 msgid "Search by order"
 msgstr ""
 
-#: src/Admin/Admin.php:66
+#: src/Admin/Admin.php:67
 msgid "Search by customer"
 msgstr ""
 
-#: src/Admin/Admin.php:67
+#: src/Admin/Admin.php:68
 msgid "Show"
 msgstr ""
 
-#: src/Admin/Admin.php:68
+#: src/Admin/Admin.php:69
 msgid "Hide"
 msgstr ""
 
-#: src/Admin/Admin.php:69 src/Frontend/Frontend.php:56
+#: src/Admin/Admin.php:70 src/Frontend/Frontend.php:56
 msgid "Copied"
 msgstr ""
 
-#: src/Admin/Admin.php:107
+#: src/Admin/Admin.php:108
 #. translators: 1: Plugin name 2: WordPress
 msgid ""
 "Thank you for using %1$s! Share your appreciation with a five-star review "
 "%2$s."
 msgstr ""
 
-#: src/Admin/Admin.php:109
+#: src/Admin/Admin.php:110
 msgid "Thanks :)"
 msgstr ""
 
-#: src/Admin/Admin.php:127
+#: src/Admin/Admin.php:128
 #. translators: 1: Plugin version
 msgid "Version %s"
 msgstr ""
@@ -1398,7 +1398,7 @@ msgid "WC Serial Numbers"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://www.pluginever.com/plugins/wocommerce-serial-numbers-pro/"
+msgid "https://pluginever.com/plugins/wocommerce-serial-numbers-pro/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -1412,5 +1412,5 @@ msgid "PluginEver"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://pluginever.com"
+msgid "https://pluginever.com"
 msgstr ""
