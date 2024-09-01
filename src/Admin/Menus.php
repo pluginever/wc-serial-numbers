@@ -307,7 +307,7 @@ class Menus {
 		wp_verify_nonce( '_nonce' );
 		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
 			wp_safe_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
-			exit;
+			die;
 		}
 	}
 
@@ -337,7 +337,7 @@ class Menus {
 				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
 				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=import-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
 			</div>
-			<img src="<?php echo esc_url( WCSN()->get_assets_url() . 'images/csv-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>"/>
+			<img src="<?php echo esc_url( WCSN()->get_dir_url() . 'assets/images/csv-import.png' ); ?>" alt="<?php esc_attr_e( 'Import Serial Numbers', 'wc-serial-numbers' ); ?>"/>
 		</div>
 		<div class="wcsn-feature-promo-banner">
 			<div class="wcsn-feature-promo-banner__content">
