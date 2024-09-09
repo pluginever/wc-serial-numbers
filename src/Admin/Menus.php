@@ -244,10 +244,10 @@ class Menus {
 	public function output_tools_page() {
 		wp_verify_nonce( '_nonce' );
 		$tabs = array(
-			'generators' => __( 'Generators', 'wc-serial-numbers' ),
-			'api'        => __( 'API Toolkit', 'wc-serial-numbers' ),
-			'import'     => __( 'Import', 'wc-serial-numbers' ),
-			'export'     => __( 'Export', 'wc-serial-numbers' ),
+			'general' => __( 'General', 'wc-serial-numbers' ),
+			'api'     => __( 'API Toolkit', 'wc-serial-numbers' ),
+			'import'  => __( 'Import', 'wc-serial-numbers' ),
+			'export'  => __( 'Export', 'wc-serial-numbers' ),
 		);
 
 		// If software support is disabled, remove the activations tab.
