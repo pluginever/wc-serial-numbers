@@ -472,7 +472,6 @@ function wcsn_order_update_keys( $order_id ) {
 	$do_add = apply_filters( 'wc_serial_numbers_add_order_keys', true, $order_id, $line_items, $order_status );
 
 	if ( in_array( $order_status, array( 'processing', 'completed' ), true ) && ! wcsn_order_is_fullfilled( $order_id ) && $do_add ) {
-
 		/**
 		 * Action hook to pre add order keys.
 		 *
