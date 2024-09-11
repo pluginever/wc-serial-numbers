@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WC Serial Numbers 2.0.2\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2024-09-01 09:28:58+00:00\n"
+"POT-Creation-Date: 2024-09-10 10:52:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -61,7 +61,7 @@ msgstr ""
 #: src/Admin/ListTables/KeysTable.php:349
 #: src/Admin/views/html-api-actions.php:131
 #: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
-#: src/functions.php:1009
+#: src/functions.php:1008
 msgid "Key"
 msgstr ""
 
@@ -70,7 +70,7 @@ msgid "Expire date"
 msgstr ""
 
 #: includes/Admin/Orders.php:238 src/Admin/ListTables/KeysTable.php:532
-#: src/Functions/Template.php:63 src/functions.php:1030
+#: src/Functions/Template.php:63 src/functions.php:1029
 msgid "Lifetime"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr ""
 
 #: includes/Admin/Orders.php:245 src/Admin/ListTables/KeysTable.php:360
 #: src/Admin/Menus.php:322 src/Admin/views/html-edit-key.php:92
-#: src/Functions/Template.php:78 src/functions.php:1034
+#: src/Functions/Template.php:78 src/functions.php:1033
 msgid "Status"
 msgstr ""
 
@@ -527,8 +527,8 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
-#: src/Admin/Menus.php:247 src/Admin/Menus.php:383
-msgid "Generators"
+#: src/Admin/Menus.php:247 src/Admin/Settings.php:25
+msgid "General"
 msgstr ""
 
 #: src/Admin/Menus.php:248
@@ -559,6 +559,10 @@ msgstr ""
 
 #: src/Admin/Menus.php:365
 msgid "Export Serial Numbers"
+msgstr ""
+
+#: src/Admin/Menus.php:383
+msgid "Generators"
 msgstr ""
 
 #: src/Admin/Menus.php:410
@@ -598,10 +602,6 @@ msgstr ""
 msgid ""
 "Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s "
 "discount by using the promo code %2$s. %3$s Upgrade Now%4$s."
-msgstr ""
-
-#: src/Admin/Settings.php:25
-msgid "General"
 msgstr ""
 
 #: src/Admin/Settings.php:46
@@ -1162,7 +1162,7 @@ msgid "Serial Number"
 msgstr ""
 
 #: src/Deprecated/Functions.php:361 src/Functions/Template.php:52
-#: src/functions.php:1019
+#: src/functions.php:1018
 msgid "Activation Limit"
 msgstr ""
 
@@ -1219,20 +1219,20 @@ msgstr ""
 msgid "Invalid request."
 msgstr ""
 
-#: src/Functions/Template.php:47 src/functions.php:1014
+#: src/Functions/Template.php:47 src/functions.php:1013
 msgid "Activation Email"
 msgstr ""
 
 #: src/Functions/Template.php:53 src/Functions/Template.php:58
-#: src/functions.php:1020 src/functions.php:1025
+#: src/functions.php:1019 src/functions.php:1024
 msgid "None"
 msgstr ""
 
-#: src/Functions/Template.php:57 src/functions.php:1024
+#: src/Functions/Template.php:57 src/functions.php:1023
 msgid "Activation Count"
 msgstr ""
 
-#: src/Functions/Template.php:62 src/functions.php:1029
+#: src/Functions/Template.php:62 src/functions.php:1028
 msgid "Expire Date"
 msgstr ""
 
@@ -1369,7 +1369,7 @@ msgstr ""
 msgid "Manually added"
 msgstr ""
 
-#: src/functions.php:533
+#: src/functions.php:532
 #. translators: 1: product title 2: source and 3: Quantity
 msgid ""
 "There is not enough serial numbers for the product %1$s from selected "
