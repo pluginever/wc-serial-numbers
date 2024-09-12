@@ -114,7 +114,7 @@ class Notices {
 		check_ajax_referer( 'wc_serial_numbers_dismiss_notice', 'nonce' );
 
 		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();
 		}
 

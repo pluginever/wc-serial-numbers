@@ -221,13 +221,14 @@ class Products {
 	 * since 1.0.0
 	 */
 	public static function product_save_data() {
-		global $post;
-		if ( ! isset( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ), 'woocommerce_save_data' ) ) {
+		// Must have WC Serial Numbers manager role to access this endpoint.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			WCSN()->add_notice( 'error', __( 'You do not have permission to save this data.', 'wc-serial-numbers' ) );
 			return;
 		}
 
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+		global $post;
+		if ( ! isset( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ), 'woocommerce_save_data' ) ) {
 			return;
 		}
 
