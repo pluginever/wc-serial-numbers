@@ -116,8 +116,8 @@ class Generator extends \WooCommerceSerialNumbers\ByteKit\Models\Model {
 	 */
 	public static function get_statuses() {
 		return array(
-			'active'   => __( 'Active', 'wc-serial-numbers-pro' ),
-			'inactive' => __( 'Inactive', 'wc-serial-numbers-pro' ),
+			'active'   => __( 'Active', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
+			'inactive' => __( 'Inactive', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
 		);
 	}
 
@@ -163,15 +163,15 @@ class Generator extends \WooCommerceSerialNumbers\ByteKit\Models\Model {
 	public function save() {
 		// pattern is required.
 		if ( empty( $this->name ) ) {
-			return new \WP_Error( 'missing-required', __( 'The generator name is required.', 'wc-serial-numbers-pro' ) );
+			return new \WP_Error( 'missing-required', __( 'The generator name is required.', 'wc-serial-numbers-pro', 'wc-serial-numbers' ) );
 		}
 		// product_id is required.
 		if ( empty( $this->pattern ) ) {
-			return new \WP_Error( 'missing-required', __( 'The generator pattern is required.', 'wc-serial-numbers-pro' ) );
+			return new \WP_Error( 'missing-required', __( 'The generator pattern is required.', 'wc-serial-numbers-pro', 'wc-serial-numbers' ) );
 		}
 		// type is required.
 		if ( empty( $this->charset ) ) {
-			return new \WP_Error( 'missing-required', __( 'The generator charset is required.', 'wc-serial-numbers-pro' ) );
+			return new \WP_Error( 'missing-required', __( 'The generator charset is required.', 'wc-serial-numbers-pro', 'wc-serial-numbers' ) );
 		}
 
 		return parent::save();

@@ -14,9 +14,9 @@ $list_table->process_bulk_actions( $action );
 ?>
 
 <div class="wrap pev-wrap">
-	<h1 class="wp-heading-inline"><?php esc_html_e( 'Generators', 'wc-serial-numbers-pro' ); ?></h1>
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Generators', 'wc-serial-numbers-pro', 'wc-serial-numbers' ); ?></h1>
 	<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers-generators&add' ) ); ?>" class="page-title-action">
-		<?php esc_html_e( 'Add New', 'wc-serial-numbers-pro' ); ?>
+		<?php esc_html_e( 'Add New', 'wc-serial-numbers-pro', 'wc-serial-numbers' ); ?>
 	</a>
 
 	<form id="wcsn-generators-table" method="get">

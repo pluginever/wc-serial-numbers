@@ -27,8 +27,8 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 	public function __construct() {
 		parent::__construct(
 			array(
-				'singular' => __( 'generator', 'wc-serial-numbers-pro' ),
-				'plural'   => __( 'generators', 'wc-serial-numbers-pro' ),
+				'singular' => __( 'generator', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
+				'plural'   => __( 'generators', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
 				'ajax'     => false,
 			)
 		);
@@ -86,7 +86,7 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 	 * No items found text.
 	 */
 	public function no_items() {
-		esc_html_e( 'No generators found.', 'wc-serial-numbers-pro' );
+		esc_html_e( 'No generators found.', 'wc-serial-numbers-pro', 'wc-serial-numbers' );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 		$status_links = array();
 		$statuses     = array_merge(
 			array(
-				'all' => __( 'All', 'wc-serial-numbers-pro' ),
+				'all' => __( 'All', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
 			),
 			Generator::get_statuses()
 		);
@@ -180,9 +180,9 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 	 */
 	public function get_bulk_actions() {
 		return array(
-			'delete'     => __( 'Delete', 'wc-serial-numbers-pro' ),
-			'activate'   => __( 'Activate', 'wc-serial-numbers-pro' ),
-			'deactivate' => __( 'Deactivate', 'wc-serial-numbers-pro' ),
+			'delete'     => __( 'Delete', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
+			'activate'   => __( 'Activate', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
+			'deactivate' => __( 'Deactivate', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
 		);
 	}
 
@@ -194,11 +194,11 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 	public function get_columns() {
 		$columns = array(
 			'cb'               => '<input type="checkbox" />',
-			'name'             => __( 'Name', 'wc-serial-numbers-pro' ),
-			'pattern'          => __( 'Pattern', 'wc-serial-numbers-pro' ),
-			'validity_for'     => __( 'Validity For', 'wc-serial-numbers-pro' ),
-			'activation_limit' => __( 'Activation Limit', 'wc-serial-numbers-pro' ),
-			'status'           => __( 'Status', 'wc-serial-numbers-pro' ),
+			'name'             => __( 'Name', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
+			'pattern'          => __( 'Pattern', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
+			'validity_for'     => __( 'Validity For', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
+			'activation_limit' => __( 'Activation Limit', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
+			'status'           => __( 'Status', 'wc-serial-numbers-pro', 'wc-serial-numbers' ),
 		);
 
 		return apply_filters( 'wc_serial_numbers_pro_generators_table_columns', $columns );
@@ -283,11 +283,11 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 	 */
 	protected function column_validity_for( $item ) {
 		if ( empty( $item->validity_for ) ) {
-			return esc_html__( 'Lifetime', 'wc-serial-numbers-pro' );
+			return esc_html__( 'Lifetime', 'wc-serial-numbers-pro', 'wc-serial-numbers' );
 		}
 		if ( ! empty( $item->validity_for ) ) {
 			// translators: %d: number of days.
-			return sprintf( _nx( '%d day <small>After Purchase</small>', '%d days <small>After Purchase</small>', $item->validity_for, 'valid for days', 'wc-serial-numbers-pro' ), $item->validity_for );
+			return sprintf( _nx( '%d day <small>After Purchase</small>', '%d days <small>After Purchase</small>', $item->validity_for, 'valid for days', 'wc-serial-numbers-pro', 'wc-serial-numbers' ), $item->validity_for );
 		}
 
 		return '&mdash;';
@@ -303,7 +303,7 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 	 */
 	protected function column_activation_limit( $item ) {
 		if ( empty( $item->activation_limit ) ) {
-			return esc_html__( 'Unlimited', 'wc-serial-numbers-pro' );
+			return esc_html__( 'Unlimited', 'wc-serial-numbers-pro', 'wc-serial-numbers' );
 		}
 
 		if ( ! empty( $item->activation_limit ) ) {
@@ -345,7 +345,7 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 			'edit'   => sprintf(
 				'<a href="%s">%s</a>',
 				esc_url( add_query_arg( 'edit', $item->id, $this->base_url ) ),
-				__( 'Edit', 'wc-serial-numbers-pro' )
+				__( 'Edit', 'wc-serial-numbers-pro', 'wc-serial-numbers' )
 			),
 			'delete' => sprintf(
 				'<a href="%s" class="del">%s</a>',
@@ -361,7 +361,7 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 						'bulk-' . $this->_args['plural']
 					)
 				),
-				__( 'Delete', 'wc-serial-numbers-pro' )
+				__( 'Delete', 'wc-serial-numbers-pro', 'wc-serial-numbers' )
 			),
 		);
 		// based on the status, add activate or deactivate action.
@@ -380,7 +380,7 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 						'bulk-' . $this->_args['plural']
 					)
 				),
-				__( 'Deactivate', 'wc-serial-numbers-pro' )
+				__( 'Deactivate', 'wc-serial-numbers-pro', 'wc-serial-numbers' )
 			);
 		} else {
 			$actions['activate'] = sprintf(
@@ -397,7 +397,7 @@ class GeneratorsTable extends \WooCommerceSerialNumbers\Admin\ListTables\ListTab
 						'bulk-' . $this->_args['plural']
 					)
 				),
-				__( 'Activate', 'wc-serial-numbers-pro' )
+				__( 'Activate', 'wc-serial-numbers-pro', 'wc-serial-numbers' )
 			);
 		}
 

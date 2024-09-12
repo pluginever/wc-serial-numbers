@@ -222,10 +222,12 @@ class Products {
 			return;
 		}
 
-		$status = isset( $_POST['_is_serial_number'] ) ? 'yes' : 'no';
-		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( wp_unslash( $_POST['_serial_key_source'] ) ) : 'automatic';
+		$status       = isset( $_POST['_is_serial_number'] ) ? 'yes' : 'no';
+		$source       = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( wp_unslash( $_POST['_serial_key_source'] ) ) : 'automatic';
+		$delivery_qty = isset( $_POST['_delivery_quantity'] ) ? absint( wp_unslash( $_POST['_delivery_quantity'] ) ) : 1;
 		update_post_meta( $post->ID, '_is_serial_number', $status );
 		update_post_meta( $post->ID, '_serial_key_source', $source );
+		update_post_meta( $post->ID, '_delivery_quantity', $delivery_qty );
 
 		// if source is automatic then get the generator id.
 		if ( 'automatic' === $source ) {
