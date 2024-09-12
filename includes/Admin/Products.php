@@ -226,8 +226,9 @@ class Products {
 			return;
 		}
 
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+		// Must have edit_post user capability to save this data.
+		if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+			WCSN()->add_notice( __( 'You do not have permission to save this data.', 'wc-serial-numbers' ), 'error' );
 			return;
 		}
 

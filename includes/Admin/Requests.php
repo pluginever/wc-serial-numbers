@@ -37,8 +37,8 @@ class Requests {
 	public static function handle_edit_key() {
 		check_admin_referer( 'wcsn_edit_key' );
 
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+		// Must have manage options user capability role to access this endpoint.
+		if ( ! current_user_can( 'manage_options' ) ) {
 			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
 			wp_safe_redirect( wp_get_referer() );
 			exit;
@@ -95,8 +95,8 @@ class Requests {
 	public static function search_product() {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
 
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+		// Must have manage options user capability role to access this endpoint.
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
 			wp_die();
 		}
@@ -158,8 +158,8 @@ class Requests {
 	public static function search_orders() {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
 
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+		// Must have manage options user capability role to access this endpoint.
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
 			wp_die();
 		}
@@ -233,8 +233,8 @@ class Requests {
 	public static function search_customers() {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
 
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+		// Must have manage options user capability role to access this endpoint.
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to access this endpoint.', 'wc-serial-numbers' ) ) );
 			wp_die();
 		}

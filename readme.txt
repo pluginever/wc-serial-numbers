@@ -4,7 +4,7 @@ Tags: license, license manager, serial number, serial key, woocommerce
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -251,6 +251,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 9. Thank You Page with Keys
 
 == Changelog ==
+= 2.0.3 (12 Sep 2024) =
+* Fix: Security issue.
+
 = 2.0.2 (01 Sep 2024) =
 * Fix: Few known issues.
 

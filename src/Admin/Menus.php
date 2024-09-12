@@ -84,11 +84,10 @@ class Menus {
 	 * @return void
 	 */
 	public function main_menu() {
-		$role = wcsn_get_manager_role();
 		add_menu_page(
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
 			__( 'Serial Numbers', 'wc-serial-numbers' ),
-			$role,
+			'manage_options',
 			'wc-serial-numbers',
 			null,
 			'dashicons-lock',
@@ -99,7 +98,7 @@ class Menus {
 			'wc-serial-numbers',
 			__( 'Serial Keys', 'wc-serial-numbers' ),
 			__( 'Serial Keys', 'wc-serial-numbers' ),
-			$role,
+			'manage_options',
 			'wc-serial-numbers',
 			array( $this, 'output_main_page' )
 		);
@@ -119,7 +118,7 @@ class Menus {
 			'wc-serial-numbers',
 			__( 'Activations', 'wc-serial-numbers' ),
 			__( 'Activations', 'wc-serial-numbers' ),
-			wcsn_get_manager_role(),
+			'manage_options',
 			'wc-serial-numbers-activations',
 			array( $this, 'output_activations_page' )
 		);
@@ -136,7 +135,7 @@ class Menus {
 			'wc-serial-numbers',
 			__( 'Tools', 'wc-serial-numbers' ),
 			__( 'Tools', 'wc-serial-numbers' ),
-			wcsn_get_manager_role(),
+			'manage_options',
 			'wc-serial-numbers-tools',
 			array( $this, 'output_tools_page' )
 		);
@@ -153,7 +152,7 @@ class Menus {
 			'wc-serial-numbers',
 			__( 'Reports', 'wc-serial-numbers' ),
 			__( 'Reports', 'wc-serial-numbers' ),
-			wcsn_get_manager_role(),
+			'manage_options',
 			'wc-serial-numbers-reports',
 			array( $this, 'output_reports_page' )
 		);
@@ -170,7 +169,7 @@ class Menus {
 			'wc-serial-numbers',
 			__( 'Settings', 'wc-serial-numbers' ),
 			__( 'Settings', 'wc-serial-numbers' ),
-			wcsn_get_manager_role(),
+			'manage_options',
 			'wc-serial-numbers-settings',
 			array( Settings::class, 'output' )
 		);
@@ -183,13 +182,12 @@ class Menus {
 	 * @return void
 	 */
 	public function promo_menu() {
-		$role = wcsn_get_manager_role();
 		if ( ! WCSN()->is_premium_active() ) {
 			add_submenu_page(
 				'wc-serial-numbers',
 				'',
 				'<span style="color:#05ef82;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Upgrade to Pro', 'wc-serial-numbers' ) . '</span>',
-				$role,
+				'manage_options',
 				'go_wcsn_pro',
 				array( $this, 'go_pro_redirect' )
 			);
