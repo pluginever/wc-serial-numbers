@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WC Serial Numbers 2.0.3\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2024-09-12 09:39:07+00:00\n"
+"POT-Creation-Date: 2024-09-12 10:07:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -83,7 +83,7 @@ msgid "Unlimited"
 msgstr ""
 
 #: includes/Admin/Orders.php:245 src/Admin/ListTables/KeysTable.php:360
-#: src/Admin/Menus.php:329 src/Admin/views/html-edit-key.php:92
+#: src/Admin/Menus.php:320 src/Admin/views/html-edit-key.php:92
 #: src/Functions/Template.php:78 src/functions.php:1034
 msgid "Status"
 msgstr ""
@@ -95,7 +95,7 @@ msgstr ""
 
 #: includes/Admin/Products.php:92 includes/Admin/Products.php:315
 #: src/Admin/Admin.php:141 src/Admin/Menus.php:54 src/Admin/Menus.php:88
-#: src/Admin/Menus.php:89 src/Admin/Menus.php:442
+#: src/Admin/Menus.php:89 src/Admin/Menus.php:433
 #: src/Functions/Template.php:226
 msgid "Serial Numbers"
 msgstr ""
@@ -143,7 +143,7 @@ msgid "Want to sell keys for variable products?"
 msgstr ""
 
 #: includes/Admin/Products.php:193 includes/Admin/Products.php:214
-#: src/Admin/Menus.php:190
+#: src/Admin/Menus.php:189
 msgid "Upgrade to Pro"
 msgstr ""
 
@@ -153,7 +153,7 @@ msgid ""
 "variation."
 msgstr ""
 
-#: includes/Admin/Products.php:226
+#: includes/Admin/Products.php:231
 msgid "You do not have permission to save this data."
 msgstr ""
 
@@ -161,7 +161,7 @@ msgstr ""
 msgid "Order missing serial numbers for this item."
 msgstr ""
 
-#: includes/Admin/Requests.php:42 src/Admin/Menus.php:209
+#: includes/Admin/Requests.php:42
 msgid "You do not have permission to perform this action."
 msgstr ""
 
@@ -498,7 +498,7 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:98 src/Admin/Menus.php:289
+#: src/Admin/ListTables/StockTable.php:98 src/Admin/Menus.php:280
 msgid "Stock"
 msgstr ""
 
@@ -531,62 +531,62 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
-#: src/Admin/Menus.php:254 src/Admin/Menus.php:390
+#: src/Admin/Menus.php:245 src/Admin/Menus.php:381
 msgid "Generators"
 msgstr ""
 
-#: src/Admin/Menus.php:255
+#: src/Admin/Menus.php:246
 msgid "API Toolkit"
 msgstr ""
 
-#: src/Admin/Menus.php:256 src/Admin/views/html-list-keys.php:25
+#: src/Admin/Menus.php:247 src/Admin/views/html-list-keys.php:25
 msgid "Import"
 msgstr ""
 
-#: src/Admin/Menus.php:257 src/Admin/views/html-list-keys.php:29
+#: src/Admin/Menus.php:248 src/Admin/views/html-list-keys.php:29
 msgid "Export"
 msgstr ""
 
-#: src/Admin/Menus.php:344 src/Admin/Menus.php:351 src/Admin/Menus.php:369
-#: src/Admin/Menus.php:387
+#: src/Admin/Menus.php:335 src/Admin/Menus.php:342 src/Admin/Menus.php:360
+#: src/Admin/Menus.php:378
 msgid "Available in Pro Version"
 msgstr ""
 
-#: src/Admin/Menus.php:345 src/Admin/Menus.php:352 src/Admin/Menus.php:370
-#: src/Admin/Menus.php:388
+#: src/Admin/Menus.php:336 src/Admin/Menus.php:343 src/Admin/Menus.php:361
+#: src/Admin/Menus.php:379
 msgid "Upgrade to Pro Now"
 msgstr ""
 
-#: src/Admin/Menus.php:347 src/Admin/Menus.php:354
+#: src/Admin/Menus.php:338 src/Admin/Menus.php:345
 msgid "Import Serial Numbers"
 msgstr ""
 
-#: src/Admin/Menus.php:372
+#: src/Admin/Menus.php:363
 msgid "Export Serial Numbers"
 msgstr ""
 
-#: src/Admin/Menus.php:417
+#: src/Admin/Menus.php:408
 msgid "Table exists"
 msgstr ""
 
-#: src/Admin/Menus.php:419
+#: src/Admin/Menus.php:410
 msgid "Table does not exist"
 msgstr ""
 
-#: src/Admin/Menus.php:425
+#: src/Admin/Menus.php:416
 msgid "Hourly cron"
 msgstr ""
 
-#: src/Admin/Menus.php:426
+#: src/Admin/Menus.php:417
 msgid "Daily cron"
 msgstr ""
 
-#: src/Admin/Menus.php:432
+#: src/Admin/Menus.php:423
 #. translators: %s: Next scheduled time.
 msgid "Next run: %s"
 msgstr ""
 
-#: src/Admin/Menus.php:434
+#: src/Admin/Menus.php:425
 msgid "Not scheduled"
 msgstr ""
 
