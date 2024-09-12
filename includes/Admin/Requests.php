@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\Models\Generator;
 use WooCommerceSerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -21,8 +22,9 @@ class Requests {
 	 */
 	public function __construct() {
 		add_action( 'admin_post_wcsn_edit_key', array( __CLASS__, 'handle_edit_key' ) );
-
+		add_action( 'admin_post_wcsn_edit_generator', array( $this, 'edit_generator' ) );
 		// Ajax Search.
+		add_action( 'admin_post_wcsn_generate_bulk_keys', array( __CLASS__, 'generate_bulk_keys' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_product', array( __CLASS__, 'search_product' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( __CLASS__, 'search_orders' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_customers', array( __CLASS__, 'search_customers' ) );
@@ -74,7 +76,7 @@ class Requests {
 			// Adding manually so let's enable to product and set the source.
 			$product_id = $key->get_product_id();
 			update_post_meta( $product_id, '_is_serial_number', 'yes' );
-			update_post_meta( $product_id, '_serial_key_source', 'custom_source' );
+			update_post_meta( $product_id, '_serial_key_source', 'preset' );
 
 			WCSN()->add_notice( __( 'Key added successfully.', 'wc-serial-numbers' ) );
 		} else {
@@ -84,6 +86,126 @@ class Requests {
 		$redirect_to = admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->get_id() );
 		wp_safe_redirect( $redirect_to );
 		exit;
+	}
+
+	/**
+	 * Edit generator.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function edit_generator() {
+		check_admin_referer( 'wc_serial_numbers_edit_generator' );
+
+		if ( function_exists( 'wcsn_get_manager_role' ) && ! current_user_can( wcsn_get_manager_role() ) ) {
+			WCSN()->add_notice( __( 'Error: Sorry, you are not allowed to do this.', 'wc-serial-numbers-pro' ), 'error' );
+			wp_safe_redirect( wp_get_referer() );
+			exit;
+		}
+
+		$referer          = wp_get_referer();
+		$id               = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+		$name             = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+		$pattern          = isset( $_POST['pattern'] ) ? sanitize_text_field( wp_unslash( $_POST['pattern'] ) ) : '';
+		$charset          = isset( $_POST['charset'] ) ? sanitize_text_field( wp_unslash( $_POST['charset'] ) ) : '';
+		$valid_for        = isset( $_POST['valid_for'] ) ? absint( $_POST['valid_for'] ) : 0;
+		$activation_limit = isset( $_POST['activation_limit'] ) ? absint( $_POST['activation_limit'] ) : 0;
+		$status           = isset( $_POST['status'] ) ? sanitize_key( $_POST['status'] ) : 'active';
+
+		$generator = Generator::make(
+			array(
+				'id'               => $id,
+				'name'             => $name,
+				'pattern'          => $pattern,
+				'charset'          => $charset,
+				'valid_for'        => $valid_for,
+				'activation_limit' => $activation_limit,
+				'status'           => $status,
+			)
+		);
+
+		$generator = $generator->save();
+		if ( is_wp_error( $generator ) ) {
+			WCSN()->add_notice( $generator->get_error_message(), 'error' );
+			wp_safe_redirect( $referer );
+			exit;
+		}
+
+		WCSN()->add_notice( __( 'Generator has been saved successfully.', 'wc-serial-numbers-pro' ) );
+		// Remove 'add' query arg from the URL.
+		$referer = remove_query_arg( 'add', $referer );
+		wp_safe_redirect( add_query_arg( array( 'edit' => $generator->id ), $referer ) );
+		exit;
+	}
+
+	/**
+	 * Generate serial numbers.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function generate_bulk_keys() {
+		check_admin_referer( 'wcsn_generate_bulk_keys' );
+
+		if ( function_exists( 'wcsn_get_manager_role' ) && ! current_user_can( wcsn_get_manager_role() ) ) {
+			wp_send_json_error( array( 'message' => __( 'You are not allowed, to use this.', 'wc-serial-numbers-pro' ) ) );
+		}
+
+		$referer      = wp_get_referer();
+		$product_id   = isset( $_POST['product_id'] ) ? absint( $_POST['product_id'] ) : 0;
+		$generator_id = isset( $_POST['generator_id'] ) ? absint( $_POST['generator_id'] ) : 0;
+		$quantity     = isset( $_POST['quantity'] ) ? absint( $_POST['quantity'] ) : 1;
+
+		// Check if product id is present.
+		if ( empty( $product_id ) ) {
+			WCSN()->add_notice( __( 'Error: Please select a product.', 'wc-serial-numbers-pro' ), 'error' );
+			wp_safe_redirect( $referer );
+			exit;
+		}
+
+		// Check if quantity is present.
+		if ( empty( $quantity ) ) {
+			WCSN()->add_notice( __( 'Error: Please enter a quantity.', 'wc-serial-numbers-pro' ), 'error' );
+			wp_safe_redirect( $referer );
+			exit;
+		}
+
+		// key data.
+		$data = array(
+			'product_id' => $product_id,
+			'quantity'   => $quantity,
+			'source'     => 'preset',
+		);
+
+		// Check if generator id is present then update $data.
+		if ( ! empty( $generator_id ) ) {
+			$generator_args = array(
+				'generator_id' => $generator_id,
+				'source'       => 'automatic',
+			);
+
+			// parse arguments.
+			$data = wp_parse_args( $generator_args, $data );
+		}
+
+		// Generate keys.
+		$keys = wcsn_generate_keys( $data );
+
+		if ( empty( $keys ) ) {
+			WCSN()->add_notice( __( 'Could not generate any keys. Please check the generator settings.', 'wc-serial-numbers-pro' ), 'error' );
+			wp_safe_redirect( $referer );
+			exit;
+		}
+
+		update_post_meta( $product_id, '_is_serial_number', 'yes' );
+		update_post_meta( $product_id, '_serial_key_source', 'preset' );
+
+		// Translators: %s: number of keys generated.
+		$notice = sprintf( esc_html__( '%s keys have been generated successfully.', 'wc-serial-numbers-pro' ), number_format( count( $keys ) ) );
+		WCSN()->add_notice( $notice );
+		wp_safe_redirect( $referer );
+		exit();
 	}
 
 	/**

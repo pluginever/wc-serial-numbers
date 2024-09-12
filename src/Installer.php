@@ -153,7 +153,7 @@ class Installer {
 			expire_date DATETIME NULL DEFAULT NULL,
 			order_date DATETIME NULL DEFAULT NULL,
     		uuid varchar(50) DEFAULT NULL,
-			source varchar(50) DEFAULT 'custom_source',
+			source varchar(50) DEFAULT 'preset',
 			created_date DATETIME NULL DEFAULT NULL,
 			PRIMARY KEY  (id),
 			key product_id (product_id),
@@ -247,7 +247,7 @@ class Installer {
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}serial_numbers ADD vendor_id bigint(20) NOT NULL DEFAULT 0" );
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}serial_numbers ADD activation_count int(9) NOT NULL  DEFAULT 0" );
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}serial_numbers ADD KEY vendor_id(`vendor_id`)" );
-		$wpdb->query( "ALTER TABLE {$wpdb->prefix}serial_numbers ADD source varchar(200) NOT NULL default 'custom_source'" );
+		$wpdb->query( "ALTER TABLE {$wpdb->prefix}serial_numbers ADD source varchar(200) NOT NULL default 'preset'" );
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}serial_numbers_activations CHANGE platform platform varchar(200) DEFAULT NULL" );
 		// status update.
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}serial_numbers set status=%s WHERE status=%s AND order_id=0", 'available', 'new' ) );

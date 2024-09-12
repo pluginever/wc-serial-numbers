@@ -21,6 +21,11 @@ class Products {
 		add_action( 'admin_head', array( __CLASS__, 'print_style' ) );
 		add_filter( 'woocommerce_product_data_tabs', array( __CLASS__, 'product_data_tab' ) );
 		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );
+		add_action( 'wc_serial_numbers_product_options', array( __CLASS__, 'render_enable_sale_keys_options' ) );
+		add_action( 'wc_serial_numbers_product_options', array( __CLASS__, 'render_source_options' ) );
+		add_action( 'wc_serial_numbers_product_options', array( __CLASS__, 'render_key_options' ) );
+		add_action( 'wc_serial_numbers_product_options', array( __CLASS__, 'render_software_options' ) );
+		add_action( 'wc_serial_numbers_product_options', array( __CLASS__, 'render_pro_notice_options' ) );
 		add_filter( 'woocommerce_process_product_meta', array( __CLASS__, 'product_save_data' ) );
 		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'variable_product_content' ), 10, 3 );
 	}
@@ -38,10 +43,10 @@ class Products {
 				content: "\f112";
 			}
 
-			._serial_key_source_field label {
-				margin: 0 !important;
-				width: 100% !important;
-			}
+			/*._serial_key_source_field label {*/
+			/*	margin: 0 !important;*/
+			/*	width: 100% !important;*/
+			/*}*/
 
 			.wc-serial-numbers-upgrade-box {
 				background: #f1f1f1;
@@ -103,100 +108,86 @@ class Products {
 	 * since 1.0.0
 	 */
 	public static function product_write_panel() {
-		global $post, $woocommerce;
-		?>
-		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
-			style="padding-bottom: 50px;display: none;">
-			<?php
-			woocommerce_wp_checkbox(
-				array(
-					'id'            => '_is_serial_number',
-					'label'         => __( 'Sell keys', 'wc-serial-numbers' ),
-					'description'   => __( 'Enable this if you are selling keys with this product.', 'wc-serial-numbers' ),
-					'value'         => get_post_meta( $post->ID, '_is_serial_number', true ),
-					'wrapper_class' => 'options_group',
-					'desc_tip'      => false,
-				)
-			);
+		global $post;
+		$product = wc_get_product( $post->ID );
 
-			$delivery_quantity = (int) get_post_meta( $post->ID, '_delivery_quantity', true );
-			woocommerce_wp_text_input(
-				apply_filters(
-					'wc_serial_numbers_delivery_quantity_field_args',
-					array(
-						'id'                => '_delivery_quantity',
-						'label'             => __( 'Delivery quantity', 'wc-serial-numbers' ),
-						'description'       => __( 'Number of key(s) will be delivered per item. Available in PRO.', 'wc-serial-numbers' ),
-						'value'             => empty( $delivery_quantity ) ? 1 : $delivery_quantity,
-						'type'              => 'number',
-						'wrapper_class'     => 'options_group',
-						'desc_tip'          => true,
-						'custom_attributes' => array(
-							'disabled' => 'disabled',
-						),
-					)
-				)
-			);
+		include __DIR__ . '/views/products/product-options.php';
+	}
 
-			$source  = get_post_meta( $post->ID, '_serial_key_source', true );
-			$sources = wcsn_get_key_sources();
-			if ( count( $sources ) > 1 ) {
-				woocommerce_wp_radio(
-					array(
-						'id'            => '_serial_key_source',
-						'name'          => '_serial_key_source',
-						'class'         => 'serial_key_source',
-						'label'         => __( 'Key source', 'wc-serial-numbers' ),
-						'value'         => empty( $source ) ? 'custom_source' : $source,
-						'wrapper_class' => 'options_group',
-						'options'       => $sources,
-					)
-				);
-				foreach ( array_keys( $sources ) as $key_source ) {
-					do_action( 'wc_serial_numbers_source_settings_' . $key_source, $post->ID );
-					do_action( 'wc_serial_numbers_source_settings', $key_source, $post->ID );
-				}
-			}
+	/**
+	 * Render enable sale keys options.
+	 *
+	 * @param \WC_Product $product product object.
+	 *
+	 * @since 3.0.0
+	 */
+	public static function render_enable_sale_keys_options( $product ) {
+		if ( strpos( $product->get_type(), 'variable' ) !== false ) {
+			return;
+		}
 
-			do_action( 'wc_serial_numbers_simple_product_metabox', $post );
+		include __DIR__ . '/views/products/product-selling-keys-options.php';
+	}
 
-			if ( wcsn_is_software_support_enabled() ) {
-				woocommerce_wp_text_input(
-					array(
-						'id'            => '_software_version',
-						'label'         => __( 'Software version', 'wc-serial-numbers' ),
-						'description'   => __( 'Version number for the software. Ignore if it\'s not a software.', 'wc-serial-numbers' ),
-						'placeholder'   => __( 'e.g. 1.0', 'wc-serial-numbers' ),
-						'wrapper_class' => 'options_group',
-						'desc_tip'      => true,
-					)
-				);
-			}
-			$stocks = wcsn_get_stocks_count();
-			$stock  = isset( $stocks[ $post->ID ] ) ? $stocks[ $post->ID ] : 0;
+	/**
+	 * Render source options.
+	 *
+	 * @param \WC_Product $product product object.
+	 *
+	 * @since 3.0.0
+	 */
+	public static function render_source_options( $product ) {
+		if ( strpos( $product->get_type(), 'variable' ) !== false ) {
+			return;
+		}
 
-			echo wp_kses_post(
-				sprintf(
-					'<p class="wcsn-key-source-based-field form-field options_group" data-source="custom_source"><label>%s</label><span class="description">%d %s</span></p>',
-					__( 'Key source', 'wc-serial-numbers' ),
-					$stock,
-					_n( 'key available.', 'keys available.', $stock, 'wc-serial-numbers' )
-				)
-			);
+		include __DIR__ . '/views/products/product-source-options.php';
+	}
 
-			if ( ! WCSN()->is_premium_active() ) {
-				echo wp_kses_post(
-					sprintf(
-						'<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>',
-						__( 'Want to sell keys for variable products?', 'wc-serial-numbers' ),
-						'https://www.pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product_page_license_area&utm_medium=link&utm_campaign=wc-serial-numbers&utm_content=Upgrade%20to%20Pro',
-						__( 'Upgrade to Pro', 'wc-serial-numbers' ),
-					)
-				);
-			}
-			?>
-		</div>
-		<?php
+	/**
+	 * Render key options.
+	 *
+	 * @param \WC_Product $product product object.
+	 *
+	 * @since 3.0.0
+	 */
+	public static function render_key_options( $product ) {
+		if ( strpos( $product->get_type(), 'variable' ) !== false ) {
+			return;
+		}
+
+		include __DIR__ . '/views/products/product-key-options.php';
+	}
+
+	/**
+	 * Render software options.
+	 *
+	 * @param \WC_Product $product product object.
+	 *
+	 * @since 3.0.0
+	 */
+	public static function render_software_options( $product ) {
+		if ( strpos( $product->get_type(), 'variable' ) !== false || ! wcsn_is_software_support_enabled() ) {
+			return;
+		}
+
+		include __DIR__ . '/views/products/product-software-options.php';
+	}
+
+	/**
+	 * Render pro notice options.
+	 *
+	 * @param \WC_Product $product product object.
+	 *
+	 * @since 3.0.0
+	 */
+	public static function render_pro_notice_options( $product ) {
+		// if product is variable, do not show the key options. Also, if pro version is active, do not show the notice.
+		if ( strpos( $product->get_type(), 'variable' ) !== false || WCSN()->is_premium_active() ) {
+			return;
+		}
+
+		include __DIR__ . '/views/products/product-pro-notice-options.php';
 	}
 
 	/**
@@ -232,9 +223,18 @@ class Products {
 		}
 
 		$status = isset( $_POST['_is_serial_number'] ) ? 'yes' : 'no';
-		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( wp_unslash( $_POST['_serial_key_source'] ) ) : 'custom_source';
+		$source = isset( $_POST['_serial_key_source'] ) ? sanitize_text_field( wp_unslash( $_POST['_serial_key_source'] ) ) : 'automatic';
 		update_post_meta( $post->ID, '_is_serial_number', $status );
 		update_post_meta( $post->ID, '_serial_key_source', $source );
+
+		// if source is automatic then get the generator id.
+		if ( 'automatic' === $source ) {
+			$generator_id = isset( $_POST['_generator_id'] ) ? absint( wp_unslash( $_POST['_generator_id'] ) ) : 0;
+			$sequential   = isset( $_POST['_wcsn_is_sequential'] ) ? 'yes' : 'no';
+			update_post_meta( $post->ID, '_generator_id', $generator_id );
+			update_post_meta( $post->ID, '_wcsn_is_sequential', $sequential );
+		}
+
 		// save only if software licensing enabled.
 		if ( wcsn_is_software_support_enabled() ) {
 			$software_version = isset( $_POST['_software_version'] ) ? sanitize_text_field( wp_unslash( $_POST['_software_version'] ) ) : '';
