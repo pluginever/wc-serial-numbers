@@ -103,7 +103,7 @@ defined( 'ABSPATH' ) || exit;
 							<label for="order_id">
 								<?php esc_html_e( 'Order ID', 'wc-serial-numbers' ); ?>
 							</label>
-							<select name="order_id" id="order_id" class="wcsn_search_order" required="required" placeholder="<?php esc_html_e( 'Select Order', 'wc-serial-numbers' ); ?>">
+							<select name="order_id" id="order_id" class="wcsn_search_order" placeholder="<?php esc_html_e( 'Select Order', 'wc-serial-numbers' ); ?>">
 								<?php
 								printf(
 									'<option value="%d" selected="selected">%s</option>',
