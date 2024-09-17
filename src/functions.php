@@ -21,7 +21,7 @@ require_once __DIR__ . '/Functions/Template.php';
  * @return string
  */
 function wcsn_get_manager_role() {
-	return apply_filters( 'wc_serial_numbers_manager_role', 'manage_options' );
+	return apply_filters( 'wc_serial_numbers_manager_role', 'manage_woocommerce' );
 }
 
 /**
