@@ -1,7 +1,7 @@
 <?php
 require 'wp-blog-header.php';
 
-if ( ! current_user_can( 'manage_options' ) ) { die();
+if ( ! current_user_can( 'manage_woocommerce' ) ) { die();
 }
 
 // API variables, please override.
