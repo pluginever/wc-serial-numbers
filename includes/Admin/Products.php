@@ -226,7 +226,7 @@ class Products {
 			return;
 		}
 
-		// Must have manage woocommerce user capability role to access this endpoint.
+		// Must have manage woocommerce user capability role to save this data.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
 			WCSN()->add_notice( __( 'You do not have permission to save this data.', 'wc-serial-numbers' ), 'error' );
 			return;
