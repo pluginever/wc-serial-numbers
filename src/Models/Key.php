@@ -40,6 +40,7 @@ class Key extends Model {
 		'activation_limit' => 0,
 		'activation_count' => 0,
 		'order_id'         => 0,
+		'order_item_id'    => 0,
 		'vendor_id'        => 0,
 		'status'           => 'available',
 		'validity'         => 0,
@@ -285,6 +286,30 @@ class Key extends Model {
 	 */
 	public function set_order_id( $order_id ) {
 		$this->set_prop( 'order_id', absint( $order_id ) );
+	}
+
+	/**
+	 * Get the order item id.
+	 *
+	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
+	 *
+	 * @since  2.0.6
+	 * @return int
+	 */
+	public function get_order_item_id( $context = 'edit' ) {
+		return $this->get_prop( 'order_item_id', $context );
+	}
+
+	/**
+	 * Set the order item id.
+	 *
+	 * @param int $order_item_id Order id.
+	 *
+	 * @since  2.0.6
+	 * @return void
+	 */
+	public function set_order_item_id( $order_item_id ) {
+		$this->set_prop( 'order_item_id', absint( $order_item_id ) );
 	}
 
 	/**
