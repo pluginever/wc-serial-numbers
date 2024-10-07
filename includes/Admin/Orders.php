@@ -215,7 +215,7 @@ class Orders {
 		}
 		$keys = wcsn_get_keys(
 			apply_filters(
-				'wc_serial_numbers_admin_order_item_keys_query_args',
+				'wcsn_order_item_keys_query_args',
 				array(
 					'order_id'   => $order_id,
 					'product_id' => $product->get_id(),
