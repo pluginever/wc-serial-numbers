@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.0.5\n"
+"Project-Id-Version: WC Serial Numbers 2.0.6\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2024-09-26 06:08:46+00:00\n"
+"POT-Creation-Date: 2024-10-07 09:04:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -53,42 +53,42 @@ msgstr ""
 msgid "%d orders updated successfully."
 msgstr ""
 
-#: includes/Admin/Orders.php:228
+#: includes/Admin/Orders.php:233
 msgid "Serial keys sold with this product:"
 msgstr ""
 
-#: includes/Admin/Orders.php:233 src/Admin/ListTables/ActivationsTable.php:178
+#: includes/Admin/Orders.php:238 src/Admin/ListTables/ActivationsTable.php:178
 #: src/Admin/ListTables/KeysTable.php:349
 #: src/Admin/views/html-api-actions.php:131
 #: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
-#: src/functions.php:1009
+#: src/functions.php:1015
 msgid "Key"
 msgstr ""
 
-#: includes/Admin/Orders.php:237
+#: includes/Admin/Orders.php:242
 msgid "Expire date"
 msgstr ""
 
-#: includes/Admin/Orders.php:238 src/Admin/ListTables/KeysTable.php:532
-#: src/Functions/Template.php:63 src/functions.php:1030
+#: includes/Admin/Orders.php:243 src/Admin/ListTables/KeysTable.php:532
+#: src/Functions/Template.php:63 src/functions.php:1036
 msgid "Lifetime"
 msgstr ""
 
-#: includes/Admin/Orders.php:241 src/Admin/views/html-edit-key.php:67
+#: includes/Admin/Orders.php:246 src/Admin/views/html-edit-key.php:67
 msgid "Activation limit"
 msgstr ""
 
-#: includes/Admin/Orders.php:242
+#: includes/Admin/Orders.php:247
 msgid "Unlimited"
 msgstr ""
 
-#: includes/Admin/Orders.php:245 src/Admin/ListTables/KeysTable.php:360
+#: includes/Admin/Orders.php:250 src/Admin/ListTables/KeysTable.php:360
 #: src/Admin/Menus.php:320 src/Admin/views/html-edit-key.php:92
-#: src/Functions/Template.php:78 src/functions.php:1034
+#: src/Functions/Template.php:78 src/functions.php:1040
 msgid "Status"
 msgstr ""
 
-#: includes/Admin/Orders.php:272
+#: includes/Admin/Orders.php:277
 #. translators: %s is the item number.
 msgid "View Details"
 msgstr ""
@@ -1166,7 +1166,7 @@ msgid "Serial Number"
 msgstr ""
 
 #: src/Deprecated/Functions.php:361 src/Functions/Template.php:52
-#: src/functions.php:1019
+#: src/functions.php:1025
 msgid "Activation Limit"
 msgstr ""
 
@@ -1223,20 +1223,20 @@ msgstr ""
 msgid "Invalid request."
 msgstr ""
 
-#: src/Functions/Template.php:47 src/functions.php:1014
+#: src/Functions/Template.php:47 src/functions.php:1020
 msgid "Activation Email"
 msgstr ""
 
 #: src/Functions/Template.php:53 src/Functions/Template.php:58
-#: src/functions.php:1020 src/functions.php:1025
+#: src/functions.php:1026 src/functions.php:1031
 msgid "None"
 msgstr ""
 
-#: src/Functions/Template.php:57 src/functions.php:1024
+#: src/Functions/Template.php:57 src/functions.php:1030
 msgid "Activation Count"
 msgstr ""
 
-#: src/Functions/Template.php:62 src/functions.php:1029
+#: src/Functions/Template.php:62 src/functions.php:1035
 msgid "Expire Date"
 msgstr ""
 
@@ -1244,7 +1244,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: src/Functions/Template.php:305
+#: src/Functions/Template.php:307
 msgid "Order is waiting for serial numbers to be assigned."
 msgstr ""
 
@@ -1265,23 +1265,23 @@ msgstr ""
 msgid "Instance is required."
 msgstr ""
 
-#: src/Models/Key.php:484
+#: src/Models/Key.php:509
 msgid "Product id is required."
 msgstr ""
 
-#: src/Models/Key.php:489
+#: src/Models/Key.php:514
 msgid "Product id is invalid."
 msgstr ""
 
-#: src/Models/Key.php:494 src/RestAPI.php:148
+#: src/Models/Key.php:519 src/RestAPI.php:148
 msgid "Serial key is required."
 msgstr ""
 
-#: src/Models/Key.php:506
+#: src/Models/Key.php:531
 msgid "Serial key already exists. Duplicate serial keys are not allowed."
 msgstr ""
 
-#: src/Models/Key.php:512
+#: src/Models/Key.php:537
 msgid "Order id is invalid."
 msgstr ""
 
@@ -1373,7 +1373,7 @@ msgstr ""
 msgid "Manually added"
 msgstr ""
 
-#: src/functions.php:533
+#: src/functions.php:539
 #. translators: 1: product title 2: source and 3: Quantity
 msgid ""
 "There is not enough serial numbers for the product %1$s from selected "
