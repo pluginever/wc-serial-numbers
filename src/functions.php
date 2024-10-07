@@ -491,7 +491,7 @@ function wcsn_order_update_keys( $order_id ) {
 
 			$delivered_qty = Key::count(
 				apply_filters(
-					'wc_serial_numbers_order_item_keys_count_query_args',
+					'wcsn_order_item_keys_count_args',
 					array(
 						'order_id'       => $order_id,
 						'product_id'     => $item['product_id'],
