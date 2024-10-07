@@ -293,7 +293,7 @@ class Key extends Model {
 	 *
 	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
 	 *
-	 * @since  1.4.6
+	 * @since  2.0.6
 	 * @return int
 	 */
 	public function get_order_item_id( $context = 'edit' ) {
@@ -305,8 +305,7 @@ class Key extends Model {
 	 *
 	 * @param int $order_item_id Order id.
 	 *
-	 * @since  1.4.6
-	 *
+	 * @since  2.0.6
 	 * @return void
 	 */
 	public function set_order_item_id( $order_item_id ) {
