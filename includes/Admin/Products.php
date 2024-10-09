@@ -217,8 +217,9 @@ class Products {
 			return;
 		}
 
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+		// Must have manage woocommerce user capability role to save this data.
+		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
+			WCSN()->add_notice( __( 'You do not have permission to save this data.', 'wc-serial-numbers' ), 'error' );
 			return;
 		}
 

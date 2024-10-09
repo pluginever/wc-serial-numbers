@@ -256,7 +256,9 @@ function wcsn_display_order_keys_table( $order, $line_items ) {
 				'product_id' => $line_item['product_id'],
 				'status__in' => array( 'sold', 'expired' ),
 				'limit'      => - 1,
-			)
+			),
+			$line_item,
+			$order
 		);
 
 		$keys = wcsn_get_keys( $args );

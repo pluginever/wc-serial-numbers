@@ -1,7 +1,7 @@
 {
   "name": "pluginever/wc-serial-numbers",
   "description": "WC Serial Numbers",
-  "homepage": "https://pluginever.com/plugins/wc-serial-numbers/",
+  "homepage": "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/",
   "type": "wordpress-plugin",
   "license": "GPL-v2 or later",
   "prefer-stable": true,

@@ -292,7 +292,7 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	public function process_bulk_actions( $doaction ) {
-		if ( $doaction && check_ajax_referer( 'bulk-' . $this->_args['plural'] ) && current_user_can( wcsn_get_manager_role() ) ) {
+		if ( $doaction && check_ajax_referer( 'bulk-' . $this->_args['plural'] ) && current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
 			if ( wp_unslash( isset( $_REQUEST['id'] ) ) ) {
 				$ids = wp_parse_id_list( wp_unslash( $_REQUEST['id'] ) );
 			} elseif ( isset( $_REQUEST['ids'] ) ) {

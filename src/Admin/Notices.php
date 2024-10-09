@@ -113,8 +113,8 @@ class Notices {
 	public function dismiss_notice() {
 		check_ajax_referer( 'wc_serial_numbers_dismiss_notice', 'nonce' );
 
-		// Must have WC Serial Numbers manager role to access this endpoint.
-		if ( ! current_user_can( wcsn_get_manager_role() ) ) {
+		// Must have manage woocommerce user capability role to access this endpoint.
+		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
 			wp_die();
 		}
 

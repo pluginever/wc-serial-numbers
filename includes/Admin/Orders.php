@@ -214,10 +214,15 @@ class Orders {
 			return;
 		}
 		$keys = wcsn_get_keys(
-			array(
-				'order_id'   => $order_id,
-				'product_id' => $product->get_id(),
-				'limit'      => - 1,
+			apply_filters(
+				'wcsn_order_item_keys_query_args',
+				array(
+					'order_id'   => $order_id,
+					'product_id' => $product->get_id(),
+					'limit'      => - 1,
+				),
+				$item_id,
+				$order_id
 			)
 		);
 
