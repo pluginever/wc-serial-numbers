@@ -48,6 +48,16 @@ class Admin {
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts( $hook ) {
+
+		// Check if the current screen is a WooCommerce product add/edit screen. If so, enqueue the script.
+		if ( 'post.php' === $hook || 'post-new.php' === $hook ) {
+			$screen = get_current_screen();
+			if ( 'product' === $screen->post_type ) {
+				WCSN()->enqueue_script( 'wcsn-admin-product', 'js/admin-product.js', array( 'jquery' ), WCSN()->get_version(), true );
+			}
+		}
+
+		// Check if the current screen is a WooCommerce Serial Numbers screen. If not, return.
 		if ( ! in_array( $hook, self::get_screen_ids(), true ) ) {
 			return;
 		}
@@ -142,6 +152,7 @@ class Admin {
 		$screen_ids = array(
 			'toplevel_page_' . $screen_id,
 			'toplevel_page_wc-serial-numbers',
+			$screen_id . '_page_wc-serial-numbers-generators',
 			$screen_id . '_page_wc-serial-numbers-activations',
 			$screen_id . '_page_wc-serial-numbers-products',
 			$screen_id . '_page_wc-serial-numbers-tools',

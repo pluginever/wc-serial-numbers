@@ -9,6 +9,7 @@
 use WooCommerceSerialNumbers\Encryption;
 use WooCommerceSerialNumbers\Models\Activation;
 use WooCommerceSerialNumbers\Models\Key;
+use WooCommerceSerialNumbers\Models\Generator;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -88,7 +89,8 @@ function wcsn_get_revoke_statuses() {
  */
 function wcsn_get_key_sources() {
 	$sources = array(
-		'custom_source' => __( 'Manually added', 'wc-serial-numbers' ),
+		'automatic' => __( 'Automatic', 'wc-serial-numbers' ),
+		'preset'    => __( 'Preset', 'wc-serial-numbers' ),
 	);
 
 	return apply_filters( 'wc_serial_numbers_key_sources', $sources );
@@ -328,7 +330,7 @@ function wcsn_get_order_line_items_data( $order_id, $order_item_id = null ) {
 			$refund_qty = $order->get_qty_refunded_for_item( $item_id );
 			// Deprecated filter.
 			// todo: remove this filter in the future.
-			$sources  = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id );
+			$sources  = apply_filters( 'wc_serial_numbers_product_serial_source', 'preset', $product_id );
 			$quantity = $quantity * apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id, $order_id );
 
 			$data = array(
@@ -472,7 +474,6 @@ function wcsn_order_update_keys( $order_id ) {
 	$do_add = apply_filters( 'wc_serial_numbers_add_order_keys', true, $order_id, $line_items, $order_status );
 
 	if ( in_array( $order_status, array( 'processing', 'completed' ), true ) && ! wcsn_order_is_fullfilled( $order_id ) && $do_add ) {
-
 		/**
 		 * Action hook to pre add order keys.
 		 *
@@ -901,7 +902,7 @@ function wcsn_get_stocks_count( $stock_limit = null, $force = true ) {
 					'relation' => 'AND',
 					array(
 						'key'     => '_serial_key_source',
-						'value'   => 'custom_source',
+						'value'   => 'preset',
 						'compare' => '=',
 					),
 				),
@@ -1065,4 +1066,143 @@ function wcsn_get_key_display_properties( $key, $context = 'order_details' ) {
 	);
 
 	return $properties;
+}
+
+/**
+ * Get generators.
+ *
+ * @param array $args Query args.
+ *
+ * @since 1.2.1
+ * @return Generator[]|int
+ */
+function wcsn_get_generators( $args = array() ) {
+	return Generator::results( $args );
+}
+
+/**
+ * Get the generator.
+ *
+ * @param mixed $data Generator ID or object.
+ *
+ * @since 1.2.1
+ * @return Generator|null
+ */
+function wcsn_get_generator( $data ) {
+	return Generator::find( $data );
+}
+
+/**
+ * Generate keys based on the settings of the product.
+ *
+ * @param array $args Arguments.
+ *
+ * @since 3.0.0
+ */
+function wcsn_generate_keys( $args = array() ) {
+	// Default arguments.
+	$defaults = array(
+		'product_id'   => 0,
+		'generator_id' => 0,
+		'quantity'     => 1,
+	);
+	// Parse arguments.
+	$args = wp_parse_args( $args, $defaults );
+
+	$product_id   = ! empty( $args['product_id'] ) ? absint( $args['product_id'] ) : 0;
+	$generator_id = ! empty( $args['generator_id'] ) ? absint( $args['generator_id'] ) : 0;
+	$quantity     = ! empty( $args['quantity'] ) ? absint( $args['quantity'] ) : 1;
+	$product      = wc_get_product( $product_id );
+
+	// If product ID is not set, then return false.
+	if ( empty( $product ) ) {
+		return false;
+	}
+
+	// If generator is set, we will check if product has a generator set otherwise we will use default settings.
+	if ( empty( $generator_id ) ) {
+		$generator_id = get_post_meta( $product_id, '_generator_id', true );
+	}
+
+	// If we get the generator ID and generator is found, then we will use the generator settings.
+	$generator = null;
+	if ( ! empty( $generator_id ) ) {
+		$generator = Generator::find( $generator_id );
+	}
+
+	// Prepare required variables.
+	$pattern          = $generator ? $generator->pattern : get_option( 'wcsn_pattern', '####-####-####-####' );
+	$charset          = $generator ? $generator->charset : get_option( 'wcsn_charset', '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
+	$valid_for        = $generator ? $generator->valid_for : get_option( 'wcsn_valid_for', 0 );
+	$activation_limit = $generator ? $generator->activation_limit : get_option( 'wcsn_activation_limit', 0 );
+	$source           = ! empty( $args['source'] ) ? $args['source'] : 'preset';
+	$mask_count       = substr_count( $pattern, '#' );
+
+	// Prepare replacers array.
+	$replacers = array(
+		'product_id'  => $product->get_id(),
+		'product_sku' => $product->get_sku(),
+		'y'           => wp_date( 'Y' ),
+		'm'           => wp_date( 'm' ),
+		'd'           => wp_date( 'd' ),
+		'h'           => wp_date( 'H' ),
+		'i'           => wp_date( 'i' ),
+		's'           => wp_date( 's' ),
+	);
+
+	// Replace placeholders with actual values.
+	$pattern = preg_replace_callback(
+		'/{(\w+)}/',
+		function ( $matches ) use ( $replacers ) {
+			return $replacers[ $matches[1] ] ?? '';
+		},
+		$pattern
+	);
+
+	$keys = array();
+	foreach ( range( 1, $quantity ) as $index ) {
+		$code  = $pattern;
+		$chars = array_map(
+			function () use ( $charset ) {
+				return $charset[ wp_rand( 0, strlen( $charset ) - 1 ) ];
+			},
+			range( 1, $mask_count )
+		);
+
+		// Replace '#' with characters.
+		foreach ( $chars as $char ) {
+			if ( strpos( $code, '#' ) !== false ) {
+				$pos  = strpos( $code, '#' );
+				$code = substr_replace( $code, $char, $pos, 1 );
+			} else {
+				$code .= $char;
+			}
+		}
+
+		$data = array(
+			'product_id'       => $product->get_id(),
+			'serial_key'       => $code,
+			'activation_limit' => $activation_limit,
+			'validity'         => $valid_for,
+			'source'           => $source,
+		);
+
+		/**
+		 * Filter hook to alter the key data before inserting.
+		 *
+		 * @param array                             $data The key data.
+		 * @param array                             $args The arguments.
+		 * @param Generator|null $generator The generator object.
+		 */
+		$data = apply_filters( 'wc_serial_numbers_generated_key_data', $data, $args, $generator );
+
+		$key = wcsn_insert_key( $data );
+
+		if ( ! is_wp_error( $key ) ) {
+			$keys[] = $key;
+		}
+	}
+
+	// Return the generated keys.
+	return $keys;
 }

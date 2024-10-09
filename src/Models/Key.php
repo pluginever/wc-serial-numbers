@@ -45,7 +45,7 @@ class Key extends Model {
 		'status'           => 'available',
 		'validity'         => 0,
 		'order_date'       => '',
-		'source'           => 'custom_source',
+		'source'           => 'preset',
 		'created_date'     => '',
 	);
 

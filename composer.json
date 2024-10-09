@@ -18,6 +18,10 @@
     {
       "url": "git@github.com:pluginever/framework-model.git",
       "type": "github"
+    },
+    {
+      "type": "github",
+      "url": "git@github.com:byteever/bytekit-models.git"
     }
   ],
   "require": {
@@ -28,7 +32,8 @@
     "coenjacobs/mozart": "^0.7.1",
     "pluginever/framework-model": "dev-master",
     "pluginever/framework-plugin": "dev-master",
-    "pluginever/framework-settings": "dev-master"
+    "pluginever/framework-settings": "dev-master",
+    "byteever/bytekit-models": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -65,7 +70,8 @@
       "packages": [
         "pluginever/framework-plugin",
         "pluginever/framework-settings",
-        "pluginever/framework-model"
+        "pluginever/framework-model",
+        "byteever/bytekit-models"
       ]
     }
   }

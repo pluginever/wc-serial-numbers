@@ -2,6 +2,8 @@
 
 namespace WooCommerceSerialNumbers;
 
+use WooCommerceSerialNumbers\Models\Generator;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -107,8 +109,86 @@ class Plugin extends Lib\Plugin {
 			$this->services['admin'] = new Admin\Admin();
 		}
 
+		// Filters.
+		add_filter( 'wc_serial_numbers_pre_order_item_connect_serial_numbers', array( __CLASS__, 'generate_serials' ), 10, 3 );
+		add_filter( 'wc_serial_numbers_product_serial_source', array( __CLASS__, 'define_serials_source' ), 10, 2 );
+
 		// Init action.
 		do_action( 'wc_serial_numbers_loaded' );
+	}
+
+	/**
+	 * Generate serial numbers.
+	 *
+	 * @param int    $product_id Product ID.
+	 * @param int    $total_delivery_qty Total delivery quantity.
+	 * @param string $source Source.
+	 *
+	 * @since 1.2.0
+	 * @return bool|int
+	 */
+	public static function generate_serials( $product_id, $total_delivery_qty, $source ) {
+		if ( empty( $product_id ) || empty( $total_delivery_qty ) || empty( $source ) || 'preset' === $source ) {
+			return false;
+		}
+		$count = (int) wcsn_get_keys(
+			array(
+				'product_id' => $product_id,
+				'status'     => 'available',
+				'source'     => $source,
+				'count'      => true,
+			)
+		);
+
+		$needed_quantity = ceil( $total_delivery_qty - $count );
+
+		if ( $needed_quantity < 1 ) {
+			return false;
+		}
+
+		// Check if source is not changed.
+		if ( get_post_meta( $product_id, '_serial_key_source', true ) !== $source ) {
+			return false;
+		}
+
+		$total_generated = 0;
+		if ( 'automatic' === $source ) {
+			$generator_id = (int) get_post_meta( $product_id, '_generator_id', true );
+			$generator    = wcsn_get_generator( $generator_id );
+
+			$data = array(
+				'product_id' => $product_id,
+				'quantity'   => $needed_quantity,
+				'source'     => 'automatic',
+			);
+
+			// If generator is found then generate keys from generator.
+			if ( $generator ) {
+				$data['generator_id'] = $generator_id;
+			}
+
+			// Generate keys.
+			$keys = wcsn_generate_keys( $data );
+
+			$total_generated = count( $keys );
+		}
+
+		return $total_generated;
+	}
+
+	/**
+	 * Define serial number source.
+	 *
+	 * @param string $source Source.
+	 * @param int    $product_id Product ID.
+	 *
+	 * @since 1.2.0
+	 * @return bool|mixed|string
+	 */
+	public static function define_serials_source( $source, $product_id ) {
+		$key_source = get_post_meta( $product_id, '_serial_key_source', true );
+
+		return 'automatic' === $key_source ? 'automatic' : $source;
 	}
 
 	/**

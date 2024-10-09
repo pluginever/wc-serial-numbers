@@ -29,7 +29,7 @@ $list_table->process_bulk_actions( $doaction );
 		<?php esc_html_e( 'Export', 'wc-serial-numbers' ); ?>
 	</a>
 	<!--Generate-->
-	<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers-tools&tab=generators' ) ); ?>" class="page-title-action">
+	<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wc-serial-numbers-tools&tab=general' ) ); ?>" class="page-title-action">
 		<?php esc_html_e( 'Generate', 'wc-serial-numbers' ); ?>
 	</a>
 

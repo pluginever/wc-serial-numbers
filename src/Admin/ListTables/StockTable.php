@@ -168,12 +168,10 @@ class StockTable extends ListTable {
 				return number_format_i18n( $sold_count );
 			case 'source':
 				$source = get_post_meta( $item->get_id(), '_serial_key_source', true );
-				if ( 'custom_source' === $source ) {
+				if ( 'preset' === $source ) {
 					$label = esc_html__( 'Manual', 'wc-serial-numbers' );
-				} elseif ( 'generator_rule' === $source ) {
-					$label = esc_html__( 'Generator Rule', 'wc-serial-numbers' );
-				} elseif ( 'auto_generated' === $source ) {
-					$label = esc_html__( 'Auto Generated', 'wc-serial-numbers' );
+				} elseif ( 'automatic' === $source ) {
+					$label = esc_html__( 'Automatic', 'wc-serial-numbers' );
 				} else {
 					$label = esc_html__( 'Unknown', 'wc-serial-numbers' );
 				}
