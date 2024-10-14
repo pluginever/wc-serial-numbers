@@ -96,7 +96,7 @@ class Requests {
 	 * @return void
 	 */
 	public function edit_generator() {
-		check_admin_referer( 'wc_serial_numbers_edit_generator' );
+		check_admin_referer( 'wcsn_edit_generator' );
 
 		if ( function_exists( 'wcsn_get_manager_role' ) && ! current_user_can( wcsn_get_manager_role() ) ) {
 			WCSN()->add_notice( __( 'Error: Sorry, you are not allowed to do this.', 'wc-serial-numbers' ), 'error' );
