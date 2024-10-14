@@ -28,7 +28,6 @@ class Orders {
 		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ) );
 		// TODO: handle order status change and order remove scenario.
 		// TODO: handle order again feature.
-
 		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_email_keys' ), PHP_INT_MAX );
 		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_display_keys' ), 9 );
 	}
@@ -53,8 +52,8 @@ class Orders {
 			if ( wcsn_is_product_enabled( $product_id ) && ! $allow_backorder ) {
 				$per_item_quantity = absint( apply_filters( 'wc_serial_numbers_per_product_delivery_qty', 1, $product_id ) );
 				$needed_quantity   = $quantity * ( empty( $per_item_quantity ) ? 1 : absint( $per_item_quantity ) );
-				$source            = apply_filters( 'wc_serial_numbers_product_serial_source', 'custom_source', $product_id, $needed_quantity );
-				if ( 'custom_source' === $source ) {
+				$source            = apply_filters( 'wc_serial_numbers_product_serial_source', 'preset', $product_id, $needed_quantity );
+				if ( 'preset' === $source ) {
 					$args        = array(
 						'product_id' => $product_id,
 						'status'     => 'available',

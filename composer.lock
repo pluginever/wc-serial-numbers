@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db0a4e2eed5394cfab48f679b98ec95b",
+    "content-hash": "26d152b97ff925db5e9dbb38b5fc65a8",
     "packages": [],
     "packages-dev": [
         {
@@ -52,6 +52,102 @@
                 "source": "https://github.com/byteever/byteever-sniffs/tree/v1.0.2"
             },
             "time": "2024-06-28T06:59:58+00:00"
+        },
+        {
+            "name": "byteever/bytekit-models",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:byteever/bytekit-models.git",
+                "reference": "959c56d6fd9e7b8728349c43ab7ab38491744e36"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byteever/bytekit-models/zipball/959c56d6fd9e7b8728349c43ab7ab38491744e36",
+                "reference": "959c56d6fd9e7b8728349c43ab7ab38491744e36",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "byteever/byteever-sniffs": "dev-master",
+                "codeception/module-asserts": "^1.0",
+                "codeception/module-cli": "^1.0",
+                "codeception/module-db": "^1.0",
+                "codeception/module-filesystem": "^1.0",
+                "codeception/module-phpbrowser": "^1.0",
+                "codeception/module-rest": "^2.0",
+                "codeception/module-webdriver": "^1.0",
+                "codeception/util-universalframework": "^1.0",
+                "lucatume/wp-browser": "<3.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ByteKit\\Models\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "ByteKit\\Models\\Tests\\Supports\\": "tests/_support",
+                    "ByteKit\\Models\\Tests\\Unit\\": "tests/unit",
+                    "ByteKit\\Models\\Tests\\Functional\\": "tests/functional",
+                    "ByteKit\\Models\\Tests\\Acceptance\\": "tests/acceptance",
+                    "ByteKit\\Models\\Tests\\WPUnit\\": "tests/wpunit"
+                }
+            },
+            "scripts": {
+                "phpcs": [
+                    "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -v"
+                ],
+                "phpcbf": [
+                    "@php ./vendor/bin/phpcbf --standard=phpcs.xml -v"
+                ],
+                "test:setup": [
+                    "bash bin/install-test-env.sh"
+                ],
+                "test:build": [
+                    "vendor/bin/codecept build"
+                ],
+                "test:wpunit": [
+                    "vendor/bin/codecept run wpunit --"
+                ],
+                "test:functional": [
+                    "vendor/bin/codecept run functional --"
+                ],
+                "test:acceptance": [
+                    "vendor/bin/codecept run acceptance --"
+                ],
+                "test:gen:wpunit": [
+                    "vendor/bin/codecept generate:wpunit wpunit"
+                ],
+                "test:gen:functional": [
+                    "vendor/bin/codecept generate:wpunit functional"
+                ],
+                "test:gen:acceptance": [
+                    "vendor/bin/codecept generate:acceptance acceptance"
+                ],
+                "test": [
+                    "vendor/bin/codecept run wpunit"
+                ]
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Sultan Nasir Uddin",
+                    "email": "manikdrmc@gmail.com"
+                }
+            ],
+            "description": "A package to manage models in WordPress.",
+            "support": {
+                "source": "https://github.com/byteever/bytekit-models/tree/master",
+                "issues": "https://github.com/byteever/bytekit-models/issues"
+            },
+            "time": "2024-09-30T12:55:35+00:00"
         },
         {
             "name": "coenjacobs/mozart",
@@ -1934,7 +2030,8 @@
     "stability-flags": {
         "pluginever/framework-model": 20,
         "pluginever/framework-plugin": 20,
-        "pluginever/framework-settings": 20
+        "pluginever/framework-settings": 20,
+        "byteever/bytekit-models": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

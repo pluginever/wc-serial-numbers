@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\Models\Generator;
 use WooCommerceSerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
@@ -21,6 +22,7 @@ class Menus {
 	public function __construct() {
 		// Register the menus.
 		add_action( 'admin_menu', array( $this, 'main_menu' ) );
+		add_action( 'admin_menu', array( $this, 'generators_menu' ) );
 		add_action( 'admin_menu', array( $this, 'activations_menu' ), 40 );
 		add_action( 'admin_menu', array( $this, 'tools_menu' ), 50 );
 		add_action( 'admin_menu', array( $this, 'reports_menu' ), 60 );
@@ -31,7 +33,7 @@ class Menus {
 		add_filter( 'wc_serial_numbers_tools_tabs', array( __CLASS__, 'add_tools_status_tab' ), PHP_INT_MAX );
 		add_action( 'wc_serial_numbers_tools_tab_import', array( __CLASS__, 'import_tab' ) );
 		add_action( 'wc_serial_numbers_tools_tab_export', array( __CLASS__, 'export_tab' ) );
-		add_action( 'wc_serial_numbers_tools_tab_generators', array( __CLASS__, 'generators_tab' ) );
+		add_action( 'wc_serial_numbers_tools_tab_general', array( __CLASS__, 'output_generators_tab' ) );
 		add_action( 'wc_serial_numbers_tools_tab_status', array( __CLASS__, 'status_tab' ) );
 		add_action( 'wc_serial_numbers_tools_tab_api', array( __CLASS__, 'api_validation_section' ) );
 		add_action( 'wc_serial_numbers_tools_tab_api', array( __CLASS__, 'api_activation_deactivation_section' ) );
@@ -102,6 +104,42 @@ class Menus {
 			'wc-serial-numbers',
 			array( $this, 'output_main_page' )
 		);
+	}
+
+	/**
+	 * Add the Generators menu.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function generators_menu() {
+		add_submenu_page(
+			'wc-serial-numbers',
+			__( 'Generators', 'wc-serial-numbers' ),
+			__( 'Generators', 'wc-serial-numbers' ),
+			'manage_options',
+			'wc-serial-numbers-generators',
+			array( __CLASS__, 'render_generators_tab' )
+		);
+	}
+
+	/**
+	 * Output the generators tab.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function render_generators_tab() {
+		wp_verify_nonce( '_wpnonce' );
+		if ( isset( $_GET['add'] ) || isset( $_GET['edit'] ) ) {
+			$id        = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
+			$generator = Generator::make( $id );
+			if ( ! empty( $id ) && ! $generator->exists() ) {
+				wp_safe_redirect( remove_query_arg( 'edit' ) );
+				exit();
+			}
+			Admin::view( 'html-edit-generator.php', array( 'generator' => $generator ) );
+		} else {
+			Admin::view( 'html-list-generators.php' );
+		}
 	}
 
 	/**
@@ -242,10 +280,10 @@ class Menus {
 	public function output_tools_page() {
 		wp_verify_nonce( '_nonce' );
 		$tabs = array(
-			'generators' => __( 'Generators', 'wc-serial-numbers' ),
-			'api'        => __( 'API Toolkit', 'wc-serial-numbers' ),
-			'import'     => __( 'Import', 'wc-serial-numbers' ),
-			'export'     => __( 'Export', 'wc-serial-numbers' ),
+			'general' => __( 'General', 'wc-serial-numbers' ),
+			'api'     => __( 'API Toolkit', 'wc-serial-numbers' ),
+			'import'  => __( 'Import', 'wc-serial-numbers' ),
+			'export'  => __( 'Export', 'wc-serial-numbers' ),
 		);
 
 		// If software support is disabled, remove the activations tab.
@@ -366,21 +404,14 @@ class Menus {
 	}
 
 	/**
-	 * Getnerators tab content.
+	 * Generators tab content.
 	 *
-	 * @since 1.4.6
+	 * @since 3.0.0
+	 *
 	 * @return void
 	 */
-	public static function generators_tab() {
-		?>
-		<div class="wcsn-feature-promo-banner">
-			<div class="wcsn-feature-promo-banner__content">
-				<h3><?php esc_html_e( 'Available in Pro Version', 'wc-serial-numbers' ); ?></h3>
-				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=generators-tab&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers" target="_blank" class="button-primary"><?php esc_html_e( 'Upgrade to Pro Now', 'wc-serial-numbers' ); ?></a>
-			</div>
-			<img src="<?php echo esc_url( WCSN()->get_assets_url() . 'images/add-generator.png' ); ?>" alt="<?php esc_attr_e( 'Generators', 'wc-serial-numbers' ); ?>"/>
-		</div>
-		<?php
+	public static function output_generators_tab() {
+		include __DIR__ . '/views/tools/general.php';
 	}
 
 	/**

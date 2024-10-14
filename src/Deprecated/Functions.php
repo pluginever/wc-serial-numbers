@@ -376,7 +376,7 @@ function wc_serial_numbers_get_order_table_columns() {
  */
 function wc_serial_numbers_get_stock_quantity( $product_id ) {
 	$source = get_post_meta( $product_id, '_serial_key_source', true );
-	if ( 'custom_source' == get_post_meta( $product_id, '_serial_key_source', true ) || empty( $source ) ) {
+	if ( 'preset' == get_post_meta( $product_id, '_serial_key_source', true ) || empty( $source ) ) {
 		$stocks = wcsn_get_stocks_count();
 		if ( isset( $stocks[ $product_id ] ) ) {
 			return absint( $stocks[ $product_id ] );
