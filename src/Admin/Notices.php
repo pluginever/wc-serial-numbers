@@ -60,7 +60,7 @@ class Notices {
 				$this->notices[]     = array(
 					'type'        => 'info',
 					'classes'     => 'notice-alt notice-large wcsn-halloween',
-					'dismissible' => false,
+					'dismissible' => true,
 					'id'          => 'wc_serial_numbers_halloween_promotion',
 					'message'     => sprintf(
 					/* translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link to the plugin page, %4$s: end link to the plugin page */
