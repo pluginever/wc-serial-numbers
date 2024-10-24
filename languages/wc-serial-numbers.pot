@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.0.6\n"
+"Project-Id-Version: WC Serial Numbers 2.0.7\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2024-10-07 09:04:45+00:00\n"
+"POT-Creation-Date: 2024-10-24 06:32:49+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -94,7 +94,7 @@ msgid "View Details"
 msgstr ""
 
 #: includes/Admin/Products.php:92 includes/Admin/Products.php:315
-#: src/Admin/Admin.php:141 src/Admin/Menus.php:54 src/Admin/Menus.php:88
+#: src/Admin/Admin.php:143 src/Admin/Menus.php:54 src/Admin/Menus.php:88
 #: src/Admin/Menus.php:89 src/Admin/Menus.php:433
 #: src/Functions/Template.php:226
 msgid "Serial Numbers"
@@ -248,42 +248,42 @@ msgstr ""
 msgid "Missing data."
 msgstr ""
 
-#: src/Admin/Admin.php:65
+#: src/Admin/Admin.php:67
 msgid "Search by product"
 msgstr ""
 
-#: src/Admin/Admin.php:66
+#: src/Admin/Admin.php:68
 msgid "Search by order"
 msgstr ""
 
-#: src/Admin/Admin.php:67
+#: src/Admin/Admin.php:69
 msgid "Search by customer"
 msgstr ""
 
-#: src/Admin/Admin.php:68
+#: src/Admin/Admin.php:70
 msgid "Show"
 msgstr ""
 
-#: src/Admin/Admin.php:69
+#: src/Admin/Admin.php:71
 msgid "Hide"
 msgstr ""
 
-#: src/Admin/Admin.php:70 src/Frontend/Frontend.php:56
+#: src/Admin/Admin.php:72 src/Frontend/Frontend.php:56
 msgid "Copied"
 msgstr ""
 
-#: src/Admin/Admin.php:108
+#: src/Admin/Admin.php:110
 #. translators: 1: Plugin name 2: WordPress
 msgid ""
 "Thank you for using %1$s! Share your appreciation with a five-star review "
 "%2$s."
 msgstr ""
 
-#: src/Admin/Admin.php:110
+#: src/Admin/Admin.php:112
 msgid "Thanks :)"
 msgstr ""
 
-#: src/Admin/Admin.php:128
+#: src/Admin/Admin.php:130
 #. translators: 1: Plugin version
 msgid "Version %s"
 msgstr ""
@@ -590,14 +590,30 @@ msgstr ""
 msgid "Not scheduled"
 msgstr ""
 
-#: src/Admin/Notices.php:49
+#: src/Admin/Notices.php:43 src/Admin/Notices.php:59
+msgid "30%"
+msgstr ""
+
+#: src/Admin/Notices.php:51
+#. translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link
+#. to the plugin page, %4$s: end link to the plugin page
+msgid "%1$s%2$s%3$s Upgrade Now and Save %4$s"
+msgstr ""
+
+#: src/Admin/Notices.php:67
+#. translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link
+#. to the plugin page, %4$s: end link to the plugin page
+msgid "%1$s%2$s%3$s Claim your discount! %4$s"
+msgstr ""
+
+#: src/Admin/Notices.php:86
 #. translators: %1$s: link to the plugin page, %2$s: link to the plugin page
 msgid ""
 "%s is not functional because you are using outdated version of the plugin, "
-"please update to the version 1.2.1 or higher."
+"please update to the version 1.3.8 or higher."
 msgstr ""
 
-#: src/Admin/Notices.php:63
+#: src/Admin/Notices.php:100
 #. translators: %1$s: link to the plugin page, %2$s: link to the plugin page
 msgid ""
 "Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s "

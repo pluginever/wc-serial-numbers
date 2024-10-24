@@ -37,6 +37,43 @@ class Notices {
 	 * @since 1.0.0
 	 */
 	public function add_notices() {
+		// Halloween's promotion notice.
+		if ( ! $this->is_notice_dismissed( 'wc_serial_numbers_halloween_promotion' ) ) {
+			if ( ! function_exists( 'wc_serial_numbers_pro' ) ) {
+				$discount_percentage = esc_html__( '30%', 'wc-serial-numbers' );
+				$this->notices[]     = array(
+					'type'        => 'info',
+					'classes'     => 'notice-alt notice-large wcsn-halloween',
+					'dismissible' => false,
+					'id'          => 'wc_serial_numbers_halloween_promotion',
+					'message'     => sprintf(
+					/* translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link to the plugin page, %4$s: end link to the plugin page */
+						__( '%1$s%2$s%3$s Upgrade Now and Save %4$s', 'wc-serial-numbers' ),
+						'<div class="wcsn-halloween__header"><div class="wcsn-halloween__icon"><img src="' . WCSN()->get_dir_url( 'assets/images/halloween-icon.svg' ) . '" alt="WC Serial Numbers Halloween offer"></div><div class="wcsn-halloween__content"><strong>',
+						'👻 Halloween Sale: ' . $discount_percentage . ' OFF on WC Serial Manager Pro</strong><p>Grab a ' . $discount_percentage . ' discount on WC Serial Manager Pro and all our premium plugins this Halloween! Use code <strong>‘BIGTREAT30’</strong>. Don\'t miss out!</p>',
+						'<a class="button button-primary" href="' . esc_url( WCSN()->get_premium_url() ) . '?utm_source=plugin&utm_medium=notice&utm_campaign=halloween-2024&discount=bigtreat30" target="_blank">',
+						$discount_percentage . '</a></div></div>',
+					),
+				);
+			} else {
+				$discount_percentage = esc_html__( '30%', 'wc-serial-numbers' );
+				$this->notices[]     = array(
+					'type'        => 'info',
+					'classes'     => 'notice-alt notice-large wcsn-halloween',
+					'dismissible' => true,
+					'id'          => 'wc_serial_numbers_halloween_promotion',
+					'message'     => sprintf(
+					/* translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link to the plugin page, %4$s: end link to the plugin page */
+						__( '%1$s%2$s%3$s Claim your discount! %4$s', 'wc-serial-numbers' ),
+						'<div class="wcsn-halloween__header"><div class="wcsn-halloween__icon"><img src="' . WCSN()->get_dir_url( 'assets/images/halloween-icon.svg' ) . '" alt="WC Serial Numbers Halloween offer"></div><div class="wcsn-halloween__content"><strong class="wcsn-halloween__title">',
+						'👻 Halloween Sale: ' . $discount_percentage . ' OFF on All Plugins</strong><p>Get ' . $discount_percentage . ' OFF on all premium plugins with code <strong>‘BIGTREAT30’</strong>. Hurry, this deal won’t last long!</p>',
+						'<a class="button button-primary" href="' . esc_url( 'https://pluginever.com/plugins/?utm_source=plugin&utm_medium=notice&utm_campaign=halloween-2024&discount=bigtreat30' ) . '" target="_blank">',
+						'</a></div></div>',
+					),
+				);
+			}
+		}
+
 		$is_outdated_pro = defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) && version_compare( WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION, '1.2.1', '<' );
 		if ( ! $is_outdated_pro ) {
 			$is_outdated_pro = function_exists( 'wc_serial_numbers_pro' ) && is_callable( array( 'wc_serial_numbers_pro', 'get_version' ) ) && wc_serial_numbers_pro()->get_version() && version_compare( wc_serial_numbers_pro()->get_version(), '1.2.1', '<' );
@@ -46,7 +83,7 @@ class Notices {
 				'type'    => 'error', // add notice-alt and notice-large class.
 				'message' => sprintf(
 				/* translators: %1$s: link to the plugin page, %2$s: link to the plugin page */
-					__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.2.1 or higher.', 'wc-serial-numbers' ),
+					__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.3.8 or higher.', 'wc-serial-numbers' ),
 					'<a href="' . esc_url( WCSN()->get_data( 'premium_url' ) ) . '" target="_blank">WC Serial Numbers Pro</a>'
 				),
 			);
