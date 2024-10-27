@@ -38,13 +38,13 @@ class Notices {
 	 */
 	public function add_notices() {
 		// Halloween's promotion notice.
-		if ( ! $this->is_notice_dismissed( 'wc_serial_numbers_halloween_promotion' ) ) {
+		if ( ! $this->is_notice_dismissed( 'wcsn_halloween_promotion' ) ) {
 			if ( ! function_exists( 'wc_serial_numbers_pro' ) ) {
 				$discount_percentage = esc_html__( '30%', 'wc-serial-numbers' );
 				$this->notices[]     = array(
 					'type'        => 'info',
 					'classes'     => 'notice-alt notice-large wcsn-halloween',
-					'dismissible' => false,
+					'dismissible' => true,
 					'id'          => 'wcsn_halloween_promotion',
 					'message'     => sprintf(
 					/* translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link to the plugin page, %4$s: end link to the plugin page */
