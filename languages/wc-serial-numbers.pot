@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.0.9\n"
+"Project-Id-Version: WC Serial Numbers 2.1.0\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2024-10-27 04:41:41+00:00\n"
+"POT-Creation-Date: 2024-11-05 09:30:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,11 +24,11 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/Admin/Orders.php:53 includes/Admin/Orders.php:166
+#: includes/Admin/Orders.php:53 includes/Admin/Orders.php:183
 msgid "Add serial keys"
 msgstr ""
 
-#: includes/Admin/Orders.php:54 includes/Admin/Orders.php:167
+#: includes/Admin/Orders.php:54 includes/Admin/Orders.php:184
 msgid "Remove serial keys"
 msgstr ""
 
@@ -40,24 +40,36 @@ msgstr ""
 msgid "Serial keys removed successfully from the order."
 msgstr ""
 
-#: includes/Admin/Orders.php:114 includes/Admin/Orders.php:146
-msgid "Order is fullfilled."
+#: includes/Admin/Orders.php:114 includes/Admin/Orders.php:154
+msgid "Order is fullfilled and completed."
 msgstr ""
 
-#: includes/Admin/Orders.php:117 includes/Admin/Orders.php:149
+#: includes/Admin/Orders.php:117 includes/Admin/Orders.php:157
+msgid "Order is fullfilled and processing."
+msgstr ""
+
+#: includes/Admin/Orders.php:120 includes/Admin/Orders.php:160
+msgid "Order is fullfilled and on-hold."
+msgstr ""
+
+#: includes/Admin/Orders.php:123 includes/Admin/Orders.php:163
+msgid "Order is fullfilled and draft."
+msgstr ""
+
+#: includes/Admin/Orders.php:126 includes/Admin/Orders.php:166
 msgid "Order is not fullfilled."
 msgstr ""
 
-#: includes/Admin/Orders.php:195
+#: includes/Admin/Orders.php:212
 #. Translators: %d: number of orders.
 msgid "%d orders updated successfully."
 msgstr ""
 
-#: includes/Admin/Orders.php:233
+#: includes/Admin/Orders.php:250
 msgid "Serial keys sold with this product:"
 msgstr ""
 
-#: includes/Admin/Orders.php:238 src/Admin/ListTables/ActivationsTable.php:178
+#: includes/Admin/Orders.php:255 src/Admin/ListTables/ActivationsTable.php:178
 #: src/Admin/ListTables/KeysTable.php:349
 #: src/Admin/views/html-api-actions.php:131
 #: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
@@ -65,30 +77,30 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#: includes/Admin/Orders.php:242
+#: includes/Admin/Orders.php:259
 msgid "Expire date"
 msgstr ""
 
-#: includes/Admin/Orders.php:243 src/Admin/ListTables/KeysTable.php:532
+#: includes/Admin/Orders.php:260 src/Admin/ListTables/KeysTable.php:532
 #: src/Functions/Template.php:63 src/functions.php:1036
 msgid "Lifetime"
 msgstr ""
 
-#: includes/Admin/Orders.php:246 src/Admin/views/html-edit-key.php:67
+#: includes/Admin/Orders.php:263 src/Admin/views/html-edit-key.php:67
 msgid "Activation limit"
 msgstr ""
 
-#: includes/Admin/Orders.php:247
+#: includes/Admin/Orders.php:264
 msgid "Unlimited"
 msgstr ""
 
-#: includes/Admin/Orders.php:250 src/Admin/ListTables/KeysTable.php:360
+#: includes/Admin/Orders.php:267 src/Admin/ListTables/KeysTable.php:360
 #: src/Admin/Menus.php:320 src/Admin/views/html-edit-key.php:92
 #: src/Functions/Template.php:78 src/functions.php:1040
 msgid "Status"
 msgstr ""
 
-#: includes/Admin/Orders.php:277
+#: includes/Admin/Orders.php:294
 #. translators: %s is the item number.
 msgid "View Details"
 msgstr ""

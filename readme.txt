@@ -4,7 +4,7 @@ Tags: license, license manager, serial number, serial key, woocommerce
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 2.0.9
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -241,16 +241,20 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 == Screenshots ==
 1. Serial Keys List
-2. Add New Key
-3. Validation Form
-4. Activation Log
+2. Add New Serial Key
+3. Edit Serial Key
+4. Activations Log
 5. Reports Page
-6. Settings Page
+6. Settings - General
 7. Product Page Options
-8. Order Complete Email with Keys
-9. Thank You Page with Keys
+8. Admin Order Details with Keys
+9. My Account Page Order Details with Keys
+10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.1.0 (5th Nov 2024) =
+* Enhance: Orders page key status lock icon color improved for better visibility.
+
 = 2.0.8 (24th Oct 2024) =
 * Enhance: Add WC cart checkout block compatibility.
 * Fix: Few known issues fixed.
