@@ -243,11 +243,11 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 1. Serial Keys List
 2. Add New Serial Key
 3. Edit Serial Key
-4. Activation Log
+4. Activations Log
 5. Reports Page
 6. Settings - General
 7. Product Page Options
-8. Admin Order Details
+8. Admin Order Details with Keys
 9. My Account Page Order Details with Keys
 10. Order Notification Email with Keys
 
