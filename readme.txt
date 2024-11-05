@@ -249,7 +249,7 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 7. Product Page Options
 8. Admin Order Details
 9. My Account Page Order Details with Keys
-10. Order Complete Email with Keys
+10. Order Notification Email with Keys
 
 == Changelog ==
 = 2.1.0 (5th Nov 2024) =
