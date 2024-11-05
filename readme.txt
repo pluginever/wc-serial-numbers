@@ -251,6 +251,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 9. Thank You Page with Keys
 
 == Changelog ==
+= 2.1.0 (5th Nov 2024) =
+* Enhance: Orders page key status lock icon color improved for better visibility.
+
 = 2.0.8 (24th Oct 2024) =
 * Enhance: Add WC cart checkout block compatibility.
 * Fix: Few known issues fixed.
