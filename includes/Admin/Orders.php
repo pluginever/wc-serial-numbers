@@ -106,12 +106,21 @@ class Orders {
 		$order_status = wc_get_order( $order_id )->get_status();
 
 		if ( 'order_serials' === $column ) {
-			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, array( 'completed', 'processing' ), true ) ) {
+			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, array( 'completed', 'processing', 'on-hold', 'checkout-draft' ), true ) ) {
 				echo '&mdash;';
 			} else {
-				if ( wcsn_order_is_fullfilled( $order_id ) ) {
+				if ( wcsn_order_is_fullfilled( $order_id ) && 'completed' === $order_status ) {
 					$style = 'color:green';
-					$title = __( 'Order is fullfilled.', 'wc-serial-numbers' );
+					$title = __( 'Order is fullfilled and completed.', 'wc-serial-numbers' );
+				} elseif ( wcsn_order_is_fullfilled( $order_id ) && 'processing' === $order_status ) {
+					$style = 'color:#06B6D4';
+					$title = __( 'Order is fullfilled and processing.', 'wc-serial-numbers' );
+				} elseif ( wcsn_order_is_fullfilled( $order_id ) && 'on-hold' === $order_status ) {
+					$style = 'color:#F59E0B';
+					$title = __( 'Order is fullfilled and on-hold.', 'wc-serial-numbers' );
+				} elseif ( wcsn_order_is_fullfilled( $order_id ) && 'checkout-draft' === $order_status ) {
+					$style = 'color:#94A3B8';
+					$title = __( 'Order is fullfilled and draft.', 'wc-serial-numbers' );
 				} else {
 					$style = 'color:red';
 					$title = __( 'Order is not fullfilled.', 'wc-serial-numbers' );
@@ -132,18 +141,26 @@ class Orders {
 	 */
 	public static function hpos_add_order_serial_column_content( $column, $order_id ) {
 
-		$order = wc_get_order( $order_id );
-
+		$order        = wc_get_order( $order_id );
 		$order_id     = $order->get_id();
 		$order_status = $order->get_status();
 
 		if ( 'order_serials' === $column ) {
-			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, array( 'completed', 'processing' ), true ) ) {
+			if ( ! wcsn_order_has_products( $order_id ) || ! in_array( $order_status, array( 'completed', 'processing', 'on-hold', 'checkout-draft' ), true ) ) {
 				echo '&mdash;';
 			} else {
-				if ( wcsn_order_is_fullfilled( $order_id ) ) {
+				if ( wcsn_order_is_fullfilled( $order_id ) && 'completed' === $order_status ) {
 					$style = 'color:green';
-					$title = __( 'Order is fullfilled.', 'wc-serial-numbers' );
+					$title = __( 'Order is fullfilled and completed.', 'wc-serial-numbers' );
+				} elseif ( wcsn_order_is_fullfilled( $order_id ) && 'processing' === $order_status ) {
+					$style = 'color:#06B6D4';
+					$title = __( 'Order is fullfilled and processing.', 'wc-serial-numbers' );
+				} elseif ( wcsn_order_is_fullfilled( $order_id ) && 'on-hold' === $order_status ) {
+					$style = 'color:#F59E0B';
+					$title = __( 'Order is fullfilled and on-hold.', 'wc-serial-numbers' );
+				} elseif ( wcsn_order_is_fullfilled( $order_id ) && 'checkout-draft' === $order_status ) {
+					$style = 'color:#94A3B8';
+					$title = __( 'Order is fullfilled and draft.', 'wc-serial-numbers' );
 				} else {
 					$style = 'color:red';
 					$title = __( 'Order is not fullfilled.', 'wc-serial-numbers' );
