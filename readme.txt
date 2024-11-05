@@ -241,14 +241,15 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 == Screenshots ==
 1. Serial Keys List
-2. Add New Key
-3. Validation Form
+2. Add New Serial Key
+3. Edit Serial Key
 4. Activation Log
 5. Reports Page
-6. Settings Page
+6. Settings - General
 7. Product Page Options
-8. Order Complete Email with Keys
-9. Thank You Page with Keys
+8. Admin Order Details
+9. My Account Page Order Details with Keys
+10. Order Complete Email with Keys
 
 == Changelog ==
 = 2.1.0 (5th Nov 2024) =
