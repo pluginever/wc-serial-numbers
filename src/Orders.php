@@ -26,9 +26,6 @@ class Orders {
 		add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'handle_order_status_changed' ) );
 		add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'handle_order_status_changed' ) );
 		add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'handle_order_status_changed' ) );
-		// TODO: handle order status change and order remove scenario.
-		// TODO: handle order again feature.
-
 		add_action( 'woocommerce_email_after_order_table', array( __CLASS__, 'order_email_keys' ), PHP_INT_MAX );
 		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'order_display_keys' ), 9 );
 	}

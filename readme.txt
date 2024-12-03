@@ -4,7 +4,7 @@ Tags: license, license manager, serial number, serial key, woocommerce
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.1.1 (3rd Dec 2024) =
+* Enhance: Enhanced security to handle form actions.
+* Fix: Vulnerability security issue.
+
 = 2.1.0 (5th Nov 2024) =
 * Enhance: Orders page key status lock icon color improved for better visibility.
 

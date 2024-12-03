@@ -261,13 +261,18 @@ class Shortcodes {
 	 * Validate serial key.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @return void
 	 */
 	public function validate_serial_key() {
-		// Check if nonce is set.
+		wp_verify_nonce( '_nonce' ); // Nonce verification.
+
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'wcsn_user_action' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid request.', 'wc-serial-numbers' ) ) );
+			wp_send_json(
+				array(
+					'success' => false,
+					'message' => __( 'Invalid request.', 'wc-serial-numbers' ),
+				)
+			);
 		}
 
 		// perform a rest api request internally.
@@ -282,8 +287,15 @@ class Shortcodes {
 	 * @return void
 	 */
 	public function activate_serial_key() {
+		wp_verify_nonce( '_nonce' ); // Nonce verification.
+
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'wcsn_user_action' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid request.', 'wc-serial-numbers' ) ) );
+			wp_send_json(
+				array(
+					'success' => false,
+					'message' => __( 'Invalid request.', 'wc-serial-numbers' ),
+				)
+			);
 		}
 
 		$request = isset( $_POST['request'] ) ? sanitize_text_field( wp_unslash( $_POST['request'] ) ) : 'activate';
