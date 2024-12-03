@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.1.0\n"
+"Project-Id-Version: WC Serial Numbers 2.1.1\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2024-11-05 09:30:29+00:00\n"
+"POT-Creation-Date: 2024-12-03 12:23:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,52 +24,57 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/Admin/Orders.php:53 includes/Admin/Orders.php:183
+#: includes/Admin/Orders.php:53 includes/Admin/Orders.php:189
 msgid "Add serial keys"
 msgstr ""
 
-#: includes/Admin/Orders.php:54 includes/Admin/Orders.php:184
+#: includes/Admin/Orders.php:54 includes/Admin/Orders.php:190
 msgid "Remove serial keys"
 msgstr ""
 
-#: includes/Admin/Orders.php:73
+#: includes/Admin/Orders.php:69 includes/Admin/Orders.php:208
+#: includes/Admin/Requests.php:42
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/Admin/Orders.php:79
 msgid "Serial keys added successfully to the order."
 msgstr ""
 
-#: includes/Admin/Orders.php:77
+#: includes/Admin/Orders.php:83
 msgid "Serial keys removed successfully from the order."
 msgstr ""
 
-#: includes/Admin/Orders.php:114 includes/Admin/Orders.php:154
+#: includes/Admin/Orders.php:120 includes/Admin/Orders.php:160
 msgid "Order is fullfilled and completed."
 msgstr ""
 
-#: includes/Admin/Orders.php:117 includes/Admin/Orders.php:157
+#: includes/Admin/Orders.php:123 includes/Admin/Orders.php:163
 msgid "Order is fullfilled and processing."
 msgstr ""
 
-#: includes/Admin/Orders.php:120 includes/Admin/Orders.php:160
+#: includes/Admin/Orders.php:126 includes/Admin/Orders.php:166
 msgid "Order is fullfilled and on-hold."
 msgstr ""
 
-#: includes/Admin/Orders.php:123 includes/Admin/Orders.php:163
+#: includes/Admin/Orders.php:129 includes/Admin/Orders.php:169
 msgid "Order is fullfilled and draft."
 msgstr ""
 
-#: includes/Admin/Orders.php:126 includes/Admin/Orders.php:166
+#: includes/Admin/Orders.php:132 includes/Admin/Orders.php:172
 msgid "Order is not fullfilled."
 msgstr ""
 
-#: includes/Admin/Orders.php:212
+#: includes/Admin/Orders.php:224
 #. Translators: %d: number of orders.
 msgid "%d orders updated successfully."
 msgstr ""
 
-#: includes/Admin/Orders.php:250
+#: includes/Admin/Orders.php:262
 msgid "Serial keys sold with this product:"
 msgstr ""
 
-#: includes/Admin/Orders.php:255 src/Admin/ListTables/ActivationsTable.php:178
+#: includes/Admin/Orders.php:267 src/Admin/ListTables/ActivationsTable.php:178
 #: src/Admin/ListTables/KeysTable.php:349
 #: src/Admin/views/html-api-actions.php:131
 #: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
@@ -77,38 +82,37 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#: includes/Admin/Orders.php:259
+#: includes/Admin/Orders.php:271
 msgid "Expire date"
 msgstr ""
 
-#: includes/Admin/Orders.php:260 src/Admin/ListTables/KeysTable.php:532
+#: includes/Admin/Orders.php:272 src/Admin/ListTables/KeysTable.php:532
 #: src/Functions/Template.php:63 src/functions.php:1036
 msgid "Lifetime"
 msgstr ""
 
-#: includes/Admin/Orders.php:263 src/Admin/views/html-edit-key.php:67
+#: includes/Admin/Orders.php:275 src/Admin/views/html-edit-key.php:67
 msgid "Activation limit"
 msgstr ""
 
-#: includes/Admin/Orders.php:264
+#: includes/Admin/Orders.php:276
 msgid "Unlimited"
 msgstr ""
 
-#: includes/Admin/Orders.php:267 src/Admin/ListTables/KeysTable.php:360
+#: includes/Admin/Orders.php:279 src/Admin/ListTables/KeysTable.php:360
 #: src/Admin/Menus.php:320 src/Admin/views/html-edit-key.php:92
 #: src/Functions/Template.php:78 src/functions.php:1040
 msgid "Status"
 msgstr ""
 
-#: includes/Admin/Orders.php:294
+#: includes/Admin/Orders.php:306
 #. translators: %s is the item number.
 msgid "View Details"
 msgstr ""
 
-#: includes/Admin/Products.php:92 includes/Admin/Products.php:315
-#: src/Admin/Admin.php:143 src/Admin/Menus.php:54 src/Admin/Menus.php:88
-#: src/Admin/Menus.php:89 src/Admin/Menus.php:433
-#: src/Functions/Template.php:226
+#: includes/Admin/Products.php:92 src/Admin/Admin.php:141
+#: src/Admin/Menus.php:54 src/Admin/Menus.php:88 src/Admin/Menus.php:89
+#: src/Admin/Menus.php:433 src/Functions/Template.php:226
 msgid "Serial Numbers"
 msgstr ""
 
@@ -167,14 +171,6 @@ msgstr ""
 
 #: includes/Admin/Products.php:231
 msgid "You do not have permission to save this data."
-msgstr ""
-
-#: includes/Admin/Products.php:297
-msgid "Order missing serial numbers for this item."
-msgstr ""
-
-#: includes/Admin/Requests.php:42
-msgid "You do not have permission to perform this action."
 msgstr ""
 
 #: includes/Admin/Requests.php:79
@@ -260,42 +256,42 @@ msgstr ""
 msgid "Missing data."
 msgstr ""
 
-#: src/Admin/Admin.php:67
+#: src/Admin/Admin.php:65
 msgid "Search by product"
 msgstr ""
 
-#: src/Admin/Admin.php:68
+#: src/Admin/Admin.php:66
 msgid "Search by order"
 msgstr ""
 
-#: src/Admin/Admin.php:69
+#: src/Admin/Admin.php:67
 msgid "Search by customer"
 msgstr ""
 
-#: src/Admin/Admin.php:70
+#: src/Admin/Admin.php:68
 msgid "Show"
 msgstr ""
 
-#: src/Admin/Admin.php:71
+#: src/Admin/Admin.php:69
 msgid "Hide"
 msgstr ""
 
-#: src/Admin/Admin.php:72 src/Frontend/Frontend.php:56
+#: src/Admin/Admin.php:70 src/Frontend/Frontend.php:56
 msgid "Copied"
 msgstr ""
 
-#: src/Admin/Admin.php:110
+#: src/Admin/Admin.php:108
 #. translators: 1: Plugin name 2: WordPress
 msgid ""
 "Thank you for using %1$s! Share your appreciation with a five-star review "
 "%2$s."
 msgstr ""
 
-#: src/Admin/Admin.php:112
+#: src/Admin/Admin.php:110
 msgid "Thanks :)"
 msgstr ""
 
-#: src/Admin/Admin.php:130
+#: src/Admin/Admin.php:128
 #. translators: 1: Plugin version
 msgid "Version %s"
 msgstr ""
@@ -602,30 +598,14 @@ msgstr ""
 msgid "Not scheduled"
 msgstr ""
 
-#: src/Admin/Notices.php:43 src/Admin/Notices.php:59
-msgid "30%"
-msgstr ""
-
-#: src/Admin/Notices.php:51
-#. translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link
-#. to the plugin page, %4$s: end link to the plugin page
-msgid "%1$s%2$s%3$s Upgrade Now and Save %4$s"
-msgstr ""
-
-#: src/Admin/Notices.php:67
-#. translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link
-#. to the plugin page, %4$s: end link to the plugin page
-msgid "%1$s%2$s%3$s Claim your discount! %4$s"
-msgstr ""
-
-#: src/Admin/Notices.php:86
+#: src/Admin/Notices.php:49
 #. translators: %1$s: link to the plugin page, %2$s: link to the plugin page
 msgid ""
 "%s is not functional because you are using outdated version of the plugin, "
 "please update to the version 1.3.8 or higher."
 msgstr ""
 
-#: src/Admin/Notices.php:100
+#: src/Admin/Notices.php:63
 #. translators: %1$s: link to the plugin page, %2$s: link to the plugin page
 msgid ""
 "Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s "
@@ -1247,7 +1227,7 @@ msgstr ""
 msgid "Could not find any products with serial numbers enabled."
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:270 src/Frontend/Shortcodes.php:286
+#: src/Frontend/Shortcodes.php:273 src/Frontend/Shortcodes.php:296
 msgid "Invalid request."
 msgstr ""
 
@@ -1313,14 +1293,14 @@ msgstr ""
 msgid "Order id is invalid."
 msgstr ""
 
-#: src/Orders.php:66
+#: src/Orders.php:63
 #. translators: %1$s: product title, %2$s: stock quantity.
 msgid ""
 "Sorry, there aren’t enough Serial Keys for %1$s. Please remove this item or "
 "lower the quantity. For now, we have %2$s Serial Keys for this product."
 msgstr ""
 
-#: src/Orders.php:109
+#: src/Orders.php:106
 msgid "Order automatically completed by the Serial Numbers for WooCommerce."
 msgstr ""
 
