@@ -64,6 +64,13 @@ class Orders {
 	 * @since 1.0.0
 	 */
 	public function handle_order_action( $order ) {
+		// Must have manage woocommerce user capability role to access this endpoint.
+		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
+			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			wp_safe_redirect( wp_get_referer() );
+			exit;
+		}
+
 		$order_id = $order->get_id();
 		$action   = current_action();
 		$action   = str_replace( 'woocommerce_order_action_', '', $action );
@@ -197,6 +204,13 @@ class Orders {
 	 * @return string
 	 */
 	public function handle_order_bulk_action( $redirect_to, $action, $order_ids ) {
+		// Must have manage woocommerce user capability role to access this endpoint.
+		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
+			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			wp_safe_redirect( wp_get_referer() );
+			exit;
+		}
+
 		if ( in_array( $action, array( 'wcsn_add_keys', 'wcsn_remove_keys' ), true ) ) {
 			foreach ( $order_ids as $order_id ) {
 				switch ( $action ) {
