@@ -67,7 +67,6 @@ class Orders {
 		// Must have manage woocommerce user capability role to access this endpoint.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
 			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
-			wp_safe_redirect( wp_get_referer() );
 			exit;
 		}
 
@@ -207,8 +206,7 @@ class Orders {
 		// Must have manage woocommerce user capability role to access this endpoint.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
 			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
-			wp_safe_redirect( wp_get_referer() );
-			exit;
+			return $redirect_to;
 		}
 
 		if ( in_array( $action, array( 'wcsn_add_keys', 'wcsn_remove_keys' ), true ) ) {
