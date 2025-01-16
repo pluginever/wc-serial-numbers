@@ -31,7 +31,7 @@ class Stocks {
 	 * @return int
 	 */
 	public static function get_stock_quantity( $quantity, $product ) {
-		if ( ! wcsn_is_product_enabled( $product->get_id() ) ) {
+		if ( wcsn_is_product_enabled( $product->get_id() ) ) {
 			$stocks = wcsn_get_stocks_count();
 			if ( isset( $stocks[ $product->get_id() ] ) ) {
 				$quantity = $stocks[ $product->get_id() ];
