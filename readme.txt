@@ -1,10 +1,8 @@
 === WC Serial Numbers - Ultimate License Manager for Selling, Licensing & Securely Delivering Digital Content with WooCommerce ===
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
-Requires at least: 5.0
-Tested up to: 6.6
-Requires PHP: 7.4
-Stable tag: 2.1.1
+Tested up to: 6.7
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,7 +51,6 @@ Despite being the ultimate license manager for WooCommerce, Serial Numbers is ve
 - **Increased Customer Satisfaction:** Instant delivery of keys after purchase enhances the customer experience. Customers can immediately access and activate their products, resulting in higher satisfaction and reduced support requests.
 
 - **Prevent Counterfeiting and Piracy:** The plugin is capable of avoiding piracy and fraud. It's a safety net since WooCommerce store owners can verify the product is authentic and hasn't been tampered with. Those who have bought a product online can check to see if it is a legitimate copy or a fake.
-
 
 
 === ✨ WC Serial Numbers Features: ===
@@ -252,6 +249,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.1.2 (23rd Jan 2024) =
+* Fix: Few known issues fixed.
+
 = 2.1.1 (3rd Dec 2024) =
 * Enhance: Enhanced security to handle form actions.
 * Fix: Vulnerability security issue.
