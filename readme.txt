@@ -2,7 +2,7 @@
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 6.7
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -539,7 +539,7 @@ Enhance - Enhance simple product metabox styles
 * Confirm compatibility with WC 3.5.7
 
 = 1.0.3 (18 March, 2019) =
-* Fix - Aroken style
+* Fix - Broken style
 * Fix - Auto-complete order
 * Conditional styles/script loading
 
