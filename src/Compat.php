@@ -36,7 +36,7 @@ class Compat {
 	 * @param array     $item Item data.
 	 * @param \WC_Order $order Order object.
 	 *
-	 * @since 1.2.0
+	 * @since 2.1.4
 	 */
 	public static function wpo_wcpdf_after_item_meta( $type, $item, $order ) {
 		$item_id      = isset( $item['item_id'] ) ? $item['item_id'] : 0;
