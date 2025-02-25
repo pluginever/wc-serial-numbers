@@ -100,6 +100,9 @@ class Plugin extends Lib\Plugin {
 		$this->services['utilities']  = new Utilities\Utilities();
 		$this->services['frontend']   = new Frontend\Frontend();
 
+		// Compatibility.
+		$this->services['compat'] = new Compat();
+
 		if ( wcsn_is_software_support_enabled() ) {
 			$this->services['api'] = new API();
 		}
