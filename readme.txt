@@ -249,6 +249,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.1.4 (25th Feb 2025) =
+* Compatibility: Make compatible with the PDF Invoices & Packing Slips for WooCommerce plugin.
+
 = 2.1.2 (23rd Jan 2025) =
 * Fix: Few known issues fixed.
 
