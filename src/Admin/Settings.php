@@ -123,6 +123,25 @@ class Settings extends Lib\Settings {
 						'type' => 'sectionend',
 						'id'   => 'stock_section',
 					),
+					// Compatibility settings.
+					array(
+						'title' => __( 'Compatibility', 'wc-serial-numbers' ),
+						'type'  => 'title',
+						'desc'  => __( 'These options determine the compatibility of the plugin with other plugins.', 'wc-serial-numbers' ),
+						'id'    => 'compatibility_section',
+					),
+					array(
+						'title'    => __( 'WooCommerce PDF Invoices', 'wc-serial-numbers' ),
+						'id'       => 'wcsn_enable_pdf_invoices',
+						'desc'     => __( 'Enable WooCommerce PDF Invoice compatibility.', 'wc-serial-numbers' ),
+						'desc_tip' => __( 'If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice.', 'wc-serial-numbers' ),
+						'type'     => 'checkbox',
+						'default'  => 'no',
+					),
+					array(
+						'type' => 'sectionend',
+						'id'   => 'compatibility_section',
+					),
 				);
 				break;
 		}
