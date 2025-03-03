@@ -4,7 +4,7 @@ namespace WooCommerceSerialNumbers\Admin;
 
 use WooCommerceSerialNumbers\Lib;
 
-defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Class Settings.
