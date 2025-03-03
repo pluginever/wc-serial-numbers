@@ -87,6 +87,19 @@ class Settings extends Lib\Settings {
 						'default'  => 'no',
 						'type'     => 'checkbox',
 					),
+					// Enable pdf invoice compatibility.
+					array(
+						'title'    => __( 'WooCommerce PDF Invoices', 'wc-serial-numbers' ),
+						'id'       => 'wcsn_enable_pdf_invoices',
+						'desc'     => __( 'Enable WooCommerce PDF Invoice compatibility.', 'wc-serial-numbers' ),
+						'desc_tip' => sprintf(
+							/* translators: %s: documentation link */
+							__( 'If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice. Check out the <a href="%s" target="_blank">documentation</a> for more details.', 'wc-serial-numbers' ),
+							'https://pluginever.com/docs/woocommerce-serial-numbers/woocommerce-pdf-invoices-compatibility/'
+						),
+						'type'     => 'checkbox',
+						'default'  => 'no',
+					),
 					array(
 						'type' => 'sectionend',
 						'id'   => 'section_serial_numbers',
@@ -122,25 +135,6 @@ class Settings extends Lib\Settings {
 					array(
 						'type' => 'sectionend',
 						'id'   => 'stock_section',
-					),
-					// Compatibility settings.
-					array(
-						'title' => __( 'Compatibility', 'wc-serial-numbers' ),
-						'type'  => 'title',
-						'desc'  => __( 'These options determine the compatibility of the plugin with other plugins.', 'wc-serial-numbers' ),
-						'id'    => 'compatibility_section',
-					),
-					array(
-						'title'    => __( 'WooCommerce PDF Invoices', 'wc-serial-numbers' ),
-						'id'       => 'wcsn_enable_pdf_invoices',
-						'desc'     => __( 'Enable WooCommerce PDF Invoice compatibility.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice.', 'wc-serial-numbers' ),
-						'type'     => 'checkbox',
-						'default'  => 'no',
-					),
-					array(
-						'type' => 'sectionend',
-						'id'   => 'compatibility_section',
 					),
 				);
 				break;
