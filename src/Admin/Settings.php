@@ -91,11 +91,11 @@ class Settings extends Lib\Settings {
 					array(
 						'title'    => __( 'WooCommerce PDF Invoices', 'wc-serial-numbers' ),
 						'id'       => 'wcsn_enable_pdf_invoices',
-						'desc'     => __( 'Enable WooCommerce PDF Invoice compatibility.', 'wc-serial-numbers' ),
+						'desc'     => __( 'Enable WooCommerce PDF Invoices.', 'wc-serial-numbers' ),
 						'desc_tip' => sprintf(
 							/* translators: %s: documentation link */
 							__( 'If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice. Check out the <a href="%s" target="_blank">documentation</a> for more details.', 'wc-serial-numbers' ),
-							'https://pluginever.com/docs/woocommerce-serial-numbers/woocommerce-pdf-invoices-compatibility/'
+							'https://pluginever.com/docs/woocommerce-serial-numbers/woocommerce-pdf-invoices/'
 						),
 						'type'     => 'checkbox',
 						'default'  => 'no',
