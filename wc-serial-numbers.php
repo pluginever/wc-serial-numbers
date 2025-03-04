@@ -14,7 +14,7 @@
  * Domain Path:          /languages
  * Tested up to:         6.7
  * WC requires at least: 3.0.0
- * WC tested up to:      9.6
+ * WC tested up to:      9.7
  * Requires Plugins:     woocommerce
  *
  * @package WooCommerceSerialNumbers
