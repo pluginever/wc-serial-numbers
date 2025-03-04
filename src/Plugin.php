@@ -101,7 +101,9 @@ class Plugin extends Lib\Plugin {
 		$this->services['frontend']   = new Frontend\Frontend();
 
 		// Compatibility.
-		$this->services['compat'] = new Compat();
+		if ( 'yes' === get_option( 'wcsn_enable_pdf_invoices', 'no' ) ) {
+			$this->services['compat'] = new Compat();
+		}
 
 		if ( wcsn_is_software_support_enabled() ) {
 			$this->services['api'] = new API();
