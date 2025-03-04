@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.1.4\n"
+"Project-Id-Version: WC Serial Numbers 2.1.5\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2025-02-25 12:24:23+00:00\n"
+"POT-Creation-Date: 2025-03-04 08:21:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -70,39 +70,42 @@ msgstr ""
 msgid "%d orders updated successfully."
 msgstr ""
 
-#: includes/Admin/Orders.php:262 src/Compat.php:74
+#: includes/Admin/Orders.php:262 includes/Compat.php:74
 msgid "Serial keys sold with this product:"
 msgstr ""
 
-#: includes/Admin/Orders.php:267 src/Admin/ListTables/ActivationsTable.php:178
+#: includes/Admin/Orders.php:267 includes/Compat.php:79
+#: src/Admin/ListTables/ActivationsTable.php:178
 #: src/Admin/ListTables/KeysTable.php:349
 #: src/Admin/views/html-api-actions.php:131
-#: src/Admin/views/html-api-validation.php:134 src/Compat.php:79
-#: src/Functions/Template.php:42 src/functions.php:1015
+#: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
+#: src/functions.php:1015
 msgid "Key"
 msgstr ""
 
-#: includes/Admin/Orders.php:271 src/Compat.php:83
+#: includes/Admin/Orders.php:271 includes/Compat.php:83
 msgid "Expire date"
 msgstr ""
 
-#: includes/Admin/Orders.php:272 src/Admin/ListTables/KeysTable.php:532
-#: src/Compat.php:84 src/Functions/Template.php:63 src/functions.php:1036
+#: includes/Admin/Orders.php:272 includes/Compat.php:84
+#: src/Admin/ListTables/KeysTable.php:532 src/Functions/Template.php:63
+#: src/functions.php:1036
 msgid "Lifetime"
 msgstr ""
 
-#: includes/Admin/Orders.php:275 src/Admin/views/html-edit-key.php:67
-#: src/Compat.php:87
+#: includes/Admin/Orders.php:275 includes/Compat.php:87
+#: src/Admin/views/html-edit-key.php:67
 msgid "Activation limit"
 msgstr ""
 
-#: includes/Admin/Orders.php:276 src/Compat.php:88
+#: includes/Admin/Orders.php:276 includes/Compat.php:88
 msgid "Unlimited"
 msgstr ""
 
-#: includes/Admin/Orders.php:279 src/Admin/ListTables/KeysTable.php:360
-#: src/Admin/Menus.php:320 src/Admin/views/html-edit-key.php:92
-#: src/Compat.php:91 src/Functions/Template.php:78 src/functions.php:1040
+#: includes/Admin/Orders.php:279 includes/Compat.php:91
+#: src/Admin/ListTables/KeysTable.php:360 src/Admin/Menus.php:320
+#: src/Admin/views/html-edit-key.php:92 src/Functions/Template.php:78
+#: src/functions.php:1040
 msgid "Status"
 msgstr ""
 
@@ -205,7 +208,7 @@ msgstr ""
 msgid "Go Pro"
 msgstr ""
 
-#: lib/Lib/Plugin.php:655 src/Admin/Settings.php:190
+#: lib/Lib/Plugin.php:655 src/Admin/Settings.php:203
 msgid "Documentation"
 msgstr ""
 
@@ -683,103 +686,120 @@ msgid ""
 "be turned off."
 msgstr ""
 
-#: src/Admin/Settings.php:95
-msgid "Stock Notification"
+#: src/Admin/Settings.php:92
+msgid "WooCommerce PDF Invoices"
+msgstr ""
+
+#: src/Admin/Settings.php:94
+msgid "Enable WooCommerce PDF Invoices."
 msgstr ""
 
 #: src/Admin/Settings.php:97
+#. translators: %s: documentation link
+msgid ""
+"If you enable this option, the plugin will be compatible with WooCommerce "
+"PDF Invoices & Packing Slips plugins and will show the serial keys in the "
+"invoice. Check out the <a href=\"%s\" target=\"_blank\">documentation</a> "
+"for more details."
+msgstr ""
+
+#: src/Admin/Settings.php:108
+msgid "Stock Notification"
+msgstr ""
+
+#: src/Admin/Settings.php:110
 msgid "These options determine the operation of the key's stock notification."
 msgstr ""
 
-#: src/Admin/Settings.php:101
+#: src/Admin/Settings.php:114
 msgid "Stock notification email"
 msgstr ""
 
-#: src/Admin/Settings.php:103
+#: src/Admin/Settings.php:116
 msgid "Sends notification emails when key stock is low."
 msgstr ""
 
-#: src/Admin/Settings.php:109
+#: src/Admin/Settings.php:122
 msgid "Stock threshold"
 msgstr ""
 
-#: src/Admin/Settings.php:111
+#: src/Admin/Settings.php:124
 msgid ""
 "An email notification will be sent when the key stock falls below the "
 "specified number."
 msgstr ""
 
-#: src/Admin/Settings.php:116
+#: src/Admin/Settings.php:129
 msgid "Notification recipient email"
 msgstr ""
 
-#: src/Admin/Settings.php:118
+#: src/Admin/Settings.php:131
 msgid "The email address which will be used to send email notifications."
 msgstr ""
 
-#: src/Admin/Settings.php:152
+#: src/Admin/Settings.php:165
 msgid "Create and assign keys for WooCommerce variable products."
 msgstr ""
 
-#: src/Admin/Settings.php:153
+#: src/Admin/Settings.php:166
 msgid "Generate bulk keys with your custom key generator rule."
 msgstr ""
 
-#: src/Admin/Settings.php:154
+#: src/Admin/Settings.php:167
 msgid "Random & sequential key order for the generator rules."
 msgstr ""
 
-#: src/Admin/Settings.php:155
+#: src/Admin/Settings.php:168
 msgid "Automatic key generator to auto-create & assign keys with orders."
 msgstr ""
 
-#: src/Admin/Settings.php:156
+#: src/Admin/Settings.php:169
 msgid "License key management option from the order page with required actions."
 msgstr ""
 
-#: src/Admin/Settings.php:157
+#: src/Admin/Settings.php:170
 msgid "Support for bulk import/export of keys from/to CSV."
 msgstr ""
 
-#: src/Admin/Settings.php:158
+#: src/Admin/Settings.php:171
 msgid "Send keys via SMS with Twilio."
 msgstr ""
 
-#: src/Admin/Settings.php:159
+#: src/Admin/Settings.php:172
 msgid "Option to sell keys even if there are no available keys in the stock."
 msgstr ""
 
-#: src/Admin/Settings.php:160
+#: src/Admin/Settings.php:173
 msgid "Custom deliverable quantity to deliver multiple keys with a single product."
 msgstr ""
 
-#: src/Admin/Settings.php:161
+#: src/Admin/Settings.php:174
 msgid ""
 "Manual delivery option to manually deliver license keys instead of "
 "automatic."
 msgstr ""
 
-#: src/Admin/Settings.php:162
+#: src/Admin/Settings.php:175
 msgid ""
 "Email template to easily and quickly customize the order confirmation & low "
 "stock alert email."
 msgstr ""
 
-#: src/Admin/Settings.php:163
+#: src/Admin/Settings.php:176
 msgid "Many more ..."
 msgstr ""
 
-#: src/Admin/Settings.php:167
+#: src/Admin/Settings.php:180
 msgid "Want More?"
 msgstr ""
 
-#: src/Admin/Settings.php:168
+#: src/Admin/Settings.php:181
 msgid ""
 "This plugin offers a premium version which comes with the following "
 "features:"
 msgstr ""
 
-#: src/Admin/Settings.php:174
+#: src/Admin/Settings.php:187
 msgid "Upgrade to PRO"
 msgstr ""
 

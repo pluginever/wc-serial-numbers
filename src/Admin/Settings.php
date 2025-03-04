@@ -4,7 +4,7 @@ namespace WooCommerceSerialNumbers\Admin;
 
 use WooCommerceSerialNumbers\Lib;
 
-defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Class Settings.
@@ -86,6 +86,19 @@ class Settings extends Lib\Settings {
 						'desc_tip' => __( 'If you enable this option, the activation menu and it’s functionality will be turned off.', 'wc-serial-numbers' ),
 						'default'  => 'no',
 						'type'     => 'checkbox',
+					),
+					// Enable pdf invoice compatibility.
+					array(
+						'title'    => __( 'WooCommerce PDF Invoices', 'wc-serial-numbers' ),
+						'id'       => 'wcsn_enable_pdf_invoices',
+						'desc'     => __( 'Enable WooCommerce PDF Invoices.', 'wc-serial-numbers' ),
+						'desc_tip' => sprintf(
+							/* translators: %s: documentation link */
+							__( 'If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice. Check out the <a href="%s" target="_blank">documentation</a> for more details.', 'wc-serial-numbers' ),
+							'https://pluginever.com/docs/woocommerce-serial-numbers/woocommerce-pdf-invoices/'
+						),
+						'type'     => 'checkbox',
+						'default'  => 'no',
 					),
 					array(
 						'type' => 'sectionend',
