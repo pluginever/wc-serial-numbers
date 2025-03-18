@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.1.5\n"
+"Project-Id-Version: WC Serial Numbers 2.1.6\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2025-03-18 07:31:50+00:00\n"
+"POT-Creation-Date: 2025-03-18 10:27:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -102,7 +102,7 @@ msgstr ""
 msgid "Unlimited"
 msgstr ""
 
-#: includes/Admin/Orders.php:279 includes/Compat.php:91
+#: includes/Admin/Orders.php:279 includes/Compat.php:99
 #: src/Admin/ListTables/KeysTable.php:360 src/Admin/Menus.php:320
 #: src/Admin/views/html-edit-key.php:92 src/Functions/Template.php:78
 #: src/functions.php:1040
@@ -195,6 +195,14 @@ msgstr ""
 msgid "%1$s (#%2$s - %3$s)"
 msgstr ""
 
+#: includes/Compat.php:91
+msgid "Activation count"
+msgstr ""
+
+#: includes/Compat.php:95
+msgid "Activation email"
+msgstr ""
+
 #: lib/Lib/Model.php:424
 #. translators: %s: database error message.
 msgid "Could not insert item into the database error %s"
@@ -208,7 +216,7 @@ msgstr ""
 msgid "Go Pro"
 msgstr ""
 
-#: lib/Lib/Plugin.php:655 src/Admin/Settings.php:213
+#: lib/Lib/Plugin.php:655 src/Admin/Settings.php:212
 msgid "Documentation"
 msgstr ""
 
@@ -698,18 +706,18 @@ msgstr ""
 msgid ""
 "Enable stock management for key-enabled products. This works only if you "
 "select \"Manually Added\" as the key source and enable stock management for "
-"the product."
+"the product. Variable product is not supported."
 msgstr ""
 
-#: src/Admin/Settings.php:102
+#: src/Admin/Settings.php:101
 msgid "WooCommerce PDF Invoices"
 msgstr ""
 
-#: src/Admin/Settings.php:104
+#: src/Admin/Settings.php:103
 msgid "Enable WooCommerce PDF Invoices."
 msgstr ""
 
-#: src/Admin/Settings.php:107
+#: src/Admin/Settings.php:106
 #. translators: %s: documentation link
 msgid ""
 "If you enable this option, the plugin will be compatible with WooCommerce "
@@ -718,103 +726,103 @@ msgid ""
 "for more details."
 msgstr ""
 
-#: src/Admin/Settings.php:118
+#: src/Admin/Settings.php:117
 msgid "Stock Notification"
 msgstr ""
 
-#: src/Admin/Settings.php:120
+#: src/Admin/Settings.php:119
 msgid "These options determine the operation of the key's stock notification."
 msgstr ""
 
-#: src/Admin/Settings.php:124
+#: src/Admin/Settings.php:123
 msgid "Stock notification email"
 msgstr ""
 
-#: src/Admin/Settings.php:126
+#: src/Admin/Settings.php:125
 msgid "Sends notification emails when key stock is low."
 msgstr ""
 
-#: src/Admin/Settings.php:132
+#: src/Admin/Settings.php:131
 msgid "Stock threshold"
 msgstr ""
 
-#: src/Admin/Settings.php:134
+#: src/Admin/Settings.php:133
 msgid ""
 "An email notification will be sent when the key stock falls below the "
 "specified number."
 msgstr ""
 
-#: src/Admin/Settings.php:139
+#: src/Admin/Settings.php:138
 msgid "Notification recipient email"
 msgstr ""
 
-#: src/Admin/Settings.php:141
+#: src/Admin/Settings.php:140
 msgid "The email address which will be used to send email notifications."
 msgstr ""
 
-#: src/Admin/Settings.php:175
+#: src/Admin/Settings.php:174
 msgid "Create and assign keys for WooCommerce variable products."
 msgstr ""
 
-#: src/Admin/Settings.php:176
+#: src/Admin/Settings.php:175
 msgid "Generate bulk keys with your custom key generator rule."
 msgstr ""
 
-#: src/Admin/Settings.php:177
+#: src/Admin/Settings.php:176
 msgid "Random & sequential key order for the generator rules."
 msgstr ""
 
-#: src/Admin/Settings.php:178
+#: src/Admin/Settings.php:177
 msgid "Automatic key generator to auto-create & assign keys with orders."
 msgstr ""
 
-#: src/Admin/Settings.php:179
+#: src/Admin/Settings.php:178
 msgid "License key management option from the order page with required actions."
 msgstr ""
 
-#: src/Admin/Settings.php:180
+#: src/Admin/Settings.php:179
 msgid "Support for bulk import/export of keys from/to CSV."
 msgstr ""
 
-#: src/Admin/Settings.php:181
+#: src/Admin/Settings.php:180
 msgid "Send keys via SMS with Twilio."
 msgstr ""
 
-#: src/Admin/Settings.php:182
+#: src/Admin/Settings.php:181
 msgid "Option to sell keys even if there are no available keys in the stock."
 msgstr ""
 
-#: src/Admin/Settings.php:183
+#: src/Admin/Settings.php:182
 msgid "Custom deliverable quantity to deliver multiple keys with a single product."
 msgstr ""
 
-#: src/Admin/Settings.php:184
+#: src/Admin/Settings.php:183
 msgid ""
 "Manual delivery option to manually deliver license keys instead of "
 "automatic."
 msgstr ""
 
-#: src/Admin/Settings.php:185
+#: src/Admin/Settings.php:184
 msgid ""
 "Email template to easily and quickly customize the order confirmation & low "
 "stock alert email."
 msgstr ""
 
-#: src/Admin/Settings.php:186
+#: src/Admin/Settings.php:185
 msgid "Many more ..."
 msgstr ""
 
-#: src/Admin/Settings.php:190
+#: src/Admin/Settings.php:189
 msgid "Want More?"
 msgstr ""
 
-#: src/Admin/Settings.php:191
+#: src/Admin/Settings.php:190
 msgid ""
 "This plugin offers a premium version which comes with the following "
 "features:"
 msgstr ""
 
-#: src/Admin/Settings.php:197
+#: src/Admin/Settings.php:196
 msgid "Upgrade to PRO"
 msgstr ""
 
@@ -1446,7 +1454,7 @@ msgid "WC Serial Numbers"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://pluginever.com/plugins/wocommerce-serial-numbers-pro/"
+msgid "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/"
 msgstr ""
 
 #. Description of the plugin/theme
