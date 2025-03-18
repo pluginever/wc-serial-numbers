@@ -87,6 +87,16 @@ class Settings extends Lib\Settings {
 						'default'  => 'no',
 						'type'     => 'checkbox',
 					),
+					// Enable managing stocks for the key enabled products.
+					array(
+						'title'    => __( 'Manage Stocks', 'wc-serial-numbers' ),
+						'id'       => 'wcsn_manage_stocks',
+						'desc'     => __( 'Manage stocks for the key enabled products.', 'wc-serial-numbers' ),
+						'desc_tip' => __( 'Enable stock management for key-enabled products. This works only if you select "Manually Added" as the key source and enable stock management for the product.', 'wc-serial-numbers' ),
+						'type'     => 'checkbox',
+						'default'  => 'no',
+					),
+
 					// Enable pdf invoice compatibility.
 					array(
 						'title'    => __( 'WooCommerce PDF Invoices', 'wc-serial-numbers' ),

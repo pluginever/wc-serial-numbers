@@ -140,7 +140,7 @@ class Products {
 
 			$source  = get_post_meta( $post->ID, '_serial_key_source', true );
 			$sources = wcsn_get_key_sources();
-			if ( count( $sources ) > 1 ) {
+			if ( count( $sources ) >= 1 ) {
 				woocommerce_wp_radio(
 					array(
 						'id'            => '_serial_key_source',
