@@ -53,7 +53,7 @@ class Stocks {
 	 *
 	 * @param Key $key Key object.
 	 *
-	 * @since 1.0.0
+	 * @since 2.1.6
 	 * @return void
 	 */
 	public static function update_stocks( $key ) {
