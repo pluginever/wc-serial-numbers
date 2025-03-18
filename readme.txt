@@ -2,7 +2,7 @@
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 6.7
-Stable tag: 2.1.5
+Stable tag: 2.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -249,6 +249,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.1.6 (18th Mar 2025) =
+* Fix: Few known issues fixed.
+* New: Add new feature to Manage Stocks.
+
 = 2.1.5 (4th Mar 2025) =
 * New: Add new settings for managing the WooCommerce PDF Invoices & Packing Slips plugin.
 * Fix: Few known issues fixed.
