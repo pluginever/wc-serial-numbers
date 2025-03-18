@@ -2,6 +2,8 @@
 
 namespace WooCommerceSerialNumbers;
 
+use WooCommerceSerialNumbers\Models\Key;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -18,7 +20,12 @@ class Stocks {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_filter( 'woocommerce_product_get_stock_quantity', array( __CLASS__, 'get_stock_quantity' ), 10, 2 );
+		add_filter( 'woocommerce_product_get_stock_quantity', array( __CLASS__, 'get_stock_quantity' ), 20, 2 );
+
+		// Manage Stocks.
+		add_action( 'wc_serial_numbers_key_inserted', array( __CLASS__, 'update_stocks' ) );
+		add_action( 'wc_serial_numbers_key_updated', array( __CLASS__, 'update_stocks' ) );
+		add_action( 'wc_serial_numbers_key_deleted', array( __CLASS__, 'update_stocks' ) );
 	}
 
 	/**
@@ -39,5 +46,38 @@ class Stocks {
 		}
 
 		return $quantity;
+	}
+
+	/**
+	 * Update stocks.
+	 *
+	 * @param Key $key Key object.
+	 *
+	 * @since 2.1.6
+	 * @return void
+	 */
+	public static function update_stocks( $key ) {
+		if ( 'no' === get_option( 'wcsn_manage_stocks', 'no' ) ) {
+			return; // Return if stock management is disabled.
+		}
+
+		$product = $key->get_product();
+
+		// Check if product exists and stock management is enabled.
+		if ( ! $product || ! $product->get_manage_stock() ) {
+			return;
+		}
+
+		// Check if product is enabled for WCSN.
+		if ( ! wcsn_is_product_enabled( $product->get_id() ) ) {
+			return;
+		}
+
+		// Get the total stock quantity. This will be the sum of all available keys.
+		$quantity = self::get_stock_quantity( $product->get_stock_quantity(), $product );
+
+		// Update the product stock meta directly.
+		$product->set_stock_quantity( $quantity );
+		$product->save();
 	}
 }

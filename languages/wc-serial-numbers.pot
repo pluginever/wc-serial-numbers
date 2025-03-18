@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WC Serial Numbers 2.1.5\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2025-03-04 08:21:22+00:00\n"
+"POT-Creation-Date: 2025-03-18 07:31:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -208,7 +208,7 @@ msgstr ""
 msgid "Go Pro"
 msgstr ""
 
-#: lib/Lib/Plugin.php:655 src/Admin/Settings.php:203
+#: lib/Lib/Plugin.php:655 src/Admin/Settings.php:213
 msgid "Documentation"
 msgstr ""
 
@@ -687,14 +687,29 @@ msgid ""
 msgstr ""
 
 #: src/Admin/Settings.php:92
-msgid "WooCommerce PDF Invoices"
+msgid "Manage Stocks"
 msgstr ""
 
 #: src/Admin/Settings.php:94
+msgid "Manage stocks for the key enabled products."
+msgstr ""
+
+#: src/Admin/Settings.php:95
+msgid ""
+"Enable stock management for key-enabled products. This works only if you "
+"select \"Manually Added\" as the key source and enable stock management for "
+"the product."
+msgstr ""
+
+#: src/Admin/Settings.php:102
+msgid "WooCommerce PDF Invoices"
+msgstr ""
+
+#: src/Admin/Settings.php:104
 msgid "Enable WooCommerce PDF Invoices."
 msgstr ""
 
-#: src/Admin/Settings.php:97
+#: src/Admin/Settings.php:107
 #. translators: %s: documentation link
 msgid ""
 "If you enable this option, the plugin will be compatible with WooCommerce "
@@ -703,103 +718,103 @@ msgid ""
 "for more details."
 msgstr ""
 
-#: src/Admin/Settings.php:108
+#: src/Admin/Settings.php:118
 msgid "Stock Notification"
 msgstr ""
 
-#: src/Admin/Settings.php:110
+#: src/Admin/Settings.php:120
 msgid "These options determine the operation of the key's stock notification."
 msgstr ""
 
-#: src/Admin/Settings.php:114
+#: src/Admin/Settings.php:124
 msgid "Stock notification email"
 msgstr ""
 
-#: src/Admin/Settings.php:116
+#: src/Admin/Settings.php:126
 msgid "Sends notification emails when key stock is low."
 msgstr ""
 
-#: src/Admin/Settings.php:122
+#: src/Admin/Settings.php:132
 msgid "Stock threshold"
 msgstr ""
 
-#: src/Admin/Settings.php:124
+#: src/Admin/Settings.php:134
 msgid ""
 "An email notification will be sent when the key stock falls below the "
 "specified number."
 msgstr ""
 
-#: src/Admin/Settings.php:129
+#: src/Admin/Settings.php:139
 msgid "Notification recipient email"
 msgstr ""
 
-#: src/Admin/Settings.php:131
+#: src/Admin/Settings.php:141
 msgid "The email address which will be used to send email notifications."
 msgstr ""
 
-#: src/Admin/Settings.php:165
+#: src/Admin/Settings.php:175
 msgid "Create and assign keys for WooCommerce variable products."
 msgstr ""
 
-#: src/Admin/Settings.php:166
+#: src/Admin/Settings.php:176
 msgid "Generate bulk keys with your custom key generator rule."
 msgstr ""
 
-#: src/Admin/Settings.php:167
+#: src/Admin/Settings.php:177
 msgid "Random & sequential key order for the generator rules."
 msgstr ""
 
-#: src/Admin/Settings.php:168
+#: src/Admin/Settings.php:178
 msgid "Automatic key generator to auto-create & assign keys with orders."
 msgstr ""
 
-#: src/Admin/Settings.php:169
+#: src/Admin/Settings.php:179
 msgid "License key management option from the order page with required actions."
 msgstr ""
 
-#: src/Admin/Settings.php:170
+#: src/Admin/Settings.php:180
 msgid "Support for bulk import/export of keys from/to CSV."
 msgstr ""
 
-#: src/Admin/Settings.php:171
+#: src/Admin/Settings.php:181
 msgid "Send keys via SMS with Twilio."
 msgstr ""
 
-#: src/Admin/Settings.php:172
+#: src/Admin/Settings.php:182
 msgid "Option to sell keys even if there are no available keys in the stock."
 msgstr ""
 
-#: src/Admin/Settings.php:173
+#: src/Admin/Settings.php:183
 msgid "Custom deliverable quantity to deliver multiple keys with a single product."
 msgstr ""
 
-#: src/Admin/Settings.php:174
+#: src/Admin/Settings.php:184
 msgid ""
 "Manual delivery option to manually deliver license keys instead of "
 "automatic."
 msgstr ""
 
-#: src/Admin/Settings.php:175
+#: src/Admin/Settings.php:185
 msgid ""
 "Email template to easily and quickly customize the order confirmation & low "
 "stock alert email."
 msgstr ""
 
-#: src/Admin/Settings.php:176
+#: src/Admin/Settings.php:186
 msgid "Many more ..."
 msgstr ""
 
-#: src/Admin/Settings.php:180
+#: src/Admin/Settings.php:190
 msgid "Want More?"
 msgstr ""
 
-#: src/Admin/Settings.php:181
+#: src/Admin/Settings.php:191
 msgid ""
 "This plugin offers a premium version which comes with the following "
 "features:"
 msgstr ""
 
-#: src/Admin/Settings.php:187
+#: src/Admin/Settings.php:197
 msgid "Upgrade to PRO"
 msgstr ""
 

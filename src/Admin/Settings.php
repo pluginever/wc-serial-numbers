@@ -87,6 +87,15 @@ class Settings extends Lib\Settings {
 						'default'  => 'no',
 						'type'     => 'checkbox',
 					),
+					// Enable managing stocks for the key enabled products.
+					array(
+						'title'    => __( 'Manage Stocks', 'wc-serial-numbers' ),
+						'id'       => 'wcsn_manage_stocks',
+						'desc'     => __( 'Manage stocks for the key enabled products.', 'wc-serial-numbers' ),
+						'desc_tip' => __( 'Enable stock management for key-enabled products. This works only if you select "Manually Added" as the key source and enable stock management for the product. Variable product is not supported.', 'wc-serial-numbers' ),
+						'type'     => 'checkbox',
+						'default'  => 'no',
+					),
 					// Enable pdf invoice compatibility.
 					array(
 						'title'    => __( 'WooCommerce PDF Invoices', 'wc-serial-numbers' ),
@@ -95,7 +104,7 @@ class Settings extends Lib\Settings {
 						'desc_tip' => sprintf(
 							/* translators: %s: documentation link */
 							__( 'If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice. Check out the <a href="%s" target="_blank">documentation</a> for more details.', 'wc-serial-numbers' ),
-							'https://pluginever.com/docs/woocommerce-serial-numbers/woocommerce-pdf-invoices/'
+							'https://pluginever.com/docs/wc-serial-numbers/woocommerce-pdf-invoices/'
 						),
 						'type'     => 'checkbox',
 						'default'  => 'no',

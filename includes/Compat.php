@@ -87,6 +87,14 @@ class Compat {
 					'label' => __( 'Activation limit', 'wc-serial-numbers' ),
 					'value' => $key->get_activation_limit() ? $key->get_activation_limit() : __( 'Unlimited', 'wc-serial-numbers' ),
 				),
+				'activation_count' => array(
+					'label' => __( 'Activation count', 'wc-serial-numbers' ),
+					'value' => $key->get_activation_count(),
+				),
+				'activation_email' => array(
+					'label' => __( 'Activation email', 'wc-serial-numbers' ),
+					'value' => $key->get_customer_email(),
+				),
 				'status'           => array(
 					'label' => __( 'Status', 'wc-serial-numbers' ),
 					'value' => $key->get_status_label(),
@@ -97,6 +105,9 @@ class Compat {
 			if ( empty( $data ) ) {
 				continue;
 			}
+
+			// Filter the data to display.
+			$data = apply_filters( 'wc_serial_numbers_display_key_props', $data, $key );
 
 			?>
 			<table cellspacing="0" class="display_meta wcsn-admin-order-item-meta" style="margin-bottom: 10px;">
