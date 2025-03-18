@@ -96,7 +96,6 @@ class Settings extends Lib\Settings {
 						'type'     => 'checkbox',
 						'default'  => 'no',
 					),
-
 					// Enable pdf invoice compatibility.
 					array(
 						'title'    => __( 'WooCommerce PDF Invoices', 'wc-serial-numbers' ),
