@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.1.6\n"
+"Project-Id-Version: WC Serial Numbers 2.1.7\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2025-03-18 10:27:13+00:00\n"
+"POT-Creation-Date: 2025-04-08 04:28:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
