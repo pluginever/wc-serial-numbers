@@ -1,11 +1,9 @@
 name: Linting
 
 on:
-  pull_request:
+  push:
     branches:
       - master
-      - feature/*
-      - release/*
   workflow_dispatch:
     inputs:
       ref:

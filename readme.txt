@@ -249,7 +249,7 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
-= 2.1.8 (25th Oct 2025) =
+= 2.1.8 (04 May 2025) =
 * Compatibility: Make compatible with the latest version of WooCommerce and WordPress.
 
 = 2.1.6 (18th Mar 2025) =
