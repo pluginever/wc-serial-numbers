@@ -27,6 +27,9 @@ jobs:
           coverage: none
           tools: composer, cs2pr
 
+      - name: Setup github token
+        run: composer config -g github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
+
       - name: Install dependencies
         run: composer install
 
@@ -37,7 +40,7 @@ jobs:
           echo "{files}={$FILES}" >> $GITHUB_OUTPUT
 
       - name: Test changed files
-        run: ./vendor/bin/phpcs ${{ steps.changes.outputs.files }} --report-full --report-checkstyle=./.github/phpcs-report.xml --runtime-set testVersion 8.0
+        run: ./vendor/bin/phpcs ${{ steps.changes.outputs.files }} --ignore=*/vendor/*,*/lib/* --report-full --report-checkstyle=./.github/phpcs-report.xml --runtime-set testVersion 8.0
 
       - name: Upload PHPCS report
         if: ${{ always() }}
