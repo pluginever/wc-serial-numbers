@@ -48,7 +48,6 @@ codeception.yml
 .env.testing
 
 # Language files
-languages/*.
 /lib
 
 # Build
