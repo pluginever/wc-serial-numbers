@@ -547,6 +547,15 @@ function wcsn_order_update_keys( $order_id ) {
 				continue;
 			}
 
+			/**
+			 * Filter hook to alter the keys before assigning them to the order item.
+			 *
+			 * @param Key[]          $keys The keys.
+			 * @param \WC_Order_Item $item Order item.
+			 * @param \WC_Order      $order Order object.
+			 */
+			$keys = apply_filters( 'wc_serial_numbers_order_item_keys', $keys, $item, $order );
+
 			// Assign keys to order.
 			foreach ( $keys as $key ) {
 				$key->set_data(
