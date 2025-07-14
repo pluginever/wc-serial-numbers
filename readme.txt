@@ -533,15 +533,15 @@ Enhance - Enhance simple product metabox styles
 * Fix - WP Compatibility
 * Fix - WC Compatibility
 
-= 1.0.8 (6 July, 2019) =
+= 1.0.8 (6 July 2019) =
 * Fix - Table create failed below mysql v5.6
 * Fix - Serial number label chancing is not working on order complete page
 * Fix - Creating multiple serial number for a single product when order failed
 
-= 1.0.7 (24 June, 2019) =
+= 1.0.7 (24 June 2019) =
 * Fix - Compatibly with WP v5.2.2
 
-= 1.0.6 (18 June, 2019) =
+= 1.0.6 (18 June 2019) =
 * Fix - Plugin translation issue
 * Fix - Product order page serial number limitation
 * Fix - Unwanted notification for the serial number
@@ -549,11 +549,11 @@ Enhance - Enhance simple product metabox styles
 * New - Encryption - all serial number at DB is encrypted
 * Tweak - Notification moved to the background process. No more failed check.
 
-= 1.0.5 (24 April, 2019) =
+= 1.0.5 (24 April 2019) =
 * Fix - Serial number table not generating in sql version lower than 5.5 [#31]
 * Confirm compatibility with WC 3.6.1
 
-= 1.0.4 (1 April, 2019) =
+= 1.0.4 (1 April 2019) =
 * Fix - Email notification stop is not working
 * Fix - Notification is showing for normal products too
 * Fix - Validity takes negative value as input
@@ -562,23 +562,23 @@ Enhance - Enhance simple product metabox styles
 * Enhance - Add serial number search filter
 * Confirm compatibility with WC 3.5.7
 
-= 1.0.3 (18 March, 2019) =
+= 1.0.3 (18 March 2019) =
 * Fix - Broken style
 * Fix - Auto-complete order
 * Conditional styles/script loading
 
-= 1.0.2 (15 March, 2019) =
+= 1.0.2 (15 March 2019) =
 * Fix - Link from product page to add new serial number page
 * Fix - Conflict with Divi theme admin design
 * Fix - Compatibly with WP v5.1.1
 * Fix - Compatibly with WC v3.5.6
 
-= 1.0.1 (6 March, 2019) =
+= 1.0.1 (6 March 2019) =
 * Rewrite - Key generation process
 * Add - Software API
 * Update - Settings
 * Improve - Notification
 * Fix - Bug
 
-= 1.0 (21 January, 2019) =
+= 1.0 (21 January 2019) =
 Initial release
