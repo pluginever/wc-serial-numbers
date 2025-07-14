@@ -2,7 +2,7 @@
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 6.8
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,7 +157,7 @@ Visit [PluginEver](https://pluginever.com) to learn from our WooCommerce tutoria
 
 = Minimum requirements =
 
-* WordPress 5.0 or greater
+* WordPress 5.2 or greater
 * WooCommerce 5.0 or greater
 * PHP version 7.4 or greater
 * MySQL version 5.6 or greater
@@ -249,6 +249,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.2.1 (14 July 2025) =
+* Fix: Compatibility with the latest version of WooCommerce and WordPress.
+
 = 2.2.0 (19 Jun 2025) =
 * Fix: Framework Model enhanced to allow filter the keys sql query.
 * Compatibility: Make compatible with the latest version of WooCommerce and WordPress.
@@ -477,24 +480,24 @@ Enhance - Enhance simple product metabox styles
 * Fix - Translate path not found
 * Enhance - Ordered serial numbers in dedicated metabox on order edit page
 
-= 1.2.5 (12 August, 2020) =
+= 1.2.5 (12 August 2020) =
 * Fix - Error on order edit page when contains non serial numbers
 
-= 1.2.4 (9 August, 2020) =
+= 1.2.4 (9 August 2020) =
 * Fix - Serial numbers are not showing in order edit page
 
-= 1.2.3 (3 August, 2020) =
+= 1.2.3 (3 August 2020) =
 * Fix - Order status changed on pending status
 * Fix - Order edit throwing error not found order_id
 
-= 1.2.2 (28 July, 2020) =
+= 1.2.2 (28 July 2020) =
 * Fix - Can't add manually order
 
-= 1.2.1 (25 July, 2020) =
+= 1.2.1 (25 July 2020) =
 * Fix - Order email showing wrong when order contains non serial items
 * Fix - Can not add manual serial numbers
 
-= 1.2.0 (23 July, 2020) =
+= 1.2.0 (23 July 2020) =
 * Enhance - Full rewritten plugin
 * Enhance - Product tab for serial numbers
 * Enhance - Serial Key list table with status, order date and expire date
@@ -503,42 +506,42 @@ Enhance - Enhance simple product metabox styles
 * Fix - Order confirmation page needs reload
 * Remove - The notification tab from admin bar
 
-= 1.1.3 (24 November, 2019) =
+= 1.1.3 (24 November 2019) =
 * Enhance - Improve API response
 * Fix - Added compatibility with Product Input Fields
 * Fix - Option to modify license validity
 * Fix - WP Compatibility v5.3
 
-= 1.1.2 (11 November, 2019) =
+= 1.1.2 (11 November 2019) =
 * New - Obscure serial keys in dashboard
 * Enhance - Change API response
 * Fix - Indexing serial number table
 * Fix - WC Compatibility v3.8.0
 
-= 1.1.1 (16 October, 2019) =
+= 1.1.1 (16 October 2019) =
 * New - Built-in support for leading PDF Invoice & Packing Slip plugins.
 * Fix - Show auto draft products while creating serial numbers.
 * Fix - Admin panel notification update latency.
 * Fix - WP Compatibility v5.2.4
 * Fix - WC Compatibility v3.7.1
 
-= 1.1.0 (22 September, 2019) =
+= 1.1.0 (22 September 2019) =
 * Fix - Serial number reuse is not working on paypal gateway
 
-= 1.0.9 (25 August, 2019) =
+= 1.0.9 (25 August 2019) =
 * Fix - WPML Support
 * Fix - WP Compatibility
 * Fix - WC Compatibility
 
-= 1.0.8 (6 July, 2019) =
+= 1.0.8 (6 July 2019) =
 * Fix - Table create failed below mysql v5.6
 * Fix - Serial number label chancing is not working on order complete page
 * Fix - Creating multiple serial number for a single product when order failed
 
-= 1.0.7 (24 June, 2019) =
+= 1.0.7 (24 June 2019) =
 * Fix - Compatibly with WP v5.2.2
 
-= 1.0.6 (18 June, 2019) =
+= 1.0.6 (18 June 2019) =
 * Fix - Plugin translation issue
 * Fix - Product order page serial number limitation
 * Fix - Unwanted notification for the serial number
@@ -546,11 +549,11 @@ Enhance - Enhance simple product metabox styles
 * New - Encryption - all serial number at DB is encrypted
 * Tweak - Notification moved to the background process. No more failed check.
 
-= 1.0.5 (24 April, 2019) =
+= 1.0.5 (24 April 2019) =
 * Fix - Serial number table not generating in sql version lower than 5.5 [#31]
 * Confirm compatibility with WC 3.6.1
 
-= 1.0.4 (1 April, 2019) =
+= 1.0.4 (1 April 2019) =
 * Fix - Email notification stop is not working
 * Fix - Notification is showing for normal products too
 * Fix - Validity takes negative value as input
@@ -559,23 +562,23 @@ Enhance - Enhance simple product metabox styles
 * Enhance - Add serial number search filter
 * Confirm compatibility with WC 3.5.7
 
-= 1.0.3 (18 March, 2019) =
+= 1.0.3 (18 March 2019) =
 * Fix - Broken style
 * Fix - Auto-complete order
 * Conditional styles/script loading
 
-= 1.0.2 (15 March, 2019) =
+= 1.0.2 (15 March 2019) =
 * Fix - Link from product page to add new serial number page
 * Fix - Conflict with Divi theme admin design
 * Fix - Compatibly with WP v5.1.1
 * Fix - Compatibly with WC v3.5.6
 
-= 1.0.1 (6 March, 2019) =
+= 1.0.1 (6 March 2019) =
 * Rewrite - Key generation process
 * Add - Software API
 * Update - Settings
 * Improve - Notification
 * Fix - Bug
 
-= 1.0 (21 January, 2019) =
+= 1.0 (21 January 2019) =
 Initial release
