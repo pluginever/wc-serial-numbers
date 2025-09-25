@@ -2,7 +2,7 @@
 <ruleset name="ByteEver Coding Standards">
 	<description>ByteEver PHPCS extended.</description>
 
-	<!-- Check all PHP files in directory tree by default. -->
+	<!-- Check all PHP files in a directory tree by default. -->
 	<file>.</file>
 	<exclude-pattern>languages/</exclude-pattern>
 	<exclude-pattern>tests/</exclude-pattern>
