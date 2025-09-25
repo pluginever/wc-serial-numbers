@@ -22,7 +22,7 @@
     "test:unit": "wp-scripts test-unit-js"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^30.0.0",
+    "@wordpress/scripts": "^30.24.0",
     "@lodder/time-grunt": "^4.0.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
