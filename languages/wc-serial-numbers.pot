@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.2.3\n"
+"Project-Id-Version: WC Serial Numbers 2.2.4\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2025-09-25 12:37:13+00:00\n"
+"POT-Creation-Date: 2025-10-14 10:06:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -177,20 +177,20 @@ msgstr ""
 msgid "You do not have permission to save this data."
 msgstr ""
 
-#: includes/Admin/Requests.php:79
+#: includes/Admin/Requests.php:85
 msgid "Key added successfully."
 msgstr ""
 
-#: includes/Admin/Requests.php:81
+#: includes/Admin/Requests.php:87
 msgid "Key updated successfully."
 msgstr ""
 
-#: includes/Admin/Requests.php:100 includes/Admin/Requests.php:163
-#: includes/Admin/Requests.php:238
+#: includes/Admin/Requests.php:106 includes/Admin/Requests.php:169
+#: includes/Admin/Requests.php:244
 msgid "You do not have permission to access this endpoint."
 msgstr ""
 
-#: includes/Admin/Requests.php:274
+#: includes/Admin/Requests.php:280
 #. translators: $1: customer name, $2 customer id, $3: customer email
 msgid "%1$s (#%2$s - %3$s)"
 msgstr ""
