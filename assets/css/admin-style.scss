@@ -2,11 +2,6 @@
 @forward "../../lib/Lib/assets/css/card";
 @forward "../../lib/Lib/assets/css/form";
 
-//
-// Elements
-// Styles for different elements within the admin area.
-//
-
 // Card component.
 .wcsn-card {
 	margin-top: 20px;
@@ -72,7 +67,6 @@
 	}
 }
 
-
 // Key style.
 // Show the serial key in a nice box with a copy button.
 .wcsn-key {
@@ -96,10 +90,8 @@
 	}
 }
 
-//
 // Fix misc styles
 // Fixing some styles that are not working properly.
-//
 
 // Margin bottom for tabs otherwise they are too close to the content.
 .wcsn-nav-tabs {
@@ -148,7 +140,6 @@
 				background-color: #d6d8d9;
 				border-color: #c6c8ca
 			}
-
 		}
 	}
 
@@ -168,9 +159,7 @@
 	}
 }
 
-
-
-// Fix select2 width in filter
+// Fix select2 width in filter.
 .tablenav {
 	.wcsn_search_product,
 	.wcsn_search_customer,
@@ -192,7 +181,7 @@
 	}
 }
 
-// Status tab
+// Status tab.
 .wcsn-tools-tab-status {
 	table {
 		h2 {
