@@ -2,7 +2,7 @@
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 6.8
-Stable tag: 2.2.3
+Stable tag: 2.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,7 @@ WooCommerce is the best eCommerce platform out there, but lacks key features for
 
 Despite being the ultimate license manager for WooCommerce, Serial Numbers is versatile when it comes to use cases. For authenticating your physical products, private label them, or stop the spread of counterfeits, you can apply this technology to any tangible products.
 
-[**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers)
+[**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers) | [**🎥 Video Tutorials**](https://www.youtube.com/playlist?list=PLnXvQZk2k0fYk1yXoO7eX4jv8Hh5r3K7J) | [**🛒 Upgrade to PRO**](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
 === ✨ How You can benefit from using WC Serial Numbers for your businesses: ===
 
@@ -110,6 +110,8 @@ You can also use different methods that allow you to validate, activate, and dea
 
 - **Useful Integrations:** Enjoy compatibility with popular plugins like WPML for multilingual support, PDF Invoice & Packing Slips for easy documentation, and multivendor sites. This plugin is designed to integrate smoothly with a wide variety of tools and platforms to enhance your store experience.
 
+- **Rest API:** You’ll be able to operate a set of standard rules and conventions for communicating with other web-based applications and services. REST API treats everything as a resource, including a WooCommerce product. License keys are managed as resources and are accessed through endpoints that are also resources.
+
 > Maximize the potential of WC Serial Numbers plugin by unlocking all its advanced features. <a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
 
 
@@ -119,8 +121,6 @@ We are constantly improving our plugin and bringing new enhancements for your co
 
 - **Subscription Support:** You’ll have the option to sell your subscription products with the WooCommerce subscription feature. It will give you all the features and functionalities to sell keys by managing subscriptions efficiently.
 
-- **Rest API:** You’ll be able to operate a set of standard rules and conventions for communicating with other web-based applications and services. REST API treats everything as a resource, including a WooCommerce product. License keys are managed as resources and are accessed through endpoints that are also resources.
-
 - **Fast Checkout:** You’ll have the option to let your customers go through a fast checkout process if they only add digital products to their cart. With this option, customers won't have to worry about filling out fields they don't need to.
 
 - **Custom Emails:** You’ll have the full option to take control over sending emails to your customers. You’ll have options to disable sending emails and also you can send custom emails instead of sending default emails sent via WooCommerce itself.
@@ -128,6 +128,8 @@ We are constantly improving our plugin and bringing new enhancements for your co
 - **Key Placements:** You’ll have the option to display keys for your customers depending on your preferences. On that note, you don’t have to stick with the default key placements by the plugin. You can also choose file formats for showing your keys.
 
 - **Barcode Integration:** You’ll have the option to create fully functional barcodes as you know that a barcode is a visual representation of the ‘serial number’ that is located beneath it. You can input product-related data or information using available formats of barcodes.
+
+- **Custom Filed:** You’ll have the option to add custom fields to the key generation form. This will allow you to add more information about the serial keys you are selling.
 
 
 == 💚 Why Creators and Digital Product Sellers Love WC Serial Numbers: ==
@@ -249,6 +251,9 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.2.4 (14 Oct 2025) =
+* Fix: Displaying the wrong expired date when a new key is manually assigned to the order.
+
 = 2.2.3 ( 25 Sep 2025) =
 * Compatibility: Make compatible with the WooCommerce 10.2
 
