@@ -62,10 +62,16 @@ class Requests {
 			'status'           => $status,
 		);
 
+		// If order ID is valid then set the order date.
+		if ( $order_id ) {
+			$order              = wc_get_order( $order_id );
+			$data['order_date'] = $order && $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : '';
+		}
+
 		$key = Key::insert( $data );
 		if ( is_wp_error( $key ) ) {
 			WCSN()->add_notice( $key->get_error_message(), 'error' );
-			// redirect to referrer.
+			// Redirect to referrer.
 			wp_safe_redirect( wp_get_referer() );
 			exit();
 		}
