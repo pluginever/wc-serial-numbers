@@ -36,7 +36,7 @@ WooCommerce is the best eCommerce platform out there, but lacks key features for
 
 Despite being the ultimate license manager for WooCommerce, Serial Numbers is versatile when it comes to use cases. For authenticating your physical products, private label them, or stop the spread of counterfeits, you can apply this technology to any tangible products.
 
-[**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers) | [**🎥 Video Tutorials**](https://www.youtube.com/playlist?list=PLnXvQZk2k0fYk1yXoO7eX4jv8Hh5r3K7J) | [**🛒 Upgrade to PRO**](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
+[**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers) | [**🛒 Upgrade to PRO**](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
 === ✨ How You can benefit from using WC Serial Numbers for your businesses: ===
 
