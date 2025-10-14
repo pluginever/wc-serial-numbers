@@ -1,7 +1,7 @@
 {
   "name": "wc-serial-numbers",
   "title": "WC Serial Numbers",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Sell and manage license keys/ serial numbers/ secret keys easily within your WooCommerce store.",
   "homepage": "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/",
   "license": "GPL v2 or later",
@@ -22,8 +22,8 @@
     "test:unit": "wp-scripts test-unit-js"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^30.24.0",
     "@lodder/time-grunt": "^4.0.0",
+    "@wordpress/scripts": "^30.25.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "grunt": "^1.6.1",
