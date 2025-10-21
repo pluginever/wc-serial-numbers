@@ -13,6 +13,7 @@ module.exports = {
 		'js/admin-script': './assets/js/admin-script.js',
 		'js/frontend-script': './assets/js/frontend-script.js',
 		'css/admin-style': './assets/css/admin-style.scss',
+		'css/admin-halloween': './assets/css/halloween.scss',
 		'css/frontend-style': './assets/css/frontend-style.scss',
 	},
 	output: {
