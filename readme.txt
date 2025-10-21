@@ -129,7 +129,7 @@ We are constantly improving our plugin and bringing new enhancements for your co
 
 - **Barcode Integration:** You’ll have the option to create fully functional barcodes as you know that a barcode is a visual representation of the ‘serial number’ that is located beneath it. You can input product-related data or information using available formats of barcodes.
 
-- **Custom Filed:** You’ll have the option to add custom fields to the key generation form. This will allow you to add more information about the serial keys you are selling.
+- **Custom Field:** You’ll have the option to add custom fields to the key generation form. This will allow you to add more information about the serial keys you are selling.
 
 
 == 💚 Why Creators and Digital Product Sellers Love WC Serial Numbers: ==
