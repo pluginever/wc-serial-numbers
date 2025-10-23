@@ -54,11 +54,11 @@ class Admin {
 			return;
 		}
 		wp_enqueue_style( 'jquery-ui-style' );
-		wp_enqueue_style( 'select2' );
+		wp_enqueue_style( 'wc-select2' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 
 		WCSN()->enqueue_style( 'wc-serial-numbers-admin', 'css/admin-style.css' );
-		WCSN()->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', 'select2', 'wp-util' ) );
+		WCSN()->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', 'wc-select2', 'wp-util' ) );
 		wp_localize_script(
 			'wc-serial-numbers-admin',
 			'wc_serial_numbers_vars',
