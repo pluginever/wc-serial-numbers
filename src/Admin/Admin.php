@@ -53,12 +53,17 @@ class Admin {
 		if ( ! in_array( $hook, self::get_screen_ids(), true ) ) {
 			return;
 		}
+
+		// Determine which select2 to use. WooCommerce 3.6+ uses its own select2 but the latest WooCommerce 10.3+ deprecated it and added wc-select2 style/js handle.
+		$which_select2_style  = wp_style_is( 'wc-select2', 'registered' ) ? 'wc-select2' : 'select2';
+		$which_select2_script = wp_script_is( 'wc-select2', 'registered' ) ? 'wc-select2' : 'select2';
+
 		wp_enqueue_style( 'jquery-ui-style' );
-		wp_enqueue_style( 'wc-select2' );
+		wp_enqueue_style( $which_select2_style );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 
 		WCSN()->enqueue_style( 'wc-serial-numbers-admin', 'css/admin-style.css' );
-		WCSN()->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', 'wc-select2', 'wp-util' ) );
+		WCSN()->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', $which_select2_script, 'wp-util' ) );
 		wp_localize_script(
 			'wc-serial-numbers-admin',
 			'wc_serial_numbers_vars',
