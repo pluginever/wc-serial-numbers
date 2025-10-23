@@ -50,7 +50,7 @@ class Notices {
 					/* translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link to the plugin page, %4$s: end link to the plugin page */
 						__( '%1$s%2$s%3$s Upgrade Now and Save %4$s', 'wc-serial-numbers' ),
 						'<div class="wcsn-halloween__header"><div class="wcsn-halloween__icon"><img src="' . WCSN()->get_dir_url( 'assets/dist/images/halloween-icon.svg' ) . '" alt="WC Serial Numbers Halloween offer"></div><div class="wcsn-halloween__content"><strong class="wcsn-halloween__title">',
-						'👻 Halloween Sale: ' . $discount_percentage . ' OFF on WC Serial Manager Pro</strong><p>Grab a ' . $discount_percentage . ' discount on WC Serial Manager Pro and all our premium plugins this Halloween! Use code <strong>‘EVERSAVE30’</strong>. Don\'t miss out!</p>',
+						'👻 Halloween Sale: ' . $discount_percentage . ' OFF on WC Serial Numbers Pro</strong><p>Grab a ' . $discount_percentage . ' discount on WC Serial Numbers Pro and all our premium plugins this Halloween! Use code <strong>‘EVERSAVE30’</strong>. Don\'t miss out!</p>',
 						'<a class="button button-primary" href="' . esc_url( WCSN()->get_premium_url() ) . '?utm_source=plugin&utm_medium=notice&utm_campaign=halloween-sale-2025&discount=EVERSAVE30" target="_blank">',
 						$discount_percentage . '</a></div></div>',
 					),

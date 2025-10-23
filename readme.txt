@@ -251,7 +251,7 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
-= 2.2.5 (22 Oct 2025) =
+= 2.2.5 (23 Oct 2025) =
 * Fix: A Few minor issues were fixed.
 * Enhance: Update the plugin notices.
 
