@@ -2,7 +2,7 @@
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 6.8
-Stable tag: 2.2.4
+Stable tag: 2.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,7 +129,7 @@ We are constantly improving our plugin and bringing new enhancements for your co
 
 - **Barcode Integration:** You’ll have the option to create fully functional barcodes as you know that a barcode is a visual representation of the ‘serial number’ that is located beneath it. You can input product-related data or information using available formats of barcodes.
 
-- **Custom Filed:** You’ll have the option to add custom fields to the key generation form. This will allow you to add more information about the serial keys you are selling.
+- **Custom Field:** You’ll have the option to add custom fields to the key generation form. This will allow you to add more information about the serial keys you are selling.
 
 
 == 💚 Why Creators and Digital Product Sellers Love WC Serial Numbers: ==
@@ -251,6 +251,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.2.5 (23 Oct 2025) =
+* Fix: A Few minor issues were fixed.
+* Enhance: Update the plugin notices.
+
 = 2.2.4 (14 Oct 2025) =
 * Fix: Displaying the wrong expired date when a new key is manually assigned to the order.
 
