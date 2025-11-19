@@ -223,7 +223,7 @@ Serial Numbers is powered by WooCommerce and it supports all the payment process
 
 = Does this plugin support subscription/recurring payments? =
 
-This is upcoming.
+Not yet, but we are working on it and will release it soon. Stay tuned!
 
 = Is this plugin translatable? =
 
