@@ -143,7 +143,7 @@ We are constantly improving our plugin and bringing new enhancements for your co
 
 === 💝 User Reviews and Testimonials: ===
 
-Serial Numbers is helping tens of thousands of store owners sell and manage keys, and they just love it! See all the 5-star reviews from our users [here](https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5).
+Serial Numbers is helping tens of thousands of store owners sell and manage keys, and they just love it! See all the 5-star reviews from our users [here](https://wordpress.org/support/plugin/wc-serial-numbers/reviews/).
 
 === 💢 Supercharge Your Store with Our Other WooCommerce Plugins: ===
 
