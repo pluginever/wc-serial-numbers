@@ -252,8 +252,8 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 
 == Changelog ==
 = 2.2.6 (19 Nov 2025) =
-* Fix: Few minor issues were addressed.
-* Enhance: Update the plugin notices.
+* Fix: Updated plugin naming to comply with WordPress.org trademark guidelines.
+* Enhance: Improved readme content clarity and removed promotional language per guidelines.
 
 = 2.2.5 (23 Oct 2025) =
 * Fix: A Few minor issues were fixed.
