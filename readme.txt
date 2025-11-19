@@ -2,7 +2,7 @@
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 6.8
-Stable tag: 2.2.5
+Stable tag: 2.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -251,6 +251,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.2.6 (19 Nov 2025) =
+* Fix: Few minor issues were addressed.
+* Enhance: Update the plugin notices.
+
 = 2.2.5 (23 Oct 2025) =
 * Fix: A Few minor issues were fixed.
 * Enhance: Update the plugin notices.
