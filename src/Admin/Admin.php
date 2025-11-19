@@ -48,8 +48,6 @@ class Admin {
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts( $hook ) {
-		WCSN()->enqueue_style( 'wcsn-halloween', 'css/admin-halloween.css' );
-
 		if ( ! in_array( $hook, self::get_screen_ids(), true ) ) {
 			return;
 		}

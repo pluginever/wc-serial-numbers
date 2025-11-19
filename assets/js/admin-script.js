@@ -1,8 +1,8 @@
 /**
- * WC Serial Numbers
- * https://www.pluginever.com
+ * Serial Numbers
+ * https://pluginever.com
  *
- * Copyright (c) 2018 pluginever
+ * Copyright (c) 2025 PluginEver
  * Licensed under the GPLv2+ license.
  */
 /* global jQuery, wc_serial_numbers_vars */
