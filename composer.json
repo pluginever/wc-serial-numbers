@@ -1,6 +1,6 @@
 {
   "name": "pluginever/wc-serial-numbers",
-  "description": "WC Serial Numbers",
+  "description": "Sell and manage license keys, serial numbers, and secret keys easily within your WooCommerce store.",
   "homepage": "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/",
   "type": "wordpress-plugin",
   "license": "GPL-v2 or later",

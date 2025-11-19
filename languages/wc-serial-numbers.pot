@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WC Serial Numbers 2.2.6\n"
+"Project-Id-Version: Serial Numbers 2.2.6\n"
 "Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2025-11-19 09:49:12+00:00\n"
+"POT-Creation-Date: 2025-11-19 10:02:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -114,9 +114,7 @@ msgstr ""
 msgid "View Details"
 msgstr ""
 
-#: includes/Admin/Products.php:92 src/Admin/Admin.php:146
-#: src/Admin/Menus.php:54 src/Admin/Menus.php:88 src/Admin/Menus.php:89
-#: src/Admin/Menus.php:433 src/Functions/Template.php:226
+#. Plugin Name of the plugin/theme
 msgid "Serial Numbers"
 msgstr ""
 
@@ -1449,17 +1447,13 @@ msgid ""
 "WooCommerce</a>"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "WC Serial Numbers"
-msgstr ""
-
 #. Plugin URI of the plugin/theme
 msgid "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/"
 msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"Sell and manage license keys/ serial numbers/ secret keys easily within "
+"Sell and manage license keys, serial numbers, and secret keys easily within "
 "your WooCommerce store."
 msgstr ""
 

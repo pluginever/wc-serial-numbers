@@ -1,4 +1,4 @@
-=== WC Serial Numbers - Ultimate License Manager for Selling, Licensing & Securely Delivering Digital Content with WooCommerce ===
+=== Serial Numbers - Ultimate License Manager for Selling, Licensing & Securely Delivering Digital Content with WooCommerce ===
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 6.8
@@ -11,9 +11,9 @@ The easiest way to sell digital products and manage licenses with WooCommerce.
 == Description ==
 
 = Ultimate Solution for Selling Digital Products and Content with WooCommerce =
-**[WC Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful WordPress license manager plugin created for WooCommerce store owners. Sell keys, manage licenses, assign serial keys to products, and keep track of customer activations, all without leaving the WooCommerce dashboard.
+**[Serial Numbers](https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=product-page-wordpress.org&utm_medium=product-page-wordpress.org&utm_campaign=product-page-wordpress.org)** is the most powerful WordPress license manager plugin created for WooCommerce store owners. Sell keys, manage licenses, assign serial keys to products, and keep track of customer activations, all without leaving the WooCommerce dashboard.
 
-WooCommerce is the best eCommerce platform out there, but lacks key features for selling digital products. WC Serial Numbers plugin bridges this gap by seamlessly integrating all the necessary functionalities. Transform your WooCommerce store into a complete digital marketplace by incorporating license management, secured and authorized distribution.
+WooCommerce is the best eCommerce platform out there, but lacks key features for selling digital products. Serial Numbers plugin bridges this gap by seamlessly integrating all the necessary functionalities. Transform your WooCommerce store into a complete digital marketplace by incorporating license management, secured and authorized distribution.
 
 === 👨‍💻 This Plugin is Ideal for: ===
 
@@ -23,7 +23,7 @@ WooCommerce is the best eCommerce platform out there, but lacks key features for
 * License Key/Product Key Resellers
 * Any Kind of Digital Product Sellers
 
-=== 💵 With WC Serial Numbers You Can Sell: ===
+=== 💵 With Serial Numbers You Can Sell: ===
 
 * Digital Assets (Themes, Plugins, Digital Arts, Photos, Videos, Music, NFTs, Templates)
 * Digital Tools (Software, Apps, Games, Mockup)
@@ -38,7 +38,7 @@ Despite being the ultimate license manager for WooCommerce, Serial Numbers is ve
 
 [**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers) | [**🛒 Upgrade to PRO**](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
-=== ✨ How You can benefit from using WC Serial Numbers for your businesses: ===
+=== ✨ How You can benefit from using Serial Numbers for your businesses: ===
 
 - **Generate Fast Revenue:** Stop worrying about the licensing management system and put all of your energy into creating and improving your products.
 
@@ -53,7 +53,7 @@ Despite being the ultimate license manager for WooCommerce, Serial Numbers is ve
 - **Prevent Counterfeiting and Piracy:** The plugin is capable of avoiding piracy and fraud. It's a safety net since WooCommerce store owners can verify the product is authentic and hasn't been tampered with. Those who have bought a product online can check to see if it is a legitimate copy or a fake.
 
 
-=== ✨ WC Serial Numbers Features: ===
+=== ✨ Serial Numbers Features: ===
 
 - **Add Keys Manually:** You can manually enter as many keys as you wish, or you can use our powerful built-in bulk importer to do the work for you.
 
@@ -112,7 +112,7 @@ You can also use different methods that allow you to validate, activate, and dea
 
 - **Rest API:** You’ll be able to operate a set of standard rules and conventions for communicating with other web-based applications and services. REST API treats everything as a resource, including a WooCommerce product. License keys are managed as resources and are accessed through endpoints that are also resources.
 
-> Maximize the potential of WC Serial Numbers plugin by unlocking all its advanced features. <a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
+> Maximize the potential of Serial Numbers plugin by unlocking all its advanced features. <a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a></pre>
 
 
 === ⚡ More Upcoming Features: ===
@@ -132,7 +132,7 @@ We are constantly improving our plugin and bringing new enhancements for your co
 - **Custom Field:** You’ll have the option to add custom fields to the key generation form. This will allow you to add more information about the serial keys you are selling.
 
 
-== 💚 Why Creators and Digital Product Sellers Love WC Serial Numbers: ==
+== 💚 Why Creators and Digital Product Sellers Love Serial Numbers: ==
 
 - **Unparalleled Features:** Serial Numbers plugin is second to none when it comes to generating serial numbers and managing licenses for your WooCommerce products. This license manager plugin is a powerhouse on its own, with features like auto-generating unique keys, integration with the REST API, and so on.
 
@@ -144,7 +144,7 @@ We are constantly improving our plugin and bringing new enhancements for your co
 
 === 💝 User Reviews and Testimonials: ===
 
-WC Serial Numbers is helping tens of thousands of store owners sell and manage keys and they just love it! See all the 5-star reviews from our users [here](https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5).
+Serial Numbers is helping tens of thousands of store owners sell and manage keys and they just love it! See all the 5-star reviews from our users [here](https://wordpress.org/support/plugin/wc-serial-numbers/reviews/?filter=5).
 
 === 💢 Supercharge Your Store with Our Other WooCommerce Plugins: ===
 
@@ -220,7 +220,7 @@ Yes, check out the [helpful guide](https://pluginever.com/docs/wocommerce-serial
 
 = What payment processors are supported? =
 
-WC Serial Numbers is powered by WooCommerce and it supports all the payment processors/gateways available within WooCommerce like Stripe, PayPal, Square, etc.
+Serial Numbers is powered by WooCommerce and it supports all the payment processors/gateways available within WooCommerce like Stripe, PayPal, Square, etc.
 
 = Does this plugin supports subscription/recurring payments? =
 
