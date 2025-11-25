@@ -1,0 +1,44 @@
+.wcsn-black-friday{
+	padding: 0 1rem;
+	background-image: url('../images/black-friday-banner.png');
+	background-repeat: repeat;
+	border-color: #000;
+	border-left-color: red;
+
+	&__header{
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	&__title{
+		font-size: 1.5rem;
+		font-weight: 600;
+		color: #ffffff;
+	}
+
+	&__icon{
+		width: 100%;
+		max-width: 80px;
+
+		img{
+			width: 100%;
+			height: auto;
+		}
+	}
+	&__content{
+		width: 100%;
+		color: #dddddd;
+
+		.button{
+			background-color: #ffffff;
+			color: #000;
+			border: none;
+
+			&:hover{
+				background-color: #eeeeee;
+				color: #000;
+			}
+		}
+	}
+}
