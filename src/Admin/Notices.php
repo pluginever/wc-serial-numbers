@@ -49,7 +49,7 @@ class Notices {
 				/* translators: %1$s: link to the plugin page, %2$s: Offer content, %3$s: link to the plugin page, %4$s: end link to the plugin page */
 					__( '%1$s%2$s%3$s Upgrade Now and Save %4$s', 'wc-serial-numbers' ),
 					'<div class="wcsn-black-friday__header"><div class="wcsn-black-friday__icon"><img src="' . WCSN()->get_dir_url( 'assets/dist/images/black-friday-icon.png' ) . '" alt="Serial Numbers Black Friday offer"></div><div class="wcsn-black-friday__content"><strong class="wcsn-black-friday__title">',
-					'Black Friday Mega Sale: Flat ' . $discount_percentage . ' OFF on Serial Numbers Pro !!</strong><p>Grab a massive ' . $discount_percentage . ' discount on <strong>Serial Numbers Pro</strong> and all our premium plugins this Black Friday! Use code <strong>‘BFCM25’</strong>. Don\'t miss out!</p>',
+					'Black Friday Mega Sale: Flat ' . $discount_percentage . ' OFF on Serial Numbers Pro !!</strong><p>Grab a massive ' . $discount_percentage . ' discount on <strong>Serial Numbers Pro</strong> and all of our premium plugins this Black Friday! Use code <strong>‘BFCM25’</strong>. Don\'t miss out!</p>',
 					'<a class="button button-primary" href="' . esc_url( WCSN()->get_premium_url() ) . '?utm_source=plugin&utm_medium=notice&utm_campaign=black-friday-sale-2025&discount=BFCM25" target="_blank">',
 					$discount_percentage . '</a></div></div>',
 				),
