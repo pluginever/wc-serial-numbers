@@ -250,43 +250,43 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
-= 2.2.8 (7 Dec 2025) =
+= 2.2.8 (7th Dec 2025) =
 * Fix: Few known issues were fixed.
 * Enhance: Update the plugin notices.
 
-= 2.2.7 (25 Nov 2025) =
+= 2.2.7 (25th Nov 2025) =
 * Fix: Few known issues were fixed.
 * Enhance: Update the plugin notices.
 
-= 2.2.6 (19 Nov 2025) =
+= 2.2.6 (19th Nov 2025) =
 * Fix: Updated plugin naming to comply with WordPress.org trademark guidelines.
 * Enhance: Improved readme content clarity and removed promotional language per guidelines.
 
-= 2.2.5 (23 Oct 2025) =
+= 2.2.5 (23rd Oct 2025) =
 * Fix: A Few minor issues were fixed.
 * Enhance: Update the plugin notices.
 
-= 2.2.4 (14 Oct 2025) =
+= 2.2.4 (14th Oct 2025) =
 * Fix: Displaying the wrong expired date when a new key is manually assigned to the order.
 
-= 2.2.3 ( 25 Sep 2025) =
+= 2.2.3 (25th Sep 2025) =
 * Compatibility: Make compatible with the WooCommerce 10.2
 
-= 2.2.2 (14 Aug 2025) =
+= 2.2.2 (14th Aug 2025) =
 * Fix: Few known issues fixed.
 * Compatibility: Make compatible with the WooCommerce 10.0 and WordPress 6.8.
 
-= 2.2.1 (14 Jul 2025) =
+= 2.2.1 (14th Jul 2025) =
 * Compatibility: Compatibility with the latest version of WooCommerce and WordPress.
 
-= 2.2.0 (19 Jun 2025) =
+= 2.2.0 (19th Jun 2025) =
 * Fix: Framework Model enhanced to allow filter the keys sql query.
 * Compatibility: Make compatible with the latest version of WooCommerce and WordPress.
 
-= 2.1.9 (29 May 2025) =
+= 2.1.9 (29th May 2025) =
 * Fix: Few known issues fixed.
 
-= 2.1.8 (04 May 2025) =
+= 2.1.8 (04th May 2025) =
 * Compatibility: Make compatible with the latest version of WooCommerce and WordPress.
 
 = 2.1.6 (18th Mar 2025) =
@@ -314,131 +314,131 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 * Enhance: Add WC cart checkout block compatibility.
 * Fix: Few known issues fixed.
 
-= 2.0.6 (07 Oct 2024) =
+= 2.0.6 (07th Oct 2024) =
 * Enhance: Update the Key Model to enable more precise key queries, enhancing performance and accuracy.
 
-= 2.0.3 (12 Sep 2024) =
+= 2.0.3 (12th Sep 2024) =
 * Fix: Security issue.
 
-= 2.0.2 (01 Sep 2024) =
+= 2.0.2 (01st Sep 2024) =
 * Fix: Few known issues.
 
-= 2.0.1 (14 Aug 2024) =
+= 2.0.1 (th Aug 2024) =
 * Enhance: Migrate classes to new directory structure
 * Fix: Few known issues.
 
-= 2.0.0 (12 Aug 2024) =
+= 2.0.0 (12th Aug 2024) =
 * New: Added new directory structure.
 * Fix: Few known issues.
 
-= 1.7.7 (31 Jul 2024) =
+= 1.7.7 (31st Jul 2024) =
 Enhance: Enhance optimized code for better autoload classes.
 
-= 1.7.6 (30 Jul 2024) =
+= 1.7.6 (30th Jul 2024) =
 Enhance: Enhanced security to handle form actions.
 Enhance: Enhanced security to handle Ajax search.
 Enhance: Enhanced security to handle the GET & POST supper global variables.
 Fix: Vulnerability security issue.
 Fix: Few other known issues.
 
-= 1.7.5 (01 Jul 2024) =
+= 1.7.5 (01st Jul 2024) =
 Enhance: Enhanced security to handle form actions.
 Enhance: Enhanced security to handle Ajax search.
 Fix: Few known issues fixed.
 
-= 1.7.4 (11 Jun 2024) =
+= 1.7.4 (11th Jun 2024) =
 Fix: Vulnerability issue.
 Fix: Shortcode permission issue.
 
-= 1.7.3 (12 May 2024) =
+= 1.7.3 (12th May 2024) =
 Enhance: Move query arg based API to REST API
 Fix: Few known issues fixed.
 
-= 1.7.2 (19 Apr 2024) =
+= 1.7.2 (19th Apr 2024) =
 * Fix: Text domain issue fixed.
 
-= 1.7.1 (15 Mar 2024) =
+= 1.7.1 (15th Mar 2024) =
 * Fix: Few known issues fixed.
 
-= 1.7.0 (7 Mar 2024) =
+= 1.7.0 (7th Mar 2024) =
 * Fix: Few known issues fixed.
 
-= 1.6.9 (28 Feb 2024) =
+= 1.6.9 (28th Feb 2024) =
 * Fix: The keys column is missing on the order table.
 * Fix: Add serial keys, Remove serial keys actions missing on the order table.
 
-= 1.6.8 (18 Feb 2024) =
+= 1.6.8 (18th Feb 2024) =
 * Fix: Compatibility with WooCommerce 8.6
 
-= 1.6.7 (23 Jan 2024) =
+= 1.6.7 (23th Jan 2024) =
 * Fix: Compatibility with WooCommerce 8.5
 
-= 1.6.6 (13 Nov 2023) =
+= 1.6.6 (13th Nov 2023) =
 * Fix: Compatibility with WordPress 6.4
 
-= 1.6.5 (25 Oct 2023) =
+= 1.6.5 (25th Oct 2023) =
 * Fix: API request is not working.
 
-= 1.6.4 (25 Oct 2023) =
+= 1.6.4 (25th Oct 2023) =
 * Enhance: Optimize and improve code for better performance & security.
 
-= 1.6.3 (8 Oct 2023) =
+= 1.6.3 (8th Oct 2023) =
 * Fix: Dropdown active color is not working.
 * Enhance: Allow keys to be sold without checking key source.
 
-= 1.6.2 (27 Sep 2023) =
+= 1.6.2 (27th Sep 2023) =
 * Enhance: Add compatibility with WooCommerce HPOS.
 
-= 1.6.1 (11 Sep 2023) =
+= 1.6.1 (11th Sep 2023) =
 * Fix: Conflict PHP Autoloader with other plugins.
 
-= 1.6.0 (28 Aug 2023) =
+= 1.6.0 (28th Aug 2023) =
 * Fix: Product dropdown showing HTML tags.
 * Fix: Fix typo.
 * Enhance: Improve `wc_serial_numbers_allow_backorder` filter.
 
-= 1.5.9 (16 Aug 2023) =
+= 1.5.9 (16th Aug 2023) =
 * Fix: Email validation is not working when email contains uppercase letters.
 * Fix: Reset activations showing wrong activation count.
 
-= 1.5.8 (10 Aug 2023) =
+= 1.5.8 (10th Aug 2023) =
 * Fix: Reset activation is not showing correct activation count.
 * Fix: API email validation ignore the email case sensitivity.
 
-= 1.5.7 (2 Aug 2023) =
+= 1.5.7 (2nd Aug 2023) =
 * Fix: Keys page showing blank page.
 
-= 1.5.6 (2 Aug 2023) =
+= 1.5.6 (2nd Aug 2023) =
 * Enhance: Key edit page UI improvement.
 * Fix: Search by order ID not working in the serial numbers list page.
 
-= 1.5.4 (18 Jun 2023) =
+= 1.5.4 (18th Jun 2023) =
 * Enhance: Labels and notice texts.
 * Fix: Sequential pointers with manual assigning not working properly.
 * Fix: Reports filter not working.
 
-= 1.5.3 (14 Jun 2023) =
+= 1.5.3 (14th Jun 2023) =
 * Enhance: Added bulk reset action for serial keys.
 * Enhance: Added product ID and Sold count in the stock report.
 * Fix: API response is not showing activations.
 
-= 1.5.2 (24 May 2023) =
+= 1.5.2 (24th May 2023) =
 * Fix : Key properties is not sorting properly.
 * Fix : Optimized the code for better performance.
 
-= 1.5.1 (11 April 2023) =
+= 1.5.1 (11th April 2023) =
 * Fix : Admin order details showing only 20 serial keys when bought more than 20 serial keys.
 * Fix : When order status is changed from 'completed' to 'on-hold' to 'completed' serial keys added twice.
 
-= 1.5.0 (9 April 2023) =
+= 1.5.0 (9th April 2023) =
 * Fix : Serial keys list table not working when filter by status.
 * Fix : Stock report product link not working when variable product.
 
-= 1.4.9 (8 April 2023) =
+= 1.4.9 (8th April 2023) =
 * Fix : Serial keys list table not showing pagination when status is sold.
 * Enhance: Enhance the UI of sold serial keys in the order details page and order complete email.
 
-= 1.4.8 (6 April 2023) =
+= 1.4.8 (6th April 2023) =
 * Fix : Only 20 records are showing when bought more than 20 serial keys.
 * Fix : Serial keys assigned only for first 2 products when bought more than 2 products.
 * Fix : Action 'Edit' is not working for variable products on Report menu.
@@ -446,13 +446,13 @@ Fix: Few known issues fixed.
 * Enhance: Fix duplicate key issue when importing.
 * Enhance: UI improvements.
 
-= 1.4.7 (3 April 2023) =
+= 1.4.7 (3rd April 2023) =
 * Fix : Search key by customer name is not working.
 * Fix : Stock report is showing only 20 records.
 * Enhance: Order table add bulk action to add/remove serial keys.
 * Enhance : Add product filter in the stock report table.
 
-= 1.4.6 (1 April 2023) =
+= 1.4.6 (1st April 2023) =
 * Enhance: Enhanced API implementation.
 * Enhance: Update Serial Number statues.
 * Enhance: Add shortcodes for serial number verification and activation/deactivation.
@@ -463,68 +463,68 @@ Fix: Few known issues fixed.
 * Deprecated: Duplicate serial number feature removed.
 * Fix: Few known issues fixed.
 
-= 1.4.5 (30 January 2023) =
+= 1.4.5 (30th January 2023) =
 * Fix: Few known issues fixed.
 * Enhance: Framework updated.
 
-= 1.4.4 (16 January 2023) =
+= 1.4.4 (16th January 2023) =
 * Fix: Product select dropdown not working for non english languages.
 * Fix: Product select dropdown search limit increased to 100.
 
-= 1.4.3 (15 January 2023) =
+= 1.4.3 (15th January 2023) =
 * Fix: Translation breaking page
 * Fix: Reuse license key not working
 
-= 1.4.2 (15 January 2023 )=
+= 1.4.2 (15th January 2023 )=
 * Enhancement: New settings UI with performance improvements.
 * Enhancement: Optimized plugin assets.
 
-= 1.2.10 (20 May, 2022) =
+= 1.2.10 (20th May, 2022) =
 Fix - Compatibility with WP 6.1
 Fix - Compatibility with WC 71.
 
-= 1.2.10 (17 May, 2022) =
+= 1.2.10 (17th May, 2022) =
 Fix - Compatibility with WC v6.5.1
 Fix - Fix typo
 Enhance - Enhance simple product metabox styles
 
-= 1.2.9 (19 December, 2021) =
+= 1.2.9 (19th December, 2021) =
 * Fix - Compatibility with WP v5.8.2
 * Fix - Compatibility with WC v6.0.0
 
-= 1.2.8 (27 May, 2021) =
+= 1.2.8 (27th May, 2021) =
 * Fix - Compatibility with WP v5.7.2
 * Fix - Compatibility with WC v5.3.0
 
-= 1.2.7 (8 September, 2020) =
+= 1.2.7 (8th September, 2020) =
 * Fix - Shop manager User level: Search products do not show and decrypting key failed
 * Fix - Notification email conflict
 * Fix - Stock notification need to skip private products
 * Fix - Activation list table serial number column is not working
 
-= 1.2.6 (24 August, 2020) =
+= 1.2.6 (24th August, 2020) =
 * Fix - Unicode character not showing on PDF
 * Fix - Translate path not found
 * Enhance - Ordered serial numbers in dedicated metabox on order edit page
 
-= 1.2.5 (12 August 2020) =
+= 1.2.5 (12th August 2020) =
 * Fix - Error on order edit page when contains non serial numbers
 
-= 1.2.4 (9 August 2020) =
+= 1.2.4 (9th August 2020) =
 * Fix - Serial numbers are not showing in order edit page
 
-= 1.2.3 (3 August 2020) =
+= 1.2.3 (3rd August 2020) =
 * Fix - Order status changed on pending status
 * Fix - Order edit throwing error not found order_id
 
-= 1.2.2 (28 July 2020) =
+= 1.2.2 (28th July 2020) =
 * Fix - Can't add manually order
 
-= 1.2.1 (25 July 2020) =
+= 1.2.1 (25th July 2020) =
 * Fix - Order email showing wrong when order contains non serial items
 * Fix - Can not add manual serial numbers
 
-= 1.2.0 (23 July 2020) =
+= 1.2.0 (23rd July 2020) =
 * Enhance - Full rewritten plugin
 * Enhance - Product tab for serial numbers
 * Enhance - Serial Key list table with status, order date and expire date
@@ -533,42 +533,42 @@ Enhance - Enhance simple product metabox styles
 * Fix - Order confirmation page needs reload
 * Remove - The notification tab from admin bar
 
-= 1.1.3 (24 November 2019) =
+= 1.1.3 (24th November 2019) =
 * Enhance - Improve API response
 * Fix - Added compatibility with Product Input Fields
 * Fix - Option to modify license validity
 * Fix - WP Compatibility v5.3
 
-= 1.1.2 (11 November 2019) =
+= 1.1.2 (11th November 2019) =
 * New - Obscure serial keys in dashboard
 * Enhance - Change API response
 * Fix - Indexing serial number table
 * Fix - WC Compatibility v3.8.0
 
-= 1.1.1 (16 October 2019) =
+= 1.1.1 (16th October 2019) =
 * New - Built-in support for leading PDF Invoice & Packing Slip plugins.
 * Fix - Show auto draft products while creating serial numbers.
 * Fix - Admin panel notification update latency.
 * Fix - WP Compatibility v5.2.4
 * Fix - WC Compatibility v3.7.1
 
-= 1.1.0 (22 September 2019) =
+= 1.1.0 (22th September 2019) =
 * Fix - Serial number reuse is not working on paypal gateway
 
-= 1.0.9 (25 August 2019) =
+= 1.0.9 (25th August 2019) =
 * Fix - WPML Support
 * Fix - WP Compatibility
 * Fix - WC Compatibility
 
-= 1.0.8 (6 July 2019) =
+= 1.0.8 (6th July 2019) =
 * Fix - Table create failed below mysql v5.6
 * Fix - Serial number label chancing is not working on order complete page
 * Fix - Creating multiple serial number for a single product when order failed
 
-= 1.0.7 (24 June 2019) =
+= 1.0.7 (24th June 2019) =
 * Fix - Compatibly with WP v5.2.2
 
-= 1.0.6 (18 June 2019) =
+= 1.0.6 (18th June 2019) =
 * Fix - Plugin translation issue
 * Fix - Product order page serial number limitation
 * Fix - Unwanted notification for the serial number
@@ -576,11 +576,11 @@ Enhance - Enhance simple product metabox styles
 * New - Encryption - all serial number at DB is encrypted
 * Tweak - Notification moved to the background process. No more failed check.
 
-= 1.0.5 (24 April 2019) =
+= 1.0.5 (24th April 2019) =
 * Fix - Serial number table not generating in sql version lower than 5.5 [#31]
 * Confirm compatibility with WC 3.6.1
 
-= 1.0.4 (1 April 2019) =
+= 1.0.4 (1st April 2019) =
 * Fix - Email notification stop is not working
 * Fix - Notification is showing for normal products too
 * Fix - Validity takes negative value as input
@@ -589,23 +589,23 @@ Enhance - Enhance simple product metabox styles
 * Enhance - Add serial number search filter
 * Confirm compatibility with WC 3.5.7
 
-= 1.0.3 (18 March 2019) =
+= 1.0.3 (18th March 2019) =
 * Fix - Broken style
 * Fix - Auto-complete order
 * Conditional styles/script loading
 
-= 1.0.2 (15 March 2019) =
+= 1.0.2 (15th March 2019) =
 * Fix - Link from product page to add new serial number page
 * Fix - Conflict with Divi theme admin design
 * Fix - Compatibly with WP v5.1.1
 * Fix - Compatibly with WC v3.5.6
 
-= 1.0.1 (6 March 2019) =
+= 1.0.1 (6th March 2019) =
 * Rewrite - Key generation process
 * Add - Software API
 * Update - Settings
 * Improve - Notification
 * Fix - Bug
 
-= 1.0 (21 January 2019) =
+= 1.0 (21st January 2019) =
 Initial release
