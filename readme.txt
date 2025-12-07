@@ -1,8 +1,8 @@
 === Serial Numbers - Ultimate License Manager for Selling, Licensing & Securely Delivering Digital Content with WooCommerce ===
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
-Tested up to: 6.8
-Stable tag: 2.2.7
+Tested up to: 6.9
+Stable tag: 2.2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,8 +250,12 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.2.8 (7 Dec 2025) =
+* Fix: Few known issues were fixed.
+* Enhance: Update the plugin notices.
+
 = 2.2.7 (25 Nov 2025) =
-* Fix: A Few known issues were fixed.
+* Fix: Few known issues were fixed.
 * Enhance: Update the plugin notices.
 
 = 2.2.6 (19 Nov 2025) =
