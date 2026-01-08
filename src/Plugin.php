@@ -179,4 +179,24 @@ class Plugin extends Lib\Plugin {
 
 		return $this->get_basename();
 	}
+
+	/**
+	 * Get assets path.
+	 *
+	 * @since 1.0.0
+	 * @return string
+	 */
+	public function get_assets_path() {
+		return $this->get_dir_path( 'assets/build/' );
+	}
+
+	/**
+	 * Get assets url.
+	 *
+	 * @since 1.0.0
+	 * @return string
+	 */
+	public function get_assets_url() {
+		return $this->get_dir_url( 'assets/build/' );
+	}
 }
