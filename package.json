@@ -1,41 +1,59 @@
 {
-  "name": "wc-serial-numbers",
-  "title": "Serial Numbers",
-  "version": "2.2.8",
-  "description": "Sell and manage license keys, serial numbers, and secret keys easily within your WooCommerce store.",
-  "homepage": "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/",
-  "license": "GPL v2 or later",
-  "prettier": "@wordpress/prettier-config",
-  "scripts": {
-    "build": "wp-scripts build && grunt build",
-    "check-engines": "wp-scripts check-engines",
-    "check-licenses": "wp-scripts check-licenses",
-    "format": "wp-scripts format",
-    "lint:css": "wp-scripts lint-style",
-    "lint:js": "wp-scripts lint-js",
-    "lint:md:docs": "wp-scripts lint-md-docs",
-    "lint:pkg-json": "wp-scripts lint-pkg-json",
-    "packages-update": "wp-scripts packages-update",
-    "plugin-zip": "wp-scripts plugin-zip",
-    "start": "wp-scripts start",
-    "test:e2e": "wp-scripts test-e2e",
-    "test:unit": "wp-scripts test-unit-js"
-  },
-  "devDependencies": {
-    "@lodder/time-grunt": "^4.0.0",
-    "@wordpress/scripts": "^31.1.0",
-    "clean-webpack-plugin": "^4.0.0",
-    "copy-webpack-plugin": "^11.0.0",
-    "grunt": "^1.6.1",
-    "grunt-checktextdomain": "^1.0.1",
-    "grunt-wp-i18n": "^1.0.3",
-    "load-grunt-tasks": "^5.1.0",
-    "webpack-remove-empty-scripts": "^1.0.4",
-    "@babel/runtime": "^7.26.0"
-  },
-  "browserslist": [
-    "> 0.1%",
-    "ie 8",
-    "ie 9"
-  ]
+	"name": "wc-serial-numbers",
+	"version": "2.3.0",
+	"description": "Sell and manage license keys, serial numbers, and secret keys easily within your WooCommerce store.",
+	"author": "ByteEver Team",
+	"license": "GPL-2.0-or-later",
+	"homepage": "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/pluginever/wc-serial-numbers.git"
+	},
+	"bugs": {
+		"url": "https://github.com/pluginever/wc-serial-numbers/issues"
+	},
+	"engines": {
+		"node": ">=20.11.1"
+	},
+	"devDependencies": {
+		"@byteever/scripts": "^3.0.4",
+		"@wordpress/browserslist-config": "^6.37.0",
+		"@wordpress/prettier-config": "^4.37.0",
+		"@wordpress/scripts": "^31.2.0"
+	},
+	"scripts": {
+		"build": "wp-scripts build && composer run makepot",
+		"build:wp": "wp-scripts build && composer run makepot",
+		"start": "wp-scripts start",
+		"lint": "npm run lint:js && npm run lint:css",
+		"lint:js": "wp-scripts lint-js",
+		"lint:css": "wp-scripts lint-style",
+		"lint:pkg-json": "wp-scripts lint-pkg-json",
+		"format:js": "wp-scripts format",
+		"update": "npx npm-check-updates -u && npm i"
+	},
+	"browserslist": [
+		"extends @wordpress/browserslist-config"
+	],
+	"postcss": {
+		"plugins": {
+			"autoprefixer": {
+				"grid": "autoplace"
+			},
+			"cssnano": {
+				"preset": [
+					"default",
+					{
+						"minifyFontValues": {
+							"removeQuotes": false
+						},
+						"colormin": false
+					}
+				]
+			},
+			"css-declaration-sorter": {
+				"order": "smacss"
+			}
+		}
+	}
 }

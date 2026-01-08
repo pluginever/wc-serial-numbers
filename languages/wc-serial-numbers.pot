@@ -1,38 +1,63 @@
-# Copyright (C) 2025 PluginEver
+# Copyright (C) 2026 PluginEver
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Serial Numbers 2.2.8\n"
-"Report-Msgid-Bugs-To: https://pluginever.com/support\n"
-"POT-Creation-Date: 2025-12-07 10:49:47+00:00\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: Serial Numbers 2.3.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-serial-numbers\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: en\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Country: United States\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: "
-"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
-"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
-"X-Poedit-Basepath: ../\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-Bookmarks: \n"
-"X-Textdomain-Support: yes\n"
-"X-Generator: grunt-wp-i18n 1.0.3\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-08T12:09:34+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: wc-serial-numbers\n"
 
-#: includes/Admin/Orders.php:53 includes/Admin/Orders.php:189
+#. Plugin Name of the plugin
+#: wc-serial-numbers.php
+#: includes/Admin/Products.php:92
+#: src/Admin/Admin.php:146
+#: src/Admin/Menus.php:54
+#: src/Admin/Menus.php:88
+#: src/Admin/Menus.php:89
+#: src/Admin/Menus.php:433
+#: src/Functions/Template.php:226
+msgid "Serial Numbers"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: wc-serial-numbers.php
+msgid "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/"
+msgstr ""
+
+#. Description of the plugin
+#: wc-serial-numbers.php
+msgid "Sell and manage license keys, serial numbers, and secret keys easily within your WooCommerce store."
+msgstr ""
+
+#. Author of the plugin
+#: wc-serial-numbers.php
+msgid "PluginEver"
+msgstr ""
+
+#. Author URI of the plugin
+#: wc-serial-numbers.php
+msgid "https://pluginever.com/"
+msgstr ""
+
+#: includes/Admin/Orders.php:53
+#: includes/Admin/Orders.php:189
 msgid "Add serial keys"
 msgstr ""
 
-#: includes/Admin/Orders.php:54 includes/Admin/Orders.php:190
+#: includes/Admin/Orders.php:54
+#: includes/Admin/Orders.php:190
 msgid "Remove serial keys"
 msgstr ""
 
-#: includes/Admin/Orders.php:69 includes/Admin/Orders.php:208
+#: includes/Admin/Orders.php:69
+#: includes/Admin/Orders.php:208
 #: includes/Admin/Requests.php:42
 msgid "You do not have permission to perform this action."
 msgstr ""
@@ -45,77 +70,89 @@ msgstr ""
 msgid "Serial keys removed successfully from the order."
 msgstr ""
 
-#: includes/Admin/Orders.php:120 includes/Admin/Orders.php:160
+#: includes/Admin/Orders.php:120
+#: includes/Admin/Orders.php:160
 msgid "Order is fullfilled and completed."
 msgstr ""
 
-#: includes/Admin/Orders.php:123 includes/Admin/Orders.php:163
+#: includes/Admin/Orders.php:123
+#: includes/Admin/Orders.php:163
 msgid "Order is fullfilled and processing."
 msgstr ""
 
-#: includes/Admin/Orders.php:126 includes/Admin/Orders.php:166
+#: includes/Admin/Orders.php:126
+#: includes/Admin/Orders.php:166
 msgid "Order is fullfilled and on-hold."
 msgstr ""
 
-#: includes/Admin/Orders.php:129 includes/Admin/Orders.php:169
+#: includes/Admin/Orders.php:129
+#: includes/Admin/Orders.php:169
 msgid "Order is fullfilled and draft."
 msgstr ""
 
-#: includes/Admin/Orders.php:132 includes/Admin/Orders.php:172
+#: includes/Admin/Orders.php:132
+#: includes/Admin/Orders.php:172
 msgid "Order is not fullfilled."
 msgstr ""
 
-#: includes/Admin/Orders.php:224
 #. Translators: %d: number of orders.
+#: includes/Admin/Orders.php:224
+#, php-format
 msgid "%d orders updated successfully."
 msgstr ""
 
-#: includes/Admin/Orders.php:262 includes/Compat.php:74
+#: includes/Admin/Orders.php:262
+#: includes/Compat.php:74
 msgid "Serial keys sold with this product:"
 msgstr ""
 
-#: includes/Admin/Orders.php:267 includes/Compat.php:79
+#: includes/Admin/Orders.php:267
+#: includes/Compat.php:79
 #: src/Admin/ListTables/ActivationsTable.php:178
 #: src/Admin/ListTables/KeysTable.php:349
 #: src/Admin/views/html-api-actions.php:131
-#: src/Admin/views/html-api-validation.php:134 src/Functions/Template.php:42
+#: src/Admin/views/html-api-validation.php:134
 #: src/functions.php:1015
+#: src/Functions/Template.php:42
 msgid "Key"
 msgstr ""
 
-#: includes/Admin/Orders.php:271 includes/Compat.php:83
+#: includes/Admin/Orders.php:271
+#: includes/Compat.php:83
 msgid "Expire date"
 msgstr ""
 
-#: includes/Admin/Orders.php:272 includes/Compat.php:84
-#: src/Admin/ListTables/KeysTable.php:532 src/Functions/Template.php:63
+#: includes/Admin/Orders.php:272
+#: includes/Compat.php:84
+#: src/Admin/ListTables/KeysTable.php:532
 #: src/functions.php:1036
+#: src/Functions/Template.php:63
 msgid "Lifetime"
 msgstr ""
 
-#: includes/Admin/Orders.php:275 includes/Compat.php:87
+#: includes/Admin/Orders.php:275
+#: includes/Compat.php:87
 #: src/Admin/views/html-edit-key.php:67
 msgid "Activation limit"
 msgstr ""
 
-#: includes/Admin/Orders.php:276 includes/Compat.php:88
+#: includes/Admin/Orders.php:276
+#: includes/Compat.php:88
 msgid "Unlimited"
 msgstr ""
 
-#: includes/Admin/Orders.php:279 includes/Compat.php:99
-#: src/Admin/ListTables/KeysTable.php:360 src/Admin/Menus.php:320
-#: src/Admin/views/html-edit-key.php:92 src/Functions/Template.php:78
+#: includes/Admin/Orders.php:279
+#: includes/Compat.php:99
+#: src/Admin/ListTables/KeysTable.php:360
+#: src/Admin/Menus.php:320
+#: src/Admin/views/html-edit-key.php:92
 #: src/functions.php:1040
+#: src/Functions/Template.php:78
 msgid "Status"
 msgstr ""
 
 #: includes/Admin/Orders.php:306
-#. translators: %s is the item number.
 msgid "View Details"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "Serial Numbers"
 msgstr ""
 
 #: includes/Admin/Products.php:114
@@ -134,7 +171,8 @@ msgstr ""
 msgid "Number of key(s) will be delivered per item. Available in PRO."
 msgstr ""
 
-#: includes/Admin/Products.php:149 includes/Admin/Products.php:181
+#: includes/Admin/Products.php:149
+#: includes/Admin/Products.php:181
 msgid "Key source"
 msgstr ""
 
@@ -160,15 +198,14 @@ msgstr[1] ""
 msgid "Want to sell keys for variable products?"
 msgstr ""
 
-#: includes/Admin/Products.php:193 includes/Admin/Products.php:214
+#: includes/Admin/Products.php:193
+#: includes/Admin/Products.php:214
 #: src/Admin/Menus.php:189
 msgid "Upgrade to Pro"
 msgstr ""
 
 #: includes/Admin/Products.php:212
-msgid ""
-"The free version of Serial Numbers for WooCommerce does not support product "
-"variation."
+msgid "The free version of Serial Numbers for WooCommerce does not support product variation."
 msgstr ""
 
 #: includes/Admin/Products.php:231
@@ -183,13 +220,15 @@ msgstr ""
 msgid "Key updated successfully."
 msgstr ""
 
-#: includes/Admin/Requests.php:106 includes/Admin/Requests.php:169
+#: includes/Admin/Requests.php:106
+#: includes/Admin/Requests.php:169
 #: includes/Admin/Requests.php:244
 msgid "You do not have permission to access this endpoint."
 msgstr ""
 
-#: includes/Admin/Requests.php:280
 #. translators: $1: customer name, $2 customer id, $3: customer email
+#: includes/Admin/Requests.php:280
+#, php-format
 msgid "%1$s (#%2$s - %3$s)"
 msgstr ""
 
@@ -201,8 +240,9 @@ msgstr ""
 msgid "Activation email"
 msgstr ""
 
-#: lib/Lib/Model.php:424
 #. translators: %s: database error message.
+#: lib/Lib/Model.php:424
+#, php-format
 msgid "Could not insert item into the database error %s"
 msgstr ""
 
@@ -214,7 +254,8 @@ msgstr ""
 msgid "Go Pro"
 msgstr ""
 
-#: lib/Lib/Plugin.php:655 src/Admin/Settings.php:212
+#: lib/Lib/Plugin.php:655
+#: src/Admin/Settings.php:212
 msgid "Documentation"
 msgstr ""
 
@@ -230,7 +271,9 @@ msgstr ""
 msgid "More Plugins"
 msgstr ""
 
-#: lib/Lib/Plugin.php:692 src/Admin/Menus.php:170 src/Admin/Menus.php:171
+#: lib/Lib/Plugin.php:692
+#: src/Admin/Menus.php:170
+#: src/Admin/Menus.php:171
 msgid "Settings"
 msgstr ""
 
@@ -238,11 +281,13 @@ msgstr ""
 msgid "Settings saved."
 msgstr ""
 
-#: lib/Lib/Settings.php:236 lib/Lib/Settings.php:324
+#: lib/Lib/Settings.php:236
+#: lib/Lib/Settings.php:324
 msgid "Recommended"
 msgstr ""
 
-#: lib/Lib/Settings.php:237 lib/Lib/Settings.php:325
+#: lib/Lib/Settings.php:237
+#: lib/Lib/Settings.php:325
 msgid "Install Now"
 msgstr ""
 
@@ -260,10 +305,6 @@ msgstr ""
 
 #: lib/Lib/Settings.php:347
 msgid "Report a Bug"
-msgstr ""
-
-#: src/API.php:68
-msgid "Missing data."
 msgstr ""
 
 #: src/Admin/Admin.php:70
@@ -286,23 +327,24 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: src/Admin/Admin.php:75 src/Frontend/Frontend.php:56
+#: src/Admin/Admin.php:75
+#: src/Frontend/Frontend.php:56
 msgid "Copied"
 msgstr ""
 
-#: src/Admin/Admin.php:113
 #. translators: 1: Plugin name 2: WordPress
-msgid ""
-"Thank you for using %1$s! Share your appreciation with a five-star review "
-"%2$s."
+#: src/Admin/Admin.php:113
+#, php-format
+msgid "Thank you for using %1$s! Share your appreciation with a five-star review %2$s."
 msgstr ""
 
 #: src/Admin/Admin.php:115
 msgid "Thanks :)"
 msgstr ""
 
-#: src/Admin/Admin.php:133
 #. translators: 1: Plugin version
+#: src/Admin/Admin.php:133
+#, php-format
 msgid "Version %s"
 msgstr ""
 
@@ -311,8 +353,10 @@ msgstr ""
 msgid "Activation"
 msgstr ""
 
-#: src/Admin/ListTables/ActivationsTable.php:40 src/Admin/Menus.php:119
-#: src/Admin/Menus.php:120 src/Admin/views/html-list-activations.php:18
+#: src/Admin/ListTables/ActivationsTable.php:40
+#: src/Admin/Menus.php:119
+#: src/Admin/Menus.php:120
+#: src/Admin/views/html-list-activations.php:18
 msgid "Activations"
 msgstr ""
 
@@ -329,12 +373,14 @@ msgstr ""
 #: src/Admin/ListTables/ActivationsTable.php:164
 #: src/Admin/ListTables/ActivationsTable.php:239
 #: src/Admin/ListTables/KeysTable.php:336
-#: src/Admin/ListTables/KeysTable.php:428 src/Admin/views/html-edit-key.php:130
+#: src/Admin/ListTables/KeysTable.php:428
+#: src/Admin/views/html-edit-key.php:130
 msgid "Delete"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:176
-#: src/Admin/views/html-api-actions.php:141 src/Frontend/Shortcodes.php:146
+#: src/Admin/views/html-api-actions.php:141
+#: src/Frontend/Shortcodes.php:146
 msgid "Instance"
 msgstr ""
 
@@ -343,13 +389,16 @@ msgstr ""
 #: src/Admin/ListTables/StockTable.php:95
 #: src/Admin/views/html-api-actions.php:118
 #: src/Admin/views/html-api-validation.php:121
-#: src/Admin/views/html-edit-key.php:37 src/Deprecated/Functions.php:358
-#: src/Frontend/Shortcodes.php:44 src/Frontend/Shortcodes.php:141
+#: src/Admin/views/html-edit-key.php:37
+#: src/Deprecated/Functions.php:358
+#: src/Frontend/Shortcodes.php:44
+#: src/Frontend/Shortcodes.php:141
 msgid "Product"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:179
-#: src/Admin/views/html-api-actions.php:152 src/Frontend/Shortcodes.php:148
+#: src/Admin/views/html-api-actions.php:152
+#: src/Frontend/Shortcodes.php:148
 msgid "Platform"
 msgstr ""
 
@@ -378,7 +427,8 @@ msgid "Keys can have one of the following statuses:"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:178
-#: src/Admin/ListTables/KeysTable.php:235 src/functions.php:46
+#: src/Admin/ListTables/KeysTable.php:235
+#: src/functions.php:46
 msgid "Available"
 msgstr ""
 
@@ -387,7 +437,8 @@ msgid "This means the key is available for purchase."
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:183
-#: src/Admin/ListTables/KeysTable.php:242 src/functions.php:47
+#: src/Admin/ListTables/KeysTable.php:242
+#: src/functions.php:47
 msgid "Pending"
 msgstr ""
 
@@ -397,7 +448,8 @@ msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:188
 #: src/Admin/ListTables/KeysTable.php:249
-#: src/Admin/ListTables/StockTable.php:97 src/functions.php:48
+#: src/Admin/ListTables/StockTable.php:97
+#: src/functions.php:48
 msgid "Sold"
 msgstr ""
 
@@ -406,8 +458,9 @@ msgid "This means the key has been sold, and the order has been completed."
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:193
-#: src/Admin/ListTables/KeysTable.php:256 src/Functions/Template.php:72
+#: src/Admin/ListTables/KeysTable.php:256
 #: src/functions.php:49
+#: src/Functions/Template.php:72
 msgid "Expired"
 msgstr ""
 
@@ -416,14 +469,13 @@ msgid "This means the key has expired and is no longer valid."
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:198
-#: src/Admin/ListTables/KeysTable.php:263 src/functions.php:50
+#: src/Admin/ListTables/KeysTable.php:263
+#: src/functions.php:50
 msgid "Cancelled"
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:200
-msgid ""
-"This means the key has been cancelled and is no longer available for "
-"purchase or use."
+msgid "This means the key has been cancelled and is no longer available for purchase or use."
 msgstr ""
 
 #: src/Admin/ListTables/KeysTable.php:226
@@ -470,8 +522,9 @@ msgstr ""
 msgid "Order Date"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:426
 #. translators: %d: key id.
+#: src/Admin/ListTables/KeysTable.php:426
+#, php-format
 msgid "ID: %d"
 msgstr ""
 
@@ -480,8 +533,9 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/ListTables/KeysTable.php:522
 #. translators: %1$s: validity, %2$s: validity.
+#: src/Admin/ListTables/KeysTable.php:522
+#, php-format
 msgid "<b>%s</b> Day <br><small>After purchase</small>"
 msgid_plural "<b>%s</b> Days <br><small>After purchase</small>"
 msgstr[0] ""
@@ -516,7 +570,8 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: src/Admin/ListTables/StockTable.php:98 src/Admin/Menus.php:280
+#: src/Admin/ListTables/StockTable.php:98
+#: src/Admin/Menus.php:280
 msgid "Stock"
 msgstr ""
 
@@ -536,20 +591,24 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: src/Admin/Menus.php:99 src/Admin/Menus.php:100
+#: src/Admin/Menus.php:99
+#: src/Admin/Menus.php:100
 #: src/Admin/views/html-list-keys.php:18
 msgid "Serial Keys"
 msgstr ""
 
-#: src/Admin/Menus.php:136 src/Admin/Menus.php:137
+#: src/Admin/Menus.php:136
+#: src/Admin/Menus.php:137
 msgid "Tools"
 msgstr ""
 
-#: src/Admin/Menus.php:153 src/Admin/Menus.php:154
+#: src/Admin/Menus.php:153
+#: src/Admin/Menus.php:154
 msgid "Reports"
 msgstr ""
 
-#: src/Admin/Menus.php:245 src/Admin/Menus.php:381
+#: src/Admin/Menus.php:245
+#: src/Admin/Menus.php:381
 msgid "Generators"
 msgstr ""
 
@@ -557,25 +616,32 @@ msgstr ""
 msgid "API Toolkit"
 msgstr ""
 
-#: src/Admin/Menus.php:247 src/Admin/views/html-list-keys.php:25
+#: src/Admin/Menus.php:247
+#: src/Admin/views/html-list-keys.php:25
 msgid "Import"
 msgstr ""
 
-#: src/Admin/Menus.php:248 src/Admin/views/html-list-keys.php:29
+#: src/Admin/Menus.php:248
+#: src/Admin/views/html-list-keys.php:29
 msgid "Export"
 msgstr ""
 
-#: src/Admin/Menus.php:335 src/Admin/Menus.php:342 src/Admin/Menus.php:360
+#: src/Admin/Menus.php:335
+#: src/Admin/Menus.php:342
+#: src/Admin/Menus.php:360
 #: src/Admin/Menus.php:378
 msgid "Available in Pro Version"
 msgstr ""
 
-#: src/Admin/Menus.php:336 src/Admin/Menus.php:343 src/Admin/Menus.php:361
+#: src/Admin/Menus.php:336
+#: src/Admin/Menus.php:343
+#: src/Admin/Menus.php:361
 #: src/Admin/Menus.php:379
 msgid "Upgrade to Pro Now"
 msgstr ""
 
-#: src/Admin/Menus.php:338 src/Admin/Menus.php:345
+#: src/Admin/Menus.php:338
+#: src/Admin/Menus.php:345
 msgid "Import Serial Numbers"
 msgstr ""
 
@@ -599,8 +665,9 @@ msgstr ""
 msgid "Daily cron"
 msgstr ""
 
-#: src/Admin/Menus.php:423
 #. translators: %s: Next scheduled time.
+#: src/Admin/Menus.php:423
+#, php-format
 msgid "Next run: %s"
 msgstr ""
 
@@ -608,18 +675,16 @@ msgstr ""
 msgid "Not scheduled"
 msgstr ""
 
-#: src/Admin/Notices.php:50
 #. translators: %1$s: link to the plugin page, %2$s: link to the plugin page
-msgid ""
-"%s is not functional because you are using outdated version of the plugin, "
-"please update to the version 1.3.8 or higher."
+#: src/Admin/Notices.php:50
+#, php-format
+msgid "%s is not functional because you are using outdated version of the plugin, please update to the version 1.3.8 or higher."
 msgstr ""
 
-#: src/Admin/Notices.php:64
 #. translators: %1$s: link to the plugin page, %2$s: link to the plugin page
-msgid ""
-"Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s "
-"discount by using the promo code %2$s. %3$s Upgrade Now%4$s."
+#: src/Admin/Notices.php:64
+#, php-format
+msgid "Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s discount by using the promo code %2$s. %3$s Upgrade Now%4$s."
 msgstr ""
 
 #: src/Admin/Settings.php:25
@@ -651,9 +716,7 @@ msgid "Recover failed, refunded keys for selling again."
 msgstr ""
 
 #: src/Admin/Settings.php:62
-msgid ""
-"If you enable this option, the keys will be available for selling again if "
-"the order is refunded or failed."
+msgid "If you enable this option, the keys will be available for selling again if the order is refunded or failed."
 msgstr ""
 
 #: src/Admin/Settings.php:68
@@ -665,9 +728,7 @@ msgid "Revoke keys when the order status changes to cancelled or refunded."
 msgstr ""
 
 #: src/Admin/Settings.php:71
-msgid ""
-"If you enable this option, the keys will be revoked when the order status "
-"changes to cancelled or refunded."
+msgid "If you enable this option, the keys will be revoked when the order status changes to cancelled or refunded."
 msgstr ""
 
 #: src/Admin/Settings.php:76
@@ -687,9 +748,7 @@ msgid "Disable Software Licensing support & API functionalities."
 msgstr ""
 
 #: src/Admin/Settings.php:86
-msgid ""
-"If you enable this option, the activation menu and it’s functionality will "
-"be turned off."
+msgid "If you enable this option, the activation menu and it’s functionality will be turned off."
 msgstr ""
 
 #: src/Admin/Settings.php:92
@@ -701,10 +760,7 @@ msgid "Manage stocks for the key enabled products."
 msgstr ""
 
 #: src/Admin/Settings.php:95
-msgid ""
-"Enable stock management for key-enabled products. This works only if you "
-"select \"Manually Added\" as the key source and enable stock management for "
-"the product. Variable product is not supported."
+msgid "Enable stock management for key-enabled products. This works only if you select \"Manually Added\" as the key source and enable stock management for the product. Variable product is not supported."
 msgstr ""
 
 #: src/Admin/Settings.php:101
@@ -715,13 +771,10 @@ msgstr ""
 msgid "Enable WooCommerce PDF Invoices."
 msgstr ""
 
-#: src/Admin/Settings.php:106
 #. translators: %s: documentation link
-msgid ""
-"If you enable this option, the plugin will be compatible with WooCommerce "
-"PDF Invoices & Packing Slips plugins and will show the serial keys in the "
-"invoice. Check out the <a href=\"%s\" target=\"_blank\">documentation</a> "
-"for more details."
+#: src/Admin/Settings.php:106
+#, php-format
+msgid "If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice. Check out the <a href=\"%s\" target=\"_blank\">documentation</a> for more details."
 msgstr ""
 
 #: src/Admin/Settings.php:117
@@ -745,9 +798,7 @@ msgid "Stock threshold"
 msgstr ""
 
 #: src/Admin/Settings.php:133
-msgid ""
-"An email notification will be sent when the key stock falls below the "
-"specified number."
+msgid "An email notification will be sent when the key stock falls below the specified number."
 msgstr ""
 
 #: src/Admin/Settings.php:138
@@ -795,15 +846,11 @@ msgid "Custom deliverable quantity to deliver multiple keys with a single produc
 msgstr ""
 
 #: src/Admin/Settings.php:183
-msgid ""
-"Manual delivery option to manually deliver license keys instead of "
-"automatic."
+msgid "Manual delivery option to manually deliver license keys instead of automatic."
 msgstr ""
 
 #: src/Admin/Settings.php:184
-msgid ""
-"Email template to easily and quickly customize the order confirmation & low "
-"stock alert email."
+msgid "Email template to easily and quickly customize the order confirmation & low stock alert email."
 msgstr ""
 
 #: src/Admin/Settings.php:185
@@ -815,9 +862,7 @@ msgid "Want More?"
 msgstr ""
 
 #: src/Admin/Settings.php:190
-msgid ""
-"This plugin offers a premium version which comes with the following "
-"features:"
+msgid "This plugin offers a premium version which comes with the following features:"
 msgstr ""
 
 #: src/Admin/Settings.php:196
@@ -829,9 +874,7 @@ msgid "API Actions"
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:26
-msgid ""
-"You can use the API to perform actions on your website or on another "
-"website."
+msgid "You can use the API to perform actions on your website or on another website."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:29
@@ -860,23 +903,16 @@ msgid "The request type. Must be set to \"activate\" or \"deactivate\"."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:46
-msgid ""
-"Instance is the base of activation and deactivation. It is a unique "
-"identifier for the installation. For example, you can use the domain name "
-"of the website."
+msgid "Instance is the base of activation and deactivation. It is a unique identifier for the installation. For example, you can use the domain name of the website."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:49
-msgid ""
-"Optional. The platform on which the serial key is used. For example, "
-"\"Windows\" or \"Mac\"."
+msgid "Optional. The platform on which the serial key is used. For example, \"Windows\" or \"Mac\"."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:52
 #: src/Admin/views/html-api-validation.php:59
-msgid ""
-"Using email is completely voluntary. The API will verify that the serial "
-"number is associated with the given email address."
+msgid "Using email is completely voluntary. The API will verify that the serial number is associated with the given email address."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:57
@@ -890,17 +926,12 @@ msgid "The API will return a JSON response with the following parameters:"
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:80
-msgid ""
-"The response code. \"key_activated\" or \"key_deactivated\" if the request "
-"was successful. \"invalid_key\" or \"invalid_request\" if the request was "
-"not successful."
+msgid "The response code. \"key_activated\" or \"key_deactivated\" if the request was successful. \"invalid_key\" or \"invalid_request\" if the request was not successful."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:83
 #: src/Admin/views/html-api-validation.php:87
-msgid ""
-"The response message. If the serial key is valid, the message will be "
-"\"Serial key is valid\"."
+msgid "The response message. If the serial key is valid, the message will be \"Serial key is valid\"."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:86
@@ -962,10 +993,7 @@ msgid "Please enter a unique instance"
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:145
-msgid ""
-"Required field. Instance is the unique identifier of the activation record. "
-"It is used to identify the activation when activating/deactivating serial "
-"key."
+msgid "Required field. Instance is the unique identifier of the activation record. It is used to identify the activation when activating/deactivating serial key."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:154
@@ -973,15 +1001,15 @@ msgid "Please enter a platform. e.g. Windows"
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:156
-msgid ""
-"Optional field. Platform is the extra information of the activation record. "
-"You can use it to identify the platform of the activation."
+msgid "Optional field. Platform is the extra information of the activation record. You can use it to identify the platform of the activation."
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:162
 #: src/Admin/views/html-api-validation.php:144
-#: src/Admin/views/html-edit-key.php:154 src/Deprecated/Functions.php:360
-#: src/Frontend/Shortcodes.php:47 src/Frontend/Shortcodes.php:144
+#: src/Admin/views/html-edit-key.php:154
+#: src/Deprecated/Functions.php:360
+#: src/Frontend/Shortcodes.php:47
+#: src/Frontend/Shortcodes.php:144
 msgid "Email"
 msgstr ""
 
@@ -991,21 +1019,21 @@ msgid "Please enter a valid email address"
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:166
-msgid ""
-"Optional field when duplicate key is off. If email is provided, only serial "
-"key that are assigned to the email will be activated/deactivated otherwise "
-"ignored."
+msgid "Optional field when duplicate key is off. If email is provided, only serial key that are assigned to the email will be activated/deactivated otherwise ignored."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:172 src/Frontend/Shortcodes.php:150
+#: src/Admin/views/html-api-actions.php:172
+#: src/Frontend/Shortcodes.php:150
 msgid "Action"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:175 src/Frontend/Shortcodes.php:157
+#: src/Admin/views/html-api-actions.php:175
+#: src/Frontend/Shortcodes.php:157
 msgid "Activate"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:176 src/Frontend/Shortcodes.php:158
+#: src/Admin/views/html-api-actions.php:176
+#: src/Frontend/Shortcodes.php:158
 msgid "Deactivate"
 msgstr ""
 
@@ -1018,7 +1046,8 @@ msgstr ""
 msgid "API response"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:195 src/Frontend/Shortcodes.php:151
+#: src/Admin/views/html-api-actions.php:195
+#: src/Frontend/Shortcodes.php:151
 msgid "Submit"
 msgstr ""
 
@@ -1026,23 +1055,18 @@ msgstr ""
 msgid "API Validation"
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:30
 #. translators: %s: link to the pro version
-msgid ""
-"You are using the free version of Serial Numbers for WooCommerce. <a "
-"href=\"%s\" target=\"_blank\">Upgrade to Pro</a> to get more features."
+#: src/Admin/views/html-api-validation.php:30
+#, php-format
+msgid "You are using the free version of Serial Numbers for WooCommerce. <a href=\"%s\" target=\"_blank\">Upgrade to Pro</a> to get more features."
 msgstr ""
 
 #: src/Admin/views/html-api-validation.php:39
-msgid ""
-"You can use the API to validate serial keys on your website or on another "
-"website."
+msgid "You can use the API to validate serial keys on your website or on another website."
 msgstr ""
 
 #: src/Admin/views/html-api-validation.php:42
-msgid ""
-"To validate a serial key, you need to send a GET request to the following "
-"URL:"
+msgid "To validate a serial key, you need to send a GET request to the following URL:"
 msgstr ""
 
 #: src/Admin/views/html-api-validation.php:56
@@ -1050,9 +1074,7 @@ msgid "The request type. Must be set to \"validate\"."
 msgstr ""
 
 #: src/Admin/views/html-api-validation.php:84
-msgid ""
-"The response code. If the serial key is valid, the code will be "
-"\"key_valid\"."
+msgid "The response code. If the serial key is valid, the code will be \"key_valid\"."
 msgstr ""
 
 #: src/Admin/views/html-api-validation.php:102
@@ -1076,12 +1098,11 @@ msgid "Required field. Enter serial key to validate."
 msgstr ""
 
 #: src/Admin/views/html-api-validation.php:148
-msgid ""
-"Optional field. If email is provided, only serial key that are assigned to "
-"the email will be validated otherwise ignored."
+msgid "Optional field. If email is provided, only serial key that are assigned to the email will be validated otherwise ignored."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:164 src/Frontend/Shortcodes.php:49
+#: src/Admin/views/html-api-validation.php:164
+#: src/Frontend/Shortcodes.php:49
 msgid "Validate"
 msgstr ""
 
@@ -1114,15 +1135,11 @@ msgid "Serial key"
 msgstr ""
 
 #: src/Admin/views/html-edit-key.php:61
-msgid ""
-"Enter your serial key, also supports multiline.  For example: "
-"4CE0460D0G-4CE0460D1G-4CE0460D2G"
+msgid "Enter your serial key, also supports multiline.  For example: 4CE0460D0G-4CE0460D1G-4CE0460D2G"
 msgstr ""
 
 #: src/Admin/views/html-edit-key.php:71
-msgid ""
-"Maximum number of times the key can be used to activate the software. If "
-"the product is not software, keep it blank."
+msgid "Maximum number of times the key can be used to activate the software. If the product is not software, keep it blank."
 msgstr ""
 
 #: src/Admin/views/html-edit-key.php:77
@@ -1134,9 +1151,7 @@ msgid "Days"
 msgstr ""
 
 #: src/Admin/views/html-edit-key.php:85
-msgid ""
-"Number of days the key will be valid from the purchase date. Leave it blank "
-"for lifetime validity."
+msgid "Number of days the key will be valid from the purchase date. Leave it blank for lifetime validity."
 msgstr ""
 
 #: src/Admin/views/html-edit-key.php:99
@@ -1203,6 +1218,10 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+#: src/API.php:68
+msgid "Missing data."
+msgstr ""
+
 #: src/Cron.php:57
 msgid "Serial Numbers stock running low"
 msgstr ""
@@ -1215,8 +1234,9 @@ msgstr ""
 msgid "Serial Number"
 msgstr ""
 
-#: src/Deprecated/Functions.php:361 src/Functions/Template.php:52
+#: src/Deprecated/Functions.php:361
 #: src/functions.php:1025
+#: src/Functions/Template.php:52
 msgid "Activation Limit"
 msgstr ""
 
@@ -1232,16 +1252,20 @@ msgstr ""
 msgid "Serial Key Validation"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:45 src/Frontend/Shortcodes.php:142
+#: src/Frontend/Shortcodes.php:45
+#: src/Frontend/Shortcodes.php:142
 msgid "Serial Key"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:46 src/Frontend/Shortcodes.php:143
+#: src/Frontend/Shortcodes.php:46
+#: src/Frontend/Shortcodes.php:143
 msgid "Enter your serial key"
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:48 src/Frontend/Shortcodes.php:109
-#: src/Frontend/Shortcodes.php:145 src/Frontend/Shortcodes.php:221
+#: src/Frontend/Shortcodes.php:48
+#: src/Frontend/Shortcodes.php:109
+#: src/Frontend/Shortcodes.php:145
+#: src/Frontend/Shortcodes.php:221
 msgid "Enter your email"
 msgstr ""
 
@@ -1249,7 +1273,8 @@ msgstr ""
 msgid "No products found."
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:94 src/Frontend/Shortcodes.php:205
+#: src/Frontend/Shortcodes.php:94
+#: src/Frontend/Shortcodes.php:205
 msgid "Select a product"
 msgstr ""
 
@@ -1269,24 +1294,40 @@ msgstr ""
 msgid "Could not find any products with serial numbers enabled."
 msgstr ""
 
-#: src/Frontend/Shortcodes.php:273 src/Frontend/Shortcodes.php:296
+#: src/Frontend/Shortcodes.php:273
+#: src/Frontend/Shortcodes.php:296
 msgid "Invalid request."
 msgstr ""
 
-#: src/Functions/Template.php:47 src/functions.php:1020
+#: src/functions.php:91
+msgid "Manually added"
+msgstr ""
+
+#. translators: 1: product title 2: source and 3: Quantity
+#: src/functions.php:539
+#, php-format
+msgid "There is not enough serial numbers for the product %1$s from selected source %2$s, needed total %3$d."
+msgstr ""
+
+#: src/functions.php:1020
+#: src/Functions/Template.php:47
 msgid "Activation Email"
 msgstr ""
 
-#: src/Functions/Template.php:53 src/Functions/Template.php:58
-#: src/functions.php:1026 src/functions.php:1031
+#: src/functions.php:1026
+#: src/functions.php:1031
+#: src/Functions/Template.php:53
+#: src/Functions/Template.php:58
 msgid "None"
 msgstr ""
 
-#: src/Functions/Template.php:57 src/functions.php:1030
+#: src/functions.php:1030
+#: src/Functions/Template.php:57
 msgid "Activation Count"
 msgstr ""
 
-#: src/Functions/Template.php:62 src/functions.php:1035
+#: src/functions.php:1035
+#: src/Functions/Template.php:62
 msgid "Expire Date"
 msgstr ""
 
@@ -1302,8 +1343,9 @@ msgstr ""
 msgid "Once a Minute"
 msgstr ""
 
-#: src/Installer.php:101
 #. translators: 1: plugin name 2: version number
+#: src/Installer.php:101
+#, php-format
 msgid "%1$s updated to version %2$s successfully."
 msgstr ""
 
@@ -1323,7 +1365,8 @@ msgstr ""
 msgid "Product id is invalid."
 msgstr ""
 
-#: src/Models/Key.php:519 src/RestAPI.php:148
+#: src/Models/Key.php:519
+#: src/RestAPI.php:148
 msgid "Serial key is required."
 msgstr ""
 
@@ -1335,19 +1378,19 @@ msgstr ""
 msgid "Order id is invalid."
 msgstr ""
 
-#: src/Orders.php:63
 #. translators: %1$s: product title, %2$s: stock quantity.
-msgid ""
-"Sorry, there aren’t enough Serial Keys for %1$s. Please remove this item or "
-"lower the quantity. For now, we have %2$s Serial Keys for this product."
+#: src/Orders.php:63
+#, php-format
+msgid "Sorry, there aren’t enough Serial Keys for %1$s. Please remove this item or lower the quantity. For now, we have %2$s Serial Keys for this product."
 msgstr ""
 
 #: src/Orders.php:106
 msgid "Order automatically completed by the Serial Numbers for WooCommerce."
 msgstr ""
 
-#: src/Plugin.php:77
 #. translators: 1: plugin name 2: WooCommerce
+#: src/Plugin.php:77
+#, php-format
 msgid "%1$s requires %2$s to be installed and active."
 msgstr ""
 
@@ -1419,48 +1462,16 @@ msgstr ""
 msgid "Serial key is deactivated."
 msgstr ""
 
-#: src/functions.php:91
-msgid "Manually added"
-msgstr ""
-
-#: src/functions.php:539
-#. translators: 1: product title 2: source and 3: Quantity
-msgid ""
-"There is not enough serial numbers for the product %1$s from selected "
-"source %2$s, needed total %3$d."
-msgstr ""
-
 #: templates/email-stock-notification.php:14
 msgid "Hi There,"
 msgstr ""
 
 #: templates/email-stock-notification.php:15
-msgid ""
-"There are few  products stock running low, please add serial numbers for "
-"these products"
+msgid "There are few  products stock running low, please add serial numbers for these products"
 msgstr ""
 
-#: templates/email-stock-notification.php:37
 #. translators: %s: plugin url.
-msgid ""
-"The email is sent by <a href=\"%s\" target=\"_blank\">Serial Numbers for "
-"WooCommerce</a>"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid ""
-"Sell and manage license keys, serial numbers, and secret keys easily within "
-"your WooCommerce store."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "PluginEver"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://pluginever.com"
+#: templates/email-stock-notification.php:37
+#, php-format
+msgid "The email is sent by <a href=\"%s\" target=\"_blank\">Serial Numbers for WooCommerce</a>"
 msgstr ""

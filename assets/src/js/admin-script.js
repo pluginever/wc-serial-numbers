@@ -2,11 +2,11 @@
  * Serial Numbers
  * https://pluginever.com
  *
- * Copyright (c) 2025 PluginEver
+ * Copyright (c) 2026 PluginEver
  * Licensed under the GPLv2+ license.
  */
-/* global jQuery, wc_serial_numbers_vars */
 
+/* global jQuery, wc_serial_numbers_vars */
 (function ($, window) {
 	'use strict';
 

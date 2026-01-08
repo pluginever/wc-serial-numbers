@@ -1,33 +1,26 @@
-name: "Build and Release plugin"
+name: Release
+
 on:
   release:
     types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: true
 
 jobs:
-  release:
+  wordpress:
+    name: WordPress.org
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout trunk
         uses: actions/checkout@v4
-
-      - name: Setup PHP version
-        uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
-          coverage: none
-          tools: composer
+          ref: trunk
 
-      - name: Setup github token
-        run: composer config -g github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
-
-      - name: Build
-        run: |
-          composer install
-          composer install --no-dev --no-scripts
-          npm install && npm run build
-
-      - name: Release
-        id: release
+      - name: Deploy
         uses: sultann/wordpress-plugin-deploy@master
         with:
           username: ${{ secrets.SVN_USERNAME }}
