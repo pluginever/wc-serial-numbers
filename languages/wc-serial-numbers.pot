@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-01-08T12:09:34+00:00\n"
+"POT-Creation-Date: 2026-01-08T12:19:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-serial-numbers\n"
@@ -238,73 +238,6 @@ msgstr ""
 
 #: includes/Compat.php:95
 msgid "Activation email"
-msgstr ""
-
-#. translators: %s: database error message.
-#: lib/Lib/Model.php:424
-#, php-format
-msgid "Could not insert item into the database error %s"
-msgstr ""
-
-#: lib/Lib/Model.php:489
-msgid "Could not update item in the database."
-msgstr ""
-
-#: lib/Lib/Plugin.php:309
-msgid "Go Pro"
-msgstr ""
-
-#: lib/Lib/Plugin.php:655
-#: src/Admin/Settings.php:212
-msgid "Documentation"
-msgstr ""
-
-#: lib/Lib/Plugin.php:662
-msgid "Support"
-msgstr ""
-
-#: lib/Lib/Plugin.php:669
-msgid "Review"
-msgstr ""
-
-#: lib/Lib/Plugin.php:675
-msgid "More Plugins"
-msgstr ""
-
-#: lib/Lib/Plugin.php:692
-#: src/Admin/Menus.php:170
-#: src/Admin/Menus.php:171
-msgid "Settings"
-msgstr ""
-
-#: lib/Lib/Settings.php:97
-msgid "Settings saved."
-msgstr ""
-
-#: lib/Lib/Settings.php:236
-#: lib/Lib/Settings.php:324
-msgid "Recommended"
-msgstr ""
-
-#: lib/Lib/Settings.php:237
-#: lib/Lib/Settings.php:325
-msgid "Install Now"
-msgstr ""
-
-#: lib/Lib/Settings.php:296
-msgid "Need Help?"
-msgstr ""
-
-#: lib/Lib/Settings.php:339
-msgid "Join our Community"
-msgstr ""
-
-#: lib/Lib/Settings.php:343
-msgid "Request a Feature"
-msgstr ""
-
-#: lib/Lib/Settings.php:347
-msgid "Report a Bug"
 msgstr ""
 
 #: src/Admin/Admin.php:70
@@ -607,6 +540,11 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
+#: src/Admin/Menus.php:170
+#: src/Admin/Menus.php:171
+msgid "Settings"
+msgstr ""
+
 #: src/Admin/Menus.php:245
 #: src/Admin/Menus.php:381
 msgid "Generators"
@@ -867,6 +805,10 @@ msgstr ""
 
 #: src/Admin/Settings.php:196
 msgid "Upgrade to PRO"
+msgstr ""
+
+#: src/Admin/Settings.php:212
+msgid "Documentation"
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:21
