@@ -1,0 +1,111 @@
+{
+    "packages": [
+        {
+            "name": "pluginever/framework-model",
+            "version": "dev-trunk",
+            "version_normalized": "dev-trunk",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:pluginever/framework-model.git",
+                "reference": "69bff296504c1ba6c5b3aa6767c79b78fb90c636"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pluginever/framework-model/zipball/69bff296504c1ba6c5b3aa6767c79b78fb90c636",
+                "reference": "69bff296504c1ba6c5b3aa6767c79b78fb90c636",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "time": "2026-01-11T07:16:22+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "WooCommerceSerialNumbers\\Lib\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "support": {
+                "source": "https://github.com/pluginever/framework-model/tree/trunk",
+                "issues": "https://github.com/pluginever/framework-model/issues"
+            },
+            "install-path": "../pluginever/framework-model"
+        },
+        {
+            "name": "pluginever/framework-plugin",
+            "version": "dev-trunk",
+            "version_normalized": "dev-trunk",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:pluginever/framework-plugin.git",
+                "reference": "781e641c669119d563ca9d324e5846ac91c86bd9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pluginever/framework-plugin/zipball/781e641c669119d563ca9d324e5846ac91c86bd9",
+                "reference": "781e641c669119d563ca9d324e5846ac91c86bd9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "time": "2026-01-11T06:27:54+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "WooCommerceSerialNumbers\\Lib\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "support": {
+                "source": "https://github.com/pluginever/framework-plugin/tree/trunk",
+                "issues": "https://github.com/pluginever/framework-plugin/issues"
+            },
+            "install-path": "../pluginever/framework-plugin"
+        },
+        {
+            "name": "pluginever/framework-settings",
+            "version": "dev-trunk",
+            "version_normalized": "dev-trunk",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:pluginever/framework-settings.git",
+                "reference": "a28ba33759b4ea7fe33bcde1d72cc8d7a5c59f67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pluginever/framework-settings/zipball/a28ba33759b4ea7fe33bcde1d72cc8d7a5c59f67",
+                "reference": "a28ba33759b4ea7fe33bcde1d72cc8d7a5c59f67",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "time": "2026-01-11T07:16:59+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "WooCommerceSerialNumbers\\Lib\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "support": {
+                "source": "https://github.com/pluginever/framework-settings/tree/trunk",
+                "issues": "https://github.com/pluginever/framework-settings/issues"
+            },
+            "install-path": "../pluginever/framework-settings"
+        }
+    ],
+    "dev": false,
+    "dev-package-names": []
+}
