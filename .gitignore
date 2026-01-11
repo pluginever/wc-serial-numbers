@@ -1,56 +1,25 @@
-# IDE related files
-/.settings
-/.project
-/.idea
-*.esproj
-*.tmproj
-*.tmproject
-tmtags
-.*.sw[a-z]
-*.un~
-Session.vim
-*.swp
+# ═══════════════════════════════════════════════════════════════════════════
+# Git Ignore - Development & Version Control Exclusions
+# ═══════════════════════════════════════════════════════════════════════════
 
-# Mac OSX specific files
-.DS_Store
-._*
-.Spotlight-V100
-.Trashes
+# ───────────────────────────────
+# Development Tooling
+# ───────────────────────────────
+node_modules/
+vendor/
+composer.lock
 
-# Windows specific files
-Thumbs.db
-Desktop.ini
-
-# NPM and Grunt.js related files
-node_modules
-bower_components
-.idea
+# Catch All ( Miscellaneous )
+# ───────────────────────────────
 *.log
-npm-debug.log
-
-# Composer related files
-/vendor
-
-# PHPUnit related files
-/tmp
-
-# Miscellaneous files
-*.zip
-.cache
-.sass-cache*
-.husky
-*.lock
-
-# Tests related files
-codeception.yml
+.DS_Store
 .env
-/tests/_data/dump.sql
-.env.testing
+.idea/
+/languages/*.mo
+/languages/*.po
+Thumbs.db
 
-# Language files
-languages/*.
-/lib
-
-# Build
-assets/dist
-
+# ───────────────────────────────
+# Custom Exclusions
+# ───────────────────────────────
+/assets/build/

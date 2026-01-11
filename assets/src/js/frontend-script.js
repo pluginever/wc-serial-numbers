@@ -1,3 +1,10 @@
+/**
+ * Serial Numbers
+ * https://pluginever.com
+ *
+ * Copyright (c) 2026 PluginEver
+ * Licensed under the GPLv2+ license.
+ */
 (function ($) {
 	'use strict';
 	$(document).ready(function () {

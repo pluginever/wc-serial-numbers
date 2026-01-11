@@ -1,0 +1,35 @@
+name: Trunk
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: trunk
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer, wp-cli
+
+      - name: Push to trunk
+        uses: sultann/branch-deploy-action@v1
+        with:
+          target-branch: trunk
+          ignore-file: .distignore
+          script-before: |
+            composer config -g github-oauth.github.com "${{ secrets.ACCESS_TOKEN }}"
+            [ -f composer.json ] && composer install --no-dev --optimize-autoloader
+            [ -f package.json ] && npm install && npm run build

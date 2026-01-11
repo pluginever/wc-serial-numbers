@@ -1,45 +1,49 @@
 name: Linting
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    branches: [master]
   workflow_dispatch:
-    inputs:
-      ref:
-        description: 'The branch to run the workflow on'
-        required: false
-        default: 'master'
 
 jobs:
   phpcs:
-    name: PHP Code Sniffer
+    name: PHPCS
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Setup PHP version
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
-          coverage: none
+          php-version: '8.2'
           tools: composer, cs2pr
 
       - name: Setup github token
         run: composer config -g github-oauth.github.com ${{ secrets.ACCESS_TOKEN }}
 
-      - name: Install dependencies
-        run: composer install
-
-      - id: changes
+      - name: Run PHPCS
         run: |
-          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"
-          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | xargs)
-          echo "{files}={$FILES}" >> $GITHUB_OUTPUT
+          composer install --no-interaction
+          vendor/bin/phpcs -q --report=checkstyle | cs2pr
 
-      - name: Test changed files
-        run: ./vendor/bin/phpcs ${{ steps.changes.outputs.files }} --ignore=*/vendor/*,*/lib/* --report-full --report-checkstyle=./.github/phpcs-report.xml --runtime-set testVersion 8.0
+  syntax:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
 
-      - name: Upload PHPCS report
-        if: ${{ always() }}
-        run: cs2pr ./.github/phpcs-report.xml
+    strategy:
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Check syntax
+        run: find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
