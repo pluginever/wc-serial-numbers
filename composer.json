@@ -19,8 +19,8 @@
 	"require": {
 		"php": ">=7.4",
 		"pluginever/framework-plugin": "dev-trunk",
-		"pluginever/framework-model": "dev-master",
-		"pluginever/framework-settings": "dev-master"
+		"pluginever/framework-model": "dev-trunk",
+		"pluginever/framework-settings": "dev-trunk"
 	},
 	"require-dev": {
 		"byteever/byteever-sniffs": "^1.1.3"
