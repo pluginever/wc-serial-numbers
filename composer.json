@@ -18,7 +18,7 @@
 	],
 	"require": {
 		"php": ">=7.4",
-		"pluginever/framework-plugin": "dev-master",
+		"pluginever/framework-plugin": "dev-trunk",
 		"pluginever/framework-model": "dev-master",
 		"pluginever/framework-settings": "dev-master"
 	},
