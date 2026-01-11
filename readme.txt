@@ -250,7 +250,8 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
-= 2.3.0 (9th Jan 2026) =
+= 2.3.0 (11th Jan 2026) =
+* New: Updated the plugin UI for better user experience and responsiveness.
 * Enhance: Optimized autoload library for better performance.
 * Fix: Few known issues were fixed.
 
