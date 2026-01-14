@@ -7,7 +7,7 @@ defined('ABSPATH') || exit;
  * Describes a plugin instance.
  *
  * @since 1.0.0
- * @version 1.0.8
+ * @version 1.1.1
  * @author  Sultan Nasir Uddin <sultan@byteever.com>
  * @package \Lib
  * @subpackage Lib/Plugin

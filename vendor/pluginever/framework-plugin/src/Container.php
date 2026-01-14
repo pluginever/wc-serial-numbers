@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit();
  *  A simple Service Container used to collect and organize Services used by the application and its modules.
  *
  * @since   1.0.0
- * @version 1.0.8
+ * @version 1.1.1
  * @package WooCommerceStarterPlugin\Lib
  */
 class Container implements \ArrayAccess {
@@ -120,7 +120,7 @@ class Container implements \ArrayAccess {
 	}
 
 	/**
-	 * Whether an offset exists.
+	 * Whether a offset exists.
 	 *
 	 * @param mixed $offset An offset to check for.
 	 *
@@ -128,7 +128,8 @@ class Container implements \ArrayAccess {
 	 *
 	 * @return boolean
 	 */
-	public function offsetExists( mixed $offset ): bool {
+	#[ReturnTypeWillChange]
+	public function offsetExists( $offset ) {
 		return $this->has( $offset );
 	}
 
@@ -141,7 +142,8 @@ class Container implements \ArrayAccess {
 	 *
 	 * @return mixed
 	 */
-	public function offsetGet( mixed $offset ): mixed {
+	#[ReturnTypeWillChange]
+	public function offsetGet( $offset ) {
 		return $this->get( $offset );
 	}
 
@@ -155,7 +157,8 @@ class Container implements \ArrayAccess {
 	 *
 	 * @return void
 	 */
-	public function offsetSet( mixed $offset, mixed $value ): void {
+	#[ReturnTypeWillChange]
+	public function offsetSet( $offset, $value ) {
 		$this->add( $value, $offset );
 	}
 
@@ -168,7 +171,8 @@ class Container implements \ArrayAccess {
 	 *
 	 * @return void
 	 */
-	public function offsetUnset( mixed $offset ): void {
+	#[ReturnTypeWillChange]
+	public function offsetUnset( $offset ) {
 		$this->remove( $offset );
 	}
 
