@@ -42,18 +42,18 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:pluginever/framework-plugin.git",
-                "reference": "718f96160965fc4a2e2f78b1b791ec0aeb96eb19"
+                "reference": "ba58473d08d8e98226c0d9ff18b411ba8f15fdf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pluginever/framework-plugin/zipball/718f96160965fc4a2e2f78b1b791ec0aeb96eb19",
-                "reference": "718f96160965fc4a2e2f78b1b791ec0aeb96eb19",
+                "url": "https://api.github.com/repos/pluginever/framework-plugin/zipball/ba58473d08d8e98226c0d9ff18b411ba8f15fdf1",
+                "reference": "ba58473d08d8e98226c0d9ff18b411ba8f15fdf1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4"
             },
-            "time": "2026-01-14T03:46:15+00:00",
+            "time": "2026-01-14T04:37:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {

@@ -3,7 +3,7 @@
         'name' => 'pluginever/wc-serial-numbers',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '34f425a3be2e27a93e2080543c94ecf3dffb4d76',
+        'reference' => 'aa31caa3265609dee18c444cd89bb442bf43e1f5',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'pluginever/framework-plugin' => array(
             'pretty_version' => 'dev-trunk',
             'version' => 'dev-trunk',
-            'reference' => '718f96160965fc4a2e2f78b1b791ec0aeb96eb19',
+            'reference' => 'ba58473d08d8e98226c0d9ff18b411ba8f15fdf1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../pluginever/framework-plugin',
             'aliases' => array(),
@@ -40,7 +40,7 @@
         'pluginever/wc-serial-numbers' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '34f425a3be2e27a93e2080543c94ecf3dffb4d76',
+            'reference' => 'aa31caa3265609dee18c444cd89bb442bf43e1f5',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
