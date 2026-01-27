@@ -20,9 +20,14 @@
 		if ( ! $product_id ) {
 			continue;
 		}
-		$product = wc_get_product( $product_id );
 
-		printf( "<li><a href='%s' target='_blank'>%s</a> - Stock %s</li>", esc_url( get_edit_post_link( $product->get_id() ) ), esc_html( $product->get_formatted_name() ), esc_html( $stock ) );
+		$product = wc_get_product( $product_id );
+		if ( ! $product ) {
+			continue;
+		}
+
+		$edit_url = admin_url( sprintf( 'post.php?post=%d&action=edit', $product->get_id() ) );
+		printf( "<li><a href='%s' target='_blank'>%s</a> - Stock %s</li>", esc_url( $edit_url ), esc_html( $product->get_formatted_name() ), esc_html( $stock ) );
 	}
 	?>
 </ul>
