@@ -1,6 +1,6 @@
 {
 	"name": "wc-serial-numbers",
-	"version": "2.3.1",
+	"version": "2.3.2",
 	"description": "Sell and manage license keys, serial numbers, and secret keys easily within your WooCommerce store.",
 	"author": "ByteEver Team",
 	"license": "GPL-2.0-or-later",
@@ -19,7 +19,7 @@
 		"@byteever/scripts": "^3.0.4",
 		"@wordpress/browserslist-config": "^6.37.0",
 		"@wordpress/prettier-config": "^4.37.0",
-		"@wordpress/scripts": "^31.2.0"
+		"@wordpress/scripts": "^31.3.0"
 	},
 	"scripts": {
 		"build": "wp-scripts build && composer run makepot",
