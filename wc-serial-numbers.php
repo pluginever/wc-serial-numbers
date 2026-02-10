@@ -52,17 +52,23 @@ require_once __DIR__ . '/vendor/autoload.php';
  * @return Plugin
  */
 function WCSN() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-	$data = array(
-		'file'             => __FILE__,
-		'settings_url'     => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),
-		'support_url'      => 'https://pluginever.com/support/',
-		'docs_url'         => 'https://pluginever.com/docs/wocommerce-serial-numbers/',
-		'premium_url'      => 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/',
-		'premium_basename' => 'wc-serial-numbers-pro',
-		'review_url'       => 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/#new-post',
+	return Plugin::create(
+		__FILE__,
+		array(
+			'version'          => '2.3.2',
+			'option_prefix'    => 'wc_serial_numbers',
+			'cache_group'      => 'wcsn',
+			'hook_prefix'      => 'wc_serial_numbers',
+			'text_domain'      => 'wc-serial-numbers',
+			'plugin_name'      => 'Serial Numbers',
+			'settings_url'     => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),
+			'support_url'      => 'https://pluginever.com/support/',
+			'docs_url'         => 'https://pluginever.com/docs/wocommerce-serial-numbers/',
+			'premium_url'      => 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/',
+			'premium_basename' => 'wc-serial-numbers-pro/wc-serial-numbers-pro.php',
+			'review_url'       => 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/#new-post',
+		)
 	);
-
-	return Plugin::create( $data );
 }
 
 /**

@@ -199,7 +199,7 @@ function wcsn_get_keys( $args = array(), $count = false ) {
  * @return Key|false
  */
 function wcsn_get_key( $key ) {
-	return Key::get( $key );
+	return Key::find( $key );
 }
 
 /**
@@ -265,7 +265,7 @@ function wcsn_get_activations( $args = array(), $count = false ) {
  * @return Activation|false
  */
 function wcsn_get_activation( $activation ) {
-	return Activation::get( $activation );
+	return Activation::find( $activation );
 }
 
 /**

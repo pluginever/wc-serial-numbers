@@ -70,7 +70,7 @@ class Actions {
 	 * @since 1.4.6
 	 */
 	public static function enable_product( $key_id ) {
-		$key = Key::get( $key_id );
+		$key = Key::find( $key_id );
 
 		if ( $key ) {
 			$product_id = $key->get_product_id();
@@ -121,7 +121,7 @@ class Actions {
 	 * @since 1.0.0
 	 */
 	public static function update_activation_count( $activation ) {
-		$key = Key::get( $activation->get_serial_id() );
+		$key = Key::find( $activation->get_serial_id() );
 		if ( $key ) {
 			$key->recount_remaining_activation();
 		}

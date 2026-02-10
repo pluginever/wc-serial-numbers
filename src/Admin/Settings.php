@@ -2,9 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
-use WooCommerceSerialNumbers\Lib;
-
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Settings.
@@ -12,7 +10,38 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Settings extends Lib\Settings {
+class Settings {
+
+	/**
+	 * The single instance of the class.
+	 *
+	 * @since 1.0.0
+	 * @var self
+	 */
+	protected static $instance = null;
+
+	/**
+	 * Init settings.
+	 *
+	 * @since 1.0.0
+	 * @return self
+	 */
+	public static function instance() {
+		if ( is_null( static::$instance ) ) {
+			static::$instance = new static();
+		}
+		return static::$instance;
+	}
+
+	/**
+	 * Settings constructor.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function __construct() {
+		add_action( 'init', array( $this, 'buffer_start' ) );
+		add_action( 'admin_init', array( $this, 'save_settings' ), 1 );
+	}
 
 	/**
 	 * Get settings tabs.
@@ -37,117 +66,9 @@ class Settings extends Lib\Settings {
 	 * @return array
 	 */
 	public function get_settings( $tab ) {
-		$settings = array();
+		$all_settings = include WCSN()->plugin_path( 'src/Data/settings.php' );
+		$settings     = $all_settings[ $tab ] ?? array();
 
-		switch ( $tab ) {
-			case 'general':
-				$settings = array(
-					array(
-						'title' => __( 'General Settings', 'wc-serial-numbers' ),
-						'type'  => 'title',
-						'desc'  => __( 'These options determine the behavior and operation of the plugin.', 'wc-serial-numbers' ),
-						'id'    => 'section_serial_numbers',
-					),
-					array(
-						'title'   => __( 'Auto-complete orders', 'wc-serial-numbers' ),
-						'id'      => 'wc_serial_numbers_autocomplete_order',
-						'desc'    => __( 'Automatically completes orders after successful payments.', 'wc-serial-numbers' ),
-						'type'    => 'checkbox',
-						'default' => 'no',
-					),
-					array(
-						'title'    => __( 'Reuse keys', 'wc-serial-numbers' ),
-						'id'       => 'wc_serial_numbers_reuse_serial_number',
-						'desc'     => __( 'Recover failed, refunded keys for selling again.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'If you enable this option, the keys will be available for selling again if the order is refunded or failed.', 'wc-serial-numbers' ),
-						'type'     => 'checkbox',
-						'default'  => 'no',
-					),
-					// Revoke serial keys.
-					array(
-						'title'    => __( 'Revoke keys', 'wc-serial-numbers' ),
-						'id'       => 'wc_serial_numbers_revoke_keys',
-						'desc'     => __( 'Revoke keys when the order status changes to cancelled or refunded.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'If you enable this option, the keys will be revoked when the order status changes to cancelled or refunded.', 'wc-serial-numbers' ),
-						'type'     => 'checkbox',
-						'default'  => 'no',
-					),
-					array(
-						'title'   => __( 'Hide keys', 'wc-serial-numbers' ),
-						'id'      => 'wc_serial_numbers_hide_serial_number',
-						'desc'    => __( 'Keys will be masked in the list table.', 'wc-serial-numbers' ),
-						'default' => 'yes',
-						'type'    => 'checkbox',
-					),
-					array(
-						'title'    => __( 'Disable software support', 'wc-serial-numbers' ),
-						'id'       => 'wc_serial_numbers_disable_software_support',
-						'desc'     => __( 'Disable Software Licensing support & API functionalities.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'If you enable this option, the activation menu and it’s functionality will be turned off.', 'wc-serial-numbers' ),
-						'default'  => 'no',
-						'type'     => 'checkbox',
-					),
-					// Enable managing stocks for the key enabled products.
-					array(
-						'title'    => __( 'Manage Stocks', 'wc-serial-numbers' ),
-						'id'       => 'wcsn_manage_stocks',
-						'desc'     => __( 'Manage stocks for the key enabled products.', 'wc-serial-numbers' ),
-						'desc_tip' => __( 'Enable stock management for key-enabled products. This works only if you select "Manually Added" as the key source and enable stock management for the product. Variable product is not supported.', 'wc-serial-numbers' ),
-						'type'     => 'checkbox',
-						'default'  => 'no',
-					),
-					// Enable pdf invoice compatibility.
-					array(
-						'title'    => __( 'WooCommerce PDF Invoices', 'wc-serial-numbers' ),
-						'id'       => 'wcsn_enable_pdf_invoices',
-						'desc'     => __( 'Enable WooCommerce PDF Invoices.', 'wc-serial-numbers' ),
-						'desc_tip' => sprintf(
-							/* translators: %s: documentation link */
-							__( 'If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice. Check out the <a href="%s" target="_blank">documentation</a> for more details.', 'wc-serial-numbers' ),
-							'https://pluginever.com/docs/wc-serial-numbers/woocommerce-pdf-invoices/'
-						),
-						'type'     => 'checkbox',
-						'default'  => 'no',
-					),
-					array(
-						'type' => 'sectionend',
-						'id'   => 'section_serial_numbers',
-					),
-					array(
-						'title' => __( 'Stock Notification', 'wc-serial-numbers' ),
-						'type'  => 'title',
-						'desc'  => __( 'These options determine the operation of the key\'s stock notification.', 'wc-serial-numbers' ),
-						'id'    => 'stock_section',
-					),
-					array(
-						'title'             => __( 'Stock notification email', 'wc-serial-numbers' ),
-						'id'                => 'wc_serial_numbers_enable_stock_notification',
-						'desc'              => __( 'Sends notification emails when key stock is low.', 'wc-serial-numbers' ),
-						'type'              => 'checkbox',
-						'sanitize_callback' => 'intval',
-						'default'           => 'yes',
-					),
-					array(
-						'title'   => __( 'Stock threshold', 'wc-serial-numbers' ),
-						'id'      => 'wc_serial_numbers_stock_threshold',
-						'desc'    => __( 'An email notification will be sent when the key stock falls below the specified number.', 'wc-serial-numbers' ),
-						'type'    => 'number',
-						'default' => '5',
-					),
-					array(
-						'title'   => __( 'Notification recipient email', 'wc-serial-numbers' ),
-						'id'      => 'wc_serial_numbers_notification_recipient',
-						'desc'    => __( 'The email address which will be used to send email notifications.', 'wc-serial-numbers' ),
-						'type'    => 'text',
-						'default' => get_option( 'admin_email' ),
-					),
-					array(
-						'type' => 'sectionend',
-						'id'   => 'stock_section',
-					),
-				);
-				break;
-		}
 		/**
 		 * Filter the settings for the plugin.
 		 *
@@ -161,13 +82,156 @@ class Settings extends Lib\Settings {
 	}
 
 	/**
+	 * Buffer start.
+	 *
+	 * @since 1.0.0
+	 */
+	public function buffer_start() {
+		ob_start();
+	}
+
+	/**
+	 * Save settings.
+	 *
+	 * @since 1.0.0
+	 * @return bool
+	 */
+	public function save_settings() {
+		$class_name = get_called_class();
+		if ( empty( $_POST ) || ! isset( $_POST[ $class_name ] ) ) {
+			return false;
+		}
+		check_admin_referer( $class_name );
+		$current_tab = $this->get_current_tab();
+		$settings    = $this->get_settings( $current_tab );
+		if ( $this->save_fields( $settings ) ) {
+			add_settings_error( $class_name, 'response', __( 'Settings saved.', 'wc-serial-numbers' ), 'updated' );
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Output settings.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function output() {
+		self::instance()->output_settings();
+	}
+
+	/**
+	 * Output settings page.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function output_settings() {
+		$tabs        = $this->get_tabs();
+		$current_tab = $this->get_current_tab();
+		$tab_exists  = isset( $tabs[ $current_tab ] );
+		$settings    = $this->get_settings( $current_tab );
+		if ( ! empty( $tabs ) && ! $tab_exists && ! headers_sent() ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=' . $this->get_current_page() ) );
+			exit();
+		}
+		?>
+		<div class="wrap b8-wrap woocommerce">
+			<nav class="nav-tab-wrapper b8-navbar">
+				<?php $this->output_tabs( $tabs ); ?>
+			</nav>
+			<hr class="wp-header-end">
+			<div class="b8-poststuff">
+				<div class="column-1">
+					<?php $this->output_form( $settings ); ?>
+				</div>
+				<div class="column-2">
+					<?php $this->output_premium_widget(); ?>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Output tabs.
+	 *
+	 * @param array $tabs Tabs.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function output_tabs( $tabs ) {
+		foreach ( $tabs as $tab_id => $tab_name ) {
+			?>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . $this->get_current_page() . '&tab=' . $tab_id ) ); ?>" class="nav-tab <?php echo esc_attr( $this->get_current_tab() === $tab_id ? 'nav-tab-active' : '' ); ?>">
+				<?php echo esc_html( $tab_name ); ?>
+			</a>
+			<?php
+		}
+		if ( WCSN()->docs_url ) {
+			printf( '<a href="%s" class="nav-tab" target="_blank">%s</a>', esc_url( WCSN()->docs_url ), esc_html__( 'Documentation', 'wc-serial-numbers' ) );
+		}
+	}
+
+	/**
+	 * Output settings form.
+	 *
+	 * @param array $settings Settings.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	protected function output_form( $settings ) {
+		if ( ! empty( $settings ) ) {
+			$class_name = get_called_class();
+			settings_errors( $class_name );
+			?>
+			<form method="post" id="mainform" action="" enctype="multipart/form-data">
+				<?php $this->output_fields( $settings ); ?>
+				<?php wp_nonce_field( $class_name ); ?>
+				<?php submit_button( null, 'primary', $class_name ); ?>
+			</form>
+			<?php
+		}
+	}
+
+	/**
+	 * Output admin fields.
+	 *
+	 * @param array[] $options Options array to output.
+	 */
+	public function output_fields( $options ) {
+		if ( function_exists( 'woocommerce_admin_fields' ) ) {
+			woocommerce_admin_fields( $options );
+		}
+	}
+
+	/**
+	 * Save admin fields.
+	 *
+	 * @param array $options Options array to output.
+	 * @param array $data    Optional. Data to use for saving. Defaults to $_POST.
+	 * @return bool
+	 */
+	public function save_fields( $options, $data = null ) {
+		if ( class_exists( '\WC_Admin_Settings' ) && ! empty( $options ) && \WC_Admin_Settings::save_fields( $options, $data ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Output premium widget.
 	 *
 	 * @since 1.0.0
 	 * @return void
 	 */
 	protected function output_premium_widget() {
-		if ( WCSN()->is_premium_active() ) {
+		if ( WCSN()->utils->plugin_active( 'wc-serial-numbers-pro' ) ) {
 			return;
 		}
 		$features = array(
@@ -199,17 +263,51 @@ class Settings extends Lib\Settings {
 	}
 
 	/**
-	 * Output tabs.
-	 *
-	 * @param array $tabs Tabs.
+	 * Save default settings.
 	 *
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function output_tabs( $tabs ) {
-		parent::output_tabs( $tabs );
-		if ( WCSN()->get_docs_url() ) {
-			printf( '<a href="%s" class="nav-tab" target="_blank">%s</a>', esc_url( WCSN()->get_docs_url() ), esc_html__( 'Documentation', 'wc-serial-numbers' ) );
+	public function save_defaults() {
+		$tabs = $this->get_tabs();
+		foreach ( $tabs as $tab => $label ) {
+			$options = $this->get_settings( $tab );
+
+			foreach ( $options as $option ) {
+				if ( isset( $option['default'] ) && isset( $option['id'] ) ) {
+					$autoload = isset( $option['autoload'] ) ? (bool) $option['autoload'] : true;
+					add_option( $option['id'], $option['default'], '', $autoload );
+				}
+			}
 		}
+	}
+
+	/**
+	 * Get current page.
+	 *
+	 * @since 1.0.0
+	 * @return string
+	 */
+	public function get_current_page() {
+		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS );
+		return ! empty( $page ) ? sanitize_text_field( wp_unslash( $page ) ) : '';
+	}
+
+	/**
+	 * Get the current tab.
+	 *
+	 * @since 1.0.0
+	 * @return string
+	 */
+	protected function get_current_tab() {
+		$tabs = $this->get_tabs();
+		$tab  = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_SPECIAL_CHARS );
+		$tab  = ! empty( $tab ) ? sanitize_text_field( wp_unslash( $tab ) ) : '';
+
+		if ( ! array_key_exists( $tab, $tabs ) ) {
+			$tab = key( $tabs );
+		}
+
+		return $tab;
 	}
 }
