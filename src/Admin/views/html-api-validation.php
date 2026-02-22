@@ -15,11 +15,11 @@ $api_url = add_query_arg(
 	home_url( '/' )
 );
 ?>
-<div class="pev-card">
-	<div class="pev-card__header">
+<div class="b8-card">
+	<div class="b8-card__header">
 		<h2><?php esc_html_e( 'API Validation', 'wc-serial-numbers' ); ?></h2>
 	</div>
-	<div class="pev-card__body">
+	<div class="b8-card__body">
 		<?php if ( ! WCSN()->utils->plugin_active( 'wc-serial-numbers-pro' ) ) : ?>
 			<div class="notice notice-warning">
 				<p>

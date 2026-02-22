@@ -60,7 +60,7 @@ class Admin {
 		wp_enqueue_style( $which_select2_style );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 
-		WCSN()->scripts->enqueue_style( 'wc-serial-numbers-admin', 'css/admin-style.css' );
+		WCSN()->scripts->enqueue_style( 'wc-serial-numbers-admin', 'css/admin-style.css', array( 'b8-components', 'b8-layout' ) );
 		WCSN()->scripts->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', $which_select2_script, 'wp-util' ) );
 		wp_localize_script(
 			'wc-serial-numbers-admin',

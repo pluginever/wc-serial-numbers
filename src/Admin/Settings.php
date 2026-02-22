@@ -249,15 +249,19 @@ class Settings {
 			__( 'Many more ...', 'wc-serial-numbers' ),
 		);
 		?>
-		<div class="pev-panel promo-panel">
-			<h3><?php esc_html_e( 'Want More?', 'wc-serial-numbers' ); ?></h3>
-			<p><?php esc_attr_e( 'This plugin offers a premium version which comes with the following features:', 'wc-serial-numbers' ); ?></p>
-			<ul>
-				<?php foreach ( $features as $feature ) : ?>
-					<li>- <?php echo esc_html( $feature ); ?></li>
-				<?php endforeach; ?>
-			</ul>
-			<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=plugin-settings&utm_medium=banner&utm_campaign=upgrade&utm_id=wc-serial-numbers" class="button" target="_blank"><?php esc_html_e( 'Upgrade to PRO', 'wc-serial-numbers' ); ?></a>
+		<div class="b8-card promo-panel">
+			<div class="b8-card__header">
+				<h3><?php esc_html_e( 'Want More?', 'wc-serial-numbers' ); ?></h3>
+			</div>
+			<div class="b8-card__body">
+				<p><?php esc_attr_e( 'This plugin offers a premium version which comes with the following features:', 'wc-serial-numbers' ); ?></p>
+				<ul>
+					<?php foreach ( $features as $feature ) : ?>
+						<li>- <?php echo esc_html( $feature ); ?></li>
+					<?php endforeach; ?>
+				</ul>
+				<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=plugin-settings&utm_medium=banner&utm_campaign=upgrade&utm_id=wc-serial-numbers" class="button" target="_blank"><?php esc_html_e( 'Upgrade to PRO', 'wc-serial-numbers' ); ?></a>
+			</div>
 		</div>
 		<?php
 	}

@@ -10,7 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 ?>
-<div class="wrap pev-wrap woocommerce">
+<div class="wrap b8-wrap woocommerce">
 	<h1 class="wp-heading-inline">
 		<?php if ( $key->exists() ) : ?>
 			<?php esc_html_e( 'Edit Serial Key', 'wc-serial-numbers' ); ?>
@@ -24,15 +24,15 @@ defined( 'ABSPATH' ) || exit;
 	</h1>
 
 	<form method="post" action="<?php echo esc_html( admin_url( 'admin-post.php' ) ); ?>">
-		<div class="pev-poststuff">
+		<div class="b8-poststuff">
 			<div class="column-1">
-				<div class="pev-card">
-					<div class="pev-card__header">
-						<h2 class="pev-card__title"><?php esc_html_e( 'Key Details', 'wc-serial-numbers' ); ?></h2>
+				<div class="b8-card">
+					<div class="b8-card__header">
+						<h2 class="b8-card__title"><?php esc_html_e( 'Key Details', 'wc-serial-numbers' ); ?></h2>
 					</div>
-					<div class="pev-card__body form-inline">
+					<div class="b8-card__body form-inline">
 
-						<div class="pev-form-field">
+						<div class="b8-form-field">
 							<label for="product_id">
 								<?php esc_html_e( 'Product', 'wc-serial-numbers' ); ?>
 								<abbr title="required"></abbr>
@@ -51,7 +51,7 @@ defined( 'ABSPATH' ) || exit;
 							</p>
 						</div>
 
-						<div class="pev-form-field">
+						<div class="b8-form-field">
 							<label for="serial_key">
 								<?php esc_html_e( 'Serial key', 'wc-serial-numbers' ); ?>
 								<abbr title="required"></abbr>
@@ -63,7 +63,7 @@ defined( 'ABSPATH' ) || exit;
 						</div>
 
 						<?php if ( wcsn_is_software_support_enabled() ) : ?>
-							<div class="pev-form-field">
+							<div class="b8-form-field">
 								<label for="activation_limit"><?php esc_html_e( 'Activation limit', 'wc-serial-numbers' ); ?></label>
 
 								<input type="number" name="activation_limit" id="activation_limit" value="<?php echo esc_attr( $key->get_activation_limit() ); ?>" min="0" step="1"/>
@@ -72,11 +72,11 @@ defined( 'ABSPATH' ) || exit;
 								</p>
 							</div>
 
-							<div class="pev-form-field">
+							<div class="b8-form-field">
 								<label for="validity">
 									<?php esc_html_e( 'Valid for', 'wc-serial-numbers' ); ?>
 								</label>
-								<div class="pev-form-field__group">
+								<div class="b8-form-field__group">
 									<input type="number" name="validity" id="validity" value="<?php echo esc_attr( $key->get_validity() ); ?>" min="0" step="1"/>
 									<div class="addon">
 										<?php esc_html_e( 'Days', 'wc-serial-numbers' ); ?>
@@ -87,7 +87,7 @@ defined( 'ABSPATH' ) || exit;
 
 						<?php endif; ?>
 
-						<div class="pev-form-field">
+						<div class="b8-form-field">
 							<label for="status">
 								<?php esc_html_e( 'Status', 'wc-serial-numbers' ); ?>
 							</label>
@@ -99,7 +99,7 @@ defined( 'ABSPATH' ) || exit;
 							<p class="description"><?php esc_html_e( 'Serial key status auto-updates with order status. Avoid manual changes.', 'wc-serial-numbers' ); ?></p>
 						</div>
 
-						<div class="pev-form-field">
+						<div class="b8-form-field">
 							<label for="order_id">
 								<?php esc_html_e( 'Order ID', 'wc-serial-numbers' ); ?>
 							</label>
@@ -121,11 +121,11 @@ defined( 'ABSPATH' ) || exit;
 			</div><!-- .column-1 -->
 
 			<div class="column-2">
-				<div class="pev-card">
-					<div class="pev-card__header">
-						<h2 class="pev-card__title"><?php esc_html_e( 'Actions', 'wc-serial-numbers' ); ?></h2>
+				<div class="b8-card">
+					<div class="b8-card__header">
+						<h2 class="b8-card__title"><?php esc_html_e( 'Actions', 'wc-serial-numbers' ); ?></h2>
 					</div>
-					<div class="pev-card__footer">
+					<div class="b8-card__footer">
 						<?php if ( $key->exists() ) : ?>
 							<a class="del" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', admin_url( 'admin.php?page=wc-serial-numbers&id=' . $key->get_id() ) ), 'bulk-keys' ) ); ?>"><?php esc_html_e( 'Delete', 'wc-serial-numbers' ); ?></a>
 						<?php endif; ?>
@@ -134,11 +134,11 @@ defined( 'ABSPATH' ) || exit;
 				</div>
 
 				<?php if ( $key->get_order() ) : ?>
-					<div class="pev-card">
-						<div class="pev-card__header">
-							<h2 class="pev-card__title"><?php esc_html_e( 'Customer details', 'wc-serial-numbers' ); ?></h2>
+					<div class="b8-card">
+						<div class="b8-card__header">
+							<h2 class="b8-card__title"><?php esc_html_e( 'Customer details', 'wc-serial-numbers' ); ?></h2>
 						</div>
-						<div class="pev-card__body">
+						<div class="b8-card__body">
 							<table class="table-data">
 								<tbody>
 								<tr>
@@ -189,7 +189,7 @@ defined( 'ABSPATH' ) || exit;
 				<?php endif; ?>
 
 			</div><!-- .column-2 -->
-		</div><!-- .pev-poststuff -->
+		</div><!-- .b8-poststuff -->
 
 		<input type="hidden" name="action" value="wcsn_edit_key">
 		<input type="hidden" name="id" value="<?php echo esc_attr( $key->get_id() ); ?>">

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-01-27T12:18:20+00:00\n"
+"POT-Creation-Date: 2026-02-22T10:19:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-serial-numbers\n"
@@ -542,6 +542,7 @@ msgstr ""
 
 #: src/Admin/Menus.php:170
 #: src/Admin/Menus.php:171
+#: src/Plugin.php:95
 msgid "Settings"
 msgstr ""
 
@@ -625,190 +626,77 @@ msgstr ""
 msgid "Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s discount by using the promo code %2$s. %3$s Upgrade Now%4$s."
 msgstr ""
 
-#: src/Admin/Settings.php:25
+#: src/Admin/Settings.php:54
 msgid "General"
 msgstr ""
 
-#: src/Admin/Settings.php:46
-msgid "General Settings"
-msgstr ""
-
-#: src/Admin/Settings.php:48
-msgid "These options determine the behavior and operation of the plugin."
-msgstr ""
-
-#: src/Admin/Settings.php:52
-msgid "Auto-complete orders"
-msgstr ""
-
-#: src/Admin/Settings.php:54
-msgid "Automatically completes orders after successful payments."
-msgstr ""
-
-#: src/Admin/Settings.php:59
-msgid "Reuse keys"
-msgstr ""
-
-#: src/Admin/Settings.php:61
-msgid "Recover failed, refunded keys for selling again."
-msgstr ""
-
-#: src/Admin/Settings.php:62
-msgid "If you enable this option, the keys will be available for selling again if the order is refunded or failed."
-msgstr ""
-
-#: src/Admin/Settings.php:68
-msgid "Revoke keys"
-msgstr ""
-
-#: src/Admin/Settings.php:70
-msgid "Revoke keys when the order status changes to cancelled or refunded."
-msgstr ""
-
-#: src/Admin/Settings.php:71
-msgid "If you enable this option, the keys will be revoked when the order status changes to cancelled or refunded."
-msgstr ""
-
-#: src/Admin/Settings.php:76
-msgid "Hide keys"
-msgstr ""
-
-#: src/Admin/Settings.php:78
-msgid "Keys will be masked in the list table."
-msgstr ""
-
-#: src/Admin/Settings.php:83
-msgid "Disable software support"
-msgstr ""
-
-#: src/Admin/Settings.php:85
-msgid "Disable Software Licensing support & API functionalities."
-msgstr ""
-
-#: src/Admin/Settings.php:86
-msgid "If you enable this option, the activation menu and it’s functionality will be turned off."
-msgstr ""
-
-#: src/Admin/Settings.php:92
-msgid "Manage Stocks"
-msgstr ""
-
-#: src/Admin/Settings.php:94
-msgid "Manage stocks for the key enabled products."
-msgstr ""
-
-#: src/Admin/Settings.php:95
-msgid "Enable stock management for key-enabled products. This works only if you select \"Manually Added\" as the key source and enable stock management for the product. Variable product is not supported."
-msgstr ""
-
-#: src/Admin/Settings.php:101
-msgid "WooCommerce PDF Invoices"
-msgstr ""
-
-#: src/Admin/Settings.php:103
-msgid "Enable WooCommerce PDF Invoices."
-msgstr ""
-
-#. translators: %s: documentation link
-#: src/Admin/Settings.php:106
-#, php-format
-msgid "If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice. Check out the <a href=\"%s\" target=\"_blank\">documentation</a> for more details."
-msgstr ""
-
-#: src/Admin/Settings.php:117
-msgid "Stock Notification"
-msgstr ""
-
-#: src/Admin/Settings.php:119
-msgid "These options determine the operation of the key's stock notification."
-msgstr ""
-
-#: src/Admin/Settings.php:123
-msgid "Stock notification email"
-msgstr ""
-
-#: src/Admin/Settings.php:125
-msgid "Sends notification emails when key stock is low."
-msgstr ""
-
-#: src/Admin/Settings.php:131
-msgid "Stock threshold"
-msgstr ""
-
-#: src/Admin/Settings.php:133
-msgid "An email notification will be sent when the key stock falls below the specified number."
-msgstr ""
-
-#: src/Admin/Settings.php:138
-msgid "Notification recipient email"
-msgstr ""
-
-#: src/Admin/Settings.php:140
-msgid "The email address which will be used to send email notifications."
-msgstr ""
-
-#: src/Admin/Settings.php:174
-msgid "Create and assign keys for WooCommerce variable products."
+#: src/Admin/Settings.php:108
+msgid "Settings saved."
 msgstr ""
 
 #: src/Admin/Settings.php:175
+#: src/Plugin.php:120
+msgid "Documentation"
+msgstr ""
+
+#: src/Admin/Settings.php:238
+msgid "Create and assign keys for WooCommerce variable products."
+msgstr ""
+
+#: src/Admin/Settings.php:239
 msgid "Generate bulk keys with your custom key generator rule."
 msgstr ""
 
-#: src/Admin/Settings.php:176
+#: src/Admin/Settings.php:240
 msgid "Random & sequential key order for the generator rules."
 msgstr ""
 
-#: src/Admin/Settings.php:177
+#: src/Admin/Settings.php:241
 msgid "Automatic key generator to auto-create & assign keys with orders."
 msgstr ""
 
-#: src/Admin/Settings.php:178
+#: src/Admin/Settings.php:242
 msgid "License key management option from the order page with required actions."
 msgstr ""
 
-#: src/Admin/Settings.php:179
+#: src/Admin/Settings.php:243
 msgid "Support for bulk import/export of keys from/to CSV."
 msgstr ""
 
-#: src/Admin/Settings.php:180
+#: src/Admin/Settings.php:244
 msgid "Send keys via SMS with Twilio."
 msgstr ""
 
-#: src/Admin/Settings.php:181
+#: src/Admin/Settings.php:245
 msgid "Option to sell keys even if there are no available keys in the stock."
 msgstr ""
 
-#: src/Admin/Settings.php:182
+#: src/Admin/Settings.php:246
 msgid "Custom deliverable quantity to deliver multiple keys with a single product."
 msgstr ""
 
-#: src/Admin/Settings.php:183
+#: src/Admin/Settings.php:247
 msgid "Manual delivery option to manually deliver license keys instead of automatic."
 msgstr ""
 
-#: src/Admin/Settings.php:184
+#: src/Admin/Settings.php:248
 msgid "Email template to easily and quickly customize the order confirmation & low stock alert email."
 msgstr ""
 
-#: src/Admin/Settings.php:185
+#: src/Admin/Settings.php:249
 msgid "Many more ..."
 msgstr ""
 
-#: src/Admin/Settings.php:189
+#: src/Admin/Settings.php:254
 msgid "Want More?"
 msgstr ""
 
-#: src/Admin/Settings.php:190
+#: src/Admin/Settings.php:257
 msgid "This plugin offers a premium version which comes with the following features:"
 msgstr ""
 
-#: src/Admin/Settings.php:196
+#: src/Admin/Settings.php:263
 msgid "Upgrade to PRO"
-msgstr ""
-
-#: src/Admin/Settings.php:212
-msgid "Documentation"
 msgstr ""
 
 #: src/Admin/views/html-api-actions.php:21
@@ -1168,6 +1056,124 @@ msgstr ""
 msgid "Serial Numbers stock running low"
 msgstr ""
 
+#: src/Data/settings.php:8
+msgid "General Settings"
+msgstr ""
+
+#: src/Data/settings.php:10
+msgid "These options determine the behavior and operation of the plugin."
+msgstr ""
+
+#: src/Data/settings.php:14
+msgid "Auto-complete orders"
+msgstr ""
+
+#: src/Data/settings.php:16
+msgid "Automatically completes orders after successful payments."
+msgstr ""
+
+#: src/Data/settings.php:21
+msgid "Reuse keys"
+msgstr ""
+
+#: src/Data/settings.php:23
+msgid "Recover failed, refunded keys for selling again."
+msgstr ""
+
+#: src/Data/settings.php:24
+msgid "If you enable this option, the keys will be available for selling again if the order is refunded or failed."
+msgstr ""
+
+#: src/Data/settings.php:29
+msgid "Revoke keys"
+msgstr ""
+
+#: src/Data/settings.php:31
+msgid "Revoke keys when the order status changes to cancelled or refunded."
+msgstr ""
+
+#: src/Data/settings.php:32
+msgid "If you enable this option, the keys will be revoked when the order status changes to cancelled or refunded."
+msgstr ""
+
+#: src/Data/settings.php:37
+msgid "Hide keys"
+msgstr ""
+
+#: src/Data/settings.php:39
+msgid "Keys will be masked in the list table."
+msgstr ""
+
+#: src/Data/settings.php:44
+msgid "Disable software support"
+msgstr ""
+
+#: src/Data/settings.php:46
+msgid "Disable Software Licensing support & API functionalities."
+msgstr ""
+
+#: src/Data/settings.php:47
+msgid "If you enable this option, the activation menu and it's functionality will be turned off."
+msgstr ""
+
+#: src/Data/settings.php:52
+msgid "Manage Stocks"
+msgstr ""
+
+#: src/Data/settings.php:54
+msgid "Manage stocks for the key enabled products."
+msgstr ""
+
+#: src/Data/settings.php:55
+msgid "Enable stock management for key-enabled products. This works only if you select \"Manually Added\" as the key source and enable stock management for the product. Variable product is not supported."
+msgstr ""
+
+#: src/Data/settings.php:60
+msgid "WooCommerce PDF Invoices"
+msgstr ""
+
+#: src/Data/settings.php:62
+msgid "Enable WooCommerce PDF Invoices."
+msgstr ""
+
+#. translators: %s: documentation link
+#: src/Data/settings.php:65
+#, php-format
+msgid "If you enable this option, the plugin will be compatible with WooCommerce PDF Invoices & Packing Slips plugins and will show the serial keys in the invoice. Check out the <a href=\"%s\" target=\"_blank\">documentation</a> for more details."
+msgstr ""
+
+#: src/Data/settings.php:76
+msgid "Stock Notification"
+msgstr ""
+
+#: src/Data/settings.php:78
+msgid "These options determine the operation of the key's stock notification."
+msgstr ""
+
+#: src/Data/settings.php:82
+msgid "Stock notification email"
+msgstr ""
+
+#: src/Data/settings.php:84
+msgid "Sends notification emails when key stock is low."
+msgstr ""
+
+#: src/Data/settings.php:90
+msgid "Stock threshold"
+msgstr ""
+
+#: src/Data/settings.php:92
+msgid "An email notification will be sent when the key stock falls below the specified number."
+msgstr ""
+
+#: src/Data/settings.php:97
+msgid "Notification recipient email"
+msgstr ""
+
+#: src/Data/settings.php:99
+msgid "The email address which will be used to send email notifications."
+msgstr ""
+
 #: src/Deprecated/Functions.php:154
 msgid "Serial number not found."
 msgstr ""
@@ -1291,32 +1297,32 @@ msgstr ""
 msgid "%1$s updated to version %2$s successfully."
 msgstr ""
 
-#: src/Models/Activation.php:245
+#: src/Models/Activation.php:265
 msgid "Serial id is required."
 msgstr ""
 
-#: src/Models/Activation.php:250
+#: src/Models/Activation.php:269
 msgid "Instance is required."
 msgstr ""
 
-#: src/Models/Key.php:509
+#: src/Models/Key.php:549
 msgid "Product id is required."
 msgstr ""
 
-#: src/Models/Key.php:514
+#: src/Models/Key.php:553
 msgid "Product id is invalid."
 msgstr ""
 
-#: src/Models/Key.php:519
+#: src/Models/Key.php:557
 #: src/RestAPI.php:148
 msgid "Serial key is required."
 msgstr ""
 
-#: src/Models/Key.php:531
+#: src/Models/Key.php:568
 msgid "Serial key already exists. Duplicate serial keys are not allowed."
 msgstr ""
 
-#: src/Models/Key.php:537
+#: src/Models/Key.php:573
 msgid "Order id is invalid."
 msgstr ""
 
@@ -1330,14 +1336,8 @@ msgstr ""
 msgid "Order automatically completed by the Serial Numbers for WooCommerce."
 msgstr ""
 
-#. translators: 1: plugin name 2: WooCommerce
-#: src/Plugin.php:77
-#, php-format
-msgid "%1$s requires %2$s to be installed and active."
-msgstr ""
-
-#: src/Plugin.php:79
-msgid "WooCommerce"
+#: src/Plugin.php:125
+msgid "Support"
 msgstr ""
 
 #: src/RestAPI.php:144

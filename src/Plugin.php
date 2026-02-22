@@ -27,7 +27,6 @@ final class Plugin extends B8\Plugin\App {
 		define( 'WCSN_ASSETS_PATH', $this->assets_path() );
 
 		register_activation_hook( $this->file, array( Installer::class, 'install' ) );
-		add_action( 'admin_notices', array( $this, 'dependencies_notices' ) );
 		add_action( 'before_woocommerce_init', array( $this, 'declare_compatibility' ) );
 		add_action( 'woocommerce_loaded', array( $this, 'register_services' ), 0 );
 		add_filter( 'plugin_action_links_' . $this->basename(), array( $this, 'plugin_action_links' ) );
@@ -45,26 +44,6 @@ final class Plugin extends B8\Plugin\App {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', $this->file, true );
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', $this->file, true );
 		}
-	}
-
-	/**
-	 * Missing dependencies notice.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function dependencies_notices(): void {
-		if ( $this->utils->plugin_active( 'woocommerce' ) ) {
-			return;
-		}
-		$notice = sprintf(
-		/* translators: 1: plugin name 2: WooCommerce */
-			__( '%1$s requires %2$s to be installed and active.', 'wc-serial-numbers' ),
-			'<strong>' . esc_html( $this->plugin_name ) . '</strong>',
-			'<strong>' . esc_html__( 'WooCommerce', 'wc-serial-numbers' ) . '</strong>'
-		);
-
-		echo '<div class="notice notice-error"><p>' . wp_kses_post( $notice ) . '</p></div>';
 	}
 
 	/**
