@@ -160,6 +160,6 @@ final class Plugin extends B8\Plugin\App {
 	public static function is_pro_active() {
 		_deprecated_function( __METHOD__, '1.4.0' );
 
-		return WCSN()->utils->plugin_active( 'wc-serial-numbers-pro' );
+		return WCSN()->plugin_active( 'wc-serial-numbers-pro' );
 	}
 }

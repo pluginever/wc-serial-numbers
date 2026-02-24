@@ -20,7 +20,7 @@ $api_url = add_query_arg(
 		<h2><?php esc_html_e( 'API Validation', 'wc-serial-numbers' ); ?></h2>
 	</div>
 	<div class="b8-card__body">
-		<?php if ( ! WCSN()->utils->plugin_active( 'wc-serial-numbers-pro' ) ) : ?>
+		<?php if ( ! WCSN()->plugin_active( 'wc-serial-numbers-pro' ) ) : ?>
 			<div class="notice notice-warning">
 				<p>
 					<?php
