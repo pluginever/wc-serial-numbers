@@ -23,7 +23,7 @@ class Actions {
 	 * @since 1.5.6
 	 */
 	public function __construct() {
-		add_action( 'wc_serial_numbers_key_db_data', array( __CLASS__, 'decrypt_key' ) );
+		add_action( 'wc_serial_numbers_key_attribute_serial_key', array( __CLASS__, 'decrypt_key' ) );
 		add_action( 'wc_serial_numbers_key_insert_data', array( __CLASS__, 'encrypt_key' ) );
 		add_action( 'wc_serial_numbers_key_update_data', array( __CLASS__, 'encrypt_key' ) );
 		add_action( 'wc_serial_numbers_key_insert', array( __CLASS__, 'enable_product' ) );
@@ -35,16 +35,12 @@ class Actions {
 	/**
 	 * Decrypt key.
 	 *
-	 * @param array $data The key data.
+	 * @param string $value The key data.
 	 *
 	 * @since 1.4.6
 	 */
-	public static function decrypt_key( $data ) {
-		if ( ! empty( $data['serial_key'] ) ) {
-			$data['serial_key'] = wcsn_decrypt_key( $data['serial_key'] );
-		}
-
-		return $data;
+	public static function decrypt_key( $value ) {
+		return wcsn_decrypt_key( $value );
 	}
 
 	/**

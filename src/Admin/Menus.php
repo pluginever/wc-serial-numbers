@@ -182,7 +182,7 @@ class Menus {
 	 * @return void
 	 */
 	public function promo_menu() {
-		if ( ! WCSN()->utils->plugin_active( 'wc-serial-numbers-pro' ) ) {
+		if ( ! WCSN()->plugin_active( 'wc-serial-numbers-pro' ) ) {
 			add_submenu_page(
 				'wc-serial-numbers',
 				'',
