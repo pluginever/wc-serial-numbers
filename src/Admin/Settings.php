@@ -231,7 +231,7 @@ class Settings {
 	 * @return void
 	 */
 	protected function output_premium_widget() {
-		if ( WCSN()->utils->plugin_active( 'wc-serial-numbers-pro' ) ) {
+		if ( WCSN()->plugin_active( 'wc-serial-numbers-pro' ) ) {
 			return;
 		}
 		$features = array(
