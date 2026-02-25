@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-25T06:17:33+00:00\n"
+"POT-Creation-Date: 2026-02-25T08:29:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-serial-numbers\n"
@@ -112,7 +112,7 @@ msgstr ""
 #: src/Admin/ListTables/KeysTable.php:349
 #: src/Admin/views/html-api-actions.php:131
 #: src/Admin/views/html-api-validation.php:134
-#: src/functions.php:1015
+#: src/functions.php:1004
 #: src/Functions/Template.php:42
 msgid "Key"
 msgstr ""
@@ -125,7 +125,7 @@ msgstr ""
 #: includes/Admin/Orders.php:272
 #: includes/Compat.php:84
 #: src/Admin/ListTables/KeysTable.php:532
-#: src/functions.php:1036
+#: src/functions.php:1025
 #: src/Functions/Template.php:63
 msgid "Lifetime"
 msgstr ""
@@ -146,7 +146,7 @@ msgstr ""
 #: src/Admin/ListTables/KeysTable.php:360
 #: src/Admin/Menus.php:341
 #: src/Admin/views/html-edit-key.php:92
-#: src/functions.php:1040
+#: src/functions.php:1029
 #: src/Functions/Template.php:78
 msgid "Status"
 msgstr ""
@@ -1184,7 +1184,7 @@ msgid "Serial Number"
 msgstr ""
 
 #: src/Deprecated/Functions.php:361
-#: src/functions.php:1025
+#: src/functions.php:1014
 #: src/Functions/Template.php:52
 msgid "Activation Limit"
 msgstr ""
@@ -1258,24 +1258,24 @@ msgstr ""
 msgid "There is not enough serial numbers for the product %1$s from selected source %2$s, needed total %3$d."
 msgstr ""
 
-#: src/functions.php:1020
+#: src/functions.php:1009
 #: src/Functions/Template.php:47
 msgid "Activation Email"
 msgstr ""
 
-#: src/functions.php:1026
-#: src/functions.php:1031
+#: src/functions.php:1015
+#: src/functions.php:1020
 #: src/Functions/Template.php:53
 #: src/Functions/Template.php:58
 msgid "None"
 msgstr ""
 
-#: src/functions.php:1030
+#: src/functions.php:1019
 #: src/Functions/Template.php:57
 msgid "Activation Count"
 msgstr ""
 
-#: src/functions.php:1035
+#: src/functions.php:1024
 #: src/Functions/Template.php:62
 msgid "Expire Date"
 msgstr ""

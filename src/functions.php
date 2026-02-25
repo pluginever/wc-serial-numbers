@@ -549,15 +549,10 @@ function wcsn_order_update_keys( $order_id ) {
 
 			// Assign keys to order.
 			foreach ( $keys as $key ) {
-				$key->set_data(
-					array(
-						'order_id'      => $order_id,
-						'order_item_id' => $item['order_item_id'],
-						'order_date'    => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : current_time( 'mysql' ),
-						'customer_id'   => $customer_id,
-						'status'        => 'sold',
-					)
-				);
+				$key->set_order_id( $order_id );
+				$key->set_order_item_id( $item['order_item_id'] );
+				$key->set_order_date( $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : current_time( 'mysql' ) );
+				$key->set_status( 'sold' );
 				if ( ! is_wp_error( $key->save() ) ) {
 					++$added;
 				}
@@ -671,15 +666,12 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 	do_action( 'wc_serial_numbers_pre_revoke_order_keys', $order_id, $product_id, $keys );
 
 	foreach ( $keys as $key ) {
-		$props = array(
-			'status' => $is_reusing ? 'available' : 'cancelled',
-		);
+		$key->set_status( $is_reusing ? 'available' : 'cancelled' );
 		if ( ! $is_reusing ) {
-			$props['order_id']      = 0;
-			$props['order_item_id'] = 0;
-			$props['order_date']    = null;
+			$key->set_order_id( 0 );
+			$key->set_order_item_id( 0 );
+			$key->set_order_date( null );
 		}
-		$key->set_data( $props );
 		$key->save();
 	}
 
@@ -744,15 +736,12 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 	$replaced = 0;
 
 	foreach ( $keys as $key ) {
-		$props = array(
-			'status' => $is_reusing ? 'available' : 'cancelled',
-		);
+		$key->set_status( $is_reusing ? 'available' : 'cancelled' );
 		if ( ! $is_reusing ) {
-			$props['order_id']      = 0;
-			$props['order_item_id'] = 0;
-			$props['order_date']    = null;
+			$key->set_order_id( 0 );
+			$key->set_order_item_id( 0 );
+			$key->set_order_date( null );
 		}
-		$key->set_data( $props );
 		if ( $key->save() ) {
 			++$replaced;
 		}
