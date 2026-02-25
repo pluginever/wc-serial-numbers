@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-24T08:59:37+00:00\n"
+"POT-Creation-Date: 2026-02-25T06:17:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-serial-numbers\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: src/Admin/Menus.php:54
 #: src/Admin/Menus.php:88
 #: src/Admin/Menus.php:89
-#: src/Admin/Menus.php:433
+#: src/Admin/Menus.php:454
 #: src/Functions/Template.php:226
 msgid "Serial Numbers"
 msgstr ""
@@ -144,7 +144,7 @@ msgstr ""
 #: includes/Admin/Orders.php:279
 #: includes/Compat.php:99
 #: src/Admin/ListTables/KeysTable.php:360
-#: src/Admin/Menus.php:320
+#: src/Admin/Menus.php:341
 #: src/Admin/views/html-edit-key.php:92
 #: src/functions.php:1040
 #: src/Functions/Template.php:78
@@ -201,6 +201,7 @@ msgstr ""
 #: includes/Admin/Products.php:193
 #: includes/Admin/Products.php:214
 #: src/Admin/Menus.php:189
+#: src/Admin/Menus.php:208
 msgid "Upgrade to Pro"
 msgstr ""
 
@@ -504,7 +505,7 @@ msgid "Source"
 msgstr ""
 
 #: src/Admin/ListTables/StockTable.php:98
-#: src/Admin/Menus.php:280
+#: src/Admin/Menus.php:315
 msgid "Stock"
 msgstr ""
 
@@ -546,71 +547,71 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/Admin/Menus.php:245
-#: src/Admin/Menus.php:381
+#: src/Admin/Menus.php:280
+#: src/Admin/Menus.php:402
 msgid "Generators"
 msgstr ""
 
-#: src/Admin/Menus.php:246
+#: src/Admin/Menus.php:281
 msgid "API Toolkit"
 msgstr ""
 
-#: src/Admin/Menus.php:247
+#: src/Admin/Menus.php:282
 #: src/Admin/views/html-list-keys.php:25
 msgid "Import"
 msgstr ""
 
-#: src/Admin/Menus.php:248
+#: src/Admin/Menus.php:283
 #: src/Admin/views/html-list-keys.php:29
 msgid "Export"
 msgstr ""
 
-#: src/Admin/Menus.php:335
-#: src/Admin/Menus.php:342
-#: src/Admin/Menus.php:360
-#: src/Admin/Menus.php:378
+#: src/Admin/Menus.php:356
+#: src/Admin/Menus.php:363
+#: src/Admin/Menus.php:381
+#: src/Admin/Menus.php:399
 msgid "Available in Pro Version"
 msgstr ""
 
-#: src/Admin/Menus.php:336
-#: src/Admin/Menus.php:343
-#: src/Admin/Menus.php:361
-#: src/Admin/Menus.php:379
+#: src/Admin/Menus.php:357
+#: src/Admin/Menus.php:364
+#: src/Admin/Menus.php:382
+#: src/Admin/Menus.php:400
 msgid "Upgrade to Pro Now"
 msgstr ""
 
-#: src/Admin/Menus.php:338
-#: src/Admin/Menus.php:345
+#: src/Admin/Menus.php:359
+#: src/Admin/Menus.php:366
 msgid "Import Serial Numbers"
 msgstr ""
 
-#: src/Admin/Menus.php:363
+#: src/Admin/Menus.php:384
 msgid "Export Serial Numbers"
 msgstr ""
 
-#: src/Admin/Menus.php:408
+#: src/Admin/Menus.php:429
 msgid "Table exists"
 msgstr ""
 
-#: src/Admin/Menus.php:410
+#: src/Admin/Menus.php:431
 msgid "Table does not exist"
 msgstr ""
 
-#: src/Admin/Menus.php:416
+#: src/Admin/Menus.php:437
 msgid "Hourly cron"
 msgstr ""
 
-#: src/Admin/Menus.php:417
+#: src/Admin/Menus.php:438
 msgid "Daily cron"
 msgstr ""
 
 #. translators: %s: Next scheduled time.
-#: src/Admin/Menus.php:423
+#: src/Admin/Menus.php:444
 #, php-format
 msgid "Next run: %s"
 msgstr ""
 
-#: src/Admin/Menus.php:425
+#: src/Admin/Menus.php:446
 msgid "Not scheduled"
 msgstr ""
 

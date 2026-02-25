@@ -181,7 +181,7 @@ class Menus {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function promo_menu() {
+	public function promo_menu_v1() {
 		if ( ! WCSN()->plugin_active( 'wc-serial-numbers-pro' ) ) {
 			add_submenu_page(
 				'wc-serial-numbers',
@@ -190,6 +190,42 @@ class Menus {
 				'manage_woocommerce', // phpcs:ignore WordPress.WP.Capabilities.Unknown
 				'go_wcsn_pro',
 				array( $this, 'go_pro_redirect' )
+			);
+		}
+	}
+
+	/**
+	 * Add pro menu to redirect to the pro plugin page.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function promo_menu() {
+		if ( ! WCSN()->plugin_active( 'wc-serial-numbers-pro' ) ) {
+			add_submenu_page(
+				'wc-serial-numbers',
+				'',
+				'<span style="color:#05ef82;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Upgrade to Pro', 'wc-serial-numbers' ) . '</span>',
+				'manage_woocommerce',  // phpcs:ignore WordPress.WP.Capabilities.Unknown -- Safe because it's a woocommerce capability.
+				'go_wcsn_pro',
+			);
+
+			// Open the pro plugin page in a new tab and add utm parameters for tracking.
+			add_action(
+				'admin_footer',
+				function () {
+					?>
+				<script type="text/javascript">
+					document.addEventListener( 'DOMContentLoaded', function () {
+						var proLink = document.querySelector( 'a[href*="go_wcsn_pro"]' );
+						if ( proLink ) {
+							proLink.setAttribute( 'target', '_blank' );
+							proLink.setAttribute( 'href', 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
+						}
+					} );
+				</script>
+					<?php
+				}
 			);
 		}
 	}
@@ -292,20 +328,6 @@ class Menus {
 				'page'        => $page,
 			)
 		);
-	}
-
-	/**
-	 * Redirect to pro page.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function go_pro_redirect() {
-		wp_verify_nonce( '_nonce' );
-		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
-			wp_safe_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
-			exit;
-		}
 	}
 
 	/**
