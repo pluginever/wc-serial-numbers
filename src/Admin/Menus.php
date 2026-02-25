@@ -232,7 +232,6 @@ class Menus {
 		Admin::view( 'html-list-activations.php' );
 	}
 
-
 	/**
 	 * Output tools page.
 	 *
@@ -366,7 +365,7 @@ class Menus {
 	}
 
 	/**
-	 * Getnerators tab content.
+	 * Generators tab content.
 	 *
 	 * @since 1.4.6
 	 * @return void

@@ -184,7 +184,7 @@ class Products {
 				)
 			);
 
-			if ( ! WCSN()->is_premium_active() ) {
+			if ( WCSN()->plugin_active( 'wc-serial-numbers-pro' ) ) {
 				echo wp_kses_post(
 					sprintf(
 						'<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>',
@@ -205,7 +205,7 @@ class Products {
 	 * @since 1.2.0
 	 */
 	public static function variable_product_content() {
-		if ( ! WCSN()->is_premium_active() ) {
+		if ( WCSN()->plugin_active( 'wc-serial-numbers-pro' ) ) {
 			echo wp_kses_post(
 				sprintf(
 					'<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>',
