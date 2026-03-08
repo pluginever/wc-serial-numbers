@@ -60,7 +60,7 @@ class Cron {
 		$mailer = $woocommerce->mailer();
 
 		ob_start();
-		wcsn_get_template( 'email-stock-notification.php', array( 'low_stock_products' => $low_stock_products ) );
+		wcsn_get_template( '/email-stock-notification.php', array( 'low_stock_products' => $low_stock_products ) );
 		$message = ob_get_contents();
 		ob_get_clean();
 
