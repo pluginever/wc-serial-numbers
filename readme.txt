@@ -2,7 +2,7 @@
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 6.9
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.3.3 (9th March 2026) =
+Fix: Resolved minor issues.
+Fix: Ensured compatibility with WooCommerce version 10.5.
+
 == 2.3.2 (27th Jan 2026) ==
 Fix: Corrected the product edit link in the low stock notification email.
 Fix: Prevented PHP Warning caused by cron events triggering with null values.
