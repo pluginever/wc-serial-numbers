@@ -8,19 +8,15 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$api_url = add_query_arg(
-	array(
-		'wc-api' => 'serial-numbers-api',
-	),
-	home_url( '/' )
-);
+$api_url = home_url( '/' ) . 'wp-json/wcsn/validate';
+
 ?>
-<div class="pev-card">
-	<div class="pev-card__header">
+<div class="b8-card">
+	<div class="b8-card__header">
 		<h2><?php esc_html_e( 'API Validation', 'wc-serial-numbers' ); ?></h2>
 	</div>
-	<div class="pev-card__body">
-		<?php if ( ! WCSN()->is_premium_active() ) : ?>
+	<div class="b8-card__body">
+		<?php if ( ! WCSN()->plugin_active( 'wc-serial-numbers-pro' ) ) : ?>
 			<div class="notice notice-warning">
 				<p>
 					<?php
@@ -28,7 +24,7 @@ $api_url = add_query_arg(
 						sprintf(
 							/* translators: %s: link to the pro version */
 							__( 'You are using the free version of Serial Numbers for WooCommerce. <a href="%s" target="_blank">Upgrade to Pro</a> to get more features.', 'wc-serial-numbers' ),
-							esc_url( WCSN()->get_premium_url() . '?utm_source=create_serial_page&utm_medium=button&utm_campaign=wc-serial-numbers&utm_content=View%20Details' )
+							esc_url( WCSN()->premium_url . '?utm_source=create_serial_page&utm_medium=button&utm_campaign=wc-serial-numbers&utm_content=View%20Details' )
 						)
 					);
 					?>
@@ -53,9 +49,6 @@ $api_url = add_query_arg(
 				<code>serial_key</code> - <?php esc_html_e( 'The serial key to validate.', 'wc-serial-numbers' ); ?>
 			</li>
 			<li>
-				<code>request</code> - <?php esc_html_e( 'The request type. Must be set to "validate".', 'wc-serial-numbers' ); ?>
-			</li>
-			<li>
 				<code>email</code> - <?php esc_html_e( 'Using email is completely voluntary. The API will verify that the serial number is associated with the given email address.', 'wc-serial-numbers' ); ?>
 			</li>
 		</ol>
@@ -68,7 +61,7 @@ $api_url = add_query_arg(
 					array(
 						'product_id' => 1,
 						'serial_key' => '123456789',
-						'request'    => 'validate',
+						'email'      => 'your-email@gmail.com',
 					),
 					$api_url
 				)
@@ -114,7 +107,7 @@ $api_url = add_query_arg(
 
 		<h4><?php esc_html_e( 'You can test the API using the form below.', 'wc-serial-numbers' ); ?></h4>
 
-		<form class="wcsn-api-form" method="post">
+		<form class="wcsn-api-form">
 			<table class="form-table">
 				<tbody>
 				<tr>

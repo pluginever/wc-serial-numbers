@@ -23,28 +23,12 @@ class Actions {
 	 * @since 1.5.6
 	 */
 	public function __construct() {
-		add_action( 'wc_serial_numbers_key_db_data', array( __CLASS__, 'decrypt_key' ) );
-		add_action( 'wc_serial_numbers_key_insert_data', array( __CLASS__, 'encrypt_key' ) );
-		add_action( 'wc_serial_numbers_key_update_data', array( __CLASS__, 'encrypt_key' ) );
-		add_action( 'wc_serial_numbers_key_insert', array( __CLASS__, 'enable_product' ) );
+		add_filter( 'wc_serial_numbers_key_pre_insert_data', array( __CLASS__, 'encrypt_key' ) );
+		add_filter( 'wc_serial_numbers_key_pre_update_data', array( __CLASS__, 'encrypt_key' ) );
+		add_action( 'wc_serial_numbers_key_inserted', array( __CLASS__, 'enable_product' ) );
 		add_action( 'wc_serial_numbers_key_deleted', array( __CLASS__, 'delete_activations' ) );
 		add_action( 'wc_serial_numbers_activation_inserted', array( __CLASS__, 'update_activation_count' ) );
 		add_action( 'wc_serial_numbers_activation_deleted', array( __CLASS__, 'update_activation_count' ) );
-	}
-
-	/**
-	 * Decrypt key.
-	 *
-	 * @param array $data The key data.
-	 *
-	 * @since 1.4.6
-	 */
-	public static function decrypt_key( $data ) {
-		if ( ! empty( $data['serial_key'] ) ) {
-			$data['serial_key'] = wcsn_decrypt_key( $data['serial_key'] );
-		}
-
-		return $data;
 	}
 
 	/**
@@ -65,19 +49,18 @@ class Actions {
 	/**
 	 * Enable product.
 	 *
-	 * @param int $key_id The key ID.
+	 * @param Key $key The key object.
 	 *
 	 * @since 1.4.6
 	 */
-	public static function enable_product( $key_id ) {
-		$key = Key::get( $key_id );
+	public static function enable_product( $key ) {
+		if ( ! $key instanceof Key ) {
+			return;
+		}
 
-		if ( $key ) {
-			$product_id = $key->get_product_id();
-
-			if ( $product_id ) {
-				update_post_meta( $product_id, '_is_serial_number', 'yes' );
-			}
+		$product_id = $key->get_product_id();
+		if ( $product_id ) {
+			update_post_meta( $product_id, '_is_serial_number', 'yes' );
 		}
 	}
 
@@ -121,7 +104,7 @@ class Actions {
 	 * @since 1.0.0
 	 */
 	public static function update_activation_count( $activation ) {
-		$key = Key::get( $activation->get_serial_id() );
+		$key = Key::find( $activation->get_serial_id() );
 		if ( $key ) {
 			$key->recount_remaining_activation();
 		}

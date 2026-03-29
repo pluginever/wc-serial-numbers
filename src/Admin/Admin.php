@@ -32,12 +32,12 @@ class Admin {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		WCSN()->services['admin/settings'] = Settings::instance();
-		WCSN()->services['admin/menus']    = new Menus();
-		WCSN()->services['admin/notices']  = new Notices();
-		WCSN()->services['admin/requests'] = new Requests();
-		WCSN()->services['admin/orders']   = new Orders();
-		WCSN()->services['admin/products'] = new Products();
+		Settings::instance();
+		new Menus();
+		new Notices();
+		new Requests();
+		new Orders();
+		new Products();
 	}
 
 	/**
@@ -60,8 +60,8 @@ class Admin {
 		wp_enqueue_style( $which_select2_style );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 
-		WCSN()->enqueue_style( 'wc-serial-numbers-admin', 'css/admin-style.css' );
-		WCSN()->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', $which_select2_script, 'wp-util' ) );
+		WCSN()->scripts->enqueue_style( 'wc-serial-numbers-admin', 'css/admin-style.css', array( 'b8-components', 'b8-layout' ) );
+		WCSN()->scripts->enqueue_script( 'wc-serial-numbers-admin', 'js/admin-script.js', array( 'jquery', 'jquery-ui-datepicker', $which_select2_script, 'wp-util' ) );
 		wp_localize_script(
 			'wc-serial-numbers-admin',
 			'wc_serial_numbers_vars',
@@ -77,14 +77,13 @@ class Admin {
 				'search_nonce' => wp_create_nonce( 'wc_serial_numbers_search_nonce' ),
 				'ajax_nonce'   => wp_create_nonce( 'wcsn_ajax_search' ),
 				'ajaxurl'      => admin_url( 'admin-ajax.php' ),
-				'apiurl'       => site_url( '?wc-api=serial-numbers-api' ),
+				'apiurl'       => site_url( '/wp-json/wcsn/' ),
 			)
 		);
 
 		// add inline style for select2 --wp-admin-theme-color.
 		wp_add_inline_style( 'common', ':root{--wp-admin-theme-color:#0073aa;}' );
 	}
-
 
 	/**
 	 * Add the plugin screens to the WooCommerce screens.
@@ -107,12 +106,12 @@ class Admin {
 	 * @return string
 	 */
 	public function admin_footer_text( $footer_text ) {
-		if ( WCSN()->get_review_url() && in_array( get_current_screen()->id, self::get_screen_ids(), true ) ) {
+		if ( WCSN()->review_url && in_array( get_current_screen()->id, self::get_screen_ids(), true ) ) {
 			$footer_text = sprintf(
 			/* translators: 1: Plugin name 2: WordPress */
 				__( 'Thank you for using %1$s! Share your appreciation with a five-star review %2$s.', 'wc-serial-numbers' ),
-				'<strong>' . esc_html( WCSN()->get_name() ) . '</strong>',
-				'<a href="' . esc_url( WCSN()->get_review_url() ) . '" target="_blank" class="wc-serial-numbers-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'wc-serial-numbers' ) . '">here</a>'
+				'<strong>' . esc_html( WCSN()->plugin_name ) . '</strong>',
+				'<a href="' . esc_url( WCSN()->review_url ) . '" target="_blank" class="wc-serial-numbers-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'wc-serial-numbers' ) . '">here</a>'
 			);
 		}
 
@@ -130,7 +129,7 @@ class Admin {
 	public function update_footer( $footer_text ) {
 		if ( in_array( get_current_screen()->id, self::get_screen_ids(), true ) ) {
 			/* translators: 1: Plugin version */
-			$footer_text = sprintf( esc_html__( 'Version %s', 'wc-serial-numbers' ), WCSN()->get_version() );
+			$footer_text = sprintf( esc_html__( 'Version %s', 'wc-serial-numbers' ), WCSN()->version );
 		}
 
 		return $footer_text;

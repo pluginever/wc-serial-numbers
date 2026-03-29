@@ -39,7 +39,7 @@ class Requests {
 
 		// Must have manage woocommerce user capability role to access this endpoint.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
-			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			WCSN()->flash->error( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ) );
 			wp_safe_redirect( wp_get_referer() );
 			exit;
 		}
@@ -70,7 +70,7 @@ class Requests {
 
 		$key = Key::insert( $data );
 		if ( is_wp_error( $key ) ) {
-			WCSN()->add_notice( $key->get_error_message(), 'error' );
+			WCSN()->flash->error( $key->get_error_message() );
 			// Redirect to referrer.
 			wp_safe_redirect( wp_get_referer() );
 			exit();
@@ -82,9 +82,9 @@ class Requests {
 			update_post_meta( $product_id, '_is_serial_number', 'yes' );
 			update_post_meta( $product_id, '_serial_key_source', 'custom_source' );
 
-			WCSN()->add_notice( __( 'Key added successfully.', 'wc-serial-numbers' ) );
+			WCSN()->flash->success( __( 'Key added successfully.', 'wc-serial-numbers' ) );
 		} else {
-			WCSN()->add_notice( __( 'Key updated successfully.', 'wc-serial-numbers' ) );
+			WCSN()->flash->success( __( 'Key updated successfully.', 'wc-serial-numbers' ) );
 		}
 
 		$redirect_to = admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->get_id() );

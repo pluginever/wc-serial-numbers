@@ -4,13 +4,16 @@
  *
  * @since 1.0.0
  * @package WooCommerceSerialNumbers\Admin\Views
+ *
+ * @var array  $tabs        The available report tabs.
+ * @var string $current_tab The current active tab.
  */
 
 defined( 'ABSPATH' ) || exit;
 
 $page_url = admin_url( 'admin.php?page=wc-serial-numbers-reports' );
 ?>
-<div class="wrap pev-wrap woocommerce">
+<div class="wrap b8-wrap woocommerce">
 	<?php if ( is_array( $tabs ) ) : ?>
 		<h2 class="nav-tab-wrapper wcsn-nav-tabs">
 			<?php foreach ( $tabs as $tab_id => $tab_title ) : ?>

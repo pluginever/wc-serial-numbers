@@ -66,7 +66,7 @@ class Orders {
 	public function handle_order_action( $order ) {
 		// Must have manage woocommerce user capability role to access this endpoint.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
-			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			WCSN()->flash->error( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ) );
 			exit;
 		}
 
@@ -76,11 +76,11 @@ class Orders {
 		if ( 'wcsn_add_keys' === $action ) {
 			wcsn_order_update_keys( $order_id );
 			// add a notice.
-			WCSN()->add_notice( __( 'Serial keys added successfully to the order.', 'wc-serial-numbers' ) );
+			WCSN()->flash->success( __( 'Serial keys added successfully to the order.', 'wc-serial-numbers' ) );
 		} elseif ( 'wcsn_remove_keys' === $action ) {
 			wcsn_order_remove_keys( $order_id );
 			// add a notice.
-			WCSN()->add_notice( __( 'Serial keys removed successfully from the order.', 'wc-serial-numbers' ) );
+			WCSN()->flash->success( __( 'Serial keys removed successfully from the order.', 'wc-serial-numbers' ) );
 		}
 	}
 
@@ -205,7 +205,7 @@ class Orders {
 	public function handle_order_bulk_action( $redirect_to, $action, $order_ids ) {
 		// Must have manage woocommerce user capability role to access this endpoint.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
-			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			WCSN()->flash->error( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ) );
 			return $redirect_to;
 		}
 
@@ -221,7 +221,7 @@ class Orders {
 				}
 			}
 			// Translators: %d: number of orders.
-			WCSN()->add_notice( sprintf( __( '%d orders updated successfully.', 'wc-serial-numbers' ), count( $order_ids ) ) );
+			WCSN()->flash->success( sprintf( __( '%d orders updated successfully.', 'wc-serial-numbers' ), count( $order_ids ) ) );
 			$redirect_to = add_query_arg( 'bulk_action', $action, $redirect_to );
 		}
 

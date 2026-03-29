@@ -1,9 +1,36 @@
-@forward "../../../vendor/pluginever/framework-plugin/src/assets/css/layout";
-@forward "../../../vendor/pluginever/framework-plugin/src/assets/css/card";
-@forward "../../../vendor/pluginever/framework-plugin/src/assets/css/form";
+// Card style.
+.b8-card {
+	&.promo-panel {
+		background: #2563eb;
 
-// Card component.
-.wcsn-card {
+		.b8-card__header {
+			color: #fff;
+			background: #1048c4;
+		}
+
+		.b8-card__body {
+			color: #fff;
+		}
+
+		.button {
+			width: 100%;
+			display: block;
+			margin-top: 20px;
+			color: #1048c4;
+			font-weight: 700;
+			text-align: center;
+			text-transform: uppercase;
+		}
+	}
+	&__body {
+		ol li, ul li {
+			margin-bottom: .5em;
+			line-height: 1.7;
+		}
+	}
+}
+
+.wcsn-card { // TODO: remove it when the card replaced with the (b8).
 	margin-top: 20px;
 	box-sizing: border-box;
 
@@ -89,9 +116,6 @@
 		color: #155724;
 	}
 }
-
-// Fix misc styles
-// Fixing some styles that are not working properly.
 
 // Margin bottom for tabs otherwise they are too close to the content.
 .wcsn-nav-tabs {

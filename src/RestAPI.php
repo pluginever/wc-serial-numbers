@@ -137,7 +137,7 @@ class RestAPI {
 	public function validate_request( $request ) {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
-		$email      = sanitize_email( $request->get_param( 'email' ) );
+		$email      = sanitize_email( $request->get_param( 'email' ) ?? '' );
 
 		// Check if product ID is valid.
 		if ( ! $product_id || ! get_post( $product_id ) ) {
@@ -149,12 +149,13 @@ class RestAPI {
 		}
 
 		// Check if key exists.
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
 			)
 		);
+
 		if ( ! $serial_key ) {
 			return new \WP_Error( 'invalid_key', __( 'Serial key is invalid.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}
@@ -204,7 +205,7 @@ class RestAPI {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
@@ -255,7 +256,7 @@ class RestAPI {
 			$instance = md5( $email . $platform . time() );
 		}
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
@@ -263,7 +264,7 @@ class RestAPI {
 		);
 
 		// Check if instance is already activated.
-		$activation = Activation::get(
+		$activation = Activation::find(
 			array(
 				'serial_id' => $serial_key->get_id(),
 				'instance'  => $instance,
@@ -333,14 +334,14 @@ class RestAPI {
 			return new \WP_Error( 'missing_instance', __( 'Instance is  missing, You must provide an instance to deactivate license.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
 			)
 		);
 
-		$activation = Activation::get(
+		$activation = Activation::find(
 			array(
 				'serial_id' => $serial_key->get_id(),
 				'instance'  => $instance,
@@ -391,7 +392,7 @@ class RestAPI {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,

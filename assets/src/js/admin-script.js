@@ -43,9 +43,14 @@
 			.on('submit', '.wcsn-api-form', function (e) {
 				e.preventDefault();
 				const $form = $(this);
+				const request = ($form.find(':input[name="request"]').val() || $form.data('request') || '').toString().trim();
+				if (!request) {
+					$form.find('.wcsn-api-response').text('Missing request type (validate/activate/deactivate).');
+					return;
+				}
 				$.ajax({
-					url: wc_serial_numbers_vars.apiurl,
-					method: 'POST',
+					url: wc_serial_numbers_vars.apiurl + encodeURIComponent(request),
+					method: 'GET',
 					data: $form.serialize(),
 					dataType: 'json',
 					beforeSend() {
@@ -55,10 +60,10 @@
 					success(response) {
 						$form.find('.wcsn-api-response').text(JSON.stringify(response, null, 2));
 					},
-					error: function (response) {
+					error(response) {
 						$form.find('.wcsn-api-response').text(JSON.stringify(response, null, 2));
 					},
-					always() {
+					complete() {
 						$form.removeClass('loading');
 					}
 				});

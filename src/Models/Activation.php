@@ -9,17 +9,22 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Models
+ *
+ * @property int    $id Activation ID.
+ * @property int    $serial_id Serial number ID.
+ * @property string $instance Instance identifier.
+ * @property string $platform Platform name.
+ * @property string $activation_time Activation timestamp.
  */
 class Activation extends Model {
+
 	/**
 	 * Table name.
-	 *
-	 * This is also used as table alias.
 	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $table_name = 'serial_numbers_activations';
+	protected $table = 'serial_numbers_activations';
 
 	/**
 	 * Object type.
@@ -30,86 +35,112 @@ class Activation extends Model {
 	protected $object_type = 'activation';
 
 	/**
-	 * Core data for this object. Name value pairs (name + default value).
+	 * The table columns.
 	 *
 	 * @since 1.0.0
 	 * @var array
 	 */
-	protected $core_data = array(
-		'id'              => 0,
-		'serial_id'       => '',
-		'instance'        => '',
-		'platform'        => '',
-		'activation_time' => '',
-		// todo add ip address support.
+	protected $columns = array(
+		'id',
+		'serial_id',
+		'instance',
+		'platform',
+		'activation_time',
 	);
+
+	/**
+	 * The attributes that should be cast.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $casts = array(
+		'serial_id'       => 'integer',
+		'instance'        => 'string',
+		'platform'        => 'string',
+		'activation_time' => 'datetime',
+	);
+
+	/**
+	 * Whether query hooks have been registered.
+	 *
+	 * @since 1.0.0
+	 * @var bool
+	 */
+	private static $booted = false;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param array $attributes Attributes.
+	 */
+	public function __construct( $attributes = array() ) {
+		parent::__construct( $attributes );
+		if ( ! self::$booted ) {
+			self::$booted = true;
+			add_filter( 'wc_serial_numbers_activation_query_clauses', array( __CLASS__, 'filter_query_clauses' ), 10, 3 );
+		}
+	}
 
 	/*
 	|--------------------------------------------------------------------------
 	| Getters and Setters
 	|--------------------------------------------------------------------------
-	|
-	| Methods for getting and setting data.
-	|
 	*/
+
 	/**
-	 * Get the key.
+	 * Get the activation ID.
 	 *
 	 * @since  1.4.6
-	 *
-	 * @return string
+	 * @return int
 	 */
 	public function get_id() {
-		return $this->get_prop( 'id' );
+		return $this->get( 'id' );
 	}
 
 	/**
-	 * Set the key.
+	 * Set the activation ID.
 	 *
-	 * @param string $id Key.
+	 * @param int $id Activation ID.
 	 *
 	 * @since  1.4.6
-	 *
 	 * @return void
 	 */
 	public function set_id( $id ) {
-		$this->set_prop( 'id', absint( $id ) );
+		$this->set( 'id', absint( $id ) );
 	}
 
 	/**
-	 * Get the serial id
+	 * Get the serial id.
 	 *
 	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
 	 *
 	 * @since  1.4.6
-	 *
 	 * @return int
 	 */
 	public function get_serial_id( $context = 'view' ) {
-		return $this->get_prop( 'serial_id', $context );
+		return $this->get( 'serial_id' );
 	}
 
 	/**
 	 * Get the key object.
 	 *
 	 * @since 1.4.6
-	 *
-	 * @return Key
+	 * @return Key|false
 	 */
 	public function get_key() {
 		if ( empty( $this->get_serial_id() ) ) {
 			return null;
 		}
 
-		return Key::get( $this->get_serial_id() );
+		return Key::find( $this->get_serial_id() );
 	}
 
 	/**
 	 * Get the product id.
 	 *
 	 * @since 1.4.6
-	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function get_product_id() {
 		if ( empty( $this->get_key() ) ) {
@@ -123,8 +154,7 @@ class Activation extends Model {
 	 * Get the product title.
 	 *
 	 * @since 1.4.6
-	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function get_product_title() {
 		if ( empty( $this->get_key() ) ) {
@@ -135,122 +165,110 @@ class Activation extends Model {
 	}
 
 	/**
-	 * Set the serial id
+	 * Set the serial id.
 	 *
 	 * @param int $serial_id The serial id.
 	 *
 	 * @since  1.4.6
-	 *
 	 * @return void
 	 */
 	public function set_serial_id( $serial_id ) {
-		$this->set_prop( 'serial_id', absint( $serial_id ) );
+		$this->set( 'serial_id', absint( $serial_id ) );
 	}
 
 	/**
-	 * Get the instance
+	 * Get the instance.
 	 *
 	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
 	 *
 	 * @since  1.4.6
-	 *
 	 * @return string
 	 */
 	public function get_instance( $context = 'view' ) {
-		return $this->get_prop( 'instance', $context );
+		return $this->get( 'instance' );
 	}
 
 	/**
-	 * Set the instance
+	 * Set the instance.
 	 *
 	 * @param string $instance The instance.
 	 *
 	 * @since  1.4.6
-	 *
 	 * @return void
 	 */
 	public function set_instance( $instance ) {
-		$this->set_prop( 'instance', sanitize_text_field( $instance ) );
+		$this->set( 'instance', sanitize_text_field( $instance ) );
 	}
 
 	/**
-	 * Get the platform
+	 * Get the platform.
 	 *
 	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
 	 *
 	 * @since  1.4.6
-	 *
 	 * @return string
 	 */
 	public function get_platform( $context = 'view' ) {
-		return $this->get_prop( 'platform', $context );
+		return $this->get( 'platform' );
 	}
 
 	/**
-	 * Set the platform
+	 * Set the platform.
 	 *
 	 * @param string $platform The platform.
 	 *
 	 * @since  1.4.6
-	 *
 	 * @return void
 	 */
 	public function set_platform( $platform ) {
-		$this->set_prop( 'platform', sanitize_text_field( $platform ) );
+		$this->set( 'platform', sanitize_text_field( $platform ) );
 	}
 
 	/**
-	 * Get the activation time
+	 * Get the activation time.
 	 *
 	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
 	 *
 	 * @since  1.4.6
-	 *
 	 * @return string
 	 */
 	public function get_activation_time( $context = 'view' ) {
-		return $this->get_prop( 'activation_time', $context );
+		return $this->get( 'activation_time' );
 	}
 
 	/**
-	 * Set the activation time
+	 * Set the activation time.
 	 *
 	 * @param string $activation_time The activation time.
 	 *
 	 * @since  1.4.6
-	 *
 	 * @return void
 	 */
 	public function set_activation_time( $activation_time ) {
-		$this->set_prop( 'activation_time', sanitize_text_field( $activation_time ) );
+		$this->set( 'activation_time', sanitize_text_field( $activation_time ) );
 	}
 
 	/*
 	|--------------------------------------------------------------------------
 	| CRUD methods
 	|--------------------------------------------------------------------------
-	|
-	| Methods which create, read, update and delete discounts from the database.
-	|
 	*/
+
 	/**
 	 * Saves an object in the database.
 	 *
 	 * @since 1.0.0
-	 * @return true|\WP_Error True on success, WP_Error on failure.
+	 * @return static|\WP_Error The model on success, WP_Error on failure.
 	 */
 	public function save() {
-		// Serial id is required.
 		if ( empty( $this->get_serial_id() ) ) {
 			return new \WP_Error( 'missing_required', __( 'Serial id is required.', 'wc-serial-numbers' ) );
 		}
 
-		// Instance is required.
 		if ( empty( $this->get_instance() ) ) {
 			return new \WP_Error( 'missing_required', __( 'Instance is required.', 'wc-serial-numbers' ) );
 		}
 
-		// If the activation time is empty, set it to now.
 		if ( empty( $this->get_activation_time() ) ) {
 			$this->set_activation_time( current_time( 'mysql' ) );
 		}
@@ -262,35 +280,35 @@ class Activation extends Model {
 	|--------------------------------------------------------------------------
 	| Query Methods
 	|--------------------------------------------------------------------------
-	|
-	| Methods for reading and manipulating the object properties.
-	|
 	*/
 
 	/**
-	 * Prepare where query.
+	 * Filter query clauses for custom query logic.
+	 * Handles order_id and product_id filtering via JOIN with keys table.
 	 *
 	 * @param array $clauses Query clauses.
-	 * @param array $args Array of args to pass to the query method.
+	 * @param array $qv     Query variables.
+	 * @param mixed $query  Query instance.
 	 *
 	 * @since 1.0.0
 	 * @return array
 	 */
-	protected function prepare_where_query( $clauses, $args = array() ) {
+	public static function filter_query_clauses( $clauses, $qv, $query ) {
 		global $wpdb;
-		$clauses = parent::prepare_where_query( $clauses, $args );
-		// If order_id or product_id is set, we need to join with the key table and filter by those.
-		if ( ! empty( $args['order_id'] ) || ! empty( $args['product_id'] ) ) {
-			$key_table        = ( new Key() )->get_table_name();
-			$clauses['join'] .= " INNER JOIN {$wpdb->prefix}" . $key_table . " AS serial_numbers ON {$this->table_name}.serial_id = serial_numbers.id";
+
+		if ( ! empty( $qv['order_id'] ) || ! empty( $qv['product_id'] ) ) {
+			$key_table        = ( new Key() )->get_table();
+			$clauses['join'] .= " INNER JOIN `{$wpdb->prefix}{$key_table}` AS `{$key_table}` ON `serial_numbers_activations`.`serial_id` = `{$key_table}`.`id`";
 		}
 
-		if ( ! empty( $args['order_id'] ) ) {
-			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.order_id = %d', $args['order_id'] );
+		if ( ! empty( $qv['order_id'] ) ) {
+			$key_table         = ( new Key() )->get_table();
+			$clauses['where'] .= $wpdb->prepare( " AND `{$key_table}`.`order_id` = %d", $qv['order_id'] );
 		}
 
-		if ( ! empty( $args['product_id'] ) ) {
-			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.product_id = %d', $args['product_id'] );
+		if ( ! empty( $qv['product_id'] ) ) {
+			$key_table         = ( new Key() )->get_table();
+			$clauses['where'] .= $wpdb->prepare( " AND `{$key_table}`.`product_id` = %d", $qv['product_id'] );
 		}
 
 		return $clauses;

@@ -7,58 +7,43 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class Plugin.
  *
- * @since 1.4.2
+ * @since   1.4.2
  * @package WooCommerceSerialNumbers
  */
-class Plugin extends Lib\Plugin {
+final class Plugin extends B8\Plugin\App {
 
 	/**
-	 * Plugin constructor.
+	 * Bootstraps the plugin.
 	 *
-	 * @param array $data The plugin data.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function __construct( $data ) {
-		parent::__construct( $data );
-		$this->includes();
-		$this->init_hooks();
-	}
-
-	/**
-	 * Include required files.
-	 *
-	 * @since 1.0.0
+	 * @since 2.3.2
 	 * @return void
 	 */
-	public function includes() {
-		require_once __DIR__ . '/functions.php';
-		require_once __DIR__ . '/Deprecated/Functions.php';
-	}
+	protected function bootstrap(): void {
+		define( 'WCSN_VERSION', $this->version );
+		define( 'WCSN_FILE', $this->file );
+		define( 'WCSN_PATH', $this->plugin_path() );
+		define( 'WCSN_URL', $this->plugin_url() );
+		define( 'WCSN_ASSETS_URL', $this->assets_url() );
+		define( 'WCSN_ASSETS_PATH', $this->assets_path() );
 
-	/**
-	 * Hook into actions and filters.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function init_hooks() {
-		register_activation_hook( $this->get_file(), array( Installer::class, 'install' ) );
+		register_activation_hook( $this->file, array( Installer::class, 'install' ) );
 		add_action( 'admin_notices', array( $this, 'dependencies_notices' ) );
-		add_action( 'before_woocommerce_init', array( $this, 'on_before_woocommerce_init' ) );
-		add_action( 'woocommerce_loaded', array( $this, 'init' ), 0 );
+		add_action( 'before_woocommerce_init', array( $this, 'declare_compatibility' ) );
+		add_action( 'woocommerce_loaded', array( $this, 'register_services' ), 0 );
+		add_filter( 'plugin_action_links_' . $this->basename(), array( $this, 'plugin_action_links' ) );
+		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 	}
 
 	/**
-	 * Run on before WooCommerce init.
+	 * Declare WooCommerce compatibility.
 	 *
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function on_before_woocommerce_init() {
+	public function declare_compatibility(): void {
 		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', $this->get_file(), true );
-			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', $this->get_file(), true );
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', $this->file, true );
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', $this->file, true );
 		}
 	}
 
@@ -68,14 +53,14 @@ class Plugin extends Lib\Plugin {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function dependencies_notices() {
-		if ( $this->is_plugin_active( 'woocommerce' ) ) {
+	public function dependencies_notices(): void {
+		if ( $this->plugin_active( 'woocommerce' ) ) {
 			return;
 		}
 		$notice = sprintf(
 		/* translators: 1: plugin name 2: WooCommerce */
 			__( '%1$s requires %2$s to be installed and active.', 'wc-serial-numbers' ),
-			'<strong>' . esc_html( $this->get_name() ) . '</strong>',
+			'<strong>' . esc_html( $this->plugin_name ) . '</strong>',
 			'<strong>' . esc_html__( 'WooCommerce', 'wc-serial-numbers' ) . '</strong>'
 		);
 
@@ -83,38 +68,86 @@ class Plugin extends Lib\Plugin {
 	}
 
 	/**
-	 * Init the plugin after plugins_loaded so environment variables are set.
+	 * Register plugin services.
 	 *
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function init() {
-		$this->services['installer']  = new Installer();
-		$this->services['cron']       = new Cron();
-		$this->services['cache']      = new Cache();
-		$this->services['encryption'] = new Encryption();
-		$this->services['orders']     = new Orders();
-		$this->services['stocks']     = new Stocks();
-		$this->services['actions']    = new Actions();
-		$this->services['restapi']    = new RestAPI();
-		$this->services['utilities']  = new Utilities\Utilities();
-		$this->services['frontend']   = new Frontend\Frontend();
+	public function register_services(): void {
+		$this->make( Installer::class );
+		$this->make( Cron::class );
+		$this->make( Cache::class );
+		$this->make( Encryption::class );
+		$this->make( Orders::class );
+		$this->make( Stocks::class );
+		$this->make( Actions::class );
+		$this->make( RestAPI::class );
+		$this->make( Utilities\Utilities::class );
+		$this->make( Frontend\Frontend::class );
 
-		// Compatibility.
 		if ( 'yes' === get_option( 'wcsn_enable_pdf_invoices', 'no' ) ) {
-			$this->services['compat'] = new Compat();
+			$this->make( Compat::class );
 		}
 
 		if ( wcsn_is_software_support_enabled() ) {
-			$this->services['api'] = new API();
+			$this->make( API::class );
 		}
 
-		if ( self::is_request( 'admin' ) ) {
-			$this->services['admin'] = new Admin\Admin();
+		if ( is_admin() ) {
+			$this->make( Admin\Admin::class );
 		}
 
-		// Init action.
 		do_action( 'wc_serial_numbers_loaded' );
+	}
+
+	/**
+	 * Add plugin action links.
+	 *
+	 * @param array $links Plugin action links.
+	 *
+	 * @since 2.3.2
+	 * @return array
+	 */
+	public function plugin_action_links( array $links ): array {
+		$plugin_links = array(
+			'settings' => sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( $this->settings_url ),
+				esc_html__( 'Settings', 'wc-serial-numbers' )
+			),
+		);
+
+		return array_merge( $plugin_links, $links );
+	}
+
+	/**
+	 * Add plugin row meta links.
+	 *
+	 * @param array  $links Plugin row meta links.
+	 * @param string $file  Plugin file.
+	 *
+	 * @since 2.3.2
+	 * @return array
+	 */
+	public function plugin_row_meta( array $links, string $file ): array {
+		if ( $this->basename() !== $file ) {
+			return $links;
+		}
+
+		$row_meta = array(
+			'docs'    => sprintf(
+				'<a href="%s" target="_blank">%s</a>',
+				esc_url( $this->docs_url ),
+				esc_html__( 'Documentation', 'wc-serial-numbers' )
+			),
+			'support' => sprintf(
+				'<a href="%s" target="_blank">%s</a>',
+				esc_url( $this->support_url ),
+				esc_html__( 'Support', 'wc-serial-numbers' )
+			),
+		);
+
+		return array_merge( $links, $row_meta );
 	}
 
 	/**
@@ -125,78 +158,8 @@ class Plugin extends Lib\Plugin {
 	 * @deprecated 1.4.0
 	 */
 	public static function is_pro_active() {
-		_deprecated_function( __METHOD__, '1.4.0', 'Plugin::is_premium_active()' );
+		_deprecated_function( __METHOD__, '1.4.0' );
 
-		return self::$instance->is_premium_active();
-	}
-
-	/**
-	 * Determines if the wc is active.
-	 *
-	 * @since 1.0.0
-	 * @return bool
-	 * @deprecated 1.4.0
-	 */
-	public function is_wc_active() {
-		return $this->is_plugin_active( 'woocommerce/woocommerce.php' );
-	}
-
-	/**
-	 * Plugin URL getter.
-	 *
-	 * @since 1.2.0
-	 * @return string
-	 * @deprecated 1.4.0
-	 */
-	public function plugin_url() {
-		_deprecated_function( __METHOD__, '1.4.0', 'Plugin::get_url()' );
-
-		return $this->get_url();
-	}
-
-	/**
-	 * Plugin path getter.
-	 *
-	 * @since 1.2.0
-	 * @return string
-	 * @deprecated 1.4.0
-	 */
-	public function plugin_path() {
-		_deprecated_function( __METHOD__, '1.4.0', 'Plugin::get_path()' );
-
-		return $this->get_path();
-	}
-
-	/**
-	 * Plugin base path name getter.
-	 *
-	 * @since 1.2.0
-	 * @return string
-	 * @deprecated 1.4.2
-	 */
-	public function plugin_basename() {
-		_deprecated_function( __METHOD__, '1.4.2', 'Plugin::get_basename()' );
-
-		return $this->get_basename();
-	}
-
-	/**
-	 * Get assets path.
-	 *
-	 * @since 1.0.0
-	 * @return string
-	 */
-	public function get_assets_path() {
-		return $this->get_dir_path( 'assets/build/' );
-	}
-
-	/**
-	 * Get assets url.
-	 *
-	 * @since 1.0.0
-	 * @return string
-	 */
-	public function get_assets_url() {
-		return $this->get_dir_url( 'assets/build/' );
+		return WCSN()->plugin_active( 'wc-serial-numbers-pro' );
 	}
 }

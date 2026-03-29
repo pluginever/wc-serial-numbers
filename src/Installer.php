@@ -62,8 +62,8 @@ class Installer {
 	 * @return void
 	 */
 	public function check_update() {
-		$db_version      = WCSN()->get_db_version();
-		$current_version = WCSN()->get_version();
+		$db_version      = WCSN()->options->get_db_version();
+		$current_version = WCSN()->version;
 		$requires_update = version_compare( $db_version, $current_version, '<' );
 		$can_install     = ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) && ! defined( 'IFRAME_REQUEST' );
 		if ( $can_install && $requires_update ) {
@@ -74,7 +74,7 @@ class Installer {
 			if ( ! is_null( $db_version ) && version_compare( $db_version, end( $update_versions ), '<' ) ) {
 				$this->update();
 			} else {
-				WCSN()->update_db_version( $current_version );
+				WCSN()->options->update_db_version( $current_version );
 			}
 		}
 	}
@@ -86,23 +86,23 @@ class Installer {
 	 * @return void
 	 */
 	public function update() {
-		$db_version = WCSN()->get_db_version();
+		$db_version = WCSN()->options->get_db_version();
 		foreach ( $this->updates as $version => $callbacks ) {
 			$callbacks = (array) $callbacks;
 			if ( version_compare( $db_version, $version, '<' ) ) {
 				foreach ( $callbacks as $callback ) {
-					WCSN()->log( sprintf( 'Updating to %s from %s', $version, $db_version ) );
+					WCSN()->logger->info( sprintf( 'Updating to %s from %s', $version, $db_version ) );
 					// if the callback return false then we need to update the db version.
 					$continue = call_user_func( array( $this, $callback ) );
 					if ( ! $continue ) {
-						WCSN()->update_db_version( $version );
+						WCSN()->options->update_db_version( $version );
 						$notice = sprintf(
 						/* translators: 1: plugin name 2: version number */
 							__( '%1$s updated to version %2$s successfully.', 'wc-serial-numbers' ),
 							'<strong>Serial Numbers for WooCommerce</strong>',
 							'<strong>' . $version . '</strong>'
 						);
-						WCSN()->add_notice( $notice, 'success' );
+						WCSN()->notices->add( $notice );
 					}
 				}
 			}
@@ -123,7 +123,7 @@ class Installer {
 		self::create_tables();
 		self::create_cron_jobs();
 		Admin\Settings::instance()->save_defaults();
-		WCSN()->update_db_version( WCSN()->get_version(), false );
+		WCSN()->options->update_db_version( WCSN()->version, false );
 		add_option( 'wc_serial_numbers_install_date', current_time( 'mysql' ) );
 		set_transient( 'wc_serial_numbers_activated', true, 30 );
 		set_transient( 'wc_serial_numbers_activation_redirect', true, 30 );

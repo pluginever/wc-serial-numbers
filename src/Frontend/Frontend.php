@@ -35,7 +35,7 @@ class Frontend {
 	 * @return void
 	 */
 	public function init() {
-		WCSN()->services['frontend/shortcodes'] = new Shortcodes();
+		new Shortcodes();
 	}
 
 	/**
@@ -45,8 +45,8 @@ class Frontend {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		WCSN()->enqueue_style( 'wc-serial-numbers-frontend', 'css/frontend-style.css' );
-		WCSN()->enqueue_script( 'wc-serial-numbers-frontend', 'js/frontend-script.js', array( 'jquery' ) );
+		WCSN()->scripts->enqueue_style( 'wc-serial-numbers-frontend', 'css/frontend-style.css' );
+		WCSN()->scripts->enqueue_script( 'wc-serial-numbers-frontend', 'js/frontend-script.js', array( 'jquery' ) );
 		wp_localize_script(
 			'wc-serial-numbers-frontend',
 			'wc_serial_numbers_frontend_vars',

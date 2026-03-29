@@ -10,12 +10,12 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Models
  */
-class Model extends \WooCommerceSerialNumbers\Lib\Model {
+abstract class Model extends \WooCommerceSerialNumbers\B8\Models\Model {
 	/**
 	 * Hook prefix.
 	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $hook_prefix = 'wc_serial_numbers_';
+	protected $hook_prefix = 'wc_serial_numbers';
 }

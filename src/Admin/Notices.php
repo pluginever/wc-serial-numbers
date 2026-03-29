@@ -48,7 +48,7 @@ class Notices {
 				'message' => sprintf(
 				/* translators: %1$s: link to the plugin page, %2$s: link to the plugin page */
 					__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.3.8 or higher.', 'wc-serial-numbers' ),
-					'<a href="' . esc_url( WCSN()->get_data( 'premium_url' ) ) . '" target="_blank">Serial Numbers Pro</a>'
+					'<a href="' . esc_url( WCSN()->premium_url ) . '" target="_blank">Serial Numbers Pro</a>'
 				),
 			);
 		}
@@ -64,9 +64,9 @@ class Notices {
 					__( 'Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s discount by using the promo code %2$s. %3$s Upgrade Now%4$s.', 'wc-serial-numbers' ),
 					'<strong>10%</strong>',
 					'<strong>WCSNPRO10</strong>',
-					'<a href="' . esc_url( WCSN()->get_premium_url() ) . '" target="_blank">',
+					'<a href="' . esc_url( WCSN()->premium_url ) . '" target="_blank">',
 					'</a>',
-					'<strong>' . WCSN()->get_name() . '</strong>',
+					'<strong>' . WCSN()->plugin_name . '</strong>',
 					'<strong>PRO</strong>'
 				),
 			);
