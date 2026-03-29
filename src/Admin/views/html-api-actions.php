@@ -8,12 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$api_url = add_query_arg(
-	array(
-		'wc-api' => 'serial-numbers-api',
-	),
-	home_url( '/' )
-);
+$api_url = home_url( '/' ) . 'wp-json/wcsn/activate';
 
 ?>
 <div class="b8-card">
@@ -34,13 +29,10 @@ $api_url = add_query_arg(
 		</p>
 		<ol>
 			<li>
-				<code>product_id</code> - <?php esc_html_e( 'The ID of the product for which the serial key is valid.', 'wc-serial-numbers' ); ?>
+				<code>product_id</code>* - <?php esc_html_e( 'The ID of the product for which the serial key is valid.', 'wc-serial-numbers' ); ?>
 			</li>
 			<li>
-				<code>serial_key</code> - <?php esc_html_e( 'The serial key to validate.', 'wc-serial-numbers' ); ?>
-			</li>
-			<li>
-				<code>request</code> - <?php esc_html_e( 'The request type. Must be set to "activate" or "deactivate".', 'wc-serial-numbers' ); ?>
+				<code>serial_key</code>* - <?php esc_html_e( 'The serial key to validate.', 'wc-serial-numbers' ); ?>
 			</li>
 			<li>
 				<code>instance</code> - <?php esc_html_e( 'Instance is the base of activation and deactivation. It is a unique identifier for the installation. For example, you can use the domain name of the website.', 'wc-serial-numbers' ); ?>
@@ -62,8 +54,9 @@ $api_url = add_query_arg(
 					array(
 						'product_id' => 123,
 						'serial_key' => '123456789',
-						'request'    => 'activate',
 						'instance'   => 'example.com',
+						'platform'   => 'Windows',
+						'email'      => 'your-email@gmail.com',
 					),
 					$api_url
 				)
@@ -84,6 +77,12 @@ $api_url = add_query_arg(
 			</li>
 			<li>
 				<code>activated/deactivated</code> - <?php esc_html_e( 'Activated or deactivated when the request is successful.', 'wc-serial-numbers' ); ?>
+			</li>
+			<li>
+				<code>instance</code> - <?php esc_html_e( 'The instance of the activation/deactivation record.', 'wc-serial-numbers' ); ?>
+			</li>
+			<li>
+				<code>platform</code> - <?php esc_html_e( 'The platform of the activation/deactivation record.', 'wc-serial-numbers' ); ?>
 			</li>
 			<li>
 				<code>activation_limit</code> - <?php esc_html_e( 'The activation limit for the serial key.', 'wc-serial-numbers' ); ?>
@@ -109,9 +108,12 @@ $api_url = add_query_arg(
 			<li>
 				<code>activations</code> - <?php esc_html_e( 'The list of activations for the serial key.', 'wc-serial-numbers' ); ?>
 			</li>
+			<li>
+				<code>remaining</code> - <?php esc_html_e( 'Remaining activations count for the serial key.', 'wc-serial-numbers' ); ?>
+			</li>
 		</ol>
 		<h4><?php esc_html_e( 'You can use the form below to test the API activation/deactivation.', 'wc-serial-numbers' ); ?></h4>
-		<form class="wcsn-api-form" method="post">
+		<form class="wcsn-api-form">
 			<table class="form-table">
 				<tbody>
 				<tr>

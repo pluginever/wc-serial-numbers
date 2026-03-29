@@ -8,12 +8,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$api_url = add_query_arg(
-	array(
-		'wc-api' => 'serial-numbers-api',
-	),
-	home_url( '/' )
-);
+$api_url = home_url( '/' ) . 'wp-json/wcsn/validate';
+
 ?>
 <div class="b8-card">
 	<div class="b8-card__header">
@@ -53,9 +49,6 @@ $api_url = add_query_arg(
 				<code>serial_key</code> - <?php esc_html_e( 'The serial key to validate.', 'wc-serial-numbers' ); ?>
 			</li>
 			<li>
-				<code>request</code> - <?php esc_html_e( 'The request type. Must be set to "validate".', 'wc-serial-numbers' ); ?>
-			</li>
-			<li>
 				<code>email</code> - <?php esc_html_e( 'Using email is completely voluntary. The API will verify that the serial number is associated with the given email address.', 'wc-serial-numbers' ); ?>
 			</li>
 		</ol>
@@ -68,7 +61,7 @@ $api_url = add_query_arg(
 					array(
 						'product_id' => 1,
 						'serial_key' => '123456789',
-						'request'    => 'validate',
+						'email'      => 'your-email@gmail.com',
 					),
 					$api_url
 				)
@@ -114,7 +107,7 @@ $api_url = add_query_arg(
 
 		<h4><?php esc_html_e( 'You can test the API using the form below.', 'wc-serial-numbers' ); ?></h4>
 
-		<form class="wcsn-api-form" method="post">
+		<form class="wcsn-api-form">
 			<table class="form-table">
 				<tbody>
 				<tr>

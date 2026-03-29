@@ -77,14 +77,13 @@ class Admin {
 				'search_nonce' => wp_create_nonce( 'wc_serial_numbers_search_nonce' ),
 				'ajax_nonce'   => wp_create_nonce( 'wcsn_ajax_search' ),
 				'ajaxurl'      => admin_url( 'admin-ajax.php' ),
-				'apiurl'       => site_url( '?wc-api=serial-numbers-api' ),
+				'apiurl'       => site_url( '/wp-json/wcsn/' ),
 			)
 		);
 
 		// add inline style for select2 --wp-admin-theme-color.
 		wp_add_inline_style( 'common', ':root{--wp-admin-theme-color:#0073aa;}' );
 	}
-
 
 	/**
 	 * Add the plugin screens to the WooCommerce screens.

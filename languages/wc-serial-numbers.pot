@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-29T09:51:06+00:00\n"
+"POT-Creation-Date: 2026-03-29T10:58:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-serial-numbers\n"
@@ -17,7 +17,7 @@ msgstr ""
 #. Plugin Name of the plugin
 #: wc-serial-numbers.php
 #: includes/Admin/Products.php:92
-#: src/Admin/Admin.php:146
+#: src/Admin/Admin.php:145
 #: src/Admin/Menus.php:54
 #: src/Admin/Menus.php:88
 #: src/Admin/Menus.php:89
@@ -110,8 +110,8 @@ msgstr ""
 #: includes/Compat.php:79
 #: src/Admin/ListTables/ActivationsTable.php:178
 #: src/Admin/ListTables/KeysTable.php:349
-#: src/Admin/views/html-api-actions.php:131
-#: src/Admin/views/html-api-validation.php:134
+#: src/Admin/views/html-api-actions.php:133
+#: src/Admin/views/html-api-validation.php:127
 #: src/functions.php:1004
 #: src/Functions/Template.php:42
 msgid "Key"
@@ -267,17 +267,17 @@ msgid "Copied"
 msgstr ""
 
 #. translators: 1: Plugin name 2: WordPress
-#: src/Admin/Admin.php:113
+#: src/Admin/Admin.php:112
 #, php-format
 msgid "Thank you for using %1$s! Share your appreciation with a five-star review %2$s."
 msgstr ""
 
-#: src/Admin/Admin.php:115
+#: src/Admin/Admin.php:114
 msgid "Thanks :)"
 msgstr ""
 
 #. translators: 1: Plugin version
-#: src/Admin/Admin.php:133
+#: src/Admin/Admin.php:132
 #, php-format
 msgid "Version %s"
 msgstr ""
@@ -313,7 +313,7 @@ msgid "Delete"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:176
-#: src/Admin/views/html-api-actions.php:141
+#: src/Admin/views/html-api-actions.php:143
 #: src/Frontend/Shortcodes.php:146
 msgid "Instance"
 msgstr ""
@@ -321,8 +321,8 @@ msgstr ""
 #: src/Admin/ListTables/ActivationsTable.php:177
 #: src/Admin/ListTables/KeysTable.php:350
 #: src/Admin/ListTables/StockTable.php:95
-#: src/Admin/views/html-api-actions.php:118
-#: src/Admin/views/html-api-validation.php:121
+#: src/Admin/views/html-api-actions.php:120
+#: src/Admin/views/html-api-validation.php:114
 #: src/Admin/views/html-edit-key.php:37
 #: src/Deprecated/Functions.php:358
 #: src/Frontend/Shortcodes.php:44
@@ -331,7 +331,7 @@ msgid "Product"
 msgstr ""
 
 #: src/Admin/ListTables/ActivationsTable.php:179
-#: src/Admin/views/html-api-actions.php:152
+#: src/Admin/views/html-api-actions.php:154
 #: src/Frontend/Shortcodes.php:148
 msgid "Platform"
 msgstr ""
@@ -700,143 +700,151 @@ msgstr ""
 msgid "Upgrade to PRO"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:21
+#: src/Admin/views/html-api-actions.php:16
 msgid "API Actions"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:26
+#: src/Admin/views/html-api-actions.php:21
 msgid "You can use the API to perform actions on your website or on another website."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:29
+#: src/Admin/views/html-api-actions.php:24
 msgid "To perform an action, you need to send a POST request to the following URL:"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:33
-#: src/Admin/views/html-api-validation.php:46
+#: src/Admin/views/html-api-actions.php:28
+#: src/Admin/views/html-api-validation.php:42
 msgid "The request must contain the following parameters:"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:37
-#: src/Admin/views/html-api-actions.php:104
-#: src/Admin/views/html-api-validation.php:50
-#: src/Admin/views/html-api-validation.php:105
+#: src/Admin/views/html-api-actions.php:32
+#: src/Admin/views/html-api-actions.php:103
+#: src/Admin/views/html-api-validation.php:46
+#: src/Admin/views/html-api-validation.php:98
 msgid "The ID of the product for which the serial key is valid."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:40
-#: src/Admin/views/html-api-validation.php:53
+#: src/Admin/views/html-api-actions.php:35
+#: src/Admin/views/html-api-validation.php:49
 msgid "The serial key to validate."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:43
-msgid "The request type. Must be set to \"activate\" or \"deactivate\"."
-msgstr ""
-
-#: src/Admin/views/html-api-actions.php:46
+#: src/Admin/views/html-api-actions.php:38
 msgid "Instance is the base of activation and deactivation. It is a unique identifier for the installation. For example, you can use the domain name of the website."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:49
+#: src/Admin/views/html-api-actions.php:41
 msgid "Optional. The platform on which the serial key is used. For example, \"Windows\" or \"Mac\"."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:52
-#: src/Admin/views/html-api-validation.php:59
+#: src/Admin/views/html-api-actions.php:44
+#: src/Admin/views/html-api-validation.php:52
 msgid "Using email is completely voluntary. The API will verify that the serial number is associated with the given email address."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:57
-#: src/Admin/views/html-api-validation.php:63
+#: src/Admin/views/html-api-actions.php:49
+#: src/Admin/views/html-api-validation.php:56
 msgid "Example:"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:75
-#: src/Admin/views/html-api-validation.php:80
+#: src/Admin/views/html-api-actions.php:68
+#: src/Admin/views/html-api-validation.php:73
 msgid "The API will return a JSON response with the following parameters:"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:80
+#: src/Admin/views/html-api-actions.php:73
 msgid "The response code. \"key_activated\" or \"key_deactivated\" if the request was successful. \"invalid_key\" or \"invalid_request\" if the request was not successful."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:83
-#: src/Admin/views/html-api-validation.php:87
+#: src/Admin/views/html-api-actions.php:76
+#: src/Admin/views/html-api-validation.php:80
 msgid "The response message. If the serial key is valid, the message will be \"Serial key is valid\"."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:86
+#: src/Admin/views/html-api-actions.php:79
 msgid "Activated or deactivated when the request is successful."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:89
-#: src/Admin/views/html-api-validation.php:90
+#: src/Admin/views/html-api-actions.php:82
+msgid "The instance of the activation/deactivation record."
+msgstr ""
+
+#: src/Admin/views/html-api-actions.php:85
+msgid "The platform of the activation/deactivation record."
+msgstr ""
+
+#: src/Admin/views/html-api-actions.php:88
+#: src/Admin/views/html-api-validation.php:83
 msgid "The activation limit for the serial key."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:92
-#: src/Admin/views/html-api-validation.php:93
+#: src/Admin/views/html-api-actions.php:91
+#: src/Admin/views/html-api-validation.php:86
 msgid "The number of activations for the serial key."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:95
-#: src/Admin/views/html-api-validation.php:96
+#: src/Admin/views/html-api-actions.php:94
+#: src/Admin/views/html-api-validation.php:89
 msgid "The number of activations left for the serial key."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:98
-#: src/Admin/views/html-api-validation.php:99
+#: src/Admin/views/html-api-actions.php:97
+#: src/Admin/views/html-api-validation.php:92
 msgid "The expiration date for the serial key."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:101
+#: src/Admin/views/html-api-actions.php:100
 msgid "The expiration date for the serial key in Unix timestamp format."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:107
-#: src/Admin/views/html-api-validation.php:108
+#: src/Admin/views/html-api-actions.php:106
+#: src/Admin/views/html-api-validation.php:101
 msgid "The name of the product for which the serial key is valid."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:110
-#: src/Admin/views/html-api-validation.php:111
+#: src/Admin/views/html-api-actions.php:109
+#: src/Admin/views/html-api-validation.php:104
 msgid "The list of activations for the serial key."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:113
+#: src/Admin/views/html-api-actions.php:112
+msgid "Remaining activations count for the serial key."
+msgstr ""
+
+#: src/Admin/views/html-api-actions.php:115
 msgid "You can use the form below to test the API activation/deactivation."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:126
+#: src/Admin/views/html-api-actions.php:128
 msgid "Select a product to activate/deactivate serial key for."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:133
+#: src/Admin/views/html-api-actions.php:135
 msgid "Please enter serial key to activate/deactivate"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:135
+#: src/Admin/views/html-api-actions.php:137
 msgid "Required field. Enter serial key to activate/deactivate."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:143
+#: src/Admin/views/html-api-actions.php:145
 msgid "Please enter a unique instance"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:145
+#: src/Admin/views/html-api-actions.php:147
 msgid "Required field. Instance is the unique identifier of the activation record. It is used to identify the activation when activating/deactivating serial key."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:154
+#: src/Admin/views/html-api-actions.php:156
 msgid "Please enter a platform. e.g. Windows"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:156
+#: src/Admin/views/html-api-actions.php:158
 msgid "Optional field. Platform is the extra information of the activation record. You can use it to identify the platform of the activation."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:162
-#: src/Admin/views/html-api-validation.php:144
+#: src/Admin/views/html-api-actions.php:164
+#: src/Admin/views/html-api-validation.php:137
 #: src/Admin/views/html-edit-key.php:154
 #: src/Deprecated/Functions.php:360
 #: src/Frontend/Shortcodes.php:47
@@ -844,95 +852,91 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:164
-#: src/Admin/views/html-api-validation.php:146
+#: src/Admin/views/html-api-actions.php:166
+#: src/Admin/views/html-api-validation.php:139
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:166
+#: src/Admin/views/html-api-actions.php:168
 msgid "Optional field when duplicate key is off. If email is provided, only serial key that are assigned to the email will be activated/deactivated otherwise ignored."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:172
+#: src/Admin/views/html-api-actions.php:174
 #: src/Frontend/Shortcodes.php:150
 msgid "Action"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:175
+#: src/Admin/views/html-api-actions.php:177
 #: src/Frontend/Shortcodes.php:157
 msgid "Activate"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:176
+#: src/Admin/views/html-api-actions.php:178
 #: src/Frontend/Shortcodes.php:158
 msgid "Deactivate"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:179
+#: src/Admin/views/html-api-actions.php:181
 msgid "Select an action to perform on the serial key."
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:185
-#: src/Admin/views/html-api-validation.php:153
+#: src/Admin/views/html-api-actions.php:187
+#: src/Admin/views/html-api-validation.php:146
 msgid "API response"
 msgstr ""
 
-#: src/Admin/views/html-api-actions.php:195
+#: src/Admin/views/html-api-actions.php:197
 #: src/Frontend/Shortcodes.php:151
 msgid "Submit"
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:20
+#: src/Admin/views/html-api-validation.php:16
 msgid "API Validation"
 msgstr ""
 
 #. translators: %s: link to the pro version
-#: src/Admin/views/html-api-validation.php:30
+#: src/Admin/views/html-api-validation.php:26
 #, php-format
 msgid "You are using the free version of Serial Numbers for WooCommerce. <a href=\"%s\" target=\"_blank\">Upgrade to Pro</a> to get more features."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:39
+#: src/Admin/views/html-api-validation.php:35
 msgid "You can use the API to validate serial keys on your website or on another website."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:42
+#: src/Admin/views/html-api-validation.php:38
 msgid "To validate a serial key, you need to send a GET request to the following URL:"
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:56
-msgid "The request type. Must be set to \"validate\"."
-msgstr ""
-
-#: src/Admin/views/html-api-validation.php:84
+#: src/Admin/views/html-api-validation.php:77
 msgid "The response code. If the serial key is valid, the code will be \"key_valid\"."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:102
+#: src/Admin/views/html-api-validation.php:95
 msgid "The status of the serial key."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:115
+#: src/Admin/views/html-api-validation.php:108
 msgid "You can test the API using the form below."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:129
+#: src/Admin/views/html-api-validation.php:122
 msgid "Select a product to validate serial key for."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:136
+#: src/Admin/views/html-api-validation.php:129
 msgid "Please enter serial key to validate"
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:138
+#: src/Admin/views/html-api-validation.php:131
 msgid "Required field. Enter serial key to validate."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:148
+#: src/Admin/views/html-api-validation.php:141
 msgid "Optional field. If email is provided, only serial key that are assigned to the email will be validated otherwise ignored."
 msgstr ""
 
-#: src/Admin/views/html-api-validation.php:164
+#: src/Admin/views/html-api-validation.php:157
 #: src/Frontend/Shortcodes.php:49
 msgid "Validate"
 msgstr ""
