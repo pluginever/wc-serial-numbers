@@ -137,7 +137,7 @@ class RestAPI {
 	public function validate_request( $request ) {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
-		$email      = sanitize_email( $request->get_param( 'email' ) );
+		$email      = sanitize_email( $request->get_param( 'email' ) ?? '' );
 
 		// Check if product ID is valid.
 		if ( ! $product_id || ! get_post( $product_id ) ) {
@@ -155,6 +155,7 @@ class RestAPI {
 				'product_id' => $product_id,
 			)
 		);
+
 		if ( ! $serial_key ) {
 			return new \WP_Error( 'invalid_key', __( 'Serial key is invalid.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}

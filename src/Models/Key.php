@@ -163,7 +163,10 @@ class Key extends Model {
 	 * @return string
 	 */
 	public function get_serial_key( $context = 'edit' ) {
-		return $this->get( 'serial_key' );
+		$serial_key = $this->get( 'serial_key' );
+
+		// Return decrypted key.
+		return wcsn_decrypt_key( $serial_key );
 	}
 
 	/**

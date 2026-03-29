@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-08T04:37:30+00:00\n"
+"POT-Creation-Date: 2026-03-29T09:51:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-serial-numbers\n"
@@ -1306,24 +1306,24 @@ msgstr ""
 msgid "Instance is required."
 msgstr ""
 
-#: src/Models/Key.php:549
+#: src/Models/Key.php:552
 msgid "Product id is required."
 msgstr ""
 
-#: src/Models/Key.php:553
+#: src/Models/Key.php:556
 msgid "Product id is invalid."
 msgstr ""
 
-#: src/Models/Key.php:557
+#: src/Models/Key.php:560
 #: src/RestAPI.php:148
 msgid "Serial key is required."
 msgstr ""
 
-#: src/Models/Key.php:568
+#: src/Models/Key.php:571
 msgid "Serial key already exists. Duplicate serial keys are not allowed."
 msgstr ""
 
-#: src/Models/Key.php:573
+#: src/Models/Key.php:576
 msgid "Order id is invalid."
 msgstr ""
 
@@ -1355,63 +1355,63 @@ msgstr ""
 msgid "Invalid product ID."
 msgstr ""
 
-#: src/RestAPI.php:159
+#: src/RestAPI.php:160
 msgid "Serial key is invalid."
 msgstr ""
 
-#: src/RestAPI.php:164
+#: src/RestAPI.php:165
 msgid "Serial key is not authorized to use."
 msgstr ""
 
-#: src/RestAPI.php:170
+#: src/RestAPI.php:171
 msgid "Please complete your order to activate the serial key."
 msgstr ""
 
-#: src/RestAPI.php:175
+#: src/RestAPI.php:176
 msgid "Serial key is not valid for this product."
 msgstr ""
 
-#: src/RestAPI.php:180
+#: src/RestAPI.php:181
 msgid "Invalid email address."
 msgstr ""
 
-#: src/RestAPI.php:185
+#: src/RestAPI.php:186
 msgid "Serial key is expired."
 msgstr ""
 
-#: src/RestAPI.php:187
+#: src/RestAPI.php:188
 msgid "Serial key is cancelled."
 msgstr ""
 
-#: src/RestAPI.php:190
+#: src/RestAPI.php:191
 msgid "Invalid serial key."
 msgstr ""
 
-#: src/RestAPI.php:216
+#: src/RestAPI.php:217
 msgid "Serial key is valid."
 msgstr ""
 
-#: src/RestAPI.php:274
+#: src/RestAPI.php:275
 msgid "Instance is already activated."
 msgstr ""
 
-#: src/RestAPI.php:279
+#: src/RestAPI.php:280
 msgid "Activation limit reached."
 msgstr ""
 
-#: src/RestAPI.php:295
+#: src/RestAPI.php:296
 msgid "Serial key is activated."
 msgstr ""
 
-#: src/RestAPI.php:333
+#: src/RestAPI.php:334
 msgid "Instance is  missing, You must provide an instance to deactivate license."
 msgstr ""
 
-#: src/RestAPI.php:351
+#: src/RestAPI.php:352
 msgid "Instance not found."
 msgstr ""
 
-#: src/RestAPI.php:359
+#: src/RestAPI.php:360
 msgid "Serial key is deactivated."
 msgstr ""
 
