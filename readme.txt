@@ -34,7 +34,7 @@ WooCommerce is an excellent eCommerce platform, but lacks key features for selli
 * eBooks and Audiobooks
 * And many more.
 
-Despite being the ultimate license manager for WooCommerce, Serial Numbers is versatile when it comes to use cases. For authenticating your physical products, private label them, or stop the spread of counterfeits, you can apply this technology to any tangible products.
+Despite being the ultimate license manager for WooCommerce, Serial Numbers is versatile when it comes to use cases. For authenticating your physical products, private label them, or stop the spread of counterfeits, you can apply this technology to any tangible products.
 
 [**💻 Live Demo Site**](https://demo.pluginever.com/serial-numbers) | [**📄 Plugin Documentation**](https://pluginever.com/docs/woocommerce-serial-numbers) | [**🛒 Upgrade to PRO**](https://pluginever.com/plugins/woocommerce-serial-numbers-pro)
 
@@ -90,7 +90,7 @@ You can also use different methods that allow you to validate, activate, and dea
 
 - **Bulk Export (PRO):**You can export specific orders by entering Order IDs. You will be able to export keys from products based on their status, such as **Available, Sold, Refunded**, etc. You will also have options to export from fields such as product ID and activation limit.
 
-- **Keys For Older Orders:** Keys can be added to previous orders by simply assigning them, and activation settings can be applied if necessary. This will assist in delivering instant updates to existing customers.
+- **Keys For Older Orders:** Keys can be added to previous orders by simply assigning them, and activation settings can be applied if necessary. This will assist in delivering instant updates to existing customers.
 
 - **Assign Keys Manually (PRO):** You can stop assigning keys automatically with the orders, and you can assign them manually. This way, you can control the key delivery system on your own when you have to assign it manually.
 
@@ -207,11 +207,11 @@ Yes, with this plugin you can sell your own custom keys and you can also bulk im
 
 = Can I use this plugin to provide a licensing system for my own software? =
 
-Yes, this plugin comes with HTTP based API integration and also has REST API functionality. You can easily integrate the license validation function into any of your software. Our plugin has a dedicated page for Software API. You can learn more from our [documentation](https://pluginever.com/docs/wc-serial-numbers/getting-started-with-rest-api/) about how it works.
+Yes, this plugin comes with HTTP based API integration and also has REST API functionality. You can easily integrate the license validation function into any of your software. Our plugin has a dedicated page for Software API. You can learn more from our [documentation](https://pluginever.com/docs/wc-serial-numbers/getting-started-with-rest-api/) about how it works.
 
 = Does this plugin work with variable products? =
 
-Yes, the plugin supports variable products. You can add keys to each and every specific variation of a product.
+Yes, the plugin supports variable products. You can add keys to each and every specific variation of a product.
 
 = Can I customize emails? =
 
@@ -250,7 +250,8 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
-== 2.3.2 (27th Jan 2026) ==
+
+= 2.3.2 (27th Jan 2026) =
 Fix: Corrected the product edit link in the low stock notification email.
 Fix: Prevented PHP Warning caused by cron events triggering with null values.
 
@@ -621,3 +622,7 @@ Enhance - Enhance simple product metabox styles
 
 = 1.0 (21st January 2019) =
 Initial release
+
+== Upgrade Notice ==
+= 2.3.2 =
+Fix for incorrect product edit link in low stock notification email and a PHP warning caused by cron events triggering with null values.
