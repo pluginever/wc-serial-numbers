@@ -12,7 +12,7 @@
 <?php defined( 'ABSPATH' ) || exit; ?>
 
 <p><?php printf( esc_html__( 'Hi There,', 'wc-serial-numbers' ) ); ?></p>
-<p><?php printf( esc_html__( 'There are few  products stock running low, please add serial numbers for these products', 'wc-serial-numbers' ) ); ?></p>
+<p><?php printf( esc_html__( 'There are few products stock running low, please add serial numbers for these products', 'wc-serial-numbers' ) ); ?></p>
 <ul>
 	<?php
 	foreach ( $low_stock_products as $product_id => $stock ) {
