@@ -250,7 +250,7 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
-== 2.3.3 (26th April 2026) ==
+= 2.3.3 (26th April 2026) =
 * Minor maintenance update.
 * Compatibility: Check compatibility with the latest version of WooCommerce(v10.7)
 
