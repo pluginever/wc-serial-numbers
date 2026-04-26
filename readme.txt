@@ -255,8 +255,8 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 * Compatibility: Check compatibility with the latest version of WooCommerce(v10.7)
 
 = 2.3.2 (27th Jan 2026) =
-Fix: Corrected the product edit link in the low stock notification email.
-Fix: Prevented PHP Warning caused by cron events triggering with null values.
+* Fix: Corrected the product edit link in the low stock notification email.
+* Fix: Prevented PHP Warning caused by cron events triggering with null values.
 
 = 2.3.1 (14th Jan 2026) =
 * Fix: Support older PHP v7.4 to avoid fatal error.
