@@ -124,6 +124,15 @@ class KeysTable extends ListTable {
 			'search'      => $search,
 		);
 
+		/**
+		 * Filter the query arguments for the list table.
+		 *
+		 * @param array $args An associative array of arguments.
+		 *
+		 * @since 2.0.1
+		 */
+		$args = apply_filters( 'wc_serial_numbers_keys_table_query_args', $args );
+
 		$this->items           = Key::query( $args );
 		$this->available_count = Key::count( array_merge( $args, array( 'status' => 'available' ) ) );
 		$this->pending_count   = Key::count( array_merge( $args, array( 'status' => 'pending' ) ) );
