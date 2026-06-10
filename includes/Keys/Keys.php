@@ -32,9 +32,6 @@ class Keys extends Component {
 	 * @return void
 	 */
 	public function register(): void {
-		add_action( 'wc_serial_numbers_key_db_data', array( $this, 'decrypt_key' ) );
-		add_action( 'wc_serial_numbers_key_insert_data', array( $this, 'encrypt_key' ) );
-		add_action( 'wc_serial_numbers_key_update_data', array( $this, 'encrypt_key' ) );
 		add_action( 'wc_serial_numbers_key_insert', array( $this, 'enable_product' ) );
 		add_action( 'wc_serial_numbers_key_deleted', array( $this, 'delete_activations' ) );
 		add_action( 'wc_serial_numbers_key_saved', array( $this, 'clear_order_keys_cache' ) );
@@ -63,36 +60,6 @@ class Keys extends Component {
 	public function expire_outdated_serials() {
 		global $wpdb;
 		$wpdb->query( "update {$wpdb->prefix}serial_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
-	}
-
-	/**
-	 * Decrypt key.
-	 *
-	 * @param array $data The key data.
-	 *
-	 * @since 1.4.6
-	 */
-	public function decrypt_key( $data ) {
-		if ( ! empty( $data['serial_key'] ) ) {
-			$data['serial_key'] = wcsn_decrypt_key( $data['serial_key'] );
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Encrypt key.
-	 *
-	 * @param array $data The key data.
-	 *
-	 * @since 1.4.6
-	 */
-	public function encrypt_key( $data ) {
-		if ( ! empty( $data['serial_key'] ) ) {
-			$data['serial_key'] = wcsn_encrypt_key( $data['serial_key'] );
-		}
-
-		return $data;
 	}
 
 	/**

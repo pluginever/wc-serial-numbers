@@ -4,12 +4,12 @@
 	"license": "GPL-2.0-or-later",
 	"repositories": [
 		{ "type": "vcs", "url": "git@github.com:byteever/plugin.git" },
-		{ "type": "vcs", "url": "git@github.com:pluginever/framework-model.git" }
+		{ "type": "vcs", "url": "git@github.com:byteever/models.git" }
 	],
 	"require": {
 		"php": ">=7.4",
-		"byteever/plugin": "^1.0",
-		"pluginever/framework-model": "dev-trunk"
+		"byteever/models": "dev-trunk",
+		"byteever/plugin": "^1.0"
 	},
 	"require-dev": {
 		"byteever/byteever-sniffs": "^1.1.3",
@@ -48,8 +48,10 @@
 		"strauss": [
 			"test -f /tmp/strauss.phar || curl -o /tmp/strauss.phar -L https://github.com/BrianHenryIE/strauss/releases/download/0.24.1/strauss.phar",
 			"@php /tmp/strauss.phar",
+			"@patch-models",
 			"@composer dump-autoload --no-scripts"
-		]
+		],
+		"patch-models": "php -r 'foreach (array_merge(glob(\"vendor/byteever/models/src/*.php\"), glob(\"vendor/byteever/models/src/Traits/*.php\"), glob(\"vendor/byteever/models/src/Relations/*.php\")) as $f) { $c = file_get_contents($f); $c = preg_replace(\"/->get\\\\((?!\\\\))/\", \"->get_attribute(\", $c); $c = str_replace(\"function get(string \", \"function get_attribute(string \", $c); file_put_contents($f, $c); }'"
 	},
 	"extra": {
 		"strauss": {
@@ -57,8 +59,8 @@
 			"namespace_prefix": "WooCommerceSerialNumbers\\",
 			"classmap_prefix": "WooCommerceSerialNumbers__",
 			"packages": [
-				"byteever/plugin",
-				"pluginever/framework-model"
+				"byteever/models",
+				"byteever/plugin"
 			]
 		}
 	}
