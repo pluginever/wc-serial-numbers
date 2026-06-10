@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$list_table = new WooCommerceSerialNumbers\Admin\ListTables\KeysTable();
+$list_table = new WooCommerceSerialNumbers\Keys\ListTable();
 $doaction   = $list_table->current_action();
 $list_table->process_bulk_actions( $doaction );
 ?>

@@ -1,22 +1,29 @@
 <?php
 
-namespace WooCommerceSerialNumbers;
+namespace WooCommerceSerialNumbers\Keys;
 
 use WooCommerceSerialNumbers\B8\Component;
-use WooCommerceSerialNumbers\Models\Activation;
 use WooCommerceSerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Actions class.
- *
- * A class that handles common actions and filters.
+ * Class Keys.
  *
  * @since 1.5.6
- * @package WooCommerceSerialNumbers
+ * @package WooCommerceSerialNumbers\Keys
  */
-class Actions extends Component {
+class Keys extends Component {
+
+	/**
+	 * Child components.
+	 *
+	 * @since 2.4.0
+	 * @var array<int|string, class-string>
+	 */
+	public array $components = array(
+		Admin::class,
+	);
 
 	/**
 	 * Register hooks.
@@ -30,8 +37,32 @@ class Actions extends Component {
 		add_action( 'wc_serial_numbers_key_update_data', array( $this, 'encrypt_key' ) );
 		add_action( 'wc_serial_numbers_key_insert', array( $this, 'enable_product' ) );
 		add_action( 'wc_serial_numbers_key_deleted', array( $this, 'delete_activations' ) );
-		add_action( 'wc_serial_numbers_activation_inserted', array( $this, 'update_activation_count' ) );
-		add_action( 'wc_serial_numbers_activation_deleted', array( $this, 'update_activation_count' ) );
+		add_action( 'wc_serial_numbers_key_saved', array( $this, 'clear_order_keys_cache' ) );
+		add_action( 'wc_serial_numbers_key_deleted', array( $this, 'clear_order_keys_cache' ) );
+		add_action( 'wc_serial_numbers_order_remove_keys', array( $this, 'clear_order_keys_cache' ) );
+		add_action( 'wc_serial_numbers_order_add_keys', array( $this, 'clear_order_keys_cache' ) );
+		add_action( 'wc_serial_numbers_hourly_event', array( $this, 'expire_outdated_serials' ) );
+	}
+
+	/**
+	 * Clear order keys cache.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function clear_order_keys_cache() {
+		delete_transient( 'wcsn_products_stock_count' );
+	}
+
+	/**
+	 * Disable all expired serial numbers
+	 *
+	 * since 1.0.0
+	 */
+	public function expire_outdated_serials() {
+		global $wpdb;
+		$wpdb->query( "update {$wpdb->prefix}serial_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
 	}
 
 	/**
@@ -96,36 +127,6 @@ class Actions extends Component {
 			foreach ( $activations as $activation ) {
 				$activation->delete();
 			}
-		}
-	}
-
-	/**
-	 * Revoke order item keys.
-	 *
-	 * @param bool $revoke The revoke flag.
-	 *
-	 * @since 1.4.6
-	 */
-	public function revoke_order_item_keys( $revoke ) {
-		if ( 'yes' !== get_option( 'wc_serial_numbers_revoke_keys', 'yes' ) ) {
-			$revoke = false;
-		}
-
-		return $revoke;
-	}
-
-
-	/**
-	 * Update activation count.
-	 *
-	 * @param Activation $activation The activation object.
-	 *
-	 * @since 1.0.0
-	 */
-	public function update_activation_count( $activation ) {
-		$key = Key::get( $activation->get_serial_id() );
-		if ( $key ) {
-			$key->recount_remaining_activation();
 		}
 	}
 }

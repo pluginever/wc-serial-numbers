@@ -6,7 +6,7 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-$list_table = new WooCommerceSerialNumbers\Admin\ListTables\StockTable();
+$list_table = new WooCommerceSerialNumbers\Stocks\ListTable();
 ?>
 
 <form id="wcsn-stock-table" method="get">

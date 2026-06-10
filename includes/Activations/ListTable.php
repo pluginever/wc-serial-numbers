@@ -1,6 +1,8 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin\ListTables;
+namespace WooCommerceSerialNumbers\Activations;
+
+use WooCommerceSerialNumbers\Admin\ListTables\ListTable as BaseListTable;
 
 use WooCommerceSerialNumbers\Models\Activation;
 
@@ -12,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin\ListTables
  */
-class ActivationsTable extends ListTable {
+class ListTable extends BaseListTable {
 	/**
 	 * Number of results to show per page
 	 *

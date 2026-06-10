@@ -1,17 +1,27 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin;
+namespace WooCommerceSerialNumbers\Orders;
 
 use WooCommerceSerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Class Orders.
+ * Class Admin.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin
+ * @package WooCommerceSerialNumbers\Orders
  */
-class Orders extends Component {
+class Admin extends Component {
+
+	/**
+	 * Whether to load.
+	 *
+	 * @since 2.4.0
+	 * @return bool
+	 */
+	public function autoload(): bool {
+		return is_admin();
+	}
 
 	/**
 	 * Register hooks.

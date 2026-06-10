@@ -1,17 +1,17 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Frontend;
+namespace WooCommerceSerialNumbers;
 
 use WooCommerceSerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Shortcodes.
+ * Class Shop.
  *
- * @since   1.0.0
+ * @since   1.5.6
  * @package WooCommerceSerialNumbers
  */
-class Shortcodes extends Component {
+class Shop extends Component {
 
 	/**
 	 * Register hooks.
@@ -20,6 +20,9 @@ class Shortcodes extends Component {
 	 * @return void
 	 */
 	public function register(): void {
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wc_serial_numbers_before_display_order_keys', 'wcsn_display_order_keys_title', 10, 2 );
+		add_action( 'wc_serial_numbers_display_order_keys', 'wcsn_display_order_keys_table', 10, 2 );
 		add_shortcode( 'wc_serial_numbers_validation_form', array( $this, 'validation_form' ) );
 		add_shortcode( 'wc_serial_numbers_activation_form', array( $this, 'activation_form' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_validate_key', array( $this, 'validate_serial_key' ) );
@@ -325,5 +328,27 @@ class Shortcodes extends Component {
 		$json     = $server->response_to_data( $response, false );
 
 		return $json;
+	}
+
+	/**
+	 * Enqueue frontend scripts.
+	 *
+	 * @since 1.5.6
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+		$this->app->scripts->enqueue_style( 'wc-serial-numbers-frontend', 'frontend.css' );
+		$this->app->scripts->enqueue_script( 'wc-serial-numbers-frontend', 'frontend.js', array( 'jquery' ) );
+		wp_localize_script(
+			'wc-serial-numbers-frontend',
+			'wc_serial_numbers_frontend_vars',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'i18n'     => array(
+					'copied'  => __( 'Copied', 'wc-serial-numbers' ),
+					'loading' => __( 'Loading', 'wc-serial-numbers' ),
+				),
+			)
+		);
 	}
 }
