@@ -1,36 +1,27 @@
 <?php
 
-namespace WooCommerceSerialNumbers;
+namespace WooCommerceSerialNumbers\RestAPI\Controllers;
 
-use WooCommerceSerialNumbers\B8\Component;
 use WooCommerceSerialNumbers\Models\Activation;
 use WooCommerceSerialNumbers\Models\Key;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
- * Handles rest requests.
+ * Software licensing REST API controller.
  *
  * @since 1.7.3
- * @package WooCommerceSerialNumbers
+ * @package WooCommerceSerialNumbers\RestAPI\Controllers
  */
-class RestAPI extends Component {
+class Software {
 
 	/**
-	 * Register hooks.
+	 * Register the software licensing routes.
 	 *
 	 * @since 1.7.3
 	 * @return void
 	 */
-	public function register(): void {
-		add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
-	}
-
-	/**
-	 * Add endpoints.
-	 *
-	 * @since 1.7.3
-	 * @return void
-	 */
-	public function register_endpoints() {
+	public function register_routes() {
 		register_rest_route(
 			'wcsn',
 			'/validate',

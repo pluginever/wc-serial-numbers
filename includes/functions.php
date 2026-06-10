@@ -12,7 +12,7 @@ use WooCommerceSerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
-require_once __DIR__ . '/Functions/Template.php';
+require_once __DIR__ . '/template.php';
 
 /**
  * Get manager role.

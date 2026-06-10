@@ -28,7 +28,7 @@ class Plugin extends B8\App {
 		Orders\Orders::class,
 		Stocks\Stocks::class,
 		Products::class,
-		RestAPI::class,
+		RestAPI\Routes::class,
 		Compat::class,
 		API::class,
 		Admin\Admin::class,
