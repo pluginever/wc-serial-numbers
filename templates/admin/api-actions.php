@@ -2,7 +2,7 @@
 /**
  * API actions
  *
- * @package WooCommerceSerialNumbers/Admin/Views
+ * @package PluginEver\SerialNumbers/Admin/Views
  * @version 1.4.6
  */
 

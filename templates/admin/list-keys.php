@@ -3,12 +3,12 @@
  * List keys.
  *
  * @since 1.0.0
- * @package WooCommerceSerialNumbers\Admin\Views
+ * @package PluginEver\SerialNumbers\Admin\Views
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$list_table = new WooCommerceSerialNumbers\Keys\ListTable();
+$list_table = new PluginEver\SerialNumbers\Keys\ListTable();
 $doaction   = $list_table->current_action();
 $list_table->process_bulk_actions( $doaction );
 ?>

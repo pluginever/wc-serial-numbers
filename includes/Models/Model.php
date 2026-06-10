@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Models;
+namespace PluginEver\SerialNumbers\Models;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -12,9 +12,9 @@ defined( 'ABSPATH' ) || exit;
  * call sites and extensions keep working unchanged.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Models
+ * @package PluginEver\SerialNumbers\Models
  */
-abstract class Model extends \WooCommerceSerialNumbers\B8\Models\Model {
+abstract class Model extends \PluginEver\SerialNumbers\B8\Models\Model {
 
 	/**
 	 * Hook prefix for the model.
@@ -209,7 +209,7 @@ abstract class Model extends \WooCommerceSerialNumbers\B8\Models\Model {
 	 * @param array|null $args Optional. The query arguments.
 	 *
 	 * @since 1.0.0
-	 * @return \WooCommerceSerialNumbers\B8\Models\Query|array|int Query object, or the items/count when args are given.
+	 * @return \PluginEver\SerialNumbers\B8\Models\Query|array|int Query object, or the items/count when args are given.
 	 */
 	public function new_query( $args = null ) {
 		if ( is_null( $args ) ) {
@@ -268,7 +268,7 @@ abstract class Model extends \WooCommerceSerialNumbers\B8\Models\Model {
 	 * Translate legacy query arguments into the b8 query dialect.
 	 *
 	 * @param array                                     $args Query arguments.
-	 * @param \WooCommerceSerialNumbers\B8\Models\Query $query Query object.
+	 * @param \PluginEver\SerialNumbers\B8\Models\Query $query Query object.
 	 *
 	 * @since 1.0.0
 	 * @return array Translated query arguments.

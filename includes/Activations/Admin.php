@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Activations;
+namespace PluginEver\SerialNumbers\Activations;
 
-use WooCommerceSerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\B8\Component;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * Class Admin.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Activations
+ * @package PluginEver\SerialNumbers\Activations
  */
 class Admin extends Component {
 

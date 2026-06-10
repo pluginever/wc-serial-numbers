@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCommerceSerialNumbers\RestAPI\Controllers;
+namespace PluginEver\SerialNumbers\RestAPI\Controllers;
 
-use WooCommerceSerialNumbers\Models\Activation;
+use PluginEver\SerialNumbers\Models\Activation;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * Activations REST API controller.
  *
  * @since 2.4.0
- * @package WooCommerceSerialNumbers\RestAPI\Controllers
+ * @package PluginEver\SerialNumbers\RestAPI\Controllers
  */
 class Activations extends Controller {
 

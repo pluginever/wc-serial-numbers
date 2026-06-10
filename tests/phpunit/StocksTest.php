@@ -1,7 +1,7 @@
 <?php
 //phpcs:ignoreFile
 
-namespace WooCommerceSerialNumbers\Tests;
+namespace PluginEver\SerialNumbers\Tests;
 
 /**
  * Tests for stock counting of available keys.

@@ -1,9 +1,9 @@
 <?php
 //phpcs:ignoreFile
 
-namespace WooCommerceSerialNumbers\Tests;
+namespace PluginEver\SerialNumbers\Tests;
 
-use WooCommerceSerialNumbers\Encryption;
+use PluginEver\SerialNumbers\Encryption;
 
 /**
  * Tests for the Encryption service.

@@ -1,10 +1,10 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Activations;
+namespace PluginEver\SerialNumbers\Activations;
 
-use WooCommerceSerialNumbers\Admin\ListTables\ListTable as BaseListTable;
+use PluginEver\SerialNumbers\Admin\ListTables\ListTable as BaseListTable;
 
-use WooCommerceSerialNumbers\Models\Activation;
+use PluginEver\SerialNumbers\Models\Activation;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Class ActivationsTable.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin\ListTables
+ * @package PluginEver\SerialNumbers\Admin\ListTables
  */
 class ListTable extends BaseListTable {
 	/**

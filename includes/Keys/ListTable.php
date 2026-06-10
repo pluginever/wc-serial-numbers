@@ -1,10 +1,10 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Keys;
+namespace PluginEver\SerialNumbers\Keys;
 
-use WooCommerceSerialNumbers\Admin\ListTables\ListTable as BaseListTable;
+use PluginEver\SerialNumbers\Admin\ListTables\ListTable as BaseListTable;
 
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Class KeysTable.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin\ListTables
+ * @package PluginEver\SerialNumbers\Admin\ListTables
  */
 class ListTable extends BaseListTable {
 	/**

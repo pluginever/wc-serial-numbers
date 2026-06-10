@@ -1,15 +1,15 @@
 <?php
 
-namespace WooCommerceSerialNumbers;
+namespace PluginEver\SerialNumbers;
 
-use WooCommerceSerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Shop.
  *
  * @since   1.5.6
- * @package WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers
  */
 class Shop extends Component {
 

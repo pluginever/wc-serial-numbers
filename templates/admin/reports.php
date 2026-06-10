@@ -3,7 +3,7 @@
  * Show the reports page.
  *
  * @since 1.0.0
- * @package WooCommerceSerialNumbers\Admin\Views
+ * @package PluginEver\SerialNumbers\Admin\Views
  */
 
 defined( 'ABSPATH' ) || exit;

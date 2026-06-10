@@ -3,7 +3,7 @@
  * Missing dependencies notice.
  *
  * @since   2.4.0
- * @package WooCommerceSerialNumbers\Admin\Views
+ * @package PluginEver\SerialNumbers\Admin\Views
  */
 
 defined( 'ABSPATH' ) || exit;

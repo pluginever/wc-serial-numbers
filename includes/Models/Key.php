@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Models;
+namespace PluginEver\SerialNumbers\Models;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
  * Class Key.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Models
+ * @package PluginEver\SerialNumbers\Models
  */
 class Key extends Model {
 	/**
@@ -700,7 +700,7 @@ class Key extends Model {
 	 * match the encrypted serial key at rest.
 	 *
 	 * @param array                                     $args Query arguments.
-	 * @param \WooCommerceSerialNumbers\B8\Models\Query $query Query object.
+	 * @param \PluginEver\SerialNumbers\B8\Models\Query $query Query object.
 	 *
 	 * @since 1.0.0
 	 * @return array Translated query arguments.

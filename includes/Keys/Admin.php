@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Keys;
+namespace PluginEver\SerialNumbers\Keys;
 
-use WooCommerceSerialNumbers\B8\Component;
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * Class Admin.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Keys
+ * @package PluginEver\SerialNumbers\Keys
  */
 class Admin extends Component {
 

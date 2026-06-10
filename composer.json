@@ -19,12 +19,12 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"WooCommerceSerialNumbers\\": "includes/"
+			"PluginEver\\SerialNumbers\\": "includes/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"WooCommerceSerialNumbers\\Tests\\": "tests/phpunit/"
+			"PluginEver\\SerialNumbers\\Tests\\": "tests/phpunit/"
 		}
 	},
 	"config": {
@@ -56,8 +56,8 @@
 	"extra": {
 		"strauss": {
 			"target_directory": "vendor",
-			"namespace_prefix": "WooCommerceSerialNumbers\\",
-			"classmap_prefix": "WooCommerceSerialNumbers__",
+			"namespace_prefix": "PluginEver\\SerialNumbers\\",
+			"classmap_prefix": "PluginEver_SerialNumbers__",
 			"packages": [
 				"byteever/models",
 				"byteever/plugin"

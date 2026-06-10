@@ -35,11 +35,11 @@
  * @author              Sultan Nasir Uddin <manikdrmc@gmail.com>
  * @copyright           2026 ByteEver
  * @license             GPL-2.0+
- * @package             WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers
  */
 
-use WooCommerceSerialNumbers\Installer;
-use WooCommerceSerialNumbers\Plugin;
+use PluginEver\SerialNumbers\Installer;
+use PluginEver\SerialNumbers\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Orders;
+namespace PluginEver\SerialNumbers\Orders;
 
-use WooCommerceSerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Class Admin.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Orders
+ * @package PluginEver\SerialNumbers\Orders
  */
 class Admin extends Component {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCommerceSerialNumbers\RestAPI\Controllers;
+namespace PluginEver\SerialNumbers\RestAPI\Controllers;
 
 use WP_REST_Controller;
 use WP_REST_Request;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Model is the single source of truth. No schema duplication.
  *
  * @since 2.4.0
- * @package WooCommerceSerialNumbers\RestAPI
+ * @package PluginEver\SerialNumbers\RestAPI
  */
 abstract class Controller extends WP_REST_Controller {
 

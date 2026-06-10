@@ -3,12 +3,12 @@
  * Essential functions for the plugin.
  *
  * @since 1.0.0
- * @package WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers
  */
 
-use WooCommerceSerialNumbers\Encryption;
-use WooCommerceSerialNumbers\Models\Activation;
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\Encryption;
+use PluginEver\SerialNumbers\Models\Activation;
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 

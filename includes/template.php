@@ -3,10 +3,10 @@
  * Template functions.
  *
  * @since 1.4.6
- * @package WooCommerceSerialNumbers/Functions
+ * @package PluginEver\SerialNumbers/Functions
  */
 
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 

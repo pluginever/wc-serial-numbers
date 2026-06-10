@@ -1,10 +1,10 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Activations;
+namespace PluginEver\SerialNumbers\Activations;
 
-use WooCommerceSerialNumbers\B8\Component;
-use WooCommerceSerialNumbers\Models\Activation;
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\Models\Activation;
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Class Activations.
  *
  * @since 1.5.6
- * @package WooCommerceSerialNumbers\Activations
+ * @package PluginEver\SerialNumbers\Activations
  */
 class Activations extends Component {
 

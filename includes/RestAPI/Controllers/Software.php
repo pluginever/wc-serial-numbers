@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCommerceSerialNumbers\RestAPI\Controllers;
+namespace PluginEver\SerialNumbers\RestAPI\Controllers;
 
-use WooCommerceSerialNumbers\Models\Activation;
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\Models\Activation;
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * Software licensing REST API controller.
  *
  * @since 1.7.3
- * @package WooCommerceSerialNumbers\RestAPI\Controllers
+ * @package PluginEver\SerialNumbers\RestAPI\Controllers
  */
 class Software {
 

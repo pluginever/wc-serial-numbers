@@ -1,9 +1,9 @@
 <?php
 //phpcs:ignoreFile
 
-namespace WooCommerceSerialNumbers\Tests;
+namespace PluginEver\SerialNumbers\Tests;
 
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\Models\Key;
 
 /**
  * Tests for the Key model.

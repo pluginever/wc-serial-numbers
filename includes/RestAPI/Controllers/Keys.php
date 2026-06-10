@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCommerceSerialNumbers\RestAPI\Controllers;
+namespace PluginEver\SerialNumbers\RestAPI\Controllers;
 
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\Models\Key;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * Keys REST API controller.
  *
  * @since 2.4.0
- * @package WooCommerceSerialNumbers\RestAPI\Controllers
+ * @package PluginEver\SerialNumbers\RestAPI\Controllers
  */
 class Keys extends Controller {
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Admin;
 
-use WooCommerceSerialNumbers\Activations;
-use WooCommerceSerialNumbers\B8\Component;
-use WooCommerceSerialNumbers\Keys;
+use PluginEver\SerialNumbers\Activations;
+use PluginEver\SerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\Keys;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Class Menus.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin
+ * @package PluginEver\SerialNumbers\Admin
  */
 class Menus extends Component {
 
@@ -31,10 +31,11 @@ class Menus extends Component {
 		add_action( 'admin_menu', array( $this, 'settings_menu' ), 100 );
 		add_action( 'admin_menu', array( $this, 'promo_menu' ), PHP_INT_MAX );
 
-		// The pro plugin removes these tabs by the static callable names, so they must stay static.
-		add_action( 'wc_serial_numbers_tools_tab_import', array( __CLASS__, 'import_tab' ) );
-		add_action( 'wc_serial_numbers_tools_tab_export', array( __CLASS__, 'export_tab' ) );
-		add_action( 'wc_serial_numbers_tools_tab_generators', array( __CLASS__, 'generators_tab' ) );
+		// The pro plugin removes these tabs by the pre-rename static callable names, so the
+		// callback identity must stay 'WooCommerceSerialNumbers\Admin\Menus::{method}'.
+		add_action( 'wc_serial_numbers_tools_tab_import', 'WooCommerceSerialNumbers\\Admin\\Menus::import_tab' );
+		add_action( 'wc_serial_numbers_tools_tab_export', 'WooCommerceSerialNumbers\\Admin\\Menus::export_tab' );
+		add_action( 'wc_serial_numbers_tools_tab_generators', 'WooCommerceSerialNumbers\\Admin\\Menus::generators_tab' );
 	}
 
 	/**

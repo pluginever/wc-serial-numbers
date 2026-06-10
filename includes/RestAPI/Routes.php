@@ -1,11 +1,11 @@
 <?php
 
-namespace WooCommerceSerialNumbers\RestAPI;
+namespace PluginEver\SerialNumbers\RestAPI;
 
-use WooCommerceSerialNumbers\B8\Component;
-use WooCommerceSerialNumbers\RestAPI\Controllers\Activations;
-use WooCommerceSerialNumbers\RestAPI\Controllers\Keys;
-use WooCommerceSerialNumbers\RestAPI\Controllers\Software;
+use PluginEver\SerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\RestAPI\Controllers\Activations;
+use PluginEver\SerialNumbers\RestAPI\Controllers\Keys;
+use PluginEver\SerialNumbers\RestAPI\Controllers\Software;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * REST API routes registration.
  *
  * @since 2.4.0
- * @package WooCommerceSerialNumbers\RestAPI
+ * @package PluginEver\SerialNumbers\RestAPI
  */
 class Routes extends Component {
 

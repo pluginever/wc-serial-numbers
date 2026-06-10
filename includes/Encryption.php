@@ -2,16 +2,16 @@
 // phpcs:ignoreFile WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase,WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 // phpcs:ignoreFile Squiz.Commenting.VariableComment.Missing
 
-namespace WooCommerceSerialNumbers;
+namespace PluginEver\SerialNumbers;
 
-use WooCommerceSerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Encryption.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers
  */
 class Encryption extends Component {
 	private static $key;

@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin\ListTables;
+namespace PluginEver\SerialNumbers\Admin\ListTables;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -13,7 +13,7 @@ if ( ! class_exists( '\WP_List_Table' ) ) {
  * Class ListTable.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin\ListTables
+ * @package PluginEver\SerialNumbers\Admin\ListTables
  */
 class ListTable extends \WP_List_Table {
 	/**

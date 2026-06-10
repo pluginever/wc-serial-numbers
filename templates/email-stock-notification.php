@@ -3,7 +3,7 @@
  * Low stock email notification template.
  *
  * @since 1.2.0
- * @package WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers
  * @var array $low_stock_products List of low stock products.
  */
 
