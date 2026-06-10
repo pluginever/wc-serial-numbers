@@ -89,13 +89,13 @@ class Plugin extends B8\App {
 	}
 
 	/**
-	 * Determines if the premium version active.
+	 * Gets the plugin version.
 	 *
 	 * @since 1.0.0
-	 * @return bool
 	 * @deprecated 2.4.0
+	 * @return string
 	 */
-	public function is_premium_active() {
-		return $this->is_pro_active();
+	public function get_version() {
+		return $this->version;
 	}
 }
