@@ -209,7 +209,9 @@ class Installer extends B8\Component {
 	 * @return void
 	 */
 	protected function create_defaults(): void {
-		$this->app->make( Admin\Settings::class )->save_defaults();
+		$settings = $this->app->make( Admin\Settings::class );
+		$settings->register();
+		$settings->save_defaults();
 	}
 
 	/**
