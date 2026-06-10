@@ -32,7 +32,7 @@ class Keys extends Component {
 	 * @return void
 	 */
 	public function register(): void {
-		add_action( 'wc_serial_numbers_key_insert', array( $this, 'enable_product' ) );
+		add_action( 'wc_serial_numbers_key_inserted', array( $this, 'enable_product' ) );
 		add_action( 'wc_serial_numbers_key_deleted', array( $this, 'delete_activations' ) );
 		add_action( 'wc_serial_numbers_key_saved', array( $this, 'clear_order_keys_cache' ) );
 		add_action( 'wc_serial_numbers_key_deleted', array( $this, 'clear_order_keys_cache' ) );
@@ -65,14 +65,12 @@ class Keys extends Component {
 	/**
 	 * Enable product.
 	 *
-	 * @param int $key_id The key ID.
+	 * @param Key $key The key object.
 	 *
 	 * @since 1.4.6
 	 */
-	public function enable_product( $key_id ) {
-		$key = Key::get( $key_id );
-
-		if ( $key ) {
+	public function enable_product( $key ) {
+		if ( $key instanceof Key ) {
 			$product_id = $key->get_product_id();
 
 			if ( $product_id ) {

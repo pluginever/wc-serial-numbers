@@ -48,10 +48,8 @@
 		"strauss": [
 			"test -f /tmp/strauss.phar || curl -o /tmp/strauss.phar -L https://github.com/BrianHenryIE/strauss/releases/download/0.24.1/strauss.phar",
 			"@php /tmp/strauss.phar",
-			"@patch-models",
 			"@composer dump-autoload --no-scripts"
-		],
-		"patch-models": "php -r 'foreach (array_merge(glob(\"vendor/byteever/models/src/*.php\"), glob(\"vendor/byteever/models/src/Traits/*.php\"), glob(\"vendor/byteever/models/src/Relations/*.php\")) as $f) { $c = file_get_contents($f); $c = preg_replace(\"/->get\\\\((?!\\\\))/\", \"->get_attribute(\", $c); $c = str_replace(\"function get(string \", \"function get_attribute(string \", $c); file_put_contents($f, $c); }'"
+		]
 	},
 	"extra": {
 		"strauss": {

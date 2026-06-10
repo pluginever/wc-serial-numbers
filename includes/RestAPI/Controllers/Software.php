@@ -144,7 +144,7 @@ class Software {
 		}
 
 		// Check if key exists.
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
@@ -199,7 +199,7 @@ class Software {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
@@ -216,11 +216,11 @@ class Software {
 			'status'           => 'sold' === $serial_key->get_status() ? 'active' : $serial_key->get_status(),
 			'product_id'       => $serial_key->get_product_id(),
 			'product'          => $serial_key->get_product_title(),
-			'activations'      => $serial_key->get_activations(
-				array(
-					'limit'  => - 1,
-					'output' => ARRAY_A,
-				)
+			'activations'      => array_map(
+				function ( $activation ) {
+					return $activation->to_array();
+				},
+				$serial_key->get_activations( array( 'limit' => - 1 ) )
 			),
 
 			// Deprecated.
@@ -250,7 +250,7 @@ class Software {
 			$instance = md5( $email . $platform . time() );
 		}
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
@@ -258,7 +258,7 @@ class Software {
 		);
 
 		// Check if instance is already activated.
-		$activation = Activation::get(
+		$activation = Activation::find(
 			array(
 				'serial_id' => $serial_key->get_id(),
 				'instance'  => $instance,
@@ -297,11 +297,11 @@ class Software {
 			'expires_at'       => $serial_key->get_expire_date(),
 			'product_id'       => $serial_key->get_product_id(),
 			'product'          => $serial_key->get_product_title(),
-			'activations'      => $serial_key->get_activations(
-				array(
-					'limit'  => - 1,
-					'output' => ARRAY_A,
-				)
+			'activations'      => array_map(
+				function ( $activation ) {
+					return $activation->to_array();
+				},
+				$serial_key->get_activations( array( 'limit' => - 1 ) )
 			),
 
 			// Deprecated.
@@ -328,14 +328,14 @@ class Software {
 			return new \WP_Error( 'missing_instance', __( 'Instance is  missing, You must provide an instance to deactivate license.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
 			)
 		);
 
-		$activation = Activation::get(
+		$activation = Activation::find(
 			array(
 				'serial_id' => $serial_key->get_id(),
 				'instance'  => $instance,
@@ -360,11 +360,11 @@ class Software {
 			'expires_at'       => $serial_key->get_expire_date(),
 			'product_id'       => $serial_key->get_product_id(),
 			'product'          => $serial_key->get_product_title(),
-			'activations'      => $serial_key->get_activations(
-				array(
-					'limit'  => - 1,
-					'output' => ARRAY_A,
-				)
+			'activations'      => array_map(
+				function ( $activation ) {
+					return $activation->to_array();
+				},
+				$serial_key->get_activations( array( 'limit' => - 1 ) )
 			),
 
 			// Deprecated.
@@ -386,7 +386,7 @@ class Software {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,

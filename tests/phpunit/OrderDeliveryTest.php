@@ -40,7 +40,7 @@ class OrderDeliveryTest extends TestCase {
 		$order = $this->create_order( $product );
 		$order->update_status( 'completed' );
 
-		$reloaded = Key::get( $key->get_id() );
+		$reloaded = Key::find( $key->get_id() );
 		$this->assertSame( $order->get_id(), $reloaded->get_order_id() );
 		$this->assertSame( 'sold', $reloaded->get_status() );
 		$this->assertNotEmpty( $reloaded->get_order_item_id() );
@@ -67,7 +67,7 @@ class OrderDeliveryTest extends TestCase {
 		$order = $this->create_order( $product );
 		$order->update_status( 'processing' );
 
-		$reloaded = Key::get( $key->get_id() );
+		$reloaded = Key::find( $key->get_id() );
 		$this->assertSame( $order->get_id(), $reloaded->get_order_id() );
 		$this->assertSame( 'sold', $reloaded->get_status() );
 	}
@@ -88,7 +88,7 @@ class OrderDeliveryTest extends TestCase {
 		$order->update_status( 'completed' );
 		$order->update_status( 'cancelled' );
 
-		$reloaded = Key::get( $key->get_id() );
+		$reloaded = Key::find( $key->get_id() );
 		$this->assertSame( 'cancelled', $reloaded->get_status() );
 		$this->assertSame( 0, $reloaded->get_order_id() );
 	}

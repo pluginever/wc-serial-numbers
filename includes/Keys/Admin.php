@@ -51,8 +51,8 @@ class Admin extends Component {
 		$add  = isset( $_GET['add'] ) ? true : false;
 		$edit = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
 		if ( $edit ) {
-			$key = new Key( $edit );
-			if ( ! $key->exists() ) {
+			$key = Key::find( $edit );
+			if ( ! $key ) {
 				wp_safe_redirect( remove_query_arg( 'edit' ) );
 				exit();
 			}

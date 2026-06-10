@@ -590,7 +590,7 @@ class Key extends Model {
 
 		// Duplicate serial key is not allowed.
 		if ( ! wcsn_is_duplicate_key_allowed() ) {
-			$existing = self::get(
+			$existing = static::find(
 				array(
 					'serial_key' => $this->get_serial_key(),
 				)
@@ -676,109 +676,77 @@ class Key extends Model {
 	*/
 
 	/**
-	 * Retrieve the object instance.
+	 * Bootstrap the model.
 	 *
-	 * @param int|array|static $data Object ID or array of column conditions.
+	 * Wires the encryption boundary into the native read and query hooks:
+	 * the serial key is decrypted when read from the database and search
+	 * terms are encrypted to match the value at rest.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return static|false Object instance on success, false on failure.
+	 * @return void
 	 */
-	public static function get( $data ) {
-		// If by is set to serial key, encrypt it.
-		if ( is_array( $data ) && array_key_exists( 'serial_key', $data ) ) {
-			$data['serial_key'] = wcsn_encrypt_key( $data['serial_key'] );
-		}
-
-		return parent::get( $data );
+	protected function bootstrap() {
+		parent::bootstrap();
+		$this->on_filter( 'serial_key', 'wcsn_decrypt_key' );
+		$this->on_filter( 'query_args', array( static::class, 'prepare_search' ), 10, 2 );
 	}
 
 	/**
-	 * Translate legacy query arguments into the b8 query dialect.
+	 * Find a key by its primary key or column conditions.
 	 *
-	 * Handles the customer_id constraint and the search clause, which must
-	 * match the encrypted serial key at rest.
+	 * The serial key is stored encrypted, so a serial_key condition is
+	 * encrypted before it is matched against the database.
+	 *
+	 * @param mixed $id The ID or array of column conditions.
+	 *
+	 * @since 1.0.0
+	 * @return static|null The model instance, or null if not found.
+	 */
+	public static function find( $id ) {
+		if ( is_array( $id ) && ! empty( $id['serial_key'] ) ) {
+			$id['serial_key'] = wcsn_encrypt_key( $id['serial_key'] );
+		}
+
+		return parent::find( $id );
+	}
+
+	/**
+	 * Prepare the search query var.
+	 *
+	 * The serial key column holds encrypted values, so the search term is
+	 * encrypted when compared against that column.
 	 *
 	 * @param array                                     $args Query arguments.
 	 * @param \PluginEver\SerialNumbers\B8\Models\Query $query Query object.
 	 *
 	 * @since 1.0.0
-	 * @return array Translated query arguments.
+	 * @return array Query arguments.
 	 */
-	protected function prepare_query_args( $args, $query ) {
-		// If customer id is set, find the orders having that customer id and limit the results to those orders.
-		if ( ! empty( $args['customer_id'] ) ) {
-			$order_ids = wc_get_orders(
-				array(
-					'customer_id' => absint( $args['customer_id'] ),
-					'limit'       => - 1,
-					'return'      => 'ids',
-				)
+	public static function prepare_search( $args, $query ) {
+		if ( empty( $args['search'] ) ) {
+			return $args;
+		}
+
+		$search  = $args['search'];
+		$columns = ! empty( $args['search_columns'] ) ? wp_parse_list( $args['search_columns'] ) : ( new static() )->get_searchable();
+		$columns = array_filter( array_unique( (array) $columns ) );
+
+		if ( ! empty( $columns ) ) {
+			$query->where(
+				function ( $q ) use ( $columns, $search ) {
+					foreach ( $columns as $column ) {
+						$term = 'serial_key' === $column ? wcsn_encrypt_key( $search ) : $search;
+						$q->where( $column, 'LIKE', $term );
+					}
+				},
+				'OR'
 			);
-
-			if ( ! empty( $order_ids ) ) {
-				$query->where( 'order_id', 'IN', $order_ids );
-			} else {
-				$query->where( 'id', '=', 0 );
-			}
-		}
-		unset( $args['customer_id'] );
-
-		// Search must compare the serial key column against the encrypted value.
-		if ( ! empty( $args['search'] ) ) {
-			$search = $args['search'];
-			if ( ! empty( $args['search_columns'] ) ) {
-				$search_columns = wp_parse_list( $args['search_columns'] );
-			} else {
-				/**
-				 * Filter the columns to search in when performing a search query.
-				 *
-				 * @param array  $search_columns Array of columns to search in.
-				 * @param array  $args Query arguments.
-				 * @param static $item Current instance of the class.
-				 *
-				 * @since 1.0.0
-				 */
-				$search_columns = apply_filters( $this->get_hook_prefix() . '_search_columns', $this->get_searchable(), $args, $this );
-			}
-			$search_columns = array_filter( array_unique( $search_columns ) );
-
-			if ( ! empty( $search_columns ) ) {
-				$query->where(
-					function ( $q ) use ( $search_columns, $search ) {
-						foreach ( $search_columns as $column ) {
-							$term = 'serial_key' === $column ? wcsn_encrypt_key( $search ) : $search;
-							$q->where( $column, 'LIKE', $term );
-						}
-					},
-					'OR'
-				);
-			}
-
-			unset( $args['search'], $args['search_columns'] );
 		}
 
-		return parent::prepare_query_args( $args, $query );
-	}
+		$args['search']         = '';
+		$args['search_columns'] = array();
 
-	/**
-	 * Prepare data read from the database before it is hydrated.
-	 *
-	 * The serial key is stored encrypted and decrypted on read.
-	 *
-	 * @param array $data Data read from the database.
-	 *
-	 * @since 1.0.0
-	 * @return array Prepared data.
-	 */
-	protected function prepare_db_data( $data ) {
-		$data = parent::prepare_db_data( $data );
-
-		if ( ! empty( $data['serial_key'] ) ) {
-			$data['serial_key'] = wcsn_decrypt_key( $data['serial_key'] );
-		}
-
-		return $data;
+		return $args;
 	}
 
 	/*
@@ -966,6 +934,6 @@ class Key extends Model {
 			$key = sprintf( '<code class="wcsn-key" data-unmasked="%s" data-masked="%s">%s</code>', esc_attr( $key ), esc_attr( $key ), $key );
 		}
 
-		return apply_filters( $this->get_hook_prefix() . '_display_key', $key, $this );
+		return $this->apply_filters( 'display_key', $key, $this );
 	}
 }

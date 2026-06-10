@@ -27,7 +27,7 @@ class KeyModelTest extends TestCase {
 		$this->assertNotEmpty( $key->get_id() );
 
 		// Re-read from the database and confirm the plain key round-trips.
-		$reloaded = Key::get( $key->get_id() );
+		$reloaded = Key::find( $key->get_id() );
 		$this->assertSame( 'SERIAL-123-ABC', $reloaded->get_serial_key() );
 		$this->assertSame( 'SERIAL-123-ABC', $reloaded->get_key() );
 		$this->assertSame( $product->get_id(), $reloaded->get_product_id() );
@@ -112,7 +112,7 @@ class KeyModelTest extends TestCase {
 		$key->set_status( 'sold' );
 		$this->assertNotWPError( $key->save() );
 
-		$reloaded = Key::get( $key->get_id() );
+		$reloaded = Key::find( $key->get_id() );
 		$this->assertSame( 'sold', $reloaded->get_status() );
 	}
 
@@ -133,7 +133,7 @@ class KeyModelTest extends TestCase {
 		$id  = $key->get_id();
 
 		$this->assertTrue( (bool) wcsn_delete_key( $id ) );
-		$this->assertEmpty( Key::get( $id ) );
+		$this->assertEmpty( Key::find( $id ) );
 		$this->assertFalse( wcsn_get_key( $id ) );
 	}
 }

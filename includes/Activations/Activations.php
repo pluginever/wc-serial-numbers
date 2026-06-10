@@ -45,7 +45,7 @@ class Activations extends Component {
 	 * @since 1.0.0
 	 */
 	public function update_activation_count( $activation ) {
-		$key = Key::get( $activation->get_serial_id() );
+		$key = Key::find( $activation->get_serial_id() );
 		if ( $key ) {
 			$key->recount_remaining_activation();
 		}

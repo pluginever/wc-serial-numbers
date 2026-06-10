@@ -114,17 +114,28 @@ class ListTable extends BaseListTable {
 		}
 
 		$args = array(
-			'per_page'    => $per_page,
-			'paged'       => $current_page,
-			'orderby'     => $orderby,
-			'order'       => $order,
-			'status'      => $status,
-			'product_id'  => $product_id,
-			'order_id'    => $order_id,
-			'customer_id' => $customer_id,
-			'include'     => $id,
-			'search'      => $search,
+			'limit'      => $per_page,
+			'page'       => $current_page,
+			'orderby'    => $orderby,
+			'order'      => $order,
+			'status'     => $status,
+			'product_id' => $product_id,
+			'order_id'   => $order_id,
+			'include'    => $id,
+			'search'     => $search,
 		);
+
+		// Constrain to the orders of the given customer.
+		if ( ! empty( $customer_id ) ) {
+			$order_ids            = wc_get_orders(
+				array(
+					'customer_id' => absint( $customer_id ),
+					'limit'       => - 1,
+					'return'      => 'ids',
+				)
+			);
+			$args['order_id__in'] = ! empty( $order_ids ) ? $order_ids : array( 0 );
+		}
 
 		$this->items           = Key::query( $args );
 		$this->available_count = Key::count( array_merge( $args, array( 'status' => 'available' ) ) );
@@ -305,7 +316,7 @@ class ListTable extends BaseListTable {
 			}
 
 			foreach ( $ids as $id ) { // Check the permissions on each.
-				$key = Key::get( $id );
+				$key = Key::find( $id );
 				if ( ! $key ) {
 					continue;
 				}

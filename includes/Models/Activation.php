@@ -148,7 +148,7 @@ class Activation extends Model {
 			return null;
 		}
 
-		return Key::get( $this->get_serial_id() );
+		return Key::find( $this->get_serial_id() );
 	}
 
 	/**
@@ -303,44 +303,5 @@ class Activation extends Model {
 		}
 
 		return parent::save();
-	}
-
-	/*
-	|--------------------------------------------------------------------------
-	| Query Methods
-	|--------------------------------------------------------------------------
-	|
-	| Methods for reading and manipulating the object properties.
-	|
-	*/
-
-	/**
-	 * Translate legacy query arguments into the b8 query dialect.
-	 *
-	 * If order_id or product_id is given, the query is joined with the keys
-	 * table and filtered by those columns.
-	 *
-	 * @param array                                     $args Query arguments.
-	 * @param \PluginEver\SerialNumbers\B8\Models\Query $query Query object.
-	 *
-	 * @since 1.0.0
-	 * @return array Translated query arguments.
-	 */
-	protected function prepare_query_args( $args, $query ) {
-		if ( ! empty( $args['order_id'] ) || ! empty( $args['product_id'] ) ) {
-			$key_table = ( new Key() )->get_table_name();
-			$query->join( $key_table, "{$this->get_table()}.serial_id", "{$key_table}.id" );
-
-			if ( ! empty( $args['order_id'] ) ) {
-				$query->where( "{$key_table}.order_id", absint( $args['order_id'] ) );
-			}
-
-			if ( ! empty( $args['product_id'] ) ) {
-				$query->where( "{$key_table}.product_id", absint( $args['product_id'] ) );
-			}
-		}
-		unset( $args['order_id'], $args['product_id'] );
-
-		return parent::prepare_query_args( $args, $query );
 	}
 }
