@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Models;
+namespace PluginEver\SerialNumbers\Models;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -8,18 +8,18 @@ defined( 'ABSPATH' ) || exit;
  * Class Activation.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Models
+ * @package PluginEver\SerialNumbers\Models
  */
 class Activation extends Model {
 	/**
-	 * Table name.
+	 * The table associated with the model.
 	 *
 	 * This is also used as table alias.
 	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $table_name = 'serial_numbers_activations';
+	protected $table = 'serial_numbers_activations';
 
 	/**
 	 * Object type.
@@ -30,18 +30,65 @@ class Activation extends Model {
 	protected $object_type = 'activation';
 
 	/**
-	 * Core data for this object. Name value pairs (name + default value).
+	 * The cache group for the object type.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	protected $cache_group = 'serial_numbers_activations';
+
+	/**
+	 * The table columns of the model.
 	 *
 	 * @since 1.0.0
 	 * @var array
 	 */
-	protected $core_data = array(
+	protected $columns = array(
+		'id',
+		'serial_id',
+		'instance',
+		'platform',
+		'activation_time',
+	);
+
+	/**
+	 * The model's attributes with their default values.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $attributes = array(
 		'id'              => 0,
-		'serial_id'       => '',
+		'serial_id'       => 0,
 		'instance'        => '',
 		'platform'        => '',
 		'activation_time' => '',
 		// todo add ip address support.
+	);
+
+	/**
+	 * The attributes that should be cast.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $casts = array(
+		'id'        => 'int',
+		'serial_id' => 'int',
+	);
+
+	/**
+	 * The searchable attributes.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $searchable = array(
+		'id',
+		'serial_id',
+		'instance',
+		'platform',
+		'activation_time',
 	);
 
 	/*
@@ -57,7 +104,7 @@ class Activation extends Model {
 	 *
 	 * @since  1.4.6
 	 *
-	 * @return string
+	 * @return int
 	 */
 	public function get_id() {
 		return $this->get_prop( 'id' );
@@ -94,14 +141,14 @@ class Activation extends Model {
 	 *
 	 * @since 1.4.6
 	 *
-	 * @return Key
+	 * @return Key|null
 	 */
 	public function get_key() {
 		if ( empty( $this->get_serial_id() ) ) {
 			return null;
 		}
 
-		return Key::get( $this->get_serial_id() );
+		return Key::find( $this->get_serial_id() );
 	}
 
 	/**
@@ -109,7 +156,7 @@ class Activation extends Model {
 	 *
 	 * @since 1.4.6
 	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function get_product_id() {
 		if ( empty( $this->get_key() ) ) {
@@ -124,7 +171,7 @@ class Activation extends Model {
 	 *
 	 * @since 1.4.6
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function get_product_title() {
 		if ( empty( $this->get_key() ) ) {
@@ -237,7 +284,7 @@ class Activation extends Model {
 	 * Saves an object in the database.
 	 *
 	 * @since 1.0.0
-	 * @return true|\WP_Error True on success, WP_Error on failure.
+	 * @return static|\WP_Error Object instance on success, WP_Error on failure.
 	 */
 	public function save() {
 		// Serial id is required.
@@ -256,43 +303,5 @@ class Activation extends Model {
 		}
 
 		return parent::save();
-	}
-
-	/*
-	|--------------------------------------------------------------------------
-	| Query Methods
-	|--------------------------------------------------------------------------
-	|
-	| Methods for reading and manipulating the object properties.
-	|
-	*/
-
-	/**
-	 * Prepare where query.
-	 *
-	 * @param array $clauses Query clauses.
-	 * @param array $args Array of args to pass to the query method.
-	 *
-	 * @since 1.0.0
-	 * @return array
-	 */
-	protected function prepare_where_query( $clauses, $args = array() ) {
-		global $wpdb;
-		$clauses = parent::prepare_where_query( $clauses, $args );
-		// If order_id or product_id is set, we need to join with the key table and filter by those.
-		if ( ! empty( $args['order_id'] ) || ! empty( $args['product_id'] ) ) {
-			$key_table        = ( new Key() )->get_table_name();
-			$clauses['join'] .= " INNER JOIN {$wpdb->prefix}" . $key_table . " AS serial_numbers ON {$this->table_name}.serial_id = serial_numbers.id";
-		}
-
-		if ( ! empty( $args['order_id'] ) ) {
-			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.order_id = %d', $args['order_id'] );
-		}
-
-		if ( ! empty( $args['product_id'] ) ) {
-			$clauses['where'] .= $wpdb->prepare( ' AND serial_numbers.product_id = %d', $args['product_id'] );
-		}
-
-		return $clauses;
 	}
 }

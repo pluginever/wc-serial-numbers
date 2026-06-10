@@ -2,9 +2,9 @@
 /**
  * The template for editing a key.
  *
- * @package WooCommerceSerialNumbers/Admin/Views
+ * @package PluginEver\SerialNumbers/Admin/Views
  * @version 1.4.6
- * @var \WooCommerceSerialNumbers\Models\Key $key
+ * @var \PluginEver\SerialNumbers\Models\Key $key
  */
 
 defined( 'ABSPATH' ) || exit;

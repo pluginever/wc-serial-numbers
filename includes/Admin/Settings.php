@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Admin;
 
-use WooCommerceSerialNumbers\B8\SettingsUI;
+use PluginEver\SerialNumbers\B8\SettingsUI;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * Class Settings.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin
+ * @package PluginEver\SerialNumbers\Admin
  */
 class Settings extends SettingsUI {
 

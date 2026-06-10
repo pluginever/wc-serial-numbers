@@ -1,7 +1,7 @@
 <?php
 //phpcs:ignoreFile
 
-use WooCommerceSerialNumbers\Installer;
+use PluginEver\SerialNumbers\Installer;
 
 require_once dirname( __DIR__ ) . '/vendor/autoload.php';
 

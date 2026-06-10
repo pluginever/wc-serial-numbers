@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCommerceSerialNumbers;
+namespace PluginEver\SerialNumbers;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
  * Main plugin class.
  *
  * @since 1.4.2
- * @package WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers
  */
 class Plugin extends B8\App {
 
@@ -20,15 +20,15 @@ class Plugin extends B8\App {
 	 */
 	protected array $components = array(
 		Installer::class,
-		Cron::class,
-		Cache::class,
 		Encryption::class,
 		Cart::class,
-		Orders::class,
-		Stocks::class,
-		Actions::class,
-		RestAPI::class,
-		Frontend\Frontend::class,
+		Shop::class,
+		Keys\Keys::class,
+		Activations\Activations::class,
+		Orders\Orders::class,
+		Stocks\Stocks::class,
+		Products::class,
+		RestAPI\Routes::class,
 		Compat::class,
 		API::class,
 		Admin\Admin::class,

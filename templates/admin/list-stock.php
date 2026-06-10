@@ -2,11 +2,11 @@
 /**
  * List all stocks
  *
- * @package WooCommerceSerialNumbers/Admin/Views
+ * @package PluginEver\SerialNumbers/Admin/Views
  */
 
 defined( 'ABSPATH' ) || exit;
-$list_table = new WooCommerceSerialNumbers\Admin\ListTables\StockTable();
+$list_table = new PluginEver\SerialNumbers\Stocks\ListTable();
 ?>
 
 <form id="wcsn-stock-table" method="get">

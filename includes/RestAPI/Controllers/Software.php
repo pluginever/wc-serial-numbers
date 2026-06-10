@@ -1,36 +1,27 @@
 <?php
 
-namespace WooCommerceSerialNumbers;
+namespace PluginEver\SerialNumbers\RestAPI\Controllers;
 
-use WooCommerceSerialNumbers\B8\Component;
-use WooCommerceSerialNumbers\Models\Activation;
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\Models\Activation;
+use PluginEver\SerialNumbers\Models\Key;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Handles rest requests.
+ * Software licensing REST API controller.
  *
  * @since 1.7.3
- * @package WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers\RestAPI\Controllers
  */
-class RestAPI extends Component {
+class Software {
 
 	/**
-	 * Register hooks.
+	 * Register the software licensing routes.
 	 *
 	 * @since 1.7.3
 	 * @return void
 	 */
-	public function register(): void {
-		add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
-	}
-
-	/**
-	 * Add endpoints.
-	 *
-	 * @since 1.7.3
-	 * @return void
-	 */
-	public function register_endpoints() {
+	public function register_routes() {
 		register_rest_route(
 			'wcsn',
 			'/validate',
@@ -153,7 +144,7 @@ class RestAPI extends Component {
 		}
 
 		// Check if key exists.
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
@@ -208,7 +199,7 @@ class RestAPI extends Component {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
@@ -225,11 +216,11 @@ class RestAPI extends Component {
 			'status'           => 'sold' === $serial_key->get_status() ? 'active' : $serial_key->get_status(),
 			'product_id'       => $serial_key->get_product_id(),
 			'product'          => $serial_key->get_product_title(),
-			'activations'      => $serial_key->get_activations(
-				array(
-					'limit'  => - 1,
-					'output' => ARRAY_A,
-				)
+			'activations'      => array_map(
+				function ( $activation ) {
+					return $activation->to_array();
+				},
+				$serial_key->get_activations( array( 'limit' => - 1 ) )
 			),
 
 			// Deprecated.
@@ -259,7 +250,7 @@ class RestAPI extends Component {
 			$instance = md5( $email . $platform . time() );
 		}
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
@@ -267,7 +258,7 @@ class RestAPI extends Component {
 		);
 
 		// Check if instance is already activated.
-		$activation = Activation::get(
+		$activation = Activation::find(
 			array(
 				'serial_id' => $serial_key->get_id(),
 				'instance'  => $instance,
@@ -306,11 +297,11 @@ class RestAPI extends Component {
 			'expires_at'       => $serial_key->get_expire_date(),
 			'product_id'       => $serial_key->get_product_id(),
 			'product'          => $serial_key->get_product_title(),
-			'activations'      => $serial_key->get_activations(
-				array(
-					'limit'  => - 1,
-					'output' => ARRAY_A,
-				)
+			'activations'      => array_map(
+				function ( $activation ) {
+					return $activation->to_array();
+				},
+				$serial_key->get_activations( array( 'limit' => - 1 ) )
 			),
 
 			// Deprecated.
@@ -337,14 +328,14 @@ class RestAPI extends Component {
 			return new \WP_Error( 'missing_instance', __( 'Instance is  missing, You must provide an instance to deactivate license.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,
 			)
 		);
 
-		$activation = Activation::get(
+		$activation = Activation::find(
 			array(
 				'serial_id' => $serial_key->get_id(),
 				'instance'  => $instance,
@@ -369,11 +360,11 @@ class RestAPI extends Component {
 			'expires_at'       => $serial_key->get_expire_date(),
 			'product_id'       => $serial_key->get_product_id(),
 			'product'          => $serial_key->get_product_title(),
-			'activations'      => $serial_key->get_activations(
-				array(
-					'limit'  => - 1,
-					'output' => ARRAY_A,
-				)
+			'activations'      => array_map(
+				function ( $activation ) {
+					return $activation->to_array();
+				},
+				$serial_key->get_activations( array( 'limit' => - 1 ) )
 			),
 
 			// Deprecated.
@@ -395,7 +386,7 @@ class RestAPI extends Component {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
 
-		$serial_key = Key::get(
+		$serial_key = Key::find(
 			array(
 				'serial_key' => $key,
 				'product_id' => $product_id,

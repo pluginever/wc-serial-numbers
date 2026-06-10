@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCommerceSerialNumbers;
+namespace PluginEver\SerialNumbers;
 
-use WooCommerceSerialNumbers\B8\Component;
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * Class Cart.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers
  */
 class Cart extends Component {
 

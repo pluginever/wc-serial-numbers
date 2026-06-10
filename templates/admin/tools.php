@@ -1,14 +1,14 @@
 <?php
 /**
- * Show the reports page.
+ * Show the tools page.
  *
  * @since 1.0.0
- * @package WooCommerceSerialNumbers\Admin\Views
+ * @package PluginEver\SerialNumbers\Admin\Views
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$page_url = admin_url( 'admin.php?page=wc-serial-numbers-reports' );
+$page_url = admin_url( 'admin.php?page=wc-serial-numbers-tools' );
 ?>
 <div class="wrap pev-wrap woocommerce">
 	<?php if ( is_array( $tabs ) ) : ?>
@@ -19,7 +19,7 @@ $page_url = admin_url( 'admin.php?page=wc-serial-numbers-reports' );
 		</h2>
 	<?php endif; ?>
 	<hr class="wp-header-end">
-	<div class="wcsn-reports-tab-content wcsn-reports-tab-<?php echo esc_attr( $current_tab ); ?>">
-		<?php do_action( 'wc_serial_numbers_reports_tab_' . $current_tab ); ?>
+	<div class="wcsn-tools-tab-content wcsn-tools-tab-<?php echo esc_attr( $current_tab ); ?>">
+		<?php do_action( 'wc_serial_numbers_tools_tab_' . $current_tab ); ?>
 	</div>
 </div>

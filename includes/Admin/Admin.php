@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Admin;
 
-use WooCommerceSerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\B8\Component;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * Class Admin.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin
+ * @package PluginEver\SerialNumbers\Admin
  */
 class Admin extends Component {
 
@@ -23,9 +23,8 @@ class Admin extends Component {
 	public array $components = array(
 		Settings::class,
 		Menus::class,
-		Requests::class,
-		Orders::class,
-		Products::class,
+		Tools::class,
+		Reports::class,
 	);
 
 	/**
@@ -297,37 +296,6 @@ class Admin extends Component {
 		return apply_filters( 'wc_serial_numbers_screen_ids', $screen_ids );
 	}
 
-	/**
-	 * Render a view.
-	 *
-	 * @param string $view The name of the view to render.
-	 * @param array  $args The arguments to pass to the view.
-	 * @param string $path The path to the view file.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function view( $view, $args = array(), $path = '' ) {
-		if ( empty( $path ) ) {
-			$path = __DIR__ . '/views/';
-		}
-		// replace .php extension if it was added.
-		$view = str_replace( '.php', '', $view );
-		$view = ltrim( $view, '/' );
-		$path = rtrim( $path, '/' );
-
-		$file = $path . '/' . $view . '.php';
-
-		if ( ! file_exists( $file ) ) {
-			return;
-		}
-
-		if ( $args && is_array( $args ) ) {
-			extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
-		}
-
-		include $file;
-	}
 
 	/**
 	 * Allowed redirect hosts.

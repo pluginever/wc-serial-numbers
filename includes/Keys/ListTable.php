@@ -1,8 +1,10 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin\ListTables;
+namespace PluginEver\SerialNumbers\Keys;
 
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\Admin\ListTables\ListTable as BaseListTable;
+
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -10,9 +12,9 @@ defined( 'ABSPATH' ) || exit;
  * Class KeysTable.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin\ListTables
+ * @package PluginEver\SerialNumbers\Admin\ListTables
  */
-class KeysTable extends ListTable {
+class ListTable extends BaseListTable {
 	/**
 	 * Number of results to show per page
 	 *
@@ -112,17 +114,28 @@ class KeysTable extends ListTable {
 		}
 
 		$args = array(
-			'per_page'    => $per_page,
-			'paged'       => $current_page,
-			'orderby'     => $orderby,
-			'order'       => $order,
-			'status'      => $status,
-			'product_id'  => $product_id,
-			'order_id'    => $order_id,
-			'customer_id' => $customer_id,
-			'include'     => $id,
-			'search'      => $search,
+			'limit'      => $per_page,
+			'page'       => $current_page,
+			'orderby'    => $orderby,
+			'order'      => $order,
+			'status'     => $status,
+			'product_id' => $product_id,
+			'order_id'   => $order_id,
+			'include'    => $id,
+			'search'     => $search,
 		);
+
+		// Constrain to the orders of the given customer.
+		if ( ! empty( $customer_id ) ) {
+			$order_ids            = wc_get_orders(
+				array(
+					'customer_id' => absint( $customer_id ),
+					'limit'       => - 1,
+					'return'      => 'ids',
+				)
+			);
+			$args['order_id__in'] = ! empty( $order_ids ) ? $order_ids : array( 0 );
+		}
 
 		$this->items           = Key::query( $args );
 		$this->available_count = Key::count( array_merge( $args, array( 'status' => 'available' ) ) );
@@ -303,7 +316,7 @@ class KeysTable extends ListTable {
 			}
 
 			foreach ( $ids as $id ) { // Check the permissions on each.
-				$key = Key::get( $id );
+				$key = Key::find( $id );
 				if ( ! $key ) {
 					continue;
 				}

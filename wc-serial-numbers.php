@@ -35,11 +35,11 @@
  * @author              Sultan Nasir Uddin <manikdrmc@gmail.com>
  * @copyright           2026 ByteEver
  * @license             GPL-2.0+
- * @package             WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers
  */
 
-use WooCommerceSerialNumbers\Installer;
-use WooCommerceSerialNumbers\Plugin;
+use PluginEver\SerialNumbers\Installer;
+use PluginEver\SerialNumbers\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,6 +51,8 @@ require_once __DIR__ . '/includes/deprecated.php';
 $data = array(
 	'version'      => '2.4.0',
 	'short_name'   => 'wc_serial_numbers',
+	'rest_prefix'  => 'wcsn',
+	'rest_version' => 'v1',
 	'name'         => 'Serial Numbers',
 	'plugin_uri'   => 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/',
 	'settings_url' => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),

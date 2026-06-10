@@ -3,16 +3,16 @@
  * Essential functions for the plugin.
  *
  * @since 1.0.0
- * @package WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers
  */
 
-use WooCommerceSerialNumbers\Encryption;
-use WooCommerceSerialNumbers\Models\Activation;
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\Encryption;
+use PluginEver\SerialNumbers\Models\Activation;
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit;
 
-require_once __DIR__ . '/Functions/Template.php';
+require_once __DIR__ . '/template.php';
 
 /**
  * Get manager role.
@@ -162,7 +162,7 @@ function wcsn_get_order_object( $order ) {
  * @return Key|WP_Error object on success, WP_Error object on failure.
  */
 function wcsn_insert_key( $args, $wp_error = true ) {
-	return Key::insert( $args, $wp_error );
+	return Key::insert( $args, null, $wp_error );
 }
 
 /**
@@ -180,9 +180,32 @@ function wcsn_get_keys( $args = array(), $count = false ) {
 		'offset'  => 0,
 		'orderby' => 'id',
 		'order'   => 'DESC',
-		'fields'  => 'all',
 	);
 	$args     = wp_parse_args( $args, $defaults );
+
+	// Map the function's public per_page/paged args to the native limit/page args.
+	if ( isset( $args['per_page'] ) ) {
+		$args['limit'] = (int) $args['per_page'];
+		unset( $args['per_page'] );
+	}
+	if ( isset( $args['paged'] ) ) {
+		$args['page'] = max( 1, (int) $args['paged'] );
+		unset( $args['paged'] );
+	}
+
+	// Constrain to the orders of the given customer.
+	if ( ! empty( $args['customer_id'] ) ) {
+		$order_ids            = wc_get_orders(
+			array(
+				'customer_id' => absint( $args['customer_id'] ),
+				'limit'       => - 1,
+				'return'      => 'ids',
+			)
+		);
+		$args['order_id__in'] = ! empty( $order_ids ) ? $order_ids : array( 0 );
+	}
+	unset( $args['customer_id'] );
+
 	if ( $count ) {
 		return Key::count( $args );
 	}
@@ -199,7 +222,9 @@ function wcsn_get_keys( $args = array(), $count = false ) {
  * @return Key|false
  */
 function wcsn_get_key( $key ) {
-	return Key::get( $key );
+	$key = Key::find( $key );
+
+	return $key ? $key : false;
 }
 
 /**
@@ -246,14 +271,45 @@ function wcsn_get_activations( $args = array(), $count = false ) {
 		'offset'  => 0,
 		'orderby' => 'id',
 		'order'   => 'DESC',
-		'fields'  => 'all',
 	);
 	$args     = wp_parse_args( $args, $defaults );
-	if ( $count ) {
-		return Activation::count( $args );
+
+	// Map the function's public per_page/paged args to the native limit/page args.
+	if ( isset( $args['per_page'] ) ) {
+		$args['limit'] = (int) $args['per_page'];
+		unset( $args['per_page'] );
+	}
+	if ( isset( $args['paged'] ) ) {
+		$args['page'] = max( 1, (int) $args['paged'] );
+		unset( $args['paged'] );
 	}
 
-	return Activation::query( $args );
+	// order_id and product_id are key columns, constrain through the keys table.
+	$order_id   = ! empty( $args['order_id'] ) ? absint( $args['order_id'] ) : 0;
+	$product_id = ! empty( $args['product_id'] ) ? absint( $args['product_id'] ) : 0;
+	unset( $args['order_id'], $args['product_id'] );
+
+	$query = Activation::query()->set_var( $args );
+
+	if ( $order_id || $product_id ) {
+		$key_table        = ( new Key() )->get_table();
+		$activation_table = ( new Activation() )->get_table();
+		$query->join( $key_table, "{$activation_table}.serial_id", "{$key_table}.id" );
+
+		if ( $order_id ) {
+			$query->where( "{$key_table}.order_id", $order_id );
+		}
+
+		if ( $product_id ) {
+			$query->where( "{$key_table}.product_id", $product_id );
+		}
+	}
+
+	if ( $count ) {
+		return $query->count();
+	}
+
+	return $query->get();
 }
 
 /**
@@ -265,7 +321,9 @@ function wcsn_get_activations( $args = array(), $count = false ) {
  * @return Activation|false
  */
 function wcsn_get_activation( $activation ) {
-	return Activation::get( $activation );
+	$activation = Activation::find( $activation );
+
+	return $activation ? $activation : false;
 }
 
 /**
@@ -447,7 +505,6 @@ function wcsn_order_get_unfulfilled_items( $order_id ) {
  */
 function wcsn_order_update_keys( $order_id ) {
 	$order          = wcsn_get_order_object( $order_id );
-	$customer_id    = $order->get_customer_id();
 	$line_items     = wcsn_get_order_line_items_data( $order );
 	$revoke_statues = wcsn_get_revoke_statuses();
 	$order_status   = $order->get_status( 'edit' );
@@ -549,12 +606,11 @@ function wcsn_order_update_keys( $order_id ) {
 
 			// Assign keys to order.
 			foreach ( $keys as $key ) {
-				$key->set_data(
+				$key->fill(
 					array(
 						'order_id'      => $order_id,
 						'order_item_id' => $item['order_item_id'],
 						'order_date'    => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d H:i:s' ) : current_time( 'mysql' ),
-						'customer_id'   => $customer_id,
 						'status'        => 'sold',
 					)
 				);
@@ -679,7 +735,7 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 			$props['order_item_id'] = 0;
 			$props['order_date']    = null;
 		}
-		$key->set_data( $props );
+		$key->fill( $props );
 		$key->save();
 	}
 
@@ -713,7 +769,6 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 	$args       = array(
 		'order_id' => $order_id,
 		'limit'    => - 1,
-		'no_count' => true,
 	);
 
 	if ( ! empty( $product_id ) ) {
@@ -752,7 +807,7 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 			$props['order_item_id'] = 0;
 			$props['order_date']    = null;
 		}
-		$key->set_data( $props );
+		$key->fill( $props );
 		if ( $key->save() ) {
 			++$replaced;
 		}

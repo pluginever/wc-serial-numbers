@@ -1,19 +1,29 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin;
+namespace PluginEver\SerialNumbers\Keys;
 
-use WooCommerceSerialNumbers\B8\Component;
-use WooCommerceSerialNumbers\Models\Key;
+use PluginEver\SerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Class Requests.
+ * Class Admin.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin
+ * @package PluginEver\SerialNumbers\Keys
  */
-class Requests extends Component {
+class Admin extends Component {
+
+	/**
+	 * Whether to load.
+	 *
+	 * @since 2.4.0
+	 * @return bool
+	 */
+	public function autoload(): bool {
+		return is_admin();
+	}
 
 	/**
 	 * Register hooks.
@@ -28,6 +38,33 @@ class Requests extends Component {
 		add_action( 'wp_ajax_wc_serial_numbers_search_product', array( $this, 'search_product' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( $this, 'search_orders' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_search_customers', array( $this, 'search_customers' ) );
+	}
+
+	/**
+	 * Output keys page.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function output_page() {
+		wp_verify_nonce( '_nonce' );
+		$add  = isset( $_GET['add'] ) ? true : false;
+		$edit = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
+		if ( $edit ) {
+			$key = Key::find( $edit );
+			if ( ! $key ) {
+				wp_safe_redirect( remove_query_arg( 'edit' ) );
+				exit();
+			}
+		}
+
+		if ( $add ) {
+			$this->app->template->view( 'admin.edit-key', array( 'key' => new Key() ) );
+		} elseif ( $edit ) {
+			$this->app->template->view( 'admin.edit-key', array( 'key' => $key ) );
+		} else {
+			$this->app->template->view( 'admin.list-keys' );
+		}
 	}
 
 	/**

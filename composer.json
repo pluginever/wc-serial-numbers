@@ -4,12 +4,12 @@
 	"license": "GPL-2.0-or-later",
 	"repositories": [
 		{ "type": "vcs", "url": "git@github.com:byteever/plugin.git" },
-		{ "type": "vcs", "url": "git@github.com:pluginever/framework-model.git" }
+		{ "type": "vcs", "url": "git@github.com:byteever/models.git" }
 	],
 	"require": {
 		"php": ">=7.4",
-		"byteever/plugin": "^1.0",
-		"pluginever/framework-model": "dev-trunk"
+		"byteever/models": "dev-trunk",
+		"byteever/plugin": "^1.0"
 	},
 	"require-dev": {
 		"byteever/byteever-sniffs": "^1.1.3",
@@ -19,12 +19,12 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"WooCommerceSerialNumbers\\": "includes/"
+			"PluginEver\\SerialNumbers\\": "includes/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"WooCommerceSerialNumbers\\Tests\\": "tests/phpunit/"
+			"PluginEver\\SerialNumbers\\Tests\\": "tests/phpunit/"
 		}
 	},
 	"config": {
@@ -54,11 +54,11 @@
 	"extra": {
 		"strauss": {
 			"target_directory": "vendor",
-			"namespace_prefix": "WooCommerceSerialNumbers\\",
-			"classmap_prefix": "WooCommerceSerialNumbers__",
+			"namespace_prefix": "PluginEver\\SerialNumbers\\",
+			"classmap_prefix": "PluginEver_SerialNumbers__",
 			"packages": [
-				"byteever/plugin",
-				"pluginever/framework-model"
+				"byteever/models",
+				"byteever/plugin"
 			]
 		}
 	}

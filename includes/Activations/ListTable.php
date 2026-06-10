@@ -1,8 +1,10 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin\ListTables;
+namespace PluginEver\SerialNumbers\Activations;
 
-use WooCommerceSerialNumbers\Models\Activation;
+use PluginEver\SerialNumbers\Admin\ListTables\ListTable as BaseListTable;
+
+use PluginEver\SerialNumbers\Models\Activation;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -10,9 +12,9 @@ defined( 'ABSPATH' ) || exit;
  * Class ActivationsTable.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin\ListTables
+ * @package PluginEver\SerialNumbers\Admin\ListTables
  */
-class ActivationsTable extends ListTable {
+class ListTable extends BaseListTable {
 	/**
 	 * Number of results to show per page
 	 *
@@ -60,29 +62,23 @@ class ActivationsTable extends ListTable {
 		$search                = filter_input( INPUT_GET, 's', FILTER_SANITIZE_SPECIAL_CHARS );
 		$product_id            = filter_input( INPUT_GET, 'product_id', FILTER_SANITIZE_NUMBER_INT );
 		$order_id              = filter_input( INPUT_GET, 'order_id', FILTER_SANITIZE_NUMBER_INT );
-		$customer_id           = filter_input( INPUT_GET, 'customer_id', FILTER_SANITIZE_NUMBER_INT );
 		$id                    = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT );
 		$serial_id             = filter_input( INPUT_GET, 'serial_id', FILTER_SANITIZE_NUMBER_INT );
 
-		if ( array_key_exists( $orderby, $this->get_sortable_columns() ) && 'order_date' !== $orderby ) {
-			$args['orderby'] = $orderby;
-		}
-
 		$args = array(
-			'per_page'    => $per_page,
-			'paged'       => $current_page,
-			'orderby'     => $orderby,
-			'order'       => $order,
-			'product_id'  => $product_id,
-			'order_id'    => $order_id,
-			'customer_id' => $customer_id,
-			'include'     => $id,
-			'search'      => $search,
-			'serial_id'   => $serial_id,
+			'limit'      => $per_page,
+			'page'       => $current_page,
+			'orderby'    => $orderby,
+			'order'      => $order,
+			'product_id' => $product_id,
+			'order_id'   => $order_id,
+			'include'    => $id,
+			'search'     => $search,
+			'serial_id'  => $serial_id,
 		);
 
-		$this->items       = Activation::query( $args );
-		$this->total_count = Activation::count( $args );
+		$this->items       = wcsn_get_activations( $args );
+		$this->total_count = wcsn_get_activations( $args, true );
 
 		$this->set_pagination_args(
 			array(
@@ -134,7 +130,7 @@ class ActivationsTable extends ListTable {
 			}
 
 			foreach ( $ids as $id ) { // Check the permissions on each.
-				$key = Activation::get( $id );
+				$key = Activation::find( $id );
 				if ( ! $key ) {
 					continue;
 				}

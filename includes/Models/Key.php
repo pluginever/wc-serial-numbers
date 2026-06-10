@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Models;
+namespace PluginEver\SerialNumbers\Models;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -8,16 +8,16 @@ defined( 'ABSPATH' ) || exit;
  * Class Key.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Models
+ * @package PluginEver\SerialNumbers\Models
  */
 class Key extends Model {
 	/**
-	 * Table name.
+	 * The table associated with the model.
 	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $table_name = 'serial_numbers';
+	protected $table = 'serial_numbers';
 
 	/**
 	 * Object type.
@@ -28,12 +28,42 @@ class Key extends Model {
 	protected $object_type = 'key';
 
 	/**
-	 * Core data for this object. Name value pairs (name + default value).
+	 * The cache group for the object type.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	protected $cache_group = 'serial_numbers';
+
+	/**
+	 * The table columns of the model.
 	 *
 	 * @since 1.0.0
 	 * @var array
 	 */
-	protected $core_data = array(
+	protected $columns = array(
+		'id',
+		'serial_key',
+		'product_id',
+		'activation_limit',
+		'activation_count',
+		'order_id',
+		'order_item_id',
+		'vendor_id',
+		'status',
+		'validity',
+		'order_date',
+		'source',
+		'created_date',
+	);
+
+	/**
+	 * The model's attributes with their default values.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $attributes = array(
 		'id'               => 0,
 		'serial_key'       => '',
 		'product_id'       => 0,
@@ -49,6 +79,45 @@ class Key extends Model {
 		'created_date'     => '',
 	);
 
+	/**
+	 * The attributes that should be cast.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $casts = array(
+		'id'               => 'int',
+		'product_id'       => 'int',
+		'activation_limit' => 'int',
+		'activation_count' => 'int',
+		'order_id'         => 'int',
+		'order_item_id'    => 'int',
+		'vendor_id'        => 'int',
+		'validity'         => 'int',
+	);
+
+	/**
+	 * The searchable attributes.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $searchable = array(
+		'id',
+		'serial_key',
+		'product_id',
+		'activation_limit',
+		'activation_count',
+		'order_id',
+		'order_item_id',
+		'vendor_id',
+		'status',
+		'validity',
+		'order_date',
+		'source',
+		'created_date',
+	);
+
 	/*
 	|--------------------------------------------------------------------------
 	| Getters and Setters
@@ -62,7 +131,7 @@ class Key extends Model {
 	 *
 	 * @since  1.4.6
 	 *
-	 * @return string
+	 * @return int
 	 */
 	public function get_id() {
 		return $this->get_prop( 'id' );
@@ -501,7 +570,7 @@ class Key extends Model {
 	 * Saves an object in the database.
 	 *
 	 * @since 1.0.0
-	 * @return true|\WP_Error True on success, WP_Error on failure.
+	 * @return static|\WP_Error Object instance on success, WP_Error on failure.
 	 */
 	public function save() {
 		// Product id is required.
@@ -521,7 +590,7 @@ class Key extends Model {
 
 		// Duplicate serial key is not allowed.
 		if ( ! wcsn_is_duplicate_key_allowed() ) {
-			$existing = self::get(
+			$existing = static::find(
 				array(
 					'serial_key' => $this->get_serial_key(),
 				)
@@ -560,6 +629,43 @@ class Key extends Model {
 		return parent::save();
 	}
 
+	/**
+	 * Create an item in the database.
+	 *
+	 * The serial key is encrypted at rest before it is written.
+	 *
+	 * @param array $data Data to be inserted.
+	 *
+	 * @since 1.0.0
+	 * @return \WP_Error|int The ID of the inserted item, or WP_Error on failure.
+	 */
+	protected function perform_create( $data ) {
+		if ( ! empty( $data['serial_key'] ) ) {
+			$data['serial_key'] = wcsn_encrypt_key( $data['serial_key'] );
+		}
+
+		return parent::perform_create( $data );
+	}
+
+	/**
+	 * Update an item in the database.
+	 *
+	 * The serial key is encrypted at rest before it is written.
+	 *
+	 * @param int   $id ID of the item to be updated.
+	 * @param array $data Data to be updated.
+	 *
+	 * @since 1.0.0
+	 * @return \WP_Error|bool True on success, or WP_Error on failure.
+	 */
+	protected function perform_update( $id, $data ) {
+		if ( ! empty( $data['serial_key'] ) ) {
+			$data['serial_key'] = wcsn_encrypt_key( $data['serial_key'] );
+		}
+
+		return parent::perform_update( $id, $data );
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Query Methods
@@ -570,124 +676,77 @@ class Key extends Model {
 	*/
 
 	/**
-	 * Retrieve the object instance.
+	 * Bootstrap the model.
 	 *
-	 * @param int|array|static $data Object ID or array of arguments.
+	 * Wires the encryption boundary into the native read and query hooks:
+	 * the serial key is decrypted when read from the database and search
+	 * terms are encrypted to match the value at rest.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return static|false Object instance on success, false on failure.
+	 * @return void
 	 */
-	public static function get( $data ) {
-		// If by is set to serial key, encrypt it.
-		if ( is_array( $data ) && array_key_exists( 'serial_key', $data ) ) {
-			$data['serial_key'] = wcsn_encrypt_key( $data['serial_key'] );
-		}
-
-		return parent::get( $data );
+	protected function bootstrap() {
+		parent::bootstrap();
+		$this->on_filter( 'serial_key', 'wcsn_decrypt_key' );
+		$this->on_filter( 'query_args', array( static::class, 'prepare_search' ), 10, 2 );
 	}
 
 	/**
-	 * Prepare where query.
+	 * Find a key by its primary key or column conditions.
 	 *
-	 * @param array $clauses Query clauses.
-	 * @param array $args Array of args to pass to the query method.
+	 * The serial key is stored encrypted, so a serial_key condition is
+	 * encrypted before it is matched against the database.
+	 *
+	 * @param mixed $id The ID or array of column conditions.
 	 *
 	 * @since 1.0.0
-	 * @return array
+	 * @return static|null The model instance, or null if not found.
 	 */
-	protected function prepare_where_query( $clauses, $args = array() ) {
-		global $wpdb;
-		$clauses = parent::prepare_where_query( $clauses, $args );
+	public static function find( $id ) {
+		if ( is_array( $id ) && ! empty( $id['serial_key'] ) ) {
+			$id['serial_key'] = wcsn_encrypt_key( $id['serial_key'] );
+		}
 
-		// If customer id is set, find the orders having that customer id and limit the results to those orders.
-		if ( ! empty( $args['customer_id'] ) ) {
-			$customer_id = absint( $args['customer_id'] );
-			$order_ids   = wc_get_orders(
-				array(
-					'customer_id' => $customer_id,
-					'limit'       => - 1,
-					'return'      => 'ids',
-				)
+		return parent::find( $id );
+	}
+
+	/**
+	 * Prepare the search query var.
+	 *
+	 * The serial key column holds encrypted values, so the search term is
+	 * encrypted when compared against that column.
+	 *
+	 * @param array                                     $args Query arguments.
+	 * @param \PluginEver\SerialNumbers\B8\Models\Query $query Query object.
+	 *
+	 * @since 1.0.0
+	 * @return array Query arguments.
+	 */
+	public static function prepare_search( $args, $query ) {
+		if ( empty( $args['search'] ) ) {
+			return $args;
+		}
+
+		$search  = $args['search'];
+		$columns = ! empty( $args['search_columns'] ) ? wp_parse_list( $args['search_columns'] ) : ( new static() )->get_searchable();
+		$columns = array_filter( array_unique( (array) $columns ) );
+
+		if ( ! empty( $columns ) ) {
+			$query->where(
+				function ( $q ) use ( $columns, $search ) {
+					foreach ( $columns as $column ) {
+						$term = 'serial_key' === $column ? wcsn_encrypt_key( $search ) : $search;
+						$q->where( $column, 'LIKE', $term );
+					}
+				},
+				'OR'
 			);
-
-			if ( ! empty( $order_ids ) ) {
-				$clauses['where'] .= " AND {$this->table_name}.order_id IN (" . implode( ',', $order_ids ) . ')';
-			} else {
-				$clauses['where'] .= ' AND 0';
-			}
 		}
 
-		return $clauses;
-	}
+		$args['search']         = '';
+		$args['search_columns'] = array();
 
-	/**
-	 * Prepare search query.
-	 *
-	 * @param array $clauses Query clauses.
-	 * @param array $args Array of args to pass to the query method.
-	 *
-	 * @since 1.0.0
-	 * @return array
-	 */
-	protected function prepare_search_query( $clauses, $args = array() ) {
-		global $wpdb;
-		/**
-		 * Filter the search query before setting up the query.
-		 *
-		 * @param array $clauses Query clauses.
-		 * @param array $args Query arguments.
-		 * @param static $this Current instance of the class.
-		 *
-		 * @return array
-		 * @since 1.0.0
-		 */
-		$clauses = apply_filters( $this->get_hook_prefix() . '_pre_setup_search_query', $clauses, $args, $this );
-
-		if ( ! empty( $args['search'] ) ) {
-			$search = $args['search'];
-			if ( ! empty( $args['search_columns'] ) ) {
-				$search_columns = wp_parse_list( $args['search_columns'] );
-			} else {
-				/**
-				 * Filter the columns to search in when performing a search query.
-				 *
-				 * @param array $search_columns Array of columns to search in.
-				 * @param array $args Query arguments.
-				 * @param static $object Current instance of the class.
-				 *
-				 * @return array
-				 * @since 1.0.0
-				 */
-				$search_columns = apply_filters( $this->get_hook_prefix() . '_search_columns', $this->get_searchable_keys(), $args, $this );
-			}
-			$search_columns = array_filter( array_unique( $search_columns ) );
-			$like           = '%' . $wpdb->esc_like( $search ) . '%';
-
-			$search_clauses = array();
-			foreach ( $search_columns as $column ) {
-				if ( 'serial_key' === $column ) {
-					$like = '%' . $wpdb->esc_like( wcsn_encrypt_key( $search ) ) . '%';
-				}
-				$search_clauses[] = $wpdb->prepare( $this->table_name . '.' . $column . ' LIKE %s', $like ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			}
-
-			if ( ! empty( $search_clauses ) ) {
-				$clauses['where'] .= 'AND (' . implode( ' OR ', $search_clauses ) . ')';
-			}
-		}
-
-		/**
-		 * Filter the search query after setting up the query.
-		 *
-		 * @param array $clauses Query clauses.
-		 * @param array $args Query arguments.
-		 * @param static $this Current instance of the class.
-		 *
-		 * @return array
-		 * @since 1.0.0
-		 */
-		return apply_filters( $this->get_hook_prefix() . '_setup_search_query', $clauses, $args, $this );
+		return $args;
 	}
 
 	/*
@@ -875,6 +934,6 @@ class Key extends Model {
 			$key = sprintf( '<code class="wcsn-key" data-unmasked="%s" data-masked="%s">%s</code>', esc_attr( $key ), esc_attr( $key ), $key );
 		}
 
-		return apply_filters( $this->get_hook_prefix() . '_display_key', $key, $this );
+		return $this->apply_filters( 'display_key', $key, $this );
 	}
 }

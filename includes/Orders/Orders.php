@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCommerceSerialNumbers;
+namespace PluginEver\SerialNumbers\Orders;
 
-use WooCommerceSerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\B8\Component;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -10,9 +10,19 @@ defined( 'ABSPATH' ) || exit;
  * Class Orders.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers
+ * @package PluginEver\SerialNumbers\Orders
  */
 class Orders extends Component {
+
+	/**
+	 * Child components.
+	 *
+	 * @since 2.4.0
+	 * @var array<int|string, class-string>
+	 */
+	public array $components = array(
+		Admin::class,
+	);
 
 	/**
 	 * Register hooks.

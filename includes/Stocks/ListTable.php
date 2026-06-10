@@ -1,6 +1,8 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin\ListTables;
+namespace PluginEver\SerialNumbers\Stocks;
+
+use PluginEver\SerialNumbers\Admin\ListTables\ListTable as BaseListTable;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -8,9 +10,9 @@ defined( 'ABSPATH' ) || exit;
  * Class StockTable.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin\ListTables
+ * @package PluginEver\SerialNumbers\Admin\ListTables
  */
-class StockTable extends ListTable {
+class ListTable extends BaseListTable {
 	/**
 	 * StockTable constructor.
 	 */

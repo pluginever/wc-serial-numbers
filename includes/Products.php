@@ -1,17 +1,27 @@
 <?php
 
-namespace WooCommerceSerialNumbers\Admin;
+namespace PluginEver\SerialNumbers;
 
-use WooCommerceSerialNumbers\B8\Component;
+use PluginEver\SerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Class Products.
  *
  * @since   1.0.0
- * @package WooCommerceSerialNumbers\Admin
+ * @package PluginEver\SerialNumbers
  */
 class Products extends Component {
+
+	/**
+	 * Whether to load.
+	 *
+	 * @since 2.4.0
+	 * @return bool
+	 */
+	public function autoload(): bool {
+		return is_admin();
+	}
 
 	/**
 	 * Register hooks.

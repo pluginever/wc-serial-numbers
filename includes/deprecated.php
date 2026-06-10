@@ -5,10 +5,45 @@
  * Deprecated functions.
  *
  * @since 1.4.6
- * @package WooCommerceSerialNumbers/Functions
+ * @package PluginEver\SerialNumbers/Functions
  */
 
 defined( 'ABSPATH' ) || exit;
+
+/**
+ * Alias the old WooCommerceSerialNumbers classes to their new names.
+ *
+ * Registered prepended so the alias resolves before the Composer autoloader
+ * reports the old class as missing.
+ */
+spl_autoload_register(
+	function ( $class_name ) {
+		if ( 0 !== strpos( $class_name, 'WooCommerceSerialNumbers\\' ) ) {
+			return;
+		}
+
+		$renamed = array(
+			'WooCommerceSerialNumbers\\Admin\\ListTables\\KeysTable'        => PluginEver\SerialNumbers\Keys\ListTable::class,
+			'WooCommerceSerialNumbers\\Admin\\ListTables\\ActivationsTable' => PluginEver\SerialNumbers\Activations\ListTable::class,
+			'WooCommerceSerialNumbers\\Admin\\ListTables\\StockTable'       => PluginEver\SerialNumbers\Stocks\ListTable::class,
+			'WooCommerceSerialNumbers\\Admin\\Requests'                     => PluginEver\SerialNumbers\Keys\Admin::class,
+			'WooCommerceSerialNumbers\\Admin\\Orders'                       => PluginEver\SerialNumbers\Orders\Admin::class,
+			'WooCommerceSerialNumbers\\Admin\\Products'                     => PluginEver\SerialNumbers\Products::class,
+			'WooCommerceSerialNumbers\\Frontend\\Frontend'                  => PluginEver\SerialNumbers\Shop::class,
+			'WooCommerceSerialNumbers\\Frontend\\Shortcodes'                => PluginEver\SerialNumbers\Shop::class,
+		);
+
+		$target = isset( $renamed[ $class_name ] )
+			? $renamed[ $class_name ]
+			: str_replace( 'WooCommerceSerialNumbers\\', 'PluginEver\\SerialNumbers\\', $class_name );
+
+		if ( class_exists( $target ) ) {
+			class_alias( $target, $class_name );
+		}
+	},
+	true,
+	true
+);
 
 /**
  * Get manager role.
@@ -424,7 +459,7 @@ function wc_serial_numbers_validate_boolean( $string ) {
  *
  * @since 1.5.6
  * @deprecated 1.5.6
- * @return WooCommerceSerialNumbers\Plugin
+ * @return PluginEver\SerialNumbers\Plugin
  */
 function wc_serial_numbers() {
 	return WCSN();
