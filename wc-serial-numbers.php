@@ -46,7 +46,7 @@ defined( 'ABSPATH' ) || exit;
 // Load the Composer autoloader.
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__ . '/includes/Deprecated/Functions.php';
+require_once __DIR__ . '/includes/deprecated.php';
 
 $data = array(
 	'version'      => '2.4.0',
@@ -72,17 +72,6 @@ Plugin::create( __FILE__, $data );
  */
 function WCSN(): Plugin { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	return Plugin::instance();
-}
-
-/**
- * Alias of WCSN().
- *
- * @since 1.5.6
- * @return Plugin
- * @deprecated 1.5.6
- */
-function wc_serial_numbers(): Plugin {
-	return WCSN();
 }
 
 // Register the plugin activation and deactivation hooks.

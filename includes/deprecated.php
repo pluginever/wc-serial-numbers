@@ -352,6 +352,7 @@ function wc_serial_numbers_order_has_serial_numbers( $order ) {
  *
  * @since 1.2.0
  * @return mixed|void
+ * @deprecated 1.2.0
  */
 function wc_serial_numbers_get_order_table_columns() {
 	$columns = array(
@@ -398,33 +399,11 @@ function wc_serial_numbers_get_stock_quantity( $product_id ) {
  * @since 1.2.0
  *
  * @return false|string|void
+ * @deprecated 1.2.0
  */
 function wc_serial_numbers_get_order_table( $order, $return = false ) {
 	wcsn_display_order_keys( $order, $return );
 }
-
-/**
- * Control software related columns
- *
- * @param $columns
- *
- * @since 1.2.0
- * @return mixed
- */
-function wc_serial_numbers_control_order_table_columns( $columns ) {
-	if ( wc_serial_numbers_software_support_disabled() ) {
-		$software_columns = array( 'activation_email', 'activation_limit', 'expire_date' );
-		foreach ( $columns as $key => $label ) {
-			if ( in_array( $key, $software_columns ) ) {
-				unset( $columns[ $key ] );
-			}
-		}
-	}
-
-	return $columns;
-}
-
-add_filter( 'wc_serial_numbers_order_table_columns', 'wc_serial_numbers_control_order_table_columns', 99 );
 
 
 /**
@@ -434,7 +413,19 @@ add_filter( 'wc_serial_numbers_order_table_columns', 'wc_serial_numbers_control_
  *
  * @since 1.2.0
  * @return mixed
+ * @deprecated 1.2.0
  */
 function wc_serial_numbers_validate_boolean( $string ) {
 	return filter_var( $string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
+}
+
+/**
+ * Alias of WCSN().
+ *
+ * @since 1.5.6
+ * @deprecated 1.5.6
+ * @return WooCommerceSerialNumbers\Plugin
+ */
+function wc_serial_numbers() {
+	return WCSN();
 }

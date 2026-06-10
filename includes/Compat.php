@@ -153,7 +153,7 @@ class Compat extends Component {
 	 */
 	public function woocommerce_pdf_invoice_support( $headers, $order_id ) {
 		$order   = wc_get_order( $order_id );
-		$content = wc_serial_numbers_get_order_table( $order, true );
+		$content = wcsn_display_order_keys( $order, true );
 
 		return $content . $headers;
 	}
@@ -173,7 +173,7 @@ class Compat extends Component {
 	public function wf_module_generate_template_html( $find_replace, $html, $template_type, $order ) {
 		if ( isset( $find_replace['[wfte_product_table_start]'] ) ) {
 			ob_start();
-			wc_serial_numbers_get_order_table( $order );
+			wcsn_display_order_keys( $order );
 			?>
 			<style type="text/css">
 				.wfte_product_table.wcsn-pdf-table {

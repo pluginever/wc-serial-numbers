@@ -28,6 +28,28 @@ class Orders extends Component {
 		add_action( 'woocommerce_order_status_changed', array( $this, 'handle_order_status_changed' ) );
 		add_action( 'woocommerce_email_after_order_table', array( $this, 'order_email_keys' ), PHP_INT_MAX );
 		add_action( 'woocommerce_order_details_after_order_table', array( $this, 'order_display_keys' ), 9 );
+		add_filter( 'wc_serial_numbers_order_table_columns', array( $this, 'control_order_table_columns' ), 99 );
+	}
+
+	/**
+	 * Control software related columns
+	 *
+	 * @param array $columns Order table columns.
+	 *
+	 * @since 1.2.0
+	 * @return mixed
+	 */
+	public function control_order_table_columns( $columns ) {
+		if ( ! wcsn_is_software_support_enabled() ) {
+			$software_columns = array( 'activation_email', 'activation_limit', 'expire_date' );
+			foreach ( $columns as $key => $label ) {
+				if ( in_array( $key, $software_columns, true ) ) {
+					unset( $columns[ $key ] );
+				}
+			}
+		}
+
+		return $columns;
 	}
 
 	/**
