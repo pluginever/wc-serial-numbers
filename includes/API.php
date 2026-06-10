@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers;
 
+use WooCommerceSerialNumbers\B8\Component;
 use WooCommerceSerialNumbers\Models\Activation;
 use WooCommerceSerialNumbers\Models\Key;
 
@@ -13,17 +14,28 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class API {
+class API extends Component {
 
 	/**
-	 * API constructor.
+	 * Whether to load.
+	 *
+	 * @since 2.4.0
+	 * @return bool
+	 */
+	public function autoload(): bool {
+		return wcsn_is_software_support_enabled();
+	}
+
+	/**
+	 * Register hooks.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
-	public function __construct() {
+	public function register(): void {
 		// add query vars.
-		add_filter( 'query_vars', array( __CLASS__, 'add_query_vars' ), 0 );
-		add_action( 'woocommerce_api_serial-numbers-api', array( __CLASS__, 'process_request' ) );
+		add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
+		add_action( 'woocommerce_api_serial-numbers-api', array( $this, 'process_request' ) );
 	}
 
 	/**
@@ -35,7 +47,7 @@ class API {
 	 *
 	 * @return array
 	 */
-	public static function add_query_vars( $vars ) {
+	public function add_query_vars( $vars ) {
 		$vars[] = 'product_id';
 		$vars[] = 'serial_key';
 		$vars[] = 'request';
@@ -51,7 +63,7 @@ class API {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function process_request() {
+	public function process_request() {
 		global $wp;
 		$action     = isset( $wp->query_vars['request'] ) ? sanitize_key( $wp->query_vars['request'] ) : '';
 		$product_id = isset( $wp->query_vars['product_id'] ) ? absint( $wp->query_vars['product_id'] ) : '';

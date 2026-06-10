@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers;
 
+use WooCommerceSerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -10,16 +11,17 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Cron {
+class Cron extends Component {
 
 	/**
-	 * Cron constructor.
+	 * Register hooks.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
-	public function __construct() {
-		add_action( 'wc_serial_numbers_hourly_event', array( __CLASS__, 'expire_outdated_serials' ) );
-		add_action( 'wc_serial_numbers_daily_event', array( __CLASS__, 'send_stock_alert_email' ) );
+	public function register(): void {
+		add_action( 'wc_serial_numbers_hourly_event', array( $this, 'expire_outdated_serials' ) );
+		add_action( 'wc_serial_numbers_daily_event', array( $this, 'send_stock_alert_email' ) );
 	}
 
 	/**
@@ -27,7 +29,7 @@ class Cron {
 	 *
 	 * since 1.0.0
 	 */
-	public static function expire_outdated_serials() {
+	public function expire_outdated_serials() {
 		global $wpdb;
 		$wpdb->query( "update {$wpdb->prefix}serial_numbers set status='expired' where validity !='0' AND (order_date + INTERVAL validity DAY ) < NOW()" );
 	}
@@ -38,7 +40,7 @@ class Cron {
 	 * @since 1.2.0
 	 * @return bool
 	 */
-	public static function send_stock_alert_email() {
+	public function send_stock_alert_email() {
 		if ( 'yes' !== get_option( 'wc_serial_numbers_enable_stock_notification' ) ) {
 			return false;
 		}

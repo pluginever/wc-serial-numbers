@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Frontend;
 
+use WooCommerceSerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -10,14 +11,15 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Shortcodes {
+class Shortcodes extends Component {
 
 	/**
-	 * Shortcodes constructor.
+	 * Register hooks.
 	 *
-	 * @since 1.0.0
+	 * @since 1.5.6
+	 * @return void
 	 */
-	public function __construct() {
+	public function register(): void {
 		add_shortcode( 'wc_serial_numbers_validation_form', array( $this, 'validation_form' ) );
 		add_shortcode( 'wc_serial_numbers_activation_form', array( $this, 'activation_form' ) );
 		add_action( 'wp_ajax_wc_serial_numbers_validate_key', array( $this, 'validate_serial_key' ) );

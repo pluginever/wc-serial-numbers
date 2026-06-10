@@ -4,6 +4,7 @@
 
 namespace WooCommerceSerialNumbers;
 
+use WooCommerceSerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -12,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Encryption {
+class Encryption extends Component {
 	private static $key;
 	const METHOD = 'AES-256-CBC';
 
@@ -43,11 +44,12 @@ class Encryption {
 
 
 	/**
-	 * Encryption constructor.
+	 * Register hooks.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
-	public function __construct() {
+	public function register(): void {
 		add_action( 'init', array( __CLASS__, 'setEncryptionKey' ) );
 	}
 

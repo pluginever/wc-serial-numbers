@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers;
 
+use WooCommerceSerialNumbers\B8\Component;
 use WooCommerceSerialNumbers\Models\Activation;
 use WooCommerceSerialNumbers\Models\Key;
 
@@ -15,21 +16,22 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.5.6
  * @package WooCommerceSerialNumbers
  */
-class Actions {
+class Actions extends Component {
 
 	/**
-	 * Actions constructor.
+	 * Register hooks.
 	 *
-	 * @since 1.5.6
+	 * @since 1.0.0
+	 * @return void
 	 */
-	public function __construct() {
-		add_action( 'wc_serial_numbers_key_db_data', array( __CLASS__, 'decrypt_key' ) );
-		add_action( 'wc_serial_numbers_key_insert_data', array( __CLASS__, 'encrypt_key' ) );
-		add_action( 'wc_serial_numbers_key_update_data', array( __CLASS__, 'encrypt_key' ) );
-		add_action( 'wc_serial_numbers_key_insert', array( __CLASS__, 'enable_product' ) );
-		add_action( 'wc_serial_numbers_key_deleted', array( __CLASS__, 'delete_activations' ) );
-		add_action( 'wc_serial_numbers_activation_inserted', array( __CLASS__, 'update_activation_count' ) );
-		add_action( 'wc_serial_numbers_activation_deleted', array( __CLASS__, 'update_activation_count' ) );
+	public function register(): void {
+		add_action( 'wc_serial_numbers_key_db_data', array( $this, 'decrypt_key' ) );
+		add_action( 'wc_serial_numbers_key_insert_data', array( $this, 'encrypt_key' ) );
+		add_action( 'wc_serial_numbers_key_update_data', array( $this, 'encrypt_key' ) );
+		add_action( 'wc_serial_numbers_key_insert', array( $this, 'enable_product' ) );
+		add_action( 'wc_serial_numbers_key_deleted', array( $this, 'delete_activations' ) );
+		add_action( 'wc_serial_numbers_activation_inserted', array( $this, 'update_activation_count' ) );
+		add_action( 'wc_serial_numbers_activation_deleted', array( $this, 'update_activation_count' ) );
 	}
 
 	/**
@@ -39,7 +41,7 @@ class Actions {
 	 *
 	 * @since 1.4.6
 	 */
-	public static function decrypt_key( $data ) {
+	public function decrypt_key( $data ) {
 		if ( ! empty( $data['serial_key'] ) ) {
 			$data['serial_key'] = wcsn_decrypt_key( $data['serial_key'] );
 		}
@@ -54,7 +56,7 @@ class Actions {
 	 *
 	 * @since 1.4.6
 	 */
-	public static function encrypt_key( $data ) {
+	public function encrypt_key( $data ) {
 		if ( ! empty( $data['serial_key'] ) ) {
 			$data['serial_key'] = wcsn_encrypt_key( $data['serial_key'] );
 		}
@@ -69,7 +71,7 @@ class Actions {
 	 *
 	 * @since 1.4.6
 	 */
-	public static function enable_product( $key_id ) {
+	public function enable_product( $key_id ) {
 		$key = Key::get( $key_id );
 
 		if ( $key ) {
@@ -88,7 +90,7 @@ class Actions {
 	 *
 	 * @since 1.4.6
 	 */
-	public static function delete_activations( $key ) {
+	public function delete_activations( $key ) {
 		$activations = $key->get_activations();
 		if ( $activations ) {
 			foreach ( $activations as $activation ) {
@@ -104,7 +106,7 @@ class Actions {
 	 *
 	 * @since 1.4.6
 	 */
-	public static function revoke_order_item_keys( $revoke ) {
+	public function revoke_order_item_keys( $revoke ) {
 		if ( 'yes' !== get_option( 'wc_serial_numbers_revoke_keys', 'yes' ) ) {
 			$revoke = false;
 		}
@@ -120,7 +122,7 @@ class Actions {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function update_activation_count( $activation ) {
+	public function update_activation_count( $activation ) {
 		$key = Key::get( $activation->get_serial_id() );
 		if ( $key ) {
 			$key->recount_remaining_activation();

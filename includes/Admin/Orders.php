@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
@@ -10,25 +11,26 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Orders {
+class Orders extends Component {
 
 	/**
-	 * Orders constructor.
+	 * Register hooks.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
-	public function __construct() {
+	public function register(): void {
 		// add custom order action.
 		add_filter( 'woocommerce_order_actions', array( $this, 'add_order_action' ) );
 		// handle custom order action.
 		add_action( 'woocommerce_order_action_wcsn_add_keys', array( $this, 'handle_order_action' ) );
 		add_action( 'woocommerce_order_action_wcsn_remove_keys', array( $this, 'handle_order_action' ) );
 
-		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_order_serial_column' ) );
-		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'add_order_serial_column_content' ), 20, 2 );
+		add_filter( 'manage_edit-shop_order_columns', array( $this, 'add_order_serial_column' ) );
+		add_action( 'manage_shop_order_posts_custom_column', array( $this, 'add_order_serial_column_content' ), 20, 2 );
 		// HPOS compatibility action.
-		add_filter( 'manage_woocommerce_page_wc-orders_columns', array( __CLASS__, 'add_order_serial_column' ), 20 );
-		add_action( 'manage_woocommerce_page_wc-orders_custom_column', array( __CLASS__, 'hpos_add_order_serial_column_content' ), 20, 2 );
+		add_filter( 'manage_woocommerce_page_wc-orders_columns', array( $this, 'add_order_serial_column' ), 20 );
+		add_action( 'manage_woocommerce_page_wc-orders_custom_column', array( $this, 'hpos_add_order_serial_column_content' ), 20, 2 );
 
 		// Add order bulk action.
 		add_filter( 'bulk_actions-edit-shop_order', array( $this, 'add_order_bulk_action' ) );
@@ -38,7 +40,7 @@ class Orders {
 		add_filter( 'handle_bulk_actions-woocommerce_page_wc-orders', array( $this, 'handle_order_bulk_action' ), 10, 3 );
 
 		// Display order keys in order details.
-		add_action( 'woocommerce_after_order_itemmeta', array( __CLASS__, 'display_order_item_meta' ), 10, 3 );
+		add_action( 'woocommerce_after_order_itemmeta', array( $this, 'display_order_item_meta' ), 10, 3 );
 	}
 
 	/**
@@ -66,7 +68,7 @@ class Orders {
 	public function handle_order_action( $order ) {
 		// Must have manage woocommerce user capability role to access this endpoint.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
-			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			$this->app->flash->error( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ) );
 			exit;
 		}
 
@@ -76,11 +78,11 @@ class Orders {
 		if ( 'wcsn_add_keys' === $action ) {
 			wcsn_order_update_keys( $order_id );
 			// add a notice.
-			WCSN()->add_notice( __( 'Serial keys added successfully to the order.', 'wc-serial-numbers' ) );
+			$this->app->flash->success( __( 'Serial keys added successfully to the order.', 'wc-serial-numbers' ) );
 		} elseif ( 'wcsn_remove_keys' === $action ) {
 			wcsn_order_remove_keys( $order_id );
 			// add a notice.
-			WCSN()->add_notice( __( 'Serial keys removed successfully from the order.', 'wc-serial-numbers' ) );
+			$this->app->flash->success( __( 'Serial keys removed successfully from the order.', 'wc-serial-numbers' ) );
 		}
 	}
 
@@ -92,7 +94,7 @@ class Orders {
 	 * @since 1.2.0
 	 * @return array|string[]
 	 */
-	public static function add_order_serial_column( $columns ) {
+	public function add_order_serial_column( $columns ) {
 		$position = 3;
 		$new      = array_slice( $columns, 0, $position, true ) + array( 'order_serials' => '<span class="dashicons dashicons-lock"></span>' ) + array_slice( $columns, $position, count( $columns ) - $position, true );
 
@@ -107,7 +109,7 @@ class Orders {
 	 *
 	 * @since 1.2.0
 	 */
-	public static function add_order_serial_column_content( $column, $order_id ) {
+	public function add_order_serial_column_content( $column, $order_id ) {
 
 		$order_status = wc_get_order( $order_id )->get_status();
 
@@ -145,7 +147,7 @@ class Orders {
 	 *
 	 * @since 1.6.9
 	 */
-	public static function hpos_add_order_serial_column_content( $column, $order_id ) {
+	public function hpos_add_order_serial_column_content( $column, $order_id ) {
 
 		$order        = wc_get_order( $order_id );
 		$order_id     = $order->get_id();
@@ -205,7 +207,7 @@ class Orders {
 	public function handle_order_bulk_action( $redirect_to, $action, $order_ids ) {
 		// Must have manage woocommerce user capability role to access this endpoint.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
-			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			$this->app->flash->error( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ) );
 			return $redirect_to;
 		}
 
@@ -221,7 +223,7 @@ class Orders {
 				}
 			}
 			// Translators: %d: number of orders.
-			WCSN()->add_notice( sprintf( __( '%d orders updated successfully.', 'wc-serial-numbers' ), count( $order_ids ) ) );
+			$this->app->flash->success( sprintf( __( '%d orders updated successfully.', 'wc-serial-numbers' ), count( $order_ids ) ) );
 			$redirect_to = add_query_arg( 'bulk_action', $action, $redirect_to );
 		}
 
@@ -237,7 +239,7 @@ class Orders {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function display_order_item_meta( $item_id, $item, $product ) {
+	public function display_order_item_meta( $item_id, $item, $product ) {
 		$order_id = wc_get_order_id_by_order_item_id( $item_id );
 		if ( ! $order_id || ! $product || ! wcsn_is_product_enabled( $product->get_id() ) ) {
 			return;

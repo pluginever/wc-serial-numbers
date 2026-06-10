@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers;
 
+use WooCommerceSerialNumbers\B8\Component;
 use WooCommerceSerialNumbers\Models\Activation;
 use WooCommerceSerialNumbers\Models\Key;
 
@@ -11,12 +12,15 @@ use WooCommerceSerialNumbers\Models\Key;
  * @since 1.7.3
  * @package WooCommerceSerialNumbers
  */
-class RestAPI {
+class RestAPI extends Component {
 
 	/**
-	 * RestAPI Constructor.
+	 * Register hooks.
+	 *
+	 * @since 1.7.3
+	 * @return void
 	 */
-	public function __construct() {
+	public function register(): void {
 		add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 	}
 

@@ -25,7 +25,7 @@
 	<!-- Coverage configuration. -->
 	<coverage processUncoveredFiles="true" includeUncoveredFiles="true">
 		<include>
-			<directory suffix=".php">./src</directory>
+			<directory suffix=".php">./includes</directory>
 		</include>
 		<exclude>
 			<directory suffix=".php">./vendor</directory>
