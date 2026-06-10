@@ -43,8 +43,8 @@ class Frontend extends Component {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		$this->app->scripts->enqueue_style( 'wc-serial-numbers-frontend', 'css/frontend-style.css' );
-		$this->app->scripts->enqueue_script( 'wc-serial-numbers-frontend', 'js/frontend-script.js', array( 'jquery' ) );
+		$this->app->scripts->enqueue_style( 'wc-serial-numbers-frontend', 'frontend.css' );
+		$this->app->scripts->enqueue_script( 'wc-serial-numbers-frontend', 'frontend.js', array( 'jquery' ) );
 		wp_localize_script(
 			'wc-serial-numbers-frontend',
 			'wc_serial_numbers_frontend_vars',

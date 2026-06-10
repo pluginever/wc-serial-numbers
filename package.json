@@ -1,59 +1,15 @@
 {
 	"name": "wc-serial-numbers",
-	"version": "2.3.4",
-	"description": "Sell and manage license keys, serial numbers, and secret keys easily within your WooCommerce store.",
-	"author": "ByteEver Team",
-	"license": "GPL-2.0-or-later",
-	"homepage": "https://pluginever.com/plugins/woocommerce-serial-numbers-pro/",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/pluginever/wc-serial-numbers.git"
-	},
-	"bugs": {
-		"url": "https://github.com/pluginever/wc-serial-numbers/issues"
-	},
-	"engines": {
-		"node": ">=20.11.1"
-	},
-	"devDependencies": {
-		"@byteever/scripts": "^3.0.4",
-		"@wordpress/browserslist-config": "^6.37.0",
-		"@wordpress/prettier-config": "^4.37.0",
-		"@wordpress/scripts": "^31.3.0"
-	},
+	"private": true,
 	"scripts": {
-		"build": "wp-scripts build && composer run makepot",
-		"build:wp": "wp-scripts build && composer run makepot",
-		"start": "wp-scripts start",
-		"lint": "npm run lint:js && npm run lint:css",
-		"lint:js": "wp-scripts lint-js",
-		"lint:css": "wp-scripts lint-style",
-		"lint:pkg-json": "wp-scripts lint-pkg-json",
-		"format:js": "wp-scripts format",
+		"css": "sass assets/src:assets/build",
+		"js": "esbuild assets/src/*.js --bundle --outdir=assets/build",
+		"start": "npm run css -- --watch & npm run js -- --watch",
+		"build": "npm run css -- --style=compressed --no-source-map && npm run js -- --minify",
 		"update": "npx npm-check-updates -u && npm i"
 	},
-	"browserslist": [
-		"extends @wordpress/browserslist-config"
-	],
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {
-				"grid": "autoplace"
-			},
-			"cssnano": {
-				"preset": [
-					"default",
-					{
-						"minifyFontValues": {
-							"removeQuotes": false
-						},
-						"colormin": false
-					}
-				]
-			},
-			"css-declaration-sorter": {
-				"order": "smacss"
-			}
-		}
+	"devDependencies": {
+		"esbuild": "^0.28.0",
+		"sass": "^1.100.0"
 	}
 }
