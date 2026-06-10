@@ -3,8 +3,8 @@
  * Plugin Name:          Serial Numbers
  * Plugin URI:           https://pluginever.com/plugins/woocommerce-serial-numbers-pro/
  * Description:          Sell and manage license keys, serial numbers, and secret keys easily within your WooCommerce store.
- * Version:              2.3.4
- * Requires at least:    5.2
+ * Version:              2.4.0
+ * Requires at least:    6.4
  * Tested up to:         7.0
  * Requires PHP:         7.4
  * Author:               PluginEver
@@ -38,31 +38,40 @@
  * @package             WooCommerceSerialNumbers
  */
 
+use WooCommerceSerialNumbers\Installer;
 use WooCommerceSerialNumbers\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-// Autoloader.
+// Load the Composer autoloader.
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/includes/functions.php';
+require_once __DIR__ . '/includes/Deprecated/Functions.php';
+
+$data = array(
+	'version'      => '2.4.0',
+	'short_name'   => 'wc_serial_numbers',
+	'name'         => 'Serial Numbers',
+	'plugin_uri'   => 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/',
+	'settings_url' => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),
+	'pro_basename' => 'wc-serial-numbers-pro/wc-serial-numbers-pro.php',
+	'upgrade_url'  => 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/',
+	'store_url'    => 'https://pluginever.com',
+	'docs_url'     => 'https://pluginever.com/docs/wocommerce-serial-numbers/',
+	'support_url'  => 'https://pluginever.com/support/',
+	'review_url'   => 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/#new-post',
+);
+
+Plugin::create( __FILE__, $data );
 
 /**
- * Get the plugin instance.
+ * Get the main plugin instance.
  *
  * @since 1.0.0
- * @return Plugin
+ * @return Plugin Plugin instance.
  */
-function WCSN() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-	$data = array(
-		'file'             => __FILE__,
-		'settings_url'     => admin_url( 'admin.php?page=wc-serial-numbers-settings' ),
-		'support_url'      => 'https://pluginever.com/support/',
-		'docs_url'         => 'https://pluginever.com/docs/wocommerce-serial-numbers/',
-		'premium_url'      => 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/',
-		'premium_basename' => 'wc-serial-numbers-pro',
-		'review_url'       => 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/#new-post',
-	);
-
-	return Plugin::create( $data );
+function WCSN(): Plugin { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+	return Plugin::instance();
 }
 
 /**
@@ -72,9 +81,26 @@ function WCSN() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.
  * @return Plugin
  * @deprecated 1.5.6
  */
-function wc_serial_numbers() {
+function wc_serial_numbers(): Plugin {
 	return WCSN();
 }
 
-// Initialize the plugin.
-WCSN();
+// Register the plugin activation and deactivation hooks.
+WCSN()->on_activation( array( Installer::class, 'install' ) );
+WCSN()->on_deactivation( array( Installer::class, 'deactivate' ) );
+
+// Show a notice when WooCommerce is missing.
+if ( is_admin() && ! WCSN()->plugin_active( 'woocommerce' ) ) {
+	WCSN()->notices->add(
+		array(
+			'notice_id'   => 'wc_serial_numbers_missing_dependency',
+			'type'        => 'error',
+			'dismissible' => false,
+			'capability'  => 'activate_plugins',
+			'message'     => WCSN()->plugin_path( 'includes/Admin/views/html-notice-dependency.php' ),
+		)
+	);
+}
+
+// Boot the plugin.
+WCSN()->bootstrap();

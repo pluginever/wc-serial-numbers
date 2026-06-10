@@ -5,35 +5,45 @@ namespace WooCommerceSerialNumbers;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Installer.
+ * Handles plugin installation.
  *
  * @since   1.4.2
  * @package WooCommerceSerialNumbers
  */
-class Installer {
+class Installer extends B8\Component {
 
 	/**
-	 * Update callbacks.
+	 * Update hook name.
+	 *
+	 * @since 2.4.0
+	 * @var string
+	 */
+	const UPDATE_HOOK = 'wc_serial_numbers_run_update';
+
+	/**
+	 * Upgrade routines keyed by the target version.
 	 *
 	 * @since 1.4.2
-	 * @var array
+	 * @var array<string, callable>
 	 */
-	protected $updates = array(
-		'1.1.2' => 'update_112',
-		'1.2.0' => 'update_120',
-		'1.2.1' => 'update_121',
-		'1.4.6' => 'update_146',
-		'1.5.6' => 'update_156',
+	protected array $updates = array(
+		'1.1.2' => array( self::class, 'update_112' ),
+		'1.2.0' => array( self::class, 'update_120' ),
+		'1.2.1' => array( self::class, 'update_121' ),
+		'1.4.6' => array( self::class, 'update_146' ),
+		'1.5.6' => array( self::class, 'update_156' ),
 	);
 
 	/**
-	 * Installer constructor.
+	 * Register hooks.
 	 *
 	 * @since 1.4.2
+	 * @return void
 	 */
-	public function __construct() {
-		add_filter( 'cron_schedules', array( __CLASS__, 'custom_cron_schedules' ), 20 ); // phpcs:ignore WordPress.WP.CronInterval.CronSchedulesInterval
-		add_action( 'init', array( $this, 'check_update' ), 0 );
+	public function register(): void {
+		add_filter( 'cron_schedules', array( $this, 'custom_cron_schedules' ), 20 ); // phpcs:ignore WordPress.WP.CronInterval.CronSchedulesInterval
+		add_action( 'init', array( $this, 'maybe_update' ) );
+		add_action( self::UPDATE_HOOK, array( $this, 'run_update' ) );
 	}
 
 	/**
@@ -44,7 +54,7 @@ class Installer {
 	 * @since 1.0.0
 	 * @return array
 	 */
-	public static function custom_cron_schedules( $schedules ) {
+	public function custom_cron_schedules( $schedules ) {
 		$schedules ['once_a_minute'] = array(
 			'interval' => 60,
 			'display'  => esc_html__( 'Once a Minute', 'wc-serial-numbers' ),
@@ -54,59 +64,43 @@ class Installer {
 	}
 
 	/**
-	 * Check the plugin version and run the updater if necessary.
-	 *
-	 * This check is done on all requests and runs if the versions do not match.
+	 * Run a pending upgrade.
 	 *
 	 * @since 1.4.2
 	 * @return void
 	 */
-	public function check_update() {
-		$db_version      = WCSN()->get_db_version();
-		$current_version = WCSN()->get_version();
-		$requires_update = version_compare( $db_version, $current_version, '<' );
-		$can_install     = ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) && ! defined( 'IFRAME_REQUEST' );
-		if ( $can_install && $requires_update ) {
-			static::install();
+	public function maybe_update(): void {
+		$legacy_version = get_option( $this->app->option_prefix . '_version' );
+		if ( $legacy_version && ! $this->app->options->has( 'db_version' ) ) {
+			$this->app->options->update_db_version( $legacy_version );
+			delete_option( $this->app->option_prefix . '_version' );
+		}
 
-			$update_versions = array_keys( $this->updates );
-			usort( $update_versions, 'version_compare' );
-			if ( ! is_null( $db_version ) && version_compare( $db_version, end( $update_versions ), '<' ) ) {
-				$this->update();
-			} else {
-				WCSN()->update_db_version( $current_version );
-			}
+		if ( version_compare( $this->app->version, $this->app->options->get_db_version(), '>' ) ) {
+			$this->install();
+			$this->app->queue->add( self::UPDATE_HOOK );
 		}
 	}
 
 	/**
-	 * Update the plugin.
+	 * Run the pending upgrades.
 	 *
 	 * @since 1.4.2
 	 * @return void
 	 */
-	public function update() {
-		$db_version = WCSN()->get_db_version();
-		foreach ( $this->updates as $version => $callbacks ) {
-			$callbacks = (array) $callbacks;
-			if ( version_compare( $db_version, $version, '<' ) ) {
-				foreach ( $callbacks as $callback ) {
-					WCSN()->log( sprintf( 'Updating to %s from %s', $version, $db_version ) );
-					// if the callback return false then we need to update the db version.
-					$continue = call_user_func( array( $this, $callback ) );
-					if ( ! $continue ) {
-						WCSN()->update_db_version( $version );
-						$notice = sprintf(
-						/* translators: 1: plugin name 2: version number */
-							__( '%1$s updated to version %2$s successfully.', 'wc-serial-numbers' ),
-							'<strong>Serial Numbers for WooCommerce</strong>',
-							'<strong>' . $version . '</strong>'
-						);
-						WCSN()->add_notice( $notice, 'success' );
-					}
-				}
+	public function run_update(): void {
+		$installed = $this->app->options->get_db_version();
+
+		uksort( $this->updates, 'version_compare' );
+
+		foreach ( $this->updates as $version => $callback ) {
+			if ( version_compare( $installed, $version, '<' ) ) {
+				call_user_func( $callback );
+				$this->app->options->update_db_version( $version, true );
 			}
 		}
+
+		$this->app->options->update_db_version( $this->app->version, true );
 	}
 
 	/**
@@ -115,26 +109,36 @@ class Installer {
 	 * @since 1.4.2
 	 * @return void
 	 */
-	public static function install() {
-		if ( ! is_blog_installed() ) {
-			return;
-		}
+	public function install(): void {
+		$this->create_tables();
+		$this->create_cron_jobs();
+		$this->create_defaults();
 
-		self::create_tables();
-		self::create_cron_jobs();
-		Admin\Settings::instance()->save_defaults();
-		WCSN()->update_db_version( WCSN()->get_version(), false );
-		add_option( 'wc_serial_numbers_install_date', current_time( 'mysql' ) );
-		set_transient( 'wc_serial_numbers_activated', true, 30 );
-		set_transient( 'wc_serial_numbers_activation_redirect', true, 30 );
+		$this->app->options->add( 'install_date', current_time( 'mysql' ) );
+		$this->app->options->update_db_version( $this->app->version );
+
+		flush_rewrite_rules();
 	}
 
 	/**
-	 * Create tables.
+	 * Clean up the plugin's runtime state.
 	 *
+	 * @since 2.4.0
 	 * @return void
 	 */
-	public static function create_tables() {
+	public function deactivate(): void {
+		$this->app->queue->clear();
+
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Create the database tables.
+	 *
+	 * @since 1.4.2
+	 * @return void
+	 */
+	protected function create_tables(): void {
 		global $wpdb;
 		$wpdb->hide_errors();
 		// todo rename table names to wcsn_keys and wcsn_activations.
@@ -187,7 +191,7 @@ class Installer {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function create_cron_jobs() {
+	protected function create_cron_jobs(): void {
 		// setup transient actions.
 		if ( false === wp_next_scheduled( 'wc_serial_numbers_hourly_event' ) ) {
 			wp_schedule_event( time(), 'hourly', 'wc_serial_numbers_hourly_event' );
@@ -199,12 +203,22 @@ class Installer {
 	}
 
 	/**
+	 * Seed the default options.
+	 *
+	 * @since 1.4.2
+	 * @return void
+	 */
+	protected function create_defaults(): void {
+		$this->app->make( Admin\Settings::class )->save_defaults();
+	}
+
+	/**
 	 * Update to version 1.1.2
 	 *
 	 * @since 1.1.2
 	 * @return void
 	 */
-	protected function update_112() {
+	public static function update_112() {
 		global $wpdb;
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD KEY product_id(`product_id`)" );
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}wcsn_serial_numbers ADD KEY order_id (`order_id`)" );
@@ -224,7 +238,7 @@ class Installer {
 	 * @since 1.2.0
 	 * @return void
 	 */
-	protected function update_120() {
+	public static function update_120() {
 		wp_clear_scheduled_hook( 'wcsn_per_minute_event' );
 		wp_clear_scheduled_hook( 'wcsn_daily_event' );
 		wp_clear_scheduled_hook( 'wcsn_hourly_event' );
@@ -268,25 +282,25 @@ class Installer {
 		$wpdb->query( "UPDATE {$wpdb->prefix}serial_numbers set status='available', order_date='0000-00-00 00:00:00', order_id='0' WHERE status !='available' AND order_id='0' AND expire_date='0000-00-00 00:00:00'" );
 
 		// settings update.
-		$heading_text          = $this->update_1_2_0_get_option( 'heading_text', 'Serial Numbers', 'wsn_delivery_settings' );
-		$serial_col_heading    = $this->update_1_2_0_get_option( 'table_column_heading', 'Serial Number', 'wsn_delivery_settings' );
-		$serial_key_label      = $this->update_1_2_0_get_option( 'serial_key_label', 'Serial Number', 'wsn_delivery_settings' );
-		$serial_email_label    = $this->update_1_2_0_get_option( 'serial_email_label', 'Activation Email', 'wsn_delivery_settings' );
-		$show_validity         = 'yes' === $this->update_1_2_0_get_option( 'show_validity', 'yes', 'wsn_delivery_settings' );
-		$show_activation_limit = 'yes' === $this->update_1_2_0_get_option( 'show_activation_limit', 'yes', 'wsn_delivery_settings' );
+		$heading_text          = self::update_1_2_0_get_option( 'heading_text', 'Serial Numbers', 'wsn_delivery_settings' );
+		$serial_col_heading    = self::update_1_2_0_get_option( 'table_column_heading', 'Serial Number', 'wsn_delivery_settings' );
+		$serial_key_label      = self::update_1_2_0_get_option( 'serial_key_label', 'Serial Number', 'wsn_delivery_settings' );
+		$serial_email_label    = self::update_1_2_0_get_option( 'serial_email_label', 'Activation Email', 'wsn_delivery_settings' );
+		$show_validity         = 'yes' === self::update_1_2_0_get_option( 'show_validity', 'yes', 'wsn_delivery_settings' );
+		$show_activation_limit = 'yes' === self::update_1_2_0_get_option( 'show_activation_limit', 'yes', 'wsn_delivery_settings' );
 		$license               = get_option( 'woocommerce_serial_numbers_pro_pluginever_license' );
 		$options               = array(
-			'wc_serial_numbers_autocomplete_order'        => $this->update_1_2_0_get_option( 'wsn_auto_complete_order', 'yes', 'wsn_delivery_settings' ),
-			'wc_serial_numbers_reuse_serial_number'       => $this->update_1_2_0_get_option( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ),
+			'wc_serial_numbers_autocomplete_order'        => self::update_1_2_0_get_option( 'wsn_auto_complete_order', 'yes', 'wsn_delivery_settings' ),
+			'wc_serial_numbers_reuse_serial_number'       => self::update_1_2_0_get_option( 'wsn_re_use_serial', 'no', 'wsn_delivery_settings' ),
 			'wc_serial_numbers_disable_software_support'  => 'no',
 			'wc_serial_numbers_manual_delivery'           => 'no',
 			'wc_serial_numbers_hide_serial_number'        => 'yes',
-			'wc_serial_numbers_revoke_status_cancelled'   => in_array( 'cancelled', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', array(), 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
-			'wc_serial_numbers_revoke_status_refunded'    => in_array( 'refunded', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', array(), 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
-			'wc_serial_numbers_revoke_status_failed'      => in_array( 'failed', $this->update_1_2_0_get_option( 'wsn_revoke_serial_number', array(), 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
-			'wc_serial_numbers_enable_stock_notification' => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
-			'wc_serial_numbers_stock_threshold'           => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
-			'wc_serial_numbers_notification_recipient'    => $this->update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
+			'wc_serial_numbers_revoke_status_cancelled'   => in_array( 'cancelled', self::update_1_2_0_get_option( 'wsn_revoke_serial_number', array(), 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
+			'wc_serial_numbers_revoke_status_refunded'    => in_array( 'refunded', self::update_1_2_0_get_option( 'wsn_revoke_serial_number', array(), 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
+			'wc_serial_numbers_revoke_status_failed'      => in_array( 'failed', self::update_1_2_0_get_option( 'wsn_revoke_serial_number', array(), 'wsn_delivery_settings' ), true ) ? 'yes' : 'no',
+			'wc_serial_numbers_enable_stock_notification' => self::update_1_2_0_get_option( 'wsn_admin_bar_notification_send_email', 'yes', 'wsn_notification_settings' ),
+			'wc_serial_numbers_stock_threshold'           => self::update_1_2_0_get_option( 'wsn_admin_bar_notification_number', '5', 'wsn_notification_settings' ),
+			'wc_serial_numbers_notification_recipient'    => self::update_1_2_0_get_option( 'wsn_admin_bar_notification_email', get_option( 'admin_email' ), 'wsn_notification_settings' ),
 			'wc_serial_numbers_order_table_heading'       => $heading_text,
 			'wc_serial_numbers_order_table_col_product_label' => 'Product',
 			'wc_serial_numbers_order_table_col_key_label' => $serial_key_label,
@@ -316,7 +330,7 @@ class Installer {
 	 *
 	 * @return string
 	 */
-	protected function update_1_2_0_get_option( $option_name, $default_value, $section = 'serial_numbers_settings' ) {
+	protected static function update_1_2_0_get_option( $option_name, $default_value, $section = 'serial_numbers_settings' ) {
 		$settings = get_option( $section, array() );
 
 		return ! empty( $settings[ $option_name ] ) ? $settings[ $option_name ] : $default_value;
@@ -328,7 +342,7 @@ class Installer {
 	 * @since 1.2.1
 	 * @return void
 	 */
-	protected function update_121() {
+	public static function update_121() {
 		global $wpdb;
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}serial_numbers CHANGE order_id order_id bigint(20) DEFAULT NULL" );
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}serial_numbers CHANGE vendor_id vendor_id bigint(20) DEFAULT NULL" );
@@ -340,7 +354,7 @@ class Installer {
 	 * @since 1.4.6
 	 * @return void
 	 */
-	protected function update_146() {
+	public static function update_146() {
 		global $wpdb;
 		// Update key status default value to 'available'.
 		// Change key status.
@@ -368,7 +382,7 @@ class Installer {
 	 *
 	 * @since 1.5.6
 	 */
-	protected function update_156() {
+	public static function update_156() {
 		global $wpdb;
 		// if order_item_id column not exist then add it.
 		if ( ! $wpdb->get_var( "SHOW COLUMNS FROM {$wpdb->prefix}serial_numbers LIKE 'order_item_id'" ) ) {
