@@ -49,7 +49,7 @@ class ContractTest extends TestCase {
 	 * The plugin boots its services on woocommerce_loaded and fired its loaded action.
 	 */
 	public function testBootHooks(): void {
-		$this->assertNotFalse( has_action( 'woocommerce_loaded', array( WCSN(), 'init' ) ) );
+		$this->assertNotFalse( has_action( 'woocommerce_loaded', array( WCSN(), 'plugins_loaded' ) ) );
 		$this->assertGreaterThanOrEqual( 1, did_action( 'wc_serial_numbers_loaded' ) );
 	}
 
