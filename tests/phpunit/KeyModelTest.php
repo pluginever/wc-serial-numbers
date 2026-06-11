@@ -126,6 +126,35 @@ class KeyModelTest extends TestCase {
 	}
 
 	/**
+	 * Returning a key to available clears the order date in the database.
+	 */
+	public function testOrderDateClearedWhenKeyReturnsToAvailable(): void {
+		global $wpdb;
+
+		$order = wc_create_order();
+		$key   = $this->make_key(
+			array(
+				'status'     => 'sold',
+				'order_id'   => $order->get_id(),
+				'order_date' => '2024-05-10 10:00:00',
+			)
+		);
+
+		$raw = $wpdb->get_var( $wpdb->prepare( "SELECT order_date FROM {$wpdb->prefix}serial_numbers WHERE id = %d", $key->get_id() ) );
+		$this->assertSame( '2024-05-10 10:00:00', $raw );
+
+		$key->set_status( 'available' );
+		$this->assertNotWPError( $key->save() );
+
+		$raw = $wpdb->get_var( $wpdb->prepare( "SELECT order_date FROM {$wpdb->prefix}serial_numbers WHERE id = %d", $key->get_id() ) );
+		$this->assertNull( $raw );
+
+		$reloaded = Key::get( $key->get_id() );
+		$this->assertSame( 0, $reloaded->get_order_id() );
+		$this->assertEmpty( $reloaded->get_order_date() );
+	}
+
+	/**
 	 * Deleting a key removes it.
 	 */
 	public function testDeleteRemovesKey(): void {
