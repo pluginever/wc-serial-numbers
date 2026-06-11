@@ -26,6 +26,8 @@ class Admin extends Component {
 		Requests::class,
 		Orders::class,
 		Products::class,
+		Notices::class,
+		Premium::class,
 	);
 
 	/**
@@ -45,140 +47,11 @@ class Admin extends Component {
 	 * @return void
 	 */
 	public function register(): void {
-		add_action( 'admin_init', array( $this, 'register_notices' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'woocommerce_screen_ids', array( $this, 'screen_ids' ) );
 		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ), PHP_INT_MAX );
 		add_filter( 'update_footer', array( $this, 'update_footer' ), PHP_INT_MAX );
 		add_filter( 'allowed_redirect_hosts', array( $this, 'allowed_redirect_hosts' ) );
-		add_filter( 'plugin_action_links_' . $this->app->basename(), array( $this, 'plugin_action_links' ) );
-		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
-	}
-
-	/**
-	 * Register the admin notices.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function register_notices(): void {
-		$is_outdated_pro = defined( 'WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION' ) && version_compare( WC_SERIAL_NUMBER_PRO_PLUGIN_VERSION, '1.4.0', '<' );
-		if ( ! $is_outdated_pro ) {
-			$is_outdated_pro = function_exists( 'wc_serial_numbers_pro' ) && is_callable( array( wc_serial_numbers_pro(), 'get_version' ) ) && wc_serial_numbers_pro()->get_version() && version_compare( wc_serial_numbers_pro()->get_version(), '1.4.0', '<' );
-		}
-
-		if ( $is_outdated_pro ) {
-			$this->app->notices->add(
-				array(
-					'notice_id'   => 'wc_serial_numbers_outdated_pro',
-					'type'        => 'error',
-					'dismissible' => false,
-					'message'     => sprintf(
-					/* translators: %s: link to the plugin page */
-						__( '%s is not functional because you are using outdated version of the plugin, please update to the version 1.3.8 or higher.', 'wc-serial-numbers' ),
-						'<a href="' . esc_url( $this->app->get( 'upgrade_url' ) ) . '" target="_blank">Serial Numbers Pro</a>'
-					),
-				)
-			);
-		}
-
-		if ( ! $this->app->is_pro_active() ) {
-			$this->app->notices->add(
-				array(
-					'notice_id'   => 'wc_serial_numbers_upgrade_to_pro_wcsnpro10',
-					'type'        => 'info',
-					'class'       => 'notice-alt notice-large',
-					'dismissible' => true,
-					'message'     => sprintf(
-					/* translators: 1: discount amount 2: promo code 3: link start 4: link end 5: plugin name 6: PRO label */
-						__( 'Upgrade to %6$s to unlock the full potential of %5$s and avail a %1$s discount by using the promo code %2$s. %3$s Upgrade Now%4$s.', 'wc-serial-numbers' ),
-						'<strong>10%</strong>',
-						'<strong>WCSNPRO10</strong>',
-						'<a href="' . esc_url( $this->app->get( 'upgrade_url' ) ) . '" target="_blank">',
-						'</a>',
-						'<strong>' . esc_html( $this->app->get( 'name' ) ) . '</strong>',
-						'<strong>PRO</strong>'
-					),
-				)
-			);
-		}
-	}
-
-	/**
-	 * Add plugin action links.
-	 *
-	 * @since 1.0.0
-	 * @param array<string, string> $links Plugin action links.
-	 * @return array<string, string>
-	 */
-	public function plugin_action_links( array $links ): array {
-		$actions = array(
-			'settings' => sprintf(
-				'<a href="%s">%s</a>',
-				esc_url( (string) $this->app->get( 'settings_url' ) ),
-				esc_html__( 'Settings', 'wc-serial-numbers' )
-			),
-		);
-
-		if ( ! $this->app->is_pro_active() ) {
-			$pro_link          = add_query_arg(
-				array(
-					'utm_source'   => 'plugins-page',
-					'utm_medium'   => 'plugin-action-link',
-					'utm_campaign' => 'plugins-page',
-					'utm_term'     => 'go-pro',
-					'utm_id'       => $this->app->slug,
-				),
-				(string) $this->app->get( 'upgrade_url' )
-			);
-			$actions['go_pro'] = sprintf(
-				'<a href="%1$s" target="_blank" style="color: #39b54a; font-weight: bold;">%2$s</a>',
-				esc_url( $pro_link ),
-				esc_html__( 'Go Pro', 'wc-serial-numbers' )
-			);
-		}
-
-		return array_merge( $actions, $links );
-	}
-
-	/**
-	 * Add the plugin row meta links.
-	 *
-	 * @since 1.0.0
-	 * @param array<int, string> $links Plugin row meta links.
-	 * @param string             $file  Plugin file path relative to the plugins directory.
-	 * @return array<int, string>
-	 */
-	public function plugin_row_meta( array $links, string $file ): array {
-		if ( $file !== $this->app->basename() ) {
-			return $links;
-		}
-
-		$links[] = sprintf(
-			'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-			esc_url( (string) $this->app->get( 'docs_url' ) ),
-			esc_html__( 'Documentation', 'wc-serial-numbers' )
-		);
-
-		$links[] = sprintf(
-			'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-			esc_url( (string) $this->app->get( 'support_url' ) ),
-			esc_html__( 'Support', 'wc-serial-numbers' )
-		);
-
-		$links[] = sprintf(
-			'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-			esc_url( (string) $this->app->get( 'review_url' ) ),
-			esc_html__( 'Review', 'wc-serial-numbers' )
-		);
-
-		$links[] = sprintf(
-			'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-			esc_url( (string) $this->app->get( 'store_url' ) ),
-			esc_html__( 'More Plugins', 'wc-serial-numbers' )
-		);
-
-		return $links;
 	}
 
 	/**

@@ -27,7 +27,6 @@ class Menus extends Component {
 		add_action( 'admin_menu', array( $this, 'tools_menu' ), 50 );
 		add_action( 'admin_menu', array( $this, 'reports_menu' ), 60 );
 		add_action( 'admin_menu', array( $this, 'settings_menu' ), 100 );
-		add_action( 'admin_menu', array( $this, 'promo_menu' ), PHP_INT_MAX );
 
 		// Add tabs content.
 		add_filter( 'wc_serial_numbers_tools_tabs', array( __CLASS__, 'add_tools_status_tab' ), PHP_INT_MAX );
@@ -178,25 +177,6 @@ class Menus extends Component {
 	}
 
 	/**
-	 * Add promo Menu.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function promo_menu() {
-		if ( ! $this->app->is_pro_active() ) {
-			add_submenu_page(
-				'wc-serial-numbers',
-				'',
-				'<span style="color:#05ef82;"><span class="dashicons dashicons-star-filled" style="font-size: 17px"></span> ' . __( 'Upgrade to Pro', 'wc-serial-numbers' ) . '</span>',
-				'manage_woocommerce', // phpcs:ignore WordPress.WP.Capabilities.Unknown
-				'go_wcsn_pro',
-				array( $this, 'go_pro_redirect' )
-			);
-		}
-	}
-
-	/**
 	 * Output keys page.
 	 *
 	 * @since 1.0.0
@@ -295,20 +275,6 @@ class Menus extends Component {
 				'page'        => $page,
 			)
 		);
-	}
-
-	/**
-	 * Redirect to pro page.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function go_pro_redirect() {
-		wp_verify_nonce( '_nonce' );
-		if ( isset( $_GET['page'] ) && 'go_wcsn_pro' === $_GET['page'] ) {
-			wp_safe_redirect( 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=admin-menu&utm_medium=link&utm_campaign=upgrade&utm_id=wc-serial-numbers' );
-			exit;
-		}
 	}
 
 	/**

@@ -272,42 +272,4 @@ class Settings extends SettingsUI {
 
 		return true;
 	}
-
-	/**
-	 * Output the settings sidebar.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	protected function render_sidebar(): void {
-		if ( $this->app->is_pro_active() ) {
-			return;
-		}
-		$features = array(
-			__( 'Create and assign keys for WooCommerce variable products.', 'wc-serial-numbers' ),
-			__( 'Generate bulk keys with your custom key generator rule.', 'wc-serial-numbers' ),
-			__( 'Random & sequential key order for the generator rules.', 'wc-serial-numbers' ),
-			__( 'Automatic key generator to auto-create & assign keys with orders.', 'wc-serial-numbers' ),
-			__( 'License key management option from the order page with required actions.', 'wc-serial-numbers' ),
-			__( 'Support for bulk import/export of keys from/to CSV.', 'wc-serial-numbers' ),
-			__( 'Send keys via SMS with Twilio.', 'wc-serial-numbers' ),
-			__( 'Option to sell keys even if there are no available keys in the stock.', 'wc-serial-numbers' ),
-			__( 'Custom deliverable quantity to deliver multiple keys with a single product.', 'wc-serial-numbers' ),
-			__( 'Manual delivery option to manually deliver license keys instead of automatic.', 'wc-serial-numbers' ),
-			__( 'Email template to easily and quickly customize the order confirmation & low stock alert email.', 'wc-serial-numbers' ),
-			__( 'Many more ...', 'wc-serial-numbers' ),
-		);
-		?>
-		<div class="pev-panel promo-panel">
-			<h3><?php esc_html_e( 'Want More?', 'wc-serial-numbers' ); ?></h3>
-			<p><?php esc_attr_e( 'This plugin offers a premium version which comes with the following features:', 'wc-serial-numbers' ); ?></p>
-			<ul>
-				<?php foreach ( $features as $feature ) : ?>
-					<li>- <?php echo esc_html( $feature ); ?></li>
-				<?php endforeach; ?>
-			</ul>
-			<a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro/?utm_source=plugin-settings&utm_medium=banner&utm_campaign=upgrade&utm_id=wc-serial-numbers" class="button" target="_blank"><?php esc_html_e( 'Upgrade to PRO', 'wc-serial-numbers' ); ?></a>
-		</div>
-		<?php
-	}
 }
