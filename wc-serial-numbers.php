@@ -78,6 +78,17 @@ function WCSN(): Plugin { // phpcs:ignore WordPress.NamingConventions.ValidFunct
 WCSN()->on_activation( array( Installer::class, 'install' ) );
 WCSN()->on_deactivation( array( Installer::class, 'deactivate' ) );
 
+// Declare WooCommerce feature compatibility.
+add_action(
+	'before_woocommerce_init',
+	function () {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, true );
+		}
+	}
+);
+
 // Show a notice when WooCommerce is missing.
 if ( is_admin() && ! WCSN()->plugin_active( 'woocommerce' ) ) {
 	WCSN()->notices->add(
