@@ -43,7 +43,7 @@ class CronExpiryTest extends TestCase {
 
 		Cron::expire_outdated_serials();
 
-		$this->assertSame( 'expired', Key::get( $key->get_id() )->get_status() );
+		$this->assertSame( 'expired', Key::find( $key->get_id() )->get_status() );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class CronExpiryTest extends TestCase {
 
 		Cron::expire_outdated_serials();
 
-		$this->assertSame( 'sold', Key::get( $key->get_id() )->get_status() );
+		$this->assertSame( 'sold', Key::find( $key->get_id() )->get_status() );
 	}
 
 	/**
@@ -65,6 +65,6 @@ class CronExpiryTest extends TestCase {
 
 		Cron::expire_outdated_serials();
 
-		$this->assertSame( 'sold', Key::get( $key->get_id() )->get_status() );
+		$this->assertSame( 'sold', Key::find( $key->get_id() )->get_status() );
 	}
 }

@@ -21,7 +21,7 @@ class KeyModelTest extends TestCase {
 		$this->assertNotSame( 'PLAINTEXT-XYZ', $raw, 'Serial key must not be stored in plaintext.' );
 		$this->assertSame( 'PLAINTEXT-XYZ', wcsn_decrypt_key( $raw ) );
 
-		$reloaded = Key::get( $key->get_id() );
+		$reloaded = Key::find( $key->get_id() );
 		$this->assertSame( 'PLAINTEXT-XYZ', $reloaded->get_serial_key() );
 	}
 
@@ -32,7 +32,7 @@ class KeyModelTest extends TestCase {
 		$product = $this->create_product();
 		$key     = $this->make_available_key( $product->get_id(), 'PLAINTEXT-XYZ' );
 
-		$found = Key::get(
+		$found = Key::find(
 			array(
 				'serial_key' => 'PLAINTEXT-XYZ',
 				'product_id' => $product->get_id(),

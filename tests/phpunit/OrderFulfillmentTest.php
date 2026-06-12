@@ -92,7 +92,7 @@ class OrderFulfillmentTest extends TestCase {
 		$order->save();
 		wcsn_order_update_keys( $order->get_id() );
 
-		$revoked = Key::get( $key_id );
+		$revoked = Key::find( $key_id );
 		$this->assertSame( 'cancelled', $revoked->get_status() );
 		$this->assertSame( 0, $revoked->get_order_id() );
 	}
@@ -114,7 +114,7 @@ class OrderFulfillmentTest extends TestCase {
 		$order->save();
 		wcsn_order_update_keys( $order->get_id() );
 
-		$this->assertSame( 'available', Key::get( $key_id )->get_status() );
+		$this->assertSame( 'available', Key::find( $key_id )->get_status() );
 	}
 
 	/**

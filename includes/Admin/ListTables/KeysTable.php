@@ -303,7 +303,7 @@ class KeysTable extends ListTable {
 			}
 
 			foreach ( $ids as $id ) { // Check the permissions on each.
-				$key = Key::get( $id );
+				$key = Key::find( $id );
 				if ( ! $key ) {
 					continue;
 				}
