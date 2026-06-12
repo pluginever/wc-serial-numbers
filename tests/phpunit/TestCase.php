@@ -48,6 +48,12 @@ abstract class TestCase extends \WP_UnitTestCase {
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}serial_numbers" );
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}serial_numbers_activations" );
 		delete_transient( 'wcsn_products_stock_count' );
+		// Options mutated by individual tests must not leak into the next one.
+		delete_option( 'wc_serial_numbers_reuse_serial_number' );
+		delete_option( 'wc_serial_numbers_autocomplete_order' );
+		// The DB is transaction-rolled-back per test, but the model object cache is not.
+		// Flush it so cached rows never outlive the truncated tables.
+		wp_cache_flush();
 	}
 
 	/**
