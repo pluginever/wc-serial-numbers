@@ -27,7 +27,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"WooCommerceSerialNumbers\\": ["includes/","src/"]
+			"WooCommerceSerialNumbers\\": "includes/"
 		}
 	},
 	"config": {
