@@ -33,6 +33,9 @@ require_once "{$_tests_dir}/includes/functions.php";
 function _manually_load_plugins() {
 	require_once WP_CONTENT_DIR . '/plugins/woocommerce/woocommerce.php';
 	require_once dirname( __DIR__ ) . '/wc-serial-numbers.php';
+
+	// Seed the db version before `init` so the updater doesn't run version_compare() on a null.
+	update_option( 'wc_serial_numbers_version', WCSN()->get_version() );
 }
 
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugins' );
@@ -46,3 +49,11 @@ WC_Install::install();
 update_option( 'woocommerce_custom_orders_table_enabled', 'no' );
 
 Installer::install();
+
+// Non-core tables survive between runs (the WP bootstrap only reinstalls core tables),
+// so clear rows left behind by previously committed runs — otherwise fresh post IDs
+// collide with stale order items.
+global $wpdb;
+foreach ( array( 'serial_numbers', 'serial_numbers_activations', 'woocommerce_order_items', 'woocommerce_order_itemmeta' ) as $_table ) {
+	$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}{$_table}" ); // phpcs:ignore
+}
