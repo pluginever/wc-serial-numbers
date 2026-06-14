@@ -142,6 +142,56 @@ class ProContractTest extends TestCase {
 	}
 
 	/**
+	 * Released Pro 1.4.6 builds its CSV-export date range as a legacy `where_query`
+	 * array of array( 'column', 'compare', 'value' ) clauses (Admin/Actions.php),
+	 * not the b8-native `order_date__between` modifier. The model must translate
+	 * that legacy argument or the date range is silently ignored.
+	 */
+	public function testLegacyWhereQueryExportShape(): void {
+		$product = $this->create_product();
+		$order   = $this->create_order( $product, 1, array( 'status' => 'completed' ) );
+
+		foreach ( array( '2026-01-10', '2026-02-10', '2026-03-10' ) as $i => $date ) {
+			$key = $this->make_available_key( $product->get_id(), 'WHEREQ-' . $i );
+			$key->fill(
+				array(
+					'status'     => 'sold',
+					'order_id'   => $order->get_id(),
+					'order_date' => $date . ' 12:00:00',
+				)
+			);
+			$this->assertNotWPError( $key->save() );
+		}
+
+		$results = Key::query(
+			array(
+				'product_id'  => $product->get_id(),
+				'limit'       => 20,
+				'paged'       => 1,
+				'status'      => 'sold',
+				'where_query' => array(
+					array(
+						'column'  => 'order_date',
+						'compare' => '>=',
+						'value'   => '2026-01-01 00:00:00',
+					),
+					array(
+						'column'  => 'order_date',
+						'compare' => '<=',
+						'value'   => '2026-02-28 23:59:59',
+					),
+				),
+			)
+		);
+
+		$this->assertCount( 2, $results, 'Legacy where_query date range must be applied, not ignored.' );
+		foreach ( $results as $result ) {
+			$this->assertInstanceOf( Key::class, $result );
+			$this->assertStringStartsWith( 'WHEREQ-', $result->get_serial_key() );
+		}
+	}
+
+	/**
 	 * Pro's generator counts available stock with wcsn_get_keys() passing
 	 * 'count' => true inside the args array, expecting an integer back.
 	 */

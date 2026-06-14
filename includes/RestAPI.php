@@ -137,7 +137,7 @@ class RestAPI {
 	public function validate_request( $request ) {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
-		$email      = sanitize_email( $request->get_param( 'email' ) );
+		$email      = sanitize_email( (string) $request->get_param( 'email' ) );
 
 		// Check if product ID is valid.
 		if ( ! $product_id || ! get_post( $product_id ) ) {
@@ -246,7 +246,7 @@ class RestAPI {
 	public function activate_key( $request ) {
 		$product_id = absint( $request->get_param( 'product_id' ) );
 		$key        = sanitize_text_field( $request->get_param( 'serial_key' ) );
-		$email      = sanitize_email( $request->get_param( 'email' ) );
+		$email      = sanitize_email( (string) $request->get_param( 'email' ) );
 		$instance   = sanitize_text_field( $request->get_param( 'instance' ) );
 		$platform   = sanitize_text_field( $request->get_param( 'platform' ) );
 

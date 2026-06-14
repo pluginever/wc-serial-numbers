@@ -13,17 +13,12 @@
 		},
 		{
 			"type": "vcs",
-			"url": "git@github.com:pluginever/framework-model.git"
-		},
-		{
-			"type": "vcs",
 			"url": "git@github.com:byteever/models.git"
 		}
 	],
 	"require": {
 		"php": ">=7.4",
 		"pluginever/framework-plugin": "dev-trunk",
-		"pluginever/framework-model": "dev-trunk",
 		"pluginever/framework-settings": "dev-trunk",
 		"byteever/models": "^1.0.0"
 	},
@@ -75,7 +70,6 @@
 			"packages": [
 				"pluginever/framework-plugin",
 				"pluginever/framework-settings",
-				"pluginever/framework-model",
 				"byteever/models"
 			]
 		}

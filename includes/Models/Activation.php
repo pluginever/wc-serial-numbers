@@ -2,6 +2,8 @@
 
 namespace WooCommerceSerialNumbers\Models;
 
+use WooCommerceSerialNumbers\B8\Models\Relations\BelongsTo;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -9,12 +11,20 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Models
+ *
+ * @property int    $id              Activation ID.
+ * @property int    $serial_id       Serial key ID this activation belongs to.
+ * @property string $instance        Instance identifier the key was activated for.
+ * @property string $platform        Platform the key was activated on.
+ * @property string $activation_time Time the activation was recorded.
+ *
+ * @property-read Key|null $key           Related serial key object.
+ * @property-read int|null $product_id    Product ID via the related key.
+ * @property-read string   $product_title Product title via the related key.
  */
 class Activation extends Model {
 	/**
 	 * The table associated with the model.
-	 *
-	 * This is also used as table alias.
 	 *
 	 * @since 1.0.0
 	 * @var string
@@ -58,7 +68,6 @@ class Activation extends Model {
 	 * @var array
 	 */
 	protected $attributes = array(
-		'id'              => 0,
 		'serial_id'       => 0,
 		'instance'        => '',
 		'platform'        => '',
@@ -73,8 +82,22 @@ class Activation extends Model {
 	 * @var array
 	 */
 	protected $casts = array(
-		'id'        => 'int',
-		'serial_id' => 'int',
+		'id'              => 'int',
+		'serial_id'       => 'int',
+		'instance'        => 'string',
+		'platform'        => 'string',
+		'activation_time' => 'string',
+	);
+
+	/**
+	 * Validation rules applied before the model is saved.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $rules = array(
+		'serial_id' => 'required|integer|min:1',
+		'instance'  => 'required',
 	);
 
 	/**
@@ -93,183 +116,44 @@ class Activation extends Model {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Getters and Setters
+	| Accessors & Mutators
 	|--------------------------------------------------------------------------
-	|
-	| Methods for getting and setting data.
-	|
 	*/
-	/**
-	 * Get the key.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return int
-	 */
-	public function get_id() {
-		return $this->get_prop( 'id' );
-	}
 
 	/**
-	 * Set the key.
+	 * Product ID via the related key.
 	 *
-	 * @param string $id Key.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return void
-	 */
-	public function set_id( $id ) {
-		$this->set_prop( 'id', absint( $id ) );
-	}
-
-	/**
-	 * Get the serial id
-	 *
-	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return int
-	 */
-	public function get_serial_id( $context = 'view' ) {
-		return $this->get_prop( 'serial_id', $context );
-	}
-
-	/**
-	 * Get the key object.
-	 *
-	 * @since 1.4.6
-	 *
-	 * @return Key|null
-	 */
-	public function get_key() {
-		if ( empty( $this->get_serial_id() ) ) {
-			return null;
-		}
-
-		return Key::find( $this->get_serial_id() );
-	}
-
-	/**
-	 * Get the product id.
-	 *
-	 * @since 1.4.6
-	 *
+	 * @since 1.0.0
 	 * @return int|null
 	 */
-	public function get_product_id() {
-		if ( empty( $this->get_key() ) ) {
-			return null;
-		}
-
-		return $this->get_key()->get_product_id();
+	protected function get_product_id_attribute() {
+		return $this->key ? $this->key->product_id : null;
 	}
 
 	/**
-	 * Get the product title.
+	 * Product title via the related key.
 	 *
-	 * @since 1.4.6
-	 *
+	 * @since 1.0.0
 	 * @return string|null
 	 */
-	public function get_product_title() {
-		if ( empty( $this->get_key() ) ) {
-			return null;
-		}
-
-		return $this->get_key()->get_product_title();
+	protected function get_product_title_attribute() {
+		return $this->key ? $this->key->product_title : null;
 	}
 
-	/**
-	 * Set the serial id
-	 *
-	 * @param int $serial_id The serial id.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return void
-	 */
-	public function set_serial_id( $serial_id ) {
-		$this->set_prop( 'serial_id', absint( $serial_id ) );
-	}
+	/*
+	|--------------------------------------------------------------------------
+	| Relationships
+	|--------------------------------------------------------------------------
+	*/
 
 	/**
-	 * Get the instance
+	 * The serial key this activation belongs to.
 	 *
-	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return string
+	 * @since 1.0.0
+	 * @return BelongsTo
 	 */
-	public function get_instance( $context = 'view' ) {
-		return $this->get_prop( 'instance', $context );
-	}
-
-	/**
-	 * Set the instance
-	 *
-	 * @param string $instance The instance.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return void
-	 */
-	public function set_instance( $instance ) {
-		$this->set_prop( 'instance', sanitize_text_field( $instance ) );
-	}
-
-	/**
-	 * Get the platform
-	 *
-	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return string
-	 */
-	public function get_platform( $context = 'view' ) {
-		return $this->get_prop( 'platform', $context );
-	}
-
-	/**
-	 * Set the platform
-	 *
-	 * @param string $platform The platform.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return void
-	 */
-	public function set_platform( $platform ) {
-		$this->set_prop( 'platform', sanitize_text_field( $platform ) );
-	}
-
-	/**
-	 * Get the activation time
-	 *
-	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return string
-	 */
-	public function get_activation_time( $context = 'view' ) {
-		return $this->get_prop( 'activation_time', $context );
-	}
-
-	/**
-	 * Set the activation time
-	 *
-	 * @param string $activation_time The activation time.
-	 *
-	 * @since  1.4.6
-	 *
-	 * @return void
-	 */
-	public function set_activation_time( $activation_time ) {
-		$this->set_prop( 'activation_time', sanitize_text_field( $activation_time ) );
+	public function key(): BelongsTo {
+		return $this->belongs_to( Key::class, 'serial_id' );
 	}
 
 	/*
@@ -277,7 +161,7 @@ class Activation extends Model {
 	| CRUD methods
 	|--------------------------------------------------------------------------
 	|
-	| Methods which create, read, update and delete discounts from the database.
+	| Methods which create, read, update and delete activations from the database.
 	|
 	*/
 	/**
@@ -287,21 +171,184 @@ class Activation extends Model {
 	 * @return static|\WP_Error Object instance on success, WP_Error on failure.
 	 */
 	public function save() {
-		// Serial id is required.
-		if ( empty( $this->get_serial_id() ) ) {
-			return new \WP_Error( 'missing_required', __( 'Serial id is required.', 'wc-serial-numbers' ) );
-		}
-
-		// Instance is required.
-		if ( empty( $this->get_instance() ) ) {
-			return new \WP_Error( 'missing_required', __( 'Instance is required.', 'wc-serial-numbers' ) );
-		}
-
+		// Required serial_id and instance are enforced by $rules in parent::save().
 		// If the activation time is empty, set it to now.
-		if ( empty( $this->get_activation_time() ) ) {
-			$this->set_activation_time( current_time( 'mysql' ) );
+		if ( empty( $this->activation_time ) ) {
+			$this->activation_time = current_time( 'mysql' );
 		}
 
 		return parent::save();
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Deprecated Methods
+	|--------------------------------------------------------------------------
+	|
+	| Old getter/setter API kept so existing integrations (and Pro) keep
+	| working. New code should use property access (e.g. $activation->instance).
+	| Grouped here so the whole block can be removed in a future release.
+	|
+	*/
+
+	/**
+	 * Get the activation ID.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->id.
+	 * @return int
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
+	 * Set the activation ID.
+	 *
+	 * @param int $id Activation ID.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->id = $id.
+	 * @return void
+	 */
+	public function set_id( $id ) {
+		$this->id = $id;
+	}
+
+	/**
+	 * Get the serial key ID.
+	 *
+	 * @param string $context Unused. Kept for backward compatibility.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->serial_id.
+	 * @return int
+	 */
+	public function get_serial_id( $context = 'view' ) {
+		return $this->serial_id;
+	}
+
+	/**
+	 * Set the serial key ID.
+	 *
+	 * @param int $serial_id The serial key ID.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->serial_id = $serial_id.
+	 * @return void
+	 */
+	public function set_serial_id( $serial_id ) {
+		$this->serial_id = $serial_id;
+	}
+
+	/**
+	 * Get the related serial key object.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->key.
+	 * @return Key|null
+	 */
+	public function get_key() {
+		return $this->key;
+	}
+
+	/**
+	 * Get the product ID via the related key.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->product_id.
+	 * @return int|null
+	 */
+	public function get_product_id() {
+		return $this->product_id;
+	}
+
+	/**
+	 * Get the product title via the related key.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->product_title.
+	 * @return string|null
+	 */
+	public function get_product_title() {
+		return $this->product_title;
+	}
+
+	/**
+	 * Get the instance.
+	 *
+	 * @param string $context Unused. Kept for backward compatibility.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->instance.
+	 * @return string
+	 */
+	public function get_instance( $context = 'view' ) {
+		return $this->instance;
+	}
+
+	/**
+	 * Set the instance.
+	 *
+	 * @param string $instance The instance.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->instance = $instance.
+	 * @return void
+	 */
+	public function set_instance( $instance ) {
+		$this->instance = $instance;
+	}
+
+	/**
+	 * Get the platform.
+	 *
+	 * @param string $context Unused. Kept for backward compatibility.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->platform.
+	 * @return string
+	 */
+	public function get_platform( $context = 'view' ) {
+		return $this->platform;
+	}
+
+	/**
+	 * Set the platform.
+	 *
+	 * @param string $platform The platform.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->platform = $platform.
+	 * @return void
+	 */
+	public function set_platform( $platform ) {
+		$this->platform = $platform;
+	}
+
+	/**
+	 * Get the activation time.
+	 *
+	 * @param string $context Unused. Kept for backward compatibility.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->activation_time.
+	 * @return string
+	 */
+	public function get_activation_time( $context = 'view' ) {
+		return $this->activation_time;
+	}
+
+	/**
+	 * Set the activation time.
+	 *
+	 * @param string $activation_time The activation time.
+	 *
+	 * @since      1.4.6
+	 * @deprecated 2.3.5 Use $activation->activation_time = $activation_time.
+	 * @return void
+	 */
+	public function set_activation_time( $activation_time ) {
+		$this->activation_time = $activation_time;
 	}
 }

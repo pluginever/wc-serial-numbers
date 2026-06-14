@@ -54,13 +54,12 @@ class KeyDatePropsTest extends TestCase {
 	}
 
 	/**
-	 * The save() autofill from a completed order passes a raw timestamp into
-	 * set_date_prop(), which sanitize_date() rejects, leaving order_date
-	 * empty. Pre-existing quirk carried over from the old model layer
-	 * (vendor/pluginever/framework-model has the identical sanitize_date) —
-	 * pinned here so the migration does not silently change it.
+	 * The save() autofill now derives order_date from the order's completed date.
+	 * The old model dropped it because sanitize_date() rejected the raw timestamp;
+	 * the b8 datetime cast accepts the DateTime object, so expiry math works for
+	 * keys assigned to completed orders.
 	 */
-	public function testAutofillFromCompletedOrderLeavesOrderDateEmpty(): void {
+	public function testAutofillFromCompletedOrderSetsOrderDate(): void {
 		$product = $this->create_product();
 		$order   = $this->create_order( $product, 1, array( 'status' => 'completed' ) );
 		$this->assertNotNull( $order->get_date_completed() );
@@ -75,7 +74,10 @@ class KeyDatePropsTest extends TestCase {
 		);
 		$this->assertNotWPError( $key );
 
-		$this->assertEmpty( Key::find( $key->get_id() )->get_order_date() );
+		$this->assertSame(
+			$order->get_date_completed()->format( 'Y-m-d H:i:s' ),
+			Key::find( $key->get_id() )->get_order_date()
+		);
 	}
 
 	/**

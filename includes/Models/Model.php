@@ -2,6 +2,8 @@
 
 namespace WooCommerceSerialNumbers\Models;
 
+use WooCommerceSerialNumbers\B8\Models\Utilities\DateUtil;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -39,180 +41,247 @@ abstract class Model extends \WooCommerceSerialNumbers\B8\Models\Model {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Getters and Setters
+	| Static Methods
 	|--------------------------------------------------------------------------
 	*/
 
 	/**
-	 * Get an attribute, routed through the model's getter method when one exists.
+	 * Translate the legacy `where_query` argument into native query conditions.
 	 *
-	 * @param string $key The name of the attribute.
-	 * @param mixed  $fallback Optional fallback value if the key is not found.
+	 * The old framework model accepted a `where_query` array of
+	 * `array( 'column' => ..., 'compare' => ..., 'value' => ... )` clauses.
+	 * The b8 Query class does not read that argument, so released integrations
+	 * (e.g. the Pro CSV export date range) would silently lose their filters.
+	 * This rewrites those clauses into `$query->where()` calls.
+	 *
+	 * @param array                                     $args  Query arguments.
+	 * @param \WooCommerceSerialNumbers\B8\Models\Query $query Query object.
 	 *
 	 * @since 1.0.0
-	 * @return mixed The value of the attribute.
+	 * @return array Query arguments with `where_query` consumed.
 	 */
-	public function get( string $key, $fallback = null ) {
-		$getter = "get_{$key}";
-		if ( ! method_exists( self::class, $getter ) && method_exists( $this, $getter ) ) {
-			return $this->$getter();
+	public static function prepare_where_query( $args, $query ) {
+		if ( empty( $args['where_query'] ) || ! is_array( $args['where_query'] ) ) {
+			return $args;
 		}
 
-		return parent::get( $key, $fallback );
+		// Verbose operators the old model accepted but b8 names differently.
+		$operator_map = array(
+			'GREATER THAN' => '>',
+			'LESS THAN'    => '<',
+			'FIND_IN_SET'  => 'FIND IN SET',
+			'NOT_IN_SET'   => 'NOT FIND IN SET',
+		);
+
+		foreach ( $args['where_query'] as $key => $clause ) {
+			// Support the `'column' => 'value'` shorthand the old model also allowed.
+			if ( ! is_array( $clause ) && ! is_numeric( $key ) ) {
+				$clause = array(
+					'column'  => $key,
+					'value'   => $clause,
+					'compare' => '=',
+				);
+			}
+
+			if ( empty( $clause['column'] ) ) {
+				continue;
+			}
+
+			$operator = strtoupper( $clause['operator'] ?? ( $clause['compare'] ?? '=' ) );
+			$operator = $operator_map[ $operator ] ?? $operator;
+			$value    = $clause['value'] ?? null;
+
+			$query->where( $clause['column'], $operator, $value );
+		}
+
+		unset( $args['where_query'] );
+
+		return $args;
 	}
 
 	/**
-	 * Set an attribute, routed through the model's setter method when one exists.
+	 * Bootstrap the model.
 	 *
-	 * @param string $key The name of the attribute.
-	 * @param mixed  $value The value to set.
-	 *
-	 * @since 1.0.0
-	 * @return static
-	 */
-	public function set( string $key, $value ) {
-		$setter = "set_{$key}";
-		if ( ! method_exists( self::class, $setter ) && method_exists( $this, $setter ) ) {
-			$this->$setter( $value );
-
-			return $this;
-		}
-
-		return parent::set( $key, $value );
-	}
-
-	/**
-	 * Gets a prop for a getter method.
-	 *
-	 * @param string $prop Name of prop to get.
-	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
-	 *
-	 * @since 1.0.0
-	 * @return mixed
-	 */
-	protected function get_prop( $prop, $context = 'edit' ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Context kept for getter signatures.
-		if ( array_key_exists( $prop, $this->attributes ) ) {
-			return $this->attributes[ $prop ];
-		}
-
-		if ( array_key_exists( $prop, $this->metadata ) ) {
-			return $this->metadata[ $prop ];
-		}
-
-		return null;
-	}
-
-	/**
-	 * Sets a prop for a setter method.
-	 *
-	 * Only known columns and registered metadata are written, unknown props
-	 * are ignored.
-	 *
-	 * @param string $prop Name of prop to set.
-	 * @param mixed  $value Value to set.
+	 * Registers the legacy `where_query` translation on top of the native b8
+	 * setup so query arguments built for the old framework model keep working.
 	 *
 	 * @since 1.0.0
 	 * @return void
 	 */
-	protected function set_prop( $prop, $value ) {
-		if ( array_key_exists( $prop, $this->attributes ) ) {
-			$this->attributes[ $prop ] = $value;
-		} elseif ( array_key_exists( $prop, $this->metadata ) ) {
-			$this->metadata[ $prop ] = $value;
-		}
-	}
-
-	/**
-	 * Get date prop.
-	 *
-	 * @param string $prop Name of prop to get.
-	 * @param string $context What the value is for. Valid values are 'view' and 'edit'.
-	 * @param string $format Date format.
-	 *
-	 * @since 1.0.0
-	 * @return string|null
-	 */
-	public function get_date_prop( $prop, $context = 'edit', $format = 'Y-m-d H:i:s' ) {
-		$datetime = $this->sanitize_date( $this->get_prop( $prop, $context ) );
-
-		return $datetime ? date( $format, strtotime( $datetime ) ) : null; // @codingStandardsIgnoreLine - date() is ok here.
-	}
-
-	/**
-	 * Sets a date prop whilst handling formatting and datetime objects.
-	 *
-	 * @param string         $prop Name of prop to set.
-	 * @param string|integer $value Value of the prop.
-	 * @param string         $format Date format.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function set_date_prop( $prop, $value, $format = 'Y-m-d H:i:s' ) {
-		$date = $this->sanitize_date( $value );
-		if ( ! empty( $date ) ) {
-			$date = date( $format, strtotime( $date ) ); // @codingStandardsIgnoreLine - date() is ok here.
-		}
-		$this->set_prop( $prop, $date );
+	protected function bootstrap() {
+		parent::bootstrap();
+		$this->on_filter( 'query_args', array( static::class, 'prepare_where_query' ), 5, 2 );
 	}
 
 	/*
 	|--------------------------------------------------------------------------
-	| Helpers
+	| Deprecated Methods
 	|--------------------------------------------------------------------------
+	|
+	| Backward-compatibility shims for the old framework model public API. New
+	| code should use the b8 equivalents. They carry an @deprecated tag (no
+	| runtime notice, to avoid flooding logs from hot call paths) and are grouped
+	| here so the whole block can be removed in a future release.
+	|
+	| Note: the old static `get( $id )` is not shimmable. The b8 base defines
+	| `get()` as an instance attribute getter, so use `find()` instead.
+	|
 	*/
 
 	/**
-	 * Checks if a date is valid or not.
+	 * Get the object data as an array.
 	 *
-	 * @param string $date Date to check.
-	 *
-	 * @since 1.0.0
-	 * @return bool
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use get_attributes().
+	 * @return array
 	 */
-	public function is_date_valid( $date ) {
-		if ( empty( preg_replace( '/[^0-9]/', '', (string) $date ) ) ) {
-			return false;
-		}
-
-		return (bool) strtotime( (string) $date );
+	public function get_data() {
+		return $this->get_attributes();
 	}
 
 	/**
-	 * Sanitize date property.
-	 * If the date is a valid date, it will be returned to the given format.
+	 * Set a collection of props from an array.
 	 *
-	 * @param string $date Date.
+	 * @param array $props Key value pairs to set.
 	 *
-	 * @since 1.0.0
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use fill().
+	 * @return static
+	 */
+	public function set_data( $props ) {
+		return $this->fill( $props );
+	}
+
+	/**
+	 * Get a prop value.
+	 *
+	 * @param string $prop    Name of prop to get.
+	 * @param string $context Unused. Kept for backward compatibility.
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use property access, e.g. $model->prop.
+	 * @return mixed
+	 */
+	public function get_prop( $prop, $context = 'edit' ) {
+		return $this->get( $prop );
+	}
+
+	/**
+	 * Set a prop value.
+	 *
+	 * @param string $prop  Name of prop to set.
+	 * @param mixed  $value Value to set.
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use property access, e.g. $model->prop = $value.
+	 * @return void
+	 */
+	public function set_prop( $prop, $value ) {
+		$this->set( $prop, $value );
+	}
+
+	/**
+	 * Get a date prop formatted as a string.
+	 *
+	 * @param string $prop    Name of prop to get.
+	 * @param string $context Unused. Kept for backward compatibility.
+	 * @param string $format  Date format.
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use property access; date columns are cast to DateTime.
 	 * @return string|null
 	 */
-	public function sanitize_date( $date ) {
-		if ( empty( $date ) || '0000-00-00 00:00:00' === $date || '0000-00-00' === $date ) {
-			return null;
+	public function get_date_prop( $prop, $context = 'edit', $format = 'Y-m-d H:i:s' ) {
+		$value = $this->get( $prop );
+		if ( $value instanceof \DateTime ) {
+			return $value->format( $format );
 		}
 
-		if ( ! $this->is_date_valid( $date ) ) {
-			return null;
-		}
+		$timestamp = DateUtil::strtotime( $value );
 
-		// get the date format from the given date.
-		$length = strlen( (string) $date );
-		switch ( $length ) {
-			case 8:
-				$format = 'H:i:s';
-				break;
-			case 10:
-				$format = 'Y-m-d';
-				break;
-			case 19:
-			default:
-				$format = 'Y-m-d H:i:s';
-				break;
-		}
+		return $timestamp ? wp_date( $format, $timestamp ) : null;
+	}
 
-		$d = \DateTime::createFromFormat( $format, (string) $date );
+	/**
+	 * Set a date prop.
+	 *
+	 * @param string         $prop   Name of prop to set.
+	 * @param string|integer $value  Value of the prop.
+	 * @param string         $format Unused. Kept for backward compatibility.
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use property access; date columns are cast on write.
+	 * @return void
+	 */
+	public function set_date_prop( $prop, $value, $format = 'Y-m-d H:i:s' ) {
+		$this->set( $prop, $value );
+	}
 
-		return $d && $d->format( $format ) === $date ? $d->format( $format ) : null;
+	/**
+	 * Get the database table name.
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use get_table().
+	 * @return string
+	 */
+	public function get_table_name() {
+		return $this->get_table();
+	}
+
+	/**
+	 * Get the core (column-backed) data.
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use get_attributes().
+	 * @return array
+	 */
+	public function get_core_data() {
+		return wp_array_slice_assoc( $this->get_attributes(), $this->get_columns() );
+	}
+
+	/**
+	 * Get the core data keys (column names).
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use get_columns().
+	 * @return array
+	 */
+	public function get_core_data_keys() {
+		return $this->get_columns();
+	}
+
+	/**
+	 * Whether the object has been read from the database.
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use exists().
+	 * @return bool
+	 */
+	public function get_object_read() {
+		return $this->exists();
+	}
+
+	/**
+	 * Whether the object has been read from the database.
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 Use exists().
+	 * @return bool
+	 */
+	public function is_object_read() {
+		return $this->exists();
+	}
+
+	/**
+	 * Mark the object as read from (existing in) the database.
+	 *
+	 * @param bool $read Whether the object exists in the database.
+	 *
+	 * @since      1.0.0
+	 * @deprecated 2.3.5 The b8 model manages existence automatically.
+	 * @return void
+	 */
+	public function set_object_read( $read = true ) {
+		$this->exists = (bool) $read;
 	}
 }

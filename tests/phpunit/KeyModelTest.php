@@ -53,13 +53,13 @@ class KeyModelTest extends TestCase {
 	}
 
 	/**
-	 * Saving with an invalid product id is rejected.
+	 * Product existence is no longer validated on save; only a product_id is required.
 	 */
-	public function testSaveRejectsInvalidProduct(): void {
-		$key = new Key();
-		$key->set_product_id( 99999999 );
-		$key->set_serial_key( 'BADPROD-1' );
-		$this->assertWPError( $key->save() );
+	public function testSaveAllowsUnknownProductId(): void {
+		$key             = new Key();
+		$key->product_id = 99999999;
+		$key->serial_key = 'BADPROD-1';
+		$this->assertNotWPError( $key->save() );
 	}
 
 	/**
