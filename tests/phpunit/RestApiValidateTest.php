@@ -3,6 +3,7 @@
 
 namespace WooCommerceSerialNumbers\Tests;
 
+use WooCommerceSerialNumbers\Models\Activation;
 use WooCommerceSerialNumbers\Models\Key;
 
 /**
@@ -144,5 +145,37 @@ class RestApiValidateTest extends TestCase {
 		$this->assertArrayHasKey( 'activation_count', $data );
 		$this->assertArrayHasKey( 'activations_left', $data );
 		$this->assertArrayHasKey( 'expire_date', $data );
+	}
+
+	/**
+	 * Regression #531: the `activations` field must serialize as a list of
+	 * associative arrays (the documented contract the Legacy API add-on parses),
+	 * not model objects that JSON-encode to empty `{}` and fatal the client.
+	 */
+	public function testActivationsFieldSerializesAsArrays(): void {
+		list( $product, , $key ) = $this->make_bound_key( 'ACT-CONTRACT-1' );
+
+		$activation = Activation::insert(
+			array(
+				'serial_id' => $key->get_id(),
+				'instance'  => 'instance-1',
+				'platform'  => 'linux',
+			)
+		);
+		$this->assertNotWPError( $activation );
+
+		$response = rest_do_request( $this->get_rest_request( '/wcsn/validate', array( 'product_id' => $product->get_id(), 'serial_key' => 'ACT-CONTRACT-1' ) ) );
+		$data     = $response->get_data();
+
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertIsArray( $data['activations'] );
+		$this->assertCount( 1, $data['activations'] );
+		$this->assertIsArray( $data['activations'][0], 'Each activation must be an array, not a model object.' );
+		$this->assertSame( 'instance-1', $data['activations'][0]['instance'] );
+		$this->assertSame( 'linux', $data['activations'][0]['platform'] );
+
+		// The whole payload must round-trip through JSON without emptying the activations.
+		$decoded = json_decode( wp_json_encode( $data ), true );
+		$this->assertSame( 'instance-1', $decoded['activations'][0]['instance'] );
 	}
 }

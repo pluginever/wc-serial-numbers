@@ -221,11 +221,11 @@ class RestAPI {
 			'status'           => 'sold' === $serial_key->get_status() ? 'active' : $serial_key->get_status(),
 			'product_id'       => $serial_key->get_product_id(),
 			'product'          => $serial_key->get_product_title(),
-			'activations'      => $serial_key->get_activations(
-				array(
-					'limit'  => - 1,
-					'output' => ARRAY_A,
-				)
+			'activations'      => array_map(
+				static function ( $activation ) {
+					return $activation->to_array();
+				},
+				$serial_key->activations
 			),
 
 			// Deprecated.
@@ -302,11 +302,11 @@ class RestAPI {
 			'expires_at'       => $serial_key->get_expire_date(),
 			'product_id'       => $serial_key->get_product_id(),
 			'product'          => $serial_key->get_product_title(),
-			'activations'      => $serial_key->get_activations(
-				array(
-					'limit'  => - 1,
-					'output' => ARRAY_A,
-				)
+			'activations'      => array_map(
+				static function ( $activation ) {
+					return $activation->to_array();
+				},
+				$serial_key->activations
 			),
 
 			// Deprecated.
@@ -365,11 +365,11 @@ class RestAPI {
 			'expires_at'       => $serial_key->get_expire_date(),
 			'product_id'       => $serial_key->get_product_id(),
 			'product'          => $serial_key->get_product_title(),
-			'activations'      => $serial_key->get_activations(
-				array(
-					'limit'  => - 1,
-					'output' => ARRAY_A,
-				)
+			'activations'      => array_map(
+				static function ( $activation ) {
+					return $activation->to_array();
+				},
+				$serial_key->activations
 			),
 
 			// Deprecated.
