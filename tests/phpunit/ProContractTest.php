@@ -142,6 +142,35 @@ class ProContractTest extends TestCase {
 	}
 
 	/**
+	 * Regression #532: the Pro "Export All" builds its query with product_id => 0
+	 * ("All Products") and no status. The query layer would treat 0 as a literal
+	 * product_id match and return nothing (blank CSV); Key::prepare_product_query
+	 * must drop the zero arg so every key is exported.
+	 */
+	public function testExportAllProductsAllStatusReturnsRows(): void {
+		$product_a = $this->create_product();
+		$product_b = $this->create_product();
+		$order     = $this->create_order( $product_a, 1, array( 'status' => 'completed' ) );
+
+		$this->make_available_key( $product_a->get_id(), 'EXP-ALL-A1' );
+		$sold = Key::insert(
+			array(
+				'product_id' => $product_b->get_id(),
+				'serial_key' => 'EXP-ALL-B1',
+				'status'     => 'sold',
+				'order_id'   => $order->get_id(),
+			)
+		);
+		$this->assertNotWPError( $sold );
+
+		// The exact arg shape the Pro export passes for All Products + All Status.
+		$results = Key::query( array( 'product_id' => 0, 'per_page' => 20, 'paged' => 1 ) );
+
+		$this->assertCount( 2, $results );
+		$this->assertSame( 2, Key::count( array( 'product_id' => 0 ) ) );
+	}
+
+	/**
 	 * Released Pro 1.4.6 builds its CSV-export date range as a legacy `where_query`
 	 * array of array( 'column', 'compare', 'value' ) clauses (Admin/Actions.php),
 	 * not the b8-native `order_date__between` modifier. The model must translate
