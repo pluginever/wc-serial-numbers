@@ -228,67 +228,15 @@ class Key extends Model {
 	}
 
 	/**
-	 * Translate the legacy `customer_id` query argument into a native condition.
-	 *
-	 * Keys have no customer column; the customer is derived from the order. The
-	 * argument is resolved to the customer's order IDs and applied as an
-	 * `order_id IN (...)` condition. An empty list is left to the query layer,
-	 * which ignores an empty IN rather than constraining the query.
-	 *
-	 * @param array                                     $args Query arguments.
-	 * @param \WooCommerceSerialNumbers\B8\Models\Query $query Query object.
-	 *
-	 * @since 1.0.0
-	 * @return array Query arguments.
-	 */
-	public static function prepare_customer_query( $args, $query ) {
-		if ( empty( $args['customer_id'] ) ) {
-			return $args;
-		}
-
-		$order_ids = wc_get_orders(
-			array(
-				'customer_id' => absint( $args['customer_id'] ),
-				'limit'       => - 1,
-				'return'      => 'ids',
-			)
-		);
-
-		$query->where( 'order_id', 'IN', $order_ids );
-
-		unset( $args['customer_id'] );
-
-		return $args;
-	}
-
-	/**
-	 * Drop a zero `product_id` query argument.
-	 *
-	 * A key always has a real product (product_id is required, min:1), so a
-	 * `product_id` of 0 means "any product" rather than a literal match. The
-	 * query layer would otherwise treat 0 as `product_id = 0` and return
-	 * nothing, which is how the "All Products" export came back empty.
-	 *
-	 * @param array                                     $args Query arguments.
-	 * @param \WooCommerceSerialNumbers\B8\Models\Query $query Query object.
-	 *
-	 * @since 1.0.0
-	 * @return array Query arguments.
-	 */
-	public static function prepare_product_query( $args, $query ) {
-		if ( isset( $args['product_id'] ) && empty( $args['product_id'] ) ) {
-			unset( $args['product_id'] );
-		}
-
-		return $args;
-	}
-
-	/**
 	 * Bootstrap the model.
 	 *
 	 * Wires the encryption boundary into the native read and query hooks:
 	 * the serial key is decrypted when read from the database and search
 	 * terms are encrypted to match the value at rest.
+	 *
+	 * The legacy `customer_id` and zero `product_id` query arguments are
+	 * translated separately in includes/Deprecated/Functions.php so that
+	 * compatibility shim can be removed without touching the model.
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -297,8 +245,6 @@ class Key extends Model {
 		parent::bootstrap();
 		$this->on_filter( 'serial_key', 'wcsn_decrypt_key' );
 		$this->on_filter( 'query_args', array( static::class, 'prepare_search' ), 10, 2 );
-		$this->on_filter( 'query_args', array( static::class, 'prepare_customer_query' ), 10, 2 );
-		$this->on_filter( 'query_args', array( static::class, 'prepare_product_query' ), 10, 2 );
 	}
 
 	/*

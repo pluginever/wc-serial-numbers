@@ -438,3 +438,58 @@ add_filter( 'wc_serial_numbers_order_table_columns', 'wc_serial_numbers_control_
 function wc_serial_numbers_validate_boolean( $string ) {
 	return filter_var( $string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 }
+
+/**
+ * Translate the legacy `customer_id` key query argument into a native condition.
+ *
+ * Keys have no customer column; the customer is derived from the order, so the
+ * argument is resolved to the customer's order IDs and applied as an
+ * `order_id IN (...)` condition. An empty list is left to the query layer, which
+ * ignores an empty IN rather than constraining the query.
+ *
+ * @deprecated 2.3.5 Pass a native `order_id__in` argument instead.
+ */
+add_filter(
+	'wc_serial_numbers_key_query_args',
+	function ( $args, $query ) {
+		if ( empty( $args['customer_id'] ) ) {
+			return $args;
+		}
+
+		$order_ids = wc_get_orders(
+			array(
+				'customer_id' => absint( $args['customer_id'] ),
+				'limit'       => - 1,
+				'return'      => 'ids',
+			)
+		);
+
+		$query->where( 'order_id', 'IN', $order_ids );
+		unset( $args['customer_id'] );
+
+		return $args;
+	},
+	10,
+	2
+);
+
+/**
+ * Drop a zero `product_id` key query argument.
+ *
+ * A key always has a real product, so a `product_id` of 0 means "any product"
+ * rather than a literal match. Without this the query layer would treat it as
+ * `product_id = 0` and return nothing, which is how the "All Products" export
+ * came back empty.
+ *
+ * @deprecated 2.3.5 Stop passing a zero `product_id` from the export.
+ */
+add_filter(
+	'wc_serial_numbers_key_query_args',
+	function ( $args ) {
+		if ( isset( $args['product_id'] ) && empty( $args['product_id'] ) ) {
+			unset( $args['product_id'] );
+		}
+
+		return $args;
+	}
+);
