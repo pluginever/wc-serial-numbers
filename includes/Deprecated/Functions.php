@@ -153,7 +153,7 @@ function wc_serial_numbers_update_serial_number_status( $id, $status ) {
 	if ( ! $key ) {
 		return new WP_Error( 'invalid_data', __( 'Serial number not found.', 'wc-serial-numbers' ) );
 	}
-	$key->set_status( $status );
+	$key->status = $status;
 
 	return $key->save();
 }

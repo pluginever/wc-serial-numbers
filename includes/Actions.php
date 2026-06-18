@@ -50,7 +50,7 @@ class Actions {
 	 * @since 1.4.6
 	 */
 	public static function delete_activations( $key ) {
-		$activations = $key->get_activations();
+		$activations = $key->activations;
 		if ( $activations ) {
 			foreach ( $activations as $activation ) {
 				$activation->delete();
@@ -82,7 +82,7 @@ class Actions {
 	 * @since 1.0.0
 	 */
 	public static function update_activation_count( $activation ) {
-		$key = Key::find( $activation->get_serial_id() );
+		$key = Key::find( $activation->serial_id );
 		if ( $key ) {
 			$key->recount_remaining_activation();
 		}
