@@ -40,32 +40,32 @@ function wcsn_display_key_html( $key, $output = true ) {
 	$properties = array(
 		'key'              => array(
 			'label'    => __( 'Key', 'wc-serial-numbers' ),
-			'value'    => '<code>' . $key->get_key() . '</code>',
+			'value'    => '<code>' . $key->key . '</code>',
 			'priority' => 10,
 		),
 		'activation_email' => array(
 			'label'    => __( 'Activation Email', 'wc-serial-numbers' ),
-			'value'    => $key->get_customer_email(),
+			'value'    => $key->customer_email,
 			'priority' => 20,
 		),
 		'activation_limit' => array(
 			'label'    => __( 'Activation Limit', 'wc-serial-numbers' ),
-			'value'    => ! empty( $key->get_activation_limit() ) ? number_format_i18n( $key->get_activation_limit() ) : __( 'None', 'wc-serial-numbers' ),
+			'value'    => ! empty( $key->activation_limit ) ? number_format_i18n( $key->activation_limit ) : __( 'None', 'wc-serial-numbers' ),
 			'priority' => 30,
 		),
 		'activation_count' => array(
 			'label'    => __( 'Activation Count', 'wc-serial-numbers' ),
-			'value'    => ! empty( $key->get_activation_count() ) ? number_format_i18n( $key->get_activation_count() ) : __( 'None', 'wc-serial-numbers' ),
+			'value'    => ! empty( $key->activation_count ) ? number_format_i18n( $key->activation_count ) : __( 'None', 'wc-serial-numbers' ),
 			'priority' => 40,
 		),
 		'expire_date'      => array(
 			'label'    => __( 'Expire Date', 'wc-serial-numbers' ),
-			'value'    => ! empty( $key->get_expire_date() ) ? $key->get_expire_date() : __( 'Lifetime', 'wc-serial-numbers' ),
+			'value'    => ! empty( $key->expire_date ) ? $key->expire_date : __( 'Lifetime', 'wc-serial-numbers' ),
 			'priority' => 50,
 		),
 	);
 
-	$status = $key->get_status();
+	$status = $key->status;
 	if ( 'sold' === $status ) {
 		$status = '<span style="color: #5b841b;">' . __( 'Active', 'wc-serial-numbers' ) . '</span>';
 	} elseif ( 'expired' === $status ) {

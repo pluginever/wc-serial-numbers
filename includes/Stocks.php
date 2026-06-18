@@ -61,7 +61,7 @@ class Stocks {
 			return; // Return if stock management is disabled.
 		}
 
-		$product = $key->get_product();
+		$product = $key->product;
 
 		// Check if product exists and stock management is enabled.
 		if ( ! $product || ! $product->get_manage_stock() ) {
