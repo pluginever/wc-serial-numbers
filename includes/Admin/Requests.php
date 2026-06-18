@@ -78,7 +78,7 @@ class Requests {
 		$add = empty( $data['id'] ) ? true : false;
 		if ( $add ) {
 			// Adding manually so let's enable to product and set the source.
-			$product_id = $key->get_product_id();
+			$product_id = $key->product_id;
 			update_post_meta( $product_id, '_is_serial_number', 'yes' );
 			update_post_meta( $product_id, '_serial_key_source', 'custom_source' );
 
@@ -87,7 +87,7 @@ class Requests {
 			WCSN()->add_notice( __( 'Key updated successfully.', 'wc-serial-numbers' ) );
 		}
 
-		$redirect_to = admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->get_id() );
+		$redirect_to = admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->id );
 		wp_safe_redirect( $redirect_to );
 		exit;
 	}
