@@ -124,4 +124,19 @@ class KeyModelTest extends TestCase {
 		$limited->set_activation_count( 2 );
 		$this->assertSame( 3, $limited->get_activations_left() );
 	}
+
+	/**
+	 * Regression #527: find() returns null (not a non-existent object) for a
+	 * missing id. The admin edit screen must null-guard the result before
+	 * calling ->exists(), or it fatals on a stale/deleted edit link.
+	 */
+	public function testFindReturnsNullForMissingId(): void {
+		$this->assertNull( Key::find( 999999 ) );
+
+		$product = $this->create_product();
+		$key     = $this->make_available_key( $product->get_id(), 'FIND-ME' );
+		$found   = Key::find( $key->get_id() );
+		$this->assertInstanceOf( Key::class, $found );
+		$this->assertTrue( $found->exists() );
+	}
 }
