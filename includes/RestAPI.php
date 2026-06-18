@@ -160,18 +160,18 @@ class RestAPI {
 		}
 
 		// Check if the key has order ID.
-		if ( empty( $serial_key->get_order_id() ) || ( $serial_key->get_order_id() && ! get_post( $serial_key->get_order_id() ) ) ) {
+		if ( empty( $serial_key->order_id ) || ( $serial_key->order_id && ! get_post( $serial_key->order_id ) ) ) {
 			return new \WP_Error( 'invalid_key', __( 'Serial key is not authorized to use.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}
 
 		// Check if order status is completed.
-		$order = wc_get_order( $serial_key->get_order_id() );
+		$order = wc_get_order( $serial_key->order_id );
 		if ( ! $order || ! apply_filters( 'wc_serial_numbers_api_validate_order_status', 'completed' === $order->get_status(), $order ) ) {
 			return new \WP_Error( 'invalid_order', __( 'Please complete your order to activate the serial key.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}
 
 		// Check if key is valid for the product.
-		if ( $serial_key->get_product_id() !== $product_id ) {
+		if ( $serial_key->product_id !== $product_id ) {
 			return new \WP_Error( 'invalid_product_key', __( 'Serial key is not valid for this product.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}
 
@@ -181,12 +181,12 @@ class RestAPI {
 		}
 
 		// based on key status send response.
-		if ( 'expired' === $serial_key->get_status() ) {
+		if ( 'expired' === $serial_key->status ) {
 			return new \WP_Error( 'expired_key', __( 'Serial key is expired.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
-		} elseif ( 'cancelled' === $serial_key->get_status() ) {
+		} elseif ( 'cancelled' === $serial_key->status ) {
 			return new \WP_Error( 'key_cancelled', __( 'Serial key is cancelled.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 
-		} elseif ( 'sold' !== $serial_key->get_status() ) {
+		} elseif ( 'sold' !== $serial_key->status ) {
 			return new \WP_Error( 'invalid_key_status', __( 'Invalid serial key.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}
 
@@ -214,13 +214,13 @@ class RestAPI {
 		$response = array(
 			'code'             => 'key_valid',
 			'message'          => __( 'Serial key is valid.', 'wc-serial-numbers' ),
-			'activation_limit' => $serial_key->get_activation_limit(),
-			'activation_count' => $serial_key->get_activation_count(),
-			'activations_left' => $serial_key->get_activations_left(),
-			'expire_date'      => $serial_key->get_expire_date(),
-			'status'           => 'sold' === $serial_key->get_status() ? 'active' : $serial_key->get_status(),
-			'product_id'       => $serial_key->get_product_id(),
-			'product'          => $serial_key->get_product_title(),
+			'activation_limit' => $serial_key->activation_limit,
+			'activation_count' => $serial_key->activation_count,
+			'activations_left' => $serial_key->activations_left,
+			'expire_date'      => $serial_key->expire_date,
+			'status'           => 'sold' === $serial_key->status ? 'active' : $serial_key->status,
+			'product_id'       => $serial_key->product_id,
+			'product'          => $serial_key->product_title,
 			'activations'      => array_map(
 				static function ( $activation ) {
 					return $activation->to_array();
@@ -229,7 +229,7 @@ class RestAPI {
 			),
 
 			// Deprecated.
-			'remaining'        => $serial_key->get_activations_left(),
+			'remaining'        => $serial_key->activations_left,
 		);
 
 		// send response.
@@ -265,7 +265,7 @@ class RestAPI {
 		// Check if instance is already activated.
 		$activation = Activation::find(
 			array(
-				'serial_id' => $serial_key->get_id(),
+				'serial_id' => $serial_key->id,
 				'instance'  => $instance,
 			)
 		);
@@ -275,14 +275,14 @@ class RestAPI {
 		}
 
 		// Check if key is already activated.
-		if ( $serial_key->get_activations_left() <= 0 ) {
+		if ( $serial_key->activations_left <= 0 ) {
 			return new \WP_Error( 'no_activations_left', __( 'Activation limit reached.', 'wc-serial-numbers' ), array( 'status' => 400 ) );
 		}
 
 		// Create activation.
 		$activation = Activation::insert(
 			array(
-				'serial_id' => $serial_key->get_id(),
+				'serial_id' => $serial_key->id,
 				'instance'  => $instance,
 				'platform'  => $platform,
 			)
@@ -294,14 +294,14 @@ class RestAPI {
 			'code'             => 'key_activated',
 			'message'          => __( 'Serial key is activated.', 'wc-serial-numbers' ),
 			'activated'        => true,
-			'instance'         => $activation->get_instance(),
-			'platform'         => $activation->get_platform(),
-			'activation_limit' => $serial_key->get_activation_limit(),
-			'activation_count' => $serial_key->get_activation_count(),
-			'activations_left' => $serial_key->get_activations_left(),
-			'expires_at'       => $serial_key->get_expire_date(),
-			'product_id'       => $serial_key->get_product_id(),
-			'product'          => $serial_key->get_product_title(),
+			'instance'         => $activation->instance,
+			'platform'         => $activation->platform,
+			'activation_limit' => $serial_key->activation_limit,
+			'activation_count' => $serial_key->activation_count,
+			'activations_left' => $serial_key->activations_left,
+			'expires_at'       => $serial_key->expire_date,
+			'product_id'       => $serial_key->product_id,
+			'product'          => $serial_key->product_title,
 			'activations'      => array_map(
 				static function ( $activation ) {
 					return $activation->to_array();
@@ -310,7 +310,7 @@ class RestAPI {
 			),
 
 			// Deprecated.
-			'remaining'        => $serial_key->get_activations_left(),
+			'remaining'        => $serial_key->activations_left,
 		);
 
 		// send response.
@@ -342,7 +342,7 @@ class RestAPI {
 
 		$activation = Activation::find(
 			array(
-				'serial_id' => $serial_key->get_id(),
+				'serial_id' => $serial_key->id,
 				'instance'  => $instance,
 			)
 		);
@@ -358,13 +358,13 @@ class RestAPI {
 			'code'             => 'key_deactivated',
 			'message'          => __( 'Serial key is deactivated.', 'wc-serial-numbers' ),
 			'deactivated'      => true,
-			'instance'         => $activation->get_instance(),
-			'activation_limit' => $serial_key->get_activation_limit(),
-			'activation_count' => $serial_key->get_activation_count(),
-			'activations_left' => $serial_key->get_activations_left(),
-			'expires_at'       => $serial_key->get_expire_date(),
-			'product_id'       => $serial_key->get_product_id(),
-			'product'          => $serial_key->get_product_title(),
+			'instance'         => $activation->instance,
+			'activation_limit' => $serial_key->activation_limit,
+			'activation_count' => $serial_key->activation_count,
+			'activations_left' => $serial_key->activations_left,
+			'expires_at'       => $serial_key->expire_date,
+			'product_id'       => $serial_key->product_id,
+			'product'          => $serial_key->product_title,
 			'activations'      => array_map(
 				static function ( $activation ) {
 					return $activation->to_array();
@@ -373,7 +373,7 @@ class RestAPI {
 			),
 
 			// Deprecated.
-			'remaining'        => $serial_key->get_activations_left(),
+			'remaining'        => $serial_key->activations_left,
 		);
 
 		// send response.
@@ -400,9 +400,9 @@ class RestAPI {
 
 		$response = array(
 			'code'       => 'version_checked',
-			'product_id' => $serial_key->get_product_id(),
-			'product'    => $serial_key->get_product_title(),
-			'version'    => get_post_meta( $serial_key->get_product_id(), '_software_version', true ),
+			'product_id' => $serial_key->product_id,
+			'product'    => $serial_key->product_title,
+			'version'    => get_post_meta( $serial_key->product_id, '_software_version', true ),
 		);
 
 		// send response.
