@@ -753,7 +753,7 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 			$props['order_date']    = null;
 		}
 		$key->fill( $props );
-		if ( $key->save() ) {
+		if ( ! is_wp_error( $key->save() ) ) {
 			++$replaced;
 		}
 	}
