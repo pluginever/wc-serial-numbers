@@ -93,7 +93,7 @@ class Products extends Component {
 			array(
 				'label'    => __( 'Serial Numbers', 'wc-serial-numbers' ),
 				'target'   => 'wc_serial_numbers_data',
-				'class'    => array( 'show_if_simple', 'hide_if_subscription', 'hide_if_variable-subscription' ),
+				'class'    => array( 'show_if_simple', 'show_if_downloadable', 'hide_if_subscription', 'hide_if_variable-subscription' ),
 				'priority' => 11,
 			)
 		);
@@ -107,7 +107,7 @@ class Products extends Component {
 	public function product_write_panel() {
 		global $post, $woocommerce;
 		?>
-		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
+		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel"
 			style="padding-bottom: 50px;display: none;">
 			<?php
 			woocommerce_wp_checkbox(
