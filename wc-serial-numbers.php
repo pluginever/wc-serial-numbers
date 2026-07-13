@@ -57,7 +57,7 @@ $data = array(
 	'pro_basename' => 'wc-serial-numbers-pro/wc-serial-numbers-pro.php',
 	'upgrade_url'  => 'https://pluginever.com/plugins/woocommerce-serial-numbers-pro/',
 	'store_url'    => 'https://pluginever.com',
-	'docs_url'     => 'https://pluginever.com/docs/wocommerce-serial-numbers/',
+	'docs_url'     => 'https://pluginever.com/docs/wc-serial-numbers/?utm_source=plugin-setting',
 	'support_url'  => 'https://pluginever.com/support/',
 	'review_url'   => 'https://wordpress.org/support/plugin/wc-serial-numbers/reviews/#new-post',
 );
