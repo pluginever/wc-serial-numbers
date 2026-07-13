@@ -62,14 +62,16 @@ class Settings extends SettingsUI {
 	 *
 	 * @since 1.0.0
 	 * @param string $extras Extra navigation markup.
-	 * @return string
+	 * @return void
 	 */
 	public function nav_extras( $extras ) {
-		if ( $this->app->get( 'docs_url' ) ) {
-			$extras .= sprintf( '<a href="%s" class="nav-tab" target="_blank">%s</a>', esc_url( $this->app->get( 'docs_url' ) ), esc_html__( 'Documentation', 'wc-serial-numbers' ) );
+		if ( $this->app->docs_url ) {
+			printf(
+				'<a href="%s" class="nav-tab" target="_blank">%s</a>',
+				esc_url( (string) $this->app->docs_url ),
+				esc_html__( 'Documentation', 'wc-serial-numbers' )
+			);
 		}
-
-		return $extras;
 	}
 
 	/**
