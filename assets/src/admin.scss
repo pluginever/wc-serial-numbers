@@ -1,0 +1,208 @@
+@forward "common/layout";
+@forward "common/card";
+@forward "common/form";
+
+// Card component.
+.wcsn-card {
+	margin-top: 20px;
+	box-sizing: border-box;
+
+	&__header,
+	&__body {
+		position: relative;
+		padding: 1em 2em 1em;
+		width: 100%;
+		border: 1px solid #c3c4c7;
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+		background: #fff;
+		box-sizing: border-box;
+	}
+
+	&__header {
+		border-bottom: 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		h2, h3 {
+			margin: 0;
+		}
+	}
+}
+
+// Feature promo section.
+.wcsn-feature-promo-banner {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	margin-top: 20px;
+	box-sizing: border-box;
+	max-width: 800px;
+	position: relative;
+
+	> img {
+		width: 100%;
+		height: auto;
+	}
+
+	&__content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		background: rgba(255, 255, 255, 0.7);
+		transition: opacity 0.3s ease-in-out;
+
+		h3 {
+			color: red;
+			font-size: 1.5em;
+			margin: 0 0 1em;
+			text-align: center;
+		}
+	}
+}
+
+// Key style.
+// Show the serial key in a nice box with a copy button.
+.wcsn-key {
+	background: #f0f0f1;
+	background: rgba(0, 0, 0, 0.07);
+	border-radius: 3px;
+	cursor: pointer;
+	display: inline-block;
+	font-family: Consolas, monospace;
+	font-weight: 400;
+	line-height: 20px;
+	width: 90%;
+	min-height: 20px;
+	padding: 3px 10px 2px;
+	position: relative;
+	text-align: left;
+	color: rgba(0, 0, 0, .4);
+
+	&.copying {
+		color: #155724;
+	}
+}
+
+// Fix misc styles
+// Fixing some styles that are not working properly.
+
+// Margin bottom for tabs otherwise they are too close to the content.
+.wcsn-nav-tabs {
+	margin-bottom: 20px !important;
+}
+
+// Fix width of the key column.
+.wp-list-table {
+
+	// Keys table.
+	&.keys {
+		.column-key {
+			width: 15%
+		}
+
+		.wcsn-key-status {
+			color: #fff;
+			padding: 3px 10px;
+			font-size: 14px;
+			white-space: nowrap;
+			background-color: silver;
+			border-radius: 3px;
+			line-height: 1;
+			border: 1px solid transparent;
+
+			&.available {
+				color: #155724;
+				background-color: #d4edda;
+				border-color: #c3e6cb
+			}
+
+			&.pending {
+				color: #856404;
+				background-color: #fff3cd;
+				border-color: #ffeeba;
+			}
+
+			&.sold {
+				background: #cce5ff;
+				color: #004085;
+				border-color: #b8daff
+			}
+
+			&.cancelled {
+				color: #1b1e21;
+				background-color: #d6d8d9;
+				border-color: #c6c8ca
+			}
+		}
+	}
+
+	&.stocks {
+		.column-action,
+		.column-stock {
+			width: 10%
+		}
+
+		.column-source {
+			width: 20%;
+		}
+
+		.column-sku {
+			width: 25%;
+		}
+	}
+}
+
+// Fix select2 width in filter.
+.tablenav {
+	.wcsn_search_product,
+	.wcsn_search_customer,
+	.wcsn_search_order {
+		+ .select2-container {
+			min-width: 200px !important;
+			font-size: 14px;
+			vertical-align: middle;
+			margin: 1px 6px 4px 1px;
+		}
+	}
+}
+
+// Fix source meta field width.
+._serial_key_source_field {
+	label {
+		margin: 0;
+		width: 100%;
+	}
+}
+
+// Status tab.
+.wcsn-tools-tab-status {
+	table {
+		h2 {
+			font-size: 14px;
+			margin: 0;
+		}
+
+		tbody {
+			tr {
+				td {
+					&:first-child {
+						width: 33%;
+						font-size: 1.1em;
+						font-weight: 400;
+					}
+
+					&:nth-child(2) {
+						width: 1em;
+					}
+				}
+			}
+		}
+	}
+}

@@ -2,7 +2,7 @@
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 7.0
-Stable tag: 2.3.4
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,12 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+= 2.4.0 (10th June 2026) =
+* Enhance: Migrated the plugin to the new B8 framework for better performance and maintainability.
+* Enhance: The minimum required WordPress version is now 6.4.
+* Fix: PHP deprecation notice when the plugin updater runs on a fresh installation.
+* Compatibility: Check compatibility with the latest version of WooCommerce and WordPress.
+
 = 2.3.4 (24th May 2026) =
 * Minor maintenance update.
 * Compatibility: Checked compatibility with the latest version of WordPress (v7.0).

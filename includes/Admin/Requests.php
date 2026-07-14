@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\B8\Component;
 use WooCommerceSerialNumbers\Models\Key;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -12,20 +13,21 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Requests {
+class Requests extends Component {
 
 	/**
-	 * Requests constructor.
+	 * Register hooks.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
-	public function __construct() {
-		add_action( 'admin_post_wcsn_edit_key', array( __CLASS__, 'handle_edit_key' ) );
+	public function register(): void {
+		add_action( 'admin_post_wcsn_edit_key', array( $this, 'handle_edit_key' ) );
 
 		// Ajax Search.
-		add_action( 'wp_ajax_wc_serial_numbers_search_product', array( __CLASS__, 'search_product' ) );
-		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( __CLASS__, 'search_orders' ) );
-		add_action( 'wp_ajax_wc_serial_numbers_search_customers', array( __CLASS__, 'search_customers' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_search_product', array( $this, 'search_product' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_search_orders', array( $this, 'search_orders' ) );
+		add_action( 'wp_ajax_wc_serial_numbers_search_customers', array( $this, 'search_customers' ) );
 	}
 
 	/**
@@ -34,12 +36,12 @@ class Requests {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function handle_edit_key() {
+	public function handle_edit_key() {
 		check_admin_referer( 'wcsn_edit_key' );
 
 		// Must have manage woocommerce user capability role to access this endpoint.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
-			WCSN()->add_notice( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ), 'error' );
+			$this->app->flash->error( __( 'You do not have permission to perform this action.', 'wc-serial-numbers' ) );
 			wp_safe_redirect( wp_get_referer() );
 			exit;
 		}
@@ -70,7 +72,7 @@ class Requests {
 
 		$key = Key::insert( $data );
 		if ( is_wp_error( $key ) ) {
-			WCSN()->add_notice( $key->get_error_message(), 'error' );
+			$this->app->flash->error( $key->get_error_message() );
 			// Redirect to referrer.
 			wp_safe_redirect( wp_get_referer() );
 			exit();
@@ -82,9 +84,9 @@ class Requests {
 			update_post_meta( $product_id, '_is_serial_number', 'yes' );
 			update_post_meta( $product_id, '_serial_key_source', 'custom_source' );
 
-			WCSN()->add_notice( __( 'Key added successfully.', 'wc-serial-numbers' ) );
+			$this->app->flash->success( __( 'Key added successfully.', 'wc-serial-numbers' ) );
 		} else {
-			WCSN()->add_notice( __( 'Key updated successfully.', 'wc-serial-numbers' ) );
+			$this->app->flash->success( __( 'Key updated successfully.', 'wc-serial-numbers' ) );
 		}
 
 		$redirect_to = admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->get_id() );
@@ -98,7 +100,7 @@ class Requests {
 	 * @since 1.3.1
 	 * @return void
 	 */
-	public static function search_product() {
+	public function search_product() {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
 
 		// Must have manage woocommerce user capability role to access this endpoint.
@@ -161,7 +163,7 @@ class Requests {
 	 * @since 1.3.1
 	 * @return void
 	 */
-	public static function search_orders() {
+	public function search_orders() {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
 
 		// Must have manage woocommerce user capability role to access this endpoint.
@@ -236,7 +238,7 @@ class Requests {
 	 * @since 1.3.1
 	 * @return void
 	 */
-	public static function search_customers() {
+	public function search_customers() {
 		check_ajax_referer( 'wc_serial_numbers_search_nonce', 'nonce' );
 
 		// Must have manage woocommerce user capability role to access this endpoint.

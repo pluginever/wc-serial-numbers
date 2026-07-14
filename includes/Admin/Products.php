@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers\Admin;
 
+use WooCommerceSerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
@@ -10,19 +11,20 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since   1.0.0
  * @package WooCommerceSerialNumbers\Admin
  */
-class Products {
+class Products extends Component {
 
 	/**
-	 * Products constructor.
+	 * Register hooks.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
-	public function __construct() {
-		add_action( 'admin_head', array( __CLASS__, 'print_style' ) );
-		add_filter( 'woocommerce_product_data_tabs', array( __CLASS__, 'product_data_tab' ) );
-		add_action( 'woocommerce_product_data_panels', array( __CLASS__, 'product_write_panel' ) );
-		add_filter( 'woocommerce_process_product_meta', array( __CLASS__, 'product_save_data' ) );
-		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'variable_product_content' ), 10, 3 );
+	public function register(): void {
+		add_action( 'admin_head', array( $this, 'print_style' ) );
+		add_filter( 'woocommerce_product_data_tabs', array( $this, 'product_data_tab' ) );
+		add_action( 'woocommerce_product_data_panels', array( $this, 'product_write_panel' ) );
+		add_filter( 'woocommerce_process_product_meta', array( $this, 'product_save_data' ) );
+		add_action( 'woocommerce_product_after_variable_attributes', array( $this, 'variable_product_content' ), 10, 3 );
 	}
 
 	/**
@@ -30,7 +32,7 @@ class Products {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function print_style() {
+	public function print_style() {
 		?>
 		<style>
 			#woocommerce-product-data ul.wc-tabs li.wc_serial_numbers_options a:before {
@@ -85,13 +87,13 @@ class Products {
 	 *
 	 * @return mixed
 	 */
-	public static function product_data_tab( $tabs ) {
+	public function product_data_tab( $tabs ) {
 		$tabs['wc_serial_numbers'] = apply_filters(
 			'wc_serial_numbers_product_data_tab',
 			array(
 				'label'    => __( 'Serial Numbers', 'wc-serial-numbers' ),
 				'target'   => 'wc_serial_numbers_data',
-				'class'    => array( 'show_if_simple', 'hide_if_subscription', 'hide_if_variable-subscription' ),
+				'class'    => array( 'show_if_simple', 'show_if_downloadable', 'hide_if_subscription', 'hide_if_variable-subscription' ),
 				'priority' => 11,
 			)
 		);
@@ -102,10 +104,10 @@ class Products {
 	/**
 	 * since 1.0.0
 	 */
-	public static function product_write_panel() {
+	public function product_write_panel() {
 		global $post, $woocommerce;
 		?>
-		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel show_if_simple"
+		<div id="wc_serial_numbers_data" class="panel woocommerce_options_panel"
 			style="padding-bottom: 50px;display: none;">
 			<?php
 			woocommerce_wp_checkbox(
@@ -184,7 +186,7 @@ class Products {
 				)
 			);
 
-			if ( ! WCSN()->is_premium_active() ) {
+			if ( ! $this->app->is_pro_active() ) {
 				echo wp_kses_post(
 					sprintf(
 						'<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>',
@@ -204,8 +206,8 @@ class Products {
 	 *
 	 * @since 1.2.0
 	 */
-	public static function variable_product_content() {
-		if ( ! WCSN()->is_premium_active() ) {
+	public function variable_product_content() {
+		if ( ! $this->app->is_pro_active() ) {
 			echo wp_kses_post(
 				sprintf(
 					'<p class="wc-serial-numbers-upgrade-box">%s <a href="%s" target="_blank" class="button">%s</a></p>',
@@ -220,7 +222,7 @@ class Products {
 	/**
 	 * since 1.0.0
 	 */
-	public static function product_save_data() {
+	public function product_save_data() {
 		global $post;
 		if ( ! isset( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ), 'woocommerce_save_data' ) ) {
 			return;
@@ -228,7 +230,7 @@ class Products {
 
 		// Must have manage woocommerce user capability role to save this data.
 		if ( ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.WP.Capabilities.Unknown
-			WCSN()->add_notice( __( 'You do not have permission to save this data.', 'wc-serial-numbers' ), 'error' );
+			$this->app->flash->error( __( 'You do not have permission to save this data.', 'wc-serial-numbers' ) );
 			return;
 		}
 

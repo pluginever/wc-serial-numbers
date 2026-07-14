@@ -2,6 +2,7 @@
 
 namespace WooCommerceSerialNumbers;
 
+use WooCommerceSerialNumbers\B8\Component;
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -10,22 +11,33 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @package WooCommerceSerialNumbers
  */
-class Compat {
+class Compat extends Component {
 
 	/**
-	 * Compat constructor.
+	 * Whether to load.
+	 *
+	 * @since 2.4.0
+	 * @return bool
+	 */
+	public function autoload(): bool {
+		return 'yes' === get_option( 'wcsn_enable_pdf_invoices', 'no' );
+	}
+
+	/**
+	 * Register hooks.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
-	public function __construct() {
+	public function register(): void {
 		// WooCommerce PDF Invoices & Packing Slips plugin support.
-		add_action( 'wpo_wcpdf_after_item_meta', array( __CLASS__, 'wpo_wcpdf_after_item_meta' ), 10, 3 );
+		add_action( 'wpo_wcpdf_after_item_meta', array( $this, 'wpo_wcpdf_after_item_meta' ), 10, 3 );
 
 		// WooCommerce PDF Invoices plugin support.
-		add_action( 'pdf_template_table_headings', array( __CLASS__, 'woocommerce_pdf_invoice_support' ), 10, 2 );
+		add_action( 'pdf_template_table_headings', array( $this, 'woocommerce_pdf_invoice_support' ), 10, 2 );
 
 		// WooCommerce PDF Invoices, Packing Slips, Delivery Notes & Shipping Labels plugin support.
-		add_action( 'wf_module_generate_template_html', array( __CLASS__, 'wf_module_generate_template_html' ), 10, 4 );
+		add_action( 'wf_module_generate_template_html', array( $this, 'wf_module_generate_template_html' ), 10, 4 );
 	}
 
 	/**
@@ -38,7 +50,7 @@ class Compat {
 	 *
 	 * @since 2.1.4
 	 */
-	public static function wpo_wcpdf_after_item_meta( $type, $item, $order ) {
+	public function wpo_wcpdf_after_item_meta( $type, $item, $order ) {
 		$item_id      = isset( $item['item_id'] ) ? $item['item_id'] : 0;
 		$variation_id = isset( $item['variation_id'] ) ? $item['variation_id'] : 0;
 		$order_id     = $order->get_id();
@@ -139,9 +151,9 @@ class Compat {
 	 * @return string
 	 * @since 1.1.1
 	 */
-	public static function woocommerce_pdf_invoice_support( $headers, $order_id ) {
+	public function woocommerce_pdf_invoice_support( $headers, $order_id ) {
 		$order   = wc_get_order( $order_id );
-		$content = wc_serial_numbers_get_order_table( $order, true );
+		$content = wcsn_display_order_keys( $order, true );
 
 		return $content . $headers;
 	}
@@ -158,10 +170,10 @@ class Compat {
 	 * @return array
 	 * @since 1.1.1
 	 */
-	public static function wf_module_generate_template_html( $find_replace, $html, $template_type, $order ) {
+	public function wf_module_generate_template_html( $find_replace, $html, $template_type, $order ) {
 		if ( isset( $find_replace['[wfte_product_table_start]'] ) ) {
 			ob_start();
-			wc_serial_numbers_get_order_table( $order );
+			wcsn_display_order_keys( $order );
 			?>
 			<style type="text/css">
 				.wfte_product_table.wcsn-pdf-table {
