@@ -679,6 +679,18 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 		);
 		$key->set_data( $props );
 		$key->save();
+
+		if ( $is_reusing ) {
+			$activations = Activation::query(
+				array(
+					'serial_id' => $key->get_id(),
+					'limit'     => -1,
+				)
+			);
+			foreach ( $activations as $activation ) {
+				$activation->delete();
+			}
+		}
 	}
 
 	/**
@@ -751,6 +763,18 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 		$key->set_data( $props );
 		if ( $key->save() ) {
 			++$replaced;
+		}
+
+		if ( $is_reusing ) {
+			$activations = Activation::query(
+				array(
+					'serial_id' => $key->get_id(),
+					'limit'     => -1,
+				)
+			);
+			foreach ( $activations as $activation ) {
+				$activation->delete();
+			}
 		}
 	}
 
