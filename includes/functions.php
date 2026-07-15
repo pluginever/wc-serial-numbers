@@ -672,13 +672,11 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 
 	foreach ( $keys as $key ) {
 		$props = array(
-			'status' => $is_reusing ? 'available' : 'cancelled',
+			'status'        => $is_reusing ? 'available' : 'cancelled',
+			'order_id'      => 0,
+			'order_item_id' => 0,
+			'order_date'    => null,
 		);
-		if ( ! $is_reusing ) {
-			$props['order_id']      = 0;
-			$props['order_item_id'] = 0;
-			$props['order_date']    = null;
-		}
 		$key->set_data( $props );
 		$key->save();
 	}
@@ -745,13 +743,11 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 
 	foreach ( $keys as $key ) {
 		$props = array(
-			'status' => $is_reusing ? 'available' : 'cancelled',
+			'status'        => $is_reusing ? 'available' : 'cancelled',
+			'order_id'      => 0,
+			'order_item_id' => 0,
+			'order_date'    => null,
 		);
-		if ( ! $is_reusing ) {
-			$props['order_id']      = 0;
-			$props['order_item_id'] = 0;
-			$props['order_date']    = null;
-		}
 		$key->set_data( $props );
 		if ( $key->save() ) {
 			++$replaced;
