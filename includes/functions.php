@@ -162,7 +162,7 @@ function wcsn_get_order_object( $order ) {
  * @return Key|WP_Error object on success, WP_Error object on failure.
  */
 function wcsn_insert_key( $args, $wp_error = true ) {
-	return Key::insert( $args, $wp_error );
+	return Key::insert( $args, null, $wp_error );
 }
 
 /**
@@ -199,7 +199,7 @@ function wcsn_get_keys( $args = array(), $count = false ) {
  * @return Key|false
  */
 function wcsn_get_key( $key ) {
-	return Key::get( $key );
+	return Key::find( $key );
 }
 
 /**
@@ -265,7 +265,7 @@ function wcsn_get_activations( $args = array(), $count = false ) {
  * @return Activation|false
  */
 function wcsn_get_activation( $activation ) {
-	return Activation::get( $activation );
+	return Activation::find( $activation );
 }
 
 /**
@@ -549,7 +549,7 @@ function wcsn_order_update_keys( $order_id ) {
 
 			// Assign keys to order.
 			foreach ( $keys as $key ) {
-				$key->set_data(
+				$key->fill(
 					array(
 						'order_id'      => $order_id,
 						'order_item_id' => $item['order_item_id'],
@@ -679,7 +679,7 @@ function wcsn_order_remove_keys( $order_id, $product_id = null ) {
 			$props['order_item_id'] = 0;
 			$props['order_date']    = null;
 		}
-		$key->set_data( $props );
+		$key->fill( $props );
 		$key->save();
 	}
 
@@ -752,7 +752,7 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 			$props['order_item_id'] = 0;
 			$props['order_date']    = null;
 		}
-		$key->set_data( $props );
+		$key->fill( $props );
 		if ( $key->save() ) {
 			++$replaced;
 		}

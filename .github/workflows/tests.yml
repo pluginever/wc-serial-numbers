@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  phpunit:
+    name: PHP ${{ matrix.php }} / WP ${{ matrix.wordpress }}
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        # install.sh always installs latest WooCommerce, which requires WP 6.9+.
+        wordpress: ['6.9', 'latest']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer, wp-cli
+
+      - name: Setup tests
+        run: |
+          composer config -g github-oauth.github.com "${{ secrets.ACCESS_TOKEN }}"
+          composer install --no-interaction
+          bash tests/bin/install.sh wordpress_test root root 127.0.0.1 ${{ matrix.wordpress }}
+
+      - name: Run tests
+        run: composer test
