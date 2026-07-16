@@ -112,7 +112,7 @@ You can also use different methods that allow you to validate, activate, and dea
 
 - **REST API:** You’ll be able to operate a set of standard rules and conventions for communicating with other web-based applications and services. REST API treats everything as a resource, including a WooCommerce product. License keys are managed as resources and are accessed through endpoints that are also resources.
 
-> Maximize the potential of WC Serial Numbers plugin by unlocking all its advanced features. <a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a>
+Maximize the potential of WC Serial Numbers plugin by unlocking all its advanced features. <a href="https://pluginever.com/plugins/woocommerce-serial-numbers-pro">Get The PRO Version.</a>
 
 === ⚡ More Upcoming Features: ===
 
@@ -250,9 +250,14 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
-= 2.3.5 (14th June 2026) =
-* Minor maintenance update.
+
+= 2.3.5 (16th July 2026) =
+* Enhance: Modernize the plugin architecture to improve maintainability and extensibility.
+* Enhance: Improve the Serial Numbers panel layout and admin experience.
+* Fix: Fix the Serial Numbers tab display for downloadable products.
+* Fix: Improve model handling, stability, and backward compatibility.
 * Fix: Expiry date is now set for keys assigned to completed orders.
+* Compatibility: Tested with the latest version of WordPress and WooCommerce.
 
 = 2.3.4 (24th May 2026) =
 * Minor maintenance update.
@@ -310,7 +315,7 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 = 2.1.9 (29th May 2025) =
 * Fix: Few known issues fixed.
 
-= 2.1.8 (04th May 2025) =
+= 2.1.8 (4th May 2025) =
 * Compatibility: Make compatible with the latest version of WooCommerce and WordPress.
 
 = 2.1.6 (18th Mar 2025) =
@@ -338,16 +343,16 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 * Enhance: Add WC cart checkout block compatibility.
 * Fix: Few known issues fixed.
 
-= 2.0.6 (07th Oct 2024) =
+= 2.0.6 (7th Oct 2024) =
 * Enhance: Update the Key Model to enable more precise key queries, enhancing performance and accuracy.
 
 = 2.0.3 (12th Sep 2024) =
 * Fix: Security issue.
 
-= 2.0.2 (01st Sep 2024) =
+= 2.0.2 (1st Sep 2024) =
 * Fix: Few known issues.
 
-= 2.0.1 (th Aug 2024) =
+= 2.0.1 (14th Aug 2024) =
 * Enhance: Migrate classes to new directory structure
 * Fix: Few known issues.
 
@@ -356,27 +361,27 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 * Fix: Few known issues.
 
 = 1.7.7 (31st Jul 2024) =
-Enhance: Enhance optimized code for better autoload classes.
+* Enhance: Enhance optimized code for better autoload classes.
 
 = 1.7.6 (30th Jul 2024) =
-Enhance: Enhanced security to handle form actions.
-Enhance: Enhanced security to handle Ajax search.
-Enhance: Enhanced security to handle the GET & POST supper global variables.
-Fix: Vulnerability security issue.
-Fix: Few other known issues.
+* Enhance: Enhanced security to handle form actions.
+* Enhance: Enhanced security to handle Ajax search.
+* Enhance: Enhanced security to handle the GET & POST supper global variables.
+* Fix: Vulnerability security issue.
+* Fix: Few other known issues.
 
 = 1.7.5 (01st Jul 2024) =
-Enhance: Enhanced security to handle form actions.
-Enhance: Enhanced security to handle Ajax search.
-Fix: Few known issues fixed.
+* Enhance: Enhanced security to handle form actions.
+* Enhance: Enhanced security to handle Ajax search.
+* Fix: Few known issues fixed.
 
 = 1.7.4 (11th Jun 2024) =
-Fix: Vulnerability issue.
-Fix: Shortcode permission issue.
+* Fix: Vulnerability issue.
+* Fix: Shortcode permission issue.
 
 = 1.7.3 (12th May 2024) =
-Enhance: Move query arg based API to REST API
-Fix: Few known issues fixed.
+* Enhance: Move query arg based API to REST API
+* Fix: Few known issues fixed.
 
 = 1.7.2 (19th Apr 2024) =
 * Fix: Text domain issue fixed.
@@ -499,18 +504,18 @@ Fix: Few known issues fixed.
 * Fix: Translation breaking page
 * Fix: Reuse license key not working
 
-= 1.4.2 (15th January 2023 )=
+= 1.4.2 (15th January 2023 ) =
 * Enhancement: New settings UI with performance improvements.
 * Enhancement: Optimized plugin assets.
 
 = 1.2.10 (20th May, 2022) =
-Fix - Compatibility with WP 6.1
-Fix - Compatibility with WC 71.
+* Fix - Compatibility with WP 6.1
+* Fix - Compatibility with WC 71.
 
 = 1.2.10 (17th May, 2022) =
-Fix - Compatibility with WC v6.5.1
-Fix - Fix typo
-Enhance - Enhance simple product metabox styles
+* Fix - Compatibility with WC v6.5.1
+* Fix - Fix typo
+* Enhance - Enhance simple product metabox styles
 
 = 1.2.9 (19th December, 2021) =
 * Fix - Compatibility with WP v5.8.2
@@ -632,7 +637,7 @@ Enhance - Enhance simple product metabox styles
 * Fix - Bug
 
 = 1.0 (21st January 2019) =
-Initial release
+* Initial release
 
 == Upgrade Notice ==
 = 2.3.2 =

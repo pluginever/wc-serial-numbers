@@ -13,8 +13,8 @@
  * License URI:          https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:          wc-serial-numbers
  * Domain Path:          /languages
- * WC requires at least: 3.0.0
- * WC tested up to:      10.7
+ * WC requires at least: 6.0.0
+ * WC tested up to:      10.9
  * Requires Plugins:     woocommerce
  *
  * @link                 https://pluginever.com
