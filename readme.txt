@@ -508,7 +508,7 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 * Enhancement: New settings UI with performance improvements.
 * Enhancement: Optimized plugin assets.
 
-= 1.2.10 (20th May, 2022) =
+= 1.2.10 (20th May 2022) =
 * Fix - Compatibility with WP 6.1
 * Fix - Compatibility with WC 71.
 
@@ -517,21 +517,21 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 * Fix - Fix typo
 * Enhance - Enhance simple product metabox styles
 
-= 1.2.9 (19th December, 2021) =
+= 1.2.9 (19th December 2021) =
 * Fix - Compatibility with WP v5.8.2
 * Fix - Compatibility with WC v6.0.0
 
-= 1.2.8 (27th May, 2021) =
+= 1.2.8 (27th May 2021) =
 * Fix - Compatibility with WP v5.7.2
 * Fix - Compatibility with WC v5.3.0
 
-= 1.2.7 (8th September, 2020) =
+= 1.2.7 (8th September 2020) =
 * Fix - Shop manager User level: Search products do not show and decrypting key failed
 * Fix - Notification email conflict
 * Fix - Stock notification need to skip private products
 * Fix - Activation list table serial number column is not working
 
-= 1.2.6 (24th August, 2020) =
+= 1.2.6 (24th August 2020) =
 * Fix - Unicode character not showing on PDF
 * Fix - Translate path not found
 * Enhance - Ordered serial numbers in dedicated metabox on order edit page
@@ -595,7 +595,7 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 * Fix - Creating multiple serial number for a single product when order failed
 
 = 1.0.7 (24th June 2019) =
-* Fix - Compatibly with WP v5.2.2
+* Fix - Compatibility with WP v5.2.2
 
 = 1.0.6 (18th June 2019) =
 * Fix - Plugin translation issue
@@ -626,8 +626,8 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 = 1.0.2 (15th March 2019) =
 * Fix - Link from product page to add new serial number page
 * Fix - Conflict with Divi theme admin design
-* Fix - Compatibly with WP v5.1.1
-* Fix - Compatibly with WC v3.5.6
+* Fix - Compatibility with WP v5.1.1
+* Fix - Compatibility with WC v3.5.6
 
 = 1.0.1 (6th March 2019) =
 * Rewrite - Key generation process
