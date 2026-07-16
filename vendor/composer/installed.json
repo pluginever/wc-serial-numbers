@@ -1,39 +1,71 @@
 {
     "packages": [
         {
-            "name": "pluginever/framework-model",
-            "version": "dev-trunk",
-            "version_normalized": "dev-trunk",
+            "name": "byteever/models",
+            "version": "1.0.0",
+            "version_normalized": "1.0.0.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:pluginever/framework-model.git",
-                "reference": "69bff296504c1ba6c5b3aa6767c79b78fb90c636"
+                "url": "git@github.com:byteever/models.git",
+                "reference": "ab809a0884fc541fb09062a3684bf783003ce068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pluginever/framework-model/zipball/69bff296504c1ba6c5b3aa6767c79b78fb90c636",
-                "reference": "69bff296504c1ba6c5b3aa6767c79b78fb90c636",
+                "url": "https://api.github.com/repos/byteever/models/zipball/ab809a0884fc541fb09062a3684bf783003ce068",
+                "reference": "ab809a0884fc541fb09062a3684bf783003ce068",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4"
             },
-            "time": "2026-01-11T07:16:22+00:00",
+            "require-dev": {
+                "byteever/byteever-sniffs": "^1.1.1",
+                "fakerphp/faker": "^1.24",
+                "johnkary/phpunit-speedtrap": "^4.0",
+                "phpstan/php-8-stubs": "^0.4.35",
+                "phpunit/phpunit": "^9.6",
+                "szepeviktor/phpstan-wordpress": "^2.0",
+                "wp-phpunit/wp-phpunit": "^6.8",
+                "yoast/phpunit-polyfills": "^4.0"
+            },
+            "time": "2026-07-10T21:03:07+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "WooCommerceSerialNumbers\\Lib\\": "src/"
+                    "WooCommerceSerialNumbers\\B8\\Models\\": "src/"
                 }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "B8\\Models\\Tests\\": "tests/phpunit/"
+                }
+            },
+            "scripts": {
+                "phpcs": [
+                    "php ./vendor/bin/phpcs --standard=phpcs.xml -s -v"
+                ],
+                "phpcbf": [
+                    "php ./vendor/bin/phpcbf --standard=phpcs.xml -v"
+                ],
+                "phpstan": [
+                    "php ./vendor/bin/phpstan analyse --memory-limit=1G"
+                ],
+                "test:setup": [
+                    "bash ./tests/bin/install.sh wordpress_test root root localhost trunk"
+                ],
+                "test": [
+                    "phpunit"
+                ]
             },
             "license": [
                 "GPL-3.0-or-later"
             ],
             "support": {
-                "source": "https://github.com/pluginever/framework-model/tree/trunk",
-                "issues": "https://github.com/pluginever/framework-model/issues"
+                "source": "https://github.com/byteever/models/tree/1.0.0",
+                "issues": "https://github.com/byteever/models/issues"
             },
-            "install-path": "../pluginever/framework-model"
+            "install-path": "../byteever/models"
         },
         {
             "name": "pluginever/framework-plugin",

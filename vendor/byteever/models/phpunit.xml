@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	bootstrap="tests/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	verbose="true"
+	stopOnFailure="false"
+	cacheResult="false"
+	testdox="true"
+	beStrictAboutTestsThatDoNotTestAnything="false"
+	beStrictAboutOutputDuringTests="true"
+	beStrictAboutTodoAnnotatedTests="true"
+	failOnRisky="true"
+	convertDeprecationsToExceptions="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true">
+
+	<testsuites>
+		<testsuite name="default">
+			<directory suffix="Test.php">./tests/phpunit</directory>
+		</testsuite>
+	</testsuites>
+
+
+	<!-- Coverage configuration. -->
+	<coverage processUncoveredFiles="true" includeUncoveredFiles="true">
+		<include>
+			<directory suffix=".php">./src</directory>
+		</include>
+		<exclude>
+			<directory suffix=".php">./vendor</directory>
+			<directory suffix=".php">./tests</directory>
+		</exclude>
+		<report>
+			<html outputDirectory="tests/coverage/html" lowUpperBound="50" highLowerBound="80"/>
+			<text outputFile="tests/coverage/coverage.txt" showUncoveredFiles="true"/>
+		</report>
+	</coverage>
+
+	<!-- Logging and reporting. -->
+	<logging>
+		<junit outputFile="tests/logs/junit.xml"/>
+	</logging>
+
+	<!-- Environment variables for WordPress test suite. -->
+	<php>
+		<env name="WP_TESTS_DIR" value="/tmp/wordpress-tests-lib"/>
+		<ini name="display_errors" value="1"/>
+		<ini name="error_reporting" value="-1"/>
+		<ini name="memory_limit" value="512M"/>
+	</php>
+</phpunit>
+

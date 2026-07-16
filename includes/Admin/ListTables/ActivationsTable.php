@@ -134,7 +134,7 @@ class ActivationsTable extends ListTable {
 			}
 
 			foreach ( $ids as $id ) { // Check the permissions on each.
-				$key = Activation::get( $id );
+				$key = Activation::find( $id );
 				if ( ! $key ) {
 					continue;
 				}

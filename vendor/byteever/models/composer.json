@@ -1,0 +1,43 @@
+{
+	"name": "byteever/models",
+	"type": "library",
+	"license": "GPL-3.0-or-later",
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"byteever/byteever-sniffs": "^1.1.1",
+		"fakerphp/faker": "^1.24",
+		"johnkary/phpunit-speedtrap": "^4.0",
+		"phpstan/php-8-stubs": "^0.4.35",
+		"phpunit/phpunit": "^9.6",
+		"szepeviktor/phpstan-wordpress": "^2.0",
+		"wp-phpunit/wp-phpunit": "^6.8",
+		"yoast/phpunit-polyfills": "^4.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"B8\\Models\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"B8\\Models\\Tests\\": "tests/phpunit/"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "7.4"
+		}
+	},
+	"scripts": {
+		"phpcs": "php ./vendor/bin/phpcs --standard=phpcs.xml -s -v",
+		"phpcbf": "php ./vendor/bin/phpcbf --standard=phpcs.xml -v",
+		"phpstan": "php ./vendor/bin/phpstan analyse --memory-limit=1G",
+		"test:setup": "bash ./tests/bin/install.sh wordpress_test root root localhost trunk",
+		"test": "phpunit"
+	}
+}

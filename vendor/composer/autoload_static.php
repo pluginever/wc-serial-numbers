@@ -4,12 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit32bed2e2c8745d498c8d4b47e0530165
+class ComposerStaticInit25ae01049e5d373ba6381a4a6c433fb3
 {
     public static $prefixLengthsPsr4 = array (
         'W' =>
         array (
             'WooCommerceSerialNumbers\\Lib\\' => 29,
+            'WooCommerceSerialNumbers\\B8\\Models\\' => 35,
             'WooCommerceSerialNumbers\\' => 25,
         ),
     );
@@ -19,12 +20,14 @@ class ComposerStaticInit32bed2e2c8745d498c8d4b47e0530165
         array (
             0 => __DIR__ . '/..' . '/pluginever/framework-settings/src',
             1 => __DIR__ . '/..' . '/pluginever/framework-plugin/src',
-            2 => __DIR__ . '/..' . '/pluginever/framework-model/src',
+        ),
+        'WooCommerceSerialNumbers\\B8\\Models\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/byteever/models/src',
         ),
         'WooCommerceSerialNumbers\\' =>
         array (
             0 => __DIR__ . '/../..' . '/includes',
-            1 => __DIR__ . '/../..' . '/src',
         ),
     );
 
@@ -35,9 +38,9 @@ class ComposerStaticInit32bed2e2c8745d498c8d4b47e0530165
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit32bed2e2c8745d498c8d4b47e0530165::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit32bed2e2c8745d498c8d4b47e0530165::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit32bed2e2c8745d498c8d4b47e0530165::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit25ae01049e5d373ba6381a4a6c433fb3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit25ae01049e5d373ba6381a4a6c433fb3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit25ae01049e5d373ba6381a4a6c433fb3::$classMap;
 
         }, null, ClassLoader::class);
     }

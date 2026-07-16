@@ -205,7 +205,7 @@ class Menus {
 		$add  = isset( $_GET['add'] ) ? true : false;
 		$edit = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
 		if ( $edit ) {
-			$key = new Key( $edit );
+			$key = Key::find( $edit );
 			if ( ! $key->exists() ) {
 				wp_safe_redirect( remove_query_arg( 'edit' ) );
 				exit();

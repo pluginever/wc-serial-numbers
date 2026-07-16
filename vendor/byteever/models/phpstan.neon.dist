@@ -1,0 +1,74 @@
+includes:
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+	level: 8
+	phpVersion:
+		min: 70400
+		max: 80400
+	paths:
+		- src
+	scanFiles:
+		# wordpress-stubs omits the polyfilled string functions; analysing at the
+		# 7.4 floor needs these so str_contains()/str_starts_with() resolve.
+		- vendor/phpstan/php-8-stubs/stubs/ext/standard/str_contains.php
+		- vendor/phpstan/php-8-stubs/stubs/ext/standard/str_starts_with.php
+	reportUnmatchedIgnoredErrors: false
+	ignoreErrors:
+		# Relations build queries through a Query that is null until a related model
+		# is resolved, and parent/related models are resolved dynamically at runtime.
+		# These shapes (and the keys/values threaded through them) cannot be modelled.
+		-
+			identifier: method.nonObject
+			path: src/Relations/*
+		-
+			identifier: argument.type
+			path: src/Relations/*
+		-
+			identifier: return.type
+			path: src/Relations/*
+		-
+			identifier: foreach.nonIterable
+			path: src/Relations/*
+
+		# The abstract base model creates instances of the concrete subclass via
+		# new static() — the documented extension pattern for the package.
+		-
+			identifier: new.static
+			path: src/Model.php
+		# find() resolves to the concrete subtype through the model's own query.
+		-
+			message: '#Method B8\\Models\\Model\:\:find\(\) should return static#'
+			identifier: return.type
+			path: src/Model.php
+		# __clone returns $this for fluent reuse even though PHP ignores the value.
+		-
+			identifier: return.void
+			path: src/Model.php
+
+		# Intentional defensive guards against values the analyser treats as impossible
+		# (object/array shapes coming from $wpdb, serialized data, and query vars).
+		-
+			identifier: function.alreadyNarrowedType
+			paths:
+				- src/Model.php
+				- src/Query.php
+				- src/Traits/AttributesTrait.php
+		# Null-aware query-var handling and the empty-array short-circuit in the
+		# modifier loop, plus the meta-type guard, are deliberate.
+		-
+			identifier: booleanOr.leftAlwaysFalse
+			path: src/Query.php
+		-
+			identifier: identical.alwaysFalse
+			path: src/Query.php
+		-
+			identifier: booleanAnd.rightAlwaysTrue
+			path: src/Query.php
+
+		# Prefixed hook names are non-empty in practice; the WordPress stubs require
+		# a non-empty-string literal which the dynamic name cannot satisfy.
+		-
+			message: '#Parameter \#1 \$hook_name of function (do_action|apply_filters) expects non\-empty\-string#'
+			identifier: argument.type
+			path: src/Traits/HookableTrait.php
