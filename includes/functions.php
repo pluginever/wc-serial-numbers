@@ -422,7 +422,7 @@ function wcsn_order_get_unfulfilled_items( $order_id ) {
 	foreach ( $line_items as $line_item ) {
 		$qty = $line_item['quantity'];
 		foreach ( $keys as $key ) {
-			if ( $key->get_product_id() !== $line_item['product_id'] ) {
+			if ( $key->product_id !== $line_item['product_id'] ) {
 				continue;
 			}
 			// todo uncomment this when we will support for order item id.
@@ -600,8 +600,8 @@ function wcsn_order_update_keys( $order_id ) {
 
 	foreach ( $keys as $key ) {
 		$is_expired = $key->is_expired();
-		if ( $is_expired && 'expired' !== $key->get_status() ) {
-			$key->set_status( 'expired' );
+		if ( $is_expired && 'expired' !== $key->status ) {
+			$key->status = 'expired';
 			$key->save();
 		} elseif ( ! $is_expired && in_array(
 			$order_status,
@@ -610,11 +610,11 @@ function wcsn_order_update_keys( $order_id ) {
 				'complete',
 			),
 			true
-		) && 'sold' !== $key->get_status() ) {
-			$key->set_status( 'sold' );
+		) && 'sold' !== $key->status ) {
+			$key->status = 'sold';
 			$key->save();
-		} elseif ( 'on-hold' === $order_status && ! $is_expired && 'pending' !== $key->get_status() ) {
-			$key->set_status( 'pending' );
+		} elseif ( 'on-hold' === $order_status && ! $is_expired && 'pending' !== $key->status ) {
+			$key->status = 'pending';
 			$key->save();
 		} elseif ( in_array( $order_status, $revoke_statues, true ) && ! $is_expired && apply_filters( 'wc_serial_numbers_revoke_order_item_keys', true, $line_items, $order_id ) ) {
 			wcsn_order_remove_keys( $order_id );
@@ -753,7 +753,7 @@ function wcsn_order_replace_key( $order_id, $product_id = null, $key_id = null )
 			$props['order_date']    = null;
 		}
 		$key->fill( $props );
-		if ( $key->save() ) {
+		if ( ! is_wp_error( $key->save() ) ) {
 			++$replaced;
 		}
 	}
@@ -1013,32 +1013,32 @@ function wcsn_get_key_display_properties( $key, $context = 'order_details' ) {
 	$properties = array(
 		'key'              => array(
 			'label'    => __( 'Key', 'wc-serial-numbers' ),
-			'value'    => '<code>' . $key->get_key() . '</code>',
+			'value'    => '<code>' . $key->key . '</code>',
 			'priority' => 10,
 		),
 		'activation_email' => array(
 			'label'    => __( 'Activation Email', 'wc-serial-numbers' ),
-			'value'    => $key->get_customer_email(),
+			'value'    => $key->customer_email,
 			'priority' => 20,
 		),
 		'activation_limit' => array(
 			'label'    => __( 'Activation Limit', 'wc-serial-numbers' ),
-			'value'    => ! empty( $key->get_activation_limit() ) ? number_format_i18n( $key->get_activation_limit() ) : __( 'None', 'wc-serial-numbers' ),
+			'value'    => ! empty( $key->activation_limit ) ? number_format_i18n( $key->activation_limit ) : __( 'None', 'wc-serial-numbers' ),
 			'priority' => 30,
 		),
 		'activation_count' => array(
 			'label'    => __( 'Activation Count', 'wc-serial-numbers' ),
-			'value'    => ! empty( $key->get_activation_count() ) ? number_format_i18n( $key->get_activation_count() ) : __( 'None', 'wc-serial-numbers' ),
+			'value'    => ! empty( $key->activation_count ) ? number_format_i18n( $key->activation_count ) : __( 'None', 'wc-serial-numbers' ),
 			'priority' => 40,
 		),
 		'expire_date'      => array(
 			'label'    => __( 'Expire Date', 'wc-serial-numbers' ),
-			'value'    => ! empty( $key->get_expire_date() ) ? $key->get_expire_date() : __( 'Lifetime', 'wc-serial-numbers' ),
+			'value'    => ! empty( $key->expire_date ) ? $key->expire_date : __( 'Lifetime', 'wc-serial-numbers' ),
 			'priority' => 50,
 		),
 		'status'           => array(
 			'label'    => __( 'Status', 'wc-serial-numbers' ),
-			'value'    => $key->get_status(),
+			'value'    => $key->status,
 			'priority' => 100,
 		),
 	);

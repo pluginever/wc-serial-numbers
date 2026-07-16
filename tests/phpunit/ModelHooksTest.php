@@ -43,6 +43,23 @@ class ModelHooksTest extends TestCase {
 	}
 
 	/**
+	 * Inserting a key auto-enables serial numbers on its product.
+	 *
+	 * Regression: the b8 base fires `..._key_inserted` (passing the model), not
+	 * the legacy `..._key_insert` (passing an id). Actions::enable_product must
+	 * stay wired to the live hook so programmatic inserts (e.g. Pro CSV import)
+	 * still mark the product as serial-enabled.
+	 */
+	public function testKeyInsertEnablesProductViaHook(): void {
+		$product = $this->create_product( array( 'serial_enabled' => false ) );
+		$this->assertSame( '', get_post_meta( $product->get_id(), '_is_serial_number', true ) );
+
+		$this->make_available_key( $product->get_id(), 'HOOK-ENABLE-1' );
+
+		$this->assertSame( 'yes', get_post_meta( $product->get_id(), '_is_serial_number', true ) );
+	}
+
+	/**
 	 * key_updated fires with the model and only the changed columns.
 	 */
 	public function testUpdatedHookFiresWithChangedColumnsOnly(): void {

@@ -238,7 +238,7 @@ class ActivationsTable extends ListTable {
 		);
 		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', wp_nonce_url( $delete_url, 'bulk-activations' ), __( 'Delete', 'wc-serial-numbers' ) );
 
-		return sprintf( '<code class="wcsn-activation-instance">%1$s</code> %2$s', esc_html( $activation->get_instance() ), $this->row_actions( $actions ) );
+		return sprintf( '<code class="wcsn-activation-instance">%1$s</code> %2$s', esc_html( $activation->instance ), $this->row_actions( $actions ) );
 	}
 
 	/**
@@ -249,7 +249,7 @@ class ActivationsTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_product( $activation ) {
-		return esc_html( $activation->get_product_title() );
+		return esc_html( $activation->product_title );
 	}
 
 	/**
@@ -260,9 +260,9 @@ class ActivationsTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_serial_id( $activation ) {
-		$edit_url = admin_url( 'admin.php?page=wc-serial-numbers&id=' . $activation->get_serial_id() );
+		$edit_url = admin_url( 'admin.php?page=wc-serial-numbers&id=' . $activation->serial_id );
 
-		return sprintf( '<a href="%1$s">#%2$s</a>', esc_url( $edit_url ), esc_html( $activation->get_serial_id() ) );
+		return sprintf( '<a href="%1$s">#%2$s</a>', esc_url( $edit_url ), esc_html( $activation->serial_id ) );
 	}
 
 	/**
@@ -273,7 +273,7 @@ class ActivationsTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_platform( $activation ) {
-		return empty( $activation->get_platform() ) ? '&mdash;' : esc_html( $activation->get_platform() );
+		return empty( $activation->platform ) ? '&mdash;' : esc_html( $activation->platform );
 	}
 
 	/**
@@ -284,6 +284,6 @@ class ActivationsTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_activation_time( $activation ) {
-		return empty( $activation->get_activation_time() ) ? '&mdash;' : esc_html( $activation->get_activation_time() );
+		return empty( $activation->activation_time ) ? '&mdash;' : esc_html( $activation->activation_time );
 	}
 }

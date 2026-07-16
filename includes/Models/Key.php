@@ -234,6 +234,10 @@ class Key extends Model {
 	 * the serial key is decrypted when read from the database and search
 	 * terms are encrypted to match the value at rest.
 	 *
+	 * The legacy `customer_id` and zero `product_id` query arguments are
+	 * translated separately in includes/Deprecated/Functions.php so that
+	 * compatibility shim can be removed without touching the model.
+	 *
 	 * @since 1.0.0
 	 * @return void
 	 */

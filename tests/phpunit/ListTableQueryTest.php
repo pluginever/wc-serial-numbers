@@ -122,6 +122,58 @@ class ListTableQueryTest extends TestCase {
 	}
 
 	/**
+	 * The customer_id filter restricts results to keys on that customer's orders.
+	 *
+	 * Regression: keys have no customer column, so the filter must resolve the
+	 * customer to their order ids and apply an order_id IN (...) condition
+	 * (Key::prepare_customer_query). Without it the arg is silently dropped and
+	 * every key leaks into the filtered view and its per-status counts.
+	 */
+	public function testCustomerIdFilterRestrictsToCustomersKeys(): void {
+		$product    = $this->create_product();
+		$customer_a = $this->create_customer( 'a@example.com' );
+		$customer_b = $this->create_customer( 'b@example.com' );
+
+		$order_a = $this->create_order( $product, 1, array( 'customer_id' => $customer_a, 'status' => 'completed' ) );
+		$order_b = $this->create_order( $product, 1, array( 'customer_id' => $customer_b, 'status' => 'completed' ) );
+
+		Key::insert( array( 'product_id' => $product->get_id(), 'serial_key' => 'CUST-A1', 'status' => 'sold', 'order_id' => $order_a->get_id() ) );
+		Key::insert( array( 'product_id' => $product->get_id(), 'serial_key' => 'CUST-A2', 'status' => 'sold', 'order_id' => $order_a->get_id() ) );
+		Key::insert( array( 'product_id' => $product->get_id(), 'serial_key' => 'CUST-B1', 'status' => 'sold', 'order_id' => $order_b->get_id() ) );
+		$this->make_available_key( $product->get_id(), 'CUST-NONE' );
+
+		$items = Key::query( $this->table_args( array( 'customer_id' => $customer_a ) ) );
+
+		$this->assertCount( 2, $items );
+		foreach ( $items as $item ) {
+			$this->assertSame( $order_a->get_id(), $item->order_id );
+		}
+
+		$this->assertSame( 2, Key::count( array_merge( $this->table_args(), array( 'customer_id' => $customer_a ) ) ) );
+		$this->assertSame( 1, Key::count( array_merge( $this->table_args(), array( 'customer_id' => $customer_b ) ) ) );
+	}
+
+	/**
+	 * A customer with no orders resolves to an empty order-id list, which the
+	 * query layer ignores (empty IN is not a constraint). The filter therefore
+	 * falls through to the unfiltered result set rather than forcing zero rows.
+	 *
+	 * This pins the framework's empty-IN contract: in the admin the customer
+	 * filter is only reachable from an existing key, so this edge is benign.
+	 */
+	public function testCustomerIdFilterWithNoOrdersIsIgnored(): void {
+		$product = $this->create_product();
+		$this->make_available_key( $product->get_id(), 'CUST-X1' );
+		$this->make_available_key( $product->get_id(), 'CUST-X2' );
+		$customer = $this->create_customer( 'noorders@example.com' );
+
+		$items = Key::query( $this->table_args( array( 'customer_id' => $customer ) ) );
+
+		$this->assertCount( 2, $items );
+		$this->assertSame( 2, Key::count( array_merge( $this->table_args(), array( 'customer_id' => $customer ) ) ) );
+	}
+
+	/**
 	 * per_page/paged paginate into distinct slices like the table expects.
 	 */
 	public function testPerPagePagedPagination(): void {

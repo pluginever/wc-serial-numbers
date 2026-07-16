@@ -41,8 +41,8 @@ defined( 'ABSPATH' ) || exit;
 								<?php
 								printf(
 									'<option value="%d" selected="selected">%s</option>',
-									esc_attr( $key->get_product_id() ),
-									esc_html( $key->get_product_title() )
+									esc_attr( $key->product_id ),
+									esc_html( $key->product_title )
 								);
 								?>
 							</select>
@@ -56,7 +56,7 @@ defined( 'ABSPATH' ) || exit;
 								<?php esc_html_e( 'Serial key', 'wc-serial-numbers' ); ?>
 								<abbr title="required"></abbr>
 							</label>
-							<textarea name="serial_key" id="serial_key" required="required" placeholder="serial-####-####-####"><?php echo wp_kses_post( $key->get_key() ); ?></textarea>
+							<textarea name="serial_key" id="serial_key" required="required" placeholder="serial-####-####-####"><?php echo wp_kses_post( $key->key ); ?></textarea>
 							<p class="description">
 								<?php esc_html_e( 'Enter your serial key, also supports multiline.  For example: 4CE0460D0G-4CE0460D1G-4CE0460D2G', 'wc-serial-numbers' ); ?>
 							</p>
@@ -66,7 +66,7 @@ defined( 'ABSPATH' ) || exit;
 							<div class="pev-form-field">
 								<label for="activation_limit"><?php esc_html_e( 'Activation limit', 'wc-serial-numbers' ); ?></label>
 
-								<input type="number" name="activation_limit" id="activation_limit" value="<?php echo esc_attr( $key->get_activation_limit() ); ?>" min="0" step="1"/>
+								<input type="number" name="activation_limit" id="activation_limit" value="<?php echo esc_attr( $key->activation_limit ); ?>" min="0" step="1"/>
 								<p class="description">
 									<?php esc_html_e( 'Maximum number of times the key can be used to activate the software. If the product is not software, keep it blank.', 'wc-serial-numbers' ); ?>
 								</p>
@@ -77,7 +77,7 @@ defined( 'ABSPATH' ) || exit;
 									<?php esc_html_e( 'Valid for', 'wc-serial-numbers' ); ?>
 								</label>
 								<div class="pev-form-field__group">
-									<input type="number" name="validity" id="validity" value="<?php echo esc_attr( $key->get_validity() ); ?>" min="0" step="1"/>
+									<input type="number" name="validity" id="validity" value="<?php echo esc_attr( $key->validity ); ?>" min="0" step="1"/>
 									<div class="addon">
 										<?php esc_html_e( 'Days', 'wc-serial-numbers' ); ?>
 									</div>
@@ -93,7 +93,7 @@ defined( 'ABSPATH' ) || exit;
 							</label>
 							<select id="status" name="status">
 								<?php foreach ( wcsn_get_key_statuses() as $status => $option ) : ?>
-									<?php printf( '<option value="%s" %s>%s</option>', esc_attr( $status ), selected( $key->get_status(), $status, false ), esc_html( $option ) ); ?>
+									<?php printf( '<option value="%s" %s>%s</option>', esc_attr( $status ), selected( $key->status, $status, false ), esc_html( $option ) ); ?>
 								<?php endforeach; ?>
 							</select>
 							<p class="description"><?php esc_html_e( 'Serial key status auto-updates with order status. Avoid manual changes.', 'wc-serial-numbers' ); ?></p>
@@ -107,8 +107,8 @@ defined( 'ABSPATH' ) || exit;
 								<?php
 								printf(
 									'<option value="%d" selected="selected">%s</option>',
-									esc_attr( $key->get_order_id() ),
-									esc_html( $key->get_order_title() )
+									esc_attr( $key->order_id ),
+									esc_html( $key->order_title )
 								);
 								?>
 							</select>
@@ -127,13 +127,13 @@ defined( 'ABSPATH' ) || exit;
 					</div>
 					<div class="pev-card__footer">
 						<?php if ( $key->exists() ) : ?>
-							<a class="del" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', admin_url( 'admin.php?page=wc-serial-numbers&id=' . $key->get_id() ) ), 'bulk-keys' ) ); ?>"><?php esc_html_e( 'Delete', 'wc-serial-numbers' ); ?></a>
+							<a class="del" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', admin_url( 'admin.php?page=wc-serial-numbers&id=' . $key->id ) ), 'bulk-keys' ) ); ?>"><?php esc_html_e( 'Delete', 'wc-serial-numbers' ); ?></a>
 						<?php endif; ?>
 						<button class="button button-primary"><?php esc_html_e( 'Save Key', 'wc-serial-numbers' ); ?></button>
 					</div>
 				</div>
 
-				<?php if ( $key->get_order() ) : ?>
+				<?php if ( $key->order ) : ?>
 					<div class="pev-card">
 						<div class="pev-card__header">
 							<h2 class="pev-card__title"><?php esc_html_e( 'Customer details', 'wc-serial-numbers' ); ?></h2>
@@ -146,7 +146,7 @@ defined( 'ABSPATH' ) || exit;
 										<?php esc_html_e( 'Name', 'wc-serial-numbers' ); ?>
 									</th>
 									<td>
-										<?php echo esc_html( $key->get_order()->get_formatted_billing_full_name() ); ?>
+										<?php echo esc_html( $key->order->get_formatted_billing_full_name() ); ?>
 									</td>
 								</tr>
 								<tr>
@@ -154,7 +154,7 @@ defined( 'ABSPATH' ) || exit;
 										<?php esc_html_e( 'Email', 'wc-serial-numbers' ); ?>
 									</th>
 									<td>
-										<?php echo esc_html( $key->get_order()->get_billing_email() ); ?>
+										<?php echo esc_html( $key->order->get_billing_email() ); ?>
 									</td>
 								</tr>
 								<tr>
@@ -162,7 +162,7 @@ defined( 'ABSPATH' ) || exit;
 										<?php esc_html_e( 'Address', 'wc-serial-numbers' ); ?>
 									</th>
 									<td>
-										<?php echo wp_kses_post( $key->get_order()->get_formatted_billing_address() ); ?>
+										<?php echo wp_kses_post( $key->order->get_formatted_billing_address() ); ?>
 									</td>
 								</tr>
 
@@ -171,13 +171,13 @@ defined( 'ABSPATH' ) || exit;
 										<?php esc_html_e( 'Phone', 'wc-serial-numbers' ); ?>
 									</th>
 									<td>
-										<?php echo esc_html( $key->get_order()->get_billing_phone() ); ?>
+										<?php echo esc_html( $key->order->get_billing_phone() ); ?>
 									</td>
 								</tr>
 								<tr>
 									<th>&nbsp;</th>
 									<td>
-										<a href="<?php echo esc_url( admin_url( 'post.php?post=' . $key->get_order_id() . '&action=edit' ) ); ?>" class="button">
+										<a href="<?php echo esc_url( admin_url( 'post.php?post=' . $key->order_id . '&action=edit' ) ); ?>" class="button">
 											<?php esc_html_e( 'View Order', 'wc-serial-numbers' ); ?>
 										</a>
 									</td>
@@ -192,7 +192,7 @@ defined( 'ABSPATH' ) || exit;
 		</div><!-- .pev-poststuff -->
 
 		<input type="hidden" name="action" value="wcsn_edit_key">
-		<input type="hidden" name="id" value="<?php echo esc_attr( $key->get_id() ); ?>">
+		<input type="hidden" name="id" value="<?php echo esc_attr( $key->id ); ?>">
 		<?php wp_nonce_field( 'wcsn_edit_key' ); ?>
 	</form>
 </div>

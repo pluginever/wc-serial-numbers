@@ -451,7 +451,7 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_order( $item ) {
-		$order = $item->get_order();
+		$order = $item->order;
 		if ( empty( $order ) ) {
 			return '&mdash;';
 		}
@@ -515,17 +515,17 @@ class KeysTable extends ListTable {
 	 * @since 1.4.6
 	 */
 	protected function column_valid_for( $key ) {
-		if ( ! empty( $key->get_validity() ) ) {
+		if ( ! empty( $key->validity ) ) {
 			return wp_kses_post(
 				sprintf(
 					// translators: %1$s: validity, %2$s: validity.
 					_n(
 						'<b>%s</b> Day <br><small>After purchase</small>',
 						'<b>%s</b> Days <br><small>After purchase</small>',
-						$key->get_validity(),
+						$key->validity,
 						'wc-serial-numbers'
 					),
-					number_format_i18n( $key->get_validity() )
+					number_format_i18n( $key->validity )
 				)
 			);
 		}

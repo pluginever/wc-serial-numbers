@@ -265,19 +265,19 @@ class Orders {
 			$data = array(
 				'key'              => array(
 					'label' => __( 'Key', 'wc-serial-numbers' ),
-					'value' => '<code>' . $key->get_key() . '</code>',
+					'value' => '<code>' . $key->key . '</code>',
 				),
 				'expire_date'      => array(
 					'label' => __( 'Expire date', 'wc-serial-numbers' ),
-					'value' => $key->get_expire_date() ? $key->get_expire_date() : __( 'Lifetime', 'wc-serial-numbers' ),
+					'value' => $key->expire_date ? $key->expire_date : __( 'Lifetime', 'wc-serial-numbers' ),
 				),
 				'activation_limit' => array(
 					'label' => __( 'Activation limit', 'wc-serial-numbers' ),
-					'value' => $key->get_activation_limit() ? $key->get_activation_limit() : __( 'Unlimited', 'wc-serial-numbers' ),
+					'value' => $key->activation_limit ? $key->activation_limit : __( 'Unlimited', 'wc-serial-numbers' ),
 				),
 				'status'           => array(
 					'label' => __( 'Status', 'wc-serial-numbers' ),
-					'value' => $key->get_status_label(),
+					'value' => $key->status_label,
 				),
 			);
 
@@ -303,7 +303,7 @@ class Orders {
 				<?php endforeach; ?>
 				<tr>
 					<td colspan="2">
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->get_id() ) ); ?>"><?php esc_html_e( 'View Details', 'wc-serial-numbers' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-serial-numbers&edit=' . $key->id ) ); ?>"><?php esc_html_e( 'View Details', 'wc-serial-numbers' ); ?></a>
 					</td>
 				</tr>
 				</tbody>
