@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-16T09:36:04+00:00\n"
+"POT-Creation-Date: 2026-07-19T09:06:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-serial-numbers\n"
@@ -1371,15 +1371,15 @@ msgstr ""
 msgid "Serial key is activated."
 msgstr ""
 
-#: includes/RestAPI.php:333
+#: includes/RestAPI.php:334
 msgid "Instance is  missing, You must provide an instance to deactivate license."
 msgstr ""
 
-#: includes/RestAPI.php:351
+#: includes/RestAPI.php:352
 msgid "Instance not found."
 msgstr ""
 
-#: includes/RestAPI.php:359
+#: includes/RestAPI.php:360
 msgid "Serial key is deactivated."
 msgstr ""
 

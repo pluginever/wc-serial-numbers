@@ -294,6 +294,7 @@ class RestAPI {
 			'code'             => 'key_activated',
 			'message'          => __( 'Serial key is activated.', 'wc-serial-numbers' ),
 			'activated'        => true,
+			'activation_id'    => $activation->get_id(),
 			'instance'         => $activation->get_instance(),
 			'platform'         => $activation->get_platform(),
 			'activation_limit' => $serial_key->get_activation_limit(),

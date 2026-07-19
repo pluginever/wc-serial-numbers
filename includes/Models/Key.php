@@ -1065,8 +1065,19 @@ class Key extends Model {
 	 * @return array|int Array of activations or count.
 	 */
 	public function get_activations( $args = array() ) {
-		$args = wp_parse_args( $args, array( 'serial_id' => $this->id ) );
+		$output = isset( $args['output'] ) ? $args['output'] : '';
+		unset( $args['output'] );
 
-		return Activation::query( $args );
+		$args    = wp_parse_args( $args, array( 'serial_id' => $this->id ) );
+		$results = Activation::query( $args );
+
+		if ( ARRAY_A === $output && is_array( $results ) ) {
+			return array_map(
+				fn( $item ) => $item instanceof Activation ? $item->to_array() : $item,
+				$results
+			);
+		}
+
+		return $results;
 	}
 }
