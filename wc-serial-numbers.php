@@ -5,7 +5,7 @@
  * Description:          Sell and manage license keys, serial numbers, and secret keys easily within your WooCommerce store.
  * Version:              2.3.6
  * Requires at least:    5.2
- * Tested up to:         7.0.2
+ * Tested up to:         7.0
  * Requires PHP:         7.4
  * Author:               PluginEver
  * Author URI:           https://pluginever.com/
