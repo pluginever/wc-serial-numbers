@@ -2,7 +2,7 @@
 Contributors: pluginever, manikmist09
 Tags: license, license manager, serial number, serial key, woocommerce
 Tested up to: 7.0
-Stable tag: 2.3.5
+Stable tag: 2.3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,10 @@ Yes, you are always welcome to [provide suggestions](https://github.com/pluginev
 10. Order Notification Email with Keys
 
 == Changelog ==
+
+= 2.3.6 (19th July 2026) =
+* Fix: Fix the serial number activation API response to return complete activation data.
+* Enhance: Add the activation ID to the activation API response for improved integration support.
 
 = 2.3.5 (16th July 2026) =
 * Enhance: Modernize the plugin architecture to improve maintainability and extensibility.
