@@ -267,8 +267,9 @@ class Query
             $second = $operator;
             $operator = '=';
         }
-        $condition = $this->qualify_column($first) . " {$operator} " . $this->qualify_column((string) $second, $table);
-        $this->sql_vars['join'][] = array('table' => $table, 'condition' => $condition, 'type' => $type);
+        $operator = $this->parse_operator($operator);
+        $condition = $this->parse_column($first) . " {$operator} " . $this->parse_column((string) $second, $table);
+        $this->sql_vars['join'][] = array('table' => $this->parse_identifier((string) $table), 'condition' => $condition, 'type' => $type);
         return $this;
     }
     /**
@@ -343,6 +344,44 @@ class Query
         }
         $this->query_vars['meta_query'][] = array('key' => $key, 'value' => $value, 'compare' => $compare);
         return $this;
+    }
+    /**
+     * Add a group of conditions from a filter set.
+     *
+     * @since 1.0.0
+     *
+     * @param array<string, mixed> $filters Filter set as `[ 'match' => 'all|any', 'filters' => [ ... ] ]`, or a bare list of rows.
+     *
+     * @return static Query instance for chaining.
+     */
+    public function where_filters(array $filters): self
+    {
+        $rows = isset($filters['filters']) && is_array($filters['filters']) ? $filters['filters'] : $filters;
+        $match = isset($filters['match']) ? strtolower((string) $filters['match']) : 'all';
+        $rows = array_filter($rows, static function ($row) {
+            return is_array($row) && !empty($row['field']) && !empty($row['operator']);
+        });
+        if (!empty($rows)) {
+            $this->where(function ($query) use ($rows) {
+                foreach ($rows as $filter) {
+                    $value = $this->parse_filter_value($filter['value'] ?? null);
+                    $query->where($filter['field'], $filter['operator'], $value);
+                }
+            }, 'any' === $match ? 'OR' : 'AND');
+        }
+        /**
+         * Filters the query after a filter set is applied.
+         *
+         * A consumer can add a join and its conditions here for a filter that
+         * targets a table this query has not joined.
+         *
+         * @since 1.0.0
+         *
+         * @param Query             $query Query instance.
+         * @param array<int, mixed> $rows  Applied filter rows.
+         * @param string            $match Match mode, `all` or `any`.
+         */
+        return $this->model->apply_filters('where_filters', $this, $rows, $match);
     }
     /**
      * Set the GROUP BY clause.
@@ -715,7 +754,8 @@ class Query
         if (!in_array($func, $valid_functions, true)) {
             return null;
         }
-        $select = 'COUNT' === $func ? 'COUNT(*)' : ('COUNT_DISTINCT' === $func ? "COUNT(DISTINCT {$column})" : $func . '(' . $column . ')');
+        $qualified = $this->parse_column((string) $column);
+        $select = 'COUNT' === $func ? 'COUNT(*)' : ('COUNT_DISTINCT' === $func ? "COUNT(DISTINCT {$qualified})" : $func . '(' . $qualified . ')');
         $query_key = md5($clauses['join'] . $clauses['where'] . $clauses['having'] . $clauses['groupby'] . $func . $column);
         $last_changed = wp_cache_get_last_changed($this->cache_group);
         $cache_key = $this->cache_group . ':aggregate:' . $query_key . ':' . $last_changed;
@@ -801,7 +841,7 @@ class Query
             $this->where($this->primary_key, 'NOT IN', wp_parse_list($qv['exclude']));
         }
         // Fields.
-        $clauses['select'] = $qv['count'] ? 'COUNT(*)' : $this->qualify_column('*');
+        $clauses['select'] = $qv['count'] ? 'COUNT(*)' : $this->parse_column('*');
         // From.
         $clauses['from'] = "FROM `{$wpdb->prefix}{$this->table}` AS `{$this->table}`";
         // Join.
@@ -834,8 +874,8 @@ class Query
             $search = '%' . $wpdb->esc_like($qv['search']) . '%';
             $search_clauses = array();
             foreach ($search_columns as $search_column) {
-                $search_clauses[] = $wpdb->prepare("{$this->qualify_column($search_column)} LIKE %s", $search);
-                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Column name qualified via qualify_column method.
+                $search_clauses[] = $wpdb->prepare("{$this->parse_column($search_column)} LIKE %s", $search);
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Column name qualified via parse_column method.
             }
             // Search declared metadata keys.
             if ($this->meta_type) {
@@ -844,7 +884,7 @@ class Query
                 $meta_table = $wpdb->prefix . $this->meta_type . 'meta';
                 foreach ($search_meta_keys as $meta_key) {
                     $search_clauses[] = $wpdb->prepare(
-                        "EXISTS (SELECT 1 FROM `{$meta_table}` WHERE `{$this->meta_type}_id` = {$this->qualify_column($this->primary_key)} AND `meta_key` = %s AND `meta_value` LIKE %s)",
+                        "EXISTS (SELECT 1 FROM `{$meta_table}` WHERE `{$this->meta_type}_id` = {$this->parse_column($this->primary_key)} AND `meta_key` = %s AND `meta_value` LIKE %s)",
                         // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table and column names derived from model properties.
                         $meta_key,
                         $search
@@ -884,7 +924,7 @@ class Query
         }
         // Group By.
         if (!empty($this->sql_vars['groupby'])) {
-            $this->sql_vars['groupby'] = array_map(array($this, 'qualify_column'), wp_parse_list($this->sql_vars['groupby']));
+            $this->sql_vars['groupby'] = array_map(array($this, 'parse_column'), wp_parse_list($this->sql_vars['groupby']));
             $clauses['groupby'] = empty($this->sql_vars['groupby']) ? '' : implode(',', $this->sql_vars['groupby']);
         }
         if (!empty($qv['orderby'])) {
@@ -893,17 +933,17 @@ class Query
                 foreach ($qv['orderby'] as $order_item) {
                     $column = in_array($order_item['column'], $this->columns, true) ? $order_item['column'] : $this->primary_key;
                     $direction = $this->parse_order($order_item['direction'] ?? '', 'ASC');
-                    $orderby_clauses[] = "{$this->qualify_column($column)} {$direction}";
+                    $orderby_clauses[] = "{$this->parse_column($column)} {$direction}";
                 }
                 $clauses['orderby'] = 'ORDER BY ' . implode(', ', $orderby_clauses);
             } else {
                 $order = $this->parse_order($qv['order']);
                 $orderby = in_array($qv['orderby'], $this->columns, true) ? $qv['orderby'] : $this->primary_key;
-                $clauses['orderby'] = "ORDER BY {$this->qualify_column($orderby)} {$order}";
+                $clauses['orderby'] = "ORDER BY {$this->parse_column($orderby)} {$order}";
             }
         } else {
             $order = $this->parse_order($qv['order']);
-            $clauses['orderby'] = "ORDER BY {$this->qualify_column($this->primary_key)} {$order}";
+            $clauses['orderby'] = "ORDER BY {$this->parse_column($this->primary_key)} {$order}";
         }
         // Pagination.
         if (isset($qv['per_page']) && $qv['per_page'] > 0) {
@@ -1017,9 +1057,9 @@ class Query
         if (!str_contains($column, '.') && !in_array(strtolower($column), array_map('strtolower', $this->columns), true)) {
             return '';
         }
-        $operator = strtoupper($operator);
+        $operator = $this->parse_operator($operator);
         $cast = empty($cast) ? 'CHAR' : strtoupper($cast);
-        $table_column = $this->qualify_column($column);
+        $table_column = $this->parse_column($column);
         $where = '';
         switch ($operator) {
             case 'IN':
@@ -1056,7 +1096,7 @@ class Query
                     $where = $wpdb->prepare('%s', implode('|', $value));
                 } else {
                     $prepared_where = $wpdb->prepare("FIND_IN_SET( %s, {$table_column} ) > 0", $value);
-                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table column is sanitized via qualify_column method.
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table column is sanitized via parse_column method.
                     return "({$prepared_where})";
                 }
                 break;
@@ -1066,7 +1106,7 @@ class Query
                     $where = $wpdb->prepare('%s', implode('|', $value));
                 } else {
                     $prepared_where = $wpdb->prepare("FIND_IN_SET( %s, {$table_column} ) = 0", $value);
-                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table column is sanitized via qualify_column method.
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table column is sanitized via parse_column method.
                     return "({$prepared_where})";
                 }
                 break;
@@ -1095,7 +1135,7 @@ class Query
         if ('' === $where) {
             return '';
         }
-        $cast_pattern = '/^(?:BINARY|SIGNED|UNSIGNED|NUMERIC(?:\(\d+(?:,\s?\d+)?\))?|DECIMAL(?:\(\d+(?:,\s?\d+)?\))?|YEAR|DATE|DATETIME|TIME|TIMESTAMP|DATETIME(?:\(\d+\))?)$/';
+        $cast_pattern = '/^(?:BINARY|SIGNED|UNSIGNED|NUMERIC(?:\(\d+(?:,\s?\d+)?\))?|DECIMAL(?:\(\d+(?:,\s?\d+)?\))?|YEAR|DATE|DATETIME|TIME|TIMESTAMP|DATETIME(?:\(\d+\))?)$/D';
         if (!preg_match($cast_pattern, $cast)) {
             return "({$table_column} {$operator} {$where})";
         }
@@ -1127,19 +1167,74 @@ class Query
      *
      * @return string Qualified column name.
      */
-    protected function qualify_column($column, $table = null): string
+    protected function parse_column($column, $table = null): string
     {
         if (empty($table)) {
             $table = $this->table;
         }
+        $table = $this->parse_identifier($table);
         if ('*' === $column) {
             return "`{$table}`.*";
         }
         if (str_contains($column, '.')) {
             $parts = explode('.', $column, 2);
-            return "`{$parts[0]}`.`{$parts[1]}`";
+            $prefix = $this->parse_identifier($parts[0]);
+            $name = $this->parse_identifier($parts[1]);
+            return "`{$prefix}`.`{$name}`";
         }
+        $column = $this->parse_identifier($column);
         return "`{$table}`.`{$column}`";
+    }
+    /**
+     * Reduce a value to a bare SQL identifier.
+     *
+     * @since 1.0.0
+     *
+     * @param string $identifier Raw identifier.
+     *
+     * @return string Sanitized identifier.
+     */
+    protected function parse_identifier(string $identifier): string
+    {
+        return (string) preg_replace('/[^A-Za-z0-9_]/', '', $identifier);
+    }
+    /**
+     * Reduce an operator to a known SQL operator.
+     *
+     * @since 1.0.0
+     *
+     * @param string $operator Requested operator.
+     *
+     * @return string Known SQL operator.
+     */
+    protected function parse_operator(string $operator): string
+    {
+        $operator = strtoupper($operator);
+        $allowed = array_merge(array_values($this->modifiers), array('<>'));
+        return in_array($operator, $allowed, true) ? $operator : '=';
+    }
+    /**
+     * Normalize a filter value to what the database stores.
+     *
+     * @since 1.0.0
+     *
+     * @param mixed $value Raw filter value.
+     *
+     * @return mixed Normalized value.
+     */
+    protected function parse_filter_value($value)
+    {
+        if (is_array($value)) {
+            return array_map(array($this, 'parse_filter_value'), $value);
+        }
+        // Only an RFC 3339 string is normalized; a stored value is left as is.
+        if (is_string($value) && preg_match('/^\d{4}-\d{2}-\d{2}([T ]\d{2}:\d{2}(:\d{2})?)?([Zz]|[+-]\d{2}:?\d{2})?$/', $value)) {
+            $timestamp = strtotime($value);
+            if (false !== $timestamp) {
+                return gmdate('Y-m-d H:i:s', $timestamp);
+            }
+        }
+        return $value;
     }
     /**
      * Update caches.

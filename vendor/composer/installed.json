@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:byteever/models.git",
-                "reference": "ab809a0884fc541fb09062a3684bf783003ce068"
+                "reference": "85fb98c1eac051f592d3842c5cadd0180a3a5a4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/byteever/models/zipball/ab809a0884fc541fb09062a3684bf783003ce068",
-                "reference": "ab809a0884fc541fb09062a3684bf783003ce068",
+                "url": "https://api.github.com/repos/byteever/models/zipball/85fb98c1eac051f592d3842c5cadd0180a3a5a4a",
+                "reference": "85fb98c1eac051f592d3842c5cadd0180a3a5a4a",
                 "shasum": ""
             },
             "require": {
@@ -28,7 +28,7 @@
                 "wp-phpunit/wp-phpunit": "^6.8",
                 "yoast/phpunit-polyfills": "^4.0"
             },
-            "time": "2026-07-10T21:03:07+00:00",
+            "time": "2026-08-08T12:50:41+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {

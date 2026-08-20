@@ -3,7 +3,7 @@
         'name' => 'pluginever/wc-serial-numbers',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '62ba9695556e9fff42848479b1a85a54022371da',
+        'reference' => '661504c3154dbcdd4469269cac00b8e735ed34c6',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'byteever/models' => array(
             'pretty_version' => '1.0.0',
             'version' => '1.0.0.0',
-            'reference' => 'ab809a0884fc541fb09062a3684bf783003ce068',
+            'reference' => '85fb98c1eac051f592d3842c5cadd0180a3a5a4a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../byteever/models',
             'aliases' => array(),
@@ -40,7 +40,7 @@
         'pluginever/wc-serial-numbers' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '62ba9695556e9fff42848479b1a85a54022371da',
+            'reference' => '661504c3154dbcdd4469269cac00b8e735ed34c6',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
